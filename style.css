@@ -1,0 +1,165 @@
+body {
+  position: absolute;
+  
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  
+  margin: 0;
+  padding: 0;
+  
+  font-family: 'EB Garamond', serif;
+  
+  color: #333;
+  background: #fff;
+  
+  font-size: 18px;
+  
+  overflow: hidden;
+}
+
+.bar {
+  margin: 0;
+  padding: 4px;
+  
+  background: #eee;
+  
+  border-radius: 5px;
+  
+  overflow: hidden;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  
+  transition: 0.2s;
+}
+
+.bar > * {
+  margin: 0 4px 0 0;
+}
+
+.bar > *:last-child {
+  margin: 0;
+}
+
+.string {
+  user-select: none;
+}
+
+.label {
+  min-width: 30px;
+  min-height: 30px;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text {
+  color: #333;
+  
+  min-height: 28px;
+  /*border: 1px solid #444;*/
+  border-radius: 5px;
+  padding: 0 4px;
+  font-size: 14px;
+  
+  transition: 0.2s;
+}
+
+.text:disabled {
+  /*color: #333;*/
+  /*background: inherit;*/
+  border: none;
+  opacity: 1;
+}
+
+.button {
+  min-width: 30px;
+  min-height: 30px;
+  
+  padding: 0 8px;
+  
+  background: #fff;
+  
+  /*border: 1px solid #444;*/
+  border-radius: 5px;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.button:hover {
+  background: #222;
+  color: #fff;
+}
+
+.text[hide=true],.label[hide=true],.button[hide=true] {
+  display: none;
+}
+
+.menu {
+  position: absolute;
+  
+  top: 0;
+  left: 20px;
+  right: 20px;
+  
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.menu[hide=true] {
+  top: -60px;
+}
+
+.victory {
+  position: absolute;
+  
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  
+  height: 40px;
+}
+
+.victory[hide=true] {
+  top: -80px;
+}
+
+.controls {
+  position: absolute;
+  
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+}
+
+.controls[hide=true] {
+  bottom: -60px;
+}
+
+.bar > .text {
+  flex-grow: 1;
+}
+
+#run-button:not(:hover) {
+  background: #4f6;
+}
+
+#level-text {
+  text-align: center;
+}
+
+#level-button {
+  flex-grow: 1;
+}
+
+#victory-label {
+  flex-grow: 1;
+}

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width'>
+    
+    <title>SineRider <3</title>
+      
+    <link href='https://fonts.googleapis.com/css2?family=EB+Garamond:wght@615&display=swap' rel='stylesheet'/>
+    
+    <link href='style.css' rel='stylesheet' type='text/css'/>
+  </head>
+  <body>
+    
+    <canvas id='canvas'></canvas>
+    
+    <div class='menu bar' id='menu-bar' hide=false>
+      <div class='button' id='edit-button'>
+        <div class='string'>Edit</div>
+      </div>
+      
+      <input class='text' id='level-text' type='text'/>
+      
+      <div class='button' id='level-button'>
+        <div class='string'></div>
+      </div>
+      
+      <div class='button' id='reset-button'>
+        <div class='string'>Reset</div>
+      </div>
+    </div>
+    
+    <div class='controls bar' id='controls-bar'>
+      <div class='label' id='variable-label'>
+        <div class='string'>Y =</div>
+      </div>
+      
+      <input class='text' id='expression-text' type='text'/>
+      
+      <div class='button' id='run-button'>
+        <div class='string'>GO</div>
+      </div>
+    </div>
+    
+    <div class='message bar' id='message-bar' hide=true>
+      <div class='string'>MESSAGE</div>
+    </div>
+    
+    <div class='victory bar' id='victory-bar' hide=true>
+      <div class='label' id='victory-label'>
+        <div class='string'>Victory!</div>
+      </div>
+      
+      <div class='button' id='next-button'>
+        <div class='string'>NEXT</div>
+      </div>
+    </div>
+    
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="/__/firebase/7.23.0/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="/__/firebase/7.23.0/firebase-analytics.js"></script>
+
+    <!-- Initialize Firebase -->
+    <script src="/__/firebase/init.js"></script>
+    
+    <!-- Load External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjs/7.3.0/math.min.js'></script>
+    
+    <!-- Load Extension Methods -->
+    <script src='Libraries/extensions.js'></script>
+    
+    <!-- Load Basic Types -->
+    <script src='Types/Vector2.js'></script>
+    <script src='Types/Sampler.js'></script>
+    <script src='Types/Transform.js'></script>
+    <script src='Types/Screen.js'></script>
+    <script src='Types/Rigidbody.js'></script>
+    <script src='Types/Clickable.js'></script>
+    
+    <!-- Load Shape Types -->
+    <script src='Types/Shapes/Shape.js'></script>
+    <script src='Types/Shapes/Circle.js'></script>
+    <script src='Types/Shapes/Rect.js'></script>
+    
+    <!-- Load Entity Types -->
+    <script src='Types/Entities/Entity.js'></script>
+    <script src='Types/Entities/World.js'></script>
+    <script src='Types/Entities/Level.js'></script>
+    <script src='Types/Entities/Navigator.js'></script>
+    <script src='Types/Entities/Camera.js'></script>
+    <script src='Types/Entities/Axes.js'></script>
+    <script src='Types/Entities/Goal.js'></script>
+    <script src='Types/Entities/Graph.js'></script>
+    <script src='Types/Entities/Sledder.js'></script>
+    <script src='Types/Entities/LevelBubble.js'></script>
+    
+    <!-- Load Level Data -->
+    <script src='Worlds/eden.js'></script>
+    
+    <!-- Start the Engine -->
+    <script src='main.js'></script>
+  </body>
+</html>
