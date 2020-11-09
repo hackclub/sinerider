@@ -6,9 +6,20 @@ function Vector2() {
     x = 0
     y = 0
   }
-  else if (_.isObject(arguments[0])) {
-    x = arguments[0].x
-    y = arguments[0].y
+  else if (arguments.length == 1) {
+    let o = arguments[0]
+    if (_.isObject(o)) {
+      x = o.x
+      y = o.y
+    }
+    else if (_.isArray(o)) {
+      x = o[0]
+      y = o[1]
+    }
+    else if (_.isNumber(o)) {
+      x = Math.cos(o)
+      y = Math.sin(o)
+    }
   }
   else {
     x = arguments[0] || 0
@@ -34,8 +45,19 @@ function Vector2() {
       y = 0
     }
     else if (arguments.length == 1) {
-      x = arguments[0].x
-      y = arguments[0].y 
+      let o = arguments[0]
+      if (_.isObject(o)) {
+        x = o.x
+        y = o.y
+      }
+      else if (_.isArray(o)) {
+        x = o[0]
+        y = o[1]
+      }
+      else if (_.isNumber(o)) {
+        x = Math.cos(o)
+        y = Math.sin(o)
+      }
     }
     else {
       x = arguments[0]
@@ -43,6 +65,11 @@ function Vector2() {
     }
     
     magnitudeDirty = true
+    return this
+  }
+  
+  function clone() {
+    return Vector2(x, y)
   }
   
   function add(other, output) {
@@ -117,6 +144,15 @@ function Vector2() {
     return output
   }
   
+  function abs(output) {
+    if (!output) output = this
+    
+    output.x = Math.abs(x)
+    output.y = Math.abs(y)
+    
+    return output
+  }
+  
   function getMagnitude() {
     if (magnitudeDirty) {
       magnitude = Math.sqrt(x*x+y*y)
@@ -132,8 +168,17 @@ function Vector2() {
   function rotate(angle, output) {
     if (!output) output = this
     
-    let sin = Math.sin(angle)
-    let cos = Math.cos(angle)
+    let sin
+    let cos
+    
+    if (_.isObject(angle)) {
+      sin = angle.y
+      cos = angle.x
+    }
+    else {
+      sin = Math.sin(angle)
+      cos = Math.cos(angle)
+    }
     
     let newX = x*cos-y*sin
     let newY = x*sin+y*cos
@@ -141,7 +186,7 @@ function Vector2() {
     output.x = newX
     output.y = newY
     
-    magnitudeDirty = true
+    return output
   }
   
   function normalize(output) {
@@ -175,6 +220,7 @@ function Vector2() {
   
   return {
     set,
+    clone,
     
     add,
     subtract,
@@ -184,6 +230,7 @@ function Vector2() {
     
     min,
     max,
+    abs,
     
     dot,
     lerp,
@@ -206,7 +253,17 @@ function Vector2() {
     get y() {return y},
     set y(v) {setY(v)},
     
+    get z() {return 0},
+    
     get magnitude() {return getMagnitude()},
     get normalized() {return normalize()},
   }
+}
+
+function Vector2Pinf() {
+  return Vector2(math.pinf, math.pinf)
+}
+
+function Vector2Ninf() {
+  return Vector2(math.ninf, math.ninf)
 }

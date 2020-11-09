@@ -3,46 +3,33 @@
 // The camera smoothly pans and zooms to keep all Sledders, Goals, and the Axes origin in view at all times.
 
 function Camera(spec) {
-  const self = Entity({
-    name: 'Camera',
-    ...spec
-  })
+  const self = Entity(spec, 'Camera')
   
   const transform = Transform(spec)
   
   let {
     screen,
     fov = 5,
-    minFov = null,
-    minFovMargin = 3,
     globalScope = {},
-    smoothing = 0.05,
-    goals = [],
-    sledders = [],
   } = spec
   
-  transform.scale = fov
+  const controllers = self.addComponents(spec.controllers, {
+    screen,
+    camera: self,
+    globalScope,
+  })
   
-  if (!minFov) minFov = fov
+  let activeController
+  
+  transform.scale = fov
   
   const lowerLeft = Vector2()
   const upperRight = Vector2()
   
-  const trackingOrigin = {
-    transform: Transform()
+  function start() {
+    tickControllers()
+    snap()
   }
-  
-  const trackedPositionTarget = Vector2()
-  const trackedPositionSmoothed = Vector2()
-  
-  const minTrackPoint = Vector2()
-  const maxTrackPoint = Vector2()
-  
-  let trackedFovTarget = fov
-  let trackedFovSmoothed = fov
-  let trackedEntityCount = 0
-  
-  const difference = Vector2()
   
   function setFov(_fov) {
     fov = _fov
@@ -57,15 +44,29 @@ function Camera(spec) {
     return transform.transformPoint(point, output)
   }
   
+  function worldToFrameScalar(scalar) {
+    return transform.invertScalar(scalar)
+  }
+  
+  function frameToWorldScalar(scalar) {
+    return transform.transformScalar(scalar)
+  }
+  
+  function worldToFrameDirection(direction, output) {
+    return transform.invertDirection(direction, output)
+  }
+  
+  function frameToWorldDirection(direction, output) {
+    return transform.transformDirection(direction, output)
+  }
+  
   function worldToScreen(point, output) {
     const framePoint = transform.invertPoint(point, output)
-    framePoint.y *= -1
-    return screen.transform.transformPoint(framePoint)
+    return screen.frameToScreen(framePoint)
   }
   
   function screenToWorld(point, output) {
-    const framePoint = screen.transform.invertPoint(point, output)
-    framePoint.y *= -1
+    const framePoint = screen.screenToFrame(point, output)
     return transform.transformPoint(framePoint)
   }
   
@@ -112,49 +113,53 @@ function Camera(spec) {
     transform.transformPoint(screen.maxFramePoint, upperRight)
   }
   
-  function trackEntity(entity) {
-    minTrackPoint.min(entity.transform.position)
-    maxTrackPoint.max(entity.transform.position)
+  function tickControllers() {
+    let _activeController
+    for (c of controllers) {
+      if (c.canControl()) {
+        _activeController = c
+        break
+      }
+    }
+    
+    if (activeController != _activeController) {
+      if (activeController)
+        activeController.stopControlling()
+      if (_activeController)
+        _activeController.startControlling()
+        
+      activeController = _activeController
+      align()
+    }
+    
+    if (activeController) {
+      transform.position = activeController.position
+      setFov(activeController.fov)
+    }
   }
   
-  function trackEntities() {
-    trackedFovTarget = minFov
-    trackedPositionTarget.set(0, 0)
-    trackedEntityCount = 0
+  function snap() {
+    if (activeController) {
+      activeController.snap()
+      
+      transform.position = activeController.position
+      setFov(activeController.fov)
     
-    minTrackPoint.set(Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY)
-    maxTrackPoint.set(Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY)
-    
-    trackEntity(trackingOrigin)
-    _.each(goals, trackEntity)
-    _.each(sledders, trackEntity)
-    
-    minTrackPoint.add(maxTrackPoint, trackedPositionTarget)
-    trackedPositionTarget.divide(2)
-    
-    const s = globalScope.running ? smoothing : 1
-    
-    trackedPositionSmoothed.lerp(trackedPositionTarget, s)
-    
-    trackedFovTarget = Math.max(
-      maxTrackPoint.x-trackedPositionSmoothed.x,
-      maxTrackPoint.y-trackedPositionSmoothed.y
-    )
-    
-    trackedFovTarget = Math.max(
-      trackedFovTarget+minFovMargin,
-      minFov
-    )
-    
-    trackedFovSmoothed = math.lerp(trackedFovSmoothed, trackedFovTarget, s)
-    
-    setFov(trackedFovSmoothed)
-    transform.position.set(trackedPositionSmoothed)
+      console.log('Camera snapped to Position: ', transform.position.toString())
+      console.log('Camera snapped to FOV: ', fov)
+    }
+  }
+  
+  function align() {
+    if (activeController)
+      activeController.align()
   }
   
   function tick() {
-    trackEntities()
     computeCorners()
+    tickControllers()
+    // console.log('Camera Position: ', transform.position.toString())
+    // console.log('Camera FOV: ', fov)
   }
   
   function draw() {
@@ -165,14 +170,15 @@ function Camera(spec) {
     
   }
   
-  function stopRunning() {
-    trackEntities()
+  function stopRunningLate() {
+    snap()
   }
   
   function drawThrough(ctx, drawCallback, localTransform) {
+    ctx.save()
     worldToScreenCanvas(ctx, localTransform)
     drawCallback(ctx)
-    ctx.resetTransform()
+    ctx.restore()
   }
   
   function onResizeScreen() {
@@ -191,6 +197,12 @@ function Camera(spec) {
     worldToFrame,
     frameToWorld,
     
+    worldToFrameScalar,
+    frameToWorldScalar,
+    
+    worldToFrameDirection,
+    frameToWorldDirection,
+    
     worldToScreen,
     screenToWorld,
     
@@ -202,9 +214,10 @@ function Camera(spec) {
     
     tick,
     draw,
+    start,
     
     startRunning,
-    stopRunning,
+    stopRunningLate,
     
     drawThrough,
     

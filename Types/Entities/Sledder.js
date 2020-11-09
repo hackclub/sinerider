@@ -1,5 +1,5 @@
 function Sledder(spec = {}) {
-  const self = Entity(spec)
+  const self = Entity(spec, 'Sledder')
   const transform = Transform(spec)
   const rigidbody = Rigidbody({
     ...spec,
@@ -10,9 +10,10 @@ function Sledder(spec = {}) {
     skin = 'Assets/nicky_sledders.png',
     size = 1,
     globalScope,
-    
+    screen,
     camera,
     graph,
+    x: originX = 0
   } = spec
   
   const ctx = screen.ctx
@@ -58,7 +59,7 @@ function Sledder(spec = {}) {
   }
   
   function reset() {
-    transform.x = 0
+    transform.x = originX
     transform.y = graph.sample('x', transform.x)
     
     slopeTangent.x = 1

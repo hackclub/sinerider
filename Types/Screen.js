@@ -59,6 +59,42 @@ function Screen(spec = {}) {
     _.callEach(resizeSubs)
   }
   
+  function screenToFrame(point, output) {
+    if (!output) output = point
+    
+    transform.invertPoint(point, output)
+    output.y *= -1
+    
+    return output
+  }
+  
+  function frameToScreen(point, output) {
+    if (!output) output = point
+    
+    output.set(point.x, -point.y)
+    transform.transformPoint(output)
+    
+    return output
+  }
+  
+  function screenToFrameDirection(direction, output) {
+    if (!output) output = direction
+    
+    transform.invertDirection(direction, output)
+    output.y *= -1
+    
+    return output
+  }
+  
+  function frameToScreenDirection(direction, output) {
+    if (!output) output = direction
+    
+    output.set(direction.x, -direction.y)
+    transform.transformDirection(output)
+    
+    return output
+  }
+  
   resize()
   
   return {
@@ -69,6 +105,12 @@ function Screen(spec = {}) {
     
     resize,
     resizeSubs,
+    
+    screenToFrame,
+    frameToScreen,
+    
+    screenToFrameDirection,
+    frameToScreenDirection,
     
     get width() {return width},
     get height() {return height},

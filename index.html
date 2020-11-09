@@ -7,10 +7,15 @@
     <title>SineRider <3</title>
       
     <link href='https://fonts.googleapis.com/css2?family=EB+Garamond:wght@615&display=swap' rel='stylesheet'/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
     
-    <link href='style.css' rel='stylesheet' type='text/css'/>
+    <link href='App/style.css' rel='stylesheet' type='text/css'/>
   </head>
   <body>
+    
+    <div class='bubblets'>
+      
+    </div>
     
     <canvas id='canvas'></canvas>
     
@@ -32,7 +37,7 @@
     
     <div class='controls bar' id='controls-bar'>
       <div class='label' id='variable-label'>
-        <div class='string'>Y =</div>
+        <div class='string'>Y=</div>
       </div>
       
       <input class='text' id='expression-text' type='text'/>
@@ -56,15 +61,15 @@
       </div>
     </div>
     
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="/__/firebase/7.23.0/firebase-app.js"></script>
-
-    <!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
-    <script src="/__/firebase/7.23.0/firebase-analytics.js"></script>
-
-    <!-- Initialize Firebase -->
-    <script src="/__/firebase/init.js"></script>
+    <div class='navigator floating bar' id='navigator-floating-bar' hide=true>
+      <div class='button' id='show-all-button' hide=false>
+        <div class='string'>SHOW ALL</div>
+      </div>
+    </div>
+    
+    <div class='veil' id='veil' hide=false>
+      
+    </div>
     
     <!-- Load External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
@@ -73,20 +78,29 @@
     <!-- Load Extension Methods -->
     <script src='Libraries/extensions.js'></script>
     
+    <!-- Load Structs -->
+    <script src='Types/Structs/Vector2.js'></script>
+    <script src='Types/Structs/Shape.js'></script>
+    <script src='Types/Structs/Circle.js'></script>
+    <script src='Types/Structs/Rect.js'></script>
+    
     <!-- Load Basic Types -->
-    <script src='Types/Vector2.js'></script>
+    <script src='Types/Engine.js'></script>
     <script src='Types/Sampler.js'></script>
     <script src='Types/Transform.js'></script>
     <script src='Types/Screen.js'></script>
     <script src='Types/Rigidbody.js'></script>
     <script src='Types/Clickable.js'></script>
+    <script src='Types/ClickableContext.js'></script>
     
-    <!-- Load Shape Types -->
-    <script src='Types/Shapes/Shape.js'></script>
-    <script src='Types/Shapes/Circle.js'></script>
-    <script src='Types/Shapes/Rect.js'></script>
+    <!-- Load Components -->
+    <script src='Types/Components/Component.js'></script>
+    <script src='Types/Components/CameraControllers/CameraController.js'></script>
+    <script src='Types/Components/CameraControllers/CameraTracker.js'></script>
+    <script src='Types/Components/CameraControllers/CameraDragger.js'></script>
+    <script src='Types/Components/CameraControllers/CameraWaypointer.js'></script>
     
-    <!-- Load Entity Types -->
+    <!-- Load Entities -->
     <script src='Types/Entities/Entity.js'></script>
     <script src='Types/Entities/World.js'></script>
     <script src='Types/Entities/Level.js'></script>
@@ -94,14 +108,16 @@
     <script src='Types/Entities/Camera.js'></script>
     <script src='Types/Entities/Axes.js'></script>
     <script src='Types/Entities/Goal.js'></script>
+    <script src='Types/Entities/Text.js'></script>
+    <script src='Types/Entities/Arrow.js'></script>
     <script src='Types/Entities/Graph.js'></script>
     <script src='Types/Entities/Sledder.js'></script>
     <script src='Types/Entities/LevelBubble.js'></script>
     
     <!-- Load Level Data -->
-    <script src='Worlds/eden.js'></script>
+    <script src='App/eden.js'></script>
     
     <!-- Start the Engine -->
-    <script src='main.js'></script>
+    <script src='App/main.js'></script>
   </body>
 </html>

@@ -1,23 +1,30 @@
 function Level(spec) {
-  const self = Entity(spec)
+  const self = Entity(spec, 'Level')
   
   const {
     screen,
     globalScope,
     levelCompleted,
+    useDragCamera = true,
   } = spec
   
   let defaultExpression = spec.datum.defaultExpression
   
   const sledders = []
   const goals = []
+  const texts = []
+  
+  const trackedEntities = [sledders, goals]
   
   const camera = Camera({
     screen,
     globalScope,
-    sledders,
-    goals,
     parent: self,
+    controllers: [
+      // CameraDragger,
+      CameraTracker, {trackedEntities},
+      CameraWaypointer,
+    ]
   })
   
   const axes = Axes({
@@ -27,6 +34,8 @@ function Level(spec) {
     parent: self,
   })
   
+  trackedEntities.unshift(axes)
+  
   const graph = Graph({
     screen,
     camera,
@@ -35,7 +44,7 @@ function Level(spec) {
     parent: self,
   })
   
-  self.children.push(sledders, goals)
+  self.children.push(sledders, goals, texts)
   
   let completed = false
   
@@ -76,6 +85,17 @@ function Level(spec) {
     sledders.push(sledder)
   }
   
+  function addText(textDatum) {
+    const text = Text({
+      screen,
+      camera,
+      globalScope,
+      ...textDatum,
+    })
+    
+    texts.push(text)
+  }
+  
   function goalCompleted() {
     if (!completed) {
       for (goal of goals) {
@@ -96,6 +116,7 @@ function Level(spec) {
   function loadDatum(datum) {
     _.each(datum.sledders, addSledder)
     _.each(datum.goals, addGoal)
+    _.each(datum.texts, addText)
   }
   
   function setGraphExpression(text) {
@@ -113,5 +134,8 @@ function Level(spec) {
     stopRunning,
     
     setGraphExpression,
+    
+    get datum() {return spec.datum},
+    get completed() {return completed},
   })
 }

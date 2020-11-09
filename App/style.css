@@ -9,7 +9,7 @@ body {
   margin: 0;
   padding: 0;
   
-  font-family: 'EB Garamond', serif;
+  font-family: 'Roboto Mono';
   
   color: #333;
   background: #fff;
@@ -17,6 +17,11 @@ body {
   font-size: 18px;
   
   overflow: hidden;
+  user-select: none;
+}
+
+canvas {
+  user-select: none;
 }
 
 .bar {
@@ -144,6 +149,26 @@ body {
   bottom: -60px;
 }
 
+.navigator {
+  position: absolute;
+  
+  left: 20px;
+  right: 20px;
+  bottom: 60px;
+}
+
+.floating {
+  background: transparent;
+}
+
+.floating > * {
+  border: 1px solid black;
+}
+
+.navigator[hide=true] {
+  bottom: -60px;
+}
+
 .bar > .text {
   flex-grow: 1;
 }
@@ -162,4 +187,28 @@ body {
 
 #victory-label {
   flex-grow: 1;
+}
+
+.bubblets {
+  display: none;
+}
+
+.veil {
+  position: absolute;
+  
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  
+  opacity: 1;
+  transition: 1s;
+  
+  background: white;
+  pointer-events: all;
+}
+
+.veil[hide=true] {
+  opacity: 0;
+  pointer-events: none;
 }

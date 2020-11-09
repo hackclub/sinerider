@@ -4,7 +4,9 @@ function Transform(spec = {}) {
     rotation = 0,
   } = spec
   
-  const position = Vector2(spec.x, spec.y)
+  const position = spec.position ? 
+                      Vector2(spec.position) :
+                      Vector2(spec.x || 0, spec.y || 0)
   
   function transformPoint(point, output=null) {
     if (!output) output = point

@@ -1,7 +1,5 @@
 function World(spec) {
-  const self = Entity({
-    name: 'World'
-  })
+  const self = Entity(spec, 'World')
   
   const {
     ui,
@@ -10,6 +8,10 @@ function World(spec) {
     requestDraw,
     tickDelta,
   } = spec
+  
+  let clickableContext = ClickableContext({
+    entity: self,
+  })
 
   let running = false
   let runTime = 0
@@ -33,14 +35,16 @@ function World(spec) {
     getEditing,
     setLevel,
     active: false,
+    parent: self,
   })
-  
-  self.addChild(navigator)
   
   let level
   let levelDatum
+  let levelBubble
   
-  setLevel(levelData[0])
+  function start() {
+    setLevel(levelData[0].nick)
+  }
   
   function tick() {
     if (running) runTime += tickDelta
@@ -49,10 +53,12 @@ function World(spec) {
   function draw() {
   }
   
-  function setLevel(_levelDatum) {
+  function setLevel(nick) {
     if (level) level.destroy()
     
-    levelDatum = _levelDatum
+    levelDatum = _.find(levelData, v => v.nick == nick)
+    levelBubble = navigator.getBubbleByNick(nick)
+    
     level = Level({
       datum: levelDatum,
       globalScope,
@@ -60,6 +66,7 @@ function World(spec) {
       parent: self,
       active: !navigating,
       levelCompleted,
+      tickDelta,
     })
     
     ui.levelText.value = levelDatum.name
@@ -76,21 +83,44 @@ function World(spec) {
     navigator.active = navigating
     
     ui.controlBar.setAttribute('hide', navigating)
+    ui.navigatorFloatingBar.setAttribute('hide', !navigating)
+    
+    if (navigating) {
+      navigator.revealHighlightedLevels(levelDatum.nick)
+      navigator.refreshBubbles()
+    }
+    else {
+      navigator.showAll = false
+      if (navigator.showAllUsed)
+        ui.showAllButton.setAttribute('hide', false)
+    }
   }
   
   function levelCompleted() {
-    console.log('Level completed')
+    console.log(`Level ${levelDatum.nick} completed`)
     ui.victoryBar.setAttribute('hide', false)
+    levelBubble.complete()
+    
+    ui.showAllButton.setAttribute('hide', true)
+  }
+  
+  function transitionNavigating(_navigating, duration=1, cb) {
+    ui.veil.setAttribute('hide', false)
+    setTimeout(() => {
+      // Hack to fix camera flicker
+      setTimeout(() => {
+        ui.veil.setAttribute('hide', true)
+      }, 100)
+      setNavigating(_navigating)
+      
+      if (cb) cb()
+    }, duration*1000)
   }
   
   function nextLevel() {
-    stopRunning()
-    // setNavigating(true)
-    
-    let i = _.indexOf(levelData, levelDatum)
-    i = (i+1)%levelData.length
-    
-    setLevel(levelData[i])
+    transitionNavigating(true, 1, () => {
+      stopRunning()
+    })
   }
   
   function getEditing() {
@@ -108,6 +138,7 @@ function World(spec) {
     ui.menuBar.setAttribute('hide', true)
     
     self.sendEvent('startRunning', [])
+    self.sendEvent('startRunningLate', [])
     
     requestDraw()
   }
@@ -121,6 +152,7 @@ function World(spec) {
     ui.victoryBar.setAttribute('hide', true)
     
     self.sendEvent('stopRunning', [])
+    self.sendEvent('stopRunningLate', [])
     
     requestDraw()
   }
@@ -131,6 +163,7 @@ function World(spec) {
   }
   
   return self.mix({
+    start,
     tick,
     draw,
     
@@ -138,6 +171,13 @@ function World(spec) {
     
     nextLevel,
     setLevel,
+    
+    clickableContext,
+    
+    setNavigating,
+    transitionNavigating,
+    
+    navigator,
     
     get editing() {return editing},
     set editing(v) {setEditing(v)},

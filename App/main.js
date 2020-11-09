@@ -14,6 +14,9 @@ const ui = {
   levelButton: $('#level-button'),
   levelButtonString: $('#level-button > .string'),
   resetButton: $('#reset-button'),
+
+  bubblets: $('.bubblets'),
+  veil: $('.veil'),
   
   victoryBar: $('#victory-bar'),
   victoryLabel: $('#victory-label'),
@@ -26,10 +29,14 @@ const ui = {
   controlBar: $('#controls-bar'),
   expressionText: $('#expression-text'),
   variableLabel: $('#variable-label'),
-  runButton: $('#run-button') 
+  runButton: $('#run-button'),
+  
+  navigatorFloatingBar: $('#navigator-floating-bar'),
+  showAllButton: $('#show-all-button'),
 }
 
 ui.levelText.setAttribute('hide', true)
+ui.veil.setAttribute('hide', true)
 
 const canvas = $('#canvas')
 
@@ -55,7 +62,10 @@ const world = World({
 function tick() {
   //console.log(`Ticking! t=${math.floor(runTime*100)/100}`)
   
-  world.sendEvent('tick', [])
+  world.sendLifecycleEvent('awake')
+  world.sendLifecycleEvent('start')
+  
+  world.sendEvent('tick')
 
   requestDraw()
 }
@@ -66,7 +76,7 @@ function draw() {
   if (!canvasIsDirty) return
   canvasIsDirty = false
   
-  world.sendEvent('draw', [])
+  world.sendEvent('draw')
 }
 
 function requestDraw() {
@@ -102,7 +112,7 @@ function onExpressionTextChanged(event) {
 ui.expressionText.addEventListener('input', onExpressionTextChanged)
 
 function onClickLevelButton(event) {
-  world.navigating = !world.navigating
+  world.transitionNavigating(!world.navigating)
   requestDraw()
 }
 
@@ -119,6 +129,12 @@ function onClickRunButton(event) {
 }
 
 ui.runButton.addEventListener('click', onClickRunButton)
+
+function onClickShowAllButton(event) {
+  world.navigator.showAll = !world.navigator.showAll
+}
+
+ui.showAllButton.addEventListener('click', onClickShowAllButton)
 
 function onClickEditButton(event) {
   world.editing = !world.editing
@@ -143,27 +159,24 @@ function onClickCanvas() {
 canvas.addEventListener('click', onClickCanvas)
 
 function onMouseMoveCanvas(event) {
-  let mousePoint = Vector2(event.offsetX, event.offsetY)
-  
-  world.sendEvent('mouseMove', [mousePoint])
+  world.clickableContext.processEvent(event, 'mouseMove')
+  event.preventDefault()
 }
 
 canvas.addEventListener('mousemove', onMouseMoveCanvas)
 canvas.addEventListener('pointermove', onMouseMoveCanvas)
 
 function onMouseDownCanvas(event) {
-  let mousePoint = Vector2(event.offsetX, event.offsetY)
-  
-  world.sendEvent('mouseDown', [mousePoint])
+  world.clickableContext.processEvent(event, 'mouseDown')
+  event.preventDefault()
 }
 
 canvas.addEventListener('mousedown', onMouseDownCanvas)
 canvas.addEventListener('pointerdown', onMouseDownCanvas)
 
 function onMouseUpCanvas(event) {
-  let mousePoint = Vector2(event.offsetX, event.offsetY)
-  
-  world.sendEvent('mouseUp', [mousePoint])
+  world.clickableContext.processEvent(event, 'mouseUp')
+  event.preventDefault()
 }
 
 canvas.addEventListener('mouseup', onMouseUpCanvas)

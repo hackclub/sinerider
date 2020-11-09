@@ -1,17 +1,27 @@
 function LevelBubble(spec) {
-  const self = Entity({
-    name: spec.name,
-    ...spec
-  })
-  
   const {
+    ui,
+    self,
     screen,
     camera,
+  } = Entity(spec, 'LevelBubble')
+  
+  const {
     setLevel,
     levelDatum,
     getEditing,
+    tickDelta,
     radius = 3,
+    getBubbleByNick,
+    getShowAll,
   } = spec
+  
+  const {
+    nick,
+    requirements,
+  } = levelDatum
+  
+  const dependencies = []
   
   const transform = Transform(levelDatum)
   
@@ -21,52 +31,224 @@ function LevelBubble(spec) {
   })
   
   const clickable = Clickable({
+    entity: self,
     shape,
     transform,
     camera,
   })
-  self.mix(clickable)
+  
+  const arrows = []
+  
+  let completed = false
+  let hilighted = false
+  let playable = false
+  let unlocked = false
+  let visible = false
+
+  let bubbletRunning = false
+  let bubbletRunTime = 0
+  
+  const bubbletGlobalScope = {
+    get t() {return bubbletRunTime},
+    dt: tickDelta,
+    
+    get running() {
+      return bubbletRunning
+    }
+  }
+  
+  const bubbletCanvas = document.createElement('canvas')
+  
+  let bubbletPixels = Math.ceil(camera.worldToScreenScalar(radius*2))
+  bubbletCanvas.width = bubbletPixels
+  bubbletCanvas.height = bubbletPixels
+  
+  ui.bubblets.appendChild(bubbletCanvas)
+  const bubbletScreen = Screen({
+    canvas: bubbletCanvas
+  })
+  
+  const bubbletCamera = Camera({
+    screen: bubbletScreen
+  })
+  
+  const bubbletLevel = Level({
+    datum: levelDatum,
+    screen: bubbletScreen,
+    camera: bubbletCamera,
+    globalScope: bubbletGlobalScope,
+    parent: self,
+    useDragCamera: false,
+  })
   
   const ctx = screen.ctx
+  
+  function awake() {
+    linkRequirements()
+    
+    // Offset position by first requirement's position
+    const p = Vector2()
+    if (requirements.length > 0) {
+      p.set(requirements[0].transform.position)
+    }
+    transform.position.add(p)
+  }
+  
+  function start() {
+    // Create an arrow to each dependency
+    for (bubble of requirements) {
+      let arrow = Arrow({
+        truncate: [radius+0.4, radius+0.4],
+        point0: bubble.transform.position,
+        point1: transform.position,
+        parent: self,
+      })
+      
+      arrow.fromBubble = bubble
+      arrow.toBubble = self
+      arrows.push(arrow)
+    }
+    
+    refreshPlayable()
+  }
   
   function tick() {
     
   }
   
   function drawLocal() {
+    const opacity = visible ? playable ? 1 : 0.5 : 0
+    ctx.globalAlpha = opacity
+    
     ctx.beginPath()
     ctx.arc(0, 0, radius, 0, Math.PI*2)
     
-    ctx.lineWidth = clickable.hover ? 0.1 : 0.02
+    ctx.lineWidth = (playable && clickable.hovering) ? 0.15 :
+                      hilighted ? 0.1 : 0.05
     ctx.fillStyle = '#fff'
-    ctx.strokeStyle = '#444'
-    
+    ctx.strokeStyle = hilighted ? '#f88' : '#444'
+
+    ctx.save()
     ctx.fill()
+    ctx.clip()
+    ctx.drawImage(bubbletCanvas, -radius, -radius, radius*2, radius*2)
+    ctx.restore()
+    
     ctx.stroke()
     
     ctx.fillStyle = '#333'
     ctx.textAlign = 'center'
-    ctx.textBaseline = 'middle'
+    ctx.textBaseline = 'hanging'
+    ctx.scale(0.8, 0.8)
     
-    ctx.font = '1px Garamond'
+    ctx.font = '1px Roboto Mono'
     
-    ctx.fillText(levelDatum.name, 0, 0)
+    // ctx.fillText(levelDatum.name, 0, radius)
+  }
+  
+  function refreshPlayable() {
+    unlocked = _.every(requirements, 'completed')
+    
+    if (unlocked) {
+      playable = true
+      hilighted = !completed
+      console.log(`Hilighting ${levelDatum.nick}`)
+    }
+    else {
+      playable = getShowAll()
+      hilighted = false
+    }
+    
+    visible = playable || _.some(requirements, v => v.playable)
+    
+    const opacity = visible ? playable ? 1 : 0.5 : 0
+    
+    _.each(arrows, v => {
+      v.opacity = opacity
+      v.dashed = !v.toBubble.unlocked
+    })
   }
   
   function draw() {
     camera.drawThrough(ctx, drawLocal, transform)
+    ctx.globalAlpha = 1
+  }
+  
+  function complete() {
+    if (completed) return
+    
+    completed = true
+    refreshPlayable()
+    
+    console.log(`Marking bubble ${nick} as completed`)
+    
+    _.invokeEach(dependencies, 'refreshPlayable')
+  }
+  
+  function linkRequirements() {
+    for (let i = 0; i < requirements.length; i++) {
+      let requiredBubble = getBubbleByNick(requirements[i])
+      requiredBubble.dependencies.push(self)
+      requirements[i] = requiredBubble
+    }
   }
   
   function click(point) {
-    setLevel(levelDatum)
+    if (!playable) return
+    
+    ui.veil.setAttribute('hide', false)
+    
+    completeAllRequirements()
+    
+    camera.waypointer.moveTo({
+      position: transform.position,
+      fov: radius*2,
+    }, 1, () => {
+      setLevel(levelDatum.nick)
+      ui.veil.setAttribute('hide', true)
+    })
+  }
+  
+  function completeAllRequirements() {
+    console.log(`Completing all requirements of ${levelDatum.nick}`)
+    
+    for (requirement of requirements) {
+      requirement.complete()
+      requirement.completeAllRequirements()
+    }
+    
+    refreshPlayable()
   }
   
   return self.mix({
     transform,
+    clickable,
+    
+    start,
+    awake,
     
     tick,
     draw,
     
     click,
+    
+    level: bubbletLevel,
+    
+    dependencies,
+    linkRequirements,
+    
+    refreshPlayable,
+    
+    get nick() {return nick},
+    
+    get completed() {return completed},
+    get hilighted() {return hilighted},
+    
+    get playable() {return playable},
+    get visible() {return visible},
+    get unlocked() {return unlocked},
+    
+    complete,
+    completeAllRequirements,
   })
 }

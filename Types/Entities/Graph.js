@@ -1,5 +1,5 @@
 function Graph(spec) {
-  const self = Entity(spec)
+  const self = Entity(spec, 'Graph')
   const sampler = Sampler(spec)
   
   let {

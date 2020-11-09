@@ -1,8 +1,6 @@
 function Axes(spec) {
-  const self = Entity({
-    name: 'Axes',
-    ...spec
-  })
+  const self = Entity(spec, 'Axes')
+  
   const transform = Transform()
   
   let {
