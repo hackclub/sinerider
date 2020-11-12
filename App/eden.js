@@ -745,7 +745,7 @@ worldData.push({
     x: 10,
     y: -10,
     requirements: ['SIN'],
-    defaultExpression: 'sin(x*2)',
+    defaultExpression: 'sin(x/1)',
     goals: [
       ..._.map(new Array(6), (v, i) => {
         let x = -i-1
@@ -854,7 +854,7 @@ worldData.push({
         y: 0.5
       },
       {
-        order: 'B',
+        order: 'C',
         x: 2,
         y: 0.5
       },

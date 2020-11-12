@@ -94,7 +94,7 @@ function Rigidbody(spec) {
       velocity.y = Math.max(velocity.y, velocityY)
 
       // Smoothly move upright vector toward ground normal
-      upright.lerp(collisionNormal, 0.08)
+      upright.lerp(collisionNormal, 0.12)
       upright.normalize()
       
       const uprightAngle = math.atan2(-upright.x, upright.y)

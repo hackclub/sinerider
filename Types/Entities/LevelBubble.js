@@ -126,27 +126,38 @@ function LevelBubble(spec) {
     ctx.beginPath()
     ctx.arc(0, 0, radius, 0, Math.PI*2)
     
-    ctx.lineWidth = (playable && clickable.hovering) ? 0.15 :
-                      hilighted ? 0.1 : 0.05
+    let strokeWidth = 0.05
+    
+    if (playable) {
+      if (hilighted)
+        strokeWidth = camera.transform.transformScalar(0.025)
+      else if (playable)
+        strokeWidth = 0.15
+        
+      if (clickable.hovering)
+        strokeWidth *= 2
+    }
+
+    ctx.lineWidth = strokeWidth
+                      
     ctx.fillStyle = '#fff'
     ctx.strokeStyle = hilighted ? '#f88' : '#444'
 
+    
     ctx.save()
+    ctx.stroke()
     ctx.fill()
     ctx.clip()
     ctx.drawImage(bubbletCanvas, -radius, -radius, radius*2, radius*2)
-    ctx.restore()
-    
-    ctx.stroke()
     
     ctx.fillStyle = '#333'
     ctx.textAlign = 'center'
     ctx.textBaseline = 'hanging'
-    ctx.scale(0.8, 0.8)
-    
     ctx.font = '1px Roboto Mono'
-    
+    ctx.scale(0.8, 0.8)
     // ctx.fillText(levelDatum.name, 0, radius)
+    
+    ctx.restore()
   }
   
   function refreshPlayable() {

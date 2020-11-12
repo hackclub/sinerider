@@ -18,6 +18,9 @@ function Level(spec) {
   const goals = []
   const texts = []
   
+  let lowestOrder = 'A'
+  let highestOrder = 'A'
+  
   const trackedEntities = [sledders, goals]
   
   const camera = Camera({
@@ -63,6 +66,10 @@ function Level(spec) {
   for (color of skyColors)
     skyGradient.addColorStop(color[0], color[1])
   
+  function awake() {
+    refreshLowestOrder()
+  }
+  
   function tick() {
     // _.invokeEach(entities, 'tick', tickArgs)
   }
@@ -84,6 +91,8 @@ function Level(spec) {
       sledders,
       globalScope,
       goalCompleted,
+      goalFailed,
+      getLowestOrder: () => lowestOrder,
       ...goalDatum
     })
     
@@ -113,8 +122,11 @@ function Level(spec) {
     texts.push(text)
   }
   
-  function goalCompleted() {
+  function goalCompleted(goal) {
     if (!completed) {
+      
+      refreshLowestOrder()
+      
       for (goal of goals) {
         if (!goal.completed) {
           return
@@ -126,13 +138,39 @@ function Level(spec) {
     }
   }
   
+  function goalFailed(goal) {
+    console.log('Failed :(')
+    
+    if (goal.order) {
+      for (g of goals) {
+        if (g.order && !g.completed)
+          g.fail()
+      }
+    }
+  }
+  
   function reset() {
     ui.expressionText.value = defaultExpression
     setGraphExpression(defaultExpression)
+    refreshLowestOrder()
+  }
+  
+  function refreshLowestOrder() {
+    lowestOrder = 'Z'
+    for (goal of goals) {
+      if (!goal.completed && goal.order < lowestOrder) {
+        lowestOrder = goal.order
+      }
+    }
+    
+    _.invokeEach(goals, 'refresh')
   }
   
   function stopRunning() {
+    _.invokeEach(goals, 'reset')
+    
     completed = false
+    refreshLowestOrder()
   }
   
   function loadDatum(datum) {
@@ -152,6 +190,8 @@ function Level(spec) {
   loadDatum(spec.datum)
   
   return self.mix({
+    awake,
+    
     tick,
     draw,
     

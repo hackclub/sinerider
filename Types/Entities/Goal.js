@@ -15,8 +15,10 @@ function Goal(spec) {
     camera,
     sledders,
     goalCompleted,
+    goalFailed,
     globalScope,
     graph,
+    getLowestOrder,
   } = spec
   
   const ctx = screen.ctx
@@ -56,10 +58,14 @@ function Goal(spec) {
   const screenPosition = Vector2()
 
   let triggered = false
+  let available = false
   let completed = false
+  let failed = false
   
   const completedFill = 'rgba(32, 255, 32, 0.8)'
-  const normalFill = 'rgba(255, 255, 255, 0.8)'
+  const availableFill = 'rgba(255, 255, 255, 0.8)'
+  const unavailableFill = 'rgba(255, 192, 0, 0.8)'
+  const failedFill = 'rgba(255, 0, 0, 0.8)'
   
   const p = Vector2()
 
@@ -81,12 +87,26 @@ function Goal(spec) {
       }
     }
     
-    if (triggered && !completed) complete()
+    if (triggered && !completed && !failed) {
+      if (available)
+        complete()
+      else
+        fail()
+    }
   }
   
   function complete() {
+    if (completed) return
+    
     completed = true
-    goalCompleted()
+    goalCompleted(self)
+  }
+  
+  function fail() {
+    if (failed) return
+    
+    failed = true
+    goalFailed(self)
   }
   
   function intersectSledder(sledder) {
@@ -105,7 +125,11 @@ function Goal(spec) {
     // console.log('Localized canvas: ', ctx.getTransform().toString())
     
     ctx.strokeStyle = '#111'
-    ctx.fillStyle = completed ? completedFill : normalFill
+    ctx.fillStyle = completed ? 
+      completedFill : failed ? 
+      failedFill : available ? 
+      availableFill : unavailableFill
+      
     ctx.lineWidth = 0.05
     
     if (fixed) {
@@ -114,9 +138,21 @@ function Goal(spec) {
     }
     else if (dynamic) {
       ctx.beginPath()
-      ctx.ellipse(0, 0, size/2, size/2, 0, 0, TAU)
+      ctx.arc(0, 0, size/2, 0, TAU)
       ctx.fill()
       ctx.stroke()
+    }
+    
+    if (order) {
+      ctx.save()
+      ctx.fillStyle = '#333'
+      ctx.textAlign = 'center'
+      ctx.textBaseline = 'middle'
+      ctx.font = '1px Roboto Mono' 
+      ctx.scale(0.7, 0.7)
+      ctx.fillText(order, 0, 0.25)
+    // ctx.fillText(levelDatum.name, 0, radius)
+      ctx.restore()
     }
   }
   
@@ -126,6 +162,8 @@ function Goal(spec) {
   
   function reset() {
     completed = false
+    failed = false
+    
     transform.position = startPosition
 
     if (dynamic || anchored) {
@@ -145,6 +183,14 @@ function Goal(spec) {
     reset()
   }
   
+  function refresh() {
+    available = true
+    
+    if (order) {
+      available = getLowestOrder().localeCompare(order) >= 0
+    }
+  }
+  
   return self.mix({
     transform,
     
@@ -157,7 +203,14 @@ function Goal(spec) {
     stopRunning,
     
     pointCloud,
+    refresh,
+    
+    complete,
+    fail,
     
     get completed() {return completed},
+    get available() {return available},
+    get failed() {return failed},
+    get order() {return order},
   })
 }
