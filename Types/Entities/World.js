@@ -47,6 +47,9 @@ function World(spec) {
   }
   
   function tick() {
+    if (window.innerHeight != screen.height || window.innerWidth != screen.width)
+      screen.resize()
+      
     if (running) runTime += tickDelta
   }
   
