@@ -6,6 +6,8 @@ function Rigidbody(spec) {
     camera,
     screen,
     fixed = false,
+    fixedRotation = false,
+    positionOffset = Vector2(),
   } = spec
   
   let grounded = false
@@ -16,6 +18,8 @@ function Rigidbody(spec) {
   const collisionNormal = Vector2()
   
   const upright = Vector2(0, 1)
+  
+  const samplePosition = Vector2()
   
   const graphVelocity = Vector2()
   const depenetration = Vector2()
@@ -38,17 +42,20 @@ function Rigidbody(spec) {
     
     integrate()
     
-    const graphY = graph.sample('x', transform.x)
+    samplePosition.set(transform.position)
+    samplePosition.add(positionOffset)
     
-    grounded = transform.y < graphY-collisionThreshold
+    const graphY = graph.sample('x', samplePosition.x)
+    
+    grounded = samplePosition.y < graphY-collisionThreshold
     
     if (grounded) {
       // Slope and velocity of graph at this position
-      const graphSlope = graph.sampleSlope('x', transform.x)
-      const verticalGraphVelocity = graph.sampleSlope('t', transform.x)
+      const graphSlope = graph.sampleSlope('x', samplePosition.x)
+      const verticalGraphVelocity = graph.sampleSlope('t', samplePosition.x)
       
       // Vertical depth of penetration
-      const verticalPenetration = graphY-transform.y
+      const verticalPenetration = graphY-samplePosition.y
       
       // Set collision tangent
       collisionTangent.x = 1
@@ -93,7 +100,7 @@ function Rigidbody(spec) {
       const uprightAngle = math.atan2(-upright.x, upright.y)
       
       // Write new rotation
-      transform.rotation = uprightAngle
+      transform.rotation = fixedRotation ? 0 : uprightAngle
       
       // Depenetrate from ground
       transform.position.add(depenetration)

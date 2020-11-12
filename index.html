@@ -20,7 +20,7 @@
     <canvas id='canvas'></canvas>
     
     <div class='menu bar' id='menu-bar' hide=false>
-      <div class='button' id='edit-button'>
+      <div class='button' id='edit-button' hide=true>
         <div class='string'>Edit</div>
       </div>
       
@@ -77,12 +77,14 @@
     
     <!-- Load Extension Methods -->
     <script src='Libraries/extensions.js'></script>
+    <script src='App/colors.js'></script>
     
     <!-- Load Structs -->
     <script src='Types/Structs/Vector2.js'></script>
     <script src='Types/Structs/Shape.js'></script>
     <script src='Types/Structs/Circle.js'></script>
     <script src='Types/Structs/Rect.js'></script>
+    <script src='Types/Structs/Color.js'></script>
     
     <!-- Load Basic Types -->
     <script src='Types/Engine.js'></script>
@@ -114,7 +116,7 @@
     <script src='Types/Entities/Sledder.js'></script>
     <script src='Types/Entities/LevelBubble.js'></script>
     
-    <!-- Load Level Data -->
+    <!-- Load World Data -->
     <script src='App/eden.js'></script>
     
     <!-- Start the Engine -->

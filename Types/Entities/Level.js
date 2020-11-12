@@ -6,9 +6,13 @@ function Level(spec) {
     globalScope,
     levelCompleted,
     useDragCamera = true,
+    datum,
   } = spec
   
-  let defaultExpression = spec.datum.defaultExpression
+  const {
+    colors = Colors.biomes.basic,
+    defaultExpression,
+  } = datum
   
   const sledders = []
   const goals = []
@@ -42,20 +46,33 @@ function Level(spec) {
     globalScope,
     expression: defaultExpression,
     parent: self,
+    colors,
   })
   
   self.children.push(sledders, goals, texts)
   
   let completed = false
   
+  let skyColors = colors.sky
+  
+  if (_.isString(skyColors))
+    skyColors = [[0, skyColors]]
+  
+  let skyGradient = screen.ctx.createLinearGradient(0, 0, 0, 1)
+  
+  for (color of skyColors)
+    skyGradient.addColorStop(color[0], color[1])
+  
   function tick() {
     // _.invokeEach(entities, 'tick', tickArgs)
   }
   
   function draw() {
-    screen.ctx.fillStyle = '#48f'
+    screen.ctx.save()
+    screen.ctx.scale(1, screen.height)
+    screen.ctx.fillStyle = skyGradient
     screen.ctx.fillRect(0, 0, screen.width, screen.height)
-  
+    screen.ctx.restore()
     // _.invokeEach(entities, 'draw', drawArgs)
   }
   
@@ -109,6 +126,11 @@ function Level(spec) {
     }
   }
   
+  function reset() {
+    ui.expressionText.value = defaultExpression
+    setGraphExpression(defaultExpression)
+  }
+  
   function stopRunning() {
     completed = false
   }
@@ -123,6 +145,8 @@ function Level(spec) {
     graph.expression = ui.expressionText.value
     _.invokeEach(sledders, 'reset')
     _.invokeEach(goals, 'reset')
+    
+    camera.snap()
   }
   
   loadDatum(spec.datum)
@@ -134,6 +158,10 @@ function Level(spec) {
     stopRunning,
     
     setGraphExpression,
+
+    camera,
+    
+    reset,
     
     get datum() {return spec.datum},
     get completed() {return completed},

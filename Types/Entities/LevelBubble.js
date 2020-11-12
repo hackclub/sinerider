@@ -59,13 +59,14 @@ function LevelBubble(spec) {
   
   const bubbletCanvas = document.createElement('canvas')
   
-  let bubbletPixels = Math.ceil(camera.worldToScreenScalar(radius*2))
+  let bubbletPixels = 512//Math.ceil(camera.worldToScreenScalar(radius*2))
   bubbletCanvas.width = bubbletPixels
   bubbletCanvas.height = bubbletPixels
   
   ui.bubblets.appendChild(bubbletCanvas)
   const bubbletScreen = Screen({
-    canvas: bubbletCanvas
+    canvas: bubbletCanvas,
+    element: bubbletCanvas
   })
   
   const bubbletCamera = Camera({
@@ -110,6 +111,8 @@ function LevelBubble(spec) {
     }
     
     refreshPlayable()
+    bubbletLevel.sendEvent('draw')
+    bubbletLevel.active = false
   }
   
   function tick() {

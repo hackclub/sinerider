@@ -17,6 +17,12 @@ function Sampler(spec = {}) {
 
     try {
       v = evaluator.evaluate(scope)
+      
+      if (v == PINF || v == NINF)
+        v = 0
+        
+      if (v.im)
+        v = v.re
     }
     catch (err) {
       v = 0

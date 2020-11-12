@@ -2,9 +2,6 @@
 
 const stepping = false
 
-// "The poor man's jquery" —Nicky Case
-const $ = document.querySelector.bind(document)
-
 // Core constants
 
 const ui = {
@@ -141,6 +138,12 @@ function onClickEditButton(event) {
 }
 
 ui.editButton.addEventListener('click', onClickEditButton)
+
+function onClickResetButton(event) {
+  world.level.reset()
+}
+
+ui.resetButton.addEventListener('click', onClickResetButton)
 
 function onResizeWindow(event) {
   screen.resize()

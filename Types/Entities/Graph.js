@@ -3,10 +3,11 @@ function Graph(spec) {
   const sampler = Sampler(spec)
   
   let {
-    sampleCount = 65,
+    sampleCount = 129,
     screen,
     camera,
     globalScope,
+    colors = Colors.biomes.basic,
   } = spec
   
   const ctx = screen.ctx
@@ -28,6 +29,7 @@ function Graph(spec) {
   }
   
   function draw() {
+    ctx.save()
     ctx.beginPath()
     
     camera.worldToScreen(samples[0], screenSpaceSample)
@@ -35,19 +37,32 @@ function Graph(spec) {
     
     for (let i = 1; i < sampleCount; i++) {
       camera.worldToScreen(samples[i], screenSpaceSample)
-      
       ctx.lineTo(screenSpaceSample.x, screenSpaceSample.y)
     }
-    
-    ctx.strokeStyle = '#111'
-    ctx.lineWidth = 4
-    ctx.stroke()
     
     ctx.lineTo(screen.width, screen.height)
     ctx.lineTo(0, screen.height)
     
-    ctx.fillStyle = '#f8f8f8'
+    ctx.fillStyle = colors.groundFill
     ctx.fill()
+    
+    ctx.clip()
+    
+    ctx.beginPath()
+    
+    camera.worldToScreen(samples[0], screenSpaceSample)
+    ctx.moveTo(screenSpaceSample.x, screenSpaceSample.y)
+    
+    for (let i = 1; i < sampleCount; i++) {
+      camera.worldToScreen(samples[i], screenSpaceSample)
+      ctx.lineTo(screenSpaceSample.x, screenSpaceSample.y)
+    }
+    
+    ctx.strokeStyle = colors.groundStroke
+    ctx.lineWidth =colors.groundStrokeWidth || 4
+    ctx.stroke()
+    
+    ctx.restore()
   }
   
   function resample() {

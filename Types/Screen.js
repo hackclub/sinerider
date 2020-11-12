@@ -20,7 +20,8 @@ function Screen(spec = {}) {
   const transform = Transform({invertY: true})
   
   let {
-    canvas
+    canvas,
+    element = window
   } = spec
   
   const ctx = canvas.getContext('2d')
@@ -37,8 +38,8 @@ function Screen(spec = {}) {
   const maxFramePoint = Vector2()
   
   function resize() {
-    width = window.innerWidth
-    height = window.innerHeight
+    width = element.innerWidth || element.width
+    height = element.innerHeight || element.height
     
     canvas.width = width
     canvas.height = height

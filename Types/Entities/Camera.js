@@ -219,6 +219,9 @@ function Camera(spec) {
     startRunning,
     stopRunningLate,
     
+    snap,
+    align,
+    
     drawThrough,
     
     get fov() {return fov},

@@ -152,5 +152,18 @@ math.smooth = function(t) {
   return 1-(Math.cos(t)+1)/2
 }
 
+
+
 math.pinf = Number.POSITIVE_INFINITY
 math.ninf = Number.NEGATIVE_INFINITY
+
+// Constants
+
+PINF = Number.POSITIVE_INFINITY
+NINF = Number.NEGATIVE_INFINITY
+PI = Math.PI
+TAU = PI*2
+
+// "The poor man's jquery" —Nicky Case
+const $ = document.querySelector.bind(document)
+

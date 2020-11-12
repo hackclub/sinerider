@@ -7,7 +7,7 @@ function Goal(spec) {
   const transform = Transform(spec)
   
   let {
-    type = 'static',
+    type = 'fixed',
     timer = 0,
     order = null,
     size = 1,
@@ -16,9 +16,26 @@ function Goal(spec) {
     sledders,
     goalCompleted,
     globalScope,
+    graph,
   } = spec
   
   const ctx = screen.ctx
+  
+  const fixed = type == 'fixed'
+  const dynamic = type == 'dynamic'
+  const anchored = type == 'anchored'
+  
+  const pointCloud = !dynamic ? null : [
+    Vector2(-0.5, 0),
+    Vector2(-0.4, -0.3),
+    Vector2(-0.3, -0.4),
+    Vector2(-0.1, -0.458),
+    Vector2(0, -0.5),
+    Vector2(0.1, -0.458),
+    Vector2(0.3, -0.4),
+    Vector2(0.4, -0.3),
+    Vector2(0.5, 0),
+  ]
   
   const shape = Rect({
     transform,
@@ -29,8 +46,12 @@ function Goal(spec) {
   const rigidbody = Rigidbody({
     ...spec,
     transform,
-    fixed: type == 'static',
+    fixed: !dynamic,
+    fixedRotation: true,
+    positionOffset: Vector2(0, -0.5),
   })
+  
+  const startPosition = Vector2(spec)
   
   const screenPosition = Vector2()
 
@@ -41,6 +62,8 @@ function Goal(spec) {
   const normalFill = 'rgba(255, 255, 255, 0.8)'
   
   const p = Vector2()
+
+  reset()
   
   function tick() {
     rigidbody.tick()
@@ -85,8 +108,16 @@ function Goal(spec) {
     ctx.fillStyle = completed ? completedFill : normalFill
     ctx.lineWidth = 0.05
     
-    ctx.fillRect(-size/2, -size/2, size, size)
-    ctx.strokeRect(-size/2, -size/2, size, size)
+    if (fixed) {
+      ctx.fillRect(-size/2, -size/2, size, size)
+      ctx.strokeRect(-size/2, -size/2, size, size)
+    }
+    else if (dynamic) {
+      ctx.beginPath()
+      ctx.ellipse(0, 0, size/2, size/2, 0, 0, TAU)
+      ctx.fill()
+      ctx.stroke()
+    }
   }
   
   function draw() {
@@ -95,6 +126,15 @@ function Goal(spec) {
   
   function reset() {
     completed = false
+    transform.position = startPosition
+
+    if (dynamic || anchored) {
+      transform.position.y = graph.sample('x', transform.position.x)+size/2
+    }
+    
+    if (dynamic) {
+      rigidbody.resetVelocity()
+    }
   }
   
   function startRunning() {
@@ -115,6 +155,8 @@ function Goal(spec) {
     
     startRunning,
     stopRunning,
+    
+    pointCloud,
     
     get completed() {return completed},
   })
