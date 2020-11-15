@@ -1,8 +1,8 @@
 function Goal(spec) {
-  const self = Entity({
-    name: 'Goal',
-    ...spec
-  })
+  const {
+    self,
+    screen
+  } = Entity(spec, 'Goal')
   
   const transform = Transform(spec)
   
@@ -11,7 +11,6 @@ function Goal(spec) {
     timer = 0,
     order = null,
     size = 1,
-    screen,
     camera,
     sledders,
     goalCompleted,
@@ -26,6 +25,8 @@ function Goal(spec) {
   const fixed = type == 'fixed'
   const dynamic = type == 'dynamic'
   const anchored = type == 'anchored'
+  
+  const slopeTangent = Vector2()
   
   const pointCloud = !dynamic ? null : [
     Vector2(-0.5, 0),
@@ -49,8 +50,8 @@ function Goal(spec) {
     ...spec,
     transform,
     fixed: !dynamic,
-    fixedRotation: true,
-    positionOffset: Vector2(0, -0.5),
+    // fixedRotation: true,
+    // positionOffset: Vector2(0, -0.5),
   })
   
   const startPosition = Vector2(spec)
@@ -138,7 +139,7 @@ function Goal(spec) {
     }
     else if (dynamic) {
       ctx.beginPath()
-      ctx.arc(0, 0, size/2, 0, TAU)
+      ctx.arc(0, -size/2, size/2, 0, TAU)
       ctx.fill()
       ctx.stroke()
     }
@@ -158,6 +159,7 @@ function Goal(spec) {
   
   function draw() {
     camera.drawThrough(ctx, drawLocal, transform)
+    // rigidbody.draw(ctx)
   }
   
   function reset() {
@@ -167,11 +169,21 @@ function Goal(spec) {
     transform.position = startPosition
 
     if (dynamic || anchored) {
-      transform.position.y = graph.sample('x', transform.position.x)+size/2
+      transform.position.y = graph.sample('x', transform.position.x)
     }
     
     if (dynamic) {
       rigidbody.resetVelocity()
+    
+      slopeTangent.x = 1
+      slopeTangent.y = graph.sampleSlope('x', transform.x)
+      slopeTangent.normalize()
+      
+      // Set the Upright vector of rigidbody to the slope normal
+      slopeTangent.orthogonalize(rigidbody.upright)
+      
+      let angle = Math.asin(slopeTangent.y)
+      transform.rotation = angle
     }
   }
   
@@ -181,6 +193,7 @@ function Goal(spec) {
   
   function stopRunning() {
     reset()
+    rigidbody.resetVelocity()
   }
   
   function refresh() {

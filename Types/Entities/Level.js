@@ -17,6 +17,7 @@ function Level(spec) {
   const sledders = []
   const goals = []
   const texts = []
+  const sprites = []
   
   let lowestOrder = 'A'
   let highestOrder = 'A'
@@ -24,7 +25,6 @@ function Level(spec) {
   const trackedEntities = [sledders, goals]
   
   const camera = Camera({
-    screen,
     globalScope,
     parent: self,
     controllers: [
@@ -35,7 +35,7 @@ function Level(spec) {
   })
   
   const axes = Axes({
-    screen,
+    drawOrder: -2,
     camera,
     globalScope,
     parent: self,
@@ -44,15 +44,13 @@ function Level(spec) {
   trackedEntities.unshift(axes)
   
   const graph = Graph({
-    screen,
     camera,
     globalScope,
     expression: defaultExpression,
     parent: self,
+    drawOrder: 0,
     colors,
   })
-  
-  self.children.push(sledders, goals, texts)
   
   let completed = false
   
@@ -65,13 +63,14 @@ function Level(spec) {
   
   for (color of skyColors)
     skyGradient.addColorStop(color[0], color[1])
+    
+  loadDatum(spec.datum)
   
   function awake() {
     refreshLowestOrder()
   }
   
   function tick() {
-    // _.invokeEach(entities, 'tick', tickArgs)
   }
   
   function draw() {
@@ -80,16 +79,16 @@ function Level(spec) {
     screen.ctx.fillStyle = skyGradient
     screen.ctx.fillRect(0, 0, screen.width, screen.height)
     screen.ctx.restore()
-    // _.invokeEach(entities, 'draw', drawArgs)
   }
   
   function addGoal(goalDatum) {
     const goal = Goal({
-      screen,
+      parent: self,
       camera,
       graph,
       sledders,
       globalScope,
+      drawOrder: 1,
       goalCompleted,
       goalFailed,
       getLowestOrder: () => lowestOrder,
@@ -101,7 +100,7 @@ function Level(spec) {
   
   function addSledder(sledderDatum) {
     const sledder = Sledder({
-      screen,
+      parent: self,
       camera,
       graph,
       globalScope,
@@ -111,11 +110,25 @@ function Level(spec) {
     sledders.push(sledder)
   }
   
+  function addSprite(spriteDatum) {
+    const sprite = Sprite({
+      parent: self,
+      camera,
+      graph,
+      globalScope,
+      drawOrder: -1,
+      ...spriteDatum
+    })
+    
+    sprites.push(sprite)
+  }
+  
   function addText(textDatum) {
     const text = Text({
-      screen,
+      parent: self,
       camera,
       globalScope,
+      drawOrder: 2,
       ...textDatum,
     })
     
@@ -174,9 +187,11 @@ function Level(spec) {
   }
   
   function loadDatum(datum) {
+    _.each(datum.sprites, addSprite)
     _.each(datum.sledders, addSledder)
     _.each(datum.goals, addGoal)
     _.each(datum.texts, addText)
+    self.sortChildren()
   }
   
   function setGraphExpression(text) {
@@ -186,8 +201,6 @@ function Level(spec) {
     
     camera.snap()
   }
-  
-  loadDatum(spec.datum)
   
   return self.mix({
     awake,

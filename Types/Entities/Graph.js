@@ -1,10 +1,12 @@
 function Graph(spec) {
-  const self = Entity(spec, 'Graph')
+  const {
+    self,
+    screen,
+  } = Entity(spec, 'Graph')
   const sampler = Sampler(spec)
   
   let {
     sampleCount = 129,
-    screen,
     camera,
     globalScope,
     colors = Colors.biomes.basic,

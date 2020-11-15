@@ -12,6 +12,9 @@ function Entity(spec, defaultName = 'Entity') {
     tickDelta = null,
     getTime = null,
     ui = null,
+    drawOrder = 0,
+    debugSelf = false,
+    debugTree = false,
   } = spec
   
   // Inherit the fundamentals TODO: Make fundamentals a key/value abstraction
@@ -28,6 +31,8 @@ function Entity(spec, defaultName = 'Entity') {
       getTime = parent.getTime
     if (!ui)
       ui = parent.ui
+    if (!debugTree)
+      debugTree = parent.debugTree
   }
   
   const ctx = screen ? screen.ctx : null
@@ -133,6 +138,18 @@ function Entity(spec, defaultName = 'Entity') {
     children.push(child)
   }
   
+  function sortChildren() {
+    console.log(`Sorting children of ${name}`)
+      
+    children.sort(compareChildren)
+  }
+  
+  function compareChildren(a, b) {
+    a = _.isNumber(a.drawOrder) ? a.drawOrder : 0
+    b = _.isNumber(b.drawOrder) ? b.drawOrder : 0
+    return a-b
+  }
+  
   function removeChild(child) {
     _.removeDeep(children, child)
   }
@@ -212,6 +229,7 @@ function Entity(spec, defaultName = 'Entity') {
     getFromAncestor,
     
     children,
+    sortChildren,
     
     addComponent,
     addComponents,
@@ -223,5 +241,10 @@ function Entity(spec, defaultName = 'Entity') {
     
     get active() {return active},
     set active(v) {setActive(v)},
+    
+    get drawOrder() {return drawOrder},
+    set drawOrder(v) {drawOrder = v},
+    
+    get debug() {return debugSelf || debugTree},
   })
 }

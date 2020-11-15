@@ -1,11 +1,13 @@
 function Axes(spec) {
-  const self = Entity(spec, 'Axes')
+  const {
+    self,
+    screen,
+  } = Entity(spec, 'Axes')
   
   const transform = Transform()
   
   let {
     camera,
-    screen,
   } = spec
   
   const ctx = screen.ctx

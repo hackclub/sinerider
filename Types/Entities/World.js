@@ -63,6 +63,7 @@ function World(spec) {
     levelBubble = navigator.getBubbleByNick(nick)
     
     level = Level({
+      name: levelDatum.nick,
       datum: levelDatum,
       globalScope,
       screen,
@@ -140,6 +141,9 @@ function World(spec) {
     ui.expressionText.disabled = true
     ui.menuBar.setAttribute('hide', true)
     
+    ui.runButton.setAttribute('hide', true)
+    ui.stopButton.setAttribute('hide', false)
+    
     self.sendEvent('startRunning', [])
     self.sendEvent('startRunningLate', [])
     
@@ -153,6 +157,9 @@ function World(spec) {
     ui.expressionText.disabled = false
     ui.menuBar.setAttribute('hide', false)
     ui.victoryBar.setAttribute('hide', true)
+    
+    ui.runButton.setAttribute('hide', false)
+    ui.stopButton.setAttribute('hide', true)
     
     self.sendEvent('stopRunning', [])
     self.sendEvent('stopRunningLate', [])

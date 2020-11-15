@@ -1,13 +1,12 @@
 function Text(spec) {
-  const self = Entity({
-    name: 'Text',
-    ...spec
-  })
+  const {
+    self,
+    screen
+  } = Entity(spec, 'Text')
   
   const transform = Transform(spec)
 
   const {
-    screen,
     camera,
     size = 1,
     color = '#222',

@@ -1,6 +1,7 @@
 worldData = []
 
 worldData.push({
+  version: '0.0.0',
   name: 'Eden',
   levelData: [{
     name: 'Welcome',
@@ -11,21 +12,32 @@ worldData.push({
     requirements: [],
     defaultExpression: '-16/(1+((x-32)/4)^2)',
     goals: [
-      {
-        x: 4,
-        y: 0.5
-      },
+      // {
+      //   x: 2,
+      //   y: 0.5
+      // },
       {
         type: 'dynamic',
         x: 2,
-        y: 0.5
-      }
+        y: 0
+      },
     ],
     sledders: [{
       
     }],
+    sprites: [{
+      pngName: 'cabin_1',
+      size: 3,
+      x: -2.5,
+      y: -0.1,
+    },{
+      pngName: 'tree_1',
+      size: 4,
+      x: 3.5,
+      y: -0.1,
+    }],
     texts: [{
-      x: 2,
+      x: 1,
       y: -2,
       size: 0.5,
       content: 'Click Go / Hit Enter'
@@ -862,6 +874,37 @@ worldData.push({
     sledders: [{
       x: -8,
       y: 0
+    }],
+  },
+  {
+    name: 'logistic reorder 2',
+    nick: 'LOGISTIC_REORDER_2',
+    colors: Colors.biomes.mojave,
+    x: -10,
+    y: 0,
+    requirements: [null],
+    defaultExpression: '1/(1+(x+8)^2) + 1/(1+(x+1-t)^2)',
+    goals: [
+      {
+        order: 'B',
+        x: -2,
+        y: 0.5
+      },
+      {
+        order: 'C',
+        x: 2,
+        y: 0.5
+      },
+    ],
+    sledders: [{
+      x: -8,
+      y:0.5
+    },{
+      x: 0,
+      y:0.5
+    },{
+      x: 2,
+      y: 0.5
     }],
   },
   {

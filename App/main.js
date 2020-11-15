@@ -27,6 +27,7 @@ const ui = {
   expressionText: $('#expression-text'),
   variableLabel: $('#variable-label'),
   runButton: $('#run-button'),
+  stopButton: $('#stop-button'),
   
   navigatorFloatingBar: $('#navigator-floating-bar'),
   showAllButton: $('#show-all-button'),
@@ -127,6 +128,11 @@ function onClickRunButton(event) {
 
 ui.runButton.addEventListener('click', onClickRunButton)
 
+function onClickStopButton(event) {
+  world.toggleRunning()
+}
+ui.stopButton.addEventListener('click', onClickStopButton)
+
 function onClickShowAllButton(event) {
   world.navigator.showAll = !world.navigator.showAll
 }
@@ -160,6 +166,7 @@ function onClickCanvas() {
 }
 
 canvas.addEventListener('click', onClickCanvas)
+ui.veil.addEventListener('click', onClickCanvas)
 
 function onMouseMoveCanvas(event) {
   world.clickableContext.processEvent(event, 'mouseMove')

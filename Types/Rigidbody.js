@@ -46,6 +46,10 @@ function Rigidbody(spec) {
     samplePosition.add(positionOffset)
     
     const graphY = graph.sample('x', samplePosition.x)
+    // const graphY = graph.sample({
+    //   x: samplePosition.x,
+    //   t: globalScope.t
+    // })
     
     grounded = samplePosition.y < graphY-collisionThreshold
     
@@ -94,13 +98,14 @@ function Rigidbody(spec) {
       velocity.y = Math.max(velocity.y, velocityY)
 
       // Smoothly move upright vector toward ground normal
-      upright.lerp(collisionNormal, 0.12)
+      upright.lerp(collisionNormal, 0.15)
       upright.normalize()
       
       const uprightAngle = math.atan2(-upright.x, upright.y)
       
       // Write new rotation
       transform.rotation = fixedRotation ? 0 : uprightAngle
+      // transform.rotation = uprightAngle
       
       // Depenetrate from ground
       transform.position.add(depenetration)
@@ -115,8 +120,8 @@ function Rigidbody(spec) {
     camera.worldToScreen(debugVectorTerminus)
     
     ctx.beginPath()
-    ctx.moveTo(debugVectorOrigin.x, screen.height-debugVectorOrigin.y)
-    ctx.lineTo(debugVectorTerminus.x, screen.height-debugVectorTerminus.y)
+    ctx.moveTo(debugVectorOrigin.x, debugVectorOrigin.y)
+    ctx.lineTo(debugVectorTerminus.x, debugVectorTerminus.y)
     
     ctx.strokeStyle = color
     ctx.lineWidth = 4

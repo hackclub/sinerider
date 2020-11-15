@@ -3,12 +3,14 @@
 // The camera smoothly pans and zooms to keep all Sledders, Goals, and the Axes origin in view at all times.
 
 function Camera(spec) {
-  const self = Entity(spec, 'Camera')
+  const {
+    self,
+    screen,
+  } = Entity(spec, 'Camera')
   
   const transform = Transform(spec)
   
   let {
-    screen,
     fov = 5,
     globalScope = {},
   } = spec

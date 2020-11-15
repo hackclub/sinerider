@@ -19,6 +19,17 @@ function Navigator(spec) {
     ]
   })
   
+  const map = Sprite({
+    parent: self,
+    camera,
+    drawOrder: -3,
+    anchored: false,
+    size: 175,
+    x: 70,
+    y: -46.5,
+    source: 'Assets/map.svg',
+  })
+  
   let showAll = false
   let showAllUsed = false
   
@@ -36,7 +47,6 @@ function Navigator(spec) {
     const bubble = LevelBubble({
       levelDatum,
       setLevel,
-      screen,
       camera,
       getEditing,
       tickDelta,

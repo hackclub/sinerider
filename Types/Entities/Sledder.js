@@ -1,5 +1,9 @@
 function Sledder(spec = {}) {
-  const self = Entity(spec, 'Sledder')
+  const {
+    self,
+    screen
+  } = Entity(spec, 'Sledder')
+  
   const transform = Transform(spec)
   const rigidbody = Rigidbody({
     ...spec,
@@ -10,7 +14,6 @@ function Sledder(spec = {}) {
     skin = 'Assets/nicky_sledders.png',
     size = 1,
     globalScope,
-    screen,
     camera,
     graph,
     x: originX = 0
@@ -24,6 +27,7 @@ function Sledder(spec = {}) {
   image.src = skin
   
   const slopeTangent = Vector2()
+  
   const pointCloud = [
     Vector2(0, 0),
     Vector2(-0.5, 0),
@@ -47,7 +51,7 @@ function Sledder(spec = {}) {
   
   function draw() {
     camera.drawThrough(ctx, drawLocal, transform)
-    //rigidbody.draw(ctx)
+    // rigidbody.draw(ctx)
   }
   
   function startRunning() {

@@ -177,6 +177,10 @@ canvas {
   background: #4f6;
 }
 
+#stop-button:not(:hover) {
+  background: #f46;
+}
+
 #level-text {
   text-align: center;
 }
