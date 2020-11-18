@@ -66,7 +66,7 @@ function CameraWaypointer(spec) {
       fov: camera.fov,
     }
     
-    console.log(`Moving to waypoint {${waypoint.position.toString()}, ${waypoint.fov}} over ${duration} seconds`)
+    // console.log(`Moving to waypoint {${waypoint.position.toString()}, ${waypoint.fov}} over ${duration} seconds`)
     
     toPoint = waypoint
     transitDuration = duration
@@ -87,9 +87,7 @@ function CameraWaypointer(spec) {
   }
   
   function snap() {
-    console.log('Snapped Position: ', self.position.toString())
-    console.log('Snapped Rotation: ', self.rotation)
-    console.log('Snapped FOV: ', self.fov)
+    
   }
   
   function align() {

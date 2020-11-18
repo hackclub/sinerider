@@ -5,8 +5,7 @@ function Entity(spec, defaultName = 'Entity') {
     name = defaultName,
     active = true,
     parent = null,
-    zSort = true,
-    zSortChildren = false,
+    assets = null,
     camera = null,
     screen = null,
     tickDelta = null,
@@ -23,6 +22,8 @@ function Entity(spec, defaultName = 'Entity') {
     
     if (!camera)
       camera = parent.camera
+    if (!assets)
+      assets = parent.assets
     if (!screen)
       screen = parent.screen
     if (!tickDelta)
@@ -42,6 +43,7 @@ function Entity(spec, defaultName = 'Entity') {
     self,
     camera,
     screen,
+    assets,
     ctx,
     ui,
     tickDelta,
@@ -139,8 +141,6 @@ function Entity(spec, defaultName = 'Entity') {
   }
   
   function sortChildren() {
-    console.log(`Sorting children of ${name}`)
-      
     children.sort(compareChildren)
   }
   
@@ -212,9 +212,6 @@ function Entity(spec, defaultName = 'Entity') {
     
     get name() {return name},
     set name(v) {name = v},
-    
-    get zSort() {return zSort},
-    set zSort(v) {zSort = v},
     
     lifecycle,
     

@@ -1,17 +1,22 @@
 function Level(spec) {
-  const self = Entity(spec, 'Level')
+  const {
+    self,
+    assets,
+    screen,
+  } = Entity(spec, 'Level')
   
   const {
-    screen,
     globalScope,
     levelCompleted,
     useDragCamera = true,
     datum,
   } = spec
   
-  const {
+  let {
     colors = Colors.biomes.basic,
     defaultExpression,
+    openMusic,
+    runMusic,
   } = datum
   
   const sledders = []
@@ -23,6 +28,11 @@ function Level(spec) {
   let highestOrder = 'A'
   
   const trackedEntities = [sledders, goals]
+  
+  openMusic = _.get(assets, openMusic, null)
+  runMusic = _.get(assets, runMusic, null)
+  
+  let hasBeenRun = false
   
   const camera = Camera({
     globalScope,
@@ -70,7 +80,17 @@ function Level(spec) {
     refreshLowestOrder()
   }
   
+  function start() {
+    
+  }
+  
   function tick() {
+    let time = (Math.round(globalScope.t*10)/10).toString()
+    
+    if (!_.includes(time, '.'))
+      time += '.0'
+    
+    ui.timeString.innerHTML = 'T='+time
   }
   
   function draw() {
@@ -117,6 +137,7 @@ function Level(spec) {
       graph,
       globalScope,
       drawOrder: -1,
+      anchored: true,
       ...spriteDatum
     })
     
@@ -162,6 +183,11 @@ function Level(spec) {
     }
   }
   
+  function playOpenMusic() {
+    if (openMusic)
+      openMusic.play()
+  }
+  
   function reset() {
     ui.expressionText.value = defaultExpression
     setGraphExpression(defaultExpression)
@@ -177,6 +203,15 @@ function Level(spec) {
     }
     
     _.invokeEach(goals, 'refresh')
+  }
+  
+  function startRunning() {
+    if (!hasBeenRun) {
+      if (runMusic)
+        runMusic.play()
+        
+      hasBeenRun = true
+    }
   }
   
   function stopRunning() {
@@ -208,6 +243,7 @@ function Level(spec) {
     tick,
     draw,
     
+    startRunning,
     stopRunning,
     
     setGraphExpression,
@@ -215,6 +251,8 @@ function Level(spec) {
     camera,
     
     reset,
+    
+    playOpenMusic,
     
     get datum() {return spec.datum},
     get completed() {return completed},

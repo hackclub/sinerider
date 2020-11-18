@@ -3,31 +3,31 @@ function Sprite(spec = {}) {
     self,
     screen,
     camera,
+    assets,
   } = Entity(spec, 'Sprite')
   
   const transform = Transform(spec)
   
   let {
-    source = 'Assets/nicky_sledders.png',
-    pngName = null,
+    asset,
+    image,
+    graph,
     size = 1,
     globalScope,
-    graph,
-    anchored = true,
+    anchored = false,
     sloped = false,
     x: originX = 0,
     y: offsetY = 0,
   } = spec
   
-  if (pngName)
-    source = `Assets/${pngName}.png`
-  
   const ctx = screen.ctx
   
   const slopeTangent = Vector2()
   
-  const image = new Image()
-  image.src = source
+  if (asset) {
+    image = _.get(assets, asset, $('#error-sprite'))
+    console.log(`Sprite loaded asset ${asset}:`, image)
+  }
   
   function tick() {
     if (anchored) {

@@ -147,8 +147,8 @@ function Camera(spec) {
       transform.position = activeController.position
       setFov(activeController.fov)
     
-      console.log('Camera snapped to Position: ', transform.position.toString())
-      console.log('Camera snapped to FOV: ', fov)
+      // console.log('Camera snapped to Position: ', transform.position.toString())
+      // console.log('Camera snapped to FOV: ', fov)
     }
   }
   

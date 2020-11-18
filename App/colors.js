@@ -13,7 +13,7 @@ const Colors = {
         [0, '#8048ff'],
         [1, '#55aaff'],
       ],
-      groundFill: '#225511',
+      groundFill: '#115555',
       groundStroke: '#ffffff',
       groundStrokeWidth: 12,
     },

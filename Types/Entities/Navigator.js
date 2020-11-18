@@ -27,7 +27,7 @@ function Navigator(spec) {
     size: 175,
     x: 70,
     y: -46.5,
-    source: 'Assets/map.svg',
+    asset: 'images.world_map',
   })
   
   let showAll = false

@@ -20,6 +20,10 @@ body {
   user-select: none;
 }
 
+html {
+  overflow: hidden;
+}
+
 canvas {
   user-select: none;
 }
@@ -33,6 +37,7 @@ canvas {
   border-radius: 5px;
   
   overflow: hidden;
+  
   display: flex;
   align-items: stretch;
   justify-content: center;
@@ -126,15 +131,19 @@ canvas {
 .victory {
   position: absolute;
   
-  top: 20px;
+  bottom: 20px;
   left: 20px;
   right: 20px;
   
-  height: 40px;
+  /*font-size: 24px;*/
 }
 
 .victory[hide=true] {
-  top: -80px;
+  bottom: -80px;
+}
+
+.message[hide=true] {
+  display: none;
 }
 
 .controls {
@@ -161,12 +170,13 @@ canvas {
   background: transparent;
 }
 
-.floating > * {
+.floating > .button {
   border: 1px solid black;
 }
 
 .navigator[hide=true] {
   bottom: -60px;
+  display: none;
 }
 
 .bar > .text {
@@ -181,6 +191,14 @@ canvas {
   background: #f46;
 }
 
+#next-button:not(:hover) {
+  background: #4f6;
+}
+
+#victory-stop-button:not(:hover) {
+  background: #f46;
+}
+
 #level-text {
   text-align: center;
 }
@@ -191,6 +209,36 @@ canvas {
 
 #victory-label {
   flex-grow: 1;
+}
+
+#variables-bar {
+  position: absolute;
+  
+  bottom: 60px;
+  left: 20px;
+  right: 20px;
+  
+  font-size: 24px;
+  
+  justify-content: flex-start;
+  
+  transition: 0.5s;
+}
+
+#variables-bar[hide=true] {
+  bottom: -80px;
+}
+
+.background {
+  position: absolute;
+  
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  
+  background: inherit;
+  z-index: -1;
 }
 
 .bubblets {
@@ -210,9 +258,19 @@ canvas {
   
   background: white;
   pointer-events: all;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  text-align: center;
 }
 
 .veil[hide=true] {
   opacity: 0;
   pointer-events: none;
+}
+
+.loading {
+  transition: 3s;
 }

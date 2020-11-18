@@ -3,6 +3,21 @@ worldData = []
 worldData.push({
   version: '0.0.0',
   name: 'Eden',
+  assets: {
+    images: {
+      sledder_0: 'nicky_sledders.png',
+      sledder_1: 'nicky_sledders.png',
+      tree_1: 'tree_1.png',
+      cabin_1: 'cabin_1.png',
+      cabin_1_front: 'cabin_1_front.png',
+      world_map: 'map.svg',
+    },
+    sounds: {
+      music: {
+        intro: 'intro.m4a',
+      }
+    }
+  },
   levelData: [{
     name: 'Welcome',
     nick: 'HELLO_WORLD',
@@ -10,7 +25,8 @@ worldData.push({
     x: 0,
     y: 0,
     requirements: [],
-    defaultExpression: '-16/(1+((x-32)/4)^2)',
+    runMusic: 'sounds.music.intro',
+    defaultExpression: '-16/(1+((x-36)/4)^2)',
     goals: [
       // {
       //   x: 2,
@@ -18,29 +34,52 @@ worldData.push({
       // },
       {
         type: 'dynamic',
-        x: 2,
+        x: 6,
         y: 0
       },
     ],
     sledders: [{
-      
+      drawOrder: -2
     }],
     sprites: [{
-      pngName: 'cabin_1',
-      size: 3,
-      x: -2.5,
-      y: -0.1,
-    },{
-      pngName: 'tree_1',
+      asset: 'images.cabin_1',
       size: 4,
-      x: 3.5,
+      x: 0,
+      y: -0.2,
+      drawOrder: -3,
+    },{
+      asset: 'images.cabin_1_front',
+      size: 4,
+      x: 0,
+      y: -0.2,
+      drawOrder: -1,
+    },{
+      asset: 'images.tree_1',
+      size: 4,
+      x: 4,
       y: -0.1,
+      drawOrder: -3,
     }],
     texts: [{
-      x: 1,
+      x: 3,
       y: -2,
       size: 0.5,
       content: 'Click Go / Hit Enter'
+    },{
+      x: 27,
+      y: 2,
+      size: 4,
+      content: 'SineRider'
+    },{
+      x: 17,
+      y: -17,
+      size: 1.5,
+      content: 'A game about graphing, inspired by'
+    },{
+      x: 19,
+      y: -19,
+      size: 1.5,
+      content: 'many hours with a TI-84 calculator.'
     }],
   },
   {
@@ -66,6 +105,9 @@ worldData.push({
       }
     ],
     sledders: [{
+      
+    }],
+    texts: [{
       
     }],
   },

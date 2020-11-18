@@ -12,16 +12,23 @@ const ui = {
   levelButtonString: $('#level-button > .string'),
   resetButton: $('#reset-button'),
 
+  veil: $('#veil'),
+  loadingVeil: $('#loading-veil'),
+  loadingVeilString: $('#loading-string'),
+  
   bubblets: $('.bubblets'),
-  veil: $('.veil'),
   
   victoryBar: $('#victory-bar'),
   victoryLabel: $('#victory-label'),
   victoryLabelString: $('#victory-label > .string'),
+  victoryStopButton: $('#victory-stop-button'),
   nextButton: $('#next-button'),
   
   messageBar: $('#message-bar'),
   messageBarString: $('#message-bar > .string'),
+  
+  variablesBar: $('#variables-bar'),
+  timeString: $('#time-string'),
 
   controlBar: $('#controls-bar'),
   expressionText: $('#expression-text'),
@@ -132,6 +139,7 @@ function onClickStopButton(event) {
   world.toggleRunning()
 }
 ui.stopButton.addEventListener('click', onClickStopButton)
+ui.victoryStopButton.addEventListener('click', onClickStopButton)
 
 function onClickShowAllButton(event) {
   world.navigator.showAll = !world.navigator.showAll

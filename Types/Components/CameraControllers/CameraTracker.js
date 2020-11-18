@@ -70,8 +70,8 @@ function CameraTracker(spec) {
     trackEntities()
     self.fov = fovTarget
     
-    console.log('Snapped Position: ', self.position.toString())
-    console.log('Snapped FOV: ', self.fov)
+    // console.log('Snapped Position: ', self.position.toString())
+    // console.log('Snapped FOV: ', self.fov)
   }
   
   function startRunning() {

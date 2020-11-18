@@ -25,14 +25,14 @@ function CameraController(spec, defaultName = 'CameraController') {
     position.set(camera.transform.position)
     fov = camera.fov
     
-    console.log('Aligned Position: ', position.toString())
-    console.log('Aligned FOV: ', fov)
+    // console.log('Aligned Position: ', position.toString())
+    // console.log('Aligned FOV: ', fov)
   }
   
   function startControlling() {
     controlling = true
     
-    console.log(`${self.name} is now controlling`)
+    // console.log(`${self.name} is now controlling`)
   }
   
   function stopControlling() {

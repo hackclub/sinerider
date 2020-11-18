@@ -99,7 +99,7 @@ function LevelBubble(spec) {
     // Create an arrow to each dependency
     for (bubble of requirements) {
       let arrow = Arrow({
-        truncate: [radius+0.4, radius+0.4],
+        truncate: [radius+0.9, radius+0.9],
         point0: bubble.transform.position,
         point1: transform.position,
         parent: self,
@@ -124,28 +124,27 @@ function LevelBubble(spec) {
     ctx.globalAlpha = opacity
     
     ctx.beginPath()
-    ctx.arc(0, 0, radius, 0, Math.PI*2)
     
-    let strokeWidth = 0.05
+    let strokeWidth = 0.2
     
     if (playable) {
       if (hilighted)
-        strokeWidth = camera.transform.transformScalar(0.025)
+        strokeWidth = 0.4//camera.transform.transformScalar(0.025)
       else if (playable)
-        strokeWidth = 0.15
+        strokeWidth = 0.2
         
       if (clickable.hovering)
         strokeWidth *= 2
     }
 
+    ctx.arc(0, 0, radius, 0, Math.PI*2)
     ctx.lineWidth = strokeWidth
                       
     ctx.fillStyle = '#fff'
     ctx.strokeStyle = hilighted ? '#f88' : '#444'
 
-    
     ctx.save()
-    ctx.stroke()
+    
     ctx.fill()
     ctx.clip()
     ctx.drawImage(bubbletCanvas, -radius, -radius, radius*2, radius*2)
@@ -158,6 +157,13 @@ function LevelBubble(spec) {
     // ctx.fillText(levelDatum.name, 0, radius)
     
     ctx.restore()
+
+    // ctx.globalAlpha = 1
+    
+    ctx.beginPath()
+    ctx.arc(0, 0, radius+strokeWidth/2-0.02, 0, Math.PI*2)
+    
+    ctx.stroke()
   }
   
   function refreshPlayable() {
@@ -173,7 +179,8 @@ function LevelBubble(spec) {
       hilighted = false
     }
     
-    visible = playable || _.some(requirements, v => v.playable)
+    // visible = playable || _.some(requirements, v => v.playable)
+    visible = true //TODO: implement gradient fade for invisible unmet requirements. Until then, inaccessible levels will always be shown.
     
     const opacity = visible ? playable ? 1 : 0.5 : 0
     

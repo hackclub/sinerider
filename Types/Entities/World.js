@@ -7,11 +7,8 @@ function World(spec) {
     levelData,
     requestDraw,
     tickDelta,
+    version,
   } = spec
-  
-  let clickableContext = ClickableContext({
-    entity: self,
-  })
 
   let running = false
   let runTime = 0
@@ -20,30 +17,31 @@ function World(spec) {
     get t() {return runTime},
     dt: tickDelta,
     
-    get running() {
-      return running
-    }
+    get running() {return running},
   }
   
   let navigating = false
   let editing = false
   
-  const navigator = Navigator({
-    ui,
-    screen,
-    levelData,
-    getEditing,
-    setLevel,
-    active: false,
-    parent: self,
+  const assets = Assets({
+    paths: spec.assets,
+    callbacks: {
+      complete: assetsComplete,
+      progress: assetsProgress,
+    }
   })
+  
+  const clickableContext = ClickableContext({
+    entity: self,
+  })
+  
+  let navigator
   
   let level
   let levelDatum
   let levelBubble
   
   function start() {
-    setLevel(levelData[0].nick)
   }
   
   function tick() {
@@ -56,6 +54,38 @@ function World(spec) {
   function draw() {
   }
   
+  function loadingVeilClicked() {
+    console.log(`Loading veil clicked`)
+    
+    ui.loadingVeil.setAttribute('hide', true)
+    
+    navigator = Navigator({
+      ui,
+      screen,
+      assets,
+      levelData,
+      getEditing,
+      setLevel,
+      active: false,
+      parent: self,
+    })
+  
+    setLevel(levelData[0].nick)
+  }
+  
+  function assetsComplete() {
+    console.log(`All World assets loaded`)
+    
+    ui.loadingVeilString.innerHTML = 'click to begin'
+    ui.loadingVeil.addEventListener('click', loadingVeilClicked)
+  }
+  
+  function assetsProgress(progress, total) {
+    console.log(`Loaded ${progress} of ${total} assets`)
+    
+    ui.loadingVeilString.innerHTML = `loading…<br>${Math.round(100*progress/total)}%`
+  }
+  
   function setLevel(nick) {
     if (level) level.destroy()
     
@@ -63,15 +93,18 @@ function World(spec) {
     levelBubble = navigator.getBubbleByNick(nick)
     
     level = Level({
+      screen,
+      assets,
+      parent: self,
       name: levelDatum.nick,
       datum: levelDatum,
       globalScope,
-      screen,
-      parent: self,
       active: !navigating,
       levelCompleted,
       tickDelta,
     })
+    
+    level.playOpenMusic()
     
     ui.levelText.value = levelDatum.name
     ui.levelButtonString.innerHTML = levelDatum.name
@@ -94,6 +127,8 @@ function World(spec) {
       navigator.refreshBubbles()
     }
     else {
+      ui.variablesBar.setAttribute('hide', true)
+      
       navigator.showAll = false
       if (navigator.showAllUsed)
         ui.showAllButton.setAttribute('hide', false)
@@ -102,10 +137,14 @@ function World(spec) {
   
   function levelCompleted() {
     console.log(`Level ${levelDatum.nick} completed`)
-    ui.victoryBar.setAttribute('hide', false)
-    levelBubble.complete()
     
+    ui.victoryBar.setAttribute('hide', false)
+    ui.controlBar.setAttribute('hide', true)
+    
+    ui.variablesBar.setAttribute('hide', true)
     ui.showAllButton.setAttribute('hide', true)
+    
+    levelBubble.complete()
   }
   
   function transitionNavigating(_navigating, duration=1, cb) {
@@ -140,6 +179,7 @@ function World(spec) {
     
     ui.expressionText.disabled = true
     ui.menuBar.setAttribute('hide', true)
+    ui.variablesBar.setAttribute('hide', false)
     
     ui.runButton.setAttribute('hide', true)
     ui.stopButton.setAttribute('hide', false)
@@ -157,7 +197,9 @@ function World(spec) {
     ui.expressionText.disabled = false
     ui.menuBar.setAttribute('hide', false)
     ui.victoryBar.setAttribute('hide', true)
+    ui.variablesBar.setAttribute('hide', true)
     
+    ui.controlBar.setAttribute('hide', false)
     ui.runButton.setAttribute('hide', false)
     ui.stopButton.setAttribute('hide', true)
     
@@ -187,7 +229,7 @@ function World(spec) {
     setNavigating,
     transitionNavigating,
     
-    navigator,
+    get navigator() {return navigator},
     
     get editing() {return editing},
     set editing(v) {setEditing(v)},

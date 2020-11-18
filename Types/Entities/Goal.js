@@ -151,8 +151,13 @@ function Goal(spec) {
       ctx.textBaseline = 'middle'
       ctx.font = '1px Roboto Mono' 
       ctx.scale(0.7, 0.7)
+      
+      if (dynamic) {
+        ctx.translate(0, -size/2-0.25)
+        ctx.rotate(transform.rotation)
+      }
+      
       ctx.fillText(order, 0, 0.25)
-    // ctx.fillText(levelDatum.name, 0, radius)
       ctx.restore()
     }
   }

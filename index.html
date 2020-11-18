@@ -10,15 +10,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
     
     <link href='App/style.css' rel='stylesheet' type='text/css'/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
   </head>
   <body>
+    <img src='Assets/Images/error.png' style='display: none;' id='error-sprite'/>
     
-    <div class='bubblets'>
-      
-    </div>
+    <div class='bubblets'></div>
     
     <canvas id='canvas'></canvas>
     
+    <div class='variables floating bar' id='variables-bar' hide=false>
+      <div class='string' id='time-string'>T=0</div>
+    </div>
+      
     <div class='menu bar' id='menu-bar' hide=false>
       <div class='button' id='edit-button' hide=true>
         <div class='string'>Edit</div>
@@ -56,6 +60,10 @@
     </div>
     
     <div class='victory bar' id='victory-bar' hide=true>
+      <div class='button' id='victory-stop-button'>
+        <div class='string'>STOP</div>
+      </div>
+      
       <div class='label' id='victory-label'>
         <div class='string'>Victory!</div>
       </div>
@@ -71,11 +79,16 @@
       </div>
     </div>
     
-    <div class='veil' id='veil' hide=false>
+    <div class='veil' id='veil' hide=true>
       
     </div>
     
+    <div class='loading veil' id='loading-veil' hide=false>
+      <div class='string' id='loading-string'></div>
+    </div>
+    
     <!-- Load External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjs/7.3.0/math.min.js'></script>
     
@@ -91,6 +104,7 @@
     <script src='Types/Structs/Color.js'></script>
     
     <!-- Load Basic Types -->
+    <script src='Types/Assets.js'></script>
     <script src='Types/Engine.js'></script>
     <script src='Types/Sampler.js'></script>
     <script src='Types/Transform.js'></script>

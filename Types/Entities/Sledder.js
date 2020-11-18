@@ -1,7 +1,8 @@
 function Sledder(spec = {}) {
   const {
     self,
-    screen
+    screen,
+    assets
   } = Entity(spec, 'Sledder')
   
   const transform = Transform(spec)
@@ -11,7 +12,8 @@ function Sledder(spec = {}) {
   })
   
   let {
-    skin = 'Assets/nicky_sledders.png',
+    asset = 'images.sledder_0',
+    image,
     size = 1,
     globalScope,
     camera,
@@ -22,9 +24,6 @@ function Sledder(spec = {}) {
   const ctx = screen.ctx
   
   const velocity = [0, 0]
-  
-  const image = new Image()
-  image.src = skin
   
   const slopeTangent = Vector2()
   
@@ -39,6 +38,18 @@ function Sledder(spec = {}) {
     Vector2(0.5, 0),
   ]
   
+  if (asset) {
+    image = _.get(assets, asset, $('#error-sprite'))
+    console.log(`Sledder loaded asset ${asset}:`, image)
+  }
+  
+  // const sprite = Sprite({
+  //   parent: self,
+  //   asset,
+  //   image,
+  //   size,
+  // })
+  
   reset()
   
   function tick() {
@@ -46,7 +57,7 @@ function Sledder(spec = {}) {
   }
   
   function drawLocal() {
-    ctx.drawImage(image, -0.5, -1, size, size)
+    ctx.drawImage(image, -size/2, -size, size, size)
   }
   
   function draw() {

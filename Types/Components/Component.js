@@ -13,12 +13,12 @@ function Component(spec, defaultName) {
     
   // Called when the component and its entity are beginning initialization
   function awake() {
-    console.log(`Awakening ${entity.name}:${name}`)
+    // console.log(`Awakening ${entity.name}:${name}`)
   }
   
   // Called when the component and its entity are fully initialized
   function start() {
-    console.log(`Starting ${entity.name}:${name}`)
+    // console.log(`Starting ${entity.name}:${name}`)
   }
   
   // Called every frame at a fixed timestep
