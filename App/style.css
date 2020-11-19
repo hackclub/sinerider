@@ -229,6 +229,10 @@ canvas {
   bottom: -80px;
 }
 
+#time-string {
+  color: #f48;
+}
+
 .background {
   position: absolute;
   

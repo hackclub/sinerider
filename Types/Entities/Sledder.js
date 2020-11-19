@@ -12,9 +12,9 @@ function Sledder(spec = {}) {
   })
   
   let {
-    asset = 'images.sledder_0',
+    asset = 'images.lunchbox_sam_sled',
     image,
-    size = 1,
+    size = 2,
     globalScope,
     camera,
     graph,

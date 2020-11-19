@@ -23,8 +23,8 @@ function Assets(spec) {
     
     const extensions = _.tail(file.split('.'))
     const extension = extensions[0]
-    const name = file.split('.')[0]
-    const path = 'Assets/'+folders.map(v => v.charAt(0).toUpperCase()+v.slice(1)).join('/')+'/'+file
+    const name = file.split('.')[0] || key
+    const path = 'Assets/'+folders.map(v => v.charAt(0).toUpperCase()+v.slice(1)).join('/')+'/'+name+'.'+extension
     
     const isImage = _.includes(imageExtensions, extension)
     const isSound = _.includes(soundExtensions, extension)

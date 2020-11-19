@@ -5,12 +5,13 @@ worldData.push({
   name: 'Eden',
   assets: {
     images: {
-      sledder_0: 'nicky_sledders.png',
-      sledder_1: 'nicky_sledders.png',
-      tree_1: 'tree_1.png',
-      cabin_1: 'cabin_1.png',
-      cabin_1_front: 'cabin_1_front.png',
-      world_map: 'map.svg',
+      lunchbox_sam_sled: '.svg',
+      lunchbox_sled: '.svg',
+      sam_sled: '.svg',
+      tree_1: '.png',
+      cabin_1: '.png',
+      cabin_1_front: '.png',
+      world_map: '.svg',
     },
     sounds: {
       music: {
@@ -34,44 +35,45 @@ worldData.push({
       // },
       {
         type: 'dynamic',
-        x: 6,
+        x: 8,
         y: 0
       },
     ],
     sledders: [{
+      asset: 'images.lunchbox_sled',
       drawOrder: -2
     }],
     sprites: [{
       asset: 'images.cabin_1',
-      size: 4,
-      x: 0,
+      size: 5,
+      x: 1,
       y: -0.2,
       drawOrder: -3,
     },{
       asset: 'images.cabin_1_front',
-      size: 4,
-      x: 0,
+      size: 5,
+      x: 1,
       y: -0.2,
       drawOrder: -1,
     },{
       asset: 'images.tree_1',
-      size: 4,
-      x: 4,
+      size: 5,
+      x: 6,
       y: -0.1,
       drawOrder: -3,
     }],
     texts: [{
-      x: 3,
+      x: 4,
       y: -2,
-      size: 0.5,
+      size: 0.75,
       content: 'Click Go / Hit Enter'
     },{
-      x: 27,
+      x: 24,
       y: 2,
       size: 4,
       content: 'SineRider'
     },{
-      x: 17,
+      x: 16,
       y: -17,
       size: 1.5,
       content: 'A game about graphing, inspired by'
@@ -108,7 +110,10 @@ worldData.push({
       
     }],
     texts: [{
-      
+      x: 0,
+      y: -5,
+      size: 0.5,
+      content: 'Try \'Y=x\''
     }],
   },
   {
@@ -589,9 +594,11 @@ worldData.push({
       },
     ],
     sledders: [{
+      asset: 'images.sam_sled',
       x: 0,
       y: 0
     },{
+      asset: 'images.lunchbox_sled',
       x: TAU,
       y: 0
     }],
@@ -647,9 +654,11 @@ worldData.push({
       },
     ],
     sledders: [{
+      asset: 'images.sam_sled',
       x: 0,
       y: 0
     },{
+      asset: 'images.lunchbox_sled',
       x: TAU,
       y: 0
     }],
@@ -669,9 +678,11 @@ worldData.push({
       },
     ],
     sledders: [{
+      asset: 'images.sam_sled',
       x: 0,
       y: 0
     },{
+      asset: 'images.lunchbox_sled',
       x: TAU,
       y: 0
     }],
@@ -727,9 +738,11 @@ worldData.push({
       },
     ],
     sledders: [{
+      asset: 'images.sam_sled',
       x: 0,
       y: 0
     },{
+      asset: 'images.lunchbox_sled',
       x: TAU,
       y: 0
     }],
@@ -785,9 +798,11 @@ worldData.push({
       },
     ],
     sledders: [{
+      asset: 'images.sam_sled',
       x: 0,
       y: 0
     },{
+      asset: 'images.lunchbox_sled',
       x: TAU,
       y: 0
     }],
@@ -813,9 +828,11 @@ worldData.push({
       }),
     ],
     sledders: [{
+      asset: 'images.sam_sled',
       x: 0,
       y: 0
     },{
+      asset: 'images.lunchbox_sled',
       x: TAU,
       y: 0
     }],
@@ -835,6 +852,7 @@ worldData.push({
       },
     ],
     sledders: [{
+      asset: 'images.sam_sled',
       x: 0,
       y: 0
     }],
@@ -880,9 +898,11 @@ worldData.push({
       },
     ],
     sledders: [{
+      asset: 'images.sam_sled',
       x: 1,
       y: 0
     },{
+      asset: 'images.lunchbox_sled',
       x: 3,
       y: 0
     }],
