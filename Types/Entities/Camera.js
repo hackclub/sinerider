@@ -83,7 +83,7 @@ function Camera(spec) {
     else
       output = point
     
-    screen.screenToFrameDirection(output)
+    screen.screenToFrame(output)
     transform.transformPoint(output)
     
     if (localTransform)
