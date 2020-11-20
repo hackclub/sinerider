@@ -36,10 +36,7 @@ function Navigator(spec) {
   const bubbles = _.map(levelData, createBubble)
   
   function tick() {
-    console.log('SCREEN ZERO: ', camera.screenToWorld(Vector2(0, 0)).toString())
-    console.log('SCREEN ONE: ', camera.screenToWorld(Vector2(screen.width, screen.height)).toString())
-    console.log('WORLD ZERO: ', camera.worldToScreen(Vector2(0, 0)).toString())
-    console.log('WORLD ONE: ', camera.worldToScreen(Vector2(1, 1)).toString())
+    
   }
   
   function draw() {
