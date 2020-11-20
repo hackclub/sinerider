@@ -14,6 +14,7 @@ function Speech(spec) {
     align = 'center',
     color = '#222',
     size = 16,
+    lineLength = 0.5,
   } = spec
   
   const transform = Transform(spec, self)
@@ -40,13 +41,13 @@ function Speech(spec) {
   }
   textDirection.normalize()
   
-  const lineOrigin = textDirection.multiply(0.2, Vector2())
+  const lineOrigin = textDirection.multiply(0.1, Vector2())
   const lineOriginScreen = Vector2()
   
-  const lineTerminus = textDirection.multiply(0.8, Vector2())
+  const lineTerminus = textDirection.multiply(lineLength, Vector2())
   const lineTerminusScreen = Vector2()
   
-  const textOrigin = Vector2(textDirection)
+  const textOrigin = Vector2(textDirection).multiply(lineLength)
   const textOriginScreen = Vector2()
   
   function tick() {
@@ -60,13 +61,13 @@ function Speech(spec) {
     camera.worldToScreen(lineOrigin, lineOriginScreen, transform)
     
     lineTerminusScreen.set(lineTerminus)
-    lineTerminusScreen.y *= -1
+    // lineTerminusScreen.y *= -1
     lineTerminusScreen.multiply(scalar)
     lineTerminusScreen.x += lineOriginScreen.x
     lineTerminusScreen.y += lineOriginScreen.y
     
     ctx.strokeStyle = color
-    ctx.lineWidth = scalar/10
+    ctx.lineWidth = scalar/15
     ctx.lineCap = 'round'
     
     ctx.beginPath()

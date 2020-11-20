@@ -82,7 +82,7 @@ worldData.push({
       content: 'Click Go / Hit Enter'
     },{
       x: 24,
-      y: 2,
+      y: 5,
       size: 4,
       content: 'SineRider'
     },{
