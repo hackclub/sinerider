@@ -62,22 +62,72 @@ function Camera(spec) {
     return transform.transformDirection(direction, output)
   }
   
-  function worldToScreen(point, output) {
-    const framePoint = transform.invertPoint(point, output)
-    return screen.frameToScreen(framePoint)
+  function worldToScreen(point, output, localTransform) {
+    if (output)
+      output.set(point)
+    else
+      output = point
+      
+    if (localTransform)
+      localTransform.transformPoint(output)
+    
+    transform.invertPoint(output)
+    screen.frameToScreen(output)
+    
+    return output
   }
   
-  function screenToWorld(point, output) {
-    const framePoint = screen.screenToFrame(point, output)
-    return transform.transformPoint(framePoint)
+  function screenToWorld(point, output, localTransform) {
+    if (output)
+      output.set(point)
+    else
+      output = point
+    
+    screen.screenToFrameDirection(output)
+    transform.transformPoint(output)
+    
+    if (localTransform)
+      localTransform.invertPoint(output)
+    
+    return output
   }
   
-  function worldToScreenScalar(scalar) {
+  function worldToScreenDirection(input, output, localTransform) {
+    if (output)
+      output.set(input)
+    else
+      output = input
+      
+    if (localTransform)
+      localTransform.transformDirection(output)
+    
+    transform.invertDirection(output)
+    screen.frameToScreenDirection(output)
+    
+    return output
+  }
+  
+  function screenToWorldDirection(input, output, localTransform) {
+    if (output)
+      output.set(input)
+    else
+      output = input
+    
+    screen.screenToFrameDirection(output)
+    transform.transformDirection(output)
+    
+    if (localTransform)
+      localTransform.invertDirection(output)
+    
+    return output
+  }
+  
+  function worldToScreenScalar(scalar=1) {
     const frameScalar = transform.invertScalar(scalar)
     return screen.transform.transformScalar(frameScalar)
   }
   
-  function screenToWorldScalar(scalar) {
+  function screenToWorldScalar(scalar=1) {
     const frameScalar = screen.transform.invertScalar(scalar)
     return transform.transformScalar(frameScalar)
   }

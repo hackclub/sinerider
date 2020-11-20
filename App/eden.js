@@ -8,6 +8,7 @@ worldData.push({
       lunchbox_sam_sled: '.svg',
       lunchbox_sled: '.svg',
       sam_sled: '.svg',
+      sam_stand_snowball: '.svg',
       tree_1: '.png',
       cabin_1: '.png',
       cabin_1_front: '.png',
@@ -41,26 +42,38 @@ worldData.push({
     ],
     sledders: [{
       asset: 'images.lunchbox_sled',
-      drawOrder: -2
+      drawOrder: -2,
+      // speech: [{
+      //   direction: 'right',
+      //   content: 'coming, sam!'
+      // }],
     }],
     sprites: [{
       asset: 'images.cabin_1',
-      size: 5,
+      size: 6,
       x: 1,
       y: -0.2,
       drawOrder: -3,
     },{
       asset: 'images.cabin_1_front',
-      size: 5,
+      size: 6,
       x: 1,
       y: -0.2,
       drawOrder: -1,
     },{
       asset: 'images.tree_1',
-      size: 5,
+      size: 8,
       x: 6,
-      y: -0.1,
+      y: -0.05,
       drawOrder: -3,
+    },{
+      asset: 'images.sam_stand_snowball',
+      size: 2,
+      x: 8.8,
+      y: 0,
+      drawOrder: 0,
+      sloped: true,
+      speech: 'Lunchbox, get the sled!!'
     }],
     texts: [{
       x: 4,
@@ -76,12 +89,12 @@ worldData.push({
       x: 16,
       y: -17,
       size: 1.5,
-      content: 'A game about graphing, inspired by'
+      content: 'A game about love and graphing, inspired'
     },{
       x: 19,
       y: -19,
       size: 1.5,
-      content: 'many hours with a TI-84 calculator.'
+      content: 'by many hours with a TI-84 calculator.'
     }],
   },
   {

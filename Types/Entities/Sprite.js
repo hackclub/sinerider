@@ -6,7 +6,7 @@ function Sprite(spec = {}) {
     assets,
   } = Entity(spec, 'Sprite')
   
-  const transform = Transform(spec)
+  const transform = Transform(spec, self)
   
   let {
     asset,
@@ -16,9 +16,17 @@ function Sprite(spec = {}) {
     globalScope,
     anchored = false,
     sloped = false,
-    x: originX = 0,
-    y: offsetY = 0,
+    offset = Vector2(),
+    speech,
   } = spec
+  
+  const origin = Vector2(spec)
+  
+  if (!spec.offset && anchored)
+    offset.y = 1
+    
+  if (!spec.offset && spec.y && anchored)
+    offset.y += spec.y
   
   const ctx = screen.ctx
   
@@ -29,9 +37,26 @@ function Sprite(spec = {}) {
     console.log(`Sprite loaded asset ${asset}:`, image)
   }
   
+  if (speech) {
+    if (!_.isArray(speech))
+      speech = [speech]
+      
+    for (s of speech) {
+      if (_.isString(s))
+        s = {content: s}
+        
+      Speech({
+        parent: self,
+        x: size/2*offset.x,
+        y: size/2*offset.y,
+        ...s,
+      })
+    }
+  }
+  
   function tick() {
     if (anchored) {
-      transform.x = originX
+      transform.x = origin.x
       transform.y = graph.sample('x', transform.x)
     }
     
@@ -46,7 +71,7 @@ function Sprite(spec = {}) {
   }
   
   function drawLocal() {
-    ctx.drawImage(image, -size/2, -size-offsetY, size, size)
+    ctx.drawImage(image, -size/2+offset.x*size/2, -size/2-offset.y*size/2, size, size)
   }
   
   function draw() {

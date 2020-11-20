@@ -5,7 +5,7 @@ function Sledder(spec = {}) {
     assets
   } = Entity(spec, 'Sledder')
   
-  const transform = Transform(spec)
+  const transform = Transform(spec, self)
   const rigidbody = Rigidbody({
     ...spec,
     transform,
@@ -13,11 +13,11 @@ function Sledder(spec = {}) {
   
   let {
     asset = 'images.lunchbox_sam_sled',
-    image,
     size = 2,
     globalScope,
     camera,
     graph,
+    speech,
     x: originX = 0
   } = spec
   
@@ -38,17 +38,13 @@ function Sledder(spec = {}) {
     Vector2(0.5, 0),
   ]
   
-  if (asset) {
-    image = _.get(assets, asset, $('#error-sprite'))
-    console.log(`Sledder loaded asset ${asset}:`, image)
-  }
-  
-  // const sprite = Sprite({
-  //   parent: self,
-  //   asset,
-  //   image,
-  //   size,
-  // })
+  const sprite = Sprite({
+    asset,
+    size,
+    speech,
+    parent: self,
+    y: 1,
+  })
   
   reset()
   
@@ -56,12 +52,7 @@ function Sledder(spec = {}) {
     rigidbody.tick()
   }
   
-  function drawLocal() {
-    ctx.drawImage(image, -size/2, -size, size, size)
-  }
-  
   function draw() {
-    camera.drawThrough(ctx, drawLocal, transform)
     // rigidbody.draw(ctx)
   }
   
