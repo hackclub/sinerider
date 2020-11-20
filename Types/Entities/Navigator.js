@@ -26,7 +26,7 @@ function Navigator(spec) {
     anchored: false,
     size: 175,
     x: 70,
-    y: -46.5,
+    y: -6,
     asset: 'images.world_map',
   })
   
