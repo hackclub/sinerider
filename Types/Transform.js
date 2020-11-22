@@ -14,15 +14,24 @@ function Transform(spec={}, entity=null) {
   const rotator = Vector2(Math.cos(rotation), Math.sin(rotation))
   const inverseRotator = Vector2(Math.cos(-rotation), Math.sin(-rotation))
   
-  function tryApplyParent(path, ...args) {
+  function getParent() {
     if (!entity)
-      return false
+      return null
     if (!entity.parent)
-      return false
+      return null
     if (!entity.parent.transform)
+      return null
+    
+    return entity.parent.transform
+  }
+  
+  function tryApplyParent(path, ...args) {
+    let parent = getParent()
+    
+    if (!parent)
       return false
     
-    entity.parent.transform[path].apply(entity.parent.transform, args)
+    parent[path].apply(parent, args)
     
     return true
   }
@@ -114,6 +123,8 @@ function Transform(spec={}, entity=null) {
   }
   
   return {
+    getParent,
+    
     transformPoint,
     invertPoint,
     
@@ -143,5 +154,17 @@ function Transform(spec={}, entity=null) {
     
     get rotation() {return rotation},
     set rotation(v) {setRotation(v)},
+    
+    get parent() {return getParent()},
+    
+    get worldRotation() {
+      let p = getParent()
+      return (p ? p.worldRotation : 0)+rotation
+    },
+    
+    get parentWorldRotation() {
+      let p = getParent()
+      return p ? p.worldRotation : 0
+    },
   }
 }

@@ -140,6 +140,8 @@ canvas {
 
 .victory[hide=true] {
   bottom: -80px;
+  /*bottom: 110vh;*/
+  /*display: none;*/
 }
 
 .message[hide=true] {
@@ -156,6 +158,8 @@ canvas {
 
 .controls[hide=true] {
   bottom: -60px;
+  /*bottom: 110vh;*/
+  /*display: none;*/
 }
 
 .navigator {

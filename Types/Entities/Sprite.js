@@ -34,7 +34,6 @@ function Sprite(spec = {}) {
   
   if (asset) {
     image = _.get(assets, asset, $('#error-sprite'))
-    console.log(`Sprite loaded asset ${asset}:`, image)
   }
   
   if (speech) {

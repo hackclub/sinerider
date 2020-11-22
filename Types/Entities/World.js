@@ -177,6 +177,7 @@ function World(spec) {
   function startRunning() {
     running = true
     
+    ui.expressionText.blur()
     ui.expressionText.disabled = true
     ui.menuBar.setAttribute('hide', true)
     ui.variablesBar.setAttribute('hide', false)
@@ -194,14 +195,20 @@ function World(spec) {
     runTime = 0
     running = false
     
+    ui.expressionText.blur()
     ui.expressionText.disabled = false
     ui.menuBar.setAttribute('hide', false)
     ui.victoryBar.setAttribute('hide', true)
     ui.variablesBar.setAttribute('hide', true)
     
-    ui.controlBar.setAttribute('hide', false)
+    ui.controlBar.setAttribute('hide', navigating)
     ui.runButton.setAttribute('hide', false)
     ui.stopButton.setAttribute('hide', true)
+    
+    if (!navigating) {
+      // Timed to avoid bug in Safari (at least) that causes whole page to be permanently offset when off-screen text input is focused
+      setTimeout(() => ui.expressionText.focus(), 100)
+    }
     
     self.sendEvent('stopRunning', [])
     self.sendEvent('stopRunningLate', [])

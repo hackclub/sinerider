@@ -13,10 +13,11 @@ function Level(spec) {
   } = spec
   
   let {
-    colors = Colors.biomes.basic,
+    colors = Colors.biomes.alps,
     defaultExpression,
     openMusic,
     runMusic,
+    padding = 3,
   } = datum
   
   const sledders = []
@@ -39,7 +40,7 @@ function Level(spec) {
     parent: self,
     controllers: [
       // CameraDragger,
-      CameraTracker, {trackedEntities},
+      CameraTracker, {trackedEntities, minFovMargin: padding},
       CameraWaypointer,
     ]
   })

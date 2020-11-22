@@ -24,9 +24,9 @@ function Navigator(spec) {
     camera,
     drawOrder: -3,
     anchored: false,
-    size: 180,
+    size: 178,
     x: 70,
-    y: -5,
+    y: -5.5,
     asset: 'images.world_map',
   })
   

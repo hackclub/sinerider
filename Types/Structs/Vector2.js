@@ -189,6 +189,19 @@ function Vector2() {
     return output
   }
   
+  function perturb(radius=1, output) {
+    if (!output) output = this
+
+    const a = Math.random()*TAU
+    const c = Math.cos(a)*radius
+    const s = Math.sin(a)*radius
+    
+    output.x += c
+    output.y += s
+    
+    return output
+  }
+  
   function normalize(output) {
     if (!output) output = this
 
@@ -235,6 +248,7 @@ function Vector2() {
     dot,
     lerp,
     rotate,
+    perturb,
     
     normalize,
     orthogonalize,

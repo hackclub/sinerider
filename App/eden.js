@@ -73,7 +73,15 @@ worldData.push({
       y: 0,
       drawOrder: 0,
       sloped: true,
-      speech: 'Lunchbox, get the sled!!'
+      speech: {
+        x: -0.1,
+        y: 1.5,
+        content: 'Get the sled, Lunchbox!!',
+        speech: {
+          content: 'It snowed!',
+          x: 0.8,
+        }
+      }
     }],
     texts: [{
       x: 4,
@@ -86,15 +94,10 @@ worldData.push({
       size: 4,
       content: 'SineRider'
     },{
-      x: 16,
-      y: -17,
-      size: 1.5,
-      content: 'A game about love and graphing, inspired'
-    },{
-      x: 19,
+      x: 18,
       y: -19,
-      size: 1.5,
-      content: 'by many hours with a TI-84 calculator.'
+      size: 2,
+      content: 'A game about love and graphing'
     }],
   },
   {
@@ -103,6 +106,7 @@ worldData.push({
     colors: Colors.biomes.alps,
     x: 10,
     y: 0,
+    padding: 4,
     requirements: null,
     defaultExpression: '0',
     goals: [
@@ -120,12 +124,22 @@ worldData.push({
       }
     ],
     sledders: [{
-      
+      speech: [{
+        speakerX: -0.4,
+        content: 'Ready to go?',
+        direction: 'up-up-left',
+        distance: 1.5,
+      },{
+        speakerX: 0.3,
+        content: 'Let’s do it!',
+        direction: 'right-up',
+        distance: 1,
+      }]
     }],
     texts: [{
       x: 0,
-      y: -5,
-      size: 0.5,
+      y: -6.5,
+      size: 1,
       content: 'Try \'Y=x\''
     }],
   },
@@ -135,6 +149,7 @@ worldData.push({
     colors: Colors.biomes.alps,
     x: 10,
     y: 0,
+    padding: 4,
     requirements: null,
     defaultExpression: '+x',
     goals: [
@@ -152,7 +167,17 @@ worldData.push({
       }
     ],
     sledders: [{
-      
+      speech: [{
+        speakerX: -0.4,
+        content: '…forward this time?',
+        direction: 'up-up-left',
+        distance: 1.5,
+      },{
+        speakerX: 0.3,
+        content: 'Wuss.',
+        direction: 'up-right',
+        distance: 1,
+      }]
     }],
   },
   {
@@ -161,6 +186,7 @@ worldData.push({
     colors: Colors.biomes.alps,
     x: 10,
     y: -10,
+    padding: 5,
     requirements: null,
     defaultExpression: '-x*1',
     goals: [
@@ -178,7 +204,21 @@ worldData.push({
       }
     ],
     sledders: [{
-      
+      speech: [{
+        speakerX: -0.4,
+        content: 'Wuss!',
+        direction: 'up-up-left',
+        distance: 1.3,
+      },{
+        speakerX: 0.3,
+        content: '…shut up.',
+        direction: 'up-right-right',
+        distance: 1,
+        speech: {
+          content: 'This seems dangerous.',
+          distance: 1,
+        }
+      }]
     }],
   },
   {
@@ -204,7 +244,22 @@ worldData.push({
       }
     ],
     sledders: [{
-      
+      speech: [{
+        speakerX: -0.4,
+        content: 'I wonder if there’s a connection there.',
+        direction: 'up-up-left',
+        distance: 1.2,
+        speech: {
+          content: 'And definitely less fun.',
+          direction: 'up',
+          distance: 0.8,
+          speech: {
+            content: 'This one’s definitely safer.',
+            direction: 'up-up-left',
+            distance: 0.8,
+          }
+        }
+      }]
     }],
   },
   {
@@ -230,7 +285,21 @@ worldData.push({
       },
     ],
     sledders: [{
-      
+      speech: [{
+        speakerX: -0.4,
+        content: '…sorry.',
+        direction: 'up-left',
+        distance: 1,
+        speech: {
+          content: 'Things seem better today!',
+          distance: 1,
+        }
+      },{
+        speakerX: 0.3,
+        content: 'Can we not talk about it?',
+        direction: 'right-up',
+        distance: 1.3,
+      }]
     }],
   },
   {
@@ -256,7 +325,17 @@ worldData.push({
       }
     ],
     sledders: [{
-      
+      speech: [{
+        speakerX: -0.4,
+        content: 'I love you.',
+        direction: 'up',
+        distance: 1.5,
+      },{
+        speakerX: 0.4,
+        content: 'I love you too, Sam.',
+        direction: 'right-up',
+        distance: 0.75,
+      }]
     }],
   },
   {
@@ -289,7 +368,7 @@ worldData.push({
       }
     ],
     sledders: [{
-      
+      asset: 'images.lunchbox_sled',
     }],
   },
   {
