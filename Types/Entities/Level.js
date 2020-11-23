@@ -17,32 +17,45 @@ function Level(spec) {
     defaultExpression,
     openMusic,
     runMusic,
-    padding = 3,
+    camera = {
+      type: 'track',
+      padding: 3
+    },
   } = datum
   
   const sledders = []
   const goals = []
   const texts = []
   const sprites = []
+  const speech = []
   
   let lowestOrder = 'A'
   let highestOrder = 'A'
   
-  const trackedEntities = [sledders, goals]
+  const trackedEntities = [speech, sledders, goals]
   
   openMusic = _.get(assets, openMusic, null)
   runMusic = _.get(assets, runMusic, null)
   
   let hasBeenRun = false
   
-  const camera = Camera({
+  let cameraSpec
+  if (camera.type == 'track' || true) {
+    cameraSpec = {
+      controllers: [
+        CameraTracker, {trackedEntities, minFovMargin: camera.padding || 3},
+        CameraWaypointer,
+      ]
+    }
+  }
+  else {
+    cameraSpec = camera
+  }
+  
+  camera = Camera({
     globalScope,
     parent: self,
-    controllers: [
-      // CameraDragger,
-      CameraTracker, {trackedEntities, minFovMargin: padding},
-      CameraWaypointer,
-    ]
+    ...cameraSpec,
   })
   
   const axes = Axes({
@@ -88,10 +101,12 @@ function Level(spec) {
   function tick() {
     let time = (Math.round(globalScope.t*10)/10).toString()
     
-    if (!_.includes(time, '.'))
+    if (globalScope.running && !_.includes(time, '.'))
       time += '.0'
     
-    ui.timeString.innerHTML = 'T='+time
+    // ui.timeString.innerHTML = 'T='+time
+    ui.runButtonString.innerHTML = 'T='+time
+    ui.stopButtonString.innerHTML = 'T='+time
   }
   
   function draw() {
@@ -100,6 +115,13 @@ function Level(spec) {
     screen.ctx.fillStyle = skyGradient
     screen.ctx.fillRect(0, 0, screen.width, screen.height)
     screen.ctx.restore()
+  }
+  
+  function trackDescendants(entity, array=trackedEntities) {
+    _.each(entity.children, v => {
+      array.push(v)
+      trackDescendants(v, array)
+    })
   }
   
   function addGoal(goalDatum) {
@@ -129,6 +151,8 @@ function Level(spec) {
     })
     
     sledders.push(sledder)
+    
+    trackDescendants(sledder, speech)
   }
   
   function addSprite(spriteDatum) {

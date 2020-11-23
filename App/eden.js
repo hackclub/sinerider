@@ -86,8 +86,8 @@ worldData.push({
     texts: [{
       x: 4,
       y: -2,
-      size: 0.75,
-      content: 'Click Go / Hit Enter'
+      size: 0.7,
+      content: 'hit the green button (or enter)'
     },{
       x: 24,
       y: 5,
@@ -95,9 +95,14 @@ worldData.push({
       content: 'SineRider'
     },{
       x: 18,
+      y: -21,
+      size: 1,
+      content: 'WIP Pre-Alpha. Don’t distribute yet!'
+    },{
+      x: 18,
       y: -19,
       size: 2,
-      content: 'A game about love and graphing'
+      content: 'A game about love and graphing.'
     }],
   },
   {
@@ -106,7 +111,11 @@ worldData.push({
     colors: Colors.biomes.alps,
     x: 10,
     y: 0,
-    padding: 4,
+    camera: {
+      x: -2,
+      y: -2,
+      fov: 7,
+    },
     requirements: null,
     defaultExpression: '0',
     goals: [
@@ -138,9 +147,14 @@ worldData.push({
     }],
     texts: [{
       x: 0,
+      y: -4.5,
+      size: 1,
+      content: 'Y=0: Flat',
+    },{
+      x: 0,
       y: -6.5,
       size: 1,
-      content: 'Try \'Y=x\''
+      content: 'Y=x: Slope',
     }],
   },
   {
@@ -149,7 +163,11 @@ worldData.push({
     colors: Colors.biomes.alps,
     x: 10,
     y: 0,
-    padding: 4,
+    camera: {
+      x: 2,
+      y: -2,
+      fov: 7,
+    },
     requirements: null,
     defaultExpression: '+x',
     goals: [
@@ -169,8 +187,8 @@ worldData.push({
     sledders: [{
       speech: [{
         speakerX: -0.4,
-        content: '…forward this time?',
-        direction: 'up-up-left',
+        content: '…forward this time? Please?',
+        direction: 'up',
         distance: 1.5,
       },{
         speakerX: 0.3,
@@ -179,6 +197,12 @@ worldData.push({
         distance: 1,
       }]
     }],
+    texts: [{
+      x: 1,
+      y: -6.5,
+      size: 0.8,
+      content: 'Go negative'
+    }],
   },
   {
     name: 'A real steep hill',
@@ -186,7 +210,11 @@ worldData.push({
     colors: Colors.biomes.alps,
     x: 10,
     y: -10,
-    padding: 5,
+    camera: {
+      x: 2,
+      y: -5.5,
+      fov: 11,
+    },
     requirements: null,
     defaultExpression: '-x*1',
     goals: [
@@ -220,6 +248,12 @@ worldData.push({
         }
       }]
     }],
+    texts: [{
+      x: -4,
+      y: -8,
+      size: 1,
+      content: 'Multiply by 2',
+    }],
   },
   {
     name: 'The bunny slope',
@@ -227,6 +261,11 @@ worldData.push({
     colors: Colors.biomes.alps,
     x: 10,
     y: 0,
+    camera: {
+      x: 2,
+      y: 0,
+      fov: 7,
+    },
     requirements: null,
     defaultExpression: '-x/1',
     goals: [
@@ -246,28 +285,39 @@ worldData.push({
     sledders: [{
       speech: [{
         speakerX: -0.4,
-        content: 'I wonder if there’s a connection there.',
-        direction: 'up-up-left',
-        distance: 1.2,
+        content: 'But also definitely less fun.',
+        direction: 'up',
+        distance: 1.5,
         speech: {
-          content: 'And definitely less fun.',
-          direction: 'up',
+          content: 'This is definitely safer.',
+          direction: 'up-up-left',
           distance: 0.8,
-          speech: {
-            content: 'This one’s definitely safer.',
-            direction: 'up-up-left',
-            distance: 0.8,
-          }
         }
+      },{
+        speakerX: 0.3,
+        content: 'There’s probably a connection there.',
+        direction: 'right-up',
+        distance: 0.8,
       }]
+    }],
+    texts: [{
+      x: 0,
+      y: -4,
+      size: 0.8,
+      content: 'Try dividing'
     }],
   },
   {
-    name: 'Let\'s go farther up!',
+    name: 'Moving up in the world',
     nick: 'SLOPE_HIGHER',
     colors: Colors.biomes.alps,
     x: 10,
     y: 10,
+    camera: {
+      x: 5,
+      y: 2,
+      fov: 9,
+    },
     requirements: ['SLOPE_NEGATIVE'],
     defaultExpression: '-x+0',
     goals: [
@@ -297,9 +347,15 @@ worldData.push({
       },{
         speakerX: 0.3,
         content: 'Can we not talk about it?',
-        direction: 'right-up',
+        direction: 'right-up-up',
         distance: 1.3,
       }]
+    }],
+    texts: [{
+      x: -1,
+      y: -4,
+      size: 1,
+      content: 'Add a constant',
     }],
   },
   {
@@ -308,6 +364,11 @@ worldData.push({
     colors: Colors.biomes.alps,
     x: 10,
     y: 0,
+    camera: {
+      x: 2,
+      y: -4,
+      fov: 11,
+    },
     requirements: null,
     defaultExpression: '-x+2',
     goals: [
@@ -337,6 +398,12 @@ worldData.push({
         distance: 0.75,
       }]
     }],
+    texts: [{
+      x: 0,
+      y: -8,
+      size: 1,
+      content: 'Now subtract',
+    }],
   },
   {
     name: 'We\'re at the bottom',
@@ -344,6 +411,11 @@ worldData.push({
     colors: Colors.biomes.alps,
     x: 10,
     y: -10,
+    camera: {
+      x: 10,
+      y: -5,
+      fov: 12,
+    },
     requirements: [
       'SLOPE_LOWER',
       'SLOPE_SHALLOWER',
@@ -370,6 +442,12 @@ worldData.push({
     sledders: [{
       asset: 'images.lunchbox_sled',
     }],
+    texts: [{
+      x: 10.5,
+      y: -14,
+      size: 2,
+      content: 'Put it all together',
+    }],
   },
   {
     name: 'Way too steep for us.',
@@ -377,6 +455,11 @@ worldData.push({
     colors: Colors.biomes.champlain,
     x: 10,
     y: 10,
+    camera: {
+      x: 0,
+      y: 0,
+      fov: 8,
+    },
     requirements: ['SLOPE_SCALE_TRANSLATE'],
     defaultExpression: '-x^2',
     goals: [
@@ -402,8 +485,15 @@ worldData.push({
       },
     ],
     sledders: [{
+      asset: 'images.sam_sled',
       x: -2,
-      y: 0
+      y: 0,
+      speech: [{
+        speakerX: 0.3,
+        content: 'Be positive.',
+        direction: 'up',
+        distance: 1,
+      }],
     }],
   },
   {
@@ -412,8 +502,13 @@ worldData.push({
     colors: Colors.biomes.champlain,
     x: 10,
     y: -10,
+    camera: {
+      x: 0,
+      y: 0,
+      fov: 8,
+    },
     requirements: ['PARABOLA_NEGATE'],
-    defaultExpression: 'x^2+1',
+    defaultExpression: '(x^2)-1',
     goals: [
       {
         x: -1.5,
@@ -437,8 +532,15 @@ worldData.push({
       },
     ],
     sledders: [{
+      asset: 'images.sam_sled',
       x: -2,
       y: 0
+    }],
+    texts: [{
+      x: 0,
+      y: -4.25,
+      size: 0.5,
+      content: 'Subtract from (everything)',
     }],
   },
   {
@@ -447,8 +549,13 @@ worldData.push({
     colors: Colors.biomes.champlain,
     x: 10,
     y: 10,
+    camera: {
+      x: -2,
+      y: 5,
+      fov: 8,
+    },
     requirements: null,
-    defaultExpression: '(x-4)^2',
+    defaultExpression: '(x-2)^2',
     goals: [
       {
         x: -4.5,
@@ -472,8 +579,15 @@ worldData.push({
       },
     ],
     sledders: [{
+      asset: 'images.sam_sled',
       x: -1,
       y: 0
+    }],
+    texts: [{
+      x: -6,
+      y: 4,
+      size: 0.8,
+      content: 'Add to (x)',
     }],
   },
   {
@@ -482,8 +596,13 @@ worldData.push({
     colors: Colors.biomes.champlain,
     x: 10,
     y: 10,
+    camera: {
+      x: -2,
+      y: 0,
+      fov: 8,
+    },
     requirements: null,
-    defaultExpression: '(x-3)^2+2',
+    defaultExpression: '(x-1)^2+2',
     goals: [
       {
         x: -4.5,
@@ -507,8 +626,15 @@ worldData.push({
       },
     ],
     sledders: [{
+      asset: 'images.sam_sled',
       x: -1,
       y: 0
+    }],
+    texts: [{
+      x: 0,
+      y: -2,
+      size: 1,
+      content: 'Now try both',
     }],
   },
   {
@@ -542,6 +668,7 @@ worldData.push({
       },
     ],
     sledders: [{
+      asset: 'images.sam_sled',
       x: -5,
       y: 0
     }],
@@ -577,6 +704,7 @@ worldData.push({
       },
     ],
     sledders: [{
+      asset: 'images.sam_sled',
       x: -5,
       y: 0
     }],
@@ -612,6 +740,7 @@ worldData.push({
       },
     ],
     sledders: [{
+      asset: 'images.sam_sled',
       x: 3,
       y: 0
     }],
@@ -647,6 +776,7 @@ worldData.push({
       },
     ],
     sledders: [{
+      asset: 'images.sam_sled',
       x: 2,
       y: 0
     }],
@@ -1126,7 +1256,13 @@ worldData.push({
       }
     ],
     sledders: [{
-      
+      asset: 'images.lunchbox_sled',
+      speech: [{
+        speakerX: 0.3,
+        content: 'Where did she get the other sled?',
+        direction: 'right-right-up',
+        distance: 1,
+      }],
     }],
   },
   {
@@ -1161,7 +1297,7 @@ worldData.push({
     ],
     sledders: [{
       x: -4,
-      y: 0
+      y: 0,
     }],
   },
   {
@@ -1196,7 +1332,16 @@ worldData.push({
     ],
     sledders: [{
       x: 0,
-      y: 0
+      y: 0,
+      speech: [{
+        speakerX: 0.3,
+        content: 'It’s perfect.',
+        direction: 'right-right-up',
+        distance: 1,
+        speech: [{
+          content: 'This place gives me the creeps.'
+        }]
+      }],
     }],
   },
   {

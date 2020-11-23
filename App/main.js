@@ -18,6 +18,9 @@ const ui = {
   
   bubblets: $('.bubblets'),
   
+  topBar: $('#top-bar'),
+  navigatorButton: $('#navigator-button'),
+  
   victoryBar: $('#victory-bar'),
   victoryLabel: $('#victory-label'),
   victoryLabelString: $('#victory-label > .string'),
@@ -33,8 +36,11 @@ const ui = {
   controlBar: $('#controls-bar'),
   expressionText: $('#expression-text'),
   variableLabel: $('#variable-label'),
+  
   runButton: $('#run-button'),
+  runButtonString: $('#run-button > .string'),
   stopButton: $('#stop-button'),
+  stopButtonString: $('#stop-button > .string'),
   
   navigatorFloatingBar: $('#navigator-floating-bar'),
   showAllButton: $('#show-all-button'),
@@ -122,6 +128,7 @@ function onClickLevelButton(event) {
 }
 
 ui.levelButton.addEventListener('click', onClickLevelButton)
+ui.navigatorButton.addEventListener('click', onClickLevelButton)
 
 function onClickNextButton(event) {
   world.nextLevel()

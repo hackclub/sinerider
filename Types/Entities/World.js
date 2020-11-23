@@ -121,13 +121,14 @@ function World(spec) {
     
     ui.controlBar.setAttribute('hide', navigating)
     ui.navigatorFloatingBar.setAttribute('hide', !navigating)
+    // ui.topBar.setAttribute('hide', navigating)
     
     if (navigating) {
       navigator.revealHighlightedLevels(levelDatum.nick)
       navigator.refreshBubbles()
     }
     else {
-      ui.variablesBar.setAttribute('hide', true)
+      // ui.variablesBar.setAttribute('hide', true)
       
       navigator.showAll = false
       if (navigator.showAllUsed)
@@ -141,7 +142,7 @@ function World(spec) {
     ui.victoryBar.setAttribute('hide', false)
     ui.controlBar.setAttribute('hide', true)
     
-    ui.variablesBar.setAttribute('hide', true)
+    // ui.variablesBar.setAttribute('hide', true)
     ui.showAllButton.setAttribute('hide', true)
     
     levelBubble.complete()
@@ -150,7 +151,7 @@ function World(spec) {
   function transitionNavigating(_navigating, duration=1, cb) {
     ui.veil.setAttribute('hide', false)
     setTimeout(() => {
-      // Hack to fix camera flicker
+      // HACK: to fix camera flicker
       setTimeout(() => {
         ui.veil.setAttribute('hide', true)
       }, 100)
@@ -180,10 +181,11 @@ function World(spec) {
     ui.expressionText.blur()
     ui.expressionText.disabled = true
     ui.menuBar.setAttribute('hide', true)
-    ui.variablesBar.setAttribute('hide', false)
+    // ui.variablesBar.setAttribute('hide', false)
     
     ui.runButton.setAttribute('hide', true)
     ui.stopButton.setAttribute('hide', false)
+    ui.topBar.setAttribute('hide', true)
     
     self.sendEvent('startRunning', [])
     self.sendEvent('startRunningLate', [])
@@ -199,15 +201,16 @@ function World(spec) {
     ui.expressionText.disabled = false
     ui.menuBar.setAttribute('hide', false)
     ui.victoryBar.setAttribute('hide', true)
-    ui.variablesBar.setAttribute('hide', true)
+    // ui.variablesBar.setAttribute('hide', true)
     
     ui.controlBar.setAttribute('hide', navigating)
+    ui.topBar.setAttribute('hide', false)
     ui.runButton.setAttribute('hide', false)
     ui.stopButton.setAttribute('hide', true)
     
     if (!navigating) {
-      // Timed to avoid bug in Safari (at least) that causes whole page to be permanently offset when off-screen text input is focused
-      setTimeout(() => ui.expressionText.focus(), 100)
+      // HACK: Timed to avoid bug in Safari (at least) that causes whole page to be permanently offset when off-screen text input is focused
+      setTimeout(() => ui.expressionText.focus(), 250)
     }
     
     self.sendEvent('stopRunning', [])

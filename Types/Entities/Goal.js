@@ -25,9 +25,11 @@ function Goal(spec) {
   const fixed = type == 'fixed'
   const dynamic = type == 'dynamic'
   const anchored = type == 'anchored'
+  const path = type == 'path'
   
   const slopeTangent = Vector2()
   
+  // Currently unnecessary, but may be needed for improved collision hacks
   const pointCloud = !dynamic ? null : [
     Vector2(-0.5, 0),
     Vector2(-0.4, -0.3),

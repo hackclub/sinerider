@@ -4,7 +4,7 @@
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width'>
     
-    <title>SineRider <3</title>
+    <title>SineRider</title>
     
     <link rel="preconnect" href="https://fonts.gstatic.com"> 
     <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Roboto&family=Roboto+Mono&display=swap" rel="stylesheet">
@@ -19,11 +19,17 @@
     
     <canvas id='canvas'></canvas>
     
-    <div class='variables floating bar' id='variables-bar' hide=false>
+    <div class='variables floating bar' id='variables-bar' hide=true>
       <div class='string' id='time-string'>T=0</div>
     </div>
+    
+    <div class='top floating bar' id='top-bar' hide=false>
+      <div class='button' id='navigator-button' hide=false>
+        <div class='string'>⛰</div>
+      </div>
+    </div>
       
-    <div class='menu bar' id='menu-bar' hide=false>
+    <div class='bar menu' id='menu-bar' hide=false>
       <div class='button' id='edit-button' hide=true>
         <div class='string'>Edit</div>
       </div>
@@ -39,7 +45,7 @@
       </div>
     </div>
     
-    <div class='controls bar' id='controls-bar'>
+    <div class='bar controls' id='controls-bar'>
       <div class='label' id='variable-label'>
         <div class='string'>Y=</div>
       </div>
@@ -55,11 +61,11 @@
       </div>
     </div>
     
-    <div class='message bar' id='message-bar' hide=true>
+    <div class='bar message' id='message-bar' hide=true>
       <div class='string'>MESSAGE</div>
     </div>
     
-    <div class='victory bar' id='victory-bar' hide=true>
+    <div class='bar victory' id='victory-bar' hide=true>
       <div class='button' id='victory-stop-button'>
         <div class='string'>STOP</div>
       </div>
@@ -73,7 +79,7 @@
       </div>
     </div>
     
-    <div class='navigator floating bar' id='navigator-floating-bar' hide=true>
+    <div class='bar floating navigator' id='navigator-floating-bar' hide=true>
       <div class='button' id='show-all-button' hide=false>
         <div class='string'>SHOW ALL</div>
       </div>
