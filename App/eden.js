@@ -160,7 +160,7 @@ worldData.push({
       fov: 7,
     },
     requirements: null,
-    defaultExpression: '+x',
+    defaultExpression: 'x',
     hint: 'hint: go negative',
     goals: [
       {
