@@ -38,7 +38,7 @@ worldData.push({
       },
     ],
     sledders: [{
-      x: 0.75,
+      x: 0.35,
       asset: 'images.lunchbox_sled',
       drawOrder: -2,
     }],
