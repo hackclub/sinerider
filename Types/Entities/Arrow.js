@@ -55,7 +55,7 @@ function Arrow(spec) {
     ctx.strokeStyle = color
     ctx.lineWidth = lineWidth
     ctx.setLineDash(dashed ? dashSettings : undashedSettings)
-    ctx.dashOffset
+    ctx.dashOffset = dashOffset
     ctx.stroke()
     
     ctx.setLineDash([])

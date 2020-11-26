@@ -69,6 +69,8 @@ body > .bar {
 
 .floating > .button {
   border: 1px solid black;
+  
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .string {
@@ -88,7 +90,6 @@ body > .bar {
   color: #333;
   
   min-height: 28px;
-  /*border: 1px solid #444;*/
   border-radius: 5px;
   padding: 0 4px;
   font-size: 14px;
@@ -97,8 +98,6 @@ body > .bar {
 }
 
 .text:disabled {
-  /*color: #333;*/
-  /*background: inherit;*/
   border: none;
   opacity: 1;
 }
@@ -111,7 +110,6 @@ body > .bar {
   
   background: #fff;
   
-  /*border: 1px solid #444;*/
   border-radius: 5px;
   
   display: flex;
@@ -152,6 +150,8 @@ body > .bar {
   bottom: 20px;
   
   /*font-size: 24px;*/
+  
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .victory[hide=true] {
@@ -168,6 +168,8 @@ body > .bar {
   position: absolute;
   
   bottom: 20px;
+  
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .controls[hide=true] {
@@ -187,7 +189,11 @@ body > .bar {
   display: none;
 }
 
-.bar > .text {
+input:placeholder-shown {
+   font-style: italic;
+}
+
+#expression-text {
   flex-grow: 1;
 }
 
@@ -205,6 +211,20 @@ body > .bar {
 
 #victory-stop-button:not(:hover) {
   background: #f46;
+}
+
+#reset-button:not(:hover) {
+  background: #68f;
+}
+
+#reset-button {
+  padding: 0;
+}
+
+#reset-button > .string {
+  font-size: 24px;
+  line-height: 14px;
+  padding-bottom: 4px;
 }
 
 #level-text {
@@ -240,7 +260,6 @@ body > .bar {
 #time-string {
   color: #c44;
 }
-
 
 #top-bar {
   position: absolute;

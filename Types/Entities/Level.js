@@ -15,6 +15,7 @@ function Level(spec) {
   let {
     colors = Colors.biomes.alps,
     defaultExpression,
+    hint = '',
     openMusic,
     runMusic,
     camera = {
@@ -33,6 +34,8 @@ function Level(spec) {
   let highestOrder = 'A'
   
   const trackedEntities = [speech, sledders, goals]
+  
+  ui.expressionText.setAttribute('placeholder', hint)
   
   openMusic = _.get(assets, openMusic, null)
   runMusic = _.get(assets, runMusic, null)

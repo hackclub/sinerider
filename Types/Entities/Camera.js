@@ -28,6 +28,22 @@ function Camera(spec) {
   const lowerLeft = Vector2()
   const upperRight = Vector2()
   
+  // Debug values
+  const topScreen = Vector2()
+  const topWorld = Vector2()
+  
+  const bottomScreen = Vector2()
+  const bottomWorld = Vector2()
+  
+  const leftScreen = Vector2()
+  const leftWorld = Vector2()
+  
+  const rightScreen = Vector2()
+  const rightWorld = Vector2()
+  
+  const centerWorld = Vector2()
+  const centerScreen = Vector2()
+  
   function start() {
     tickControllers()
     snap()
@@ -133,10 +149,8 @@ function Camera(spec) {
   }
   
   function worldToScreenCanvas(ctx, localTransform) {
-    ctx.translate(0, screen.height)
-    ctx.scale(1, -1)
-    
     screen.transform.invertCanvas(ctx)
+    ctx.scale(1, -1)
     transform.transformCanvas(ctx)
     
     if (localTransform) {
@@ -154,10 +168,8 @@ function Camera(spec) {
     }
     
     transform.invertCanvas(ctx)
-    screen.transform.transformCanvas(ctx)
-
     ctx.scale(1, -1)
-    ctx.translate(0, -screen.height)
+    screen.transform.transformCanvas(ctx)
   }
   
   function computeCorners() {
@@ -196,9 +208,11 @@ function Camera(spec) {
       
       transform.position = activeController.position
       setFov(activeController.fov)
-    
-      // console.log('Camera snapped to Position: ', transform.position.toString())
-      // console.log('Camera snapped to FOV: ', fov)
+      
+      if (self.debug) {
+        console.log('Camera snapped to Position: ', transform.position.toString())
+        console.log('Camera snapped to FOV: ', fov)
+      }
     }
   }
   
@@ -210,12 +224,37 @@ function Camera(spec) {
   function tick() {
     computeCorners()
     tickControllers()
-    // console.log('Camera Position: ', transform.position.toString())
-    // console.log('Camera FOV: ', fov)
+    
+    if (self.debug) {
+      // console.log('Camera Position: ', transform.position.toString())
+      // console.log('Camera FOV: ', fov)
+    }
+  }
+  
+  function drawLocal(ctx) {
+    ctx.fillStyle = 'green'
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    // ctx.scale(size, size)
+    
+    ctx.font = '1px Roboto Mono'
+    
+    ctx.fillText('up', 0, 1)
+    ctx.fillText('down', 0, -1)
+    ctx.fillText('left', -1, 0)
+    ctx.fillText('right', 1, 0)
   }
   
   function draw() {
-    
+    if (self.debug) {
+      leftScreen.set(0, 0)
+      rightScreen.set(0, screen.width)
+      
+      topScreen.set(0, screen.height)
+      bottomScreen.set(0, 0)
+      
+      drawThrough(screen.ctx, drawLocal)
+    }
   }
   
   function startRunning() {

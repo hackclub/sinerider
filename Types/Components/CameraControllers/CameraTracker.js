@@ -58,6 +58,13 @@ function CameraTracker(spec) {
   function trackEntity(entity) {
     minTrackPoint.min(entity.transform.position)
     maxTrackPoint.max(entity.transform.position)
+    
+    if (entity.trackPoints) {
+      for (point of entity.trackPoints) {
+        minTrackPoint.min(point)
+        maxTrackPoint.max(point)
+      }
+    }
   }
   
   function draw() {

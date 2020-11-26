@@ -33,14 +33,29 @@ function Rect(spec) {
     return false
   }
   
+  function drawLocal(ctx) {
+    ctx.strokeStyle = 'green'
+    ctx.lineWidth = 0.1
+    ctx.beginPath()
+    ctx.rect(center.x-width/2, -center.y-height/2, width, height)
+    ctx.stroke()
+  }
+  
+  function draw(ctx, camera) {
+    camera.drawThrough(ctx, drawLocal, self.transform)
+  }
+  
   return _.mixIn(self, {
     shapeType: 'rect',
+    
+    draw,
     
     intersectPoint,
     intersectCircle,
     intersectRect,
     
     get center() {return center},
+    set center(v) {center.set(v)},
     
     get width() {return width},
     set width(v) {width = v},

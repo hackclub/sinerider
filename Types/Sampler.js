@@ -8,7 +8,11 @@ function Sampler(spec = {}) {
     scope = {},
   } = spec
   
-  let evaluator = math.compile(expression)
+  let evaluator = math.compile(decomment(expression))
+  
+  function decomment(expression) {
+    return expression.split('//')[0]
+  }
   
   function evaluate(scope) {
     if (expression == '') return 0
@@ -82,7 +86,7 @@ function Sampler(spec = {}) {
     expression = _expression
     
     try {
-      evaluator = math.compile(expression)
+      evaluator = math.compile(decomment(expression))
     }
     catch (err) {
       evaluator = math.compile('0')
@@ -100,11 +104,7 @@ function Sampler(spec = {}) {
     
     generateSampleArray,
     
-    get expression() {
-      return expression
-    },
-    set expression(v) {
-      setExpression(v)
-    },
+    get expression() {return expression},
+    set expression(v) {setExpression(v)},
   }
 }

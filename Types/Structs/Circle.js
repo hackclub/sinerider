@@ -29,14 +29,29 @@ function Circle(spec) {
     return false
   }
   
+  function drawLocal(ctx) {
+    ctx.strokeStyle = 'green'
+    ctx.lineWidth = 0.1
+    ctx.beginPath()
+    ctx.arc(center.x, -center.y, radius, 0, TAU)
+    ctx.stroke()
+  }
+  
+  function draw(ctx, camera) {
+    camera.drawThrough(ctx, drawLocal, self.transform)
+  }
+  
   return _.mixIn(self, {
     shapeType: 'circle',
+    
+    draw,
     
     intersectPoint,
     intersectCircle,
     intersectRect,
     
     get center() {return center},
+    set center(v) {center.set(v)},
     
     get radius() {return getRadius()},
     set radius(v) {radius = v},

@@ -29,11 +29,8 @@ worldData.push({
     requirements: [],
     runMusic: 'sounds.music.intro',
     defaultExpression: '-16/(1+((x-36)/4)^2)',
+    hint: 'congratulations, you found the secret hint!',
     goals: [
-      // {
-      //   x: 2,
-      //   y: 0.5
-      // },
       {
         type: 'dynamic',
         x: 8,
@@ -41,12 +38,9 @@ worldData.push({
       },
     ],
     sledders: [{
+      x: 0.75,
       asset: 'images.lunchbox_sled',
       drawOrder: -2,
-      // speech: [{
-      //   direction: 'right',
-      //   content: 'coming, sam!'
-      // }],
     }],
     sprites: [{
       asset: 'images.cabin_1',
@@ -76,7 +70,8 @@ worldData.push({
       speech: {
         x: -0.1,
         y: 1.5,
-        content: 'Get the sled, Lunchbox!!',
+        content: 'Get the sled!!',
+        direction: 'up-up-right',
         speech: {
           content: 'It snowed!',
           x: 0.8,
@@ -87,7 +82,7 @@ worldData.push({
       x: 4,
       y: -2,
       size: 0.7,
-      content: 'hit the green button (or enter)'
+      content: 'hit the green button ⇲'
     },{
       x: 24,
       y: 5,
@@ -117,20 +112,16 @@ worldData.push({
       fov: 7,
     },
     requirements: null,
-    defaultExpression: '0',
+    defaultExpression: '',
+    hint: 'hint: x makes a slope',
     goals: [
       {
+        type: 'path',
+        expression: 'x',
+        pathX: -6,
         x: -2,
-        y: -2
+        y: 0,
       },
-      {
-        x: -4,
-        y: -4
-      },
-      {
-        x: -6,
-        y: -6
-      }
     ],
     sledders: [{
       speech: [{
@@ -145,17 +136,17 @@ worldData.push({
         distance: 1,
       }]
     }],
-    texts: [{
-      x: 0,
-      y: -4.5,
-      size: 1,
-      content: 'Y=0: Flat',
-    },{
-      x: 0,
-      y: -6.5,
-      size: 1,
-      content: 'Y=x: Slope',
-    }],
+    // texts: [{
+    //   x: 0,
+    //   y: -4.5,
+    //   size: 1,
+    //   content: 'Y=0: Flat',
+    // },{
+    //   x: 0,
+    //   y: -6.5,
+    //   size: 1,
+    //   content: 'Y=x: Slope',
+    // }],
   },
   {
     name: 'Try facing forwards?',
@@ -170,19 +161,15 @@ worldData.push({
     },
     requirements: null,
     defaultExpression: '+x',
+    hint: 'hint: go negative',
     goals: [
       {
+        type: 'path',
+        expression: '-x',
+        pathX: 6,
         x: 2,
-        y: -2
+        y: 0,
       },
-      {
-        x: 4,
-        y: -4
-      },
-      {
-        x: 6,
-        y: -6
-      }
     ],
     sledders: [{
       speech: [{
@@ -197,12 +184,12 @@ worldData.push({
         distance: 1,
       }]
     }],
-    texts: [{
-      x: 1,
-      y: -6.5,
-      size: 0.8,
-      content: 'Go negative'
-    }],
+    // texts: [{
+    //   x: 1,
+    //   y: -6.5,
+    //   size: 0.8,
+    //   content: 'Go negative'
+    // }],
   },
   {
     name: 'A real steep hill',
@@ -216,20 +203,16 @@ worldData.push({
       fov: 11,
     },
     requirements: null,
-    defaultExpression: '-x*1',
+    defaultExpression: '-x',
+    hint: 'hint: try multiplying',
     goals: [
       {
+        type: 'path',
+        expression: '-x*2',
+        pathX: 6,
         x: 2,
-        y: -4
+        y: 0,
       },
-      {
-        x: 4,
-        y: -8
-      },
-      {
-        x: 6,
-        y: -12
-      }
     ],
     sledders: [{
       speech: [{
@@ -248,12 +231,12 @@ worldData.push({
         }
       }]
     }],
-    texts: [{
-      x: -4,
-      y: -8,
-      size: 1,
-      content: 'Multiply by 2',
-    }],
+    // texts: [{
+    //   x: -4,
+    //   y: -8,
+    //   size: 1,
+    //   content: 'Try multiplying',
+    // }],
   },
   {
     name: 'The bunny slope',
@@ -267,20 +250,16 @@ worldData.push({
       fov: 7,
     },
     requirements: null,
-    defaultExpression: '-x/1',
+    hint: 'hint: what’s the opposite of multiplying?',
+    defaultExpression: '-x',
     goals: [
       {
+        type: 'path',
+        expression: '-x/2',
+        pathX: 6,
         x: 2,
-        y: -1
+        y: 0,
       },
-      {
-        x: 4,
-        y: -2
-      },
-      {
-        x: 6,
-        y: -3
-      }
     ],
     sledders: [{
       speech: [{
@@ -300,12 +279,12 @@ worldData.push({
         distance: 0.8,
       }]
     }],
-    texts: [{
-      x: 0,
-      y: -4,
-      size: 0.8,
-      content: 'Try dividing'
-    }],
+    // texts: [{
+    //   x: 0,
+    //   y: -4,
+    //   size: 0.8,
+    //   content: 'Now try dividing'
+    // }],
   },
   {
     name: 'Moving up in the world',
@@ -319,19 +298,15 @@ worldData.push({
       fov: 9,
     },
     requirements: ['SLOPE_NEGATIVE'],
-    defaultExpression: '-x+0',
+    defaultExpression: '-x',
+    hint: 'hint: add a constant',
     goals: [
       {
+        type: 'path',
+        expression: '-x+6',
+        pathX: 6,
         x: 2,
-        y: 4
-      },
-      {
-        x: 6,
-        y: 0
-      },
-      {
-        x: 10,
-        y: -4
+        y: 0,
       },
     ],
     sledders: [{
@@ -346,17 +321,17 @@ worldData.push({
         }
       },{
         speakerX: 0.3,
-        content: 'Can we not talk about it?',
+        content: 'Yeah. Can we not talk about it?',
         direction: 'right-up-up',
         distance: 1.3,
       }]
     }],
-    texts: [{
-      x: -1,
-      y: -4,
-      size: 1,
-      content: 'Add a constant',
-    }],
+    // texts: [{
+    //   x: -1,
+    //   y: -4,
+    //   size: 1,
+    //   content: 'Add a constant',
+    // }],
   },
   {
     name: 'About halfway down',
@@ -370,7 +345,8 @@ worldData.push({
       fov: 11,
     },
     requirements: null,
-    defaultExpression: '-x+2',
+    defaultExpression: '-x',
+    hint: 'hint: if adding makes it go up…',
     goals: [
       {
         x: 3,
@@ -398,12 +374,12 @@ worldData.push({
         distance: 0.75,
       }]
     }],
-    texts: [{
-      x: 0,
-      y: -8,
-      size: 1,
-      content: 'Now subtract',
-    }],
+    // texts: [{
+    //   x: 0,
+    //   y: -8,
+    //   size: 1,
+    //   content: 'Now subtract',
+    // }],
   },
   {
     name: 'We\'re at the bottom',
@@ -421,33 +397,25 @@ worldData.push({
       'SLOPE_SHALLOWER',
     ],
     defaultExpression: '-x/2',
+    hint: 'put it all together!',
     goals: [
       {
+        type: 'path',
+        expression: '-x/3-5',
+        pathX: 18,
         x: 3,
-        y: -5
+        y: 0,
       },
-      {
-        x: 9,
-        y: -7
-      },
-      {
-        x: 15,
-        y: -9
-      },
-      {
-        x: 21,
-        y: -11
-      }
     ],
     sledders: [{
       asset: 'images.lunchbox_sled',
     }],
-    texts: [{
-      x: 10.5,
-      y: -14,
-      size: 2,
-      content: 'Put it all together',
-    }],
+    // texts: [{
+    //   x: 10.5,
+    //   y: -14,
+    //   size: 2,
+    //   content: 'Put it all together',
+    // }],
   },
   {
     name: 'Way too steep for us.',
@@ -461,27 +429,15 @@ worldData.push({
       fov: 8,
     },
     requirements: ['SLOPE_SCALE_TRANSLATE'],
-    defaultExpression: '-x^2',
+    defaultExpression: '-(x^2)',
+    hint: 'do as she says!',
     goals: [
       {
+        type: 'path',
+        expression: 'x^2',
+        pathX: 3,
         x: -1.5,
-        y: 2.25
-      },
-      {
-        x: -1,
-        y: 1
-      },
-      {
-        x: 0,
-        y: 0
-      },
-      {
-        x: 1,
-        y: 1
-      },
-      {
-        x: 1.5,
-        y: 2.25
+        y: 0,
       },
     ],
     sledders: [{
@@ -509,26 +465,14 @@ worldData.push({
     },
     requirements: ['PARABOLA_NEGATE'],
     defaultExpression: '(x^2)-1',
+    hint: 'hint: subtract from (everything)',
     goals: [
       {
+        type: 'path',
+        expression: 'x^2-3',
+        pathX: 3,
         x: -1.5,
-        y: -0.75
-      },
-      {
-        x: -1,
-        y: -2
-      },
-      {
-        x: 0,
-        y: -3
-      },
-      {
-        x: 1,
-        y: -2
-      },
-      {
-        x: 1.5,
-        y: -0.75
+        y: 0,
       },
     ],
     sledders: [{
@@ -536,12 +480,12 @@ worldData.push({
       x: -2,
       y: 0
     }],
-    texts: [{
-      x: 0,
-      y: -4.25,
-      size: 0.5,
-      content: 'Subtract from (everything)',
-    }],
+    // texts: [{
+    //   x: 0,
+    //   y: -4.25,
+    //   size: 0.5,
+    //   content: 'Subtract from (everything)',
+    // }],
   },
   {
     name: 'Translate X',
@@ -556,26 +500,14 @@ worldData.push({
     },
     requirements: null,
     defaultExpression: '(x-2)^2',
+    hint: 'hint: add to (x)',
     goals: [
       {
-        x: -4.5,
-        y: 2.25
-      },
-      {
-        x: -4,
-        y: 1
-      },
-      {
-        x: -3,
-        y: 0
-      },
-      {
-        x: -2,
-        y: 1
-      },
-      {
+        type: 'path',
+        expression: '(x+3)^2',
+        pathX: -3,
         x: -1.5,
-        y: 2.25
+        y: 0,
       },
     ],
     sledders: [{
@@ -583,12 +515,12 @@ worldData.push({
       x: -1,
       y: 0
     }],
-    texts: [{
-      x: -6,
-      y: 4,
-      size: 0.8,
-      content: 'Add to (x)',
-    }],
+    // texts: [{
+    //   x: -6,
+    //   y: 4,
+    //   size: 0.8,
+    //   content: 'Add to (x)',
+    // }],
   },
   {
     name: 'Translate XY',
@@ -603,26 +535,14 @@ worldData.push({
     },
     requirements: null,
     defaultExpression: '(x-1)^2+2',
+    hint: 'seeing a pattern yet?',
     goals: [
       {
-        x: -4.5,
-        y: -1.75
-      },
-      {
-        x: -4,
-        y: -3
-      },
-      {
-        x: -3,
-        y: -4
-      },
-      {
-        x: -2,
-        y: -3
-      },
-      {
+        type: 'path',
+        expression: '(x+3)^2-4',
+        pathX: -3,
         x: -1.5,
-        y: -1.75
+        y: 0,
       },
     ],
     sledders: [{
@@ -630,12 +550,12 @@ worldData.push({
       x: -1,
       y: 0
     }],
-    texts: [{
-      x: 0,
-      y: -2,
-      size: 1,
-      content: 'Now try both',
-    }],
+    // texts: [{
+    //   x: 0,
+    //   y: -2,
+    //   size: 1,
+    //   content: 'Now try both',
+    // }],
   },
   {
     name: 'Way too steep for us.',
@@ -647,24 +567,11 @@ worldData.push({
     defaultExpression: 'x^2',
     goals: [
       {
+        type: 'path',
+        expression: 'x^2/4',
         x: -4,
-        y: 4
-      },
-      {
-        x: -2,
-        y: 1
-      },
-      {
-        x: 0,
-        y: 0
-      },
-      {
-        x: 2,
-        y: 1
-      },
-      {
-        x: 4,
-        y: 4
+        y: 0,
+        pathX: 8,
       },
     ],
     sledders: [{
@@ -681,26 +588,14 @@ worldData.push({
     y: 10,
     requirements: null,
     defaultExpression: '(x/4)^2',
+    hint: '(x/4)^2 = x^2/4^2 = x^2/16',
     goals: [
       {
+        type: 'path',
+        expression: '(x/2)^2',
         x: -4,
-        y: 4
-      },
-      {
-        x: -2,
-        y: 1
-      },
-      {
-        x: -0,
-        y: 0
-      },
-      {
-        x: 2,
-        y: 1
-      },
-      {
-        x: 4,
-        y: 4
+        y: 0,
+        pathX: 8,
       },
     ],
     sledders: [{
@@ -717,6 +612,7 @@ worldData.push({
     y: 10,
     requirements: ['PARABOLA_TRANSLATE_X_Y', 'PARABOLA_SCALE_X'],
     defaultExpression: '((x+5)/4)^2',
+    hint: '(x/4)^2 = x^2/4^2 = x^2/16',
     goals: [
       {
         x: -7,

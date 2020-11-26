@@ -15,6 +15,7 @@ function Shape(spec) {
   }
   
   return {
-    localize
+    localize,
+    transform
   }
 }

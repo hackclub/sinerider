@@ -17,7 +17,7 @@
 // The screen will notify a list of subscribers whenever it is resized. (For example: when the screen size changes, the main Graph needs to recompute all its points to match the new boundaries of the screen)
 
 function Screen(spec = {}) {
-  const transform = Transform({invertY: true})
+  const transform = Transform()
   
   let {
     canvas,
@@ -72,7 +72,9 @@ function Screen(spec = {}) {
   function frameToScreen(point, output) {
     if (!output) output = point
     
-    output.set(point.x, -point.y)
+    output.set(point)
+    
+    output.y *= -1
     transform.transformPoint(output)
     
     return output
@@ -90,7 +92,9 @@ function Screen(spec = {}) {
   function frameToScreenDirection(direction, output) {
     if (!output) output = direction
     
-    output.set(direction.x, -direction.y)
+    output.set(direction)
+    
+    output.y *= -1
     transform.transformDirection(output)
     
     return output

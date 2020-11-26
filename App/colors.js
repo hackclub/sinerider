@@ -7,6 +7,7 @@ const Colors = {
       ],
       groundFill: '#ffffff',
       groundStroke: '#222222',
+      groundStrokeWidth: 8,
     },
     champlain: {
       sky: [

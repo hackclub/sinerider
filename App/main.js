@@ -36,6 +36,8 @@ const ui = {
   controlBar: $('#controls-bar'),
   expressionText: $('#expression-text'),
   variableLabel: $('#variable-label'),
+  hintLabel: $('#hint-label'),
+  hintString: $('#hint-label > .string'),
   
   runButton: $('#run-button'),
   runButtonString: $('#run-button > .string'),

@@ -16,6 +16,9 @@ function Entity(spec, defaultName = 'Entity') {
     debugTree = false,
   } = spec
   
+  // Because I constantly forget to use debugSelf instead of simply 'debug'.
+  debugSelf = debugSelf || spec.debug
+  
   // Inherit the fundamentals TODO: Make fundamentals a key/value abstraction
   if (parent) {
     parent.addChild(self)

@@ -2,18 +2,34 @@ function Graph(spec) {
   const {
     self,
     screen,
+    camera,
   } = Entity(spec, 'Graph')
-  const sampler = Sampler(spec)
   
   let {
     sampleCount = 129,
-    camera,
     globalScope,
-    colors = Colors.biomes.basic,
+    colors = Colors.biomes.alps,
+    bounds,
+    freeze = false,
+    fill = true,
+    stroke = true,
+    dashed = false,
+    dashOffset = 0,
+    dashSettings = [0.5, 0.5],
+  } = spec
+  
+  let {
+    strokeColor = colors.groundStroke,
+    strokeWidth = colors.groundStrokeWidth,
+    fillColor = colors.groundFill,
   } = spec
   
   const ctx = screen.ctx
   
+  const undashedSettings = []
+  const dashSettingsScreen = [0, 0]
+  
+  const sampler = Sampler(spec)
   const samples = sampler.generateSampleArray(sampleCount)
   
   // Directly assigning the global scope as the local scope for now
@@ -27,42 +43,54 @@ function Graph(spec) {
   resample()
   
   function tick() {
-    resample()
+    if (!freeze)
+      resample()
   }
   
   function draw() {
     ctx.save()
-    ctx.beginPath()
     
-    camera.worldToScreen(samples[0], screenSpaceSample)
-    ctx.moveTo(screenSpaceSample.x, screenSpaceSample.y)
+    const worldToScreenScalar = camera.worldToScreenScalar()
     
-    for (let i = 1; i < sampleCount; i++) {
-      camera.worldToScreen(samples[i], screenSpaceSample)
-      ctx.lineTo(screenSpaceSample.x, screenSpaceSample.y)
+    if (fill) {
+      ctx.beginPath()
+      camera.worldToScreen(samples[0], screenSpaceSample)
+      ctx.moveTo(screenSpaceSample.x, screenSpaceSample.y)
+      
+      for (let i = 1; i < sampleCount; i++) {
+        camera.worldToScreen(samples[i], screenSpaceSample)
+        ctx.lineTo(screenSpaceSample.x, screenSpaceSample.y)
+      }
+      
+      ctx.lineTo(screen.width, screen.height)
+      ctx.lineTo(0, screen.height)
+      
+      ctx.fillStyle = fillColor
+      ctx.fill()
+      
+      ctx.clip()
     }
     
-    ctx.lineTo(screen.width, screen.height)
-    ctx.lineTo(0, screen.height)
-    
-    ctx.fillStyle = colors.groundFill
-    ctx.fill()
-    
-    ctx.clip()
-    
-    ctx.beginPath()
-    
-    camera.worldToScreen(samples[0], screenSpaceSample)
-    ctx.moveTo(screenSpaceSample.x, screenSpaceSample.y)
-    
-    for (let i = 1; i < sampleCount; i++) {
-      camera.worldToScreen(samples[i], screenSpaceSample)
-      ctx.lineTo(screenSpaceSample.x, screenSpaceSample.y)
+    if (stroke) {
+      ctx.beginPath()
+      
+      camera.worldToScreen(samples[0], screenSpaceSample)
+      ctx.moveTo(screenSpaceSample.x, screenSpaceSample.y)
+      
+      for (let i = 1; i < sampleCount; i++) {
+        camera.worldToScreen(samples[i], screenSpaceSample)
+        ctx.lineTo(screenSpaceSample.x, screenSpaceSample.y)
+      }
+      
+      dashSettingsScreen[0] = dashSettings[0]*worldToScreenScalar
+      dashSettingsScreen[1] = dashSettings[1]*worldToScreenScalar
+      
+      ctx.setLineDash(dashed ? dashSettingsScreen : undashedSettings)
+      ctx.dashOffset = dashOffset
+      ctx.strokeStyle = strokeColor
+      ctx.lineWidth = strokeWidth || 1
+      ctx.stroke()
     }
-    
-    ctx.strokeStyle = colors.groundStroke
-    ctx.lineWidth =colors.groundStrokeWidth || 4
-    ctx.stroke()
     
     ctx.restore()
   }
@@ -71,7 +99,19 @@ function Graph(spec) {
     camera.frameToWorld(screen.minFramePoint, minWorldPoint)
     camera.frameToWorld(screen.maxFramePoint, maxWorldPoint)
     
-    sampler.sampleRange(scope, samples, sampleCount, 'x',  minWorldPoint[0], maxWorldPoint[0])
+    let minX
+    let maxX
+    
+    if (bounds) {
+      minX = bounds[0]
+      maxX = bounds[1]
+    }
+    else {
+      minX = minWorldPoint[0]
+      maxX = maxWorldPoint[0]
+    }
+    
+    sampler.sampleRange(scope, samples, sampleCount, 'x',  minX, maxX)
   }
   
   function onResizeScreen() {
@@ -86,7 +126,8 @@ function Graph(spec) {
     resample()
   }
   
-  screen.resizeSubs.push(onResizeScreen)
+  if (!bounds)
+    screen.resizeSubs.push(onResizeScreen)
   
   return self.mix({
     ...sampler,
