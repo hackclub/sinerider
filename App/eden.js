@@ -136,17 +136,6 @@ worldData.push({
         distance: 1,
       }]
     }],
-    // texts: [{
-    //   x: 0,
-    //   y: -4.5,
-    //   size: 1,
-    //   content: 'Y=0: Flat',
-    // },{
-    //   x: 0,
-    //   y: -6.5,
-    //   size: 1,
-    //   content: 'Y=x: Slope',
-    // }],
   },
   {
     name: 'Try facing forwards?',
@@ -184,12 +173,6 @@ worldData.push({
         distance: 1,
       }]
     }],
-    // texts: [{
-    //   x: 1,
-    //   y: -6.5,
-    //   size: 0.8,
-    //   content: 'Go negative'
-    // }],
   },
   {
     name: 'A real steep hill',
@@ -231,12 +214,6 @@ worldData.push({
         }
       }]
     }],
-    // texts: [{
-    //   x: -4,
-    //   y: -8,
-    //   size: 1,
-    //   content: 'Try multiplying',
-    // }],
   },
   {
     name: 'The bunny slope',
@@ -279,12 +256,6 @@ worldData.push({
         distance: 0.8,
       }]
     }],
-    // texts: [{
-    //   x: 0,
-    //   y: -4,
-    //   size: 0.8,
-    //   content: 'Now try dividing'
-    // }],
   },
   {
     name: 'Moving up in the world',
@@ -326,12 +297,6 @@ worldData.push({
         distance: 1.3,
       }]
     }],
-    // texts: [{
-    //   x: -1,
-    //   y: -4,
-    //   size: 1,
-    //   content: 'Add a constant',
-    // }],
   },
   {
     name: 'About halfway down',
@@ -374,12 +339,6 @@ worldData.push({
         distance: 0.75,
       }]
     }],
-    // texts: [{
-    //   x: 0,
-    //   y: -8,
-    //   size: 1,
-    //   content: 'Now subtract',
-    // }],
   },
   {
     name: 'We\'re at the bottom',
@@ -410,12 +369,6 @@ worldData.push({
     sledders: [{
       asset: 'images.lunchbox_sled',
     }],
-    // texts: [{
-    //   x: 10.5,
-    //   y: -14,
-    //   size: 2,
-    //   content: 'Put it all together',
-    // }],
   },
   {
     name: 'Way too steep for us.',
@@ -480,12 +433,6 @@ worldData.push({
       x: -2,
       y: 0
     }],
-    // texts: [{
-    //   x: 0,
-    //   y: -4.25,
-    //   size: 0.5,
-    //   content: 'Subtract from (everything)',
-    // }],
   },
   {
     name: 'Translate X',
@@ -515,12 +462,6 @@ worldData.push({
       x: -1,
       y: 0
     }],
-    // texts: [{
-    //   x: -6,
-    //   y: 4,
-    //   size: 0.8,
-    //   content: 'Add to (x)',
-    // }],
   },
   {
     name: 'Translate XY',
@@ -550,12 +491,6 @@ worldData.push({
       x: -1,
       y: 0
     }],
-    // texts: [{
-    //   x: 0,
-    //   y: -2,
-    //   size: 1,
-    //   content: 'Now try both',
-    // }],
   },
   {
     name: 'Way too steep for us.',
