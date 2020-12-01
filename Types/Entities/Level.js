@@ -128,7 +128,13 @@ function Level(spec) {
   }
   
   function addGoal(goalDatum) {
-    const goal = Goal({
+    const generator = {
+      'path': PathGoal,
+      'fixed': FixedGoal,
+      'dynamic': DynamicGoal,
+    }[goalDatum.type || 'fixed']
+    
+    const goal = generator({
       parent: self,
       camera,
       graph,

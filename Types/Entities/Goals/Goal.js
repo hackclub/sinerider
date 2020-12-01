@@ -1,7 +1,8 @@
 function Goal(spec) {
   const {
     self,
-    screen
+    screen,
+    ctx,
   } = Entity(spec, 'Goal')
   
   const transform = Transform(spec)
@@ -18,50 +19,7 @@ function Goal(spec) {
     globalScope,
     graph,
     getLowestOrder,
-    expression: pathExpression = 'sin(x)', 
-    pathX = 4,
-    pathY = 0,
   } = spec
-  
-  const ctx = screen.ctx
-  
-  const fixed = type == 'fixed'
-  const dynamic = type == 'dynamic'
-  const anchored = type == 'anchored'
-  const path = type == 'path'
-  
-  const trackPoints = []
-  
-  const bottom = Vector2(0, -size/2)
-  const bottomWorld = Vector2()
-  
-  const slopeTangent = Vector2()
-  
-  const pathPosition = Vector2()
-  const pathPositionWorld = Vector2()
-  
-  const pathStart = Vector2()
-  const pathEnd = Vector2(pathX, 0)
-  
-  const pathMin = Vector2()
-  const pathMax = Vector2()
-  
-  const pathStartWorld = Vector2(spec.x, 0)
-  const pathEndWorld = Vector2(pathX, 0)
-  
-  const pathMinWorld = Vector2()
-  const pathMaxWorld = Vector2()
-  
-  const pathSign = Math.sign(pathX)
-  const pathSpan = Math.abs(pathX)
-  
-  const maxPathResetSpeed = 3
-  let pathResetSpeed = 0
-  let pathProgress = 0
-    
-  const startPosition = Vector2(spec)
-  
-  const screenPosition = Vector2()
 
   let triggered = false
   let available = false
@@ -78,79 +36,23 @@ function Goal(spec) {
   const unavailableFill = 'rgba(255, 192, 0, 0.8)'
   const failedFill = 'rgba(255, 0, 0, 0.8)'
   
+  let fillColor
+  let strokeColor
+  
   const sledderPosition = Vector2()
-  
-  const shape = fixed ? Rect({
-    transform,
-    width: size,
-    height: size,
-  }) : Circle({
-    transform,
-    center: Vector2(0, 0),
-    radius: size/2,
-  })
-  
-  const rigidbody = Rigidbody({
-    ...spec,
-    transform,
-    fixed: !dynamic,
-    // fixedRotation: true,
-    positionOffset: Vector2(0, -0.5),
-  })
-  
-  let pathGraph
-  if (path) {
-    // Establish path origin in world space
-    transform.transformPoint(pathStart, pathStartWorld)
-    transform.transformPoint(pathEnd, pathEndWorld)
-    
-    pathGraph = Graph({
-      parent: self,
-      globalScope,
-      expression: pathExpression,
-      fill: false,
-      freeze: true,
-      bounds: [pathStartWorld.x, pathEndWorld.x],
-      sampleCount: Math.round(pathSpan*4),
-      strokeWidth: 4,
-      strokeColor: '#888',
-      dashed: true,
-      dashSettings: [0.2, 0.2],
-    })
-    
-    // Sample start/end points
-    pathStartWorld.y = pathGraph.sample('x', pathStartWorld.x)
-    pathEndWorld.y = pathGraph.sample('x', pathEndWorld.x)
-    
-    // Move transform to start of path
-    transform.position = pathStartWorld
-    
-    // Compute world-space points
-    transform.invertPoint(pathStartWorld, pathStart)
-    transform.invertPoint(pathEndWorld, pathEnd)
-    
-    pathPosition.set(pathStart)
-    transform.transformPoint(pathPosition, pathPositionWorld)
-    
-    // Compute min/max points
-    pathStart.min(pathEnd, pathMin)
-    pathStart.max(pathEnd, pathMax)
-    
-    pathStartWorld.min(pathEndWorld, pathMinWorld)
-    pathStartWorld.max(pathEndWorld, pathMaxWorld)
-    
-    trackPoints.push(pathStartWorld)
-    trackPoints.push(pathEndWorld)
-  }
 
-  reset()
+  function awake() {
+    self.reset()
+  }
   
   function tick() {
-    if (globalScope.running)
-      checkComplete()
+    if (globalScope.running) {
+      self.refreshTriggered()
+      self.checkComplete()
+    }
   }
   
-  function checkComplete() {
+  function refreshTriggered() {
     let alreadyTriggered = triggered
     
     triggered = false
@@ -169,7 +71,9 @@ function Goal(spec) {
         break
       }
     }
-    
+  }
+  
+  function checkComplete() {
     if (triggered && !completed && !failed) {
       if (available)
         complete()
@@ -205,13 +109,12 @@ function Goal(spec) {
   }
   
   function drawLocal() {
-    ctx.strokeStyle = '#111'
-    ctx.fillStyle = completed ? 
+    strokeColor = '#111'
+    fillColor = completed ? 
       completedFill : failed ? 
       failedFill : triggered ? 
       triggeredFill : available ? 
       availableFill : unavailableFill
-    
     
     if (order) {
       ctx.save()
@@ -240,6 +143,8 @@ function Goal(spec) {
     failed = false
     
     triggeringSledder = null
+
+    self.refresh()
   }
   
   function startRunning() {
@@ -261,6 +166,8 @@ function Goal(spec) {
   return self.mix({
     transform,
     
+    awake,
+    
     tick,
     draw,
     
@@ -270,10 +177,11 @@ function Goal(spec) {
     startRunning,
     stopRunning,
     
+    refreshTriggered,
+    checkComplete,
+    
     complete,
     fail,
-    
-    trackPoints,
     
     get completed() {return completed},
     get available() {return available},
@@ -284,5 +192,8 @@ function Goal(spec) {
     get triggeringSledder() {return triggeringSledder},
     get triggeringSledderPosition() {return triggeringSledderPosition},
     get triggeringSledderDelta() {return triggeringSledderDelta},
+    
+    get fillColor() {return fillColor},
+    get strokeColor() {return strokeColor},
   })
 }
