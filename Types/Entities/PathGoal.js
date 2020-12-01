@@ -4,6 +4,8 @@ function Goal(spec) {
     screen
   } = Entity(spec, 'Goal')
   
+  const base = {...self}
+  
   const transform = Transform(spec)
   
   let {
@@ -331,23 +333,6 @@ function Goal(spec) {
     }
   }
   
-  function startRunning() {
-    
-  }
-  
-  function stopRunning() {
-    self.reset()
-    rigidbody.resetVelocity()
-  }
-  
-  function refresh() {
-    available = true
-    
-    if (order) {
-      available = getLowestOrder().localeCompare(order) >= 0
-    }
-  }
-  
   return self.mix({
     transform,
     
@@ -355,19 +340,10 @@ function Goal(spec) {
     draw,
     
     reset,
-    refresh,
-    
-    startRunning,
-    stopRunning,
     
     complete,
     fail,
     
     trackPoints,
-    
-    get completed() {return completed},
-    get available() {return available},
-    get failed() {return failed},
-    get order() {return order},
   })
 }
