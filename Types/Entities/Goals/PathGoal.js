@@ -71,6 +71,11 @@ function PathGoal(spec) {
     dashSettings: [0.2, 0.2],
   })
   
+  // HACK: Hijack the graph's draw method to draw it behind the goal object
+  const drawPathGraph = pathGraph.draw
+  pathGraph.draw = () => {}
+  
+  
   // Sample start/end points
   pathStartWorld.y = pathGraph.sample('x', pathStartWorld.x)
   pathEndWorld.y = pathGraph.sample('x', pathEndWorld.x)
@@ -158,6 +163,8 @@ function PathGoal(spec) {
   }
   
   function draw() {
+    drawPathGraph()
+    
     base.draw()
     camera.drawThrough(ctx, drawLocal, transform)
     

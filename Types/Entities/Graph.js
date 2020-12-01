@@ -132,17 +132,22 @@ function Graph(spec) {
   return self.mix({
     ...sampler,
     
-    get expression() {
-      return sampler.expression
-    },
-    set expression(v) {
-      sampler.expression = v
-    },
-    
     tick,
     draw,
     
     startRunning,
     stopRunning,
+    
+    get expression() {return sampler.expression},
+    set expression(v) {sampler.expression = v},
+    
+    get strokeWidth() {return strokeWidth},
+    set strokeWidth(v) {strokeWidth = v},
+    
+    get strokeColor() {return strokeColor},
+    set strokeColor(v) {strokeColor = v},
+    
+    get fillColor() {return fillColor},
+    set fillColor(v) {fillColor = v},
   })
 }
