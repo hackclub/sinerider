@@ -4,8 +4,6 @@ function Goal(spec) {
     screen
   } = Entity(spec, 'Goal')
   
-  const base = {...self}
-  
   const transform = Transform(spec)
   
   let {
@@ -150,24 +148,6 @@ function Goal(spec) {
   function tick() {
     if (globalScope.running)
       checkComplete()
-      
-    if (path && !completed && !failed) {
-      if (triggered) {
-        pathPositionWorld.x += triggeringSledderDelta.x
-        pathResetSpeed = 0
-      }
-      else {
-        pathPositionWorld.x -= pathSign*self.tickDelta*pathResetSpeed
-        pathResetSpeed = Math.min(pathResetSpeed+self.tickDelta*6, maxPathResetSpeed)
-      }
-      pathPositionWorld.x = math.clamp(pathMinWorld.x, pathMaxWorld.x, pathPositionWorld.x)
-      
-      pathProgress = math.unlerp(pathStartWorld.x, pathEndWorld.x, pathPositionWorld.x)
-      
-      pathPositionWorld.y = pathGraph.sample('x', pathPositionWorld.x)
-      transform.invertPoint(pathPositionWorld, pathPosition)
-      shape.center = pathPosition
-    }
   }
   
   function checkComplete() {
@@ -191,15 +171,25 @@ function Goal(spec) {
     }
     
     if (triggered && !completed && !failed) {
-      if (path) {
-        if (pathProgress == 1)
-          complete()
-      }
-      else if (available)
+      if (available)
         complete()
       else
         fail()
     }
+  }
+  
+  function complete() {
+    if (completed) return
+    
+    completed = true
+    goalCompleted(self)
+  }
+  
+  function fail() {
+    if (failed) return
+    
+    failed = true
+    goalFailed(self)
   }
   
   function intersectSledder(sledder) {
@@ -207,7 +197,7 @@ function Goal(spec) {
       sledderPosition.set(sledderPoint)
       sledder.transform.transformPoint(sledderPosition)
       
-      if (shape.intersectPoint(sledderPosition))
+      if (self.shape.intersectPoint(sledderPosition))
         return true
     }
     
@@ -222,29 +212,8 @@ function Goal(spec) {
       triggeredFill : available ? 
       availableFill : unavailableFill
     
-    ctx.lineWidth = 0.05
     
-    ctx.beginPath()
-    ctx.arc(pathPosition.x, -pathPosition.y, size/2, 0, TAU)
-    ctx.fill()
-    ctx.stroke()
-    
-    ctx.beginPath()
-    ctx.arc(pathEnd.x, -pathEnd.y, size/2, 0, TAU)
-    ctx.strokeStyle = '#888'
-    // ctx.stroke()
-    
-    if (self.debug) {
-      ctx.font = '1px Roboto Mono'
-      ctx.fillStyle = 'green'
-      ctx.textAlign = 'center'
-      ctx.textBaseline = 'middle'
-      ctx.fillText('position: '+pathPosition.toString(), pathPosition.x, -pathPosition.y)
-      ctx.fillText('start: '+pathStart.toString(), pathStart.x, -pathStart.y)
-      ctx.fillText('end: '+pathEnd.toString(), pathEnd.x, -pathEnd.y)
-    }
-    
-    if (self.order) {
+    if (order) {
       ctx.save()
       ctx.fillStyle = '#333'
       ctx.textAlign = 'center'
@@ -252,7 +221,7 @@ function Goal(spec) {
       ctx.font = '1px Roboto Mono'
       ctx.scale(0.7, 0.7)
       
-      ctx.fillText(self.order, 0, 0.25)
+      ctx.fillText(order, 0, 0.25)
       ctx.restore()
     }
   }
@@ -262,9 +231,6 @@ function Goal(spec) {
     
     if (self.debug) {
       shape.draw(ctx, camera)
-      
-      if (dynamic)
-        rigidbody.draw(ctx)
     }
   }
   
@@ -274,28 +240,21 @@ function Goal(spec) {
     failed = false
     
     triggeringSledder = null
-    pathPosition.set(pathStart)
-    pathPositionWorld.set(pathStartWorld)
+  }
+  
+  function startRunning() {
     
-    transform.position = startPosition
-    transform.rotation = 0
-
-    if (dynamic || anchored) {
-      transform.position.y = graph.sample('x', transform.position.x)+size/2
-    }
+  }
+  
+  function stopRunning() {
+    self.reset()
+  }
+  
+  function refresh() {
+    available = true
     
-    if (dynamic) {
-      rigidbody.resetVelocity()
-    
-      slopeTangent.x = 1
-      slopeTangent.y = graph.sampleSlope('x', bottomWorld.x)
-      slopeTangent.normalize()
-      
-      // Set the Upright vector of rigidbody to the slope normal
-      slopeTangent.orthogonalize(rigidbody.upright)
-      
-      let angle = Math.asin(slopeTangent.y)
-      transform.rotation = angle
+    if (order) {
+      available = getLowestOrder().localeCompare(order) >= 0
     }
   }
   
@@ -306,10 +265,24 @@ function Goal(spec) {
     draw,
     
     reset,
+    refresh,
+    
+    startRunning,
+    stopRunning,
     
     complete,
     fail,
     
     trackPoints,
+    
+    get completed() {return completed},
+    get available() {return available},
+    get triggered() {return triggered},
+    get failed() {return failed},
+    get order() {return order},
+    
+    get triggeringSledder() {return triggeringSledder},
+    get triggeringSledderPosition() {return triggeringSledderPosition},
+    get triggeringSledderDelta() {return triggeringSledderDelta},
   })
 }
