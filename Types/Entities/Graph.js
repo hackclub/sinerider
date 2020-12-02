@@ -3,15 +3,18 @@ function Graph(spec) {
     self,
     screen,
     camera,
+    ctx,
   } = Entity(spec, 'Graph')
   
   let {
     sampleCount = 129,
+    sampleDensity = 4,
     globalScope,
     colors = Colors.biomes.alps,
     bounds,
     freeze = false,
     fill = true,
+    scaleStroke = false,
     stroke = true,
     dashed = false,
     dashOffset = 0,
@@ -24,7 +27,10 @@ function Graph(spec) {
     fillColor = colors.groundFill,
   } = spec
   
-  const ctx = screen.ctx
+  if (bounds && sampleDensity) {
+    let span = Math.abs(bounds[0]-bounds[1])
+    sampleCount = Math.ceil(sampleDensity*span)
+  }
   
   const undashedSettings = []
   const dashSettingsScreen = [0, 0]
@@ -51,6 +57,8 @@ function Graph(spec) {
     ctx.save()
     
     const worldToScreenScalar = camera.worldToScreenScalar()
+    
+    const strokeScalar = scaleStroke ? worldToScreenScalar : 1
     
     if (fill) {
       ctx.beginPath()
@@ -82,13 +90,14 @@ function Graph(spec) {
         ctx.lineTo(screenSpaceSample.x, screenSpaceSample.y)
       }
       
-      dashSettingsScreen[0] = dashSettings[0]*worldToScreenScalar
-      dashSettingsScreen[1] = dashSettings[1]*worldToScreenScalar
+      dashSettingsScreen[0] = dashSettings[0]*strokeScalar
+      dashSettingsScreen[1] = dashSettings[1]*strokeScalar
       
       ctx.setLineDash(dashed ? dashSettingsScreen : undashedSettings)
       ctx.dashOffset = dashOffset
+      ctx.lineCap = 'round'
       ctx.strokeStyle = strokeColor
-      ctx.lineWidth = strokeWidth || 1
+      ctx.lineWidth = strokeWidth*strokeScalar
       ctx.stroke()
     }
     
@@ -149,5 +158,14 @@ function Graph(spec) {
     
     get fillColor() {return fillColor},
     set fillColor(v) {fillColor = v},
+    
+    get dashSettings() {return dashSettings},
+    set dashSettings(v) {dashSettings = v},
+    
+    get dashOffset() {return dashOffset},
+    set dashOffset(v) {dashOffset = v},
+    
+    get dashed() {return dashed},
+    set dashed(v) {dashed = v},
   })
 }

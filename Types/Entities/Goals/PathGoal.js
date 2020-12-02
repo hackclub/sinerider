@@ -13,7 +13,7 @@ function PathGoal(spec) {
     size = 1,
     globalScope,
     graph,
-    expression: pathExpression = 'sin(x)', 
+    expression: pathExpression = 'sin(x)',
     pathX = 4,
     pathY = 0,
   } = spec
@@ -34,8 +34,11 @@ function PathGoal(spec) {
   const pathMin = Vector2()
   const pathMax = Vector2()
   
-  const pathStartWorld = Vector2(spec.x, 0)
-  const pathEndWorld = Vector2(pathX, 0)
+  const pathStartWorld = Vector2()
+  const pathEndWorld = Vector2()
+  
+  const pathStartScreen = Vector2()
+  const pathEndScreen = Vector2()
   
   const pathMinWorld = Vector2()
   const pathMaxWorld = Vector2()
@@ -46,6 +49,13 @@ function PathGoal(spec) {
   const maxPathResetSpeed = 3
   let pathResetSpeed = 0
   let pathProgress = 0
+  
+  const outerColor = Color()
+  const outerColors = [
+    Color('#111111'),
+    Color('#444444'),
+    Color('#333333'),
+  ]
   
   const shape = Circle({
     transform,
@@ -63,18 +73,18 @@ function PathGoal(spec) {
     expression: pathExpression,
     fill: false,
     freeze: true,
+    scaleStroke: true,
     bounds: [pathStartWorld.x, pathEndWorld.x],
     sampleCount: Math.round(pathSpan*4),
-    strokeWidth: 4,
+    strokeWidth: 1,
     strokeColor: '#888',
     dashed: true,
-    dashSettings: [0.2, 0.2],
+    dashSettings: [0.5, 0.5],
   })
   
   // HACK: Hijack the graph's draw method to draw it behind the goal object
   const drawPathGraph = pathGraph.draw
   pathGraph.draw = () => {}
-  
   
   // Sample start/end points
   pathStartWorld.y = pathGraph.sample('x', pathStartWorld.x)
@@ -136,10 +146,10 @@ function PathGoal(spec) {
   }
   
   function drawLocal() {
-    ctx.strokeStyle = self.strokeColor
-    ctx.fillStyle = self.fillColor
+    ctx.strokeStyle = self.strokeStyle
+    ctx.fillStyle = self.fillStyle
     
-    ctx.lineWidth = 0.05
+    ctx.lineWidth = self.strokeWidth
     
     ctx.beginPath()
     ctx.arc(pathPosition.x, -pathPosition.y, size/2, 0, TAU)
@@ -163,10 +173,36 @@ function PathGoal(spec) {
   }
   
   function draw() {
+    camera.worldToScreen(pathStartWorld, pathStartScreen)
+    camera.worldToScreen(pathEndWorld, pathEndScreen)
+    
+    let outerStyle = ctx.createLinearGradient(pathStartScreen.x, 0, pathEndScreen.x, 0)
+    
+    for (let i = 0; i < outerColors.length; i++) {
+      let p = i/(outerColors.length-1)
+      outerColor.set(outerColors[i]).lerp(self.flashWhite, self.flashProgress)
+      outerStyle.addColorStop(p, outerColor.hex)
+    }
+    
+    let innerStyle = ctx.createLinearGradient(pathStartScreen.x, 0, pathEndScreen.x, 0)
+    
+    innerStyle.addColorStop(0, '#6F0')
+    innerStyle.addColorStop(pathProgress/2, '#4F6')
+    innerStyle.addColorStop(pathProgress, '#4F6')
+    innerStyle.addColorStop(math.clamp01(pathProgress+0.02), '#FFF')
+    
+    pathGraph.strokeWidth = 0.4
+    pathGraph.strokeColor = outerStyle
+    pathGraph.dashed = false
     drawPathGraph()
     
-    base.draw()
+    pathGraph.strokeWidth = 0.2
+    pathGraph.strokeColor = innerStyle
+    pathGraph.dashed = true
+    drawPathGraph()
+    
     camera.drawThrough(ctx, drawLocal, transform)
+    base.draw()
     
     if (self.debug) {
       shape.draw(ctx, camera)
@@ -195,5 +231,7 @@ function PathGoal(spec) {
     
     trackPoints,
     shape,
+    
+    get completedProgress() {return pathProgress},
   })
 }

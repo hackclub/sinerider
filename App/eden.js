@@ -1055,7 +1055,7 @@ worldData.push({
   {
     name: 'Time',
     nick: 'TIME_CONSTANT',
-    colors: Colors.biomes.yosemite,
+    colors: Colors.biomes.gunnison,
     x: 20,
     y: -20,
     requirements: ['SLOPE_SCALE_TRANSLATE'],
@@ -1099,7 +1099,7 @@ worldData.push({
   {
     name: 'Time Translate',
     nick: 'TIME_COOL',
-    colors: Colors.biomes.yosemite,
+    colors: Colors.biomes.gunnison,
     x: -20,
     y: 0,
     requirements: null,
@@ -1134,7 +1134,7 @@ worldData.push({
   {
     name: 'Time Translate X',
     nick: 'TIME_PARABOLA_TRANSLATE_X',
-    colors: Colors.biomes.yosemite,
+    colors: Colors.biomes.gunnison,
     x: 10,
     y: 10,
     requirements: ['TIME_CONSTANT', 'PARABOLA_TRANSLATE_X'],
@@ -1164,21 +1164,24 @@ worldData.push({
     sledders: [{
       x: 0,
       y: 0,
+      asset: 'images.lunchbox_sled',
       speech: [{
         speakerX: 0.3,
         content: 'It’s perfect.',
         direction: 'right-right-up',
         distance: 1,
-        speech: [{
-          content: 'This place gives me the creeps.'
-        }]
+        speech: {
+          content: 'This place gives me the creeps.',
+          direction: 'right-right-up',
+          distance: 1,
+        },
       }],
     }],
   },
   {
     name: 'Time Translate XY',
     nick: 'TIME_PARABOLA_TRANSLATE_X_Y',
-    colors: Colors.biomes.yosemite,
+    colors: Colors.biomes.gunnison,
     x: 10,
     y: 10,
     requirements: [null, 'PARABOLA_TRANSLATE_X_Y'],
@@ -1207,13 +1210,14 @@ worldData.push({
     ],
     sledders: [{
       x: 0,
-      y: 0
+      y: 0,
+      asset: 'images.lunchbox_sled',
     }],
   },
   {
     name: 'Time Translate',
     nick: 'TIME_PARABOLA_TRANSLATE_X_Y_SCALE_Y',
-    colors: Colors.biomes.yosemite,
+    colors: Colors.biomes.gunnison,
     x: 10,
     y: 0,
     requirements: [null],
@@ -1242,13 +1246,14 @@ worldData.push({
     ],
     sledders: [{
       x: 0,
-      y: 0
+      y: 0,
+      asset: 'images.lunchbox_sled',
     }],
   },
   {
     name: 'sin time translate',
     nick: 'TIME_SIN_TRANSLATE_X',
-    colors: Colors.biomes.yosemite,
+    colors: Colors.biomes.gunnison,
     x: 20,
     y: 0,
     requirements: ['TIME_PARABOLA_TRANSLATE_X', 'SIN_TRANSLATE_X'],
@@ -1277,13 +1282,14 @@ worldData.push({
     ],
     sledders: [{
       x: 0,
-      y: 0
+      y: 0,
+      asset: 'images.lunchbox_sled',
     }],
   },
   {
     name: 'sin time escalate',
     nick: 'TIME_SIN_ESCALATOR',
-    colors: Colors.biomes.yosemite,
+    colors: Colors.biomes.gunnison,
     x: -10,
     y: -10,
     requirements: [null, 'TIME_PARABOLA_TRANSLATE_X_Y'],
@@ -1312,13 +1318,14 @@ worldData.push({
     ],
     sledders: [{
       x: 0,
-      y: 0
+      y: 0,
+      asset: 'images.lunchbox_sled',
     }],
   },
   {
     name: 'sin time oscillate',
     nick: 'TIME_SIN_OSCILLATOR',
-    colors: Colors.biomes.yosemite,
+    colors: Colors.biomes.gunnison,
     x: -10,
     y: -10,
     requirements: [null],
@@ -1351,7 +1358,8 @@ worldData.push({
     ],
     sledders: [{
       x: 0,
-      y: 0
+      y: 0,
+      asset: 'images.lunchbox_sled',
     }],
   }],
 })

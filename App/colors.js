@@ -54,5 +54,14 @@ const Colors = {
       groundStroke: '#ffdd88',
       groundStrokeWidth: 12,
     },
+    gunnison: {
+      sky: [
+        [0, '#4488ff'],
+        [1, '#66ddff'],
+      ],
+      groundFill: '#555555',
+      groundStroke: '#666666',
+      groundStrokeWidth: 32,
+    },
   }
 }

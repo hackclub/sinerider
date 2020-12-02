@@ -30,16 +30,42 @@ function Goal(spec) {
   const triggeringSledderPosition = Vector2()
   const triggeringSledderDelta = Vector2()
   
-  const completedFill = 'rgba(32, 255, 32, 0.8)'
-  const triggeredFill = 'rgba(128, 255, 128, 0.8)'
-  const availableFill = 'rgba(255, 255, 255, 0.8)'
-  const unavailableFill = 'rgba(255, 192, 0, 0.8)'
-  const failedFill = 'rgba(255, 0, 0, 0.8)'
+  const completedFill = Color('#44FF66')
+  const triggeredFill = Color('#88CCFF')
+  const availableFill = Color('#FFFFFF')
+  const unavailableFill = Color('#FFCC22')
+  const failedFill = Color('#FF0044')
   
-  let fillColor
-  let strokeColor
+  const completedStroke = Color('#000000')
+  const triggeredStroke = Color('#000000')
+  const availableStroke = Color('#000000')
+  const unavailableStroke = Color('#000000')
+  const failedStroke = Color('#FFFFFF')
+  
+  let fillColor = Color()
+  let strokeColor = Color()
+  let strokeColorB = Color()
+  
+  const flashWhite = Color('#FFFFFF')
+  
+  let strokeStyle
+  let fillStyle
+  
+  let strokeWidth = 0.08
+  
+  const completedStrokeB = Color(completedStroke).setV(0.4)
+  const triggeredStrokeB = Color(triggeredStroke).setV(0.4)
+  const availableStrokeB = Color(availableStroke).setV(0.4)
+  const unavailableStrokeB = Color(unavailableStroke).setV(0.4)
+  const failedStrokeB = Color(failedStroke).setV(0.8)
+  
+  const worldPosition = Vector2()
+  const cameraDirection = Vector2()
+  let cameraDistance = 0
   
   const sledderPosition = Vector2()
+  
+  let flashProgress = 0
 
   function awake() {
     self.reset()
@@ -50,6 +76,16 @@ function Goal(spec) {
       self.refreshTriggered()
       self.checkComplete()
     }
+    
+    flashProgress *= 0.95
+    
+    cameraDirection.set(camera.transform.position)
+    transform.invertPoint
+    cameraDistance = cameraDirection.magnitude
+    if (cameraDistance == 0)
+      cameraDirection.set(0, 1)
+    else
+      cameraDirection.normalize()
   }
   
   function refreshTriggered() {
@@ -85,12 +121,16 @@ function Goal(spec) {
   function complete() {
     if (completed) return
     
+    flashProgress = 1
+    
     completed = true
     goalCompleted(self)
   }
   
   function fail() {
     if (failed) return
+    
+    flashProgress = 1
     
     failed = true
     goalFailed(self)
@@ -109,29 +149,23 @@ function Goal(spec) {
   }
   
   function drawLocal() {
-    strokeColor = '#111'
-    fillColor = completed ? 
-      completedFill : failed ? 
-      failedFill : triggered ? 
-      triggeredFill : available ? 
-      availableFill : unavailableFill
-    
     if (order) {
       ctx.save()
-      ctx.fillStyle = '#333'
+      ctx.fillStyle = strokeStyle
       ctx.textAlign = 'center'
       ctx.textBaseline = 'middle'
       ctx.font = '1px Roboto Mono'
       ctx.scale(0.7, 0.7)
       
-      ctx.fillText(order, 0, 0.25)
+      let center = self.shape.center
+      ctx.fillText(order, center.x, center.y+0.25)
       ctx.restore()
     }
   }
   
   function draw() {
+    refreshColors()
     camera.drawThrough(ctx, drawLocal, transform)
-    
     if (self.debug) {
       shape.draw(ctx, camera)
     }
@@ -155,12 +189,48 @@ function Goal(spec) {
     self.reset()
   }
   
+  function refreshColors() {
+    strokeColor.set(completed ? 
+      completedStroke : failed ? 
+      failedStroke : triggered ? 
+      triggeredStroke : available ? 
+      availableStroke : unavailableStroke)
+      
+    strokeColorB.set(completed ? 
+      completedStrokeB : failed ? 
+      failedStrokeB : triggered ? 
+      triggeredStrokeB : available ? 
+      availableStrokeB : unavailableStrokeB)
+      
+    availableFill.lerp(completedFill, self.completedProgress, triggeredFill)
+      
+    fillColor.set(completed ? 
+      completedFill : failed ? 
+      failedFill : triggered ? 
+      triggeredFill : available ? 
+      availableFill : unavailableFill)
+      
+    strokeColor.lerp(flashWhite, flashProgress)
+    strokeColorB.lerp(flashWhite, flashProgress)
+    fillColor.lerp(flashWhite, flashProgress)
+      
+    strokeStyle = ctx.createLinearGradient(cameraDirection.x*size/2, -cameraDirection.y*size/2, -cameraDirection.x*size/2, cameraDirection.y*size/2)
+    
+    strokeStyle.addColorStop(0, strokeColorB.hex)
+    strokeStyle.addColorStop(1-1/(1+cameraDistance), strokeColor.hex)
+    strokeStyle.addColorStop(1, strokeColorB.hex)
+    
+    fillStyle = fillColor.hex
+  }
+  
   function refresh() {
     available = true
     
     if (order) {
       available = getLowestOrder().localeCompare(order) >= 0
     }
+    
+    self.refreshColors()
   }
   
   return self.mix({
@@ -173,6 +243,7 @@ function Goal(spec) {
     
     reset,
     refresh,
+    refreshColors,
     
     startRunning,
     stopRunning,
@@ -193,7 +264,13 @@ function Goal(spec) {
     get triggeringSledderPosition() {return triggeringSledderPosition},
     get triggeringSledderDelta() {return triggeringSledderDelta},
     
-    get fillColor() {return fillColor},
-    get strokeColor() {return strokeColor},
+    get fillStyle() {return fillStyle},
+    get strokeStyle() {return strokeStyle},
+    get strokeWidth() {return strokeWidth},
+    
+    get flashProgress() {return flashProgress},
+    get flashWhite() {return flashWhite},
+    
+    get completedProgress() {return completed ? 1 : 0},
   })
 }

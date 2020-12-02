@@ -20,10 +20,10 @@ function FixedGoal(spec) {
   })
   
   function drawLocal() {
-    ctx.strokeStyle = self.strokeColor
-    ctx.fillStyle = self.fillColor
+    ctx.strokeStyle = self.strokeStyle
+    ctx.fillStyle = self.fillStyle
     
-    ctx.lineWidth = 0.05
+    ctx.lineWidth = self.strokeWidth
     
     ctx.fillRect(-size/2, -size/2, size, size)
     ctx.strokeRect(-size/2, -size/2, size, size)

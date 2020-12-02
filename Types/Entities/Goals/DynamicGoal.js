@@ -43,10 +43,10 @@ function DynamicGoal(spec) {
   }
   
   function drawLocal() {
-    ctx.strokeStyle = self.strokeColor
-    ctx.fillStyle = self.fillColor
+    ctx.strokeStyle = self.strokeStyle
+    ctx.fillStyle = self.fillStyle
     
-    ctx.lineWidth = 0.05
+    ctx.lineWidth = self.strokeWidth
     
     ctx.beginPath()
     ctx.arc(0, 0, size/2, 0, TAU)
@@ -55,8 +55,8 @@ function DynamicGoal(spec) {
   }
   
   function draw() {
-    base.draw()
     camera.drawThrough(ctx, drawLocal, transform)
+    base.draw()
     
     if (self.debug) {
       rigidbody.draw(ctx)
@@ -71,6 +71,8 @@ function DynamicGoal(spec) {
 
     transform.position.y = graph.sample('x', transform.position.x)+size/2
     
+    transform.transformPoint(bottom, bottomWorld)
+    
     rigidbody.resetVelocity()
     
     slopeTangent.x = 1
@@ -80,7 +82,7 @@ function DynamicGoal(spec) {
     // Set the Upright vector of rigidbody to the slope normal
     slopeTangent.orthogonalize(rigidbody.upright)
       
-    let angle = Math.asin(slopeTangent.y)
+    let angle = math.atan2(slopeTangent.y, slopeTangent.x)
     transform.rotation = angle
   }
   
