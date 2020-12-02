@@ -30,8 +30,14 @@ function FixedGoal(spec) {
   }
   
   function draw() {
+    // Set alpha to fade with flash if completed
+    self.setAlphaByFlashFade()
+    
     camera.drawThrough(ctx, drawLocal, transform)
     base.draw()
+    
+    // Reset alpha
+    ctx.globalAlpha = 1
   }
   
   return self.mix({

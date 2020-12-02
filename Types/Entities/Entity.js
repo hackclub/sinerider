@@ -190,6 +190,10 @@ function Entity(spec, defaultName = 'Entity') {
     return component
   }
   
+  function getLineage() {
+    return parent ? (parent.getLineage()+'.'+name) : name
+  }
+  
   function getFromAncestor(path) {
     let v = _.get(self, path, undefined)
     if (_.isUndefined(v)) {
@@ -227,6 +231,9 @@ function Entity(spec, defaultName = 'Entity') {
     removeChild,
     
     getFromAncestor,
+    getLineage,
+    
+    get lineage() {return getLineage()},
     
     children,
     sortChildren,

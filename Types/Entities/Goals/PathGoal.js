@@ -67,7 +67,8 @@ function PathGoal(spec) {
   transform.transformPoint(pathStart, pathStartWorld)
   transform.transformPoint(pathEnd, pathEndWorld)
   
-  pathGraph = Graph({
+  const pathGraph = Graph({
+    name: 'Path Graph',
     parent: self,
     globalScope,
     expression: pathExpression,
@@ -83,7 +84,7 @@ function PathGoal(spec) {
   })
   
   // HACK: Hijack the graph's draw method to draw it behind the goal object
-  const drawPathGraph = pathGraph.draw
+  const drawPathGraph = pathGraph.draw.bind(pathGraph)
   pathGraph.draw = () => {}
   
   // Sample start/end points
@@ -173,6 +174,9 @@ function PathGoal(spec) {
   }
   
   function draw() {
+    // Set alpha to fade with flash if completed
+    self.setAlphaByFlashFade()
+    
     camera.worldToScreen(pathStartWorld, pathStartScreen)
     camera.worldToScreen(pathEndWorld, pathEndScreen)
     
@@ -203,6 +207,9 @@ function PathGoal(spec) {
     
     camera.drawThrough(ctx, drawLocal, transform)
     base.draw()
+    
+    // Reset alpha
+    ctx.globalAlpha = 1
     
     if (self.debug) {
       shape.draw(ctx, camera)

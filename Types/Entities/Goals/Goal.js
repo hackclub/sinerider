@@ -163,6 +163,10 @@ function Goal(spec) {
     }
   }
   
+  function setAlphaByFlashFade() {
+    ctx.globalAlpha = completed ? flashProgress : 1
+  }
+  
   function draw() {
     refreshColors()
     camera.drawThrough(ctx, drawLocal, transform)
@@ -253,6 +257,8 @@ function Goal(spec) {
     
     complete,
     fail,
+    
+    setAlphaByFlashFade,
     
     get completed() {return completed},
     get available() {return available},

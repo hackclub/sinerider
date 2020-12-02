@@ -135,6 +135,7 @@ function Level(spec) {
     }[goalDatum.type || 'fixed']
     
     const goal = generator({
+      name: 'Goal '+goals.length,
       parent: self,
       camera,
       graph,
@@ -152,6 +153,7 @@ function Level(spec) {
   
   function addSledder(sledderDatum) {
     const sledder = Sledder({
+      name: 'Sledder '+sledders.length,
       parent: self,
       camera,
       graph,
@@ -166,6 +168,7 @@ function Level(spec) {
   
   function addSprite(spriteDatum) {
     const sprite = Sprite({
+      name: 'Sprite '+sprites.length,
       parent: self,
       camera,
       graph,
@@ -180,6 +183,7 @@ function Level(spec) {
   
   function addText(textDatum) {
     const text = Text({
+      name: 'Text '+texts.length,
       parent: self,
       camera,
       globalScope,
