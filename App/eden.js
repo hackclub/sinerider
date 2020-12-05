@@ -85,7 +85,7 @@ worldData.push({
       content: 'hit the green button ⇲'
     },{
       x: 24,
-      y: 5,
+      y: 8,
       size: 4,
       content: 'SineRider'
     },{

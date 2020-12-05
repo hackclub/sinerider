@@ -141,19 +141,19 @@ const WAVE = [{
   x: 0,
   y: -20,
   requirements: [null],
-  defaultExpression: 'sin(x)',
+  defaultExpression: 'cos(x)',
   goals: [
     
     {
       type: 'path',
-      expression: 'cos(x)',
+      expression: '-cos(x-1)+4',
       x: 1,
       y: 0,
       pathX: 3,
     },
     {
       type: 'path',
-      expression: 'cos(x)',
+      expression: '-cos(x-1)+4',
       x: TAU+1,
       y: 0,
       pathX: 3,
@@ -161,11 +161,11 @@ const WAVE = [{
   ],
   sledders: [{
     asset: 'images.sam_sled',
-    x: 0,
+    x: 1,
     y: 0
   },{
     asset: 'images.lunchbox_sled',
-    x: TAU,
+    x: TAU+1,
     y: 0
   }],
 },

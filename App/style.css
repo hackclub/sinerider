@@ -290,6 +290,19 @@ input[valid=false] {
   padding-bottom: 5px;
 }
 
+#loading-remarks {
+  max-width: 80vmin;
+}
+
+#loading-remarks > h3 {
+  text-align: center;
+}
+
+#loading-string {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .background {
   position: absolute;
   
@@ -321,10 +334,11 @@ input[valid=false] {
   pointer-events: all;
   
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   
-  text-align: center;
+  /*text-align: center;*/
 }
 
 .veil[hide=true] {
