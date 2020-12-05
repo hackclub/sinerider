@@ -210,16 +210,25 @@ const WAVE = [{
   x: 0,
   y: -20,
   requirements: [null],
-  defaultExpression: 'sin(x/3)*2',
+  defaultExpression: 'sin(x)',
   goals: [
     {
-      x: 4,
-      y: 0
+      type: 'path',
+      expression: '-sin(x/3)*2',
+      x: TAU-1,
+      y: 0,
+      pathX: -5,
+    },
+    {
+      type: 'path',
+      expression: '-sin(x/3)*2',
+      x: TAU+1,
+      y: 0,
+      pathX: 5,
     },
   ],
   sledders: [{
-    asset: 'images.sam_sled',
-    x: 0,
+    x: -TAU*2/3,
     y: 0
   }],
 }]

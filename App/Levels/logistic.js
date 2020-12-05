@@ -47,14 +47,62 @@ const LOGISTIC = [{
     x: 3,
     y: 0
   }],
-},
-{
+},{
+  name: 'logistic',
+  nick: 'LOGISTIC_PARABOLA',
+  colors: Colors.biomes.mojave,
+  x: -10,
+  y: -10,
+  requirements: ['LOGISTIC'],
+  defaultExpression: '1/(1+x^2)',
+  goals: [
+    {
+      order: 'C',
+      x: -8,
+      y: 1,
+    },
+    {
+      order: 'B',
+      x: -6,
+      y: 1/4,
+    },
+    {
+      order: 'A',
+      x: -4,
+      y: 0,
+    },
+    {
+      order: 'A',
+      x: 4,
+      y: 0,
+    },
+    {
+      order: 'B',
+      x: 6,
+      y: 1/4,
+    },
+    {
+      order: 'C',
+      x: 8,
+      y: 1,
+    },
+  ],
+  sledders: [{
+    asset: 'images.sam_sled',
+    x: -1,
+    y: 0
+  },{
+    asset: 'images.lunchbox_sled',
+    x: 1,
+    y: 0
+  }],
+},{
   name: 'logistic reorder',
   nick: 'LOGISTIC_REORDER',
   colors: Colors.biomes.mojave,
   x: -10,
   y: 0,
-  requirements: [null],
+  requirements: ['LOGISTIC'],
   defaultExpression: '1/(1+(x+8)^2) + 1/(1+(x+1)^2)',
   goals: [
     {
@@ -78,8 +126,7 @@ const LOGISTIC = [{
     x: -8,
     y: 0
   }],
-},
-{
+},{
   name: 'logistic reorder 2',
   nick: 'LOGISTIC_REORDER_2',
   colors: Colors.biomes.mojave,
@@ -109,8 +156,7 @@ const LOGISTIC = [{
     x: 2,
     y: 0.5
   }],
-},
-{
+},{
   name: 'logistic jump',
   nick: 'LOGISTIC_JUMP',
   colors: Colors.biomes.mojave,

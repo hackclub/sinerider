@@ -110,7 +110,8 @@ if (!stepping) {
 
 function onKeyUp(event) {
   if (event.keyCode === 13) {
-    world.toggleRunning()
+    if (!world.navigating)
+      world.toggleRunning()
   }
 }
 
@@ -139,7 +140,8 @@ function onClickNextButton(event) {
 ui.nextButton.addEventListener('click', onClickNextButton)
 
 function onClickRunButton(event) {
-  world.toggleRunning()
+  if (!world.navigating)
+    world.toggleRunning()
 }
 
 ui.runButton.addEventListener('click', onClickRunButton)

@@ -77,6 +77,7 @@ const TIME = [{
     }
   ],
   sledders: [{
+    asset: 'images.lunchbox_sled',
     x: -4,
     y: 0,
   }],
@@ -246,25 +247,12 @@ const TIME = [{
   defaultExpression: 'sin(x-t)+x/5',
   goals: [
     {
+      type: 'path',
+      expression: 'x/2',
       x: 2,
-      y: 1
+      y: 0,
+      pathX: 5,
     },
-    {
-      x: 3,
-      y: 1.5
-    },
-    {
-      x: 4,
-      y: 2
-    },
-    {
-      x: 5,
-      y: 2.5
-    },
-    {
-      x: 6,
-      y: 3
-    }
   ],
   sledders: [{
     x: 0,

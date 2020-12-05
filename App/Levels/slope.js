@@ -212,17 +212,12 @@ const SLOPE = [{
   hint: 'hint: if adding makes it go up…',
   goals: [
     {
+      type: 'path',
+      expression: '-x-3',
+      pathX: 4,
       x: 3,
-      y: -6
+      y: 0,
     },
-    {
-      x: 5,
-      y: -8
-    },
-    {
-      x: 7,
-      y: -10
-    }
   ],
   sledders: [{
     speech: [{
