@@ -4,11 +4,19 @@
 
 function Sampler(spec = {}) {
   let {
-    expression = '0',
     scope = {},
+    defaultToLastValidExpression = true,
   } = spec
   
-  let evaluator = math.compile(decomment(expression))
+  let expression
+  let lastValidExpression = '0'
+  
+  let evaluator
+  let lastValidEvaluator = math.compile(lastValidExpression)
+  
+  let valid = false
+  
+  setExpression(spec.expression || '0')
   
   function decomment(expression) {
     return expression.split('//')[0]
@@ -17,10 +25,11 @@ function Sampler(spec = {}) {
   function evaluate(scope) {
     if (expression == '') return 0
     
+    let e = defaultToLastValidExpression ? lastValidEvaluator : evaluator
     let v = 0
 
     try {
-      v = evaluator.evaluate(scope)
+      v = e.evaluate(scope)
       
       if (v == PINF || v == NINF)
         v = 0
@@ -87,9 +96,13 @@ function Sampler(spec = {}) {
     
     try {
       evaluator = math.compile(decomment(expression))
+      lastValidExpression = expression
+      lastValidEvaluator = evaluator
+      valid = true
     }
     catch (err) {
       evaluator = math.compile('0')
+      valid = false
     }
   }
   
@@ -104,7 +117,11 @@ function Sampler(spec = {}) {
     
     generateSampleArray,
     
+    setExpression,
+    
     get expression() {return expression},
     set expression(v) {setExpression(v)},
+    
+    get valid() {return valid},
   }
 }

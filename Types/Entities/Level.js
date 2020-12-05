@@ -269,6 +269,8 @@ function Level(spec) {
   
   function setGraphExpression(text) {
     graph.expression = ui.expressionText.value
+    ui.expressionText.setAttribute('valid', graph.valid)
+    
     _.invokeEach(sledders, 'reset')
     _.invokeEach(goals, 'reset')
     

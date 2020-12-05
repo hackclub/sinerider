@@ -193,6 +193,10 @@ input:placeholder-shown {
    font-style: italic;
 }
 
+input[valid=false] {
+  border: 1px solid red;
+}
+
 #expression-text {
   flex-grow: 1;
 }
@@ -266,8 +270,9 @@ input:placeholder-shown {
   
   top: 0px;
   left: 0px;
+  right: 0px;
   
-  justify-content: flex-start;
+  justify-content: flex-end;
 }
 
 #top-bar[hide=true] {
@@ -276,9 +281,9 @@ input:placeholder-shown {
 
 #top-bar > .button {
   border-top-width: 0;
-  border-left-width: 0;
+  border-right-width: 0;
   
-  border-radius: 0 0 15px 0;
+  border-radius: 0 0 0 15px;
 }
 
 #navigator-button > .string {

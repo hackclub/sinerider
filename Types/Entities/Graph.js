@@ -138,9 +138,9 @@ function Graph(spec) {
   if (!bounds)
     screen.resizeSubs.push(onResizeScreen)
   
+  self.mix(sampler)
+  
   return self.mix({
-    ...sampler,
-    
     tick,
     draw,
     
