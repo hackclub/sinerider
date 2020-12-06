@@ -45,6 +45,7 @@ function Sampler(spec = {}) {
   }
   
   function sample() {
+    // Assign variable/value pairs
     if (arguments.length >= 2) {
       for (let i = 0; i < arguments.length; i += 2) {
         scope[arguments[i]] = arguments[i+1]
@@ -55,6 +56,13 @@ function Sampler(spec = {}) {
   }
   
   function sampleSlope(variable, value) {
+    // Assign variable/value pairs *except* first pair
+    if (arguments.length >= 3) {
+      for (let i = 2; i < arguments.length; i += 2) {
+        scope[arguments[i]] = arguments[i+1]
+      }
+    }
+    
     const epsilon = 0.01
      
     scope[variable] = value

@@ -27,36 +27,29 @@ function Rigidbody(spec) {
   const debugVectorOrigin = Vector2()
   const debugVectorTerminus = Vector2()
   
-  function integrate() {
-    // Integrate velocity. TODO: Verlet integration
-    transform.x += velocity[0]*globalScope.dt
-    transform.y += velocity[1]*globalScope.dt
-  }
-  
   function tick() {
     if (!globalScope.running || fixed) {
       return
     }
     
+    // Gravity
     velocity[1] -= 9.8*globalScope.dt
     
-    integrate()
+    // Integrate velocity. TODO: Verlet integration
+    transform.x += velocity[0]*globalScope.dt
+    transform.y += velocity[1]*globalScope.dt
     
+    // Sample graph height
     samplePosition.set(transform.position)
     samplePosition.add(positionOffset)
     
     const graphY = graph.sample('x', samplePosition.x)
-    // const graphY = graph.sample({
-    //   x: samplePosition.x,
-    //   t: globalScope.t
-    // })
-    
     grounded = samplePosition.y < graphY-collisionThreshold
     
     if (grounded) {
       // Slope and velocity of graph at this position
       const graphSlope = graph.sampleSlope('x', samplePosition.x)
-      const verticalGraphVelocity = graph.sampleSlope('t', samplePosition.x)
+      const verticalGraphVelocity = graph.sampleSlope('t', globalScope.t, 'x', samplePosition.x)
       
       // Vertical depth of penetration
       const verticalPenetration = graphY-samplePosition.y
@@ -146,8 +139,11 @@ function Rigidbody(spec) {
   }
   
   return {
-    velocity,
-    upright,
+    get velocity() {return velocity},
+    set velocity(v) {velocity.set(v)},
+    
+    get upright() {return upright},
+    set upright(v) {upright.set(v)},
     
     resetVelocity,
     

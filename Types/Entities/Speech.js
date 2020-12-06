@@ -51,6 +51,11 @@ function Speech(spec) {
       align = 'right'
       // baseline = 'middle'
       break
+    case 'left-left-up':
+      textDirection = Vector2(-2, 1)
+      align = 'right'
+      // baseline = 'middle'
+      break
     case 'left-up-up':
       textDirection = Vector2(-1, 2)
       align = 'right'
@@ -88,6 +93,11 @@ function Speech(spec) {
       break
     case 'right-up-up':
       textDirection = Vector2(1, 2)
+      align = 'left'
+      // baseline = 'middle'
+      break
+    case 'right-right-up':
+      textDirection = Vector2(2, 1)
       align = 'left'
       // baseline = 'middle'
       break

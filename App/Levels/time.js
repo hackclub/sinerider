@@ -36,10 +36,10 @@ const TIME = [{
     asset: 'images.lunchbox_sled',
     speech: [{
       speakerX: 0.3,
-      content: 'Where did she get the other sled?',
+      content: '…where did she get the other sled?',
       direction: 'right-right-up',
       distance: 1,
-    }],
+    }]
   }],
 },
 {
@@ -118,13 +118,18 @@ const TIME = [{
     asset: 'images.lunchbox_sled',
     speech: [{
       speakerX: 0.3,
-      content: 'It’s perfect.',
+      content: 'But to me? I’ll die without ever seeing it change.',
       direction: 'right-right-up',
       distance: 1,
       speech: {
-        content: 'This place gives me the creeps.',
-        direction: 'right-right-up',
+        content: 'To the rock, the river cuts like a sword.',
+        direction: 'up-left',
         distance: 1,
+        speech: {
+          content: 'This canyon gives me the creeps.',
+          direction: 'right-up',
+          distance: 1,
+        },
       },
     }],
   }],
@@ -163,6 +168,13 @@ const TIME = [{
     x: 0,
     y: 0,
     asset: 'images.lunchbox_sled',
+    speech: [{
+      speakerX: 0.3,
+      content: 'I should really tweet these cosmic moments',
+      direction: 'right',
+      alignment: 'middle',
+      distance: 1,
+    }],
   }],
 },
 {

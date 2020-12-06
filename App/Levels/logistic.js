@@ -97,6 +97,55 @@ const LOGISTIC = [{
     y: 0
   }],
 },{
+  name: 'logistic',
+  nick: 'LOGISTIC_PARABOLA',
+  colors: Colors.biomes.mojave,
+  x: -20,
+  y: 0,
+  requirements: [null],
+  defaultExpression: '1/(1+x^2)',
+  goals: [
+    {
+      order: 'C',
+      x: -8,
+      y: 1,
+    },
+    {
+      order: 'B',
+      x: -6,
+      y: 1/4,
+    },
+    {
+      order: 'A',
+      x: -4,
+      y: 0,
+    },
+    {
+      order: 'A',
+      x: 4,
+      y: 0,
+    },
+    {
+      order: 'B',
+      x: 6,
+      y: 1/4,
+    },
+    {
+      order: 'C',
+      x: 8,
+      y: 1,
+    },
+  ],
+  sledders: [{
+    asset: 'images.sam_sled',
+    x: -1,
+    y: 0
+  },{
+    asset: 'images.lunchbox_sled',
+    x: 1,
+    y: 0
+  }],
+},{
   name: 'logistic reorder',
   nick: 'LOGISTIC_REORDER',
   colors: Colors.biomes.mojave,

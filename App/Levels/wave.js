@@ -146,17 +146,17 @@ const WAVE = [{
     
     {
       type: 'path',
-      expression: '-cos(x-1)+4',
-      x: 1,
+      expression: 'cos(x-1)+4',
+      x: 2,
       y: 0,
-      pathX: 3,
+      pathX: 4,
     },
     {
       type: 'path',
-      expression: '-cos(x-1)+4',
-      x: TAU+1,
+      expression: 'cos(x-1)+4',
+      x: TAU+2,
       y: 0,
-      pathX: 3,
+      pathX: 4,
     },
   ],
   sledders: [{
