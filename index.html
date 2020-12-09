@@ -64,7 +64,9 @@
         <div class='string'>Y=</div>
       </div>
       
-      <input class='text' id='expression-text' type='text'/>
+      <div id='math-field'></div>
+      
+      <input class='text' id='expression-text' type='text' hide=true/>
       
       <div class='button' id='run-button' hide=false>
         <div class='string'>GO</div>
@@ -116,10 +118,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjs/7.3.0/math.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.9.1/mathquill.min.js"></script>
+    
+    <link rel="stylesheet" href="Libraries/mathquill.css"/>
+    <script src="Libraries/mathquill.min.js"></script>
+    <script>
+      var MQ = MathQuill.getInterface(2);
+    </script>
     
     <!-- Load Extension Methods -->
     <script src='Libraries/extensions.js'></script>
-    <script src='App/colors.js'></script>
+    <script src='Libraries/preprocessMathQuill.js'></script>
     
     <!-- Load Structs -->
     <script src='Types/Structs/Vector2.js'></script>
@@ -127,6 +137,9 @@
     <script src='Types/Structs/Circle.js'></script>
     <script src='Types/Structs/Rect.js'></script>
     <script src='Types/Structs/Color.js'></script>
+    
+    <!-- Color Palette -->
+    <script src='App/colors.js'></script>
     
     <!-- Load Basic Types -->
     <script src='Types/Assets.js'></script>

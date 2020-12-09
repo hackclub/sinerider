@@ -198,7 +198,17 @@ input[valid=false] {
 }
 
 #expression-text {
+  display: none;
   flex-grow: 1;
+}
+
+#math-field {
+  flex-grow: 1;
+  background: #fff;
+}
+
+#math-field[valid=false] {
+  border: 1px solid red;
 }
 
 #run-button:not(:hover) {

@@ -227,7 +227,7 @@ function Level(spec) {
   }
   
   function reset() {
-    ui.expressionText.value = defaultExpression
+    ui.mathField.latex(defaultExpression)
     setGraphExpression(defaultExpression)
     refreshLowestOrder()
   }
@@ -268,7 +268,7 @@ function Level(spec) {
   }
   
   function setGraphExpression(text) {
-    graph.expression = ui.expressionText.value
+    graph.expression = text
     ui.expressionText.setAttribute('valid', graph.valid)
     
     _.invokeEach(sledders, 'reset')

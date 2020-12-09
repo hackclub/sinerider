@@ -105,10 +105,11 @@ function World(spec) {
     })
     
     level.playOpenMusic()
+    level.reset()
     
     ui.levelText.value = levelDatum.name
     ui.levelButtonString.innerHTML = levelDatum.name
-    ui.expressionText.value = levelDatum.defaultExpression
+    // ui.expressionText.value = levelDatum.defaultExpression
     
     setNavigating(false)
   }

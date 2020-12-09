@@ -98,51 +98,24 @@ const LOGISTIC = [{
   }],
 },{
   name: 'logistic',
-  nick: 'LOGISTIC_PARABOLA',
+  nick: 'LOGISTIC_TRAJECTORY',
   colors: Colors.biomes.mojave,
   x: -20,
   y: 0,
   requirements: [null],
-  defaultExpression: '1/(1+x^2)',
+  defaultExpression: '(x/3)^2+3/(1+x^2)',
   goals: [
     {
-      order: 'C',
-      x: -8,
-      y: 1,
-    },
-    {
-      order: 'B',
-      x: -6,
-      y: 1/4,
-    },
-    {
-      order: 'A',
-      x: -4,
+      type: 'path',
+      expression: '-((x-4)/2)^2+8',
+      x: 1,
       y: 0,
-    },
-    {
-      order: 'A',
-      x: 4,
-      y: 0,
-    },
-    {
-      order: 'B',
-      x: 6,
-      y: 1/4,
-    },
-    {
-      order: 'C',
-      x: 8,
-      y: 1,
+      pathX: 5
     },
   ],
   sledders: [{
     asset: 'images.sam_sled',
-    x: -1,
-    y: 0
-  },{
-    asset: 'images.lunchbox_sled',
-    x: 1,
+    x: -12,
     y: 0
   }],
 },{

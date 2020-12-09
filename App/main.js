@@ -35,6 +35,7 @@ const ui = {
 
   controlBar: $('#controls-bar'),
   expressionText: $('#expression-text'),
+  mathField: $('#math-field'),
   variableLabel: $('#variable-label'),
   hintLabel: $('#hint-label'),
   hintString: $('#hint-label > .string'),
@@ -106,6 +107,22 @@ if (!stepping) {
   setInterval(tick, 1000/ticksPerSecond)
 }
 
+// MathQuill
+ui.mathField = MQ.MathField(ui.mathField, {
+  handlers: {
+    edit: function() {
+      const text = ui.mathField.getPlainExpression()
+      console.log(`Expression text changed to: `, text)
+      world.level.setGraphExpression(text)
+    }
+  }
+})
+
+ui.mathField.getPlainExpression = function() {
+  var tex = ui.mathField.latex()
+  return mathquillToMathJS(tex)
+}
+
 // HTML events
 
 function onKeyUp(event) {
@@ -123,7 +140,7 @@ function onExpressionTextChanged(event) {
   world.level.setGraphExpression(ui.expressionText.value)
 }
 
-ui.expressionText.addEventListener('input', onExpressionTextChanged)
+// ui.expressionText.addEventListener('input', onExpressionTextChanged)
 
 function onClickLevelButton(event) {
   world.transitionNavigating(!world.navigating)
