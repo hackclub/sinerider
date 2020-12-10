@@ -2,10 +2,10 @@ const WAVE = [{
   name: 'Sin',
   nick: 'SIN',
   colors: Colors.biomes.arches,
-  x: 20,
-  y: -20,
-  requirements: ['PARABOLA_TRANSLATE_SCALE_X_Y'],
-  defaultExpression: 'sin(x)',
+  x: 50,
+  y: 0,
+  requirements: ['PARABOLA_TRANSLATE_Y'],
+  defaultExpression: '\\sin \\left(x\\right)',
   goals: [
     {
       type: 'path',
@@ -39,18 +39,18 @@ const WAVE = [{
   x: 20,
   y: 0,
   requirements: ['SIN'],
-  defaultExpression: '-cos(x)',
+  defaultExpression: '\\cos \\left(x\\right)',
   goals: [
     {
       type: 'path',
-      expression: 'cos(x)',
+      expression: 'cos(x)+4',
       x: 1,
       y: 0,
       pathX: 4.5,
     },
     {
       type: 'path',
-      expression: 'cos(x)',
+      expression: 'cos(x)+4',
       x: TAU+1,
       y: 0,
       pathX: 4.5,
@@ -73,7 +73,7 @@ const WAVE = [{
   x: 0,
   y: -20,
   requirements: [null, 'SIN_SCALE_X'],
-  defaultExpression: 'cos(x)',
+  defaultExpression: '\\sin \\left(x\\right)',
   goals: [
     {
       type: 'path',
@@ -107,7 +107,7 @@ const WAVE = [{
   x: 0,
   y: -20,
   requirements: ['SIN'],
-  defaultExpression: 'sin(x+1)',
+  defaultExpression: '\\sin \\left(x+\\frac{pi}{2}\\right)',
   goals: [
     {
       type: 'path',
@@ -141,7 +141,7 @@ const WAVE = [{
   x: 0,
   y: -20,
   requirements: [null],
-  defaultExpression: 'cos(x)',
+  defaultExpression: '\\cos \\left(x\\right)',
   goals: [
     
     {
@@ -176,7 +176,7 @@ const WAVE = [{
   x: 10,
   y: -10,
   requirements: ['SIN'],
-  defaultExpression: 'sin(x/1)',
+  defaultExpression: '\\sin \\left(x\\right)',
   goals: [
     {
       type: 'path',
@@ -210,7 +210,7 @@ const WAVE = [{
   x: 0,
   y: -20,
   requirements: [null],
-  defaultExpression: 'sin(x)',
+  defaultExpression: '\\sin \\left(x\\right)\\cdot 1',
   goals: [
     {
       type: 'path',

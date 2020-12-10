@@ -35,7 +35,7 @@ function Level(spec) {
   
   const trackedEntities = [speech, sledders, goals]
   
-  ui.expressionText.setAttribute('placeholder', hint)
+  // ui.mathField.setAttribute('placeholder', hint)
   
   openMusic = _.get(assets, openMusic, null)
   runMusic = _.get(assets, runMusic, null)
@@ -227,8 +227,8 @@ function Level(spec) {
   }
   
   function reset() {
-    ui.expressionText.value = defaultExpression
-    setGraphExpression(defaultExpression)
+    ui.mathField.latex(defaultExpression)
+    setGraphExpression(defaultExpression, defaultExpression)
     refreshLowestOrder()
   }
   
@@ -267,9 +267,10 @@ function Level(spec) {
     self.sortChildren()
   }
   
-  function setGraphExpression(text) {
-    graph.expression = ui.expressionText.value
-    ui.expressionText.setAttribute('valid', graph.valid)
+  function setGraphExpression(text, latex) {
+    graph.expression = text
+    ui.expressionEnvelope.setAttribute('valid', graph.valid)
+    ui.mathFieldStatic.latex(latex)
     
     _.invokeEach(sledders, 'reset')
     _.invokeEach(goals, 'reset')

@@ -18,6 +18,8 @@ function Speech(spec) {
     speech,
     speakerX = 0,
     speakerY = 0,
+    drawIfRunning = false,
+    globalScope,
   } = spec
   
   console.log('Creating speech with content:', content)
@@ -107,7 +109,7 @@ function Speech(spec) {
   textDirection.normalize()
   
   const textTangent = Vector2(textDirection).orthogonalize()
-  const textOriginPerturbation = Vector2(textTangent).multiply(Math.random()*distance/6)
+  const textOriginPerturbation = Vector2(textTangent).multiply(0)//Math.random()*distance/6)
   
   const worldPosition = Vector2()
   
@@ -140,6 +142,7 @@ function Speech(spec) {
         
       Speech({
         parent: self,
+        globalScope,
         x: textOrigin.x + (s.x || 0),
         y: textOrigin.y + (s.y || 0) + size*0.8,
         ...s,
@@ -174,6 +177,9 @@ function Speech(spec) {
   }
   
   function draw() {
+    if (!drawIfRunning && globalScope.running)
+      return
+    
     const scalar = camera.worldToScreenScalar()
     
     calculatePoints()

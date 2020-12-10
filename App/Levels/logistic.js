@@ -5,7 +5,7 @@ const LOGISTIC = [{
   x: -10,
   y: -10,
   requirements: ['SIN_TRANSLATE_X_Y'],
-  defaultExpression: '1/(1+x^2)',
+  defaultExpression: '\\frac{1}{1+x^2}',
   goals: [
     {
       order: 'C',
@@ -54,7 +54,7 @@ const LOGISTIC = [{
   x: -10,
   y: -10,
   requirements: ['LOGISTIC'],
-  defaultExpression: '1/(1+x^2)',
+  defaultExpression: '\\frac{1}{1+x^2}',
   goals: [
     {
       order: 'C',
@@ -125,7 +125,7 @@ const LOGISTIC = [{
   x: -10,
   y: 0,
   requirements: ['LOGISTIC'],
-  defaultExpression: '1/(1+(x+8)^2) + 1/(1+(x+1)^2)',
+  defaultExpression: '\\frac{1}{1+\\left(x+8\\right)^2}+\\frac{1}{1+\\left(x+1\\right)^2}',
   goals: [
     {
       order: 'B',
@@ -149,43 +149,13 @@ const LOGISTIC = [{
     y: 0
   }],
 },{
-  name: 'logistic reorder 2',
-  nick: 'LOGISTIC_REORDER_2',
-  colors: Colors.biomes.mojave,
-  x: -10,
-  y: 0,
-  requirements: [null],
-  defaultExpression: '1/(1+(x+8)^2) + 1/(1+(x+1-t)^2)',
-  goals: [
-    {
-      order: 'B',
-      x: -2,
-      y: 0.5
-    },
-    {
-      order: 'C',
-      x: 2,
-      y: 0.5
-    },
-  ],
-  sledders: [{
-    x: -8,
-    y:0.5
-  },{
-    x: 0,
-    y:0.5
-  },{
-    x: 2,
-    y: 0.5
-  }],
-},{
   name: 'logistic jump',
   nick: 'LOGISTIC_JUMP',
   colors: Colors.biomes.mojave,
   x: -10,
   y: 0,
   requirements: [null],
-  defaultExpression: '1/(1+(x+8)^2) - 1/(1+x^2) + 1/(1+(x-8)^2)',
+  defaultExpression: '\\frac{1}{1+\\left(x+8\\right)^2}-\\frac{1}{1+x^2}+\\frac{1}{1+\\left(x-8\\right)^2}',
   goals: [
     {
       order: 'A',

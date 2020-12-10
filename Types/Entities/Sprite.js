@@ -46,6 +46,7 @@ function Sprite(spec = {}) {
         
       Speech({
         parent: self,
+        globalScope,
         x: size*offset.x,
         y: size*offset.y,
         ...s,

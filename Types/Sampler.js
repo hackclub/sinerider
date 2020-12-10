@@ -6,6 +6,7 @@ function Sampler(spec = {}) {
   let {
     scope = {},
     defaultToLastValidExpression = true,
+    allowInfinity = false,
   } = spec
   
   let expression
@@ -31,11 +32,21 @@ function Sampler(spec = {}) {
     try {
       v = e.evaluate(scope)
       
-      if (v == PINF || v == NINF)
+      if (!allowInfinity) {
+        if (v == PINF || v == NINF)
+          v = 0
+          
+        if (v.re == PINF || v.re == NINF)
+          v.re = 0
+          
+        if (v.im == PINF || v.im == NINF)
+          v.im = 0
+      }
+      
+      if (_.isObject(v))
+        v = v.re || 0
+      else if (!_.isNumber(v))
         v = 0
-        
-      if (v.im)
-        v = v.re
     }
     catch (err) {
       v = 0

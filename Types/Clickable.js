@@ -5,11 +5,14 @@ function Clickable(spec) {
   
   const {
     entity,
-    screen,
-    camera,
-    shape,
     space = 'world',
     dragThreshold = 0.05,
+  } = spec
+  
+  const {
+    screen = entity.screen,
+    camera = entity.camera,
+    shape = entity.shape,
   } = spec
   
   // If layer is unspecified, default is layer 1
