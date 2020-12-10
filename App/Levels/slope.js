@@ -167,12 +167,12 @@ const SLOPE = [{
     fov: 9,
   },
   requirements: ['SLOPE_NEGATIVE'],
-  defaultExpression: '-x',
+  defaultExpression: '-x-3',
   hint: 'hint: add a constant',
   goals: [
     {
       type: 'path',
-      expression: '-x+6',
+      expression: '-x+7',
       pathX: 6,
       x: 2,
       y: 0,
@@ -248,7 +248,7 @@ const SLOPE = [{
     'SLOPE_LOWER',
     'SLOPE_SHALLOWER',
   ],
-  defaultExpression: '-x/2',
+  defaultExpression: '-\\frac{x}{2}',
   hint: 'put it all together!',
   goals: [
     {

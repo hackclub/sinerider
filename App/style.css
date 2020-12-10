@@ -60,6 +60,11 @@ body > .bar {
   margin: 0;
 }
 
+.bar > .envelope {
+  display: flex;
+  border-radius: 5px;
+}
+
 .floating {
   background: transparent;
   padding: 0;
@@ -67,9 +72,7 @@ body > .bar {
   overflow: visible;
 }
 
-.floating > .button {
-  border: 1px solid black;
-  
+.floating > .button,.envelope {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
 }
 
@@ -125,7 +128,7 @@ body > .bar {
   color: #fff;
 }
 
-.text[hide=true],.label[hide=true],.button[hide=true] {
+.envelope[hide=true],.text[hide=true],.label[hide=true],.button[hide=true] {
   display: none;
 }
 
@@ -149,33 +152,15 @@ body > .bar {
   
   bottom: 20px;
   
-  /*font-size: 24px;*/
-  
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .victory[hide=true] {
   bottom: -80px;
-  /*bottom: 110vh;*/
-  /*display: none;*/
 }
 
 .message[hide=true] {
   display: none;
-}
-
-.controls {
-  position: absolute;
-  
-  bottom: 20px;
-  
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
-}
-
-.controls[hide=true] {
-  bottom: -60px;
-  /*bottom: 110vh;*/
-  /*display: none;*/
 }
 
 .navigator {
@@ -197,18 +182,74 @@ input[valid=false] {
   border: 1px solid red;
 }
 
+#controls-bar {
+  position: absolute;
+  
+  left: 20px;
+  bottom: 20px;
+  right: 20px;
+  align-self: center;
+  
+  align-items: flex-end;
+  justify-content: center;
+  
+  /*box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);*/
+}
+
+#controls-bar[hide=true] {
+  bottom: -50vh;
+}
+
 #expression-text {
   display: none;
   flex-grow: 1;
 }
 
-#math-field {
-  flex-grow: 1;
+#math-field,#math-field-static {
+  border: none;
+  flex-grow: 0;
+  padding: 4px 2px 2px 2px;
+  /*margin: 4px 4px 4px 0px;*/
+  margin: 0;
   background: #fff;
 }
 
 #math-field[valid=false] {
   border: 1px solid red;
+}
+
+#expression-envelope[disabled=true] > #math-field {
+ display: none; 
+}
+
+#expression-envelope[disabled=false] > #math-field-static {
+ display: none; 
+}
+
+#math-field-static {
+  background: #ddd;
+}
+
+#expression-envelope[disabled=true] {
+  background: #ddd;
+}
+
+#expression-envelope[disabled=false] {
+  background: #fff;
+}
+
+#run-button {
+  position: absolute;
+  
+  right: 0;
+  bottom: 0;
+}
+
+#stop-button {
+  position: absolute;
+  
+  right: 0;
+  bottom: 0;
 }
 
 #run-button:not(:hover) {
@@ -232,6 +273,11 @@ input[valid=false] {
 }
 
 #reset-button {
+  position: absolute;
+  
+  left: 0;
+  bottom: 0;
+  
   padding: 0;
 }
 
@@ -289,11 +335,9 @@ input[valid=false] {
   top: -80px;
 }
 
-#top-bar > .button {
-  border-top-width: 0;
-  border-right-width: 0;
-  
-  border-radius: 0 0 0 15px;
+#navigator-button {
+  margin-right: 10px;
+  border-radius: 0 0 10px 10px;
 }
 
 #navigator-button > .string {

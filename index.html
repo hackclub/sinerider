@@ -33,7 +33,7 @@
       <div class='string' id='time-string'>T=0</div>
     </div>
     
-    <div class='top floating bar' id='top-bar' hide=false>
+    <div class='bar floating top' id='top-bar' hide=false>
       <div class='button' id='navigator-button' hide=false>
         <div class='string'>⛰</div>
       </div>
@@ -55,16 +55,20 @@
       <!--</div>-->
     </div>
     
-    <div class='bar controls' id='controls-bar'>
+    <div class='bar floating controls' id='controls-bar'>
       <div class='button' id='reset-button'>
         <div class='string'>↺</div>
       </div>
       
-      <div class='label' id='variable-label'>
-        <div class='string'>Y=</div>
+      <div class='envelope' id='expression-envelope' disabled=false>
+        <div class='label' id='variable-label'>
+          <div class='string'>Y=</div>
+        </div>
+        
+        <div id='math-field'></div>
+        
+        <div id='math-field-static'></div>
       </div>
-      
-      <div id='math-field'></div>
       
       <input class='text' id='expression-text' type='text' hide=true/>
       
@@ -109,7 +113,7 @@
       <div class='string' id='loading-remarks'>
         <h3>SineRider</h3>
         <p>Seymour Papert said if you want to learn French, you go to France… so if you want to learn Math, go to Mathland.</p>
-        <p>This little world is my humble attempt to build a kind of Mathland. I hope it brings you joy.</p>
+        <p>The world under construction here is a kind of mathland. It is also pre-alpha software, it will break. Enjoy!</p>
       </div>
       <div class='string' id='loading-string'></div>
     </div>

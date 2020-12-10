@@ -179,15 +179,15 @@ function World(spec) {
   function startRunning() {
     running = true
     
-    ui.expressionText.blur()
-    ui.expressionText.disabled = true
+    ui.mathField.blur()
+    ui.expressionEnvelope.setAttribute('disabled', true)
     ui.menuBar.setAttribute('hide', true)
     // ui.variablesBar.setAttribute('hide', false)
     
     ui.runButton.setAttribute('hide', true)
     ui.stopButton.setAttribute('hide', false)
     ui.topBar.setAttribute('hide', true)
-    ui.resetButton.setAttribute('hide', true)
+    // ui.resetButton.setAttribute('hide', true)
     
     self.sendEvent('startRunning', [])
     self.sendEvent('startRunningLate', [])
@@ -199,8 +199,8 @@ function World(spec) {
     runTime = 0
     running = false
     
-    ui.expressionText.blur()
-    ui.expressionText.disabled = false
+    ui.mathField.blur()
+    ui.expressionEnvelope.setAttribute('disabled', false)
     ui.menuBar.setAttribute('hide', false)
     ui.victoryBar.setAttribute('hide', true)
     // ui.variablesBar.setAttribute('hide', true)
@@ -209,7 +209,7 @@ function World(spec) {
     ui.topBar.setAttribute('hide', false)
     ui.runButton.setAttribute('hide', false)
     ui.stopButton.setAttribute('hide', true)
-    ui.resetButton.setAttribute('hide', false)
+    // ui.resetButton.setAttribute('hide', false)
     
     if (!navigating) {
       // HACK: Timed to avoid bug in Safari (at least) that causes whole page to be permanently offset when off-screen text input is focused

@@ -42,6 +42,7 @@ function Sledder(spec = {}) {
     asset,
     size,
     speech,
+    globalScope,
     parent: self,
     y: 1,
   })

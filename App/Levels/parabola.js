@@ -10,7 +10,7 @@ const PARABOLA = [{
     fov: 8,
   },
   requirements: ['SLOPE_SCALE_TRANSLATE'],
-  defaultExpression: '-(x^2)',
+  defaultExpression: '-x^2',
   hint: 'do as she says!',
   goals: [
     {
@@ -38,14 +38,14 @@ const PARABOLA = [{
   nick: 'PARABOLA_TRANSLATE_Y',
   colors: Colors.biomes.champlain,
   x: 10,
-  y: -10,
+  y: 0,
   camera: {
     x: 0,
     y: 0,
     fov: 8,
   },
   requirements: ['PARABOLA_NEGATE'],
-  defaultExpression: '(x^2)-1',
+  defaultExpression: 'x^2-1',
   hint: 'hint: subtract from (everything)',
   goals: [
     {
@@ -124,7 +124,7 @@ const PARABOLA = [{
   name: 'Way too steep for us.',
   nick: 'PARABOLA_SCALE_Y',
   colors: Colors.biomes.champlain,
-  x: 10,
+  x: 0,
   y: 10,
   requirements: ['PARABOLA_NEGATE'],
   defaultExpression: 'x^2',
@@ -150,7 +150,7 @@ const PARABOLA = [{
   x: 10,
   y: 10,
   requirements: null,
-  defaultExpression: '(x/4)^2',
+  defaultExpression: '\\left(\\frac{x}{2}\\right)^2',
   hint: '(x/4)^2 = x^2/4^2 = x^2/16',
   goals: [
     {
@@ -168,34 +168,21 @@ const PARABOLA = [{
   }],
 },
 {
-  name: 'Translate Scale XY',
+  name: 'Translate Scale X',
   nick: 'PARABOLA_TRANSLATE_SCALE_X',
   colors: Colors.biomes.champlain,
-  x: 0,
+  x: -10,
   y: 10,
   requirements: ['PARABOLA_TRANSLATE_X_Y', 'PARABOLA_SCALE_X'],
-  defaultExpression: '((x+5)/4)^2',
+  defaultExpression: '\\left(\\frac{x-5}{4}\\right)^2',
   hint: '(x/4)^2 = x^2/4^2 = x^2/16',
   goals: [
     {
-      x: -7,
-      y: 4
-    },
-    {
-      x: -5,
-      y: 1
-    },
-    {
-      x: -3,
-      y: 0
-    },
-    {
-      x: -1,
-      y: 1
-    },
-    {
+      type: 'path',
+      expression: '((x+3)/2)^2',
       x: 1,
-      y: 4
+      y: 0,
+      pathX: -8,
     },
   ],
   sledders: [{
@@ -205,33 +192,20 @@ const PARABOLA = [{
   }],
 },
 {
-  name: 'Translate Scale X',
+  name: 'Translate Scale XY',
   nick: 'PARABOLA_TRANSLATE_SCALE_X_Y',
   colors: Colors.biomes.champlain,
-  x: 10,
-  y: 0,
+  x: 0,
+  y: 10,
   requirements: null,
-  defaultExpression: '((x+5)/4)^2+1',
+  defaultExpression: '\\left(\\frac{x+5}{4}\\right)^2',
   goals: [
     {
+      type: 'path',
+      expression: '((x-8)/2)^2-4',
       x: 4,
-      y: -0
-    },
-    {
-      x: 6,
-      y: -3
-    },
-    {
-      x: 8,
-      y: -4
-    },
-    {
-      x: 10,
-      y: -3
-    },
-    {
-      x: 12,
-      y: -0
+      y: 0,
+      pathX: 8,
     },
   ],
   sledders: [{

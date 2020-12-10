@@ -88,7 +88,7 @@ const TIME = [{
   colors: Colors.biomes.gunnison,
   x: 10,
   y: 10,
-  requirements: ['TIME_CONSTANT', 'PARABOLA_TRANSLATE_X'],
+  requirements: ['TIME_CONSTANT'],
   defaultExpression: '(x+t)^2',
   goals: [
     {
@@ -118,15 +118,15 @@ const TIME = [{
     asset: 'images.lunchbox_sled',
     speech: [{
       speakerX: 0.3,
-      content: 'But to me? I’ll die without ever seeing it change.',
+      content: 'So slowly I’ll never see it.',
       direction: 'right-right-up',
       distance: 1,
       speech: {
-        content: 'To the rock, the river cuts like a sword.',
+        content: 'It’s like the river is slicing up the rock',
         direction: 'up-left',
         distance: 1,
         speech: {
-          content: 'This canyon gives me the creeps.',
+          content: 'Canyons freaks me out.',
           direction: 'right-up',
           distance: 1,
         },
@@ -140,7 +140,7 @@ const TIME = [{
   colors: Colors.biomes.gunnison,
   x: 10,
   y: 10,
-  requirements: [null, 'PARABOLA_TRANSLATE_X_Y'],
+  requirements: [null],
   defaultExpression: '(x-t)^2',
   goals: [
     {
@@ -170,7 +170,7 @@ const TIME = [{
     asset: 'images.lunchbox_sled',
     speech: [{
       speakerX: 0.3,
-      content: 'I should really tweet these cosmic moments',
+      content: 'Maybe I should tweet these cosmic moments',
       direction: 'right',
       alignment: 'middle',
       distance: 1,

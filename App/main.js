@@ -35,10 +35,12 @@ const ui = {
 
   controlBar: $('#controls-bar'),
   expressionText: $('#expression-text'),
+  expressionEnvelope: $('#expression-envelope'),
+  
   mathField: $('#math-field'),
+  mathFieldStatic: $('#math-field-static'),
+  
   variableLabel: $('#variable-label'),
-  hintLabel: $('#hint-label'),
-  hintString: $('#hint-label > .string'),
   
   runButton: $('#run-button'),
   runButtonString: $('#run-button > .string'),
@@ -108,12 +110,16 @@ if (!stepping) {
 }
 
 // MathQuill
+
+ui.mathFieldStatic = MQ.StaticMath(ui.mathFieldStatic)
+
 ui.mathField = MQ.MathField(ui.mathField, {
   handlers: {
     edit: function() {
       const text = ui.mathField.getPlainExpression()
+      const latex = ui.mathField.latex()
       console.log(`Expression text changed to: `, text)
-      world.level.setGraphExpression(text)
+      world.level.setGraphExpression(text, latex)
     }
   }
 })
