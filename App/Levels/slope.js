@@ -259,7 +259,24 @@ const SLOPE = [{
       y: 0,
     },
   ],
+  sprites: [{
+    x: 4,
+    size: 2,
+    asset: 'images.sam_float',
+    speech: [{
+      speakerX: -0.4,
+      content: 'I’m gonna split off and check out the valley.',
+      direction: 'up-up-right',
+      distance: 1.5,
+    }]
+  }],
   sledders: [{
     asset: 'images.lunchbox_sled',
+    speech: [{
+      speakerX: 0.3,
+      content: 'catch up with you later!',
+      direction: 'up-up-left',
+      distance: 1,
+    }]
   }],
 }]

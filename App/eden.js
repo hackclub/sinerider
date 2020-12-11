@@ -5,10 +5,15 @@ worldData.push({
   name: 'Eden',
   assets: {
     images: {
-      lunchbox_sam_sled: '.svg',
-      lunchbox_sled: '.svg',
+      lunchbox_sam_sled: 'benny_sam_sled.svg',
+      lunchbox_sled: 'benny_sled.svg',
+      benny_sled: '.svg',
+      benny_float: '.svg',
+      benny_float_left: '.svg',
       sam_sled: '.svg',
-      sam_stand_snowball: '.svg',
+      sam_float: '.svg',
+      sam_float_left: '.svg',
+      sam_stand_snowball: 'sam_float_left.svg',
       tree_1: '.png',
       cabin_1: '.png',
       cabin_1_front: '.png',
@@ -73,16 +78,16 @@ worldData.push({
     {
       asset: 'images.sam_stand_snowball',
       size: 2,
-      x: 7.5,
+      x: 7.6,
       y: 0,
       drawOrder: 0,
       sloped: true,
       speech: {
         x: -0.3,
-        y: 1.5,
+        y: 1,
         content: 'now hit the green button ⇲',
         direction: 'up-left',
-        distance: 1,
+        distance: 1.6,
         speech: {
           x: -1.5,
           content: 'yes, snow.',
