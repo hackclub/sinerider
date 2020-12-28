@@ -38,6 +38,12 @@ function Sledder(spec = {}) {
     Vector2(0.5, 0),
   ]
   
+  const trail = Trail({
+    parent: self,
+    x: 0.1,
+    y: 0.5,
+  })
+  
   const sprite = Sprite({
     asset,
     size,
@@ -78,6 +84,8 @@ function Sledder(spec = {}) {
     
     let angle = Math.asin(slopeTangent.y)
     transform.rotation = angle
+    
+    trail.reset()
   }
   
   return self.mix({

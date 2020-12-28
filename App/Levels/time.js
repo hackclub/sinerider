@@ -325,37 +325,32 @@ const TIME = [{
   x: -10,
   y: 0,
   requirements: [null],
-  defaultExpression: '((x-4*sin(t))/4)^2',
+  defaultExpression: '\\left(\\frac{x}{4}\\right)^2',
   goals: [
     {
       x: -6,
       y: 6,
-      order: 'A'
+      order: 'D'
     },
     {
       x: -6,
       y: 0,
-      order: 'B'
-    },
-    {
-      x: 6,
-      y: 6,
       order: 'C'
     },
     {
       x: 6,
+      y: 6,
+      order: 'B'
+    },
+    {
+      x: 6,
       y: 0,
-      order: 'D'
+      order: 'A'
     },
   ],
   sledders: [{
     x: 0,
     y: 0,
     asset: 'images.lunchbox_sled',
-  }],
-  texts: [{
-    x: 0,
-    y: 4,
-    content: 'Physics engine bork need fix :('
   }]
 }]
