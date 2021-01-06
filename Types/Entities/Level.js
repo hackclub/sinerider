@@ -25,6 +25,7 @@ function Level(spec) {
   } = datum
   
   const sledders = []
+  const walkers = []
   const goals = []
   const texts = []
   const sprites = []
@@ -33,7 +34,7 @@ function Level(spec) {
   let lowestOrder = 'A'
   let highestOrder = 'A'
   
-  const trackedEntities = [speech, sledders, goals]
+  const trackedEntities = [speech, sledders, walkers, goals]
   
   // ui.mathField.setAttribute('placeholder', hint)
   
@@ -151,6 +152,21 @@ function Level(spec) {
     goals.push(goal)
   }
   
+  function addWalker(walkerDatum) {
+    const walker = Walker({
+      name: 'Walker '+walkers.length,
+      parent: self,
+      camera,
+      graph,
+      globalScope,
+      ...walkerDatum
+    })
+    
+    walkers.push(walker)
+    
+    trackDescendants(walker)
+  }
+  
   function addSledder(sledderDatum) {
     const sledder = Sledder({
       name: 'Sledder '+sledders.length,
@@ -261,6 +277,7 @@ function Level(spec) {
   
   function loadDatum(datum) {
     _.each(datum.sprites, addSprite)
+    _.each(datum.walkers, addWalker)
     _.each(datum.sledders, addSledder)
     _.each(datum.goals, addGoal)
     _.each(datum.texts, addText)

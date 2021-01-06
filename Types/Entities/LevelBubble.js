@@ -11,7 +11,6 @@ function LevelBubble(spec) {
     levelDatum,
     getEditing,
     tickDelta,
-    radius = 3,
     getBubbleByNick,
     getShowAll,
   } = spec
@@ -19,6 +18,7 @@ function LevelBubble(spec) {
   const {
     nick,
     requirements,
+    radius = 3,
   } = levelDatum
   
   const dependencies = []

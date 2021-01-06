@@ -10,7 +10,7 @@ const SLOPE = [{
     fov: 7,
   },
   requirements: null,
-  defaultExpression: '',
+  defaultExpression: '-x',
   hint: 'hint: x makes a slope',
   goals: [
     {
@@ -73,6 +73,28 @@ const SLOPE = [{
   }],
 },
 {
+  name: 'Try facing forwards?',
+  nick: 'SLOPE_CONVERSATION_1',
+  colors: Colors.biomes.alps,
+  radius: 2,
+  x: 7.5,
+  y: 0,
+  camera: {
+    x: 2,
+    y: -2,
+    fov: 7,
+  },
+  requirements: ['SLOPE_NEGATIVE'],
+  defaultExpression: '\\frac{2}{1+\\frac{1}{e^{x-5}}}+\\frac{-8}{1+\\frac{1}{e^{x-32}}}',
+  hint: 'hint: go negative',
+  goals: [],
+  sledders: [],
+  walkers: [{
+    x: -4,
+    asset: 'images.benny_float',
+  }],
+},
+{
   name: 'A real steep hill',
   nick: 'SLOPE_STEEPER',
   colors: Colors.biomes.alps,
@@ -83,7 +105,7 @@ const SLOPE = [{
     y: -5.5,
     fov: 11,
   },
-  requirements: null,
+  requirements: ['SLOPE_NEGATIVE'],
   defaultExpression: '-x',
   hint: 'hint: try multiplying',
   goals: [
