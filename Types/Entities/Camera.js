@@ -13,13 +13,8 @@ function Camera(spec) {
   let {
     fov = 5,
     globalScope = {},
+    controllers = [],
   } = spec
-  
-  const controllers = self.addComponents(spec.controllers, {
-    screen,
-    camera: self,
-    globalScope,
-  })
   
   let activeController
   
@@ -45,8 +40,7 @@ function Camera(spec) {
   const centerScreen = Vector2()
   
   function start() {
-    tickControllers()
-    snap()
+    sampleController()
   }
   
   function setFov(_fov) {
@@ -177,7 +171,7 @@ function Camera(spec) {
     transform.transformPoint(screen.maxFramePoint, upperRight)
   }
   
-  function tickControllers() {
+  function sampleController() {
     let _activeController
     for (c of controllers) {
       if (c.canControl()) {
@@ -193,37 +187,21 @@ function Camera(spec) {
         _activeController.startControlling()
         
       activeController = _activeController
-      align()
     }
     
+    alignToController()
+  }
+  
+  function alignToController() {
     if (activeController) {
       transform.position = activeController.position
       setFov(activeController.fov)
     }
-  }
-  
-  function snap() {
-    if (activeController) {
-      activeController.snap()
-      
-      transform.position = activeController.position
-      setFov(activeController.fov)
-      
-      if (self.debug) {
-        console.log('Camera snapped to Position: ', transform.position.toString())
-        console.log('Camera snapped to FOV: ', fov)
-      }
-    }
-  }
-  
-  function align() {
-    if (activeController)
-      activeController.align()
   }
   
   function tick() {
     computeCorners()
-    tickControllers()
+    sampleController()
     
     if (self.debug) {
       // console.log('Camera Position: ', transform.position.toString())
@@ -258,11 +236,9 @@ function Camera(spec) {
   }
   
   function startRunning() {
-    
   }
   
   function stopRunningLate() {
-    snap()
   }
   
   function drawThrough(ctx, drawCallback, localTransform) {
@@ -317,5 +293,11 @@ function Camera(spec) {
     
     get fov() {return fov},
     set fov(v) {setFov(fov)},
+    
+    get position() {return fov},
+    set position(v) {transform.position.set(v)},
+    
+    get rotation() {return rotation},
+    set rotation(v) {transform.rotation = v},
   })
 }

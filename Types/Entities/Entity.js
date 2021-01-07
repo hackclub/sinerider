@@ -54,7 +54,6 @@ function Entity(spec, defaultName = 'Entity') {
   })
   
   const children = []
-  const components = []
   
   const lifecycle = {
     awake: {
@@ -159,35 +158,6 @@ function Entity(spec, defaultName = 'Entity') {
   
   function setActive(_active) {
     active = _active
-  }
-  
-  function addComponents(array = [], specInject = {}) {
-    const newComponents = []
-    
-    for (let i = 0; i < array.length; i++) {
-      let generator = array[i]
-      let componentSpec = (i+1) < array.length ? array[i+1] : {}
-      
-      if (!_.isFunction(generator)) continue
-      
-      newComponents.push(addComponent(generator, {
-        ...specInject,
-        ...componentSpec,
-      }))
-    }
-    
-    return newComponents
-  }
-  
-  function addComponent(generator, spec = {}) {
-    let component = generator({
-      entity: self,
-      ...spec
-    })
-    
-    components.push(component)
-    
-    return component
   }
   
   function getLineage() {
