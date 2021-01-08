@@ -1,4 +1,4 @@
-function CameraController(spec, defaultName='CameraController') {
+function Director(spec, defaultName='Director') {
   const {
     self,
     screen,
@@ -10,14 +10,16 @@ function CameraController(spec, defaultName='CameraController') {
   } = spec
   
   const cameraState = CameraState()
+
+  camera.addDirector(self)
   
   function tick() {
     
   }
   
-  function getCanControl() {
+  function canControl() {
     // virtual function stub
-    return false
+    return true
   }
   
   function startControlling() {
@@ -35,8 +37,7 @@ function CameraController(spec, defaultName='CameraController') {
     
     cameraState,
     
-    getCanControl,
-    get canControl() {return self.getCanControl()},
+    canControl,
     
     startControlling,
     stopControlling,

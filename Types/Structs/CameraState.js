@@ -1,8 +1,11 @@
-function CameraState(spec) {
+function CameraState(spec={}) {
+  const self = {}
+  
   let {
     rotation = 0,
     fov = 10,
   } = spec
+  
   
   const position = spec.position ?
     Vector2(spec.position) : Vector2(spec)
@@ -16,35 +19,37 @@ function CameraState(spec) {
     fov = state.fov || 10
   }
   
-  function lerp(a, b, progress, output, smooth=true) {
+  function lerp(b, progress, output, smooth=true) {
     if (!output)
-      output = a
+      output = self
 
     if (smooth)
       progress = math.smooth(progress)
     
-    a.position.lerp(b.position, progress, output.position)
+    position.lerp(b.position, progress, output.position)
     
-    output.rotation = math.modLerp(a.rotation, b.rotation, progress, TAU, true)
+    output.rotation = math.modLerp(rotation, b.rotation, progress, TAU, true)
       
-    output.fov = math.lerp(a.fov, b.fov, progress)
+    output.fov = math.lerp(fov, b.fov, progress)
   }
     
-  return {
+  return _.mixIn(self, {
     set,
     lerp,
-    position,
+    
+    get position() {return position},
+    set position(v) {position.set(v)},
     
     get x() {return position.x},
-    set x(v) {position.x = v},
+    set x(v) {position.x = _.isNumber(v) ? v : 0},
     
     get y() {return position.y},
-    set y(v) {position.y = v},
+    set y(v) {position.y = _.isNumber(v) ? v : 0},
     
     get rotation() {return rotation},
-    set rotation(v) {rotation = v},
+    set rotation(v) {rotation = _.isNumber(v) ? v : 0},
     
-    get fov() {return fov},
-    set fov(v) {fov = v},
-  }
+    get fov() {return fov > 0 ? fov : 10},
+    set fov(v) {fov = _.isNumber(v) ? v : 10},
+  })
 }

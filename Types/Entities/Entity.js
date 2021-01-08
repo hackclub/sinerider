@@ -73,12 +73,12 @@ function Entity(spec, defaultName = 'Entity') {
   if (spec.components)
     addComponents(spec.components)
   
-  // Called when the entity is fully initialized
+  // Called when the entity is fully constructed
   function awake() {
     // console.log(`Awakening ${name}`)
   }
   
-  // Called when the entity is fully initialized
+  // Called just before the entity's first tick
   function start() {
     // console.log(`Starting ${name}`)
   }
@@ -109,17 +109,29 @@ function Entity(spec, defaultName = 'Entity') {
     _.invokeEach(children, 'sendLifecycleEvent', arguments)
   }
   
-  function sendEvent(path, args = [], includeComponents = true) {
+  function sendEvent(path, args = [], latePath=null) {
     if (!active) return
+      
+    // latePath is constructed on first call, and passed down for subsequent calls, to avoid memory pressure of creating the same new string for every object
+    let argumentsArray = arguments
+    if (latePath == null) {
+      latePath = path+'Late'
+      argumentsArray = [...arguments]
+      argumentsArray[2] = latePath
+      if (path != 'tick' && path != 'draw')
+        console.log(`Calling event ${path} on ${name} with latePath ${latePath}`)
+    }
     
+    // Necessary to use _.get() so that 'parent.child' paths are supported. Do not change!
     let f = _.get(self, path)
     if (_.isFunction(f))
       f.apply(self, args)
     
-    if (includeComponents)
-      _.invokeEach(components, path, args)
+    _.invokeEach(children, 'sendEvent', argumentsArray)
     
-    _.invokeEach(children, 'sendEvent', arguments)
+    f = _.get(self, latePath)
+    if (_.isFunction(f))
+      f.apply(self, args)
   }
   
   function mix(other) {
@@ -207,9 +219,6 @@ function Entity(spec, defaultName = 'Entity') {
     
     children,
     sortChildren,
-    
-    addComponent,
-    addComponents,
     
     toString,
     

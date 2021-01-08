@@ -12,11 +12,12 @@ function Camera(spec) {
   
   let {
     fov = 5,
+    rotation = 0,
     globalScope = {},
-    controllers = [],
+    directors = [],
   } = spec
   
-  let activeController
+  let activeDirector
   
   transform.scale = fov
   
@@ -40,7 +41,7 @@ function Camera(spec) {
   const centerScreen = Vector2()
   
   function start() {
-    sampleController()
+    sampleDirector()
   }
   
   function setFov(_fov) {
@@ -171,37 +172,41 @@ function Camera(spec) {
     transform.transformPoint(screen.maxFramePoint, upperRight)
   }
   
-  function sampleController() {
-    let _activeController
-    for (c of controllers) {
+  function sampleDirector() {
+    let _activeDirector
+    for (c of directors) {
       if (c.canControl()) {
-        _activeController = c
+        _activeDirector = c
         break
       }
     }
     
-    if (activeController != _activeController) {
-      if (activeController)
-        activeController.stopControlling()
-      if (_activeController)
-        _activeController.startControlling()
+    if (activeDirector != _activeDirector) {
+      if (activeDirector)
+        activeDirector.stopControlling()
+      if (_activeDirector)
+        _activeDirector.startControlling()
         
-      activeController = _activeController
+      activeDirector = _activeDirector
     }
     
-    alignToController()
+    alignToDirector()
   }
   
-  function alignToController() {
-    if (activeController) {
-      transform.position = activeController.position
-      setFov(activeController.fov)
+  function alignToDirector() {
+    if (activeDirector) {
+      transform.position = activeDirector.cameraState.position
+      setFov(activeDirector.cameraState.fov)
     }
+  }
+  
+  function addDirector(director) {
+    directors.push(director)
   }
   
   function tick() {
     computeCorners()
-    sampleController()
+    sampleDirector()
     
     if (self.debug) {
       // console.log('Camera Position: ', transform.position.toString())
@@ -286,10 +291,9 @@ function Camera(spec) {
     startRunning,
     stopRunningLate,
     
-    snap,
-    align,
-    
     drawThrough,
+    
+    addDirector,
     
     get fov() {return fov},
     set fov(v) {setFov(fov)},

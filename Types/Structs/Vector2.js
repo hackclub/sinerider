@@ -30,12 +30,12 @@ function Vector2() {
   let magnitudeDirty = true
   
   function setX(_x) {
-    x = _x
+    x = _.isNumber(_x) ? _x : 0
     magnitudeDirty = true
   }
   
   function setY(_y) {
-    y = _y
+    y = _.isNumber(_y) ? _y : 0
     magnitudeDirty = true
   }
   

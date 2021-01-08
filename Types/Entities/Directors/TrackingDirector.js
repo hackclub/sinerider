@@ -1,5 +1,9 @@
-function CameraTracker(spec) {
-  const self = CameraController(spec, 'CameraTracker')
+function TrackingDirector(spec) {
+  const {
+    self,
+    screen,
+    cameraState,
+  } = Director(spec, 'TrackingDirector')
   
   const {
     camera,
@@ -13,23 +17,30 @@ function CameraTracker(spec) {
     smoothing = 0.05,
   } = spec
   
-  const positionTarget = Vector2()
+  const targetState = CameraState({
+    fov: minFov,
+  })
   
   const minTrackPoint = Vector2()
   const maxTrackPoint = Vector2()
   
-  let fovTarget = minFov
   let trackedEntityCount = 0
   
   const difference = Vector2()
+  
+  cameraState.set(targetState)
+  
+  function start() {
+    snap()
+  }
   
   function tick() {
     trackEntities()
   }
   
   function trackEntities() {
-    fovTarget = minFov
-    positionTarget.set(0, 0)
+    targetState.fov = minFov
+    targetState.position.set(0, 0)
     trackedEntityCount = 0
     
     minTrackPoint.set(Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY)
@@ -37,22 +48,22 @@ function CameraTracker(spec) {
     
     _.eachDeep(trackedEntities, trackEntity)
     
-    minTrackPoint.add(maxTrackPoint, positionTarget)
-    positionTarget.divide(2)
+    minTrackPoint.add(maxTrackPoint, targetState.position)
+    targetState.position.divide(2)
     
-    self.position.lerp(positionTarget, smoothing)
+    cameraState.position.lerp(targetState.position, smoothing)
     
-    fovTarget = Math.max(
-      maxTrackPoint.x-self.position.x,
-      maxTrackPoint.y-self.position.y
+    targetState.fov = Math.max(
+      maxTrackPoint.x-cameraState.position.x,
+      maxTrackPoint.y-cameraState.position.y
     )
     
-    fovTarget = Math.max(
-      fovTarget+minFovMargin,
+    targetState.fov = Math.max(
+      targetState.fov+minFovMargin,
       minFov
     )
     
-    self.fov = math.lerp(self.fov, fovTarget, smoothing)
+    cameraState.fov = math.lerp(cameraState.fov, targetState.fov, smoothing)
   }
   
   function trackEntity(entity) {
@@ -73,12 +84,18 @@ function CameraTracker(spec) {
   
   function snap() {
     trackEntities()
-    self.position = positionTarget
+    cameraState.set(targetState)
     trackEntities()
-    self.fov = fovTarget
-    
-    // console.log('Snapped Position: ', self.position.toString())
-    // console.log('Snapped FOV: ', self.fov)
+    cameraState.set(targetState)
+
+    if (self.debug || true) {
+      console.log('Snapped Position: ', cameraState.position.toString())
+      console.log('Snapped FOV: ', cameraState.fov)
+    }
+  }
+  
+  function setGraphExpression() {
+    snap()
   }
   
   function startRunning() {
@@ -86,16 +103,18 @@ function CameraTracker(spec) {
   }
   
   function stopRunning() {
-    
+    snap()
   }
   
   return self.mix({
+    start,
+    
     tick,
     draw,
     
-    snap,
-    
     startRunning,
     stopRunning,
+    
+    setGraphExpression,
   })
 }

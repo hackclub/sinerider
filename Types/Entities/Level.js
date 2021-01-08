@@ -8,7 +8,6 @@ function Level(spec) {
   const {
     globalScope,
     levelCompleted,
-    useDragCamera = true,
     datum,
   } = spec
   
@@ -18,10 +17,6 @@ function Level(spec) {
     hint = '',
     openMusic,
     runMusic,
-    camera = {
-      type: 'track',
-      padding: 3
-    },
   } = datum
   
   const sledders = []
@@ -30,12 +25,14 @@ function Level(spec) {
   const texts = []
   const sprites = []
   const speech = []
+  const directors = []
   
   let lowestOrder = 'A'
   let highestOrder = 'A'
   
   const trackedEntities = [speech, sledders, walkers, goals]
   
+  // TODO: Fix hint text. Mathquill broke it
   // ui.mathField.setAttribute('placeholder', hint)
   
   openMusic = _.get(assets, openMusic, null)
@@ -43,23 +40,9 @@ function Level(spec) {
   
   let hasBeenRun = false
   
-  let cameraSpec
-  if (camera.type == 'track' || true) {
-    cameraSpec = {
-      controllers: [
-        CameraTracker, {trackedEntities, minFovMargin: camera.padding || 3},
-        CameraWaypointer,
-      ]
-    }
-  }
-  else {
-    cameraSpec = camera
-  }
-  
   camera = Camera({
     globalScope,
     parent: self,
-    ...cameraSpec,
   })
   
   const axes = Axes({
@@ -100,6 +83,10 @@ function Level(spec) {
   
   function start() {
     
+  }
+  
+  function startLate() {
+    // self.sendEvent('levelFullyStarted')
   }
   
   function tick() {
@@ -150,6 +137,25 @@ function Level(spec) {
     })
     
     goals.push(goal)
+  }
+  
+  function addDirector(directorDatum) {
+    const generator = {
+      'tracking': TrackingDirector,
+      'waypoint': WaypointDirector,
+      // 'drag': DragDirector,
+    }[directorDatum.type || 'tracking']
+    
+    const director = generator({
+      parent: self,
+      camera,
+      graph,
+      globalScope,
+      trackedEntities,
+      ...directorDatum
+    })
+    
+    directors.push(director)
   }
   
   function addWalker(walkerDatum) {
@@ -244,7 +250,7 @@ function Level(spec) {
   
   function reset() {
     ui.mathField.latex(defaultExpression)
-    setGraphExpression(defaultExpression, defaultExpression)
+    self.sendEvent('setGraphExpression', [defaultExpression, defaultExpression])
     refreshLowestOrder()
   }
   
@@ -281,6 +287,7 @@ function Level(spec) {
     _.each(datum.sledders, addSledder)
     _.each(datum.goals, addGoal)
     _.each(datum.texts, addText)
+    _.each(datum.directors || [{}], addDirector)
     self.sortChildren()
   }
   
@@ -291,8 +298,6 @@ function Level(spec) {
     
     _.invokeEach(sledders, 'reset')
     _.invokeEach(goals, 'reset')
-    
-    camera.snap()
   }
   
   return self.mix({
