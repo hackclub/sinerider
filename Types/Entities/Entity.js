@@ -118,8 +118,6 @@ function Entity(spec, defaultName = 'Entity') {
       latePath = path+'Late'
       argumentsArray = [...arguments]
       argumentsArray[2] = latePath
-      if (path != 'tick' && path != 'draw')
-        console.log(`Calling event ${path} on ${name} with latePath ${latePath}`)
     }
     
     // Necessary to use _.get() so that 'parent.child' paths are supported. Do not change!
@@ -152,6 +150,29 @@ function Entity(spec, defaultName = 'Entity') {
     if (hasChild(child)) return
     
     children.push(child)
+  }
+  
+  function findChild(childName) {
+    for (child of children) {
+      if (child.name === childName)
+        return child
+    }
+    
+    return null
+  }
+  
+  function findDescendant(descendantName) {
+    for (child of children) {
+      if (child.name === childName)
+        return child
+        
+      let descendant = child.findDescendant(descendantName)
+      
+      if (descendant)
+        return descendant
+    }
+    
+    return null
   }
   
   function sortChildren() {
@@ -203,6 +224,7 @@ function Entity(spec, defaultName = 'Entity') {
     set name(v) {name = v},
     
     lifecycle,
+    sendLifecycleEvent,
     
     mix,
     sendEvent,
@@ -211,6 +233,9 @@ function Entity(spec, defaultName = 'Entity') {
     hasChild,
     addChild,
     removeChild,
+    
+    findChild,
+    findDescendant,
     
     getFromAncestor,
     getLineage,

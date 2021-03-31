@@ -298,7 +298,7 @@ function Camera(spec) {
     get fov() {return fov},
     set fov(v) {setFov(fov)},
     
-    get position() {return fov},
+    get position() {return transform.position},
     set position(v) {transform.position.set(v)},
     
     get rotation() {return rotation},

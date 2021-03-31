@@ -79,10 +79,13 @@ function Level(spec) {
   
   function awake() {
     refreshLowestOrder()
+    
+    // Add a variable to globalScope for player position
+    globalScope.p = math.complex()
+    assignPlayerPosition()
   }
   
   function start() {
-    
   }
   
   function startLate() {
@@ -98,6 +101,8 @@ function Level(spec) {
     // ui.timeString.innerHTML = 'T='+time
     ui.runButtonString.innerHTML = 'T='+time
     ui.stopButtonString.innerHTML = 'T='+time
+    
+    assignPlayerPosition()
   }
   
   function draw() {
@@ -106,6 +111,15 @@ function Level(spec) {
     screen.ctx.fillStyle = skyGradient
     screen.ctx.fillRect(0, 0, screen.width, screen.height)
     screen.ctx.restore()
+  }
+  
+  function assignPlayerPosition() {
+    const playerEntity = walkers.length > 0 ?
+      walkers[0] : sledders.length > 0 ?
+      sledders[0] : axes
+    
+    globalScope.p.re = playerEntity.transform.position.x
+    globalScope.p.im = playerEntity.transform.position.y
   }
   
   function trackDescendants(entity, array=trackedEntities) {
@@ -143,6 +157,7 @@ function Level(spec) {
     const generator = {
       'tracking': TrackingDirector,
       'waypoint': WaypointDirector,
+      'lerp': LerpDirector,
       // 'drag': DragDirector,
     }[directorDatum.type || 'tracking']
     
@@ -302,6 +317,7 @@ function Level(spec) {
   
   return self.mix({
     awake,
+    start,
     
     tick,
     draw,

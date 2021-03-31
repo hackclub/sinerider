@@ -73,7 +73,7 @@ const SLOPE = [{
   }],
 },
 {
-  name: 'Try facing forwards?',
+  name: 'Constant Lake',
   nick: 'SLOPE_CONVERSATION_1',
   colors: Colors.biomes.alps,
   radius: 2,
@@ -87,6 +87,19 @@ const SLOPE = [{
   requirements: ['SLOPE_NEGATIVE'],
   defaultExpression: '\\frac{2}{1+\\frac{1}{e^{x-5}}}+\\frac{-8}{1+\\frac{1}{e^{x-32}}}',
   hint: 'hint: go negative',
+  directors: [{
+    type: 'lerp',
+    point0: [-1, 0],
+    point1: [8, 0],
+    state0: {
+      position: [-2, 2],
+      fov: 5,
+    },
+    state1: {
+      position: [10, 4],
+      fov: 12,
+    },
+  }],
   goals: [],
   sledders: [],
   walkers: [{

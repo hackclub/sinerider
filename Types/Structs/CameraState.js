@@ -32,10 +32,16 @@ function CameraState(spec={}) {
       
     output.fov = math.lerp(fov, b.fov, progress)
   }
+  
+  function toString() {
+    return `{position: ${position.toString()}, rotation: ${rotation}, fov: ${fov}}`
+  }
     
   return _.mixIn(self, {
     set,
     lerp,
+    
+    toString,
     
     get position() {return position},
     set position(v) {position.set(v)},

@@ -1,42 +1,33 @@
 function Vector2() {
+  const self = {}
+  
   let x
   let y
   
-  if (arguments.length == 0) {
-    x = 0
-    y = 0
-  }
-  else if (arguments.length == 1) {
-    let o = arguments[0]
-    if (_.isObject(o)) {
-      x = o.x
-      y = o.y
-    }
-    else if (_.isArray(o)) {
-      x = o[0]
-      y = o[1]
-    }
-    else if (_.isNumber(o)) {
-      x = Math.cos(o)
-      y = Math.sin(o)
-    }
-  }
-  else {
-    x = arguments[0] || 0
-    y = arguments[1] || 0
-  }
+  let observerCallback = null
+  let observerCallbacks = null
   
   let magnitude = 0
   let magnitudeDirty = true
   
+  set.apply(self, arguments)
+  
   function setX(_x) {
+    if (x == _x) return
+    
     x = _.isNumber(_x) ? _x : 0
+    
     magnitudeDirty = true
+    notifyObservers()
   }
   
   function setY(_y) {
+    if (y == _y) return
+    
     y = _.isNumber(_y) ? _y : 0
+    
     magnitudeDirty = true
+    notifyObservers()
   }
   
   function set() {
@@ -46,13 +37,14 @@ function Vector2() {
     }
     else if (arguments.length == 1) {
       let o = arguments[0]
-      if (_.isObject(o)) {
-        x = o.x
-        y = o.y
-      }
-      else if (_.isArray(o)) {
+      
+      if (_.isArray(o)) {
         x = o[0]
         y = o[1]
+      }
+      else if (_.isObject(o)) {
+        x = o.x
+        y = o.y
       }
       else if (_.isNumber(o)) {
         x = Math.cos(o)
@@ -65,90 +57,151 @@ function Vector2() {
     }
     
     magnitudeDirty = true
-    return this
+    notifyObservers()
+    
+    return self
+  }
+  
+  function observe(cb) {
+    if (!observerCallback) 
+      observerCallback = cb
+    else if (!observerCallbacks) {
+      observerCallbacks = [observerCallback]
+      observerCallback = () => {
+        for (let i = 0; i < observerCallbacks.length; i++) {
+          observerCallbacks[i]()
+        }
+      }
+    }
+    else {
+      observerCallbacks.push(cb)
+    }
+  }
+  
+  function notifyObservers() {
+    if (observerCallback)
+      observerCallback()
   }
   
   function clone() {
     return Vector2(x, y)
   }
   
-  function add(other, output) {
-    if (!output) output = this
+  function equals(other) {
+    return x === other.x && y === other.y
+  }
+  
+  function swapX(other) {
+    const ox = other.x
+    other.x = x
+    setX(ox)
     
-    output.x = x+other.x
-    output.y = y+other.y
+    return self
+  }
+  
+  function swapY(other) {
+    const oy = other.y
+    other.y = y
+    setY(oy)
+    
+    return self
+  }
+  
+  function add(other, output) {
+    if (!output) output = self
+    
+    const ox = x+other.x
+    const oy = y+other.y
+    
+    output.set(ox, oy)
     
     return output
   }
   
   function subtract(other, output) {
-    if (!output) output = this
+    if (!output) output = self
     
-    output.x = x-other.x
-    output.y = y-other.y
+    const ox = x-other.x
+    const oy = y-other.y
+    
+    output.set(ox, oy)
     
     return output
   }
   
   function multiply(scalar, output) {
-    if (!output) output = this
+    if (!output) output = self
     
-    output.x = x*scalar
-    output.y = y*scalar
+    const ox = x*scalar
+    const oy = y*scalar
+    
+    output.set(ox, oy)
     
     return output
   }
   
   function divide(scalar, output) {
-    if (!output) output = this
+    if (!output) output = self
     
-    output.x = x/scalar
-    output.y = y/scalar
+    const ox = x/scalar
+    const oy = y/scalar
+    
+    output.set(ox, oy)
     
     return output
   }
   
   function negate(output) {
-    if (!output) output = this
+    if (!output) output = self
     
-    output.x = -x
-    output.y = -y
+    const ox = -x
+    const oy = -y
+    
+    output.set(ox, oy)
     
     return output
   }
   
   function lerp(other, t, output) {
-    if (!output) output = this
+    if (!output) output = self
     
-    output.x = math.lerp(x, other.x, t)
-    output.y = math.lerp(y, other.y, t)
+    const ox = math.lerp(x, other.x, t)
+    const oy = math.lerp(y, other.y, t)
+    
+    output.set(ox, oy)
     
     return output
   }
   
   function min(other, output) {
-    if (!output) output = this
+    if (!output) output = self
     
-    output.x = Math.min(x, other.x)
-    output.y = Math.min(y, other.y)
+    const ox = Math.min(x, other.x)
+    const oy = Math.min(y, other.y)
+    
+    output.set(ox, oy)
     
     return output
   }
   
   function max(other, output) {
-    if (!output) output = this
+    if (!output) output = self
     
-    output.x = Math.max(x, other.x)
-    output.y = Math.max(y, other.y)
+    const ox = Math.max(x, other.x)
+    const oy = Math.max(y, other.y)
+    
+    output.set(ox, oy)
     
     return output
   }
   
   function abs(output) {
-    if (!output) output = this
+    if (!output) output = self
     
-    output.x = Math.abs(x)
-    output.y = Math.abs(y)
+    const ox = Math.abs(x)
+    const oy = Math.abs(y)
+    
+    output.set(ox, oy)
     
     return output
   }
@@ -166,7 +219,7 @@ function Vector2() {
   }
   
   function rotate(angle, output) {
-    if (!output) output = this
+    if (!output) output = self
     
     let sin
     let cos
@@ -183,44 +236,59 @@ function Vector2() {
     let newX = x*cos-y*sin
     let newY = x*sin+y*cos
     
-    output.x = newX
-    output.y = newY
+    const ox = newX
+    const oy = newY
+    
+    output.set(ox, oy)
     
     return output
   }
   
   function perturb(radius=1, output) {
-    if (!output) output = this
+    if (!output) output = self
 
     const a = Math.random()*TAU
     const c = Math.cos(a)*radius
     const s = Math.sin(a)*radius
     
-    output.x += c
-    output.y += s
+    const ox = x+c
+    const oy = y+s
+    
+    output.set(ox, oy)
     
     return output
   }
   
+  function randomize(min=0, max=1) {
+    const ox = _.random(min, max)
+    const oy = _.random(min, max)
+    
+    self.set(ox, oy)
+  }
+  
   function normalize(output) {
-    if (!output) output = this
+    if (!output) output = self
 
     const m = getMagnitude()
     
-    output.x /= m
-    output.y /= m
+    const ox = x/m
+    const oy = y/m
+    
+    output.set(ox, oy)
     
     return output
   }
   
   function orthogonalize(output) {
-    if (!output) output = this
+    if (!output) output = self
     
     const orthogonalX = -y
     const orthogonalY = x
     
-    output.x = orthogonalX
-    output.y = orthogonalY
+    const ox = orthogonalX
+    const oy = orthogonalY
+    
+    output.set(ox, oy)
     
     return output
   }
@@ -231,9 +299,17 @@ function Vector2() {
     return `[${sx}, ${sy}]`
   }
   
-  return {
+  return _.mixIn(self, {
+    generator: Vector2,
+    
     set,
     clone,
+    equals,
+    
+    observe,
+    
+    swapX,
+    swapY,
     
     add,
     subtract,
@@ -249,6 +325,7 @@ function Vector2() {
     lerp,
     rotate,
     perturb,
+    randomize,
     
     normalize,
     orthogonalize,
@@ -271,7 +348,7 @@ function Vector2() {
     
     get magnitude() {return getMagnitude()},
     get normalized() {return normalize()},
-  }
+  })
 }
 
 function Vector2Pinf() {
