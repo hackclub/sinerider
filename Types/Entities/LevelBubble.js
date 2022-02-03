@@ -8,10 +8,10 @@ function LevelBubble(spec) {
   
   const {
     setLevel,
+    waypointDirector,
     levelDatum,
     getEditing,
     tickDelta,
-    radius = 3,
     getBubbleByNick,
     getShowAll,
   } = spec
@@ -19,6 +19,7 @@ function LevelBubble(spec) {
   const {
     nick,
     requirements,
+    radius = 3,
   } = levelDatum
   
   const dependencies = []
@@ -113,6 +114,10 @@ function LevelBubble(spec) {
     refreshPlayable()
     bubbletLevel.sendEvent('draw')
     bubbletLevel.active = false
+  }
+  
+  function startLate() {
+    console.log('Starting levelbubble late')
   }
   
   function tick() {
@@ -221,7 +226,7 @@ function LevelBubble(spec) {
     
     completeAllRequirements()
     
-    camera.waypointer.moveTo({
+    waypointDirector.moveTo(null, {
       position: transform.position,
       fov: radius*2,
     }, 1, () => {
@@ -246,6 +251,7 @@ function LevelBubble(spec) {
     clickable,
     
     start,
+    startLate,
     awake,
     
     tick,

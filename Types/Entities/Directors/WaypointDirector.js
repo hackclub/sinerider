@@ -1,8 +1,9 @@
-function CameraWaypointer(spec) {
-  const self = CameraController({
-    ...spec,
-    entityPath: 'waypointer',
-  }, 'CameraWaypointer')
+function WaypointDirector(spec) {
+  const {
+    self,
+    screen,
+    cameraState,
+  } = Director(spec, 'WaypointDirector')
   
   const {
     camera,
@@ -37,7 +38,7 @@ function CameraWaypointer(spec) {
     
     if (fromPoint && toPoint && !transitComplete) {
       // console.log(`Transiting... ${transitProgress}`)
-      lerpWaypoints(fromPoint, toPoint, transitProgress, self)
+      fromPoint.lerp(toPoint, transitProgress, cameraState)
     }
   }
   
@@ -49,26 +50,17 @@ function CameraWaypointer(spec) {
     if (smooth)
       progress = math.smooth(progress)
     
-    if (_.has(b, 'position'))
-      a.position.lerp(b.position, progress, output.position)
+    a.position.lerp(b.position, progress, output.position)
     
-    if (_.has(b, 'rotation'))
-      output.rotation = math.modLerp(a.rotation, b.rotation, progress, TAU, true)
+    output.rotation = math.modLerp(a.rotation, b.rotation, progress, TAU, true)
       
-    if (_.has(b, 'fov'))
-      output.fov = math.lerp(a.fov, b.fov, progress)
+    output.fov = math.lerp(a.fov, b.fov, progress)
   }
   
-  function moveTo(waypoint, duration = 0, cb = null) {
-    fromPoint = {
-      position: Vector2(camera.transform.position),
-      rotation: camera.transform.rotation,
-      fov: camera.fov,
-    }
+  function moveTo(waypointA, waypointB, duration = 0, cb = null) {
+    fromPoint = CameraState(waypointA || camera)
+    toPoint = CameraState(waypointB)
     
-    // console.log(`Moving to waypoint {${waypoint.position.toString()}, ${waypoint.fov}} over ${duration} seconds`)
-    
-    toPoint = waypoint
     transitDuration = duration
     transitProgress = 0
     transitComplete = false
@@ -86,20 +78,10 @@ function CameraWaypointer(spec) {
     
   }
   
-  function snap() {
-    
-  }
-  
-  function align() {
-    
-  }
-  
   return self.mix({
     tick,
     draw,
     
-    snap,
-    align,
     canControl,
     
     moveTo,

@@ -13,6 +13,8 @@ function Sprite(spec = {}) {
     image,
     graph,
     size = 1,
+    flipX = false,
+    flipY = false,
     globalScope,
     anchored = false,
     sloped = false,
@@ -71,6 +73,7 @@ function Sprite(spec = {}) {
   }
   
   function drawLocal() {
+    ctx.scale(flipX ? -1 : 1, flipY ? -1 : 1)
     ctx.drawImage(image, -size/2+offset.x*size/2, -size/2-offset.y*size/2, size, size)
   }
   
@@ -83,5 +86,11 @@ function Sprite(spec = {}) {
 
     tick,
     draw,
+    
+    get flipX() {return flipX},
+    set flipX(v) {flipX = v},
+    
+    get flipY() {return flipY},
+    set flipY(v) {flipY = v},
   })
 }

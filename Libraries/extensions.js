@@ -103,6 +103,10 @@ _.mixIn = function(...sources) {
 
 // math.js
 
+math.isComplex = function(v) {
+  return _.has(v, 're') && _.has(v, 'im')
+}
+
 math.clamp = function(a, b, t) {
   return Math.max(a, Math.min(t, b))
 }

@@ -13,10 +13,11 @@ function Navigator(spec) {
     screen,
     fov: 20,
     parent: self,
-    controllers: [
-      // CameraDragger,
-      CameraWaypointer,
-    ]
+  })
+  
+  const waypointDirector = WaypointDirector({
+    parent: self,
+    camera,
   })
   
   const map = Sprite({
@@ -48,6 +49,7 @@ function Navigator(spec) {
     const bubble = LevelBubble({
       levelDatum,
       setLevel,
+      waypointDirector,
       camera,
       getEditing,
       tickDelta,
@@ -113,7 +115,7 @@ function Navigator(spec) {
     
     const fov = Math.max(delta.x, delta.y)/2+padding
     
-    camera.waypointer.moveTo({
+    waypointDirector.moveTo(null, {
       position,
       fov,
     }, duration, cb)

@@ -190,7 +190,6 @@ function World(spec) {
     // ui.resetButton.setAttribute('hide', true)
     
     self.sendEvent('startRunning', [])
-    self.sendEvent('startRunningLate', [])
     
     requestDraw()
   }
@@ -217,7 +216,6 @@ function World(spec) {
     }
     
     self.sendEvent('stopRunning', [])
-    self.sendEvent('stopRunningLate', [])
     
     requestDraw()
   }

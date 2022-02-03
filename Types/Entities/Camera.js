@@ -12,16 +12,12 @@ function Camera(spec) {
   
   let {
     fov = 5,
+    rotation = 0,
     globalScope = {},
+    directors = [],
   } = spec
   
-  const controllers = self.addComponents(spec.controllers, {
-    screen,
-    camera: self,
-    globalScope,
-  })
-  
-  let activeController
+  let activeDirector
   
   transform.scale = fov
   
@@ -45,8 +41,7 @@ function Camera(spec) {
   const centerScreen = Vector2()
   
   function start() {
-    tickControllers()
-    snap()
+    sampleDirector()
   }
   
   function setFov(_fov) {
@@ -177,53 +172,41 @@ function Camera(spec) {
     transform.transformPoint(screen.maxFramePoint, upperRight)
   }
   
-  function tickControllers() {
-    let _activeController
-    for (c of controllers) {
+  function sampleDirector() {
+    let _activeDirector
+    for (c of directors) {
       if (c.canControl()) {
-        _activeController = c
+        _activeDirector = c
         break
       }
     }
     
-    if (activeController != _activeController) {
-      if (activeController)
-        activeController.stopControlling()
-      if (_activeController)
-        _activeController.startControlling()
+    if (activeDirector != _activeDirector) {
+      if (activeDirector)
+        activeDirector.stopControlling()
+      if (_activeDirector)
+        _activeDirector.startControlling()
         
-      activeController = _activeController
-      align()
+      activeDirector = _activeDirector
     }
     
-    if (activeController) {
-      transform.position = activeController.position
-      setFov(activeController.fov)
+    alignToDirector()
+  }
+  
+  function alignToDirector() {
+    if (activeDirector) {
+      transform.position = activeDirector.cameraState.position
+      setFov(activeDirector.cameraState.fov)
     }
   }
   
-  function snap() {
-    if (activeController) {
-      activeController.snap()
-      
-      transform.position = activeController.position
-      setFov(activeController.fov)
-      
-      if (self.debug) {
-        console.log('Camera snapped to Position: ', transform.position.toString())
-        console.log('Camera snapped to FOV: ', fov)
-      }
-    }
-  }
-  
-  function align() {
-    if (activeController)
-      activeController.align()
+  function addDirector(director) {
+    directors.push(director)
   }
   
   function tick() {
     computeCorners()
-    tickControllers()
+    sampleDirector()
     
     if (self.debug) {
       // console.log('Camera Position: ', transform.position.toString())
@@ -258,11 +241,9 @@ function Camera(spec) {
   }
   
   function startRunning() {
-    
   }
   
   function stopRunningLate() {
-    snap()
   }
   
   function drawThrough(ctx, drawCallback, localTransform) {
@@ -310,12 +291,17 @@ function Camera(spec) {
     startRunning,
     stopRunningLate,
     
-    snap,
-    align,
-    
     drawThrough,
+    
+    addDirector,
     
     get fov() {return fov},
     set fov(v) {setFov(fov)},
+    
+    get position() {return transform.position},
+    set position(v) {transform.position.set(v)},
+    
+    get rotation() {return rotation},
+    set rotation(v) {transform.rotation = v},
   })
 }
