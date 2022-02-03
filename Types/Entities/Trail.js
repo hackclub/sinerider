@@ -130,6 +130,12 @@ function Trail(spec) {
     for (point of worldPoints) {
       transform.transformPoint(point.set())
     }
+    for (point of worldPointsUpper) {
+      transform.transformPoint(point.set())
+    }
+    for (point of worldPointsLower) {
+      transform.transformPoint(point.set())
+    }
   }
 
   return self.mix({

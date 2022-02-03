@@ -134,8 +134,8 @@ function Rigidbody(spec) {
   }
   
   function resetVelocity() {
-    velocity[0] = 0
-    velocity[1] = 1
+    velocity.x = 0
+    velocity.y = 0
   }
   
   return {
