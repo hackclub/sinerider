@@ -132,7 +132,7 @@ function World(spec) {
       // ui.variablesBar.setAttribute('hide', true)
       
       navigator.showAll = false
-      if (navigator.showAllUsed)
+      // if (navigator.showAllUsed)
         ui.showAllButton.setAttribute('hide', false)
     }
   }

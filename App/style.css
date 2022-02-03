@@ -344,6 +344,14 @@ input[valid=false] {
   padding-bottom: 5px;
 }
 
+#navigator-floating-bar {
+  bottom: 0;
+}
+
+#show-all-button {
+  border-radius: 10px 10px 0 0;
+}
+
 #loading-remarks {
   max-width: 80vmin;
 }
