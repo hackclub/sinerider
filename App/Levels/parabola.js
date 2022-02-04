@@ -150,7 +150,7 @@ const PARABOLA = [{
   x: 10,
   y: 10,
   requirements: null,
-  defaultExpression: '\\left(\\frac{x}{2}\\right)^2',
+  defaultExpression: '\\left(\\frac{x}{4}\\right)^2',
   hint: '(x/4)^2 = x^2/4^2 = x^2/16',
   goals: [
     {
