@@ -289,26 +289,27 @@ const SLOPE = [{
     {
       type: 'path',
       expression: '-x/3-5',
-      pathX: 18,
+      pathX: 14,
       x: 3,
       y: 0,
     },
   ],
   sprites: [{
-    x: 4,
+    x: 2,
     size: 2,
     asset: 'images.sam_float',
     speech: [{
-      speakerX: -0.4,
+      speakerX: 0.3,
+      speakerY: -0.8,
       content: 'I’m gonna split off and check out the valley.',
       direction: 'up-up-right',
-      distance: 1.5,
+      distance: 2,
     }]
   }],
   sledders: [{
     asset: 'images.lunchbox_sled',
     speech: [{
-      speakerX: 0.3,
+      speakerX: 0,
       content: 'catch up with you later!',
       direction: 'up-up-left',
       distance: 1,
