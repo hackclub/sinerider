@@ -109,7 +109,6 @@ function World(spec) {
     
     ui.levelText.value = levelDatum.name
     ui.levelButtonString.innerHTML = levelDatum.name
-    // ui.expressionText.value = levelDatum.defaultExpression
     
     setNavigating(false)
   }
@@ -187,7 +186,7 @@ function World(spec) {
     ui.runButton.setAttribute('hide', true)
     ui.stopButton.setAttribute('hide', false)
     ui.topBar.setAttribute('hide', true)
-    // ui.resetButton.setAttribute('hide', true)
+    ui.resetButton.setAttribute('hide', true)
     
     self.sendEvent('startRunning', [])
     
@@ -208,7 +207,7 @@ function World(spec) {
     ui.topBar.setAttribute('hide', false)
     ui.runButton.setAttribute('hide', false)
     ui.stopButton.setAttribute('hide', true)
-    // ui.resetButton.setAttribute('hide', false)
+    ui.resetButton.setAttribute('hide', false)
     
     if (!navigating) {
       // HACK: Timed to avoid bug in Safari (at least) that causes whole page to be permanently offset when off-screen text input is focused

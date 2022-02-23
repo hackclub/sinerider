@@ -29,6 +29,8 @@ function Level(spec) {
   
   let lowestOrder = 'A'
   let highestOrder = 'A'
+
+  let currentLatex
   
   const trackedEntities = [speech, sledders, walkers, goals]
   
@@ -83,6 +85,9 @@ function Level(spec) {
     // Add a variable to globalScope for player position
     globalScope.p = math.complex()
     assignPlayerPosition()
+    
+    ui.mathField.latex(defaultExpression)
+    ui.mathFieldStatic.latex(defaultExpression)
   }
   
   function start() {
@@ -265,7 +270,7 @@ function Level(spec) {
   
   function reset() {
     ui.mathField.latex(defaultExpression)
-    self.sendEvent('setGraphExpression', [defaultExpression, defaultExpression])
+    // self.sendEvent('setGraphExpression', [defaultExpression, defaultExpression])
     refreshLowestOrder()
   }
   
@@ -281,6 +286,8 @@ function Level(spec) {
   }
   
   function startRunning() {
+    ui.mathFieldStatic.latex(currentLatex)
+    
     if (!hasBeenRun) {
       if (runMusic)
         runMusic.play()
@@ -307,8 +314,11 @@ function Level(spec) {
   }
   
   function setGraphExpression(text, latex) {
+    currentLatex = latex
+    
     graph.expression = text
     ui.expressionEnvelope.setAttribute('valid', graph.valid)
+
     ui.mathFieldStatic.latex(latex)
     
     _.invokeEach(sledders, 'reset')

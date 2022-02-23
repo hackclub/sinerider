@@ -353,4 +353,49 @@ const TIME = [{
     y: 0,
     asset: 'images.lunchbox_sled',
   }]
+},
+{
+  name: 'time parabola negator',
+  nick: 'TIME_PARABOLA_NEGATOR',
+  colors: Colors.biomes.gunnison,
+  x: -10,
+  y: 0,
+  requirements: [null],
+  defaultExpression: '-\\left(\\frac{x}{4}\\right)^2',
+  goals: [
+    {
+      x: -9,
+      y: 3,
+      order: 'B'
+    },
+    {
+      x: -6,
+      y: -1,
+      order: 'A'
+    },
+    {
+      x: 0,
+      y: 0,
+      order: 'C'
+    },
+    {
+      x: 9,
+      y: 3,
+      order: 'B'
+    },
+    {
+      x: 6,
+      y: -1,
+      order: 'A'
+    },
+  ],
+  sledders: [{
+    x: 3,
+    y: 0,
+    asset: 'images.lunchbox_sled',
+  },{
+    x: -3,
+    y: 0,
+    asset: 'images.sam_sled',
+  }]
 }]
