@@ -107,7 +107,7 @@ const WAVE = [{
   x: 0,
   y: -20,
   requirements: ['SIN'],
-  defaultExpression: '\\sin \\left(x+\\frac{pi}{2}\\right)',
+  defaultExpression: '\\sin \\left(x+\\frac{pi}{3}\\right)',
   goals: [
     {
       type: 'path',

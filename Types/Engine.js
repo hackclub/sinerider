@@ -47,8 +47,6 @@ function Engine(spec) {
   }
   
   function draw() {
-    //console.log(`Drawing!`)
-    
     if (!canvasIsDirty) return
     canvasIsDirty = false
     

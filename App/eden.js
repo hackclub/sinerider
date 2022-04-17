@@ -21,8 +21,17 @@ worldData.push({
     },
     sounds: {
       music: {
-        intro: 'intro.m4a',
-      }
+        intro: '.mp3',
+      },
+      map_button: '.mp3',
+      next_button: '.mp3',
+      enter_level: '.mp3',
+      goal_fail: '.mp3',
+      goal_success: '.mp3',
+      level_success: '.mp3',
+      restart_button: '.mp3',
+      start_running: '.mp3',
+      stop_running: '.mp3',
     }
   },
   levelData: [{
@@ -32,7 +41,8 @@ worldData.push({
     x: 0,
     y: 0,
     requirements: [],
-    // runMusic: 'sounds.music.intro',
+    runMusic: 'sounds.music.intro',
+    flashRunButton: true,
     defaultExpression: '\\frac{-2}{1+e^{-x+5}}+\\frac{-2}{1+\\left(x-28\\right)^2}',
     hint: 'congratulations, you found the secret hint!',
     goals: [
@@ -96,14 +106,7 @@ worldData.push({
         }
       }
     }],
-    texts: [
-    // {
-    //   x: 4,
-    //   y: -2,
-    //   size: 0.7,
-    //   content: 'hit the green button ⇲'
-    // },
-    {
+    texts: [{
       x: 20,
       y: 8,
       size: 3.5,

@@ -47,6 +47,8 @@ function Sampler(spec = {}) {
         v = v.re || 0
       else if (!_.isNumber(v))
         v = 0
+      else if (_.isNaN(v))
+        v = 0
     }
     catch (err) {
       v = 0

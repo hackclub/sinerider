@@ -93,6 +93,7 @@ function World(spec) {
     levelBubble = navigator.getBubbleByNick(nick)
     
     level = Level({
+      ui,
       screen,
       assets,
       parent: self,
@@ -141,8 +142,6 @@ function World(spec) {
     
     ui.victoryBar.setAttribute('hide', false)
     ui.controlBar.setAttribute('hide', true)
-    
-    // ui.variablesBar.setAttribute('hide', true)
     ui.showAllButton.setAttribute('hide', true)
     
     levelBubble.complete()
@@ -162,8 +161,9 @@ function World(spec) {
   }
   
   function nextLevel() {
+    assets.sounds.next_button.play()
     transitionNavigating(true, 1, () => {
-      stopRunning()
+      stopRunning(false)
     })
   }
   
@@ -181,19 +181,20 @@ function World(spec) {
     ui.mathField.blur()
     ui.expressionEnvelope.setAttribute('disabled', true)
     ui.menuBar.setAttribute('hide', true)
-    // ui.variablesBar.setAttribute('hide', false)
     
     ui.runButton.setAttribute('hide', true)
     ui.stopButton.setAttribute('hide', false)
     ui.topBar.setAttribute('hide', true)
     ui.resetButton.setAttribute('hide', true)
+
+    assets.sounds.start_running.play()
     
     self.sendEvent('startRunning', [])
     
     requestDraw()
   }
   
-  function stopRunning() {
+  function stopRunning(playSound=true) {
     runTime = 0
     running = false
     
@@ -201,7 +202,6 @@ function World(spec) {
     ui.expressionEnvelope.setAttribute('disabled', false)
     ui.menuBar.setAttribute('hide', false)
     ui.victoryBar.setAttribute('hide', true)
-    // ui.variablesBar.setAttribute('hide', true)
     
     ui.controlBar.setAttribute('hide', navigating)
     ui.topBar.setAttribute('hide', false)
@@ -213,6 +213,9 @@ function World(spec) {
       // HACK: Timed to avoid bug in Safari (at least) that causes whole page to be permanently offset when off-screen text input is focused
       setTimeout(() => ui.expressionText.focus(), 250)
     }
+
+    if (playSound)
+      assets.sounds.stop_running.play()
     
     self.sendEvent('stopRunning', [])
     
@@ -222,6 +225,24 @@ function World(spec) {
   function toggleRunning() {
     if (running) stopRunning()
     else startRunning()
+  }
+
+  function onClickMapButton() {
+    transitionNavigating(!navigating)
+    assets.sounds.map_button.play()
+  }
+
+  function onClickResetButton() {
+    level.reset()
+    assets.sounds.restart_button.play()
+  }
+
+  function onMathFieldFocus() {
+    self.sendEvent('mathFieldFocused')
+  }
+
+  function onMathFieldBlur() {
+    self.sendEvent('mathFieldBlurred')
   }
   
   return self.mix({
@@ -238,6 +259,12 @@ function World(spec) {
     
     setNavigating,
     transitionNavigating,
+    
+    onClickMapButton,
+    onClickResetButton,
+
+    onMathFieldFocus,
+    onMathFieldBlur,
     
     get navigator() {return navigator},
     

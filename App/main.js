@@ -76,8 +76,6 @@ const world = World({
 // Core methods
 
 function tick() {
-  //console.log(`Ticking! t=${math.floor(runTime*100)/100}`)
-  
   world.sendLifecycleEvent('awake')
   world.sendLifecycleEvent('start')
   
@@ -87,8 +85,6 @@ function tick() {
 }
 
 function draw() {
-  //console.log(`Drawing!`)
-  
   if (!canvasIsDirty) return
   canvasIsDirty = false
   
@@ -129,6 +125,18 @@ ui.mathField.getPlainExpression = function() {
   return mathquillToMathJS(tex)
 }
 
+function onMathFieldFocus(event) {
+  world.onMathFieldFocus()
+}
+
+ui.expressionEnvelope.addEventListener('focusin', onMathFieldFocus)
+
+function onMathFieldBlur(event) {
+  world.onMathFieldBlur()
+}
+
+ui.expressionEnvelope.addEventListener('blurout', onMathFieldBlur)
+
 // HTML events
 
 function onKeyUp(event) {
@@ -146,15 +154,13 @@ function onExpressionTextChanged(event) {
   world.level.sendEvent('setGraphExpression', [ui.expressionText.value])
 }
 
-// ui.expressionText.addEventListener('input', onExpressionTextChanged)
-
-function onClickLevelButton(event) {
-  world.transitionNavigating(!world.navigating)
+function onClickMapButton(event) {
+  world.onClickMapButton()
   requestDraw()
 }
 
-ui.levelButton.addEventListener('click', onClickLevelButton)
-ui.navigatorButton.addEventListener('click', onClickLevelButton)
+ui.levelButton.addEventListener('click', onClickMapButton)
+ui.navigatorButton.addEventListener('click', onClickMapButton)
 
 function onClickNextButton(event) {
   world.nextLevel()
@@ -188,7 +194,7 @@ function onClickEditButton(event) {
 ui.editButton.addEventListener('click', onClickEditButton)
 
 function onClickResetButton(event) {
-  world.level.reset()
+  world.onClickResetButton()
 }
 
 ui.resetButton.addEventListener('click', onClickResetButton)

@@ -10,13 +10,14 @@ const SLOPE = [{
     fov: 7,
   },
   requirements: null,
+  flashMathField: true,
   defaultExpression: '-x',
   hint: 'hint: x makes a slope',
   goals: [
     {
       type: 'path',
       expression: 'x',
-      pathX: -6,
+      pathX: -4,
       x: -2,
       y: 0,
     },
@@ -33,6 +34,19 @@ const SLOPE = [{
       direction: 'right-up',
       distance: 1,
     }]
+  }],
+  texts: [{
+    x: -3,
+    y: -2,
+    size: 0.5,
+    align: 'right',
+    content: 'This is your objective →'
+  },{
+    x: -3.1,
+    y: -6.8,
+    size: 0.5,
+    align: 'center',
+    content: 'Edit this function to hit it!'
   }],
 },
 {

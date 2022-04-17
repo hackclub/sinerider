@@ -4,6 +4,7 @@ function LevelBubble(spec) {
     self,
     screen,
     camera,
+    assets,
   } = Entity(spec, 'LevelBubble')
   
   const {
@@ -223,6 +224,8 @@ function LevelBubble(spec) {
     if (!playable) return
     
     ui.veil.setAttribute('hide', false)
+
+    assets.sounds.enter_level.play()
     
     completeAllRequirements()
     

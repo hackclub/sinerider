@@ -88,29 +88,20 @@ const TIME = [{
   colors: Colors.biomes.gunnison,
   x: 10,
   y: 10,
-  requirements: ['TIME_CONSTANT'],
+  requirements: ['TIME_CONSTANT', 'PARABOLA_TRANSLATE_X'],
   defaultExpression: '(x+t)^2',
   goals: [
     {
+      x: -2,
+      y: 0.5,
+    },
+    {
+      type: 'path',
+      expression: '0.5',
       x: 2,
-      y: 0
+      y: 0.5,
+      pathX: 8,
     },
-    {
-      x: 3,
-      y: 0
-    },
-    {
-      x: 4,
-      y: 0
-    },
-    {
-      x: 5,
-      y: 0
-    },
-    {
-      x: 6,
-      y: 0
-    }
   ],
   sledders: [{
     x: 0,
@@ -144,25 +135,12 @@ const TIME = [{
   defaultExpression: '(x-t)^2',
   goals: [
     {
+      type: 'path',
+      expression: 'x',
       x: 2,
-      y: 2
+      y: 2,
+      pathX: 6,
     },
-    {
-      x: 3,
-      y: 3
-    },
-    {
-      x: 4,
-      y: 4
-    },
-    {
-      x: 5,
-      y: 5
-    },
-    {
-      x: 6,
-      y: 6
-    }
   ],
   sledders: [{
     x: 0,
@@ -187,25 +165,12 @@ const TIME = [{
   defaultExpression: '(x-t)^2',
   goals: [
     {
+      type: 'path',
+      expression: 'x/2',
       x: 2,
-      y: 1
+      y: 1,
+      pathX: 6,
     },
-    {
-      x: 3,
-      y: 1.5
-    },
-    {
-      x: 4,
-      y: 2
-    },
-    {
-      x: 5,
-      y: 2.5
-    },
-    {
-      x: 6,
-      y: 3
-    }
   ],
   sledders: [{
     x: 0,
@@ -220,31 +185,42 @@ const TIME = [{
   x: 20,
   y: 0,
   requirements: ['TIME_PARABOLA_TRANSLATE_X', 'SIN_TRANSLATE_X'],
-  defaultExpression: 'sin(x-t)',
+  defaultExpression: '\\sin \\left(x-t\\right)',
   goals: [
     {
+      x: -12,
+      y: 0,
+      order: 'A',
+    },
+    {
+      type: 'path',
+      expression: '0',
+      x: -8,
+      y: 0,
+      pathX: 4,
+      order: 'B',
+    },
+    {
+      x: -2,
+      y: 0,
+      order: 'A',
+    },
+    {
+      type: 'path',
+      expression: '0',
       x: 2,
-      y: 0
+      y: 0,
+      pathX: 4,
+      order: 'B',
     },
-    {
-      x: 3,
-      y: 0
-    },
-    {
-      x: 4,
-      y: 0
-    },
-    {
-      x: 5,
-      y: 0
-    },
-    {
-      x: 6,
-      y: 0
-    }
   ],
   sledders: [{
     x: 0,
+    y: 0,
+    asset: 'images.sam_sled',
+  },
+  {
+    x: -10,
     y: 0,
     asset: 'images.lunchbox_sled',
   }],
@@ -256,20 +232,32 @@ const TIME = [{
   x: -10,
   y: -10,
   requirements: [null, 'TIME_PARABOLA_TRANSLATE_X_Y'],
-  defaultExpression: 'sin(x-t)+x/5',
+  defaultExpression: '\\cos \\left(x-t\\right)',
   goals: [
     {
       type: 'path',
-      expression: 'x/2',
-      x: 2,
+      expression: 'x',
+      x: 6,
       y: 0,
-      pathX: 5,
+      pathX: 6,
+    },
+    {
+      type: 'path',
+      expression: 'x',
+      x: -4,
+      y: 0,
+      pathX: 6,
     },
   ],
   sledders: [{
-    x: 0,
+    x: 4,
     y: 0,
     asset: 'images.lunchbox_sled',
+  },
+  {
+    x: -6,
+    y: 0,
+    asset: 'images.sam_sled',
   }],
 },
 {
@@ -279,7 +267,7 @@ const TIME = [{
   x: -10,
   y: -10,
   requirements: [null],
-  defaultExpression: '-cos(x-sin(t))',
+  defaultExpression: '-\\cos \\left(x-\\sin \\left(t\\right)\\right)',
   goals: [
     {
       x: -2,
@@ -325,7 +313,7 @@ const TIME = [{
   x: -10,
   y: 0,
   requirements: [null],
-  defaultExpression: '\\left(\\frac{x}{4}\\right)^2',
+  defaultExpression: '\\left(\\frac{x}{4}-\\sin \\left(t\\right)\\right)^2',
   goals: [
     {
       x: -6,
@@ -395,6 +383,32 @@ const TIME = [{
     asset: 'images.lunchbox_sled',
   },{
     x: -3,
+    y: 0,
+    asset: 'images.sam_sled',
+  }]
+},
+{
+  name: 'time parabola vertical oscillator',
+  nick: 'TIME_PARABOLA_VERTICAL_OSCILLATOR',
+  colors: Colors.biomes.gunnison,
+  x: 0,
+  y: -10,
+  requirements: ['TIME_SIN_PARABOLA_OSCILLATOR'],
+  defaultExpression: '\\left(\\frac{x}{4}\\right)^2',
+  goals: [
+    {
+      x: 4,
+      y: 0.5,
+      order: 'A'
+    },
+    {
+      x: 0,
+      y: 0.5,
+      order: 'B'
+    },
+  ],
+  sledders: [{
+    x: -4,
     y: 0,
     asset: 'images.sam_sled',
   }]

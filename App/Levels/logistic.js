@@ -103,7 +103,7 @@ const LOGISTIC = [{
   x: -20,
   y: 0,
   requirements: [null],
-  defaultExpression: '(x/3)^2+3/(1+x^2)',
+  defaultExpression: '\\left(\\frac{x}{4}\\right)^2+\\frac{1}{(1+x^2)}',
   goals: [
     {
       type: 'path',

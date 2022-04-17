@@ -3,6 +3,7 @@ function Level(spec) {
     self,
     assets,
     screen,
+    ui,
   } = Entity(spec, 'Level')
   
   const {
@@ -17,6 +18,8 @@ function Level(spec) {
     hint = '',
     openMusic,
     runMusic,
+    flashMathField = false,
+    flashRunButton = false,
   } = datum
   
   const sledders = []
@@ -30,6 +33,16 @@ function Level(spec) {
   let lowestOrder = 'A'
   let highestOrder = 'A'
 
+  if (flashMathField)
+    ui.expressionEnvelope.classList.add('flash-shadow')
+  else
+    ui.expressionEnvelope.classList.remove('flash-shadow')
+    
+  if (flashRunButton)
+    ui.runButton.classList.add('flash-shadow')
+  else
+    ui.runButton.classList.remove('flash-shadow')
+  
   let currentLatex
   
   const trackedEntities = [speech, sledders, walkers, goals]
@@ -240,15 +253,23 @@ function Level(spec) {
     if (!completed) {
       
       refreshLowestOrder()
+
+      let levelComplete = true
       
       for (goal of goals) {
         if (!goal.completed) {
-          return
+          levelComplete = false
+          break
         }
       }
       
-      completed = true
-      levelCompleted()
+      assets.sounds.goal_success.play()
+
+      if (levelComplete) {
+        completed = true
+        levelCompleted()
+        assets.sounds.level_success.play()
+      }
     }
   }
   
@@ -261,6 +282,8 @@ function Level(spec) {
           g.fail()
       }
     }
+    
+    assets.sounds.goal_fail.play()
   }
   
   function playOpenMusic() {
@@ -286,6 +309,8 @@ function Level(spec) {
   }
   
   function startRunning() {
+    ui.runButton.classList.remove('flash-shadow')
+    
     ui.mathFieldStatic.latex(currentLatex)
     
     if (!hasBeenRun) {
@@ -324,6 +349,10 @@ function Level(spec) {
     _.invokeEach(sledders, 'reset')
     _.invokeEach(goals, 'reset')
   }
+
+  function mathFieldFocused() {
+    ui.expressionEnvelope.classList.remove('flash-shadow')
+  }
   
   return self.mix({
     awake,
@@ -342,6 +371,8 @@ function Level(spec) {
     reset,
     
     playOpenMusic,
+    
+    mathFieldFocused,
     
     get datum() {return spec.datum},
     get completed() {return completed},

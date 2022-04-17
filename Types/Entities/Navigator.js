@@ -7,6 +7,7 @@ function Navigator(spec) {
     tickDelta,
     getEditing,
     setLevel,
+    assets,
   } = spec
   
   const camera = Camera({
@@ -49,6 +50,7 @@ function Navigator(spec) {
     const bubble = LevelBubble({
       levelDatum,
       setLevel,
+      assets,
       waypointDirector,
       camera,
       getEditing,
