@@ -210,7 +210,7 @@ const WAVE = [{
   x: 0,
   y: -20,
   requirements: [null],
-  defaultExpression: '\\sin \\left(x\\right)\\cdot 1',
+  defaultExpression: '2\\sin \\left(x\\right)',
   goals: [
     {
       type: 'path',
