@@ -61,7 +61,7 @@ function LevelBubble(spec) {
   
   const bubbletCanvas = document.createElement('canvas')
   
-  let bubbletPixels = 512//Math.ceil(camera.worldToScreenScalar(radius*2))
+  let bubbletPixels = 512
   bubbletCanvas.width = bubbletPixels
   bubbletCanvas.height = bubbletPixels
   
@@ -113,6 +113,7 @@ function LevelBubble(spec) {
     }
     
     refreshPlayable()
+
     bubbletLevel.sendEvent('draw')
     bubbletLevel.active = false
   }
@@ -135,7 +136,7 @@ function LevelBubble(spec) {
     
     if (playable) {
       if (hilighted)
-        strokeWidth = 0.4//camera.transform.transformScalar(0.025)
+        strokeWidth = 0.4
       else if (playable)
         strokeWidth = 0.2
         
