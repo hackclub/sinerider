@@ -38,13 +38,13 @@ const SLOPE = [{
   texts: [{
     x: -3,
     y: -2,
-    size: 0.5,
+    size: 0.4,
     align: 'right',
     content: 'This is your objective →'
   },{
     x: -3.1,
     y: -6.8,
-    size: 0.5,
+    size: 0.4,
     align: 'center',
     content: 'Edit this function to hit it!'
   }],

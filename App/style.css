@@ -128,6 +128,11 @@ body > .bar {
   color: #fff;
 }
 
+.button * {
+  user-select: none;
+  pointer-events: none;
+}
+
 .envelope[hide=true],.text[hide=true],.label[hide=true],.button[hide=true] {
   display: none;
 }

@@ -171,12 +171,16 @@ ui.nextButton.addEventListener('click', onClickNextButton)
 function onClickRunButton(event) {
   if (!world.navigating)
     world.toggleRunning()
+
+  return true
 }
 
 ui.runButton.addEventListener('click', onClickRunButton)
 
 function onClickStopButton(event) {
   world.toggleRunning()
+  
+  return true
 }
 ui.stopButton.addEventListener('click', onClickStopButton)
 ui.victoryStopButton.addEventListener('click', onClickStopButton)
