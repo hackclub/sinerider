@@ -10,6 +10,7 @@ function PathGoal(spec) {
   const base = _.mix(self)
   
   let {
+    assets,
     size = 1,
     globalScope,
     graph,
@@ -118,6 +119,8 @@ function PathGoal(spec) {
   
   function tickPath() {
     if (!self.completed && !self.failed) {
+      const pathProgressZero = pathProgress == 0
+      
       if (self.triggered) {
         pathPositionWorld.x += self.triggeringSledderDelta.x
         pathResetSpeed = 0
@@ -133,6 +136,15 @@ function PathGoal(spec) {
       pathPositionWorld.y = pathGraph.sample('x', pathPositionWorld.x)
       transform.invertPoint(pathPositionWorld, pathPosition)
       shape.center = pathPosition
+
+      if (self.triggered && pathProgress != 0 && pathProgressZero) {
+        assets.sounds.path_goal_start.play()
+        assets.sounds.path_goal_continue.loop(true)
+        assets.sounds.path_goal_continue.play()
+      }
+      if (!self.triggered && pathProgress == 0 && !pathProgressZero) {
+        assets.sounds.path_goal_continue.stop()
+      }
     }
   }
   
@@ -141,8 +153,10 @@ function PathGoal(spec) {
     if (self.triggered && !self.completed && !self.failed) {
       if (!self.available)
         self.fail()
-      else if (pathProgress == 1)
+      else if (pathProgress == 1) {
         self.complete()
+        assets.sounds.path_goal_continue.stop()
+      }
     }
   }
   

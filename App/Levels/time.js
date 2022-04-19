@@ -244,7 +244,7 @@ const TIME = [{
       expression: 'x',
       x: -8,
       y: 0,
-      pathX: 3,
+      pathX: 4,
       order: 'B',
     },
     {
@@ -257,7 +257,7 @@ const TIME = [{
       expression: 'x',
       x: 2,
       y: 0,
-      pathX: 3,
+      pathX: 4,
       order: 'B',
     },
   ],

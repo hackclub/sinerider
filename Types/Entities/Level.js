@@ -159,6 +159,7 @@ function Level(spec) {
       parent: self,
       camera,
       graph,
+      assets,
       sledders,
       globalScope,
       drawOrder: 1,

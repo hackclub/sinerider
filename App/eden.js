@@ -32,6 +32,8 @@ worldData.push({
       restart_button: '.mp3',
       start_running: '.mp3',
       stop_running: '.mp3',
+      path_goal_start: '.mp3',
+      path_goal_continue: '.mp3',
     }
   },
   levelData: [{
