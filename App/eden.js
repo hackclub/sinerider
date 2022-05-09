@@ -124,6 +124,25 @@ worldData.push({
       size: 1.5,
       content: 'A game about love and graphing.'
     }],
+  },{
+    name: 'Random',
+    nick: 'RANDOM',
+    colors: Colors.biomes.alps,
+    x: 35,
+    y: -25,
+    requirements: [],
+    defaultExpression: '0',
+    hint: 'Soft eyes, grasshopper.',
+    goals: [
+      {
+        type: 'dynamic',
+        x: 6.7,
+        y: 0
+      },
+    ],
+    sledders: [{
+      x: 0,
+    }],
   },
   ...SLOPE,
   ...PARABOLA,

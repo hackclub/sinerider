@@ -9,7 +9,7 @@ const SLOPE = [{
     y: -2,
     fov: 7,
   },
-  requirements: null,
+  requirements: ['HELLO_WORLD'],
   flashMathField: true,
   defaultExpression: '-x',
   hint: 'hint: x makes a slope',
@@ -86,7 +86,7 @@ const SLOPE = [{
     }]
   }],
 },
-/*{
+{
   name: 'Constant Lake',
   nick: 'SLOPE_CONVERSATION_1',
   colors: Colors.biomes.alps,
@@ -120,7 +120,7 @@ const SLOPE = [{
     x: -4,
     asset: 'images.benny_float',
   }],
-},*/
+},
 {
   name: 'A real steep hill',
   nick: 'SLOPE_STEEPER',

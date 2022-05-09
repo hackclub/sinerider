@@ -16,6 +16,10 @@ function World(spec) {
   const globalScope = {
     get t() {return runTime},
     dt: tickDelta,
+    lerp: (a, b, t) => {
+      t = math.clamp01(t)
+      return a*(1-t)+b*t
+    },
     
     get running() {return running},
   }
@@ -69,8 +73,11 @@ function World(spec) {
       active: false,
       parent: self,
     })
-  
-    setLevel(levelData[0].nick)
+
+    if (_.endsWith(location.href, '#random'))
+      setLevel('RANDOM')
+    else
+      setLevel(levelData[0].nick)
   }
   
   function assetsComplete() {
@@ -89,8 +96,12 @@ function World(spec) {
   function setLevel(nick) {
     if (level) level.destroy()
     
-    levelDatum = _.find(levelData, v => v.nick == nick)
     levelBubble = navigator.getBubbleByNick(nick)
+    
+    if (nick == 'RANDOM')
+      levelDatum = generateRandomLevel()
+    else
+      levelDatum = _.find(levelData, v => v.nick == nick)
     
     level = Level({
       ui,
@@ -225,6 +236,49 @@ function World(spec) {
   function toggleRunning() {
     if (running) stopRunning()
     else startRunning()
+  }
+
+  function generateRandomLevel() {
+    const goalCount = _.random(2, 5)
+    const goals = []
+
+    for (let i = 0; i < goalCount; i++) {
+      const goalPosition = {}
+
+      do {
+        goalPosition.x = _.random(-10, 10)
+        goalPosition.y = _.random(-10, 10)
+      } while (_.find(goals, v => v.x == goalPosition.x && v.y == goalPosition.y))
+
+      goals.push(goalPosition)
+    }
+
+    const sledderCount = 1
+    const sledders = []
+
+    for (let i = 0; i < sledderCount; i++) {
+      let sledderX
+
+      do {
+        sledderX = _.random(-10, 10)
+      } while (_.find(goals, v => v.x == sledderX) || _.find(sledders, v => v.x == sledderX))
+
+      sledders.push({x: sledderX})
+    }
+
+    const biomes = _.values(Colors.biomes)
+
+    return {
+      name: 'Ranbdom Level',
+      nick: 'RANDOM',
+      x: -10,
+      y: 0,
+      colors: biomes[_.random(0, biomes.length)],
+      defaultExpression: '0',
+      hint: 'Soft eyes, grasshopper.',
+      goals,
+      sledders,
+    }
   }
 
   function onClickMapButton() {

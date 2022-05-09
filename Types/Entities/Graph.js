@@ -35,11 +35,11 @@ function Graph(spec) {
   const undashedSettings = []
   const dashSettingsScreen = [0, 0]
   
+  // Scope is global scope
+  const scope = globalScope
+  
   const sampler = Sampler(spec)
   const samples = sampler.generateSampleArray(sampleCount)
-  
-  // Directly assigning the global scope as the local scope for now
-  const scope = globalScope
 
   const screenSpaceSample = Vector2()
   
