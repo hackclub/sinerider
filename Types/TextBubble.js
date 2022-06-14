@@ -7,10 +7,6 @@
  */
 function TextBubble(spec) {
     const {
-      self
-    } = Entity(spec, 'TextBubble')
-  
-    const {
       content = 'Hello',
       domSelector,
       style = {}
