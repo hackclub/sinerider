@@ -449,10 +449,12 @@ input[valid=false] {
 
 .helper-bubble {
   position: absolute;
-  top: -20px;
-  right: -20px;
-  width:100px;
-  height:30px;
+  width: 150px;
+  text-align: center;
+  border: 2px solid black;
+  font-size: small;
+  background-color:white;
+  padding:5px;
 }
 
 .helper-bubble:before {
@@ -460,10 +462,10 @@ input[valid=false] {
   width: 0px;
   height: 0px;
   position: absolute;
-  border-left: 10px solid #00bfb6;
+  border-left: 10px solid black;
   border-right: 10px solid transparent;
-  border-top: 10px solid #00bfb6;
+  border-top: 10px solid black;
   border-bottom: 10px solid transparent;
-  right: -20px;
-  top: 6px;
+  left: -2px;
+  bottom: -20px;
 }
