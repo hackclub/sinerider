@@ -5,13 +5,13 @@ function Level(spec) {
     screen,
     ui,
   } = Entity(spec, 'Level')
-  
+
   const {
     globalScope,
     levelCompleted,
     datum,
   } = spec
-  
+
   let {
     colors = Colors.biomes.alps,
     defaultExpression,
@@ -21,7 +21,7 @@ function Level(spec) {
     flashMathField = false,
     flashRunButton = false,
   } = datum
-  
+
   const sledders = []
   const walkers = []
   const goals = []
@@ -29,7 +29,7 @@ function Level(spec) {
   const sprites = []
   const speech = []
   const directors = []
-  
+
   let lowestOrder = 'A'
   let highestOrder = 'A'
 
@@ -37,38 +37,38 @@ function Level(spec) {
     ui.expressionEnvelope.classList.add('flash-shadow')
   else
     ui.expressionEnvelope.classList.remove('flash-shadow')
-    
+
   if (flashRunButton)
     ui.runButton.classList.add('flash-shadow')
   else
     ui.runButton.classList.remove('flash-shadow')
-  
+
   let currentLatex
-  
+
   const trackedEntities = [speech, sledders, walkers, goals]
-  
+
   // TODO: Fix hint text. Mathquill broke it
   // ui.mathField.setAttribute('placeholder', hint)
-  
+
   openMusic = _.get(assets, openMusic, null)
   runMusic = _.get(assets, runMusic, null)
-  
+
   let hasBeenRun = false
-  
+
   camera = Camera({
     globalScope,
     parent: self,
   })
-  
+
   const axes = Axes({
     drawOrder: -2,
     camera,
     globalScope,
     parent: self,
   })
-  
+
   trackedEntities.unshift(axes)
-  
+
   const graph = Graph({
     camera,
     globalScope,
@@ -77,52 +77,52 @@ function Level(spec) {
     drawOrder: 0,
     colors,
   })
-  
+
   let completed = false
-  
+
   let skyColors = colors.sky
-  
+
   if (_.isString(skyColors))
     skyColors = [[0, skyColors]]
-  
+
   let skyGradient = screen.ctx.createLinearGradient(0, 0, 0, 1)
-  
-  for (color of skyColors)
+
+  for (const color of skyColors)
     skyGradient.addColorStop(color[0], color[1])
-    
+
   loadDatum(spec.datum)
-  
+
   function awake() {
     refreshLowestOrder()
-    
+
     // Add a variable to globalScope for player position
     globalScope.p = math.complex()
     assignPlayerPosition()
-    
+
     ui.mathField.latex(defaultExpression)
     ui.mathFieldStatic.latex(defaultExpression)
   }
-  
+
   function start() {
   }
-  
+
   function startLate() {
     // self.sendEvent('levelFullyStarted')
   }
-  
+
   function tick() {
     let time = (Math.round(globalScope.t*10)/10).toString()
-    
+
     if (globalScope.running && !_.includes(time, '.'))
       time += '.0'
-    
+
     // ui.timeString.innerHTML = 'T='+time
     ui.runButtonString.innerHTML = 'T='+time
     ui.stopButtonString.innerHTML = 'T='+time
-    
+
     assignPlayerPosition()
   }
-  
+
   function draw() {
     screen.ctx.save()
     screen.ctx.scale(1, screen.height)
@@ -130,30 +130,30 @@ function Level(spec) {
     screen.ctx.fillRect(0, 0, screen.width, screen.height)
     screen.ctx.restore()
   }
-  
+
   function assignPlayerPosition() {
     const playerEntity = walkers.length > 0 ?
       walkers[0] : sledders.length > 0 ?
       sledders[0] : axes
-    
+
     globalScope.p.re = playerEntity.transform.position.x
     globalScope.p.im = playerEntity.transform.position.y
   }
-  
+
   function trackDescendants(entity, array=trackedEntities) {
     _.each(entity.children, v => {
       array.push(v)
       trackDescendants(v, array)
     })
   }
-  
+
   function addGoal(goalDatum) {
     const generator = {
       'path': PathGoal,
       'fixed': FixedGoal,
       'dynamic': DynamicGoal,
     }[goalDatum.type || 'fixed']
-    
+
     const goal = generator({
       name: 'Goal '+goals.length,
       parent: self,
@@ -168,10 +168,10 @@ function Level(spec) {
       getLowestOrder: () => lowestOrder,
       ...goalDatum
     })
-    
+
     goals.push(goal)
   }
-  
+
   function addDirector(directorDatum) {
     const generator = {
       'tracking': TrackingDirector,
@@ -179,7 +179,7 @@ function Level(spec) {
       'lerp': LerpDirector,
       // 'drag': DragDirector,
     }[directorDatum.type || 'tracking']
-    
+
     const director = generator({
       parent: self,
       camera,
@@ -188,10 +188,10 @@ function Level(spec) {
       trackedEntities,
       ...directorDatum
     })
-    
+
     directors.push(director)
   }
-  
+
   function addWalker(walkerDatum) {
     const walker = Walker({
       name: 'Walker '+walkers.length,
@@ -201,12 +201,12 @@ function Level(spec) {
       globalScope,
       ...walkerDatum
     })
-    
+
     walkers.push(walker)
-    
+
     trackDescendants(walker)
   }
-  
+
   function addSledder(sledderDatum) {
     const sledder = Sledder({
       name: 'Sledder '+sledders.length,
@@ -214,14 +214,14 @@ function Level(spec) {
       camera,
       graph,
       globalScope,
-      ...sledderDatum
+      ...sledderDatum,
     })
-    
+
     sledders.push(sledder)
-    
+
     trackDescendants(sledder, speech)
   }
-  
+
   function addSprite(spriteDatum) {
     const sprite = Sprite({
       name: 'Sprite '+sprites.length,
@@ -231,12 +231,12 @@ function Level(spec) {
       globalScope,
       drawOrder: -1,
       anchored: true,
-      ...spriteDatum
+      ...spriteDatum,
     })
-    
+
     sprites.push(sprite)
   }
-  
+
   function addText(textDatum) {
     const text = Text({
       name: 'Text '+texts.length,
@@ -246,24 +246,24 @@ function Level(spec) {
       drawOrder: 2,
       ...textDatum,
     })
-    
+
     texts.push(text)
   }
-  
+
   function goalCompleted(goal) {
     if (!completed) {
-      
+
       refreshLowestOrder()
 
       let levelComplete = true
-      
+
       for (goal of goals) {
         if (!goal.completed) {
           levelComplete = false
           break
         }
       }
-      
+
       assets.sounds.goal_success.play()
 
       if (levelComplete) {
@@ -273,31 +273,31 @@ function Level(spec) {
       }
     }
   }
-  
+
   function goalFailed(goal) {
-    console.log('Failed :(')
-    
+  // console.log('Failed :(')
+
     if (goal.order) {
       for (g of goals) {
         if (g.order && !g.completed)
           g.fail()
       }
     }
-    
+
     assets.sounds.goal_fail.play()
   }
-  
+
   function playOpenMusic() {
     if (openMusic)
       openMusic.play()
   }
-  
+
   function reset() {
     ui.mathField.latex(defaultExpression)
     // self.sendEvent('setGraphExpression', [defaultExpression, defaultExpression])
     refreshLowestOrder()
   }
-  
+
   function refreshLowestOrder() {
     lowestOrder = 'Z'
     for (goal of goals) {
@@ -305,30 +305,30 @@ function Level(spec) {
         lowestOrder = goal.order
       }
     }
-    
+
     _.invokeEach(goals, 'refresh')
   }
-  
+
   function startRunning() {
     ui.runButton.classList.remove('flash-shadow')
-    
+
     ui.mathFieldStatic.latex(currentLatex)
-    
+
     if (!hasBeenRun) {
       if (runMusic)
         runMusic.play()
-        
+
       hasBeenRun = true
     }
   }
-  
+
   function stopRunning() {
     _.invokeEach(goals, 'reset')
-    
+
     completed = false
     refreshLowestOrder()
   }
-  
+
   function loadDatum(datum) {
     _.each(datum.sprites, addSprite)
     _.each(datum.walkers, addWalker)
@@ -336,17 +336,27 @@ function Level(spec) {
     _.each(datum.goals, addGoal)
     _.each(datum.texts, addText)
     _.each(datum.directors || [{}], addDirector)
+
+    const shader = Shader({
+      name: 'Shader',
+      parent: self,
+      camera,
+      assets,
+      screen,
+      drawOrder: -10000,
+    }) 
+
     self.sortChildren()
   }
-  
+
   function setGraphExpression(text, latex) {
     currentLatex = latex
-    
+
     graph.expression = text
     ui.expressionEnvelope.setAttribute('valid', graph.valid)
 
     ui.mathFieldStatic.latex(latex)
-    
+
     _.invokeEach(sledders, 'reset')
     _.invokeEach(goals, 'reset')
   }
@@ -354,27 +364,27 @@ function Level(spec) {
   function mathFieldFocused() {
     ui.expressionEnvelope.classList.remove('flash-shadow')
   }
-  
+
   return self.mix({
     awake,
     start,
-    
+
     tick,
     draw,
-    
+
     startRunning,
     stopRunning,
-    
+
     setGraphExpression,
 
     camera,
-    
+
     reset,
-    
+
     playOpenMusic,
-    
+
     mathFieldFocused,
-    
+
     get datum() {return spec.datum},
     get completed() {return completed},
   })

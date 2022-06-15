@@ -34,6 +34,9 @@ worldData.push({
       stop_running: '.mp3',
       path_goal_start: '.mp3',
       path_goal_continue: '.mp3',
+    },
+    shaders: {
+      default: '.frag'
     }
   },
   levelData: [{
@@ -154,15 +157,15 @@ worldData.push({
 // Allows you to leave requirements as null to signify dependence on the previous level
 for (world of worldData) {
   const levelData = world.levelData
-  
+
   for (let i = 1; i < levelData.length; i++) {
     const d = levelData[i]
-    
+
     if (d.requirements == null) {
       d.requirements = [levelData[i-1].nick]
       continue
     }
-    
+
     for (let j = 0; j < d.requirements.length; j++) {
       if (d.requirements[j] == null) {
         d.requirements[j] = [levelData[i-1].nick]

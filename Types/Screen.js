@@ -18,111 +18,111 @@
 
 function Screen(spec = {}) {
   const transform = Transform()
-  
+
   let {
     canvas,
     element = window
   } = spec
-  
+
   const ctx = canvas.getContext('2d')
-  
+
   let width
   let height
-  
+
   let vertical
   let aspect
-  
+
   const resizeSubs = []
-  
+
   const minFramePoint = Vector2()
   const maxFramePoint = Vector2()
-  
+
   function resize() {
     width = element.innerWidth || element.width
     height = element.innerHeight || element.height
-    
+
     canvas.width = width
     canvas.height = height
-    
+
     transform.x = width/2
     transform.y = height/2
     transform.scale = math.min(width, height)/2
-    
+
     vertical = height > width
     aspect = width/height
-    
+
     minFramePoint[0] = vertical ? -1 : -aspect
     minFramePoint[1] = vertical ? 1/aspect : -1
-    
+
     maxFramePoint[0] = vertical ? 1 : aspect
     maxFramePoint[1] = vertical ? 1/aspect : 1
-    
+
     _.callEach(resizeSubs)
   }
-  
+
   function screenToFrame(point, output) {
     if (!output) output = point
-    
+
     transform.invertPoint(point, output)
     output.y *= -1
-    
+
     return output
   }
-  
+
   function frameToScreen(point, output) {
     if (!output) output = point
-    
+
     output.set(point)
-    
+
     output.y *= -1
     transform.transformPoint(output)
-    
+
     return output
   }
-  
+
   function screenToFrameDirection(direction, output) {
     if (!output) output = direction
-    
+
     transform.invertDirection(direction, output)
     output.y *= -1
-    
+
     return output
   }
-  
+
   function frameToScreenDirection(direction, output) {
     if (!output) output = direction
-    
+
     output.set(direction)
-    
+
     output.y *= -1
     transform.transformDirection(output)
-    
+
     return output
   }
-  
+
   resize()
-  
+
   return {
     transform,
-    
+
     canvas,
     ctx,
-    
+
     resize,
     resizeSubs,
-    
+
     screenToFrame,
     frameToScreen,
-    
+
     screenToFrameDirection,
     frameToScreenDirection,
-    
+
     get width() {return width},
     get height() {return height},
-    
+
     get vertical() {return height},
     get aspect() {return aspect},
-    
+
     get minFramePoint() {return minFramePoint},
     get maxFramePoint() {return maxFramePoint},
   }

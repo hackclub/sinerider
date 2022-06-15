@@ -5,9 +5,7 @@ function Snow(spec, name='Snow') {
     assets,
   } = Entity(spec, name)
 
-
-  
   return self.mix({
-    
+
   })
 }
