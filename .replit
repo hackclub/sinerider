@@ -14,10 +14,10 @@ pattern = "**/*.html"
   autoCreateQuotes = true
   autoClosingTags = true
   mirrorCursorOnMatchingTag = false
-  
+
     [languages.html.languageServer.configuration.html.completion]
     attributeDefaultValue = "doublequotes"
-  
+
     [languages.html.languageServer.configuration.html.format]
     enable = true
     wrapLineLength = 120
@@ -31,18 +31,18 @@ pattern = "**/*.html"
     wrapAttributes = "auto"
     templating = false
     unformattedContentDelimiter = ""
-  
+
     [languages.html.languageServer.configuration.html.suggest]
     html5 = true
-  
+
     [languages.html.languageServer.configuration.html.validate]
     scripts = true
     styles = true
-  
+
     [languages.html.languageServer.configuration.html.hover]
     documentation = true
     references = true
-  
+
     [languages.html.languageServer.configuration.html.trace]
     server = "off"
 

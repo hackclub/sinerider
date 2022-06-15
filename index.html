@@ -3,84 +3,84 @@
   <head>
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width'>
-    
+
     <title>SineRider</title>
-    
+
     <link rel="preconnect" href="https://fonts.gstatic.com"> 
     <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Roboto&family=Roboto+Mono&display=swap" rel="stylesheet">
-    
+
     <link href='App/style.css' rel='stylesheet' type='text/css'/>
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    
+
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SLDEWZQ8N1"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-    
+
       gtag('config', 'G-SLDEWZQ8N1');
     </script>
   </head>
   <body>
     <img src='Assets/Images/error.png' style='display: none;' id='error-sprite'/>
-    
+
     <div class='bubblets'></div>
-    
+
     <canvas id='canvas'></canvas>
-    
+
     <div class='variables floating bar' id='variables-bar' hide=true>
       <div class='string' id='time-string'>T=0</div>
     </div>
-    
+
     <div class='bar floating top' id='top-bar' hide=false>
       <div class='button' id='navigator-button' hide=false>
         <div class='string'>⛰</div>
       </div>
     </div>
-      
+
     <div class='bar menu' id='menu-bar' hide=false>
       <div class='button' id='edit-button' hide=true>
         <div class='string'>Edit</div>
       </div>
-      
+
       <input class='text' id='level-text' type='text'/>
-      
+
       <div class='button' id='level-button'>
         <div class='string'></div>
       </div>
-      
+
       <!--<div class='button' id='reset-button'>-->
       <!--  <div class='string'>Reset</div>-->
       <!--</div>-->
     </div>
-    
+
     <div class='bar floating controls' id='controls-bar'>
       <div class='button' id='reset-button'>
         <div class='string'>↺</div>
       </div>
-      
+
       <div class='envelope' id='expression-envelope' disabled=false>
         <div class='label' id='variable-label'>
           <div class='string'>Y=</div>
         </div>
-        
+
         <div id='math-field'></div>
-        
+
         <div id='math-field-static'></div>
       </div>
-      
+
       <input class='text' id='expression-text' type='text' hide=true/>
-      
+
       <div class='button' id='run-button' hide=false>
         <div class='string'>GO</div>
       </div>
-      
+
       <div class='button' id='stop-button' hide=true>
         <div class='string'>STOP</div>
       </div>
     </div>
-    
+
     <div class='bar message' id='message-bar' hide=true>
       <div class='string'>MESSAGE</div>
     </div>
@@ -90,50 +90,53 @@
         <div class='button' id='victory-stop-button'>
           <div class='string'>STOP</div>
         </div>
-        
+
         <div class='label' id='victory-label'>
           <div class='string'>Victory!</div>
         </div>
-        
+
         <div class='button' id='next-button'>
           <div class='string'>NEXT</div>
         </div>
       </div>
     </div>
-    
+
     <div class='bar floating navigator' id='navigator-floating-bar' hide=true>
       <div class='button' id='show-all-button' hide=false>
         <div class='string'>SHOW ALL</div>
       </div>
     </div>
-    
+
     <div class='veil' id='veil' hide=true>
     </div>
-    
+
     <div class='loading veil' id='loading-veil' hide=false>
       <div class='string' id='loading-remarks'>
         <p>To load a level from a previous session click the ⛰️ button and then SHOW ALL.</p>
       </div>
       <div class='string' id='loading-string'></div>
     </div>
-    
+
     <!-- Load External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjs/7.3.0/math.min.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.9.1/mathquill.min.js"></script>
-    
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/regl/2.1.0/regl.min.js"></script> -->
+    <!-- Use non-minified Regl for easier debugging in development -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/regl/2.1.0/regl.js"></script>
+
     <link rel="stylesheet" href="Libraries/mathquill.css"/>
     <script src="Libraries/mathquill.min.js"></script>
     <script>
       var MQ = MathQuill.getInterface(2);
     </script>
-    
+
     <!-- Load Extension Methods -->
     <script src='Libraries/extensions.js'></script>
     <script src='Libraries/preprocessMathQuill.js'></script>
-    
+
     <!-- Load Structs -->
     <script src='Types/Structs/Test.js'></script>
     <script src='Types/Structs/Vector2.js'></script>
@@ -143,10 +146,10 @@
     <script src='Types/Structs/Rect.js'></script>
     <script src='Types/Structs/Color.js'></script>
     <script src='Types/Structs/CameraState.js'></script>
-    
+
     <!-- Color Palette -->
     <script src='App/colors.js'></script>
-    
+
     <!-- Load Basic Types -->
     <script src='Types/Assets.js'></script>
     <script src='Types/Engine.js'></script>
@@ -156,15 +159,17 @@
     <script src='Types/Rigidbody.js'></script>
     <script src='Types/Clickable.js'></script>
     <script src='Types/ClickableContext.js'></script>
-    
+
     <!-- Load Components -->
     <script src='Types/Entities/Directors/Director.js'></script>
     <script src='Types/Entities/Directors/TrackingDirector.js'></script>
     <script src='Types/Entities/Directors/WaypointDirector.js'></script>
     <script src='Types/Entities/Directors/LerpDirector.js'></script>
     <!--<script src='Types/Entities/Directors/DragDirector.js'></script>-->
-    
+
     <!-- Load Entities -->
+    <script src='Types/Quad.js'></script>
+    <script src='Types/Entities/Shader.js'></script>
     <script src='Types/Entities/Entity.js'></script>
     <script src='Types/Entities/World.js'></script>
     <script src='Types/Entities/Level.js'></script>
@@ -184,7 +189,7 @@
     <script src='Types/Entities/Sledder.js'></script>
     <script src='Types/Entities/Walker.js'></script>
     <script src='Types/Entities/LevelBubble.js'></script>
-    
+
     <!-- Load World Data -->
     <script src='App/Levels/slope.js'></script>
     <script src='App/Levels/parabola.js'></script>
@@ -192,7 +197,7 @@
     <script src='App/Levels/logistic.js'></script>
     <script src='App/Levels/time.js'></script>
     <script src='App/eden.js'></script>
-    
+
     <!-- Start the Engine -->
     <script src='App/main.js'></script>
   </body>

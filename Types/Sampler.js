@@ -8,41 +8,41 @@ function Sampler(spec = {}) {
     defaultToLastValidExpression = true,
     allowInfinity = false,
   } = spec
-  
+
   let expression
   let lastValidExpression = '0'
-  
+
   let evaluator
   let lastValidEvaluator = math.compile(lastValidExpression)
-  
+
   let valid = false
-  
+
   setExpression(spec.expression || '0')
-  
+
   function decomment(expression) {
     return expression.split('//')[0]
   }
-  
+
   function evaluate(scope) {
     if (expression == '') return 0
-    
+
     let e = defaultToLastValidExpression ? lastValidEvaluator : evaluator
     let v = 0
 
     try {
       v = e.evaluate(scope)
-      
+
       if (!allowInfinity) {
         if (v == PINF || v == NINF)
           v = 0
-          
+
         if (v.re == PINF || v.re == NINF)
           v.re = 0
-          
+
         if (v.im == PINF || v.im == NINF)
           v.im = 0
       }
-      
+
       if (_.isObject(v))
         v = v.re || 0
       else if (!_.isNumber(v))
@@ -53,10 +53,10 @@ function Sampler(spec = {}) {
     catch (err) {
       v = 0
     }
-    
+
     return v
   }
-  
+
   function sample() {
     // Assign variable/value pairs
     if (arguments.length >= 2) {
@@ -64,10 +64,10 @@ function Sampler(spec = {}) {
         scope[arguments[i]] = arguments[i+1]
       }
     }
-    
+
     return evaluate(scope)
   }
-  
+
   function sampleSlope(variable, value) {
     // Assign variable/value pairs *except* first pair
     if (arguments.length >= 3) {
@@ -75,32 +75,32 @@ function Sampler(spec = {}) {
         scope[arguments[i]] = arguments[i+1]
       }
     }
-    
+
     const epsilon = 0.01
-     
+
     scope[variable] = value
     const sample0 = evaluate(scope)
-    
+
     scope[variable] = value+epsilon
     const sample1 = evaluate(scope)
-    
+
     return (sample1-sample0)/epsilon
   }
-  
+
   function sampleRange(_scope, sampleArray, sampleCount, rangeVariable, range0, range1) {
     _.assign(scope, _scope)
-    
+
     const span = range1-range0
     const step = span/(sampleCount-1)
 
     scope[rangeVariable] = range0
-    
+
     for (let i = 0; i < sampleCount; i++) {
       let rangeValue = range0+step*i
       scope[rangeVariable] = rangeValue
-      
+
       sampleArray[i][0] = rangeValue
-      
+
       try {
         sampleArray[i][1] = evaluate(scope)
       }
@@ -109,12 +109,12 @@ function Sampler(spec = {}) {
       }
     }
   }
-  
+
   function setExpression(_expression) {
     if (expression == _expression) return
-    
+
     expression = _expression
-    
+
     try {
       evaluator = math.compile(decomment(expression))
       lastValidExpression = expression
@@ -126,23 +126,23 @@ function Sampler(spec = {}) {
       valid = false
     }
   }
-  
+
   function generateSampleArray(pointCount) {
     return _.map(Array(pointCount), () => Vector2(0, 0))
   }
-  
+
   return {
     sample,
     sampleRange,
     sampleSlope,
-    
+
     generateSampleArray,
-    
+
     setExpression,
-    
+
     get expression() {return expression},
     set expression(v) {setExpression(v)},
-    
+
     get valid() {return valid},
   }
 }

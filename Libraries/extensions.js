@@ -24,13 +24,13 @@ _.callEach = function(array, args) {
 _.invokeEach = function(array, path, args) {
   for (let i = 0; i < array.length; i++) {
     let v = array[i]
-    
+
     if (_.isArray(v)) {
       _.invokeEach(v, path, args)
     }
     else {
       let f = _.get(v, path)
-      
+
       if (_.isFunction(f))
         f.apply(v, args)
     }
@@ -40,7 +40,7 @@ _.invokeEach = function(array, path, args) {
 _.eachDeep = function(array, callback, args = []) {
   for (let i = 0; i < array.length; i++) {
     let v = array[i]
-    
+
     if (_.isArray(v))
       _.eachDeep(v, callback, args)
     else
@@ -51,7 +51,7 @@ _.eachDeep = function(array, callback, args = []) {
 _.isInDeep = function(array, object) {
   for (let i = 0; i < array.length; i++) {
     let v = array[i]
-    
+
     if (object === v)
       return true
     else if (_.isArray(v)) {
@@ -59,14 +59,14 @@ _.isInDeep = function(array, object) {
         return true
     }
   }
-  
+
   return false
 }
 
 _.removeDeep = function(array, object) {
   for (let i = 0; i < array.length; i++) {
     let v = array[i]
-    
+
     if (v == object) {
       array.splice(i, 1)
       return
@@ -118,24 +118,24 @@ math.clamp01 = function(t) {
 math.lerp = function(a, b, t, smooth=false) {
   if (smooth)
     t = math.smooth(t)
-    
+
   return a+(b-a)*t
 }
 
 math.modLerp = function(a, b, t, mod=TAU, smooth=false) {
   while (a < 0) a += mod
   while (a > mod) a -= mod
-  
+
   while (b < 0) b += mod
   while (b > mod) b -= mod
-  
+
   if (Math.abs(a-b) > mod/2) {
     if (a < b) a += mod
     else b += mod
   }
-  
+
   let c = math.lerp(a, b, t, smooth)
-  
+
   while (c < 0) c += mod
   while (c > mod) c -= mod
 

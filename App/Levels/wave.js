@@ -143,7 +143,7 @@ const WAVE = [{
   requirements: [null],
   defaultExpression: '\\cos \\left(x\\right)',
   goals: [
-    
+
     {
       type: 'path',
       expression: 'cos(x-1)+4',
