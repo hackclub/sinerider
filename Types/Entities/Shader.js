@@ -33,11 +33,10 @@ function Shader(spec) {
   framebuffer.height = yRes
   framebuffer.display = 'none' // Hidden
 
-  framebuffer.id = 'framebuffer'
-
-  const quad = new Quad(assets.shaders[shaderSource], framebuffer)
+  const quad = Quad(assets.shaders[shaderSource], framebuffer)
 
   function drawLocal() {
+    // drawQuad()
     quad.draw()
     ctx.drawImage(framebuffer, -xSize/2, -ySize/2, xSize, ySize)
   }

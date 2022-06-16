@@ -1,35 +1,10 @@
 /**
- * Compiles shader and links to program, logs error if there is one
- * @param {WebGLRenderingContext} gl WebGL context
- * @param {WebGLProgram} program Shader program to attach to
- * @param {string} source Shader source code
- * @param {number} type Shader type
- */
-function compileAndAttachShader(gl, program, source, type) {
-  const shader = gl.createShader(type)
-
-  gl.shaderSource(shader, source)
-  gl.compileShader(shader)
-
-  const status = gl.getShaderParameter(shader, gl.COMPILE_STATUS)
-
-  if (!status) {
-    const error = gl.getShaderInfoLog(shader)
-    throw `Error in compiling shader ${error}`
-  }
-
-  gl.attachShader(program, shader)
-}
-
-/**
  * Generates object for rendering a quad with a specified fragment shader
  * @param {string} shader Fragment shader source
  * @param {HTMLObjectElement} canvas HTML canvas to be drawn to 
  * @returns Quad
  */
-function Quad(shader, canvas) {
-  let self = {}
-
+function Quad(fragmentShaderSource, canvas) {
   const gl = canvas.getContext('webgl')
 
   if (gl == null) {
@@ -50,31 +25,48 @@ function Quad(shader, canvas) {
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW)
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer)
 
-  const vertexSource = `
+  let program = gl.createProgram()
+
+  // vertex shader
+  const vertexShader = gl.createShader(gl.VERTEX_SHADER)
+
+  gl.shaderSource(vertexShader, `
     attribute vec2 position;
     void main() {
       gl_Position = vec4(position, 0, 1);
     }
-  `
+  `)
 
-  let program = gl.createProgram()
+  gl.compileShader(vertexShader)
 
-  compileAndAttachShader(gl, program, vertexSource, gl.VERTEX_SHADER)
-  compileAndAttachShader(gl, program, shader, gl.FRAGMENT_SHADER)
+  // fragment shader
+  const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER)
 
+  gl.shaderSource(fragmentShader, fragmentShaderSource)
+  gl.compileShader(fragmentShader)
+
+  if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS))
+    throw `Error in compiling fragment shader ${gl.getShaderInfoLog(fragmentShader)}`
+
+  // attach and link shader program
+  gl.attachShader(program, vertexShader)
+  gl.attachShader(program, fragmentShader)
   gl.linkProgram(program)
+
   gl.useProgram(program)
 
+  // vertex layout
   const position = gl.getAttribLocation(program, 'position')
   gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0)
   gl.enableVertexAttribArray(position)
 
+  // uniforms
   const resolutionLoc = gl.getUniformLocation(program, 'resolution')
   const frameLoc = gl.getUniformLocation(program, 'frame')
 
   let frame = 0
 
-  self.draw = () => {
+  function draw() {
     gl.clearColor(0, 0, 0, 1)
     gl.clear(gl.COLOR_BUFFER_BIT)
     gl.viewport(0, 0, canvas.width, canvas.height)
@@ -85,5 +77,7 @@ function Quad(shader, canvas) {
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   }
 
-  return self
+  return {
+    draw
+  }
 }
