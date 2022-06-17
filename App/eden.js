@@ -125,7 +125,7 @@ worldData.push({
       content: 'A game about love and graphing.'
     }],
     textBubbles: [{content:"Click over here to edit!", domSelector:"#expression-envelope", place:"top-right"}]
-  },{
+  },/*{
     name: 'Random',
     nick: 'RANDOM',
     colors: Colors.biomes.alps,
@@ -144,7 +144,7 @@ worldData.push({
     sledders: [{
       x: 0,
     }],
-  },
+  },*/
   ...SLOPE,
   ...PARABOLA,
   ...WAVE,
