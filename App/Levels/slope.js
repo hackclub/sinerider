@@ -48,6 +48,7 @@ const SLOPE = [{
     align: 'center',
     content: 'Edit this function to hit it!'
   }],
+  textBubbles: [{content:"Click over here for a button", domSelector:"#expression-envelope", place:"top-left"}]
 },
 {
   name: 'Try facing forwards?',
