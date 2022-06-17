@@ -48,7 +48,7 @@ const SLOPE = [{
     align: 'center',
     content: 'Edit this function to hit it!'
   }],
-  textBubbles: [{content:"this is level 2 right", domSelector:"#expression-envelope", place:"top-left"}]
+  textBubbles: [{content:"this is level 2 right?", domSelector:"#expression-envelope", place:"top-left"}]
 },
 {
   name: 'Try facing forwards?',
