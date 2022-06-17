@@ -36,7 +36,8 @@ worldData.push({
       path_goal_continue: '.mp3',
     },
     shaders: {
-      default: '.frag'
+      default: '.frag',
+      neel: '.frag',
     }
   },
   levelData: [{

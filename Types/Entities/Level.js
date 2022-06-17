@@ -10,6 +10,7 @@ function Level(spec) {
     globalScope,
     levelCompleted,
     datum,
+    quad,
   } = spec
 
   let {
@@ -338,13 +339,10 @@ function Level(spec) {
     _.each(datum.directors || [{}], addDirector)
 
     const shader = Shader({
-      name: 'Shader',
       parent: self,
-      camera,
-      assets,
-      screen,
-      drawOrder: -10000,
-    }) 
+      quad,
+      drawOrder: -3
+    })
 
     self.sortChildren()
   }

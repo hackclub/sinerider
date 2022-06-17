@@ -8,6 +8,7 @@ function Navigator(spec) {
     getEditing,
     setLevel,
     assets,
+    quad,
   } = spec
 
   const camera = Camera({
@@ -56,6 +57,7 @@ function Navigator(spec) {
       getEditing,
       tickDelta,
       getBubbleByNick,
+      quad,
       parent: self,
       getShowAll: () => showAll,
     })

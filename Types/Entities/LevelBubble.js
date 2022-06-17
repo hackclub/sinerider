@@ -15,6 +15,7 @@ function LevelBubble(spec) {
     tickDelta,
     getBubbleByNick,
     getShowAll,
+    quad,
   } = spec
 
   const {
@@ -82,6 +83,7 @@ function LevelBubble(spec) {
     globalScope: bubbletGlobalScope,
     parent: self,
     useDragCamera: false,
+    quad,
   })
 
   const ctx = screen.ctx

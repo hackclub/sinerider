@@ -27,6 +27,12 @@ function World(spec) {
   let navigating = false
   let editing = false
 
+  let quad = null
+
+  function loadQuad(shaderName) {
+    quad = Quad(1000, 1000, assets.shaders[shaderName])
+  } 
+
   const assets = Assets({
     paths: spec.assets,
     callbacks: {
@@ -70,6 +76,7 @@ function World(spec) {
       levelData,
       getEditing,
       setLevel,
+      quad,
       active: false,
       parent: self,
     })
@@ -81,7 +88,8 @@ function World(spec) {
   }
 
   function assetsComplete() {
-  // console.log(`All World assets loaded`)
+    console.log(`All World assets loaded`)
+    loadQuad('neel')
 
     ui.loadingVeilString.innerHTML = 'click to begin'
     ui.loadingVeil.addEventListener('click', loadingVeilClicked)
@@ -114,6 +122,7 @@ function World(spec) {
       active: !navigating,
       levelCompleted,
       tickDelta,
+      quad,
     })
 
     level.playOpenMusic()
@@ -269,7 +278,7 @@ function World(spec) {
     const biomes = _.values(Colors.biomes)
 
     return {
-      name: 'Ranbdom Level',
+      name: 'Random Level',
       nick: 'RANDOM',
       x: -10,
       y: 0,

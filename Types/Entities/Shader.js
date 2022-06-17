@@ -13,32 +13,26 @@ function Shader(spec) {
   const {
     self,
     screen,
-    camera,
-    assets,
+  } = Entity(spec, 'Shader')
+
+  const {
     fullscreen = false,
-    shaderSource = 'default',
-    xRes = 320,
-    yRes = 320,
     xSize = 100,
     ySize = 100,
-  } = Entity(spec, 'Shader')
+    quad,
+  } = spec
+
+  // console.log('screen', screen)
 
   const ctx = screen.ctx
 
   const transform = Transform(spec, self)
 
-  const framebuffer = document.createElement('canvas')
-
-  framebuffer.width = xRes
-  framebuffer.height = yRes
-  framebuffer.display = 'none' // Hidden
-
-  const quad = Quad(assets.shaders[shaderSource], framebuffer)
+  // console.log('quad in shader construction', quad)
 
   function drawLocal() {
-    // drawQuad()
     quad.draw()
-    ctx.drawImage(framebuffer, -xSize/2, -ySize/2, xSize, ySize)
+    ctx.drawImage(quad.getBuffer(), -xSize/2, -ySize/2, xSize, ySize)
   }
 
   function draw() {
@@ -52,8 +46,7 @@ function Shader(spec) {
     }
   }
 
-  // TODO: Refactor mix()/_.mixIn() calls to use spread op?
-  return self.mix({
+  return _.mixIn(self, {
     draw,
     resize,
 

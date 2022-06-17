@@ -1,11 +1,18 @@
 /**
- * Generates object for rendering a quad with a specified fragment shader
- * @param {string} shader Fragment shader source
- * @param {HTMLObjectElement} canvas HTML canvas to be drawn to 
+ * Quad generated using passed in fragment shader, generates its own WebGL context and off-screen buffer
+ * @param {number} xRes Width of off-screen buffer
+ * @param {number} yRes Height of off-screen buffer
+ * @param {HTMLObjectElement} fragmentShaderSource Source code of fragment shader
  * @returns Quad
  */
-function Quad(fragmentShaderSource, canvas) {
-  const gl = canvas.getContext('webgl')
+function Quad(xRes, yRes, fragmentShaderSource) {
+  const screenbuffer = document.createElement('canvas')
+
+  screenbuffer.width = xRes
+  screenbuffer.height = yRes
+  screenbuffer.display = 'none' // Hidden
+
+  const gl = screenbuffer.getContext('webgl')
 
   if (gl == null) {
     // TODO: Handle case if WebGL is disabled  
@@ -25,59 +32,45 @@ function Quad(fragmentShaderSource, canvas) {
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW)
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer)
 
-  let program = gl.createProgram()
-
-  // vertex shader
-  const vertexShader = gl.createShader(gl.VERTEX_SHADER)
-
-  gl.shaderSource(vertexShader, `
+  const vertexShaderSource = `
     attribute vec2 position;
     void main() {
       gl_Position = vec4(position, 0, 1);
     }
-  `)
+  `
 
-  gl.compileShader(vertexShader)
+  const program = ShaderProgram(gl, vertexShaderSource, fragmentShaderSource)
 
-  // fragment shader
-  const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER)
-
-  gl.shaderSource(fragmentShader, fragmentShaderSource)
-  gl.compileShader(fragmentShader)
-
-  if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS))
-    throw `Error in compiling fragment shader ${gl.getShaderInfoLog(fragmentShader)}`
-
-  // attach and link shader program
-  gl.attachShader(program, vertexShader)
-  gl.attachShader(program, fragmentShader)
-  gl.linkProgram(program)
-
-  gl.useProgram(program)
+  program.use()
 
   // vertex layout
-  const position = gl.getAttribLocation(program, 'position')
+  const position = program.getAttribLocation('position')
   gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0)
   gl.enableVertexAttribArray(position)
 
   // uniforms
-  const resolutionLoc = gl.getUniformLocation(program, 'resolution')
-  const frameLoc = gl.getUniformLocation(program, 'frame')
+  const resolutionLoc = program.getUniformLocation('resolution')
+  const frameLoc = program.getUniformLocation('frame')
 
   let frame = 0
 
   function draw() {
     gl.clearColor(0, 0, 0, 1)
     gl.clear(gl.COLOR_BUFFER_BIT)
-    gl.viewport(0, 0, canvas.width, canvas.height)
+    gl.viewport(0, 0, screenbuffer.width, screenbuffer.height)
 
-    gl.uniform2fv(resolutionLoc, [ canvas.width, canvas.height ])
+    gl.uniform2fv(resolutionLoc, [ screenbuffer.width, screenbuffer.height ])
     gl.uniform1f(frameLoc, frame++)
 
-    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
+  }
+
+  function getBuffer() {
+    return screenbuffer
   }
 
   return {
-    draw
+    draw,
+    getBuffer
   }
 }
