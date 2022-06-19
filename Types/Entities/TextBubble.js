@@ -45,7 +45,7 @@ function TextBubble(spec) {
     }
 
     if (destroyOnClick)
-      helperBubble.onclick = () => {
+      domElement.onclick = () => {
         self.destroy()  
       }
 
