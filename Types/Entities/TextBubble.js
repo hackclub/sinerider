@@ -16,6 +16,7 @@ function TextBubble(spec) {
       content = 'Hello',
       domSelector,
       place,
+      destroyOnClick = false,
       style = {}
     } = spec
     
@@ -42,6 +43,11 @@ function TextBubble(spec) {
       toggleVisible(false)
       helperBubble.remove()
     }
+
+    if (destroyOnClick)
+      helperBubble.onclick = () => {
+        self.destroy()  
+      }
 
     return self.mix({
       toggleVisible,
