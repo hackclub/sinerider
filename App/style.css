@@ -442,3 +442,73 @@ input[valid=false] {
 .loading {
   transition: 3s;
 }
+
+.envelope {
+  position: relative;
+}
+
+.helper-bubble {
+  position: absolute;
+  width: 150px;
+  text-align: center;
+  border: 2px solid black;
+  font-size: small;
+  background-color:white;
+  padding:5px;
+}
+
+.top-left {
+  bottom:calc(80% + 20px);
+  right:90%;
+}
+.top-right {
+  bottom:calc(80% + 20px);
+  left:90%;
+}
+.bottom-left {
+  top:calc(80% + 20px);
+  right:90%;
+}
+.bottom-right {
+  top:calc(80% + 20px);
+  left:90%;
+}
+
+.helper-bubble:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+}
+.helper-bubble.top-left:before {
+  border-left: 10px solid transparent;
+  border-right: 10px solid black;
+  border-top: 10px solid black;
+  border-bottom: 10px solid transparent;
+  right: -2px;
+  bottom: -20px;
+}
+.helper-bubble.top-right:before {
+  border-left: 10px solid black;
+  border-right: 10px solid transparent;
+  border-top: 10px solid black;
+  border-bottom: 10px solid transparent;
+  left: -2px;
+  bottom: -20px;
+}
+.helper-bubble.bottom-left:before {
+  border-left: 10px solid transparent;
+  border-right: 10px solid black;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid black;
+  right: -2px;
+  top: -20px;
+}
+.helper-bubble.bottom-right:before {
+  border-left: 10px solid black;
+  border-right: 10px solid transparent;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid black;
+  left: -2px;
+  top: -20px;
+}

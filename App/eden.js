@@ -124,6 +124,7 @@ worldData.push({
       size: 1.5,
       content: 'A game about love and graphing.'
     }],
+    textBubbles: [{content:"Click here to edit your function", domSelector:"#expression-envelope", place:"top-right", destroyOnClick:true}]
   },/*{
     name: 'Random',
     nick: 'RANDOM',

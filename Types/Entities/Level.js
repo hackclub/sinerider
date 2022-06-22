@@ -10,6 +10,7 @@ function Level(spec) {
     globalScope,
     levelCompleted,
     datum,
+    isBubbleLevel
   } = spec
   
   let {
@@ -29,6 +30,7 @@ function Level(spec) {
   const sprites = []
   const speech = []
   const directors = []
+  const bubbles = []
   
   let lowestOrder = 'A'
   let highestOrder = 'A'
@@ -109,7 +111,7 @@ function Level(spec) {
   function startLate() {
     // self.sendEvent('levelFullyStarted')
   }
-  
+
   function tick() {
     let time = (Math.round(globalScope.t*10)/10).toString()
     
@@ -192,6 +194,21 @@ function Level(spec) {
     directors.push(director)
   }
   
+  function addTextBubbles(bubbleDatum) {
+
+    bubbles.push(
+      TextBubble({
+        parent:self,
+        camera,
+      graph,
+      globalScope,
+        visible:false,
+        place:"top-right",
+        ...bubbleDatum
+      })
+    )
+  }
+
   function addWalker(walkerDatum) {
     const walker = Walker({
       name: 'Walker '+walkers.length,
@@ -324,7 +341,7 @@ function Level(spec) {
   
   function stopRunning() {
     _.invokeEach(goals, 'reset')
-    
+    _.invokeEach(bubbles, 'toggleVisible')
     completed = false
     refreshLowestOrder()
   }
@@ -336,6 +353,7 @@ function Level(spec) {
     _.each(datum.goals, addGoal)
     _.each(datum.texts, addText)
     _.each(datum.directors || [{}], addDirector)
+    isBubbleLevel || _.each(datum.textBubbles || [], addTextBubbles)
     self.sortChildren()
   }
   
@@ -358,6 +376,7 @@ function Level(spec) {
   return self.mix({
     awake,
     start,
+    destroy: () => _.invokeEach(bubbles, "destroy"),
     
     tick,
     draw,

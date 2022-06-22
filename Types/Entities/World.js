@@ -114,6 +114,7 @@ function World(spec) {
       active: !navigating,
       levelCompleted,
       tickDelta,
+      isBubbleLevel:false
     })
     
     level.playOpenMusic()

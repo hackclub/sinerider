@@ -82,6 +82,7 @@ function LevelBubble(spec) {
     globalScope: bubbletGlobalScope,
     parent: self,
     useDragCamera: false,
+    isBubbleLevel:true
   })
   
   const ctx = screen.ctx

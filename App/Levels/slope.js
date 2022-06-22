@@ -47,7 +47,7 @@ const SLOPE = [{
     size: 0.4,
     align: 'center',
     content: 'Edit this function to hit it!'
-  }],
+  }]
 },
 {
   name: 'Try facing forwards?',
