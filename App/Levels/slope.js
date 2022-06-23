@@ -119,6 +119,25 @@ const SLOPE = [{
   walkers: [{
     x: -4,
     asset: 'images.benny_float',
+    speech: [{
+      speakerX: -0.4,
+      content: 'I sure wish I could say more than one thing in a scene.',
+      direction: 'up-up-left',
+      domain: [-1, 5],
+      distance: 1.3,
+    },{
+      speakerX: -0.4,
+      content: 'Woah woah, what\'s this??',
+      direction: 'up-up-left',
+      domain: [6, 8],
+      distance: 1.3,
+    },{
+      speakerX: -0.4,
+      content: 'No way!! Changing dialogue!',
+      direction: 'up-up-left',
+      domain: [9, 15],
+      distance: 1.3,
+    }],
   }],
 },
 {
