@@ -13,13 +13,17 @@ function Walker(spec) {
     size = 2,
     sprite,
     graph,
+    speech,
+    globalScope,
   } = spec
   
   sprite = Sprite({
     parent: self,
     asset,
     size,
+    globalScope,
     y: size/2,
+    speech,
     ...sprite
   })
   
@@ -96,6 +100,8 @@ function Walker(spec) {
   
   return self.mix({
     transform,
+    domainTransform: transform,
+    
     clickable,
     
     mouseDown,
