@@ -124,10 +124,13 @@ function fracToDivision(expr) {
   if (fracStart < 0) { return expr }
 
   const divIdx = findClosingBrace(expr, numStart)
-  // Remove frac, and add "/"
-  const newExpr = expr.slice(0, fracStart) +
+  const fracEndIdx = findClosingBrace(expr, divIdx + 1)
+
+  // Remove frac, add "/", and wrap parens around fraction expr
+  const newExpr = '(' + expr.slice(0, fracStart) +
     expr.slice(numStart, divIdx + 1) + '/' +
-    expr.slice(divIdx + 1)
+    expr.slice(divIdx + 1, fracEndIdx + 1) + ')' +
+    expr.slice(fracEndIdx + 1)
 
   return fracToDivision(newExpr)
 }
