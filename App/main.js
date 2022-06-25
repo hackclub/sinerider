@@ -39,6 +39,10 @@ const ui = {
   
   mathField: $('#math-field'),
   mathFieldStatic: $('#math-field-static'),
+
+  dottedMathField: $('#dotted-math-field'),
+  dottedMathFieldStatic: $('#dotted-math-field-static'),
+  dottedSlider: $("#dotted-slider"),
   
   variableLabel: $('#variable-label'),
   
@@ -119,6 +123,13 @@ ui.mathField = MQ.MathField(ui.mathField, {
     }
   }
 })
+
+ui.mathField.getPlainExpression = function() {
+  var tex = ui.mathField.latex()
+  return mathquillToMathJS(tex)
+}
+
+ui.dottedMathFieldStatic = MQ.StaticMath(ui.dottedMathFieldStatic)
 
 ui.mathField.getPlainExpression = function() {
   var tex = ui.mathField.latex()

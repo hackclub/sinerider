@@ -512,3 +512,29 @@ input[valid=false] {
   left: -2px;
   top: -20px;
 }
+
+#left-bar {
+  position: fixed;
+  right:15px; 
+  top:25%; 
+  display:flex; 
+  border-width: 3px;
+}
+
+#dotted-math-field-static {
+  margin-top: auto; 
+  margin-bottom: auto; 
+  font-weight: bold;
+  font-family:monospace;
+  color:greenyellow; 
+}
+
+
+#dotted-slider {
+  writing-mode: bt-lr; /* IE */
+  -webkit-appearance: slider-vertical; /* Chromium */
+  width: 8px;
+  height: 175px;
+  padding: 0 5px;
+  accent-color: yellow;
+}

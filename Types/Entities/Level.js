@@ -354,6 +354,35 @@ function Level(spec) {
     _.each(datum.texts, addText)
     _.each(datum.directors || [{}], addDirector)
     isBubbleLevel || _.each(datum.textBubbles || [], addTextBubbles)
+    if (datum.slider && !isBubbleLevel) {
+
+      const dottedGraph = Graph({
+        camera,
+        globalScope,
+        expression: datum.slider.expression.replace("n", "0"),
+        parent: self,
+        drawOrder: 1,
+        strokeWidth: 0.1,
+        strokeColor: 'rgb(0,255,0)',
+        dashed: true,
+        scaleStroke: true,
+        dashSettings: [0.5, 0.5],
+        fill: false,
+      })
+
+      function setSliderExpression(text) {
+        dottedGraph.expression = text
+    
+        ui.dottedMathFieldStatic.latex(text)
+      }
+      ui.dottedSlider.hidden = false;
+      ui.dottedSlider.oninput = e => {
+        let val = (ui.dottedSlider.value - 50)/100
+        let exp = datum.slider.expression.replace("n", (val*2*datum.slider.bounds[1]+datum.slider.bounds[0]).toFixed(1))
+        setSliderExpression(exp)
+      }
+      setSliderExpression(datum.slider.expression.replace("n", datum.slider.bounds[0]))
+    }
     self.sortChildren()
   }
   
@@ -372,11 +401,18 @@ function Level(spec) {
   function mathFieldFocused() {
     ui.expressionEnvelope.classList.remove('flash-shadow')
   }
+
+  function destroy() {
+    _.invokeEach(bubbles, "destroy")
+
+    ui.dottedMathFieldStatic.latex("")
+    ui.dottedSlider.hidden = "true"
+  }
   
   return self.mix({
     awake,
     start,
-    destroy: () => _.invokeEach(bubbles, "destroy"),
+    destroy,
     
     tick,
     draw,
