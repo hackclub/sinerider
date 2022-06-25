@@ -349,8 +349,9 @@ input[valid=false] {
 }
 
 #navigator-button {
-  margin-right: 10px;
+  margin-right: 20px;
   border-radius: 0 0 10px 10px;
+  font-size: 2.4rem;
 }
 
 #navigator-button > .string {
