@@ -21,7 +21,8 @@ function Sprite(spec = {}) {
     offset = Vector2(),
     speech,
   } = spec
-  
+  spec.name =  Math.floor(Math.random()*16777215).toString(16);
+  let beat = 0;
   const origin = Vector2(spec)
   
   if (!spec.offset && anchored)
@@ -57,6 +58,9 @@ function Sprite(spec = {}) {
   }
   
   function tick() {
+    if (beat%100 == 0)
+      console.log("heartbeat: " + spec.name +" "+ beat)
+    beat++
     if (anchored) {
       transform.x = origin.x
       transform.y = graph.sample('x', transform.x)
@@ -83,6 +87,8 @@ function Sprite(spec = {}) {
   
   return self.mix({
     transform,
+    get size() {return size},
+    set size(v) {size = v},
 
     tick,
     draw,
