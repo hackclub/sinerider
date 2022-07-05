@@ -48,8 +48,8 @@ const SLOPE = [{
     align: 'center',
     content: 'Edit this function to hit it!'
   }],
-  slider: {expression:"nx", bounds:[-1,2]},
-  textBubbles: [{content:"Click here to edit your function", domSelector:"#expression-envelope", place:"top-right", destroyOnClick:true}, {content:"Slide this around to get a feel for the function!", domSelector:"#left-bar", place:"top-left", destroyOnClick:true}]
+  slider: {expression:"nx", bounds:[-1,1,-1]},
+  textBubbles: [{content:"Click here to edit your function", domSelector:"#expression-envelope", place:"top-right", destroyOnClick:true}, {content:"slide me up", domSelector:"#left-bar", place:"top-left", destroyOnClick:true}]
 },
 {
   name: 'Try facing forwards?',
@@ -87,6 +87,7 @@ const SLOPE = [{
       distance: 1,
     }]
   }],
+  slider: {expression:"nx", bounds:[-1,1,1]},
 },
 {
   name: 'Constant Lake',
@@ -163,6 +164,7 @@ const SLOPE = [{
       }
     }]
   }],
+  slider: {expression:"nx", bounds:[-1.5,-1,-1]},
 },
 {
   name: 'The bunny slope',
@@ -205,6 +207,7 @@ const SLOPE = [{
       distance: 0.8,
     }]
   }],
+    slider: {expression:"\\frac{-x}{n}", bounds:[1,1.5,1]},
 },
 {
   name: 'Moving up in the world',
@@ -246,6 +249,7 @@ const SLOPE = [{
       distance: 1.3,
     }]
   }],
+  slider: {expression:"-x + n", bounds:[-3,1,-3]},
 },
 {
   name: 'About halfway down',
@@ -283,6 +287,7 @@ const SLOPE = [{
       distance: 0.75,
     }]
   }],
+  slider: {expression:"-x + n", bounds:[-2,0,0]},
 },
 {
   name: 'We\'re at the bottom',

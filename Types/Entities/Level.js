@@ -371,17 +371,20 @@ function Level(spec) {
       })
 
       function setSliderExpression(text) {
-        dottedGraph.expression = text
+        dottedGraph.expression = mathquillToMathJS(text)
     
         ui.dottedMathFieldStatic.latex(text)
       }
       ui.dottedSlider.hidden = false;
       ui.dottedSlider.oninput = e => {
-        let val = (ui.dottedSlider.value - 50)/100
-        let exp = datum.slider.expression.replace("n", (val*2*datum.slider.bounds[1]+datum.slider.bounds[0]).toFixed(1))
+        let val = (ui.dottedSlider.value)/100
+        let exp = datum.slider.expression.replace("n", (val*(datum.slider.bounds[1] - datum.slider.bounds[0]) +datum.slider.bounds[0]).toFixed(1))
+        exp = exp.replaceAll("+ -", "-")
+        exp = exp.replaceAll("- +", "-")
         setSliderExpression(exp)
       }
-      setSliderExpression(datum.slider.expression.replace("n", datum.slider.bounds[0]))
+      ui.dottedSlider.value = 100*((datum.slider.bounds[2] - datum.slider.bounds[0])/(datum.slider.bounds[1] - datum.slider.bounds[0]))
+      setSliderExpression(datum.slider.expression.replace("n", datum.slider.bounds[2]).replaceAll("+ -", "-").replaceAll("- +", "-"))
     }
     self.sortChildren()
   }
