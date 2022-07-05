@@ -34,7 +34,7 @@ worldData.push({
       stop_running: '.mp3',
       map_zoom_in: {
         src: 'woosh_out.wav',
-        rate: 1,
+        rate: 1.2,
       },
       map_zoom_out: {
         src: 'woosh_out.wav',
