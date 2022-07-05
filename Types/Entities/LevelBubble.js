@@ -228,6 +228,7 @@ function LevelBubble(spec) {
     ui.veil.setAttribute('hide', false)
 
     assets.sounds.enter_level.play()
+    assets.sounds.map_zoom_in.play()
     
     completeAllRequirements()
     
