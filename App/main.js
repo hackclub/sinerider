@@ -80,8 +80,8 @@ const world = World({
 // Core methods
 
 function tick() {
-  world.sendLifecycleEvent('awake')
-  world.sendLifecycleEvent('start')
+  world.awake()
+  world.start()
   
   world.sendEvent('tick')
 
