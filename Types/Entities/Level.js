@@ -406,8 +406,6 @@ function Level(spec) {
   }
 
   function destroy() {
-    _.invokeEach(bubbles, "destroy")
-
     ui.dottedMathFieldStatic.latex("")
     ui.dottedSlider.hidden = "true"
   }

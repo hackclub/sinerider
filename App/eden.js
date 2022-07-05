@@ -35,6 +35,22 @@ worldData.push({
       restart_button: '.mp3',
       start_running: '.mp3',
       stop_running: '.mp3',
+      map_zoom_in: {
+        src: 'woosh_out.wav',
+        rate: 1.2,
+      },
+      map_zoom_out: {
+        src: 'woosh_out.wav',
+        rate: 0.8,
+      },
+      map_zoom_highlighted: {
+        src: 'woosh_out.wav',
+        rate: 0.6,
+      },
+      map_zoom_show_all: {
+        src: 'woosh_out.wav',
+        rate: 0.4,
+      },
       path_goal_start: '.mp3',
       path_goal_continue: '.mp3',
     }
