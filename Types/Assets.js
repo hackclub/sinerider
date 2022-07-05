@@ -18,7 +18,7 @@ function Assets(spec) {
   if (callbacks.progress)
     callbacks.progress(0, loadTotal)
   
-  function loadAsset(object, folders, file, key) {
+  function loadAsset(object, folders, file, key, assetSpec={}) {
     console.log(`Loading asset '${file}' from folders `, folders)
     
     const extensions = _.tail(file.split('.'))
@@ -38,8 +38,9 @@ function Assets(spec) {
       console.log(`Loading image from ${path}`)
     }
     else if (isSound) {
+      assetSpec.src = path,
       asset = new Howl({
-        src: path,
+        ...assetSpec,
         onload: () => assetLoaded(path),
       })
       console.log(`Loading sound from ${path}`)
@@ -58,8 +59,12 @@ function Assets(spec) {
   function load(object, folders=[]) {
     console.log(`Loading objects in folders:`, folders)
     _.each(object, (v, i) => {
-      if (_.isObject(v))
-        load(v, [...folders, i])
+      if (_.isObject(v)) {
+        if (_.has(v, 'src'))
+          loadAsset(object, folders, v.src, i, v)
+        else
+          load(v, [...folders, i])
+      }
       else if (_.isString(v))
         loadAsset(object, folders, v, i)
     })

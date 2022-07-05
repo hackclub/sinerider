@@ -102,7 +102,7 @@ const SLOPE = [{
     fov: 7,
   },
   requirements: ['SLOPE_NEGATIVE'],
-  defaultExpression: '\\frac{2}{1+\\frac{1}{e^{x-5}}}+\\frac{-8}{1+\\frac{1}{e^{x-32}}}',
+  defaultExpression: '\\frac{2}{1+\\frac{1}{e^{x-5}}}+\\frac{-8}{1+\\frac{1}{e^{x-28}}}',
   hint: 'hint: go negative',
   directors: [{
     type: 'lerp',
