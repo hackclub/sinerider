@@ -42,10 +42,11 @@ function TextBubble(spec) {
     function destroy() {
       toggleVisible(false)
       helperBubble.remove()
+      domElement.onmousedown = () => {}
     }
 
     if (destroyOnClick)
-      domElement.onclick = () => {
+      domElement.onmousedown = () => {
         self.destroy()  
       }
 
