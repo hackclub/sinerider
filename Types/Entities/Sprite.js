@@ -84,7 +84,6 @@ function Sprite(spec = {}) {
     transform,
     get size() {return size},
     set size(v) {size = v},
-    destroy: () => console.log("destroyed "+spec.name), 
 
     tick,
     draw,

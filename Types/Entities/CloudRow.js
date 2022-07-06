@@ -25,12 +25,11 @@ function CloudRow(spec) {
                     camera,
                     graph,
                     globalScope,
-                    drawOrder: -1,
                     asset: `images.cloud${Math.floor(Math.random()*3) + 1}`,
                     size: 2,
                     x: cloudPos,
                     y: 3.5 + 2*Math.random(),
-                    drawOrder: 0
+                    drawOrder: -100
                 }))
                 vels.push(Math.random()*0.8 + 0.3)
                 pos.push(cloudPos) 
@@ -55,20 +54,19 @@ function CloudRow(spec) {
 
         if (Math.random() < 0.02) {
             clouds.push(Sprite({
-                name: 'Cloud '+i,
+                name: 'Cloud '+Math.random(),
                 parent: self,
                 camera,
                 graph,
                 globalScope,
-                drawOrder: -1,
                 asset: `images.cloud${Math.floor(Math.random()*3) + 1}`,
                 size: 2,
-                x: camera.lowerLeft.x - camera.fov/2 - 0.5,
+                x: camera.lowerLeft.x - camera.fov/2 + 0.5,
                 y: 3.5 + 2*Math.random(),
-                drawOrder: 0
+                drawOrder: -100
             }))
             vels.push(Math.random()*0.8 + 0.3)
-            pos.push(camera.lowerLeft.x-camera.fov/2 - 0.5) 
+            pos.push(camera.lowerLeft.x - camera.fov/2 + 0.5) 
         }
     }
 

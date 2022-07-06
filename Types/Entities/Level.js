@@ -70,7 +70,11 @@ function Level(spec) {
   })
   
   trackedEntities.unshift(axes)
-  
+  cloudRow = CloudRow({
+    parent:self,
+    camera,
+      globalScope
+  })
   const graph = Graph({
     camera,
     globalScope,
@@ -79,12 +83,7 @@ function Level(spec) {
     drawOrder: 0,
     colors,
   })
-  cloudRow = CloudRow({
-    parent:self,
-    camera,
-      graph,
-      globalScope
-  })
+
   let completed = false
   
   let skyColors = colors.sky
@@ -431,6 +430,7 @@ function Level(spec) {
     setGraphExpression,
 
     camera,
+    graph,
     
     reset,
     
