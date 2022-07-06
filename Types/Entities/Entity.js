@@ -88,8 +88,8 @@ function Entity(spec, defaultName = 'Entity') {
   // Called when the object is to be fully removed from memory
   function destroy() {
     if (parent) {
-      parent.removeChild(self)
       self.root.removeDescendant(self)
+      parent.removeChild(self)
     }
 
     sendLifecycleEvent('destroy')
@@ -216,7 +216,7 @@ function Entity(spec, defaultName = 'Entity') {
   }
 
   function removeDescendant(descendant) {
-    _.remove(drawArray, descendant)
+    drawArray.splice(drawArray.indexOf(descendant), 1)
   }
 
   function sortDrawArray() {
