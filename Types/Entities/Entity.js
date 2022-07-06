@@ -22,6 +22,7 @@ function Entity(spec, defaultName = 'Entity') {
   // Inherit the fundamentals TODO: Make fundamentals a key/value abstraction
   if (parent) {
     parent.addChild(self)
+    parent.root.addDescendant(self)
     
     if (!camera)
       camera = parent.camera
@@ -54,6 +55,7 @@ function Entity(spec, defaultName = 'Entity') {
   })
   
   const children = []
+  const drawArray = parent ? [] : [self]
   
   const lifecycle = {
     awake: {
@@ -83,20 +85,12 @@ function Entity(spec, defaultName = 'Entity') {
     sendLifecycleEvent('start')
   }
   
-  // Called every frame at a fixed timestep
-  function tick() {
-    // console.log(`Ticking ${name}`)
-  }
-  
-  // Called every time the canvas is redrawn
-  function draw() {
-    // console.log(`Drawing ${name}`)
-  }
-  
   // Called when the object is to be fully removed from memory
   function destroy() {
-    if (parent)
+    if (parent) {
       parent.removeChild(self)
+      self.root.removeDescendant(self)
+    }
 
     sendLifecycleEvent('destroy')
   }
@@ -215,13 +209,23 @@ function Entity(spec, defaultName = 'Entity') {
   function toString() {
     return name
   }
+
+  function addDescendant(descendant) {
+    drawArray.push(descendant)
+    sortDrawArray()
+  }
+
+  function removeDescendant(descendant) {
+    _.remove(drawArray, descendant)
+  }
+
+  function sortDrawArray() {
+    drawArray.sort((a, b) => b.drawOrder-a.drawOrder)
+  }
   
   return _.mixIn(self, {
     awake,
     start,
-
-    tick,
-    draw,
     
     destroy,
     
@@ -237,6 +241,12 @@ function Entity(spec, defaultName = 'Entity') {
     hasChild,
     addChild,
     removeChild,
+
+    addDescendant,
+    removeDescendant,
+
+    drawArray,
+    sortDrawArray,
     
     findChild,
     findDescendant,
@@ -256,9 +266,24 @@ function Entity(spec, defaultName = 'Entity') {
     
     get active() {return active},
     set active(v) {setActive(v)},
+
+    get activeInHierarchy() {
+      if (!active)
+        return false
+
+      if (parent)
+        return parent.activeInHierarchy
+
+      return true
+    },
     
     get drawOrder() {return drawOrder},
-    set drawOrder(v) {drawOrder = v},
+    set drawOrder(v) {
+      if (drawOrder != v)
+        self.root.sortdrawArray()
+      
+      drawOrder = v
+    },
     
     get debug() {return debugSelf || debugTree},
   })
