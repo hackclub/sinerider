@@ -43,6 +43,7 @@ function CloudRow(spec) {
             pos[cloud] += vels[cloud]*clouds[cloud].size/2.5*tickDelta
             clouds[cloud].transform.x = pos[cloud]
             if (pos[cloud] > camera.upperRight.x+clouds[cloud].size || pos[cloud] < camera.lowerLeft.x-clouds[cloud].size) {
+                clouds[cloud].destroy()
                 delete clouds[cloud]
                 delete pos[cloud]
                 delete vels[cloud]

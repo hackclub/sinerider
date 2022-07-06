@@ -79,7 +79,12 @@ function Level(spec) {
     drawOrder: 0,
     colors,
   })
-  
+  cloudRow = CloudRow({
+    parent:self,
+    camera,
+      graph,
+      globalScope
+  })
   let completed = false
   
   let skyColors = colors.sky
@@ -406,6 +411,8 @@ function Level(spec) {
   }
 
   function destroy() {
+    _.invokeEach(bubbles, "destroy")
+
     ui.dottedMathFieldStatic.latex("")
     ui.dottedSlider.hidden = "true"
   }
