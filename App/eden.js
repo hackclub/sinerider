@@ -218,7 +218,8 @@ worldData.push({
     clouds: {
       velocity: 0.4,
       heights:[4,4.8]
-    }
+    },
+    textBubbles: [{content:"this one!", domSelector:"#run-button", place:"top-left", destroyOnClick:true, style: {fontSize:"1.1rem"}}]
   },/*{
     name: 'Random',
     nick: 'RANDOM',
