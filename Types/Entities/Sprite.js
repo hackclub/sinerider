@@ -21,7 +21,6 @@ function Sprite(spec = {}) {
     offset = Vector2(),
     speech,
   } = spec
-  
   const origin = Vector2(spec)
   
   if (!spec.offset && anchored)
@@ -83,6 +82,8 @@ function Sprite(spec = {}) {
   
   return self.mix({
     transform,
+    get size() {return size},
+    set size(v) {size = v},
 
     tick,
     draw,

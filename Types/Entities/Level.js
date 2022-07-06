@@ -70,7 +70,7 @@ function Level(spec) {
   })
   
   trackedEntities.unshift(axes)
-  
+
   const graph = Graph({
     camera,
     globalScope,
@@ -79,7 +79,7 @@ function Level(spec) {
     drawOrder: 0,
     colors,
   })
-  
+
   let completed = false
   
   let skyColors = colors.sky
@@ -354,6 +354,15 @@ function Level(spec) {
     _.each(datum.texts, addText)
     _.each(datum.directors || [{}], addDirector)
     isBubbleLevel || _.each(datum.textBubbles || [], addTextBubbles)
+    if (datum.clouds) 
+      CloudRow({
+        parent:self,
+        camera,
+        globalScope,
+        velocity: datum.clouds.velocity,
+        heights: datum.clouds.heights
+      })
+  
     if (datum.slider && !isBubbleLevel) {
 
       const dottedGraph = Graph({
@@ -406,6 +415,8 @@ function Level(spec) {
   }
 
   function destroy() {
+    _.invokeEach(bubbles, "destroy")
+
     ui.dottedMathFieldStatic.latex("")
     ui.dottedSlider.hidden = "true"
   }
@@ -424,6 +435,7 @@ function Level(spec) {
     setGraphExpression,
 
     camera,
+    graph,
     
     reset,
     

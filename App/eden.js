@@ -18,6 +18,9 @@ worldData.push({
       cabin_1: '.png',
       cabin_1_front: '.png',
       world_map: '.svg',
+      cloud1: '.png',
+      cloud2: '.png',
+      cloud3: '.png',
     },
     sounds: {
       music: {
@@ -122,8 +125,80 @@ worldData.push({
           direction: 'up-up-left',
           distance: 0.8,
         }
-      }
-    }],
+      },
+    },
+    {
+      asset: 'images.tree_1',
+      size: 1.8,
+      x: -5.1,
+      y: 0,
+      drawOrder: 0,
+      anchored:true
+    },
+    {
+      asset: 'images.tree_1',
+      size: 2.2,
+      x: -8.8,
+      y: 0,
+      drawOrder: 0,
+      anchored:true
+    },{
+      asset: 'images.tree_1',
+      size: 2.1,
+      x: -3.2,
+      y: 0,
+      drawOrder: 0,
+      anchored:true
+    },
+    {
+      asset: 'images.tree_1',
+      size: 2.7,
+      x: 10,
+      y: 0,
+      drawOrder: 0,
+      anchored:true
+    },
+    {
+      asset: 'images.tree_1',
+      size: 1.6,
+      x: 13,
+      y: 0,
+      drawOrder: 0,
+      anchored:true
+    },
+    {
+      asset: 'images.tree_1',
+      size: 2.2,
+      x: 21,
+      y: 0,
+      drawOrder: 0,
+      anchored:true
+    },
+    {
+      asset: 'images.tree_1',
+      size: 2.1,
+      x: 10,
+      y: 0,
+      drawOrder: 0,
+      anchored:true
+    },
+    {
+      asset: 'images.tree_1',
+      size: 2.1,
+      x: 34.2,
+      y: 0,
+      drawOrder: 0,
+      anchored:true
+    },
+    {
+      asset: 'images.tree_1',
+      size: 2.4,
+      x: 36.3,
+      y: 0,
+      drawOrder: 0,
+      anchored:true
+    }
+  ],
     texts: [{
       x: 20,
       y: 8,
@@ -139,7 +214,12 @@ worldData.push({
       y: -11,
       size: 1.5,
       content: 'A game about love and graphing.'
-    }]
+    }],
+    clouds: {
+      velocity: 0.4,
+      heights:[4,4.8]
+    },
+    textBubbles: [{content:"this one!", domSelector:"#run-button", place:"top-left", destroyOnClick:true, style: {fontSize:"1.1rem"}}]
   },/*{
     name: 'Random',
     nick: 'RANDOM',
