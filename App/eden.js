@@ -214,7 +214,11 @@ worldData.push({
       y: -11,
       size: 1.5,
       content: 'A game about love and graphing.'
-    }]
+    }],
+    clouds: {
+      velocity: 0.4,
+      heights:[4,4.8]
+    }
   },/*{
     name: 'Random',
     nick: 'RANDOM',

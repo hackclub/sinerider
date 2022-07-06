@@ -70,11 +70,7 @@ function Level(spec) {
   })
   
   trackedEntities.unshift(axes)
-  cloudRow = CloudRow({
-    parent:self,
-    camera,
-      globalScope
-  })
+
   const graph = Graph({
     camera,
     globalScope,
@@ -358,6 +354,15 @@ function Level(spec) {
     _.each(datum.texts, addText)
     _.each(datum.directors || [{}], addDirector)
     isBubbleLevel || _.each(datum.textBubbles || [], addTextBubbles)
+    if (datum.clouds) 
+      CloudRow({
+        parent:self,
+        camera,
+        globalScope,
+        velocity: datum.clouds.velocity,
+        heights: datum.clouds.heights
+      })
+  
     if (datum.slider && !isBubbleLevel) {
 
       const dottedGraph = Graph({
