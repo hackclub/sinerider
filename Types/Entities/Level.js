@@ -61,7 +61,7 @@ function Level(spec) {
     globalScope,
     parent: self,
   })
-  
+
   const axes = Axes({
     drawOrder: -2,
     camera,
@@ -362,7 +362,17 @@ function Level(spec) {
         velocity: datum.clouds.velocity,
         heights: datum.clouds.heights
       })
-  
+    if (datum.sky) 
+      Sky({
+        parent:self,
+        camera,
+        globalScope,
+        asset:datum.sky.asset,
+        margin: datum.sky.margin,
+        screen,
+        drawOrder:-100
+      })
+
     if (datum.slider && !isBubbleLevel) {
 
       const dottedGraph = Graph({
