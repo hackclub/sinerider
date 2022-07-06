@@ -74,14 +74,15 @@ const world = World({
   screen,
   requestDraw,
   tickDelta,
+  drawOrder: NINF,
   ...worldData[0],
 })
 
 // Core methods
 
 function tick() {
-  world.sendLifecycleEvent('awake')
-  world.sendLifecycleEvent('start')
+  world.awake()
+  world.start()
   
   world.sendEvent('tick')
 
@@ -92,7 +93,13 @@ function draw() {
   if (!canvasIsDirty) return
   canvasIsDirty = false
   
-  world.sendEvent('draw')
+  let entity
+  for (let i = 0; i < world.drawArray.length; i++) {
+    entity = world.drawArray[i]
+
+    if (entity.activeInHierarchy && entity.draw)
+      entity.draw()
+  }
 }
 
 function requestDraw() {
