@@ -95,6 +95,9 @@ function Entity(spec, defaultName = 'Entity') {
   
   // Called when the object is to be fully removed from memory
   function destroy() {
+    if (parent)
+      parent.removeChild(self)
+
     sendLifecycleEvent('destroy')
   }
   
