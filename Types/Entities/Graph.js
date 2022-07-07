@@ -46,16 +46,16 @@ function Graph(spec) {
   const minWorldPoint = Vector2()
   const maxWorldPoint = Vector2()
 
-  const terrainLayers = 10
+  const terrainLayers = 15
   const terrainParameters = []
   for (let i = 0; i < terrainLayers; i++) {
-    scalar = math.lerp(1, 2, Math.random())
+    scalar = math.lerp(1, 3, Math.random())
     terrainParameters.push([
       math.lerp(0, 2*PI, Math.random()),
       math.lerp(0.3, 2, Math.random()),
-      math.lerp(1.5, 2.5, Math.random())*scalar,
+      math.lerp(2, 4, Math.random())*scalar,
       math.lerp(1, 2, Math.random())*scalar,
-      math.lerp(0.1, 0.15, Math.random()),
+      math.lerp(0.05, 0.15, Math.random()),
     ])
   }
   
@@ -142,8 +142,9 @@ function Graph(spec) {
     }
 
     ctx.fillStyle = '#118de677'
-
     ctx.fill()
+
+    ctx.globalAlpha = 1
   }
   
   function resample() {
