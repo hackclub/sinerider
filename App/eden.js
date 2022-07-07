@@ -21,6 +21,7 @@ worldData.push({
       cloud1: '.png',
       cloud2: '.png',
       cloud3: '.png',
+      initial_bg:'initial-bg.png'
     },
     sounds: {
       music: {
@@ -215,9 +216,20 @@ worldData.push({
       size: 1.5,
       content: 'A game about love and graphing.'
     }],
+    sky: {
+      asset:"images.initial_bg",
+      margin:3
+    },
     clouds: {
       velocity: 0.4,
       heights:[4,4.8]
+    },
+    snow: {
+      density:0.4,
+      velocity: {
+        x:0.2,
+        y:0.4
+      }
     },
     textBubbles: [{content:"this one!", domSelector:"#run-button", place:"top-left", destroyOnClick:true, style: {fontSize:"1.1rem"}}]
   },/*{
