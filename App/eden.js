@@ -14,13 +14,17 @@ worldData.push({
       sam_float: '.svg',
       sam_float_left: '.svg',
       sam_stand_snowball: 'sam_float_left.svg',
-      tree_1: '.png',
       cabin_1: '.png',
       cabin_1_front: '.png',
       world_map: '.svg',
       cloud1: '.png',
       cloud2: '.png',
       cloud3: '.png',
+      cloud3: '.png',
+      tree1: '.png',
+      tree2: '.png',
+      tree3: '.png',
+      tree4: '.png',
       initial_bg:'initial-bg.png'
     },
     sounds: {
@@ -101,7 +105,7 @@ worldData.push({
     //   drawOrder: -1,
     // },
     // {
-    //   asset: 'images.tree_1',
+    //   asset: 'images.tree*',
     //   size: 8,
     //   x: 6,
     //   y: -0.05,
@@ -129,7 +133,8 @@ worldData.push({
       },
     },
     {
-      asset: 'images.tree_1',
+      asset: 'images.tree*',
+      flipX: "*",
       size: 1.8,
       x: -5.1,
       y: 0,
@@ -137,14 +142,16 @@ worldData.push({
       anchored:true
     },
     {
-      asset: 'images.tree_1',
+      asset: 'images.tree*',
+      flipX: "*",
       size: 2.2,
       x: -8.8,
       y: 0,
       drawOrder: 0,
       anchored:true
     },{
-      asset: 'images.tree_1',
+      asset: 'images.tree*',
+      flipX: "*",
       size: 2.1,
       x: -3.2,
       y: 0,
@@ -152,39 +159,35 @@ worldData.push({
       anchored:true
     },
     {
-      asset: 'images.tree_1',
-      size: 2.7,
-      x: 10,
-      y: 0,
-      drawOrder: 0,
-      anchored:true
-    },
-    {
-      asset: 'images.tree_1',
-      size: 1.6,
+      asset: 'images.tree*',
+      flipX: "*",
+      size: 2.4,
       x: 13,
       y: 0,
       drawOrder: 0,
       anchored:true
     },
     {
-      asset: 'images.tree_1',
-      size: 2.2,
+      asset: 'images.tree*',
+      flipX: "*",
+      size: 2.3,
       x: 21,
       y: 0,
       drawOrder: 0,
       anchored:true
     },
     {
-      asset: 'images.tree_1',
-      size: 2.1,
+      asset: 'images.tree*',
+      flipX: "*",
+      size: 2.9,
       x: 10,
       y: 0,
       drawOrder: 0,
       anchored:true
     },
     {
-      asset: 'images.tree_1',
+      asset: 'images.tree*',
+      flipX: "*",
       size: 2.1,
       x: 34.2,
       y: 0,
@@ -192,7 +195,8 @@ worldData.push({
       anchored:true
     },
     {
-      asset: 'images.tree_1',
+      asset: 'images.tree*',
+      flipX: "*",
       size: 2.4,
       x: 36.3,
       y: 0,
