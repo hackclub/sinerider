@@ -47,6 +47,7 @@ function LevelBubble(spec) {
   let unlocked = false
   let visible = false
 
+  let frameCounter = 0
   let bubbletRunning = false
   let bubbletRunTime = 0
   
@@ -115,8 +116,6 @@ function LevelBubble(spec) {
     
     refreshPlayable()
 
-    bubbletLevel.sendEvent('draw')
-    bubbletLevel.active = false
   }
   
   function startLate() {
@@ -124,7 +123,10 @@ function LevelBubble(spec) {
   }
   
   function tick() {
-    
+    if (frameCounter++ < 5)
+      bubbletLevel.sendEvent('draw')
+    else
+      bubbletLevel.active = false
   }
   
   function drawLocal() {

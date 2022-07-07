@@ -24,7 +24,7 @@ function Navigator(spec) {
   const map = Sprite({
     parent: self,
     camera,
-    drawOrder: -3,
+    drawOrder: -99.5,
     anchored: false,
     size: 178,
     x: 70,
@@ -58,6 +58,7 @@ function Navigator(spec) {
       getBubbleByNick,
       parent: self,
       getShowAll: () => showAll,
+      drawOrder:-98
     })
     
     return bubble

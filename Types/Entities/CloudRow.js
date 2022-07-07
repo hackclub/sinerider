@@ -21,7 +21,7 @@ function CloudRow(spec) {
     let deltaFOV = 0
 
 
-    function tick() {
+    function draw() {
         deltaFOV = camera.fov - pastFOV
         pastFOV = camera.fov
         if (firstFrame > 0) {
@@ -38,7 +38,7 @@ function CloudRow(spec) {
                     size: 2,
                     x: cloudPos,
                     y: Math.random() * (heights[1] - heights[0] + 1) + heights[0],
-                    drawOrder: -100
+                    drawOrder: -3
                 }))
                 vels.push(velocity)
                 pos.push(cloudPos) 
@@ -75,7 +75,7 @@ function CloudRow(spec) {
                 size: 2,
                 x: cloudPos,
                 y: Math.random() * (heights[1] - heights[0] + 1) + heights[0],
-                drawOrder: -100
+                drawOrder: -3
             }))
             vels.push((Math.random()+0.03)*velocity)
             pos.push(cloudPos) 
@@ -83,6 +83,6 @@ function CloudRow(spec) {
     }
 
     return self.mix({
-        tick
+        draw
     })
   }

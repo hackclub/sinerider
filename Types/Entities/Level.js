@@ -129,7 +129,8 @@ function Level(spec) {
     screen.ctx.save()
     screen.ctx.scale(1, screen.height)
     screen.ctx.fillStyle = skyGradient
-    //screen.ctx.fillRect(0, 0, screen.width, screen.height)
+    
+    datum.sky ? 0 : screen.ctx.fillRect(0, 0, screen.width, screen.height)
     screen.ctx.restore()
   }
   
@@ -361,7 +362,7 @@ function Level(spec) {
         globalScope,
         velocity: datum.clouds.velocity,
         heights: datum.clouds.heights,
-        drawOrder:-10
+        drawOrder:-5
       })
     if (datum.sky) 
       Sky({
@@ -371,15 +372,15 @@ function Level(spec) {
         asset:datum.sky.asset,
         margin: datum.sky.margin,
         screen,
-        drawOrder:-100
+        drawOrder:-10
       })
-      if (datum.snow) 
+    if (datum.snow) 
       SnowFall({
         parent:self,
         camera,
         globalScope,
         screen,
-        drawOrder:-15,
+        drawOrder:-1,
         density: datum.snow.density,
         velocityX:datum.snow.velocity.x,
         velocityY:datum.snow.velocity.y
