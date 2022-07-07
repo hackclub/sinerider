@@ -63,7 +63,7 @@ function Level(spec) {
   })
 
   const axes = Axes({
-    drawOrder: -2,
+    drawOrder: 0.5,
     camera,
     globalScope,
     parent: self,
@@ -78,6 +78,13 @@ function Level(spec) {
     parent: self,
     drawOrder: 0,
     colors,
+  })
+  SnowFall({
+    parent:self,
+    camera,
+    globalScope,
+    screen,
+    drawOrder:-11100
   })
 
   let completed = false
@@ -129,7 +136,7 @@ function Level(spec) {
     screen.ctx.save()
     screen.ctx.scale(1, screen.height)
     screen.ctx.fillStyle = skyGradient
-    screen.ctx.fillRect(0, 0, screen.width, screen.height)
+    //screen.ctx.fillRect(0, 0, screen.width, screen.height)
     screen.ctx.restore()
   }
   
@@ -370,7 +377,7 @@ function Level(spec) {
         asset:datum.sky.asset,
         margin: datum.sky.margin,
         screen,
-        drawOrder:-100
+        drawOrder:1
       })
 
     if (datum.slider && !isBubbleLevel) {

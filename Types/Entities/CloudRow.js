@@ -60,7 +60,6 @@ function CloudRow(spec) {
         vels.filter(v => v != null)
 
         if (Math.random() < 0.02 + (deltaFOV*3)) {
-            console.log("HI")
             let cloudPos;
             if (Math.abs(deltaFOV) > 0.001) {
                 cloudPos = Math.random() > 0.5 ? camera.lowerLeft.x - 2 : camera.upperRight.x + 2;

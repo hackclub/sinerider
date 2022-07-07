@@ -19,7 +19,6 @@
     function drawLocal() {
         let deltaX = Math.abs(camera.lowerLeft.x - initialBounding[0].x)/10
         let deltaY = Math.abs(camera.lowerLeft.y - initialBounding[0].y)/10
-        console.log(1-(1/(1+deltaX))*margin)
         screen.ctx.drawImage(image, camera.lowerLeft.x - margin - (1-(1/(1+deltaX)))*margin,
         -camera.lowerLeft.y + margin - (1-(1/(1+deltaY)))*margin, 
         camera.upperRight.x-camera.lowerLeft.x + 2*margin,
