@@ -16,7 +16,7 @@ function CloudRow(spec) {
     const clouds = []
     const vels = []
     const pos = []
-    let firstFrame = true
+    let firstFrame = 3
     let pastFOV = camera.fov
     let deltaFOV = 0
 
@@ -24,8 +24,9 @@ function CloudRow(spec) {
     function tick() {
         deltaFOV = camera.fov - pastFOV
         pastFOV = camera.fov
-        if (firstFrame) {
-            for (i = 0; i < camera.fov; i+=0.2) {
+        if (firstFrame > 0) {
+            firstFrame--
+            for (i = 0; i < camera.fov && firstFrame == 0; i+=0.2) {
                 let cloudPos = camera.lowerLeft.x + Math.random() * (camera.upperRight.x - camera.lowerLeft.x)
                 clouds.push(Sprite({
                     name: 'Cloud '+i,
@@ -43,7 +44,6 @@ function CloudRow(spec) {
                 pos.push(cloudPos) 
             }
         }
-        firstFrame = false
         for (cloud in clouds) {
             clouds[cloud].size = 2
             pos[cloud] += vels[cloud]*tickDelta
