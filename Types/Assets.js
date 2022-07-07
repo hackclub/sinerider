@@ -33,6 +33,7 @@ function Assets(spec) {
     
     if (isImage) {
       asset = new Image()
+      asset.loading = 'eager'
       asset.src = path
       asset.onload = () => assetLoaded(path)
       console.log(`Loading image from ${path}`)
