@@ -220,7 +220,7 @@ function Entity(spec, defaultName = 'Entity') {
   }
 
   function sortDrawArray() {
-    drawArray.sort((a, b) => b.drawOrder-a.drawOrder)
+    drawArray.sort((a, b) => a.drawOrder-b.drawOrder)
   }
   
   return _.mixIn(self, {

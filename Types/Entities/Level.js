@@ -61,9 +61,9 @@ function Level(spec) {
     globalScope,
     parent: self,
   })
-  
+
   const axes = Axes({
-    drawOrder: -2,
+    drawOrder: 0.5,
     camera,
     globalScope,
     parent: self,
@@ -76,7 +76,7 @@ function Level(spec) {
     globalScope,
     expression: defaultExpression,
     parent: self,
-    drawOrder: 0,
+    drawOrder: 100,
     colors,
   })
 
@@ -129,7 +129,7 @@ function Level(spec) {
     screen.ctx.save()
     screen.ctx.scale(1, screen.height)
     screen.ctx.fillStyle = skyGradient
-    screen.ctx.fillRect(0, 0, screen.width, screen.height)
+    //screen.ctx.fillRect(0, 0, screen.width, screen.height)
     screen.ctx.restore()
   }
   
@@ -360,9 +360,31 @@ function Level(spec) {
         camera,
         globalScope,
         velocity: datum.clouds.velocity,
-        heights: datum.clouds.heights
+        heights: datum.clouds.heights,
+        drawOrder:-10
       })
-  
+    if (datum.sky) 
+      Sky({
+        parent:self,
+        camera,
+        globalScope,
+        asset:datum.sky.asset,
+        margin: datum.sky.margin,
+        screen,
+        drawOrder:-100
+      })
+      if (datum.snow) 
+      SnowFall({
+        parent:self,
+        camera,
+        globalScope,
+        screen,
+        drawOrder:-15,
+        density: datum.snow.density,
+        velocityX:datum.snow.velocity.x,
+        velocityY:datum.snow.velocity.y
+      })
+
     if (datum.slider && !isBubbleLevel) {
 
       const dottedGraph = Graph({
