@@ -224,6 +224,13 @@ worldData.push({
       velocity: 0.4,
       heights:[4,4.8]
     },
+    snow: {
+      density:0.4,
+      velocity: {
+        x:0.2,
+        y:0.4
+      }
+    },
     textBubbles: [{content:"this one!", domSelector:"#run-button", place:"top-left", destroyOnClick:true, style: {fontSize:"1.1rem"}}]
   },/*{
     name: 'Random',
