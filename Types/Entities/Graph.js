@@ -45,6 +45,19 @@ function Graph(spec) {
   
   const minWorldPoint = Vector2()
   const maxWorldPoint = Vector2()
+
+  const terrainLayers = 10
+  const terrainParameters = []
+  for (let i = 0; i < terrainLayers; i++) {
+    scalar = math.lerp(1, 2, Math.random())
+    terrainParameters.push([
+      math.lerp(0, 2*PI, Math.random()),
+      math.lerp(0.3, 2, Math.random()),
+      math.lerp(1.5, 2.5, Math.random())*scalar,
+      math.lerp(1, 2, Math.random())*scalar,
+      math.lerp(0.1, 0.15, Math.random()),
+    ])
+  }
   
   resample()
   
@@ -78,10 +91,8 @@ function Graph(spec) {
       
       ctx.clip()
 
-      drawSine(0, 2, 1, 0.8)
-      drawSine(1, 2.5, 2, 0.9)
-      drawSine(2, 3, 4, 1)
-      drawSine(2.5, 3.5, 3, 1.1)
+      for (let i = 0; i < terrainLayers; i++)
+        drawSine.apply(null, terrainParameters[i])
     }
     
     if (stroke) {
@@ -126,7 +137,7 @@ function Graph(spec) {
       if (!window.logged) console.log(samples[i]);
       window.logged = true;
       camera.worldToScreen(samples[i], screenSpaceSample)
-      const y = screenSpaceSample.y+Math.sin((x+xOffset)/xScale)*camera.worldToScreenScalar(1)*yScale+yOffset*camera.worldToScreenScalar(1)
+      const y = screenSpaceSample.y+((Math.sin(((x+xOffset)/xScale))+1)*camera.worldToScreenScalar(1))*yScale+yOffset*camera.worldToScreenScalar(1)
       ctx.lineTo(screenSpaceSample.x, y)
     }
 
