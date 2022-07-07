@@ -78,7 +78,10 @@ function Graph(spec) {
       
       ctx.clip()
 
-      drawSine()
+      drawSine(0, 2, 1, 0.8)
+      drawSine(1, 2.5, 2, 0.9)
+      drawSine(2, 3, 4, 1)
+      drawSine(2.5, 3.5, 3, 1.1)
     }
     
     if (stroke) {
@@ -106,46 +109,30 @@ function Graph(spec) {
     ctx.restore()
   }
 
-  function drawSine (offset = 0) {
+  function drawSine(xOffset=0, yOffset=0, xScale=1, yScale=1, opacity=0.5) {
   
     ctx.beginPath()
     
+    ctx.globalAlpha = opacity
     camera.worldToScreen(samples[0], screenSpaceSample)
-    // ctx.moveTo(screenSpaceSample.x, screenSpaceSample.y)
-    ctx.moveTo(screenSpaceSample.x, screenSpaceSample.y + Math.sin(samples[0].x * 0.4) * camera.worldToScreenScalar(1) + camera.worldToScreenScalar(1))
+    ctx.moveTo(screen.width, screen.height)
+    ctx.lineTo(0, screen.height)
 
 
-    for (let i = 1; i < sampleCount; i++) {
+    for (let i = 0; i < sampleCount; i++) {
       const x = samples[i].x;
       const increasedX = x + 50;
       // const 
       if (!window.logged) console.log(samples[i]);
       window.logged = true;
       camera.worldToScreen(samples[i], screenSpaceSample)
-      const rate = screenSpaceSample.x / x
-      ctx.moveTo(screenSpaceSample.x, screenSpaceSample.y)
-      ctx.lineTo(screenSpaceSample.x, screenSpaceSample.y + Math.sin((x + offset) * 0.4) * camera.worldToScreenScalar(1) + camera.worldToScreenScalar(1))
-    }
-    
-    camera.worldToScreen(samples[0], screenSpaceSample)
-    // ctx.moveTo(screenSpaceSample.x, screenSpaceSample.y)
-    ctx.moveTo(screenSpaceSample.x, screenSpaceSample.y + Math.sin(samples[0].x * 0.4) * camera.worldToScreenScalar(1) + camera.worldToScreenScalar(1))
-
-    for (let i = 1; i < sampleCount; i++) {
-      const x = samples[i].x;
-      const increasedX = x + 50;
-      // const 
-      if (!window.logged) console.log(samples[i]);
-      window.logged = true;
-      camera.worldToScreen(samples[i], screenSpaceSample)
-      const rate = screenSpaceSample.x / x
-      ctx.lineTo(screenSpaceSample.x, screenSpaceSample.y + Math.sin(x * 0.4) * camera.worldToScreenScalar(1) + camera.worldToScreenScalar(1))
+      const y = screenSpaceSample.y+Math.sin((x+xOffset)/xScale)*camera.worldToScreenScalar(1)*yScale+yOffset*camera.worldToScreenScalar(1)
+      ctx.lineTo(screenSpaceSample.x, y)
     }
 
-    ctx.strokeStyle = '#118de677'
-    ctx.lineWidth = 50
-    // ctx.lineCap = 'square'
-    ctx.stroke()
+    ctx.fillStyle = '#118de677'
+
+    ctx.fill()
   }
   
   function resample() {
