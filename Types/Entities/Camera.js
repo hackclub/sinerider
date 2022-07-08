@@ -16,6 +16,9 @@ function Camera(spec) {
     globalScope = {},
     directors = [],
   } = spec
+
+  const offset = Vector2(spec.offset || [0, 0])
+  const scaledOffset = Vector2()
   
   let activeDirector
   
@@ -195,7 +198,9 @@ function Camera(spec) {
   
   function alignToDirector() {
     if (activeDirector) {
+      offset.multiply(fov, scaledOffset)
       transform.position = activeDirector.cameraState.position
+      transform.position.add(scaledOffset)
       setFov(activeDirector.cameraState.fov)
     }
   }

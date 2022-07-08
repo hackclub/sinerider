@@ -186,7 +186,10 @@ function Speech(spec) {
   
   function draw() {
     // Draw based on whether we are within the given domain 
-    if (domainTransform && (domainTransform.x >= domain[0] && domainTransform.x <= domain[1] && (!globalScope.running || drawIfRunning)) != self.active)
+    if (domainTransform && (domainTransform.x >= domain[0] && domainTransform.x <= domain[1]))
+      return
+
+    if (globalScope.running && !drawIfRunning)
       return
       
     const scalar = camera.worldToScreenScalar()

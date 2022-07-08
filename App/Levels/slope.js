@@ -5,8 +5,8 @@ const SLOPE = [{
   x: 10,
   y: 0,
   camera: {
-    x: -2,
-    y: -2,
+    x: 0,
+    y: 0,
     fov: 7,
   },
   requirements: ['HELLO_WORLD'],
