@@ -29,8 +29,11 @@ function World(spec) {
 
   let quad = null
 
-  function loadQuad(shaderName) {
-    quad = Quad(1000, 1000, assets.shaders[shaderName])
+  function loadQuad() {
+    let canvas = document.createElement('canvas')
+    canvas.width = 1000
+    canvas.height = 1000
+    quad = Sunset(canvas, assets)
   } 
 
   const assets = Assets({
@@ -89,7 +92,7 @@ function World(spec) {
 
   function assetsComplete() {
     console.log(`All World assets loaded`)
-    loadQuad('neel')
+    loadQuad()
 
     ui.loadingVeilString.innerHTML = 'click to begin'
     ui.loadingVeil.addEventListener('click', loadingVeilClicked)
@@ -111,6 +114,7 @@ function World(spec) {
     else
       levelDatum = _.find(levelData, v => v.nick == nick)
 
+
     level = Level({
       ui,
       screen,
@@ -123,9 +127,19 @@ function World(spec) {
       levelCompleted,
       tickDelta,
       quad,
+      drawOrder: 1,
     })
 
-    level.playOpenMusic()
+    // Constant lake shader
+    console.log(nick)
+    if (nick == 'SLOPE_CONVERSATION_1') {
+      Shader({
+          parent: self,
+          quad,
+          drawOrder: 0,
+      })
+    }
+
     level.reset()
 
     ui.levelText.value = levelDatum.name

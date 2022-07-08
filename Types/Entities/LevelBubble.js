@@ -128,7 +128,11 @@ function LevelBubble(spec) {
 
   }
 
+  let timeFromHilighted = 0
+  let isHilighting = false
+
   function drawLocal() {
+    console.log('drawing LevelBubble')
     const opacity = visible ? playable ? 1 : 0.5 : 0
     ctx.globalAlpha = opacity
 
@@ -136,14 +140,23 @@ function LevelBubble(spec) {
 
     let strokeWidth = 0.2
 
+    console.log('highlighted', hilighted)
+    console.log('playable', playable, 'clickable hovering', clickable.hovering)
+
     if (playable) {
       if (hilighted)
         strokeWidth = 0.4
       else if (playable)
         strokeWidth = 0.2
 
-      if (clickable.hovering)
-        strokeWidth *= 2
+      if (clickable.hovering) {
+        if (!isHilighting) timeFromHilighted = 0
+        const target = strokeWidth * 2
+        strokeWidth = timeFromHilighted * (target - strokeWidth) + strokeWidth
+        console.log(timeFromHilighted, strokeWidth)
+        if (timeFromHilighted < 1) timeFromHilighted += 0.001
+      } else 
+        isHilighting = true
     }
 
     ctx.arc(0, 0, radius, 0, Math.PI*2)

@@ -338,12 +338,6 @@ function Level(spec) {
     _.each(datum.texts, addText)
     _.each(datum.directors || [{}], addDirector)
 
-    const shader = Shader({
-      parent: self,
-      quad,
-      drawOrder: -3
-    })
-
     self.sortChildren()
   }
 

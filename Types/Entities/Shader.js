@@ -1,14 +1,3 @@
-/*
-
-Shader "class" has to do:
-  * create and own canvas object (off-screen framebuffer)
-  * create Regl/WebGL context using off-screen canvas
-  * render quad with specified shaderSource onto canvas
-  * read canvas to JS Image object
-  * render Image onto game canvas
-
-*/
-
 function Shader(spec) {
   const {
     self,
@@ -17,8 +6,8 @@ function Shader(spec) {
 
   const {
     fullscreen = false,
-    xSize = 100,
-    ySize = 100,
+    xSize = 10,
+    ySize = 10,
     quad,
   } = spec
 
@@ -30,13 +19,17 @@ function Shader(spec) {
 
   // console.log('quad in shader construction', quad)
 
+  function tick() {
+    quad.update()
+  }
+
   function drawLocal() {
     quad.draw()
-    ctx.drawImage(quad.getBuffer(), -xSize/2, -ySize/2, xSize, ySize)
+    ctx.drawImage(quad.getBuffer(), -xSize/2, -ySize/2 - 3, xSize, ySize - 3)
   }
 
   function draw() {
-    camera.drawThrough(ctx, drawLocal, transform)
+    camera.drawThrough(ctx, drawLocal)
   }
 
   function resize() {
@@ -47,6 +40,7 @@ function Shader(spec) {
   }
 
   return _.mixIn(self, {
+    tick,
     draw,
     resize,
 
