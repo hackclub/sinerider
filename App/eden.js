@@ -214,7 +214,8 @@ worldData.push({
       x: 20,
       y: 11,
       size: 3.5,
-      content: 'SineRider'
+      fill: '#ffffff',
+      content: 'SineRider',
     },{
       x: 14,
       y: -8.5,

@@ -27,17 +27,20 @@ function Text(spec) {
   }
   
   function drawLocal() {
-    ctx.fillStyle = color
     ctx.textAlign = align
     ctx.textBaseline = baseline
     ctx.scale(size, size)
     
     ctx.font = font
     
-    if (fill)
+    if (fill) {
+      ctx.fillStyle = fill
       ctx.fillText(content, 0, 0)
-    if (stroke)
+    }
+    if (stroke) {
+      ctx.fillStyle = stroke
       ctx.strokeText(content, 0, 0)
+    }
   }
   
   function draw() {
