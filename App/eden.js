@@ -92,31 +92,25 @@ worldData.push({
         x: 0.3,
         content: 'snow!!',
         direction: Vector2(0.5, 1),
-        distance: 1.2
+        distance: 1.2,
+        color: '#fff',
       }
     }],
     sprites: [
-    // {
-    //   asset: 'images.cabin_1',
-    //   size: 6,
-    //   x: 1,
-    //   y: -0.2,
-    //   drawOrder: -3,
-    // },
-    // {
-    //   asset: 'images.cabin_1_front',
-    //   size: 6,
-    //   x: 1,
-    //   y: -0.2,
-    //   drawOrder: -1,
-    // },
-    // {
-    //   asset: 'images.tree*',
-    //   size: 8,
-    //   x: 6,
-    //   y: -0.05,
-    //   drawOrder: -3,
-    // },
+    {
+      asset: 'images.cabin_1',
+      size: 6,
+      x: -4,
+      y: -0.2,
+      drawOrder: -3,
+    },
+    {
+      asset: 'images.cabin_1_front',
+      size: 6,
+      x: -4,
+      y: -0.2,
+      drawOrder: -1,
+    },
     {
       asset: 'images.sam_stand_snowball',
       size: 2,
@@ -130,19 +124,21 @@ worldData.push({
         content: 'now hit the green button ⇲',
         direction: 'up-left',
         distance: 1.6,
+        color: '#fff',
         speech: {
           x: -1.5,
           content: 'yes, snow.',
           direction: 'up-up-left',
           distance: 0.8,
+          color: '#fff',
         }
       },
     },
     {
       asset: 'images.tree*',
       flipX: "*",
-      size: 1.8,
-      x: -5.1,
+      size: 1.7,
+      x: -6.4,
       y: 0,
       drawOrder: 0,
       anchored:true
@@ -159,7 +155,7 @@ worldData.push({
       asset: 'images.tree*',
       flipX: "*",
       size: 2.1,
-      x: -3.2,
+      x: -3.6,
       y: 0,
       drawOrder: 0,
       anchored:true
