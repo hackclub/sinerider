@@ -21,11 +21,10 @@ worldData.push({
       cloud2: '.png',
       cloud3: '.png',
       cloud3: '.png',
-      tree1: '.png',
-      tree2: '.png',
-      tree3: '.png',
-      tree4: '.png',
-      initial_bg:'initial-bg.png'
+      tree: '.png',
+      initial_bg:'initial-bg.jpeg',
+      logo_text:'.png',
+      rock:".png"
     },
     sounds: {
       music: {
@@ -204,23 +203,25 @@ worldData.push({
       y: 0,
       drawOrder: 0,
       anchored:true
+    },
+    {
+      asset: 'images.logo_text',
+      size: 28,
+      x: 20,
+      y: 11,
+      drawOrder: 0,
+      anchored: false,
     }
   ],
     texts: [{
-      x: 20,
-      y: 11,
-      size: 3.5,
-      fill: '#ffffff',
-      content: 'SineRider',
-    },{
       x: 14,
-      y: -8.5,
+      y: -7.5,
       size: 1,
       fill: '#ffffff',
       content: 'WIP Pre-Alpha. Don’t distribute yet!'
     },{
       x: 14,
-      y: -6.5,
+      y: -5.5,
       size: 1.5,
       fill: '#ffffff',
       content: 'A game about love and graphing.'
@@ -235,6 +236,7 @@ worldData.push({
     },
     snow: {
       density:0.4,
+      maxHeight: 4.8,
       velocity: {
         x:0.2,
         y:0.4

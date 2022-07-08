@@ -40,7 +40,6 @@ function Sprite(spec = {}) {
     if (asset.includes("*")) {
       let assetSearch = asset.split(".")[1]?.split("*")[0]
       let possibleSprites = Object.keys(assets.images).filter(v => v.includes(assetSearch))
-      console.log(Object.keys(assets.images))
       asset = "images." + possibleSprites[Math.floor(Math.random()*possibleSprites.length)]
     }
     image = _.get(assets, asset, $('#error-sprite'))
