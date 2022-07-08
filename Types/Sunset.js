@@ -2,7 +2,7 @@
  * Sunset shader class for Constant Lake scene
  */
 function Sunset(canvas, assets) {
-  const gl = canvas.getContext('webgl')
+  gl = canvas.getContext('webgl')
   if (!gl) {
       return alert('Your browser does not support WebGL. Try switching or updating your browser!')
   }
@@ -12,6 +12,13 @@ function Sunset(canvas, assets) {
 
   const utils = GLUtils(gl)
   const ext = utils.InstancingExtension()
+
+  const line = utils.Vertices(gl.STATIC_DRAW, {
+      'vertexId': {
+          type: 'float',
+          data: [ 0, 1, 2, 3 ]
+      }
+  })
 
   const quad = utils.Vertices(gl.STATIC_DRAW, {
       'aCoords': {
@@ -26,10 +33,10 @@ function Sunset(canvas, assets) {
       'aTexCoords': {
           type: 'vec2',
           data: [
-              0, 1,
               0, 0,
-              1, 1,
+              0, 1,
               1, 0,
+              1, 1,
           ]
       }
   })
@@ -43,7 +50,7 @@ function Sunset(canvas, assets) {
 
   const blendProgram = utils.Program({
       vert: shaders.quad_vert,
-      frag: shaders.quad_frag,
+      frag: shaders.blend_frag,
   })
 
   const pointsProgram = utils.Program({
@@ -58,47 +65,108 @@ function Sunset(canvas, assets) {
 
   const particleCount = 5000
   
-  // [ x, y, lifetime ]
-  const particles = new Float32Array(particleCount * 3)
+  // [ x, y ]
+  const oldParticlePositions = new Float32Array(particleCount * 2)
+  const newParticlePositions = new Float32Array(particleCount * 2)
+  const particleColors = new Float32Array(particleCount * 3)
+  const livedFor = new Float32Array(particleCount)
 
-  for (let i = 0; i < particleCount; i++) {
-      const index = 3 * i
-      particles[index] = Math.random()
-      particles[index + 1] = Math.random()
-      particles[index + 2] = Math.random()
+  function genParticleColor() {
+      return [ Math.random() * 0.3, Math.random() * 0.3, Math.random() * 0.5 + 0.5 ]
   }
 
-  const particlesBuffer = utils.Array(particles, gl.DYNAMIC_DRAW)
+  for (let i = 0; i < particleCount; i++) {
+      const posIndex = 2 * i
+      const colIndex = 3 * i
 
-  const F = (x, y) => [x, y]
+      const x = Math.random()
+      const y = Math.random()
+      
+      oldParticlePositions[posIndex] = x
+      oldParticlePositions[posIndex + 1] = y
 
-  const eta = 0.0004;
+      newParticlePositions[posIndex] = x
+      newParticlePositions[posIndex + 1] = y
 
-  function updateParticles() {
+      const col = genParticleColor()
+
+      particleColors[colIndex] = col[0]
+      particleColors[colIndex + 1] = col[1]
+      particleColors[colIndex + 2] = col[2]
+
+      livedFor[i] = 0
+  }
+
+  const oldParticlePositionsBuffer = utils.Array(oldParticlePositions, gl.DYNAMIC_DRAW)
+  const newParticlePositionsBuffer = utils.Array(newParticlePositions, gl.DYNAMIC_DRAW)
+  const livedForBuffer = utils.Array(livedFor, gl.DYNAMIC_DRAW)
+  const particleColorBuffer = utils.Array(particleColors, gl.DYNAMIC_DRAW)
+
+  const input = document.querySelector('input')
+
+  input.value = '[x, y]'
+
+  let F = new Function('x', 'y', 't', `return ${input.value}`)
+
+  input.onkeyup = () => {
+      try {
+          console.log('compiling new function ' + input.value)
+          const func = new Function('x', 'y', 't', `return ${input.value}`)
+          func(0, 0, 0)
+          F = func
+          console.log(F, func)
+      } catch (err) {
+          console.log('Function ' + input.value + ' invalid: ' + err)
+      }
+  }
+
+  const eta = 0.0009;
+  t = 0
+
+  function updateParticlePositions() {
       for (let i = 0; i < particleCount; i++) {
-          const index = 3 * i
-          const normX = particles[index]
-          const normY = particles[index + 1]
-          const livedFor = particles[index + 2]
+          const index = 2 * i
+
+          const normX = newParticlePositions[index]
+          const normY = newParticlePositions[index + 1]
 
           const x = (normX - .5) * 10
           const y = (normY - .5) * 10
 
-          const [dx, dy] = F(x, y)
+          const [dx, dy] = F(x, y, t)
 
-          let newX = eta * dx + normX
-          let newY = eta * dy + normY
-          let newLivedFor = livedFor + 0.01
+          const newX = eta * dx + normX
+          const newY = eta * dy + normY
 
+          // If out of bounds of canvas then reset
           if (Math.abs(newX) > 1 || Math.abs(newY) > 1) {
-              newX = Math.random()
-              newY = Math.random()
-              newLivedFor = 0
-          }
+              const resetX = Math.random()
+              const resetY = Math.random()
+              
+              oldParticlePositions[index] = resetX
+              oldParticlePositions[index + 1] = resetY
 
-          particles[index] = newX
-          particles[index + 1] = newY
-          particles[index + 2] = newLivedFor
+              newParticlePositions[index] = resetX
+              newParticlePositions[index + 1] = resetY
+
+              const colIndex = 3 * i
+              const col = genParticleColor()
+
+              particleColors[colIndex] = col[0]
+              particleColors[colIndex + 1] = col[1]
+              particleColors[colIndex + 2] = col[2]
+
+              livedFor[i] = 0
+          } else {
+              // otherwise nudge w/ gradient
+              oldParticlePositions[index] = normX
+              oldParticlePositions[index + 1] = normY
+
+              newParticlePositions[index] = newX
+              newParticlePositions[index + 1] = newY
+
+              livedFor[i] += 0.03
+          }
       }
   }
 
@@ -112,13 +180,12 @@ function Sunset(canvas, assets) {
   */
 
   // TODO: Handle resizing
-  let current = utils.Texture([ canvas.width, canvas.height ], gl.RGBA)
+  const current = utils.Texture([ canvas.width, canvas.height ], gl.RGBA)
   let acc = utils.Texture([ canvas.width, canvas.height ], gl.RGBA)
   let blend = utils.Texture([ canvas.width, canvas.height ], gl.RGBA)
 
   const step = utils.Framebuffer()
 
-  let t = 0
 
   let last = performance.now()
 
@@ -129,29 +196,44 @@ function Sunset(canvas, assets) {
 
       t += delta * 0.00005
 
-      updateParticles()
-      particlesBuffer.data(particles)
+      updateParticlePositions()
+      oldParticlePositionsBuffer.data(oldParticlePositions)
+      newParticlePositionsBuffer.data(newParticlePositions)
+      livedForBuffer.data(livedFor)
+      particleColorBuffer.data(particleColors)
   }
 
   function draw() {
-      // Draw points
+      const start = performance.now()
+
+      // draw points
       step.bind()
       step.setColorAttachment(current)
       pointsProgram.use()
-          .vertices(quad)
-          .instancedAttribute(particlesBuffer, ext, [
-              { type: 'vec3', name: 'particle', perInstance: 1 }
+          .vertices(line)
+          .instancedAttributes(oldParticlePositionsBuffer, ext, [
+              { type: 'vec2', name: 'oldParticlePos', perInstance: 1 }
           ])
-          .uniform('resolution', [ canvas.width, canvas.height ])
+          .instancedAttributes(newParticlePositionsBuffer, ext, [
+              { type: 'vec2', name: 'newParticlePos', perInstance: 1 }
+          ])
+          .instancedAttributes(livedForBuffer, ext, [
+              { type: 'float', name: 'livedFor', perInstance: 1 }
+          ])
+          .instancedAttributes(particleColorBuffer, ext, [
+              { type: 'vec3', name: 'particleColor', perInstance: 1 }
+          ])
           .viewport(canvas.width, canvas.height)
+          // .drawInstanced(ext, gl.TRIANGLE_STRIP, 4, particleCount)
           .drawInstanced(ext, gl.TRIANGLE_STRIP, 4, particleCount)
 
-      // Blend
+      // blend
       step.bind()
       step.setColorAttachment(blend)
       current.bind(0)
       acc.bind(1)
       blendProgram.use()
+          .resetVerticesInstancing(ext, quad)
           .vertices(quad)
           .uniform('resolution', [ canvas.width, canvas.height ])
           .uniformi('current', 0)
@@ -159,32 +241,24 @@ function Sunset(canvas, assets) {
           .viewport(canvas.width, canvas.height)
           .draw(gl.TRIANGLE_STRIP, 4)
 
-      // Swap acc and blend
-      const tmp = acc
+      let tmp = acc
       acc = blend
       blend = tmp
 
-      // Draw acc
+      // draw acc
       utils.bindDisplay()
       acc.bind(0)
-      quadProgram.use()
+      sunsetProgram.use()
           .vertices(quad)
           .uniform('resolution', [ canvas.width, canvas.height ])
           .uniform('time', t)
           .uniformi('texture', 0)
           .viewport(canvas.width, canvas.height)
           .draw(gl.TRIANGLE_STRIP, 4)
+      
+      const end = performance.now()
 
-
-      // utils.bindDisplay()
-      // acc.bind(0)
-      // sunsetProgram.use()
-      //     .vertices(quad)
-      //     .uniform('resolution', [ canvas.width, canvas.height ])
-      //     .uniform('time', t)
-      //     .uniformi('texture', 0)
-      //     .viewport(canvas.width, canvas.height)
-      //     .draw(gl.TRIANGLE_STRIP, 4)
+      console.log('Took ' + (end - start) + 'ms')
   }
 
   function getBuffer() {
@@ -192,8 +266,8 @@ function Sunset(canvas, assets) {
   }
 
   return {
-    update,
     draw,
-    getBuffer,
+    update,
+    getBuffer
   }
 }

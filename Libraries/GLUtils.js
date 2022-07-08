@@ -64,10 +64,11 @@ function GLUtils(gl) {
               }
               locations.attributes[name] = location
           }
+
           return location
       }
 
-      self.instancedAttribute = (array, ext, layout) => {
+      self.instancedAttributes = (array, ext, layout) => {
           array.bind()
       
           for ({ type, name, perInstance, stride = null, offset = null } of layout) {
@@ -84,6 +85,17 @@ function GLUtils(gl) {
 
       self.vertices = v => {
           return self.attributes(v.array, v.layout)
+      }
+
+      self.resetVerticesInstancing = (ext, v) => {
+          const layout = v.layout
+
+          for ({ name } of layout) {
+              const location = getAttribute(name)
+              ext.vertexAttribDivisor(location, 0)
+          }
+
+          return self
       }
 
       self.attributes = (array, layout) => {
@@ -252,8 +264,8 @@ function GLUtils(gl) {
       }
 
       // Default texture parameters
-      parameter(gl.TEXTURE_MIN_FILTER, gl.NEAREST)
-      parameter(gl.TEXTURE_MAG_FILTER, gl.NEAREST)
+      parameter(gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+      parameter(gl.TEXTURE_MAG_FILTER, gl.LINEAR)
       parameter(gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
       parameter(gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
 

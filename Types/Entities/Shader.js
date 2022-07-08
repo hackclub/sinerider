@@ -24,12 +24,18 @@ function Shader(spec) {
   }
 
   function drawLocal() {
-    quad.draw()
-    ctx.drawImage(quad.getBuffer(), -xSize/2, -ySize/2 - 3, xSize, ySize - 3)
+    // quad.draw()
+    // ctx.drawImage(quad.getBuffer(), -xSize/2, -ySize/2 - 3, xSize, ySize - 3)
   }
 
   function draw() {
-    camera.drawThrough(ctx, drawLocal)
+    console.log('SCREEN SIZE', screen.width, screen.height)
+    
+    quad.draw()
+    ctx.drawImage(quad.getBuffer(), 0, 0, screen.width, screen.height)
+
+    // drawLocal()
+    // camera.drawThrough(ctx, drawLocal, transform)
   }
 
   function resize() {

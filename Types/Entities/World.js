@@ -115,6 +115,8 @@ function World(spec) {
       levelDatum = _.find(levelData, v => v.nick == nick)
 
 
+    const isConstantLake = nick === 'SLOPE_CONVERSATION_1'
+
     level = Level({
       ui,
       screen,
@@ -128,15 +130,16 @@ function World(spec) {
       tickDelta,
       quad,
       drawOrder: 1,
+      isConstantLake,
     })
 
     // Constant lake shader
     console.log(nick)
-    if (nick == 'SLOPE_CONVERSATION_1') {
+    if (nick === 'SLOPE_CONVERSATION_1') {
       Shader({
           parent: self,
           quad,
-          drawOrder: 0,
+          drawOrder: -1000000,
       })
     }
 
