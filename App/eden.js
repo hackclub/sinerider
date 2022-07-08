@@ -21,10 +21,7 @@ worldData.push({
       cloud2: '.png',
       cloud3: '.png',
       cloud3: '.png',
-      tree1: '.png',
-      tree2: '.png',
-      tree3: '.png',
-      tree4: '.png',
+      tree: '.png',
       initial_bg:'initial-bg.jpeg',
       logo_text:'.png',
       rock:".png"
@@ -243,6 +240,7 @@ worldData.push({
     },
     snow: {
       density:0.4,
+      maxHeight: 4.8,
       velocity: {
         x:0.2,
         y:0.4

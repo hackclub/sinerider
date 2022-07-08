@@ -11,7 +11,8 @@ function SnowFall(spec) {
     const {
         density = 0.4,
         velocityX = 0.2,
-        velocityY = 0.4
+        velocityY = 0.4,
+        maxHeight=Infinity
     } = spec
 
     const transform = Transform(spec, self)
@@ -51,6 +52,7 @@ function SnowFall(spec) {
         if (Math.random() < density) 
             particles.push([Math.random()*(camera.upperRight.x-camera.lowerLeft.x+3) + camera.lowerLeft.x-3,camera.upperRight.y+0.2, Math.random()])
         for (flake in particles) {
+            particles[flake][1] = Math.min(particles[flake][1], maxHeight)
             particles[flake][0]+=(velocityX*tickDelta)//(flake[2]+1)
             particles[flake][1]-=velocityY*tickDelta*(particles[flake][2]+1)
         }

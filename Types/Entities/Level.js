@@ -385,7 +385,8 @@ function Level(spec) {
         drawOrder:-1,
         density: datum.snow.density,
         velocityX:datum.snow.velocity.x,
-        velocityY:datum.snow.velocity.y
+        velocityY:datum.snow.velocity.y,
+        maxHeight: datum.snow.maxHeight
       })
 
     if (datum.slider && !isBubbleLevel) {
