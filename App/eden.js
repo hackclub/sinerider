@@ -25,7 +25,7 @@ worldData.push({
       tree2: '.png',
       tree3: '.png',
       tree4: '.png',
-      initial_bg:'initial-bg.png'
+      initial_bg:'initial-bg.jpeg'
     },
     sounds: {
       music: {
