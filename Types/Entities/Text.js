@@ -9,9 +9,11 @@ function Text(spec) {
   const {
     camera,
     size = 1,
-    color = '#222',
+    fill = '#222',
+    stroke = false,
     align = 'center',
     baseline = 'middle',
+    font = '1px Roboto Mono'
   } = spec
   
   let {
@@ -30,9 +32,12 @@ function Text(spec) {
     ctx.textBaseline = baseline
     ctx.scale(size, size)
     
-    ctx.font = '1px Roboto Mono'
+    ctx.font = font
     
-    ctx.fillText(content, 0, 0)
+    if (fill)
+      ctx.fillText(content, 0, 0)
+    if (stroke)
+      ctx.strokeText(content, 0, 0)
   }
   
   function draw() {
