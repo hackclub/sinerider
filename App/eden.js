@@ -71,6 +71,12 @@ worldData.push({
     flashRunButton: true,
     defaultExpression: '\\frac{-2}{1+e^{-x+5}}+\\frac{-2}{1+\\left(x-28\\right)^2}',
     hint: 'congratulations, you found the secret hint!',
+    camera: {
+      offset: {
+        x: 0,
+        y: 0.3,
+      }
+    },
     goals: [
       {
         type: 'dynamic',
@@ -206,17 +212,17 @@ worldData.push({
   ],
     texts: [{
       x: 20,
-      y: 8,
+      y: 11,
       size: 3.5,
       content: 'SineRider'
     },{
       x: 14,
-      y: -13,
+      y: -8.5,
       size: 1,
       content: 'WIP Pre-Alpha. Don’t distribute yet!'
     },{
       x: 14,
-      y: -11,
+      y: -6.5,
       size: 1.5,
       content: 'A game about love and graphing.'
     }],
