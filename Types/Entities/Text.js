@@ -9,10 +9,15 @@ function Text(spec) {
   const {
     camera,
     size = 1,
-    color = '#222',
+    fill = '#222',
+    stroke = false,
     align = 'center',
     baseline = 'middle',
+<<<<<<< HEAD
     font = 'Edu QLD Beginner'
+=======
+    font = '1px Roboto Mono'
+>>>>>>> e94e8d065ee73dd9fb478887dbd30787926d4a32
   } = spec
   
   let {
@@ -31,9 +36,16 @@ function Text(spec) {
     ctx.textBaseline = baseline
     ctx.scale(size, size)
     
+<<<<<<< HEAD
     ctx.font = `1px ${font}`
+=======
+    ctx.font = font
+>>>>>>> e94e8d065ee73dd9fb478887dbd30787926d4a32
     
-    ctx.fillText(content, 0, 0)
+    if (fill)
+      ctx.fillText(content, 0, 0)
+    if (stroke)
+      ctx.strokeText(content, 0, 0)
   }
   
   function draw() {

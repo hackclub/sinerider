@@ -65,7 +65,7 @@ worldData.push({
   levelData: [{
     name: 'Welcome',
     nick: 'HELLO_WORLD',
-    colors: Colors.biomes.alps,
+    colors: Colors.biomes.home,
     x: 0,
     y: 0,
     requirements: [],
@@ -224,11 +224,13 @@ worldData.push({
       x: 14,
       y: -7.5,
       size: 1,
+      fill: '#ffffff',
       content: 'WIP Pre-Alpha. Don’t distribute yet!'
     },{
       x: 14,
       y: -5.5,
       size: 1.5,
+      fill: '#ffffff',
       content: 'A game about love and graphing.'
     }],
     sky: {

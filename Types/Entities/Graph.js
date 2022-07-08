@@ -140,8 +140,8 @@ function Graph(spec) {
       const y = screenSpaceSample.y+((Math.sin(((x+xOffset)/xScale))+1)*camera.worldToScreenScalar(1))*yScale+yOffset*camera.worldToScreenScalar(1)
       ctx.lineTo(screenSpaceSample.x, y)
     }
-
-    ctx.fillStyle = '#118de677'
+    
+    ctx.fillStyle = _.isString(colors.groundPattern) ? colors.groundPattern : _.sample(colors.groundPattern)
     ctx.fill()
 
     ctx.globalAlpha = 1
