@@ -25,7 +25,9 @@ worldData.push({
       tree2: '.png',
       tree3: '.png',
       tree4: '.png',
-      initial_bg:'initial-bg.jpeg'
+      initial_bg:'initial-bg.jpeg',
+      logo_text:'.png',
+      rock:".png"
     },
     sounds: {
       music: {
@@ -208,21 +210,24 @@ worldData.push({
       y: 0,
       drawOrder: 0,
       anchored:true
+    },
+    {
+      asset: 'images.logo_text',
+      size: 28,
+      x: 20,
+      y: 11,
+      drawOrder: 0,
+      anchored: false,
     }
   ],
     texts: [{
-      x: 20,
-      y: 11,
-      size: 3.5,
-      content: 'SineRider'
-    },{
       x: 14,
-      y: -8.5,
+      y: -7.5,
       size: 1,
       content: 'WIP Pre-Alpha. Don’t distribute yet!'
     },{
       x: 14,
-      y: -6.5,
+      y: -5.5,
       size: 1.5,
       content: 'A game about love and graphing.'
     }],

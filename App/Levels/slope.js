@@ -165,6 +165,70 @@ const SLOPE = [{
       }],
     },
   }],
+  sprites: [
+    {
+      asset: 'images.tree*',
+      flipX: "*",
+      size: 1.8,
+      x: -5.1,
+      y: 0,
+      drawOrder: 0,
+      anchored:true
+    },
+    {
+      asset: 'images.tree*',
+      flipX: "*",
+      size: 2.2,
+      x: -8.8,
+      y: 0,
+      drawOrder: 0,
+      anchored:true
+    },{
+      asset: 'images.tree*',
+      flipX: "*",
+      size: 2.1,
+      x: -3.2,
+      y: 0,
+      drawOrder: 0,
+      anchored:true
+    },
+    {
+      asset: 'images.tree*',
+      flipX: "*",
+      size: 2.4,
+      x: 13,
+      y: 0,
+      drawOrder: 0,
+      anchored:true
+    },
+    {
+      asset: 'images.tree*',
+      flipX: "*",
+      size: 2.3,
+      x: 21,
+      y: 0,
+      drawOrder: 0,
+      anchored:true
+    },
+    {
+      asset: 'images.tree*',
+      flipX: "*",
+      size: 2.9,
+      x: 10,
+      y: 0,
+      drawOrder: 0,
+      anchored:true
+    },
+    {
+      asset: 'images.rock',
+      flipX: "*",
+      size: 1,
+      x: -2,
+      y: 0,
+      drawOrder: 0,
+      anchored:true
+    }
+  ]
 },
 {
   name: 'A real steep hill',

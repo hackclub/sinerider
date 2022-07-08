@@ -12,6 +12,7 @@ function Text(spec) {
     color = '#222',
     align = 'center',
     baseline = 'middle',
+    font = 'Edu QLD Beginner'
   } = spec
   
   let {
@@ -30,7 +31,7 @@ function Text(spec) {
     ctx.textBaseline = baseline
     ctx.scale(size, size)
     
-    ctx.font = '1px Roboto Mono'
+    ctx.font = `1px ${font}`
     
     ctx.fillText(content, 0, 0)
   }
