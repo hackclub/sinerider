@@ -13,11 +13,7 @@ function Text(spec) {
     stroke = false,
     align = 'center',
     baseline = 'middle',
-<<<<<<< HEAD
     font = 'Edu QLD Beginner'
-=======
-    font = '1px Roboto Mono'
->>>>>>> e94e8d065ee73dd9fb478887dbd30787926d4a32
   } = spec
   
   let {
@@ -36,11 +32,7 @@ function Text(spec) {
     ctx.textBaseline = baseline
     ctx.scale(size, size)
     
-<<<<<<< HEAD
     ctx.font = `1px ${font}`
-=======
-    ctx.font = font
->>>>>>> e94e8d065ee73dd9fb478887dbd30787926d4a32
     
     if (fill)
       ctx.fillText(content, 0, 0)
