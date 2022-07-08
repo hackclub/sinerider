@@ -21,6 +21,7 @@ function Level(spec) {
     runMusic,
     flashMathField = false,
     flashRunButton = false,
+    camera: cameraSpec = {}
   } = datum
   
   const sledders = []
@@ -60,6 +61,7 @@ function Level(spec) {
   camera = Camera({
     globalScope,
     parent: self,
+    ...cameraSpec,
   })
 
   const axes = Axes({
@@ -165,7 +167,7 @@ function Level(spec) {
       assets,
       sledders,
       globalScope,
-      drawOrder: 1,
+      drawOrder: 110,
       goalCompleted,
       goalFailed,
       getLowestOrder: () => lowestOrder,
@@ -261,7 +263,7 @@ function Level(spec) {
       parent: self,
       camera,
       globalScope,
-      drawOrder: 2,
+      drawOrder: 105,
       ...textDatum,
     })
     
