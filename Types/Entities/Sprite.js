@@ -58,7 +58,7 @@ function Sprite(spec = {}) {
         globalScope,
         x: size*offset.x,
         y: size*offset.y,
-        drawOrder: -100,
+        drawOrder: 100,
         ...s,
       })
     }

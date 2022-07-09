@@ -138,6 +138,7 @@ const SLOPE = [{
     walkers: {
       x: -6,
       asset: 'images.sam_float',
+      bobSpeed: 0.918218,
       speech: [{
         speakerX: -0.4,
         content: 'It\'s beautiful!',
@@ -149,7 +150,7 @@ const SLOPE = [{
         content: '...',
         direction: 'up-up-left',
         domain: [8, 11],
-        distance: 1.3,
+        distance: 1.0,
       },{
         speakerX: -0.4,
         content: 'You\'re such a dork.',
@@ -160,7 +161,7 @@ const SLOPE = [{
         speakerX: -0.4,
         content: 'I do love you, though.',
         direction: 'up-up-left',
-        domain: [17, 20],
+        domain: [17, 24],
         distance: 1.3,
       }],
     },
