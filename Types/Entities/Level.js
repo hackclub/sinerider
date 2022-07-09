@@ -10,7 +10,8 @@ function Level(spec) {
     globalScope,
     levelCompleted,
     datum,
-    isBubbleLevel
+    isBubbleLevel,
+    quad,
   } = spec
 
   let {
@@ -81,6 +82,8 @@ function Level(spec) {
     drawOrder: 100,
     colors,
   })
+
+  let shader = null // Only loaded for Constant Lake
 
   let completed = false
 
@@ -219,6 +222,7 @@ function Level(spec) {
       camera,
       graph,
       globalScope,
+      drawOrder: 1,
       ...walkerDatum
     })
 
@@ -234,6 +238,7 @@ function Level(spec) {
       camera,
       graph,
       globalScope,
+      drawOrder: 10,
       ...sledderDatum,
     })
 
@@ -272,7 +277,6 @@ function Level(spec) {
 
   function goalCompleted(goal) {
     if (!completed) {
-
       refreshLowestOrder()
 
       let levelComplete = true
@@ -295,7 +299,6 @@ function Level(spec) {
   }
 
   function goalFailed(goal) {
-  // console.log('Failed :(')
 
     if (goal.order) {
       for (g of goals) {
@@ -367,6 +370,24 @@ function Level(spec) {
         drawOrder: 50,
         ...datum.clouds,
       })
+    // Constant Lake sunset scene
+    if (datum.name === 'Constant Lake') {
+      console.log('loaded shader', datum)
+      shader = Shader({
+        parent: self,
+        screen,
+        assets,
+        quad,
+        drawOrder: -100000,
+      })
+      setTimeout(() => {
+        ui.vectorMathField.latex('x + y \\cdot i')
+        ui.vectorMathContainer.style.display = 'block'
+      }, 4000)
+    } else {
+      shader = null
+      ui.vectorMathContainer.style.display = 'none'
+    }
     if (datum.sky) 
       Sky({
         parent:self,
@@ -427,12 +448,18 @@ function Level(spec) {
     self.sortChildren()
   }
 
+  function setVectorExpression(text, latex) {
+    if (shader != null)
+      shader.setVectorFieldExpression(text)
+  }
+
   function setGraphExpression(text, latex) {
     currentLatex = latex
 
     graph.expression = text
     ui.expressionEnvelope.setAttribute('valid', graph.valid)
 
+    console.log('latex', latex)
     ui.mathFieldStatic.latex(latex)
 
     _.invokeEach(sledders, 'reset')
@@ -462,6 +489,7 @@ function Level(spec) {
     stopRunning,
 
     setGraphExpression,
+    setVectorExpression,
 
     camera,
     graph,

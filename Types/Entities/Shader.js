@@ -1,49 +1,61 @@
-/*
-
-Shader "class" has to do:
-  * create and own canvas object (off-screen framebuffer)
-  * create Regl/WebGL context using off-screen canvas
-  * render quad with specified shaderSource onto canvas
-  * read canvas to JS Image object
-  * render Image onto game canvas
-
-*/
+let evaluator
+let vectorField
 
 function Shader(spec) {
   const {
     self,
     screen,
-    camera,
-    assets,
-    fullscreen = false,
-    shaderSource = 'default',
-    xRes = 320,
-    yRes = 320,
-    xSize = 100,
-    ySize = 100,
   } = Entity(spec, 'Shader')
+
+  const {
+    fullscreen = false,
+    xSize = 10,
+    ySize = 10,
+    quad,
+  } = spec
 
   const ctx = screen.ctx
 
   const transform = Transform(spec, self)
 
-  const framebuffer = document.createElement('canvas')
+  evaluator = math.compile('x + y * i')
 
-  framebuffer.width = xRes
-  framebuffer.height = yRes
-  framebuffer.display = 'none' // Hidden
+  vectorField = (x, y) => {
+    const c = evaluator.evaluate({ x, y })
+    
+    // Either real or complex
+    return typeof c === 'number'
+      ? [ c, 0 ]
+      : [ c.re, c.im ]
+  }
 
-  framebuffer.id = 'framebuffer'
+  function setVectorFieldExpression(text) {
+    console.log('text', text)
 
-  const quad = new Quad(assets.shaders[shaderSource], framebuffer)
+    try {
+      const e = math.compile(text)
+      e.evaluate({ x: 0, y: 0 }) // Make sure can evaluate properly
+      evaluator = e
+      console.log('Set new evaluator to: ', text, evaluator)
+    } catch (err) {}
+  }
+
+  function tick() {
+    quad.update(vectorField)
+  }
 
   function drawLocal() {
-    quad.draw()
-    ctx.drawImage(framebuffer, -xSize/2, -ySize/2, xSize, ySize)
+    // quad.draw()
+    // ctx.drawImage(quad.getBuffer(), -xSize/2, -ySize/2 - 3, xSize, ySize - 3)
   }
 
   function draw() {
-    camera.drawThrough(ctx, drawLocal, transform)
+    
+    quad.draw()
+    ctx.drawImage(quad.getBuffer(), 0, 0, screen.width, screen.height)
+
+    // drawLocal()
+    // camera.drawThrough(ctx, drawLocal, transform)
   }
 
   function resize() {
@@ -53,11 +65,13 @@ function Shader(spec) {
     }
   }
 
-  // TODO: Refactor mix()/_.mixIn() calls to use spread op?
-  return self.mix({
+  return _.mixIn(self, {
+    tick,
     draw,
     resize,
 
     transform,
+
+    setVectorFieldExpression,
   })
 }

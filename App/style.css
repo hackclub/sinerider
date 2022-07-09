@@ -60,8 +60,10 @@ body > .bar {
   margin: 0;
 }
 
-.bar > .envelope {
+.bar .envelope {
+  height: 100%;
   display: flex;
+  flex-direction: row;
   border-radius: 5px;
 }
 
@@ -72,7 +74,7 @@ body > .bar {
   overflow: visible;
 }
 
-.floating > .button,.envelope {
+.floating .button,.envelope {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
 }
 
@@ -217,7 +219,8 @@ input[valid=false] {
   flex-grow: 1;
 }
 
-#math-field,#math-field-static {
+#math-field,#math-field-static,
+#vector-math-field, #vector-math-field-static {
   border: none;
   flex-grow: 0;
   padding: 4px 2px 2px 2px;
@@ -539,4 +542,22 @@ input[valid=false] {
   height: 175px;
   padding: 0 5px;
   accent-color: yellow;
+}
+
+.hstack {
+  display: flex;
+  gap: 10px;
+  flex-direction: row;
+  align-items: center;
+}
+
+@keyframes translateAndAppear {
+  from { margin-left: calc(-98px - 10px); opacity: 0; }
+  to { margin-left: 50px; opacity: 1; }
+}
+
+#vector-math-field-container {
+  display: none; /* Only visible for Constant Lake/vector field scene */
+  animation: translateAndAppear 2.5s ease-out 0s 1 forwards running;
+  /* animation: appear 10s linear 0s 1 forwards fill-mode; */
 }

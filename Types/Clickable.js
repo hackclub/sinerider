@@ -159,17 +159,14 @@ function Clickable(spec) {
     recordPoint(point, clickPoint)
 
     if (hovering) {
-    // console.log('Mouse is up on hovered object')
 
     }
     if (holding) {
       holding = false
-    // console.log('Mouse is up on held object')
       entity.sendEvent('click', [clickPoint])
       entity.sendEvent('mouseUp', [mouseUpPoint])
     }
     if (dragging) {
-    // console.log('Mouse is up on dragged object')
       dragging = false
       recordPoint(point, dragEndPoint)
       entity.sendEvent('dragEnd', [dragEndPoint])

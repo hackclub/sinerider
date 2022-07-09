@@ -37,6 +37,9 @@ const ui = {
   expressionText: $('#expression-text'),
   expressionEnvelope: $('#expression-envelope'),
 
+  vectorMathContainer: $('#vector-math-field-container'),
+  vectorMathField: $('#vector-math-field'),
+
   mathField: $('#math-field'),
   mathFieldStatic: $('#math-field-static'),
 
@@ -68,6 +71,13 @@ const tickDelta = 1/ticksPerSecond
 const screen = Screen({
   canvas
 })
+
+let w = worldData[0]
+
+// make Constant Lake first level for testing
+// const tmp = w.levelData[0]
+// w.levelData[0] = w.levelData[3]
+// w.levelData[3] = tmp
 
 const world = World({
   ui,
@@ -120,28 +130,29 @@ if (!stepping) {
 
 ui.mathFieldStatic = MQ.StaticMath(ui.mathFieldStatic)
 
-ui.mathField = MQ.MathField(ui.mathField, {
-  handlers: {
-    edit: function() {
-      const text = ui.mathField.getPlainExpression()
-      const latex = ui.mathField.latex()
-    // console.log(`Expression text changed to: `, text)
-      world.level.sendEvent('setGraphExpression', [text, latex])
+function createMathField(field, eventNameOnEdit) {
+  field = MQ.MathField(field, {
+    handlers: {
+      edit: function() {
+        const text = field.getPlainExpression()
+        const latex = field.latex()
+        world.level.sendEvent(eventNameOnEdit, [text, latex])
+      } 
     }
-  }
-})
+  })
 
-ui.mathField.getPlainExpression = function() {
-  var tex = ui.mathField.latex()
-  return mathquillToMathJS(tex)
+  field.getPlainExpression = function() {
+    var tex = field.latex()
+    return mathquillToMathJS(tex)
+  }
+  
+  return field
 }
+
+ui.mathField = createMathField(ui.mathField, 'setGraphExpression')
+// ui.vectorMathField = createMathField(ui.vectorMathField, 'setVectorExpression')
 
 ui.dottedMathFieldStatic = MQ.StaticMath(ui.dottedMathFieldStatic)
-
-ui.mathField.getPlainExpression = function() {
-  var tex = ui.mathField.latex()
-  return mathquillToMathJS(tex)
-}
 
 function onMathFieldFocus(event) {
   world.onMathFieldFocus()
@@ -167,7 +178,6 @@ function onKeyUp(event) {
 window.addEventListener("keyup", onKeyUp)
 
 function onExpressionTextChanged(event) {
-// console.log(`Expression text changed to: `, ui.expressionText.value)
 
   world.level.sendEvent('setGraphExpression', [ui.expressionText.value])
 }

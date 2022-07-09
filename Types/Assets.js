@@ -43,7 +43,6 @@ function Assets(spec) {
       asset.loading = 'eager'
       asset.src = path
       asset.onload = () => assetLoaded(path)
-    // console.log(`Loading image from ${path}`)
     }
     else if (isSound) {
       assetSpec.src = path,
@@ -51,7 +50,6 @@ function Assets(spec) {
         ...assetSpec,
         onload: () => assetLoaded(path),
       })
-    // console.log(`Loading sound from ${path}`)
     }
     else if (isShader) {
       fetch(path)
@@ -59,11 +57,9 @@ function Assets(spec) {
         .then(text => {
           object[key] = text
           assetLoaded(path)
-        // console.log(`Loaded shader from ${path}`)
         })
     }
     else {
-    // console.log(`Sorry, I don't recognize that extension: ${extension}`)
       return
     }
 
@@ -74,7 +70,6 @@ function Assets(spec) {
   }
 
   function load(object, folders=[]) {
-  // console.log(`Loading objects in folders:`, folders)
     _.each(object, (v, i) => {
       if (_.isObject(v)) {
         if (_.has(v, 'src'))
@@ -89,11 +84,7 @@ function Assets(spec) {
 
   function assetLoaded(path) {
     loadCount--
-
-  // console.log(`Asset loaded from ${path}, ${loadCount} remain`)
-
     if (loadCount == 0) {
-    // console.log(`All assets loaded:`, self)
       callbacks.complete()
     }
     else if (callbacks.progress) {
@@ -102,8 +93,6 @@ function Assets(spec) {
   }
 
   return _.mixIn(self, {
-
-
     get loaded() {return loaded},
   })
 }

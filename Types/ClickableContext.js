@@ -24,7 +24,6 @@ function ClickableContext(spec) {
     let newTarget = _.last(hits)
 
     if (newTarget != target) {
-      // console.log('Top-level hit is '+_.get(newTarget, 'entity.name', 'empty'))
 
       // Exit old target, enter new target
       if (target) target.mouseExit(mousePoint)

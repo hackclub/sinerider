@@ -8,6 +8,7 @@ function Navigator(spec) {
     getEditing,
     setLevel,
     assets,
+    quad,
   } = spec
 
   const camera = Camera({
@@ -56,6 +57,7 @@ function Navigator(spec) {
       getEditing,
       tickDelta,
       getBubbleByNick,
+      quad,
       parent: self,
       getShowAll: () => showAll,
       drawOrder:-98
@@ -76,8 +78,8 @@ function Navigator(spec) {
     const highlightedLevels = _.filter(bubbles, v => v.hilighted || showAll)
 
     const nicks = _.map(highlightedLevels, v => v.nick)
-    console.log(`Revealing hilighted levels ${nicks}, starting from ${nick}`)
-    
+    // nicks.push(nick)
+
     moveToLevel(nick, 0, () => {
       assets.sounds.map_zoom_out.play()
       moveToLevel(nick, 0.5, () => {
@@ -92,7 +94,6 @@ function Navigator(spec) {
   }
 
   function moveToLevel(nicks, duration=0, cb, padding=10) {
-  // console.log(`Moving to levels ${nicks}`)
 
     if (!_.isArray(nicks))
       nicks = [nicks]
@@ -131,7 +132,6 @@ function Navigator(spec) {
     if (showAll != _showAll) {
       showAll = _showAll
 
-    // console.log(`Setting show all to ${showAll}`)
 
       if (showAll) {
         moveToLevel([], 1)

@@ -27,6 +27,15 @@ function World(spec) {
   let navigating = false
   let editing = false
 
+  let quad = null
+
+  function loadQuad() {
+    let canvas = document.createElement('canvas')
+    canvas.width = 1000
+    canvas.height = innerHeight / innerWidth * canvas.width
+    quad = Sunset(canvas, assets)
+  } 
+
   const assets = Assets({
     paths: spec.assets,
     callbacks: {
@@ -59,7 +68,6 @@ function World(spec) {
   }
 
   function loadingVeilClicked() {
-  // console.log(`Loading veil clicked`)
 
     ui.loadingVeil.setAttribute('hide', true)
 
@@ -70,6 +78,7 @@ function World(spec) {
       levelData,
       getEditing,
       setLevel,
+      quad,
       active: false,
       parent: self,
       drawOrder:-1000
@@ -82,15 +91,13 @@ function World(spec) {
   }
 
   function assetsComplete() {
-  // console.log(`All World assets loaded`)
+    loadQuad()
 
     ui.loadingVeilString.innerHTML = 'click to begin'
     ui.loadingVeil.addEventListener('click', loadingVeilClicked)
   }
 
   function assetsProgress(progress, total) {
-  // console.log(`Loaded ${progress} of ${total} assets`)
-
     ui.loadingVeilString.innerHTML = `loading…<br>${Math.round(100*progress/total)}%`
   }
 
@@ -115,7 +122,8 @@ function World(spec) {
       active: !navigating,
       levelCompleted,
       tickDelta,
-      isBubbleLevel:false
+      isBubbleLevel: false,
+      quad,
     })
 
     level.playOpenMusic()
@@ -151,7 +159,6 @@ function World(spec) {
   }
 
   function levelCompleted() {
-  // console.log(`Level ${levelDatum.nick} completed`)
 
     ui.victoryBar.setAttribute('hide', false)
     ui.controlBar.setAttribute('hide', true)
@@ -271,7 +278,7 @@ function World(spec) {
     const biomes = _.values(Colors.biomes)
 
     return {
-      name: 'Ranbdom Level',
+      name: 'Random Level',
       nick: 'RANDOM',
       x: -10,
       y: 0,

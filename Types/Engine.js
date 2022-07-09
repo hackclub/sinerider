@@ -8,7 +8,6 @@ function Engine(spec) {
     stepping = false,
   } = spec
 
-// console.log(`Engine starting up!`)
 
   let canvasIsDirty = true
 

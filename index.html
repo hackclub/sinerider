@@ -66,14 +66,28 @@
         <div class='string'>↺</div>
       </div>
 
-      <div class='envelope' id='expression-envelope' disabled=false>
-        <div class='label' id='variable-label'>
-          <div class='string'>Y=</div>
+      <div class='hstack'>
+        <div class='envelope' id='expression-envelope' disabled=false>
+          <div class='label' id='variable-label'>
+            <div class='string'>Y=</div>
+          </div>
+  
+          <div id='math-field'></div>
+  
+          <div id='math-field-static'></div>
         </div>
 
-        <div id='math-field'></div>
-
-        <div id='math-field-static'></div>
+        <div id='vector-math-field-container'>
+          <div class='envelope' id='expression-envelope' disabled=false>
+            <div class='label' id='variable-label'>
+              <div class='string'>Z=</div>
+            </div>
+    
+            <div id='vector-math-field'></div>
+    
+            <!-- <div id='vector-math-field-static'></div> -->
+          </div>
+        </div>
       </div>
 
       <input class='text' id='expression-text' type='text' hide=true/>
@@ -129,9 +143,6 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjs/7.3.0/math.min.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.9.1/mathquill.min.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/regl/2.1.0/regl.min.js"></script> -->
-    <!-- Use non-minified Regl for easier debugging in development -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/regl/2.1.0/regl.js"></script>
 
     <link rel="stylesheet" href="Libraries/mathquill.css"/>
     <script src="Libraries/mathquill.min.js"></script>
@@ -140,6 +151,7 @@
     </script>
 
     <!-- Load Extension Methods -->
+    <script src='Libraries/GLUtils.js'></script>
     <script src='Libraries/extensions.js'></script>
     <script src='Libraries/preprocessMathQuill.js'></script>
 
@@ -165,6 +177,7 @@
     <script src='Types/Rigidbody.js'></script>
     <script src='Types/Clickable.js'></script>
     <script src='Types/ClickableContext.js'></script>
+    <script src='Types/Sunset.js'></script>
 
     <!-- Load Components -->
     <script src='Types/Entities/Directors/Director.js'></script>
@@ -174,7 +187,6 @@
     <!--<script src='Types/Entities/Directors/DragDirector.js'></script>-->
 
     <!-- Load Entities -->
-    <script src='Types/Quad.js'></script>
     <script src='Types/Entities/Shader.js'></script>
     <script src='Types/Entities/Entity.js'></script>
     <script src='Types/Entities/World.js'></script>

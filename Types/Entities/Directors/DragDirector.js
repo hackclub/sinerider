@@ -21,7 +21,6 @@ function CameraDragger(spec) {
   const dragOffsetFrame = Vector2()
 
   function dragStart(point) {
-  // console.log('Beginning camera drag')
     self.position.set(camera.transform.position)
     dragOrigin.set(self.position)
   }
@@ -35,11 +34,9 @@ function CameraDragger(spec) {
   }
 
   function dragEnd(point) {
-  // console.log('Ending camera drag')
   }
 
   function click(point) {
-  // console.log('Clicking background')
   }
 
   function canControl() {
