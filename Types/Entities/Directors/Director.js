@@ -31,12 +31,10 @@ function Director(spec, defaultName='Director') {
 
   function startControlling() {
     // virtual function stub
-  // console.log(self.name, ' is now controlling camera')
   }
 
   function stopControlling() {
     // virtual function stub
-  // console.log(self.name, ' is now controlling camera')
   }
 
   return self.mix({

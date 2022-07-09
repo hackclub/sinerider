@@ -209,8 +209,6 @@ function Camera(spec) {
     sampleDirector()
 
     if (self.debug) {
-      // console.log('Camera Position: ', transform.position.toString())
-      // console.log('Camera FOV: ', fov)
     }
   }
 

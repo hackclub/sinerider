@@ -22,7 +22,6 @@ function Speech(spec) {
     globalScope,
   } = spec
 
-// console.log('Creating speech with content:', content)
 
   const transform = Transform(spec, self)
 

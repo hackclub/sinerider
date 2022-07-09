@@ -122,7 +122,6 @@ ui.mathField = MQ.MathField(ui.mathField, {
     edit: function() {
       const text = ui.mathField.getPlainExpression()
       const latex = ui.mathField.latex()
-    // console.log(`Expression text changed to: `, text)
       world.level.sendEvent('setGraphExpression', [text, latex])
     }
   }
@@ -157,7 +156,6 @@ function onKeyUp(event) {
 window.addEventListener("keyup", onKeyUp)
 
 function onExpressionTextChanged(event) {
-// console.log(`Expression text changed to: `, ui.expressionText.value)
 
   world.level.sendEvent('setGraphExpression', [ui.expressionText.value])
 }

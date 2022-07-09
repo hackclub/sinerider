@@ -20,7 +20,6 @@ function Assets(spec) {
     callbacks.progress(0, loadTotal)
 
   function loadAsset(object, folders, file, key) {
-  // console.log(`Loading asset '${file}' from folders `, folders)
 
     const extensions = _.tail(file.split('.'))
     const extension = extensions[0]
@@ -42,14 +41,12 @@ function Assets(spec) {
       asset = new Image()
       asset.src = path
       asset.onload = () => assetLoaded(path)
-    // console.log(`Loading image from ${path}`)
     }
     else if (isSound) {
       asset = new Howl({
         src: path,
         onload: () => assetLoaded(path),
       })
-    // console.log(`Loading sound from ${path}`)
     }
     else if (isShader) {
       fetch(path)
@@ -57,11 +54,9 @@ function Assets(spec) {
         .then(text => {
           object[key] = text
           assetLoaded(path)
-        // console.log(`Loaded shader from ${path}`)
         })
     }
     else {
-    // console.log(`Sorry, I don't recognize that extension: ${extension}`)
       return
     }
 
@@ -72,7 +67,6 @@ function Assets(spec) {
   }
 
   function load(object, folders=[]) {
-  // console.log(`Loading objects in folders:`, folders)
     _.each(object, (v, i) => {
       if (_.isObject(v))
         load(v, [...folders, i])
@@ -83,11 +77,7 @@ function Assets(spec) {
 
   function assetLoaded(path) {
     loadCount--
-
-  // console.log(`Asset loaded from ${path}, ${loadCount} remain`)
-
     if (loadCount == 0) {
-    // console.log(`All assets loaded:`, self)
       callbacks.complete()
     }
     else if (callbacks.progress) {
@@ -96,8 +86,6 @@ function Assets(spec) {
   }
 
   return _.mixIn(self, {
-
-
     get loaded() {return loaded},
   })
 }

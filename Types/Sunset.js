@@ -110,13 +110,10 @@ function Sunset(canvas, assets) {
 
   input.onkeyup = () => {
       try {
-          console.log('compiling new function ' + input.value)
           const func = new Function('x', 'y', 't', `return ${input.value}`)
           func(0, 0, 0)
           F = func
-          console.log(F, func)
       } catch (err) {
-          console.log('Function ' + input.value + ' invalid: ' + err)
       }
   }
 
@@ -258,7 +255,6 @@ function Sunset(canvas, assets) {
       
       const end = performance.now()
 
-      console.log('Took ' + (end - start) + 'ms')
   }
 
   function getBuffer() {

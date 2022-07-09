@@ -22,7 +22,6 @@ function WaypointDirector(spec) {
 
   function tick() {
     if (transitProgress == 1 && !transitComplete) {
-    // console.log(`Transit to waypoint complete`)
       transitComplete = true
 
       if (callback)
@@ -37,7 +36,6 @@ function WaypointDirector(spec) {
     transitProgress = math.clamp01(transitProgress)
 
     if (fromPoint && toPoint && !transitComplete) {
-      // console.log(`Transiting... ${transitProgress}`)
       fromPoint.lerp(toPoint, transitProgress, cameraState)
     }
   }

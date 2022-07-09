@@ -75,22 +75,18 @@ function Entity(spec, defaultName = 'Entity') {
 
   // Called when the entity is fully constructed
   function awake() {
-    // console.log(`Awakening ${name}`)
   }
 
   // Called just before the entity's first tick
   function start() {
-    // console.log(`Starting ${name}`)
   }
 
   // Called every frame at a fixed timestep
   function tick() {
-    // console.log(`Ticking ${name}`)
   }
 
   // Called every time the canvas is redrawn
   function draw() {
-    // console.log(`Drawing ${name}`)
   }
 
   // Called when the object is to be fully removed from memory

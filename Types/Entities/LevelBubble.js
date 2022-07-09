@@ -121,7 +121,6 @@ function LevelBubble(spec) {
   }
 
   function startLate() {
-  // console.log('Starting levelbubble late')
   }
 
   function tick() {
@@ -129,7 +128,6 @@ function LevelBubble(spec) {
   }
 
   function drawLocal() {
-    console.log('drawing LevelBubble')
     const opacity = visible ? playable ? 1 : 0.5 : 0
     ctx.globalAlpha = opacity
 
@@ -182,7 +180,6 @@ function LevelBubble(spec) {
     if (unlocked) {
       playable = true
       hilighted = !completed
-    // console.log(`Hilighting ${levelDatum.nick}`)
     }
     else {
       playable = getShowAll()
@@ -211,7 +208,6 @@ function LevelBubble(spec) {
     completed = true
     refreshPlayable()
 
-  // console.log(`Marking bubble ${nick} as completed`)
 
     _.invokeEach(dependencies, 'refreshPlayable')
   }
@@ -243,7 +239,6 @@ function LevelBubble(spec) {
   }
 
   function completeAllRequirements() {
-  // console.log(`Completing all requirements of ${levelDatum.nick}`)
 
     for (requirement of requirements) {
       requirement.complete()

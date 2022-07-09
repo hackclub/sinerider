@@ -78,7 +78,6 @@ function Navigator(spec) {
 
     const nicks = _.map(highlightedLevels, v => v.nick)
     // nicks.push(nick)
-  // console.log(`Revealing hilighted levels ${nicks}, starting from ${nick}`)
 
     moveToLevel(nick, 0, () => {
       moveToLevel(nick, 0.5, () => {
@@ -90,7 +89,6 @@ function Navigator(spec) {
   }
 
   function moveToLevel(nicks, duration=0, cb, padding=10) {
-  // console.log(`Moving to levels ${nicks}`)
 
     if (!_.isArray(nicks))
       nicks = [nicks]
@@ -129,7 +127,6 @@ function Navigator(spec) {
     if (showAll != _showAll) {
       showAll = _showAll
 
-    // console.log(`Setting show all to ${showAll}`)
 
       if (showAll) {
         moveToLevel([], 1)

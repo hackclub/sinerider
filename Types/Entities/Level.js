@@ -275,7 +275,6 @@ function Level(spec) {
   }
 
   function goalFailed(goal) {
-  // console.log('Failed :(')
 
     if (goal.order) {
       for (g of goals) {

@@ -77,7 +77,6 @@ function Walker(spec) {
   }
 
   function mouseDown(point) {
-  // console.log('mouse down on '+self.name+' at '+point.toString())
     walking = true
     mousePointFrame.set(point)
   }

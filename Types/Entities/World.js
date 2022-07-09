@@ -68,7 +68,6 @@ function World(spec) {
   }
 
   function loadingVeilClicked() {
-  // console.log(`Loading veil clicked`)
 
     ui.loadingVeil.setAttribute('hide', true)
 
@@ -91,7 +90,6 @@ function World(spec) {
   }
 
   function assetsComplete() {
-    console.log(`All World assets loaded`)
     loadQuad()
 
     ui.loadingVeilString.innerHTML = 'click to begin'
@@ -99,7 +97,6 @@ function World(spec) {
   }
 
   function assetsProgress(progress, total) {
-  // console.log(`Loaded ${progress} of ${total} assets`)
 
     ui.loadingVeilString.innerHTML = `loading…<br>${Math.round(100*progress/total)}%`
   }
@@ -161,7 +158,6 @@ function World(spec) {
   }
 
   function levelCompleted() {
-  // console.log(`Level ${levelDatum.nick} completed`)
 
     ui.victoryBar.setAttribute('hide', false)
     ui.controlBar.setAttribute('hide', true)

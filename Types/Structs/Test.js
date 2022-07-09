@@ -21,7 +21,6 @@ function Test(value) {
   function assert(boolean, successMessage, failureMessage) {
     if (boolean) {
       if (LOGTESTS)
-      // console.log(successMessage)
     }
     else
       throw new Error(failureMessage)

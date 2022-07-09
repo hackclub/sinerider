@@ -89,8 +89,6 @@ function TrackingDirector(spec) {
     cameraState.set(targetState)
 
     if (self.debug || true) {
-    // console.log('Snapped Position: ', cameraState.position.toString())
-    // console.log('Snapped FOV: ', cameraState.fov)
     }
   }
 

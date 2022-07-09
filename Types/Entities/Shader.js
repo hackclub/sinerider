@@ -11,13 +11,11 @@ function Shader(spec) {
     quad,
   } = spec
 
-  // console.log('screen', screen)
 
   const ctx = screen.ctx
 
   const transform = Transform(spec, self)
 
-  // console.log('quad in shader construction', quad)
 
   function tick() {
     quad.update()
@@ -29,7 +27,6 @@ function Shader(spec) {
   }
 
   function draw() {
-    console.log('SCREEN SIZE', screen.width, screen.height)
     
     quad.draw()
     ctx.drawImage(quad.getBuffer(), 0, 0, screen.width, screen.height)
