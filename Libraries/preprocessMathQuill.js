@@ -114,9 +114,9 @@ function convertSubscript(expr) {
 
 /**
  * Recursively replaces LaTeX fractions with normal divison
- *   - example: \frac{a}{1 + \frac{b}{c}} --> {a}/{1 + {b}/{c}}
+ *   - example: \frac{a}{1 + \frac{b}{c}}x^2 + 1 --> ({a}/{1 + {b}/{c}})x^2 + 1
  */
-function fracToDivision(expr) {
+ function fracToDivision(expr) {
   const frac = '\\frac'
   const fracStart = expr.indexOf(frac)
   const numStart = fracStart + frac.length
@@ -124,10 +124,13 @@ function fracToDivision(expr) {
   if (fracStart < 0) { return expr }
 
   const divIdx = findClosingBrace(expr, numStart)
-  // Remove frac, and add "/"
+  const fracEndIdx = findClosingBrace(expr, divIdx + 1)
+
+  // Remove frac, add "/", and wrap parens around fraction expr
   const newExpr = expr.slice(0, fracStart) +
-    expr.slice(numStart, divIdx + 1) + '/' +
-    expr.slice(divIdx + 1)
+    '(' + expr.slice(numStart, divIdx + 1) + '/' +
+    expr.slice(divIdx + 1, fracEndIdx + 1) + ')' +
+    expr.slice(fracEndIdx + 1)
 
   return fracToDivision(newExpr)
 }
