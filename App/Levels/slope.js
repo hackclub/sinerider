@@ -149,7 +149,7 @@ const SLOPE = [{
         content: '...',
         direction: 'up-up-left',
         domain: [8, 11],
-        distance: 1.3,
+        distance: 1.0,
       },{
         speakerX: -0.4,
         content: 'You\'re such a dork.',
