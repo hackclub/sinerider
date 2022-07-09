@@ -47,6 +47,7 @@ function LevelBubble(spec) {
   let unlocked = false
   let visible = false
 
+  let frameCounter = 0
   let bubbletRunning = false
   let bubbletRunTime = 0
 
@@ -82,6 +83,8 @@ function LevelBubble(spec) {
     globalScope: bubbletGlobalScope,
     parent: self,
     useDragCamera: false,
+    isBubbleLevel:true,
+    drawOrder: 99.5
   })
 
   const ctx = screen.ctx
@@ -114,8 +117,6 @@ function LevelBubble(spec) {
 
     refreshPlayable()
 
-    bubbletLevel.sendEvent('draw')
-    bubbletLevel.active = false
   }
 
   function startLate() {
@@ -123,7 +124,10 @@ function LevelBubble(spec) {
   }
 
   function tick() {
-
+    if (frameCounter++ < 5)
+      bubbletLevel.sendEvent('draw')
+    else
+      bubbletLevel.active = false
   }
 
   function drawLocal() {
@@ -227,7 +231,8 @@ function LevelBubble(spec) {
     ui.veil.setAttribute('hide', false)
 
     assets.sounds.enter_level.play()
-
+    assets.sounds.map_zoom_in.play()
+    
     completeAllRequirements()
 
     waypointDirector.moveTo(null, {

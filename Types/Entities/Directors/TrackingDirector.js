@@ -49,6 +49,7 @@ function TrackingDirector(spec) {
     _.eachDeep(trackedEntities, trackEntity)
 
     minTrackPoint.add(maxTrackPoint, targetState.position)
+
     targetState.position.divide(2)
 
     cameraState.position.lerp(targetState.position, smoothing)

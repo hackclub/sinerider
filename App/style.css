@@ -349,8 +349,9 @@ input[valid=false] {
 }
 
 #navigator-button {
-  margin-right: 10px;
+  margin-right: 20px;
   border-radius: 0 0 10px 10px;
+  font-size: 2.4rem;
 }
 
 #navigator-button > .string {
@@ -441,4 +442,101 @@ input[valid=false] {
 
 .loading {
   transition: 3s;
+}
+
+.envelope {
+  position: relative;
+}
+
+.helper-bubble {
+  position: absolute;
+  width: 150px;
+  text-align: center;
+  border: 2px solid black;
+  font-size: small;
+  background-color:white;
+  padding:5px;
+  color: black !important;
+}
+
+.top-left {
+  bottom:calc(80% + 20px);
+  right:90%;
+}
+.top-right {
+  bottom:calc(80% + 20px);
+  left:90%;
+}
+.bottom-left {
+  top:calc(80% + 20px);
+  right:90%;
+}
+.bottom-right {
+  top:calc(80% + 20px);
+  left:90%;
+}
+
+.helper-bubble:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+}
+.helper-bubble.top-left:before {
+  border-left: 10px solid transparent;
+  border-right: 10px solid black;
+  border-top: 10px solid black;
+  border-bottom: 10px solid transparent;
+  right: -2px;
+  bottom: -20px;
+}
+.helper-bubble.top-right:before {
+  border-left: 10px solid black;
+  border-right: 10px solid transparent;
+  border-top: 10px solid black;
+  border-bottom: 10px solid transparent;
+  left: -2px;
+  bottom: -20px;
+}
+.helper-bubble.bottom-left:before {
+  border-left: 10px solid transparent;
+  border-right: 10px solid black;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid black;
+  right: -2px;
+  top: -20px;
+}
+.helper-bubble.bottom-right:before {
+  border-left: 10px solid black;
+  border-right: 10px solid transparent;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid black;
+  left: -2px;
+  top: -20px;
+}
+
+#left-bar {
+  position: fixed;
+  right:15px; 
+  top:25%; 
+  display:flex; 
+  border-width: 3px;
+}
+
+#dotted-math-field-static {
+  margin-top: auto; 
+  margin-bottom: auto; 
+  font-weight: bold;
+  font-family:monospace;
+  color:greenyellow; 
+}
+
+
+#dotted-slider {
+  writing-mode: bt-lr; /* IE */
+  -webkit-appearance: slider-vertical; /* Chromium */
+  width: 8px;
+  height: 175px;
+  padding: 0 5px;
+  accent-color: yellow;
 }

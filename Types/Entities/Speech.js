@@ -18,6 +18,7 @@ function Speech(spec) {
     speech,
     speakerX = 0,
     speakerY = 0,
+    domain = [NINF, PINF],
     drawIfRunning = false,
     globalScope,
   } = spec
@@ -26,6 +27,8 @@ function Speech(spec) {
 
   const transform = Transform(spec, self)
 
+  let domainTransform
+  
   let textDirection
   switch (direction) {
     case 'up-left':
@@ -142,6 +145,7 @@ function Speech(spec) {
 
       Speech({
         parent: self,
+        domainTransform,
         globalScope,
         x: textOrigin.x + (s.x || 0),
         y: textOrigin.y + (s.y || 0) + size*0.8,
@@ -150,6 +154,10 @@ function Speech(spec) {
     }
   }
 
+  function awake() {
+    domainTransform = self.getFromAncestor('domainTransform')
+  }
+  
   function tick() {
     transform.rotation = -transform.parentWorldRotation
   }
@@ -177,9 +185,13 @@ function Speech(spec) {
   }
 
   function draw() {
-    if (!drawIfRunning && globalScope.running)
+    // Draw based on whether we are within the given domain 
+    if (domainTransform && (domainTransform.x < domain[0] || domainTransform.x > domain[1]))
       return
 
+    if (globalScope.running && !drawIfRunning)
+      return
+      
     const scalar = camera.worldToScreenScalar()
 
     calculatePoints()
@@ -209,6 +221,7 @@ function Speech(spec) {
   return self.mix({
     transform,
 
+    awake,    
     tick,
     draw,
   })

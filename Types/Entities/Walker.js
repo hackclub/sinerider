@@ -13,22 +13,43 @@ function Walker(spec) {
     size = 2,
     sprite,
     graph,
+    speech,
+    globalScope,
+    walkers = [],
+    following = null,
+    followDistance = 2,
+    domainTransform = null,
   } = spec
 
+  if (!_.isArray(walkers))
+    walkers = [walkers]
+  
   sprite = Sprite({
     parent: self,
     asset,
     size,
+    globalScope,
     y: size/2,
+    speech,
     ...sprite
   })
-
-  const clickable = Clickable({
+  
+  const clickable = following ? null : Clickable({
     entity: self,
     space: 'frame',
     layer: spec.layer,
   })
 
+  walkers = _.map(walkers, v => Walker({
+    ...v,
+    parent: self.parent,
+    domainTransform: domainTransform || transform,
+    camera,
+    following: self,
+    globalScope,
+    graph,
+  }))
+  
   let walking = false
   let walkSign = 1
   let walkSpeed = 1
@@ -59,7 +80,17 @@ function Walker(spec) {
         sprite.flipX = walkSign == -1
       }
     }
-
+    else if (following) {
+      if (transform.x - following.transform.x > followDistance) {
+        transform.x = following.transform.x + followDistance
+        sprite.flipX = true
+      }
+      else if (following.transform.x - transform.x > followDistance) {
+        transform.x = following.transform.x - followDistance
+        sprite.flipX = false
+      }
+    }
+    
     const groundHeight = graph.sample('x', transform.position.x)
 
     floatCycle -= self.tickDelta*floatCycleSpeed
@@ -96,6 +127,8 @@ function Walker(spec) {
 
   return self.mix({
     transform,
+    domainTransform: domainTransform || transform,
+    
     clickable,
 
     mouseDown,

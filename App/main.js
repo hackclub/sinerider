@@ -40,6 +40,10 @@ const ui = {
   mathField: $('#math-field'),
   mathFieldStatic: $('#math-field-static'),
 
+  dottedMathField: $('#dotted-math-field'),
+  dottedMathFieldStatic: $('#dotted-math-field-static'),
+  dottedSlider: $("#dotted-slider"),
+  
   variableLabel: $('#variable-label'),
 
   runButton: $('#run-button'),
@@ -70,15 +74,16 @@ const world = World({
   screen,
   requestDraw,
   tickDelta,
+  drawOrder: NINF,
   ...worldData[0],
 })
 
 // Core methods
 
 function tick() {
-  world.sendLifecycleEvent('awake')
-  world.sendLifecycleEvent('start')
-
+  world.awake()
+  world.start()
+  
   world.sendEvent('tick')
 
   requestDraw()
@@ -87,8 +92,14 @@ function tick() {
 function draw() {
   if (!canvasIsDirty) return
   canvasIsDirty = false
+  
+  let entity
+  for (let i = 0; i < world.drawArray.length; i++) {
+    entity = world.drawArray[i]
 
-  world.sendEvent('draw')
+    if (entity.activeInHierarchy && entity.draw)
+      entity.draw()
+  }
 }
 
 function requestDraw() {
@@ -119,6 +130,13 @@ ui.mathField = MQ.MathField(ui.mathField, {
     }
   }
 })
+
+ui.mathField.getPlainExpression = function() {
+  var tex = ui.mathField.latex()
+  return mathquillToMathJS(tex)
+}
+
+ui.dottedMathFieldStatic = MQ.StaticMath(ui.dottedMathFieldStatic)
 
 ui.mathField.getPlainExpression = function() {
   var tex = ui.mathField.latex()

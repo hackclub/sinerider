@@ -24,7 +24,7 @@ function Navigator(spec) {
   const map = Sprite({
     parent: self,
     camera,
-    drawOrder: -3,
+    drawOrder: -99.5,
     anchored: false,
     size: 178,
     x: 70,
@@ -58,6 +58,7 @@ function Navigator(spec) {
       getBubbleByNick,
       parent: self,
       getShowAll: () => showAll,
+      drawOrder:-98
     })
 
     return bubble
@@ -75,11 +76,14 @@ function Navigator(spec) {
     const highlightedLevels = _.filter(bubbles, v => v.hilighted || showAll)
 
     const nicks = _.map(highlightedLevels, v => v.nick)
-    // nicks.push(nick)
-  // console.log(`Revealing hilighted levels ${nicks}, starting from ${nick}`)
-
+    console.log(`Revealing hilighted levels ${nicks}, starting from ${nick}`)
+    
     moveToLevel(nick, 0, () => {
+      assets.sounds.map_zoom_out.play()
       moveToLevel(nick, 0.5, () => {
+        if (nicks.length > 0 && nicks[0] != nick)
+          assets.sounds.map_zoom_highlighted.play()
+
         setTimeout(() => {
           moveToLevel(nicks, 1)
         }, 0)
@@ -132,6 +136,7 @@ function Navigator(spec) {
       if (showAll) {
         moveToLevel([], 1)
         ui.showAllButton.setAttribute('hide', true)
+        assets.sounds.map_zoom_show_all.play()
         showAllUsed = true
       }
       else {

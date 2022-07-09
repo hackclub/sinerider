@@ -14,10 +14,17 @@ worldData.push({
       sam_float: '.svg',
       sam_float_left: '.svg',
       sam_stand_snowball: 'sam_float_left.svg',
-      tree_1: '.png',
       cabin_1: '.png',
       cabin_1_front: '.png',
       world_map: '.svg',
+      cloud1: '.png',
+      cloud2: '.png',
+      cloud3: '.png',
+      cloud3: '.png',
+      tree: '.png',
+      initial_bg:'initial-bg.jpeg',
+      logo_text:'.png',
+      rock:".png"
     },
     sounds: {
       music: {
@@ -32,6 +39,22 @@ worldData.push({
       restart_button: '.mp3',
       start_running: '.mp3',
       stop_running: '.mp3',
+      map_zoom_in: {
+        src: 'woosh_out.wav',
+        rate: 1.2,
+      },
+      map_zoom_out: {
+        src: 'woosh_out.wav',
+        rate: 0.8,
+      },
+      map_zoom_highlighted: {
+        src: 'woosh_out.wav',
+        rate: 0.6,
+      },
+      map_zoom_show_all: {
+        src: 'woosh_out.wav',
+        rate: 0.4,
+      },
       path_goal_start: '.mp3',
       path_goal_continue: '.mp3',
     },
@@ -42,7 +65,7 @@ worldData.push({
   levelData: [{
     name: 'Welcome',
     nick: 'HELLO_WORLD',
-    colors: Colors.biomes.alps,
+    colors: Colors.biomes.home,
     x: 0,
     y: 0,
     requirements: [],
@@ -50,6 +73,12 @@ worldData.push({
     flashRunButton: true,
     defaultExpression: '\\frac{-2}{1+e^{-x+5}}+\\frac{-2}{1+\\left(x-28\\right)^2}',
     hint: 'congratulations, you found the secret hint!',
+    camera: {
+      offset: {
+        x: 0,
+        y: 0.3,
+      }
+    },
     goals: [
       {
         type: 'dynamic',
@@ -65,31 +94,25 @@ worldData.push({
         x: 0.3,
         content: 'snow!!',
         direction: Vector2(0.5, 1),
-        distance: 1.2
+        distance: 1.2,
+        color: '#fff',
       }
     }],
     sprites: [
-    // {
-    //   asset: 'images.cabin_1',
-    //   size: 6,
-    //   x: 1,
-    //   y: -0.2,
-    //   drawOrder: -3,
-    // },
-    // {
-    //   asset: 'images.cabin_1_front',
-    //   size: 6,
-    //   x: 1,
-    //   y: -0.2,
-    //   drawOrder: -1,
-    // },
-    // {
-    //   asset: 'images.tree_1',
-    //   size: 8,
-    //   x: 6,
-    //   y: -0.05,
-    //   drawOrder: -3,
-    // },
+    {
+      asset: 'images.cabin_1',
+      size: 6,
+      x: -4,
+      y: -0.2,
+      drawOrder: -3,
+    },
+    {
+      asset: 'images.cabin_1_front',
+      size: 6,
+      x: -4,
+      y: -0.2,
+      drawOrder: -1,
+    },
     {
       asset: 'images.sam_stand_snowball',
       size: 2,
@@ -103,30 +126,126 @@ worldData.push({
         content: 'now hit the green button ⇲',
         direction: 'up-left',
         distance: 1.6,
+        color: '#fff',
         speech: {
           x: -1.5,
           content: 'yes, snow.',
           direction: 'up-up-left',
           distance: 0.8,
+          color: '#fff',
         }
-      }
-    }],
-    texts: [{
-      x: 20,
-      y: 8,
-      size: 3.5,
-      content: 'SineRider'
+      },
+    },
+    {
+      asset: 'images.tree*',
+      flipX: "*",
+      size: 1.7,
+      x: -6.4,
+      y: 0,
+      drawOrder: 0,
+      anchored:true
+    },
+    {
+      asset: 'images.tree*',
+      flipX: "*",
+      size: 2.2,
+      x: -8.8,
+      y: 0,
+      drawOrder: 0,
+      anchored:true
     },{
+      asset: 'images.tree*',
+      flipX: "*",
+      size: 2.1,
+      x: -3.6,
+      y: 0,
+      drawOrder: 0,
+      anchored:true
+    },
+    {
+      asset: 'images.tree*',
+      flipX: "*",
+      size: 2.4,
+      x: 13,
+      y: 0,
+      drawOrder: 0,
+      anchored:true
+    },
+    {
+      asset: 'images.tree*',
+      flipX: "*",
+      size: 2.3,
+      x: 21,
+      y: 0,
+      drawOrder: 0,
+      anchored:true
+    },
+    {
+      asset: 'images.tree*',
+      flipX: "*",
+      size: 2.9,
+      x: 10,
+      y: 0,
+      drawOrder: 0,
+      anchored:true
+    },
+    {
+      asset: 'images.tree*',
+      flipX: "*",
+      size: 2.1,
+      x: 34.2,
+      y: 0,
+      drawOrder: 0,
+      anchored:true
+    },
+    {
+      asset: 'images.tree*',
+      flipX: "*",
+      size: 2.4,
+      x: 36.3,
+      y: 0,
+      drawOrder: 0,
+      anchored:true
+    },
+    {
+      asset: 'images.logo_text',
+      size: 28,
+      x: 20,
+      y: 11,
+      drawOrder: 0,
+      anchored: false,
+    }
+  ],
+    texts: [{
       x: 14,
-      y: -13,
+      y: -7.5,
       size: 1,
+      fill: '#ffffff',
       content: 'WIP Pre-Alpha. Don’t distribute yet!'
     },{
       x: 14,
-      y: -11,
+      y: -5.5,
       size: 1.5,
+      fill: '#ffffff',
       content: 'A game about love and graphing.'
     }],
+    sky: {
+      asset:"images.initial_bg",
+      margin:3
+    },
+    clouds: {
+      velocity: 0.4,
+      heights:[4,4.8]
+    },
+    snow: {
+      density:0.4,
+      maxHeight: 4.8,
+      velocity: {
+        x:0.2,
+        y:0.4
+      }
+    },
+    textBubbles: [{content:"this one!", domSelector:"#run-button", place:"top-left", destroyOnClick:true, style: {fontSize:"1.1rem"}}]
   },/*{
     name: 'Random',
     nick: 'RANDOM',

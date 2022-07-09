@@ -8,7 +8,8 @@
 
     <link rel="preconnect" href="https://fonts.gstatic.com"> 
     <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Roboto&family=Roboto+Mono&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Edu+QLD+Beginner&display=swap" rel="stylesheet">
+    
     <link href='App/style.css' rel='stylesheet' type='text/css'/>
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 
@@ -39,6 +40,11 @@
       </div>
     </div>
 
+    <div id="left-bar">
+      <div id='dotted-math-field-static'></div>
+      <input id="dotted-slider" type="range" orient="vertical" hidden="true"/>  
+    </div>
+      
     <div class='bar menu' id='menu-bar' hide=false>
       <div class='button' id='edit-button' hide=true>
         <div class='string'>Edit</div>
@@ -189,7 +195,11 @@
     <script src='Types/Entities/Sledder.js'></script>
     <script src='Types/Entities/Walker.js'></script>
     <script src='Types/Entities/LevelBubble.js'></script>
-
+    <script src='Types/Entities/TextBubble.js'></script>
+    <script src='Types/Entities/CloudRow.js'></script>
+    <script src='Types/Entities/Sky.js'></script>
+    <script src='Types/Entities/SnowFall.js'></script>
+    
     <!-- Load World Data -->
     <script src='App/Levels/slope.js'></script>
     <script src='App/Levels/parabola.js'></script>

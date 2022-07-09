@@ -46,6 +46,19 @@ function Graph(spec) {
   const minWorldPoint = Vector2()
   const maxWorldPoint = Vector2()
 
+  const terrainLayers = 15
+  const terrainParameters = []
+  for (let i = 0; i < terrainLayers; i++) {
+    scalar = math.lerp(1, 3, Math.random())
+    terrainParameters.push([
+      math.lerp(0, 2*PI, Math.random()),
+      math.lerp(0.3, 2, Math.random()),
+      math.lerp(2, 4, Math.random())*scalar,
+      math.lerp(1, 2, Math.random())*scalar,
+      math.lerp(0.05, 0.15, Math.random()),
+    ])
+  }
+  
   resample()
 
   function tick() {
@@ -77,6 +90,9 @@ function Graph(spec) {
       ctx.fill()
 
       ctx.clip()
+
+      for (let i = 0; i < terrainLayers; i++)
+        drawSine.apply(null, terrainParameters[i])
     }
 
     if (stroke) {
@@ -104,6 +120,32 @@ function Graph(spec) {
     ctx.restore()
   }
 
+  function drawSine(xOffset=0, yOffset=0, xScale=1, yScale=1, opacity=0.5) {
+    ctx.beginPath()
+    
+    ctx.globalAlpha = opacity
+    camera.worldToScreen(samples[0], screenSpaceSample)
+    ctx.moveTo(screen.width, screen.height)
+    ctx.lineTo(0, screen.height)
+
+
+    for (let i = 0; i < sampleCount; i++) {
+      const x = samples[i].x;
+      const increasedX = x + 50;
+      // const 
+      if (!window.logged) console.log(samples[i]);
+      window.logged = true;
+      camera.worldToScreen(samples[i], screenSpaceSample)
+      const y = screenSpaceSample.y+((Math.sin(((x+xOffset)/xScale))+1)*camera.worldToScreenScalar(1))*yScale+yOffset*camera.worldToScreenScalar(1)
+      ctx.lineTo(screenSpaceSample.x, y)
+    }
+    
+    ctx.fillStyle = _.isString(colors.groundPattern) ? colors.groundPattern : _.sample(colors.groundPattern)
+    ctx.fill()
+
+    ctx.globalAlpha = 1
+  }
+  
   function resample() {
     camera.frameToWorld(screen.minFramePoint, minWorldPoint)
     camera.frameToWorld(screen.maxFramePoint, maxWorldPoint)

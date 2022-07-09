@@ -72,6 +72,7 @@ function World(spec) {
       setLevel,
       active: false,
       parent: self,
+      drawOrder:-1000
     })
 
     if (_.endsWith(location.href, '#random'))
@@ -114,6 +115,7 @@ function World(spec) {
       active: !navigating,
       levelCompleted,
       tickDelta,
+      isBubbleLevel:false
     })
 
     level.playOpenMusic()

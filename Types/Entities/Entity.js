@@ -22,7 +22,8 @@ function Entity(spec, defaultName = 'Entity') {
   // Inherit the fundamentals TODO: Make fundamentals a key/value abstraction
   if (parent) {
     parent.addChild(self)
-
+    parent.root.addDescendant(self)
+    
     if (!camera)
       camera = parent.camera
     if (!assets)
@@ -54,18 +55,19 @@ function Entity(spec, defaultName = 'Entity') {
   })
 
   const children = []
-
+  const drawArray = parent ? [] : [self]
+  
   const lifecycle = {
     awake: {
-      entity: [awake],
+      entity: [],
       component: [],
     },
     start: {
-      entity: [start],
+      entity: [],
       component: [],
     },
     destroy: {
-      entity: [destroy],
+      entity: [],
       component: [],
     },
   }
@@ -75,28 +77,22 @@ function Entity(spec, defaultName = 'Entity') {
 
   // Called when the entity is fully constructed
   function awake() {
-    // console.log(`Awakening ${name}`)
+    sendLifecycleEvent('awake')
   }
 
   // Called just before the entity's first tick
   function start() {
-    // console.log(`Starting ${name}`)
-  }
-
-  // Called every frame at a fixed timestep
-  function tick() {
-    // console.log(`Ticking ${name}`)
-  }
-
-  // Called every time the canvas is redrawn
-  function draw() {
-    // console.log(`Drawing ${name}`)
+    sendLifecycleEvent('start')
   }
 
   // Called when the object is to be fully removed from memory
   function destroy() {
-    if (parent)
+    if (parent) {
+      self.root.removeDescendant(self)
       parent.removeChild(self)
+    }
+
+    sendLifecycleEvent('destroy')
   }
 
   function sendLifecycleEvent(path) {
@@ -138,8 +134,11 @@ function Entity(spec, defaultName = 'Entity') {
 
     if (_.isFunction(other.start))
       lifecycle.start.entity.push(other.start)
-
-    return _.mixIn(self, other)
+      
+    if (_.isFunction(other.destroy))
+      lifecycle.destroy.entity.push(other.destroy)
+      
+    return _.mixIn(self, other, {start, awake, destroy})
   }
 
   function hasChild(child) {
@@ -211,21 +210,30 @@ function Entity(spec, defaultName = 'Entity') {
     return name
   }
 
+  function addDescendant(descendant) {
+    drawArray.push(descendant)
+    sortDrawArray()
+  }
+
+  function removeDescendant(descendant) {
+    drawArray.splice(drawArray.indexOf(descendant), 1)
+  }
+
+  function sortDrawArray() {
+    drawArray.sort((a, b) => a.drawOrder-b.drawOrder)
+  }
+  
   return _.mixIn(self, {
     awake,
     start,
-
-    tick,
-    draw,
-
+    
     destroy,
 
     get name() {return name},
     set name(v) {name = v},
 
     lifecycle,
-    sendLifecycleEvent,
-
+    
     mix,
     sendEvent,
     sendLifecycleEvent,
@@ -234,6 +242,12 @@ function Entity(spec, defaultName = 'Entity') {
     addChild,
     removeChild,
 
+    addDescendant,
+    removeDescendant,
+
+    drawArray,
+    sortDrawArray,
+    
     findChild,
     findDescendant,
 
@@ -253,9 +267,24 @@ function Entity(spec, defaultName = 'Entity') {
     get active() {return active},
     set active(v) {setActive(v)},
 
-    get drawOrder() {return drawOrder},
-    set drawOrder(v) {drawOrder = v},
+    get activeInHierarchy() {
+      if (!active)
+        return false
 
+      if (parent)
+        return parent.activeInHierarchy
+
+      return true
+    },
+    
+    get drawOrder() {return drawOrder},
+    set drawOrder(v) {
+      if (drawOrder != v)
+        self.root.sortdrawArray()
+      
+      drawOrder = v
+    },
+    
     get debug() {return debugSelf || debugTree},
   })
 }
