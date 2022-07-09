@@ -65,7 +65,7 @@ function Level(spec) {
   })
 
   const axes = Axes({
-    drawOrder: 0.5,
+    drawOrder: -5,
     camera,
     globalScope,
     parent: self,
@@ -364,7 +364,8 @@ function Level(spec) {
         globalScope,
         velocity: datum.clouds.velocity,
         heights: datum.clouds.heights,
-        drawOrder:-5
+        drawOrder: 50,
+        ...datum.clouds,
       })
     if (datum.sky) 
       Sky({
@@ -374,7 +375,8 @@ function Level(spec) {
         asset:datum.sky.asset,
         margin: datum.sky.margin,
         screen,
-        drawOrder:-10
+        drawOrder:-10,
+        ...datum.sky,
       })
     if (datum.snow) 
       SnowFall({
@@ -382,11 +384,12 @@ function Level(spec) {
         camera,
         globalScope,
         screen,
-        drawOrder:-1,
         density: datum.snow.density,
-        velocityX:datum.snow.velocity.x,
-        velocityY:datum.snow.velocity.y,
-        maxHeight: datum.snow.maxHeight
+        velocityX: datum.snow.velocity.x,
+        velocityY: datum.snow.velocity.y,
+        maxHeight: datum.snow.maxHeight,
+        drawOrder: 20,
+        ...datum.snow,
       })
 
     if (datum.slider && !isBubbleLevel) {

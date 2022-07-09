@@ -38,7 +38,6 @@ function CloudRow(spec) {
                     size: 2,
                     x: cloudPos,
                     y: Math.random() * (heights[1] - heights[0] + 1) + heights[0],
-                    drawOrder: -3
                 }))
                 vels.push(velocity)
                 pos.push(cloudPos) 
@@ -75,7 +74,6 @@ function CloudRow(spec) {
                 size: 2,
                 x: cloudPos,
                 y: Math.random() * (heights[1] - heights[0] + 1) + heights[0],
-                drawOrder: -3
             }))
             vels.push((Math.random()+0.03)*velocity)
             pos.push(cloudPos) 

@@ -61,8 +61,8 @@ function SnowFall(spec) {
             ctx.arc(flake[0], -flake[1], 0.03+0.03*flake[2], 0, 2 * Math.PI);
             ctx.fillStyle = "white";
             ctx.fill();
-            ctx.lineWidth = 0.01
-            ctx.stroke();
+            // ctx.lineWidth = 0.01
+            // ctx.stroke();
         }
     }
 

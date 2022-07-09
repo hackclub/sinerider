@@ -38,6 +38,8 @@ function Entity(spec, defaultName = 'Entity') {
       ui = parent.ui
     if (!debugTree)
       debugTree = parent.debugTree
+    if (_.isUndefined(spec.drawOrder))
+      drawOrder = parent.drawOrder
   }
   
   const ctx = screen ? screen.ctx : null
