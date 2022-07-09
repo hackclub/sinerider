@@ -36,12 +36,16 @@ worldData.push({
       path_goal_continue: '.mp3',
     },
     shaders: {
+<<<<<<< HEAD
       blend_frag: 'blend.frag',
       points_frag: 'points.frag',
       points_vert: 'points.vert',
       quad_frag: 'quad.frag',
       quad_vert: 'quad.vert',
       sunset_frag: 'sunset.frag',
+=======
+      default: '.frag'
+>>>>>>> master
     }
   },
   levelData: [{

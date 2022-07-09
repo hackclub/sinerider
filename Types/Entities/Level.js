@@ -10,8 +10,6 @@ function Level(spec) {
     globalScope,
     levelCompleted,
     datum,
-    quad,
-    isConstantLake,
   } = spec
 
   let {
