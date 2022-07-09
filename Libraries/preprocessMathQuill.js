@@ -116,7 +116,7 @@ function convertSubscript(expr) {
  * Recursively replaces LaTeX fractions with normal divison
  *   - example: \frac{a}{1 + \frac{b}{c}}x^2 + 1 --> ({a}/{1 + {b}/{c}})x^2 + 1
  */
-function fracToDivision(expr) {
+ function fracToDivision(expr) {
   const frac = '\\frac'
   const fracStart = expr.indexOf(frac)
   const numStart = fracStart + frac.length

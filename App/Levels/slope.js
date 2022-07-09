@@ -49,7 +49,7 @@ const SLOPE = [{
     content: 'Edit this function to hit it!'
   }],
   slider: {expression:"nx", bounds:[-1,1,-1]},
-  textBubbles: [{content:"Click here to edit your function", domSelector:"#expression-envelope", place:"top-right", destroyOnClick:true}, {content:"slide me up", domSelector:"#left-bar", place:"top-left", destroyOnClick:true}]
+  textBubbles: [{content:"Click here to edit your function", domSelector:"#expression-envelope", place:"top-right", destroyOnClick:true}, {content:"slide me up", domSelector:"#dotted-slider-box", place:"bottom-left",destroyOnClick:true}]
 },
 {
   name: 'Try facing forwards?',
@@ -138,6 +138,7 @@ const SLOPE = [{
     walkers: {
       x: -6,
       asset: 'images.sam_float',
+      bobSpeed: 0.918218,
       speech: [{
         speakerX: -0.4,
         content: 'It\'s beautiful!',
@@ -160,7 +161,7 @@ const SLOPE = [{
         speakerX: -0.4,
         content: 'I do love you, though.',
         direction: 'up-up-left',
-        domain: [17, 20],
+        domain: [17, 24],
         distance: 1.3,
       }],
     },
@@ -222,13 +223,44 @@ const SLOPE = [{
     {
       asset: 'images.rock',
       flipX: "*",
-      size: 1,
-      x: -2,
-      y: 0,
+      size: 0.9,
+      x: -8,
+      y: -0.2,
       drawOrder: 0,
       anchored:true
-    }
-  ]
+    },
+    {
+      asset: 'images.rock',
+      flipX: "*",
+      size: 0.9,
+      x: 2,
+      y: -0.2,
+      drawOrder: 0,
+      anchored:true
+    },
+    {
+      asset: 'images.rock',
+      flipX: "*",
+      size: 0.9,
+      x: 8,
+      y: -0.2,
+      drawOrder: 0,
+      anchored:true
+    },
+    {
+      asset: 'images.rock',
+      flipX: "*",
+      size: 0.9,
+      x: 12,
+      y: -0.2,
+      drawOrder: 0,
+      anchored:true
+    },
+  ],
+  clouds: {
+    velocity: 0.1,
+    heights:[4,4.8]
+  },
 },
 {
   name: 'A real steep hill',

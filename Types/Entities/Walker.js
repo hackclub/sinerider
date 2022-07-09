@@ -19,6 +19,7 @@ function Walker(spec) {
     following = null,
     followDistance = 2,
     domainTransform = null,
+    bobSpeed = 0.6,
   } = spec
 
   if (!_.isArray(walkers))
@@ -55,8 +56,8 @@ function Walker(spec) {
   let walkSpeed = 1
 
   let floatCycle = 0
-  let floatCycleSpeed = 0.6
-
+  let floatCycleSpeed = bobSpeed
+  
   let floatBob = 0
   let floatBobCoefficient = 0.12
   let floatBobHeight = 0.2
