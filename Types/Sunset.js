@@ -116,16 +116,8 @@ function Sunset(canvas, assets) {
           const normX = newParticlePositions[index]
           const normY = newParticlePositions[index + 1]
 
-          const x = (normX - .5) * 10
-          const y = (normY - .5) * 10
-
-          const [dx, dy] = vectorField(x, y, t)
-
-          const newX = eta * dx + normX
-          const newY = eta * dy + normY
-
           // If out of bounds of canvas then reset
-          if (Math.abs(newX) > 1 || Math.abs(newY) > 1) {
+          if (Math.abs(normX) > 1 || Math.abs(normY) > 1) {
               const resetX = Math.random()
               const resetY = Math.random()
               
@@ -143,16 +135,26 @@ function Sunset(canvas, assets) {
               particleColors[colIndex + 2] = col[2]
 
               livedFor[i] = 0
-          } else {
-              // otherwise nudge w/ gradient
-              oldParticlePositions[index] = normX
-              oldParticlePositions[index + 1] = normY
 
-              newParticlePositions[index] = newX
-              newParticlePositions[index + 1] = newY
-
-              livedFor[i] += 0.03
+              continue
           }
+
+          const x = (normX - .5) * 10
+          const y = (normY - .5) * 10
+
+          const [dx, dy] = vectorField(x, y, t)
+
+          const newX = eta * dx + normX
+          const newY = eta * dy + normY
+
+          // otherwise nudge w/ gradient
+          oldParticlePositions[index] = normX
+          oldParticlePositions[index + 1] = normY
+
+          newParticlePositions[index] = newX
+          newParticlePositions[index + 1] = newY
+
+          livedFor[i] += 0.03
       }
   }
 
