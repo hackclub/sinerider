@@ -468,8 +468,8 @@ input[valid=false] {
   left:90%;
 }
 .bottom-left {
-  top:calc(80% + 20px);
-  right:90%;
+  right:23% !important;
+  top:103% !important;
 }
 .bottom-right {
   top:calc(80% + 20px);
@@ -528,7 +528,7 @@ input[valid=false] {
   margin-bottom: auto; 
   font-weight: bold;
   font-family:monospace;
-  color:greenyellow; 
+  color:rgb(0,255,0); 
 }
 
 
@@ -538,5 +538,5 @@ input[valid=false] {
   width: 8px;
   height: 175px;
   padding: 0 5px;
-  accent-color: yellow;
+  accent-color: rgb(0,255,0);
 }

@@ -49,7 +49,7 @@ const SLOPE = [{
     content: 'Edit this function to hit it!'
   }],
   slider: {expression:"nx", bounds:[-1,1,-1]},
-  textBubbles: [{content:"Click here to edit your function", domSelector:"#expression-envelope", place:"top-right", destroyOnClick:true}, {content:"slide me up", domSelector:"#left-bar", place:"top-left", destroyOnClick:true}]
+  textBubbles: [{content:"Click here to edit your function", domSelector:"#expression-envelope", place:"top-right", destroyOnClick:true}, {content:"slide me up", domSelector:"#dotted-slider-box", place:"bottom-left",destroyOnClick:true}]
 },
 {
   name: 'Try facing forwards?',
