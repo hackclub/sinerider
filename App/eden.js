@@ -209,9 +209,9 @@ worldData.push({
     },
     {
       asset: 'images.logo_text',
-      size: 28,
+      size: 20,
       x: 20,
-      y: 11,
+      y: 13,
       drawOrder: 0,
       anchored: false,
     }
@@ -235,7 +235,7 @@ worldData.push({
     },
     clouds: {
       velocity: 0.4,
-      heights:[4,4.8]
+      heights:[4,4.8],
     },
     snow: {
       density:0.4,
