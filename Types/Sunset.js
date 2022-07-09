@@ -119,7 +119,7 @@ function Sunset(canvas, assets) {
           const x = (normX - .5) * 10
           const y = (normY - .5) * 10
 
-          const [dx, dy] = vectorField(x, y)
+          const [dx, dy] = vectorField(x, y, t)
 
           const newX = eta * dx + normX
           const newY = eta * dy + normY
@@ -173,11 +173,11 @@ function Sunset(canvas, assets) {
   const step = utils.Framebuffer()
 
 
-  let last = performance.now()
+  let last = null
 
   function update(vectorField) {
       const now = performance.now()
-      const delta = now - last
+      const delta = last ? now - last : 0
       last = now
 
       t += delta * 0.00005

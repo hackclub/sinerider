@@ -371,19 +371,20 @@ function Level(spec) {
         ...datum.clouds,
       })
     // Constant Lake sunset scene
-    if (datum.name === 'Constant Lake') {
+    if (!isBubbleLevel && 
+        datum.name === 'Constant Lake') {
       console.log('loaded shader', datum)
       shader = Shader({
         parent: self,
         screen,
         assets,
         quad,
-        drawOrder: -100000,
+        drawOrder: -10,
       })
       setTimeout(() => {
         ui.vectorMathField.latex('x + y \\cdot i')
         ui.vectorMathContainer.style.display = 'block'
-      }, 4000)
+      }, 12000)
     } else {
       shader = null
       ui.vectorMathContainer.style.display = 'none'
@@ -459,7 +460,6 @@ function Level(spec) {
     graph.expression = text
     ui.expressionEnvelope.setAttribute('valid', graph.valid)
 
-    console.log('latex', latex)
     ui.mathFieldStatic.latex(latex)
 
     _.invokeEach(sledders, 'reset')

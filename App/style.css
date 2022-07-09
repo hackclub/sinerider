@@ -553,7 +553,7 @@ input[valid=false] {
 
 @keyframes translateAndAppear {
   from { margin-left: calc(-98px - 10px); opacity: 0; }
-  to { margin-left: 50px; opacity: 1; }
+  to { margin-left: 30px; opacity: 1; }
 }
 
 #vector-math-field-container {

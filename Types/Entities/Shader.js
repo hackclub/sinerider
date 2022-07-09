@@ -20,8 +20,8 @@ function Shader(spec) {
 
   evaluator = math.compile('x + y * i')
 
-  vectorField = (x, y) => {
-    const c = evaluator.evaluate({ x, y })
+  vectorField = (x, y, t) => {
+    const c = evaluator.evaluate({ x, y, t })
     
     // Either real or complex
     return typeof c === 'number'
@@ -44,18 +44,9 @@ function Shader(spec) {
     quad.update(vectorField)
   }
 
-  function drawLocal() {
-    // quad.draw()
-    // ctx.drawImage(quad.getBuffer(), -xSize/2, -ySize/2 - 3, xSize, ySize - 3)
-  }
-
   function draw() {
-    
     quad.draw()
     ctx.drawImage(quad.getBuffer(), 0, 0, screen.width, screen.height)
-
-    // drawLocal()
-    // camera.drawThrough(ctx, drawLocal, transform)
   }
 
   function resize() {

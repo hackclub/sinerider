@@ -85,7 +85,7 @@ function LevelBubble(spec) {
     parent: self,
     useDragCamera: false,
     isBubbleLevel:true,
-    drawOrder: 99.5
+    drawOrder: 99.5,
   })
 
   const ctx = screen.ctx
