@@ -223,13 +223,44 @@ const SLOPE = [{
     {
       asset: 'images.rock',
       flipX: "*",
-      size: 1,
-      x: -2,
-      y: 0,
+      size: 0.9,
+      x: -8,
+      y: -0.2,
       drawOrder: 0,
       anchored:true
-    }
-  ]
+    },
+    {
+      asset: 'images.rock',
+      flipX: "*",
+      size: 0.9,
+      x: 2,
+      y: -0.2,
+      drawOrder: 0,
+      anchored:true
+    },
+    {
+      asset: 'images.rock',
+      flipX: "*",
+      size: 0.9,
+      x: 8,
+      y: -0.2,
+      drawOrder: 0,
+      anchored:true
+    },
+    {
+      asset: 'images.rock',
+      flipX: "*",
+      size: 0.9,
+      x: 12,
+      y: -0.2,
+      drawOrder: 0,
+      anchored:true
+    },
+  ],
+  clouds: {
+    velocity: 0.1,
+    heights:[4,4.8]
+  },
 },
 {
   name: 'A real steep hill',
