@@ -211,12 +211,9 @@ function Speech(spec) {
     ctx.font = '1px '+font
 
     ctx.save()
-    const textSize = ctx.measureText(content)
-    ctx.fillRect(0, 0, textSize.width, textSize.height)
     ctx.translate(textOriginScreen.x, textOriginScreen.y)
     ctx.scale(size*scalar, size*scalar)
     ctx.fillText(content, 0, 0)
-    ctx.fillStyle = '#000000'
     ctx.restore()
   }
 

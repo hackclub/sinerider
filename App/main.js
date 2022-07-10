@@ -75,9 +75,9 @@ const screen = Screen({
 let w = worldData[0]
 
 // make Constant Lake first level for testing
-const tmp = w.levelData[0]
-w.levelData[0] = w.levelData[3]
-w.levelData[3] = tmp
+// const tmp = w.levelData[0]
+// w.levelData[0] = w.levelData[3]
+// w.levelData[3] = tmp
 
 const world = World({
   ui,
