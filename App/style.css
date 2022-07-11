@@ -551,13 +551,6 @@ input[valid=false] {
   align-items: center;
 }
 
-@keyframes translateAndAppear {
-  from { margin-left: calc(-98px - 10px); opacity: 0; }
-  to { margin-left: 30px; opacity: 1; }
-}
-
 #vector-math-field-container {
   display: none; /* Only visible for Constant Lake/vector field scene */
-  animation: translateAndAppear 2.5s ease-out 0s 1 forwards running;
-  /* animation: appear 10s linear 0s 1 forwards fill-mode; */
 }

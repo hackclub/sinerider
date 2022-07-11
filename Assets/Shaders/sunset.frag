@@ -15,7 +15,7 @@ void main(void) {
 
     vec3 col = vec3(0.);
     
-    vec2 sunPos = vec2(0.5, 0.4 - 0.45 * iTime/5.);
+    vec2 sunPos = vec2(0.5, 0.45 - 0.45 * iTime/5.);
     
     vec3 skyCol = mix(
         mix(vec3(0.313725, 0.768627, 1.), vec3(0.109803, 0., 0.239215), 1. - 1./(1. + pow(iTime/4., 3.))),
@@ -28,7 +28,7 @@ void main(void) {
     skyCol = mix(skyCol, .7 * vec3(1., 0.349019, 0.) * (1. - uv.y), min(1.0, 1.0 - sunPos.y));
 
     // darken to purple
-    skyCol = mix(skyCol, vec3(0.109803, 0., 0.239215), 1. - 1./(1. + pow(iTime/5., 3.)));
+    skyCol = mix(skyCol, vec3(0.109803, 0., 0.239215), 1. - 1./(1. + pow(iTime/3., 3.)));
 
     
     col += skyCol;
@@ -68,7 +68,7 @@ void main(void) {
     
     float dist = distance(uv, sunPos);
     // float s = 1.-smoothstep(0.11, 0.13, dist);
-    float glow = .1/dist;
+    float glow = pow(.1/dist, 1.5);
     col += vec3(1., 1., 0.250980) * min(1., glow);
 
 
@@ -80,12 +80,12 @@ void main(void) {
   */  
     
     // fade to black
-    col = mix(col, vec3(0.050980, 0.058823, 0.117647), smoothstep(0., 10., iTime));
+    col = mix(col, vec3(0.050980, 0.058823, 0.117647), smoothstep(0., 5., iTime));
 
     vec2 sampleUv = gl_FragCoord.xy/resolution.xy;
 
     vec3 starCol = texture2D(stars, sampleUv).rgb;
-    col = mix(col, starCol, (1.0 - length(col)) * smoothstep(0., 10., iTime));
+    col = mix(col, starCol, (1.0 - length(col)) * smoothstep(0., 6., iTime));
 
 
     //col = mix(col, vec3(1., 0.349019, 0.), clamp(0., 1., 1. - abs(uv.y - sunPos.y)));

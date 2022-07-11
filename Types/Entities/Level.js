@@ -131,6 +131,11 @@ function Level(spec) {
   }
 
   function draw() {
+    if (datum.name === 'Constant Lake' && 
+        walkers[0] &&
+        walkers[0].transform.position)
+      drawConstantLakeEditor(walkers[0].transform.position.x)
+
     screen.ctx.save()
     screen.ctx.scale(1, screen.height)
     screen.ctx.fillStyle = skyGradient
@@ -352,6 +357,40 @@ function Level(spec) {
     refreshLowestOrder()
   }
 
+  let isVectorEditorActive = false
+
+  function drawConstantLakeEditor(walkerPositionX) {
+    if (walkerPositionX > 6.5) {
+      if (!isVectorEditorActive) {
+        ui.vectorMathField.latex('x + y \\cdot i')
+        isVectorEditorActive = true
+        ui.vectorMathContainer.style.display = 'block'
+        ui.vectorMathContainer.animate([
+          { marginLeft: 'calc(-98px - 10px)', opacity: '0' },
+          { marginLeft: '30px', opacity: '1' },
+        ], {
+          duration: 1700,
+          easing: 'ease-out',
+          fill: 'forwards'
+        })
+      }
+    } else if (walkerPositionX < 5 && isVectorEditorActive) {
+      isVectorEditorActive = false
+
+      const animation = ui.vectorMathContainer.animate([
+        { marginLeft: '30px', opacity: '1' },
+        { marginLeft: 'calc(-98px - 10px)', opacity: '0' },
+      ], {
+        duration: 1700,
+        easing: 'ease-out',
+      })
+
+      animation.onfinish = () => {
+        ui.vectorMathContainer.style.display = 'none'
+      }
+    }
+  }
+
   function loadDatum(datum) {
     _.each(datum.sprites, addSprite)
     _.each(datum.walkers, addWalker)
@@ -380,10 +419,9 @@ function Level(spec) {
         assets,
         quad,
         drawOrder: -10,
+        walkerPosition: walkers[0].transform.position
       })
       setTimeout(() => {
-        ui.vectorMathField.latex('x + y \\cdot i')
-        ui.vectorMathContainer.style.display = 'block'
       }, 12000)
     } else {
       shader = null

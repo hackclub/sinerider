@@ -192,7 +192,8 @@ function Sunset(canvas, assets) {
       particleColorBuffer.data(particleColors)
   }
 
-  function draw() {
+  // Pass in progress parameter (x distance)
+  function draw(progress) {
       const start = performance.now()
 
       // draw points
@@ -240,7 +241,7 @@ function Sunset(canvas, assets) {
       sunsetProgram.use()
           .vertices(quad)
           .uniform('resolution', [ canvas.width, canvas.height ])
-          .uniform('time', t)
+          .uniform('time', progress)
           .uniformi('texture', 0)
           .viewport(canvas.width, canvas.height)
           .draw(gl.TRIANGLE_STRIP, 4)
