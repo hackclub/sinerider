@@ -132,7 +132,7 @@ const SLOPE = [{
       speakerX: 0.3,
       content: 'NOT AS BEAUTIFUL AS YOU M\'LOVELY',
       direction: 'up-up-right',
-      domain: [6, 9],
+      domain: [6, 10],
       distance: 1.3,
     }],
     walkers: {
@@ -149,13 +149,13 @@ const SLOPE = [{
         speakerX: -0.4,
         content: '...',
         direction: 'up-up-left',
-        domain: [8, 11],
+        domain: [9, 12],
         distance: 1.0,
       },{
         speakerX: -0.4,
-        content: 'You\'re such a dork.',
+        content: '…you\'re such a dork.',
         direction: 'up-up-left',
-        domain: [11, 14],
+        domain: [12, 15],
         distance: 1.3,
       },{
         speakerX: -0.4,

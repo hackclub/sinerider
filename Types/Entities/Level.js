@@ -399,7 +399,7 @@ function Level(spec) {
         globalScope,
         expression: datum.slider.expression.replace("n", "0"),
         parent: self,
-        drawOrder: 1,
+        drawOrder: 102,
         strokeWidth: 0.1,
         strokeColor: 'rgb(0,255,0)',
         dashed: true,
