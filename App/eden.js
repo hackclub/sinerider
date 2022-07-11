@@ -81,7 +81,7 @@ worldData.push({
     camera: {
       offset: {
         x: 0,
-        y: 0.55,
+        y: 0.53,
       }
     },
     goals: [
