@@ -236,7 +236,7 @@ worldData.push({
     }],
     sky: {
       asset:"images.initial_bg",
-      margin:3
+      margin: 1
     },
     clouds: {
       velocity: 0.4,
