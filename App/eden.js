@@ -81,7 +81,7 @@ worldData.push({
     camera: {
       offset: {
         x: 0,
-        y: 0.3,
+        y: 0.55,
       }
     },
     goals: [
@@ -223,13 +223,13 @@ worldData.push({
   ],
     texts: [{
       x: 14,
-      y: -7.5,
-      size: 1,
+      y: -5.5,
+      size: 0.7,
       fill: '#ffffff',
       content: 'WIP Pre-Alpha. Don’t distribute yet!'
     },{
       x: 14,
-      y: -5.5,
+      y: -4,
       size: 1.5,
       fill: '#ffffff',
       content: 'A game about love and graphing.'
