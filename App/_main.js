@@ -15,38 +15,41 @@ const ui = {
   veil: $('#veil'),
   loadingVeil: $('#loading-veil'),
   loadingVeilString: $('#loading-string'),
-  
+
   bubblets: $('.bubblets'),
-  
+
   topBar: $('#top-bar'),
   navigatorButton: $('#navigator-button'),
-  
+
   victoryBar: $('#victory-bar'),
   victoryLabel: $('#victory-label'),
   victoryLabelString: $('#victory-label > .string'),
   victoryStopButton: $('#victory-stop-button'),
   nextButton: $('#next-button'),
-  
+
   messageBar: $('#message-bar'),
   messageBarString: $('#message-bar > .string'),
-  
+
   variablesBar: $('#variables-bar'),
   timeString: $('#time-string'),
 
   controlBar: $('#controls-bar'),
   expressionText: $('#expression-text'),
   expressionEnvelope: $('#expression-envelope'),
-  
+
+  vectorMathContainer: $('#vector-math-field-container'),
+  vectorMathField: $('#vector-math-field'),
+
   mathField: $('#math-field'),
   mathFieldStatic: $('#math-field-static'),
-  
+
   variableLabel: $('#variable-label'),
-  
+
   runButton: $('#run-button'),
   runButtonString: $('#run-button > .string'),
   stopButton: $('#stop-button'),
   stopButtonString: $('#stop-button > .string'),
-  
+
   navigatorFloatingBar: $('#navigator-floating-bar'),
   showAllButton: $('#show-all-button'),
 }
@@ -76,22 +79,20 @@ const world = World({
 // Core methods
 
 function tick() {
-  //console.log(`Ticking! t=${math.floor(runTime*100)/100}`)
-  
+
   world.sendLifecycleEvent('awake')
   world.sendLifecycleEvent('start')
-  
+
   world.sendEvent('tick')
 
   requestDraw()
 }
 
 function draw() {
-  //console.log(`Drawing!`)
-  
+
   if (!canvasIsDirty) return
   canvasIsDirty = false
-  
+
   world.sendEvent('draw')
 }
 
@@ -118,7 +119,6 @@ ui.mathField = MQ.MathField(ui.mathField, {
     edit: function() {
       const text = ui.mathField.getPlainExpression()
       const latex = ui.mathField.latex()
-      console.log(`Expression text changed to: `, text)
       world.level.sendEvent('setGraphExpression', [text, latex])
     }
   }
@@ -141,8 +141,7 @@ function onKeyUp(event) {
 window.addEventListener("keyup", onKeyUp)
 
 function onExpressionTextChanged(event) {
-  console.log(`Expression text changed to: `, ui.expressionText.value)
-  
+
   world.level.sendEvent('setGraphExpression', [ui.expressionText.value])
 }
 

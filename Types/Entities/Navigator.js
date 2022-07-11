@@ -1,6 +1,6 @@
 function Navigator(spec) {
   const self = Entity(spec, 'Navigator')
-  
+
   const {
     screen,
     levelData,
@@ -8,19 +8,20 @@ function Navigator(spec) {
     getEditing,
     setLevel,
     assets,
+    quad,
   } = spec
-  
+
   const camera = Camera({
     screen,
     fov: 20,
     parent: self,
   })
-  
+
   const waypointDirector = WaypointDirector({
     parent: self,
     camera,
   })
-  
+
   const map = Sprite({
     parent: self,
     camera,
@@ -31,21 +32,21 @@ function Navigator(spec) {
     y: -5.5,
     asset: 'images.world_map',
   })
-  
+
   let showAll = false
   let showAllUsed = false
-  
+
   const bubbles = _.map(levelData, createBubble)
-  
+
   function tick() {
-    
+
   }
-  
+
   function draw() {
     screen.ctx.fillStyle = '#fff'
     screen.ctx.fillRect(0, 0, screen.width, screen.height)
   }
-  
+
   function createBubble(levelDatum) {
     const bubble = LevelBubble({
       levelDatum,
@@ -56,14 +57,15 @@ function Navigator(spec) {
       getEditing,
       tickDelta,
       getBubbleByNick,
+      quad,
       parent: self,
       getShowAll: () => showAll,
       drawOrder:-98
     })
-    
+
     return bubble
   }
-  
+
   function getBubbleByNick(nick) {
     for (bubble of bubbles) {
       if (bubble.nick == nick)
@@ -71,13 +73,13 @@ function Navigator(spec) {
     }
     return null
   }
-  
+
   function revealHighlightedLevels(nick) {
     const highlightedLevels = _.filter(bubbles, v => v.hilighted || showAll)
-    
+
     const nicks = _.map(highlightedLevels, v => v.nick)
-    console.log(`Revealing hilighted levels ${nicks}, starting from ${nick}`)
-    
+    // nicks.push(nick)
+
     moveToLevel(nick, 0, () => {
       assets.sounds.map_zoom_out.play()
       moveToLevel(nick, 0.5, () => {
@@ -90,49 +92,47 @@ function Navigator(spec) {
       })
     }, 8)
   }
-  
+
   function moveToLevel(nicks, duration=0, cb, padding=10) {
-    console.log(`Moving to levels ${nicks}`)
-    
+
     if (!_.isArray(nicks))
       nicks = [nicks]
-      
+
     const array = nicks.length == 0 ? bubbles : _.map(nicks, getBubbleByNick)
-    
+
     const position = Vector2()
     const minPosition = Vector2Pinf()
     const maxPosition = Vector2Ninf()
-    
+
     for (bubble of array) {
       position.add(bubble.transform.position)
       minPosition.min(bubble.transform.position)
       maxPosition.max(bubble.transform.position)
     }
-    
+
     if (array.length == 0) {
       maxPosition.set()
       minPosition.set()
     }
-    
+
     minPosition.add(maxPosition, position)
     position.divide(2)
-    
+
     const delta = Vector2(maxPosition).subtract(minPosition)
-    
+
     const fov = Math.max(delta.x, delta.y)/2+padding
-    
+
     waypointDirector.moveTo(null, {
       position,
       fov,
     }, duration, cb)
   }
-  
+
   function setShowAll(_showAll) {
     if (showAll != _showAll) {
       showAll = _showAll
-      
-      console.log(`Setting show all to ${showAll}`)
-      
+
+
       if (showAll) {
         moveToLevel([], 1)
         ui.showAllButton.setAttribute('hide', true)
@@ -141,29 +141,29 @@ function Navigator(spec) {
       }
       else {
       }
-      
+
       refreshBubbles()
     }
   }
-  
+
   function refreshBubbles() {
     _.invokeEach(bubbles, 'refreshPlayable')
   }
-  
+
   return self.mix({
     tick,
     draw,
-    
+
     moveToLevel,
-    
+
     refreshBubbles,
     revealHighlightedLevels,
-    
+
     getBubbleByNick,
-    
+
     get showAll() {return showAll},
     set showAll(v) {setShowAll(v)},
-    
+
     get showAllUsed() {return showAllUsed},
     set showAllUsed(v) {showAllUsed = v},
   })

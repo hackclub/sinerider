@@ -3,7 +3,7 @@ function Text(spec) {
     self,
     screen
   } = Entity(spec, 'Text')
-  
+
   const transform = Transform(spec)
 
   const {
@@ -15,17 +15,17 @@ function Text(spec) {
     baseline = 'middle',
     font = 'Edu QLD Beginner'
   } = spec
-  
+
   let {
     content = 'Hello',
   } = spec
-  
+
   const ctx = screen.ctx
-  
+
   function tick() {
-    
+
   }
-  
+
   function drawLocal() {
     ctx.textAlign = align
     ctx.textBaseline = baseline
@@ -42,11 +42,11 @@ function Text(spec) {
       ctx.strokeText(content, 0, 0)
     }
   }
-  
+
   function draw() {
     camera.drawThrough(ctx, drawLocal, transform)
   }
-  
+
   return self.mix({
     tick,
     draw,

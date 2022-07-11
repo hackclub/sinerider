@@ -1,21 +1,21 @@
 body {
   position: absolute;
-  
+
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  
+
   margin: 0;
   padding: 0;
-  
+
   font-family: 'Roboto Mono';
-  
+
   color: #333;
   background: #fff;
-  
+
   font-size: 18px;
-  
+
   overflow: hidden;
   user-select: none;
 }
@@ -31,17 +31,17 @@ canvas {
 .bar {
   margin: 0;
   padding: 4px;
-  
+
   background: #eee;
-  
+
   border-radius: 5px;
-  
+
   overflow: hidden;
-  
+
   display: flex;
   align-items: stretch;
   justify-content: center;
-  
+
   transition: 0.2s;
 }
 
@@ -60,8 +60,10 @@ body > .bar {
   margin: 0;
 }
 
-.bar > .envelope {
+.bar .envelope {
+  height: 100%;
   display: flex;
+  flex-direction: row;
   border-radius: 5px;
 }
 
@@ -72,7 +74,7 @@ body > .bar {
   overflow: visible;
 }
 
-.floating > .button,.envelope {
+.floating .button,.envelope {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
 }
 
@@ -83,7 +85,7 @@ body > .bar {
 .label {
   min-width: 30px;
   min-height: 30px;
-  
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -91,12 +93,12 @@ body > .bar {
 
 .text {
   color: #333;
-  
+
   min-height: 28px;
   border-radius: 5px;
   padding: 0 4px;
   font-size: 14px;
-  
+
   transition: 0.2s;
 }
 
@@ -108,17 +110,17 @@ body > .bar {
 .button {
   min-width: 30px;
   min-height: 30px;
-  
+
   padding: 0 8px;
-  
+
   background: #fff;
-  
+
   border-radius: 5px;
-  
+
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   cursor: pointer;
   transition: 0.2s;
 }
@@ -139,11 +141,11 @@ body > .bar {
 
 .menu {
   display: none;
-  
+
   position: absolute;
-  
+
   top: 0;
-  
+
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
@@ -177,7 +179,7 @@ body > .bar {
 
 .navigator {
   position: absolute;
-  
+
   bottom: 60px;
 }
 
@@ -196,15 +198,15 @@ input[valid=false] {
 
 #controls-bar {
   position: absolute;
-  
+
   left: 20px;
   bottom: 20px;
   right: 20px;
   align-self: center;
-  
+
   align-items: flex-end;
   justify-content: center;
-  
+
   /*box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);*/
 }
 
@@ -217,7 +219,8 @@ input[valid=false] {
   flex-grow: 1;
 }
 
-#math-field,#math-field-static {
+#math-field,#math-field-static,
+#vector-math-field, #vector-math-field-static {
   border: none;
   flex-grow: 0;
   padding: 4px 2px 2px 2px;
@@ -253,14 +256,14 @@ input[valid=false] {
 
 #run-button {
   position: absolute;
-  
+
   right: 0;
   bottom: 0;
 }
 
 #stop-button {
   position: absolute;
-  
+
   right: 0;
   bottom: 0;
 }
@@ -287,10 +290,10 @@ input[valid=false] {
 
 #reset-button {
   position: absolute;
-  
+
   left: 0;
   bottom: 0;
-  
+
   padding: 0;
 }
 
@@ -314,15 +317,15 @@ input[valid=false] {
 
 #variables-bar {
   position: absolute;
-  
+
   top: 20px;
   left: auto;
   right: 20px;
-  
+
   font-size: 24px;
-  
+
   justify-content: flex-end;
-  
+
   transition: 0.5s;
 }
 
@@ -336,11 +339,11 @@ input[valid=false] {
 
 #top-bar {
   position: absolute;
-  
+
   top: 0px;
   left: 0px;
   right: 0px;
-  
+
   justify-content: flex-end;
 }
 
@@ -381,12 +384,12 @@ input[valid=false] {
 
 .background {
   position: absolute;
-  
+
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  
+
   background: inherit;
   z-index: -1;
 }
@@ -397,18 +400,18 @@ input[valid=false] {
 
 .veil {
   position: absolute;
-  
+
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  
+
   opacity: 1;
   transition: 1s;
-  
+
   background: white;
   pointer-events: all;
-  
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -468,8 +471,8 @@ input[valid=false] {
   left:90%;
 }
 .bottom-left {
-  top:calc(80% + 20px);
-  right:90%;
+  right:23% !important;
+  top:103% !important;
 }
 .bottom-right {
   top:calc(80% + 20px);
@@ -528,7 +531,7 @@ input[valid=false] {
   margin-bottom: auto; 
   font-weight: bold;
   font-family:monospace;
-  color:greenyellow; 
+  color:rgb(0,255,0); 
 }
 
 
@@ -538,5 +541,16 @@ input[valid=false] {
   width: 8px;
   height: 175px;
   padding: 0 5px;
-  accent-color: yellow;
+  accent-color: rgb(0,255,0);
+}
+
+.hstack {
+  display: flex;
+  gap: 10px;
+  flex-direction: row;
+  align-items: center;
+}
+
+#vector-math-field-container {
+  display: none; /* Only visible for Constant Lake/vector field scene */
 }

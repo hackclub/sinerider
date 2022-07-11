@@ -5,9 +5,9 @@ function Sprite(spec = {}) {
     camera,
     assets,
   } = Entity(spec, 'Sprite')
-  
+
   const transform = Transform(spec, self)
-  
+
   let {
     asset,
     image,
@@ -28,14 +28,14 @@ function Sprite(spec = {}) {
     flipY = Math.random() < .5
   if (!spec.offset && anchored)
     offset.y = 1
-    
+
   if (!spec.offset && spec.y && anchored)
     offset.y += spec.y
-  
+
   const ctx = screen.ctx
-  
+
   const slopeTangent = Vector2()
-  
+
   if (asset) {
     if (asset.includes("*")) {
       let assetSearch = asset.split(".")[1]?.split("*")[0]
@@ -44,15 +44,15 @@ function Sprite(spec = {}) {
     }
     image = _.get(assets, asset, $('#error-sprite'))
   }
-  
+
   if (speech) {
     if (!_.isArray(speech))
       speech = [speech]
-      
+
     for (s of speech) {
       if (_.isString(s))
         s = {content: s}
-        
+
       Speech({
         parent: self,
         globalScope,
@@ -63,32 +63,32 @@ function Sprite(spec = {}) {
       })
     }
   }
-  
+
   function tick() {
     if (anchored) {
       transform.x = origin.x
       transform.y = graph.sample('x', transform.x)
     }
-    
+
     if (sloped) {
       slopeTangent.x = 1
       slopeTangent.y = graph.sampleSlope('x', transform.x)
       slopeTangent.normalize()
-      
+
       let angle = Math.asin(slopeTangent.y)
       transform.rotation = angle
     }
   }
-  
+
   function drawLocal() {
     ctx.scale(flipX ? -1 : 1, flipY ? -1 : 1)
     ctx.drawImage(image, -size/2+offset.x*size/2, -size/2-offset.y*size/2, size, size)
   }
-  
+
   function draw() {
     camera.drawThrough(ctx, drawLocal, transform)
   }
-  
+
   return self.mix({
     transform,
     get size() {return size},
@@ -96,10 +96,10 @@ function Sprite(spec = {}) {
 
     tick,
     draw,
-    
+
     get flipX() {return flipX},
     set flipX(v) {flipX = v},
-    
+
     get flipY() {return flipY},
     set flipY(v) {flipY = v},
   })

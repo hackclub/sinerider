@@ -7,10 +7,10 @@
         assets,
         ctx,
     } = Entity(spec, 'Sky')
-    
+
     let {
       asset,
-      margin
+      margin,
     } = spec
     
     let initialBounding
@@ -37,14 +37,18 @@
         )
     }
 
+    function tick() {
+    }
+
     function draw() {
-        if (initialBounding == null) 
-            initialBounding = [{...camera.lowerLeft}, {...camera.upperRight}]
-        
-        drawLocal()
+      if (initialBounding == null) 
+          initialBounding = [{...camera.lowerLeft}, {...camera.upperRight}]
+         
+      drawLocal()
     }
 
     return self.mix({
-      draw
+      tick,
+      draw,
     })
   }

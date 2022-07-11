@@ -15,28 +15,31 @@ const ui = {
   veil: $('#veil'),
   loadingVeil: $('#loading-veil'),
   loadingVeilString: $('#loading-string'),
-  
+
   bubblets: $('.bubblets'),
-  
+
   topBar: $('#top-bar'),
   navigatorButton: $('#navigator-button'),
-  
+
   victoryBar: $('#victory-bar'),
   victoryLabel: $('#victory-label'),
   victoryLabelString: $('#victory-label > .string'),
   victoryStopButton: $('#victory-stop-button'),
   nextButton: $('#next-button'),
-  
+
   messageBar: $('#message-bar'),
   messageBarString: $('#message-bar > .string'),
-  
+
   variablesBar: $('#variables-bar'),
   timeString: $('#time-string'),
 
   controlBar: $('#controls-bar'),
   expressionText: $('#expression-text'),
   expressionEnvelope: $('#expression-envelope'),
-  
+
+  vectorMathContainer: $('#vector-math-field-container'),
+  vectorMathField: $('#vector-math-field'),
+
   mathField: $('#math-field'),
   mathFieldStatic: $('#math-field-static'),
 
@@ -45,12 +48,12 @@ const ui = {
   dottedSlider: $("#dotted-slider"),
   
   variableLabel: $('#variable-label'),
-  
+
   runButton: $('#run-button'),
   runButtonString: $('#run-button > .string'),
   stopButton: $('#stop-button'),
   stopButtonString: $('#stop-button > .string'),
-  
+
   navigatorFloatingBar: $('#navigator-floating-bar'),
   showAllButton: $('#show-all-button'),
 }
@@ -68,6 +71,13 @@ const tickDelta = 1/ticksPerSecond
 const screen = Screen({
   canvas
 })
+
+let w = worldData[0]
+
+// make Constant Lake first level for testing
+// const tmp = w.levelData[0]
+// w.levelData[0] = w.levelData[3]
+// w.levelData[3] = tmp
 
 const world = World({
   ui,
@@ -93,6 +103,11 @@ function draw() {
   if (!canvasIsDirty) return
   canvasIsDirty = false
   
+  // Draw order bug where Shader entity isn't actually
+  // sorted in World draw array and needs another sort call
+  // in order to work? Temp fix (TODO: Fix this)
+  world.sortDrawArray()
+
   let entity
   for (let i = 0; i < world.drawArray.length; i++) {
     entity = world.drawArray[i]
@@ -120,28 +135,29 @@ if (!stepping) {
 
 ui.mathFieldStatic = MQ.StaticMath(ui.mathFieldStatic)
 
-ui.mathField = MQ.MathField(ui.mathField, {
-  handlers: {
-    edit: function() {
-      const text = ui.mathField.getPlainExpression()
-      const latex = ui.mathField.latex()
-      console.log(`Expression text changed to: `, text)
-      world.level.sendEvent('setGraphExpression', [text, latex])
+function createMathField(field, eventNameOnEdit) {
+  field = MQ.MathField(field, {
+    handlers: {
+      edit: function() {
+        const text = field.getPlainExpression()
+        const latex = field.latex()
+        world.level.sendEvent(eventNameOnEdit, [text, latex])
+      } 
     }
-  }
-})
+  })
 
-ui.mathField.getPlainExpression = function() {
-  var tex = ui.mathField.latex()
-  return mathquillToMathJS(tex)
+  field.getPlainExpression = function() {
+    var tex = field.latex()
+    return mathquillToMathJS(tex)
+  }
+  
+  return field
 }
+
+ui.mathField = createMathField(ui.mathField, 'setGraphExpression')
+ui.vectorMathField = createMathField(ui.vectorMathField, 'setVectorExpression')
 
 ui.dottedMathFieldStatic = MQ.StaticMath(ui.dottedMathFieldStatic)
-
-ui.mathField.getPlainExpression = function() {
-  var tex = ui.mathField.latex()
-  return mathquillToMathJS(tex)
-}
 
 function onMathFieldFocus(event) {
   world.onMathFieldFocus()
@@ -167,8 +183,7 @@ function onKeyUp(event) {
 window.addEventListener("keyup", onKeyUp)
 
 function onExpressionTextChanged(event) {
-  console.log(`Expression text changed to: `, ui.expressionText.value)
-  
+
   world.level.sendEvent('setGraphExpression', [ui.expressionText.value])
 }
 
@@ -197,7 +212,7 @@ ui.runButton.addEventListener('click', onClickRunButton)
 
 function onClickStopButton(event) {
   world.toggleRunning()
-  
+
   return true
 }
 ui.stopButton.addEventListener('click', onClickStopButton)
