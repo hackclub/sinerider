@@ -5,9 +5,9 @@ const Colors = {
         [0, '#3366ff'],
         [1, '#55aaff'],
       ],
-      groundFill: '#211326',
+      groundFill: '#371f40',
       groundPattern: '#1a0d1c',
-      groundStroke: '#c8a3d5',
+      groundStroke: '#ecdaf2',
       groundStrokeWidth: 8,
     },
     alps: {
