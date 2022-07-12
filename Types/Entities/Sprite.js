@@ -21,7 +21,9 @@ function Sprite(spec = {}) {
     offset = Vector2(),
     speech,
   } = spec
+
   const origin = Vector2(spec)
+  
   if (flipX == "*")
     flipX = Math.random() < .5
   if (flipY == "*")

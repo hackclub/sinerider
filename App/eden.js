@@ -15,7 +15,6 @@ worldData.push({
       sam_float_left: '.svg',
       sam_stand_snowball: 'sam_float_left.svg',
       cabin_1: '.png',
-      cabin_1_front: '.png',
       world_map: '.svg',
       cloud1: '.png',
       cloud2: '.png',
@@ -108,15 +107,9 @@ worldData.push({
       asset: 'images.cabin_1',
       size: 6,
       x: -4,
-      y: -0.2,
+      // offset: [0, -2],
+      anchored: true,
       drawOrder: -3,
-    },
-    {
-      asset: 'images.cabin_1_front',
-      size: 6,
-      x: -4,
-      y: -0.2,
-      drawOrder: -1,
     },
     {
       asset: 'images.sam_stand_snowball',
@@ -145,7 +138,7 @@ worldData.push({
       asset: 'images.tree*',
       flipX: "*",
       size: 1.7,
-      x: -6.4,
+      x: 2,
       y: 0,
       drawOrder: 0,
       anchored:true
@@ -153,16 +146,16 @@ worldData.push({
     {
       asset: 'images.tree*',
       flipX: "*",
-      size: 2.2,
-      x: -8.8,
+      size: 2,
+      x: -9,
       y: 0,
       drawOrder: 0,
       anchored:true
     },{
       asset: 'images.tree*',
       flipX: "*",
-      size: 2.1,
-      x: -3.6,
+      size: 2.5,
+      x: -7.5,
       y: 0,
       drawOrder: 0,
       anchored:true
