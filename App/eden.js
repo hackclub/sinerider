@@ -20,10 +20,15 @@ worldData.push({
       cloud2: '.png',
       cloud3: '.png',
       cloud3: '.png',
-      tree: '.png',
+      tree1: '.png',
+      tree2: '.png',
+      tree3: '.png',
+      tree4: '.png',
       initial_bg:'initial-bg.jpeg',
+      western_slopes_background: '.png',
+      western_slopes_background_no_sky: '.png',
       logo_text:'.png',
-      rock:".png"
+      rock: '.png',
     },
     sounds: {
       music: {
@@ -135,71 +140,71 @@ worldData.push({
       },
     },
     {
-      asset: 'images.tree*',
+      asset: 'images.tree4',
       flipX: "*",
-      size: 1.7,
+      size: 6.1,
       x: 2,
       y: 0,
       drawOrder: 0,
       anchored:true
     },
     {
-      asset: 'images.tree*',
+      asset: 'images.tree2',
       flipX: "*",
-      size: 2,
+      size: 5.4,
       x: -9,
       y: 0,
       drawOrder: 0,
       anchored:true
     },{
-      asset: 'images.tree*',
+      asset: 'images.tree1',
       flipX: "*",
-      size: 2.5,
+      size: 6.7,
       x: -7.5,
       y: 0,
       drawOrder: 0,
       anchored:true
     },
     {
-      asset: 'images.tree*',
+      asset: 'images.tree3',
       flipX: "*",
-      size: 2.4,
+      size: 6.4,
       x: 13,
       y: 0,
       drawOrder: 0,
       anchored:true
     },
     {
-      asset: 'images.tree*',
+      asset: 'images.tree2',
       flipX: "*",
-      size: 2.3,
+      size: 5.2,
       x: 21,
       y: 0,
       drawOrder: 0,
       anchored:true
     },
     {
-      asset: 'images.tree*',
+      asset: 'images.tree4',
       flipX: "*",
-      size: 2.9,
+      size: 5.9,
       x: 10,
       y: 0,
       drawOrder: 0,
       anchored:true
     },
     {
-      asset: 'images.tree*',
+      asset: 'images.tree3',
       flipX: "*",
-      size: 2.1,
+      size: 7.1,
       x: 34.2,
       y: 0,
       drawOrder: 0,
       anchored:true
     },
     {
-      asset: 'images.tree*',
+      asset: 'images.tree1',
       flipX: "*",
-      size: 2.4,
+      size: 5.6,
       x: 36.3,
       y: 0,
       drawOrder: 0,
@@ -233,14 +238,14 @@ worldData.push({
     },
     clouds: {
       velocity: 0.4,
-      heights:[4,4.8],
+      heights: [7, 8],
     },
     snow: {
-      density:0.4,
-      maxHeight: 4.8,
+      density: 0.4,
+      maxHeight: 8,
       velocity: {
-        x:0.2,
-        y:0.4
+        x: 0.2,
+        y: 0.4
       }
     },
     textBubbles: [{content:"this one!", domSelector:"#run-button", place:"top-left", destroyOnClick:true, style: {fontSize:"1.1rem"}}]

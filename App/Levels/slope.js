@@ -109,16 +109,20 @@ const SLOPE = [{
     point0: [-1, 0],
     point1: [8, 0],
     state0: {
-      position: [-2, 2],
+      position: [-2, 3.5],
       fov: 5,
     },
     state1: {
-      position: [10, 4],
+      position: [10, 8],
       fov: 12,
     },
   }],
   goals: [],
   sledders: [],
+  sky: {
+    asset: 'images.western_slopes_background_no_sky',
+    margin: 1
+  },
   walkers: [{
     x: -4,
     asset: 'images.benny_float',
@@ -166,7 +170,7 @@ const SLOPE = [{
         speakerX: -0.4,
         content: 'I do love you, though.',
         direction: 'up-up-left',
-        domain: [17, 24],
+        domain: [18, 24],
         distance: 1.3,
       }],
     },
