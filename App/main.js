@@ -37,9 +37,6 @@ const ui = {
   expressionText: $('#expression-text'),
   expressionEnvelope: $('#expression-envelope'),
 
-  vectorMathContainer: $('#vector-math-field-container'),
-  vectorMathField: $('#vector-math-field'),
-
   mathField: $('#math-field'),
   mathFieldStatic: $('#math-field-static'),
 
@@ -155,7 +152,6 @@ function createMathField(field, eventNameOnEdit) {
 }
 
 ui.mathField = createMathField(ui.mathField, 'setGraphExpression')
-ui.vectorMathField = createMathField(ui.vectorMathField, 'setVectorExpression')
 
 ui.dottedMathFieldStatic = MQ.StaticMath(ui.dottedMathFieldStatic)
 

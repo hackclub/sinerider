@@ -37,9 +37,6 @@ const ui = {
   expressionText: $('#expression-text'),
   expressionEnvelope: $('#expression-envelope'),
 
-  vectorMathContainer: $('#vector-math-field-container'),
-  vectorMathField: $('#vector-math-field'),
-
   mathField: $('#math-field'),
   mathFieldStatic: $('#math-field-static'),
 

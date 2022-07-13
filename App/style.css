@@ -219,8 +219,7 @@ input[valid=false] {
   flex-grow: 1;
 }
 
-#math-field,#math-field-static,
-#vector-math-field, #vector-math-field-static {
+#math-field,#math-field-static {
   border: none;
   flex-grow: 0;
   padding: 4px 2px 2px 2px;
@@ -549,8 +548,4 @@ input[valid=false] {
   gap: 10px;
   flex-direction: row;
   align-items: center;
-}
-
-#vector-math-field-container {
-  display: none; /* Only visible for Constant Lake/vector field scene */
 }

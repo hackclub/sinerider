@@ -129,6 +129,7 @@ const SLOPE = [{
       domain: [-3, 0],
       distance: 1.5,
     },{
+      color: '#fff',
       speakerX: 0.3,
       content: 'NOT AS BEAUTIFUL AS YOU M\'LOVELY',
       direction: 'up-up-right',
@@ -140,24 +141,28 @@ const SLOPE = [{
       asset: 'images.sam_float',
       bobSpeed: 0.918218,
       speech: [{
+        color: '#fff',
         speakerX: -0.4,
         content: 'It\'s beautiful!',
         direction: 'up-up-left',
         domain: [4, 7],
         distance: 1.3,
       },{
+        color: '#fff',
         speakerX: -0.4,
         content: '...',
         direction: 'up-up-left',
         domain: [9, 12],
         distance: 1.0,
       },{
+        color: '#fff',
         speakerX: -0.4,
         content: '…you\'re such a dork.',
         direction: 'up-up-left',
         domain: [12, 15],
         distance: 1.3,
       },{
+        color: '#fff',
         speakerX: -0.4,
         content: 'I do love you, though.',
         direction: 'up-up-left',
@@ -257,10 +262,10 @@ const SLOPE = [{
       anchored:true
     },
   ],
-  clouds: {
-    velocity: 0.1,
-    heights:[4,4.8]
-  },
+  // clouds: {
+  //   velocity: 0.1,
+  //   heights:[4,4.8]
+  // },
 },
 {
   name: 'A real steep hill',

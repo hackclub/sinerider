@@ -17,15 +17,20 @@ function Shader(spec) {
 
   const transform = Transform(spec, self)
 
-  evaluator = math.compile('x + y * i')
+  evaluator = math.compile('(sin(x)-(y-2)*i)*i/2')
 
   vectorField = (x, y, t) => {
     const c = evaluator.evaluate({ x, y, t })
     
-    // Either real or complex
-    return typeof c === 'number'
-      ? [ c, 0 ]
-      : [ c.re, c.im ]
+    try {
+      // Either real or complex
+      return typeof c === 'number'
+        ? [ c, 0 ]
+        : [ math.re(c), math.im(c) ]
+    }
+    catch (ex) {
+      return [0, 0]
+    }
   }
 
   function setVectorFieldExpression(text) {
