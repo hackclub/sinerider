@@ -49,7 +49,8 @@ function Shader(spec) {
   }
 
   function draw() {
-    quad.draw(Math.max(0, walkerPosition.x / 20))
+    // quad.draw(Math.max(0, walkerPosition.x / 20))
+    quad.draw(walkerPosition.x / 20)
     ctx.drawImage(quad.getBuffer(), 0, 0, screen.width, screen.height)
   }
 

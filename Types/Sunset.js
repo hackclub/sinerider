@@ -63,7 +63,7 @@ function Sunset(canvas, assets) {
       frag: shaders.sunset_frag,
   })
 
-  const particleCount = 3000
+  const particleCount = 5000
   
   // [ x, y ]
   const oldParticlePositions = new Float32Array(particleCount * 2)
@@ -72,7 +72,11 @@ function Sunset(canvas, assets) {
   const livedFor = new Float32Array(particleCount)
 
   function genParticleColor() {
-      return [ Math.random() * 0.3, Math.random() * 0.3, Math.random() * 0.5 + 0.5 ]
+      const c1 = Math.random() * 0.3
+      const c2 = Math.random() * 0.3
+      const c3 = Math.random() * 0.5 + 0.5
+      const scale = Math.pow(Math.random(), 2.0) * 0.8 + 0.2
+      return [ c1 * scale, c2 * scale, c3 * scale ]
   }
 
   for (let i = 0; i < particleCount; i++) {
@@ -168,12 +172,34 @@ function Sunset(canvas, assets) {
   */
 
   // TODO: Handle resizing
-  const current = utils.Texture([ canvas.width, canvas.height ], gl.RGBA)
+  let current = utils.Texture([ canvas.width, canvas.height ], gl.RGBA)
   let acc = utils.Texture([ canvas.width, canvas.height ], gl.RGBA)
   let blend = utils.Texture([ canvas.width, canvas.height ], gl.RGBA)
 
   const step = utils.Framebuffer()
 
+  function resizeTexture(texture, width, height, format) {
+    const newTexture = utils.Texture([ width, height ], format)
+    step.bind()
+    step.setColorAttachment(newTexture)
+    texture.bind(0)
+    quadProgram.use()
+      .vertices(quad)
+      .uniformi('texture', 0)
+      .viewport(width, height)
+      .draw(gl.TRIANGLE_STRIP, 4)
+    texture.destroy()
+    return newTexture
+  }
+
+  function onCanvasResize() {
+    const { width, height } = canvas
+    current.destroy()
+    current = utils.Texture([ width, height ], gl.RGBA)
+    acc = resizeTexture(acc, width, height, gl.RGBA)
+    blend.destroy()
+    blend = utils.Texture([ width, height ], gl.RGBA)
+  }
 
   let last = null
 
@@ -194,9 +220,11 @@ function Sunset(canvas, assets) {
 
   // Pass in progress parameter (x distance)
   function draw(progress) {
+      console.log('time', progress, 'iTime', 5 * progress)
+
       const start = performance.now()
 
-      // draw points
+      // Draw points
       step.bind()
       step.setColorAttachment(current)
       pointsProgram.use()
@@ -214,10 +242,9 @@ function Sunset(canvas, assets) {
               { type: 'vec3', name: 'particleColor', perInstance: 1 }
           ])
           .viewport(canvas.width, canvas.height)
-          // .drawInstanced(ext, gl.TRIANGLE_STRIP, 4, particleCount)
           .drawInstanced(ext, gl.TRIANGLE_STRIP, 4, particleCount)
 
-      // blend
+      // Blend
       step.bind()
       step.setColorAttachment(blend)
       current.bind(0)
@@ -231,11 +258,12 @@ function Sunset(canvas, assets) {
           .viewport(canvas.width, canvas.height)
           .draw(gl.TRIANGLE_STRIP, 4)
 
+      // Swap blend and acc
       let tmp = acc
       acc = blend
       blend = tmp
 
-      // draw acc
+      // Draw acc
       utils.bindDisplay()
       acc.bind(0)
       sunsetProgram.use()
@@ -257,6 +285,7 @@ function Sunset(canvas, assets) {
   return {
     draw,
     update,
-    getBuffer
+    getBuffer,
+    onCanvasResize
   }
 }

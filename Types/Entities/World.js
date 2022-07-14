@@ -28,13 +28,20 @@ function World(spec) {
   let editing = false
 
   let quad = null
+  let sunsetCanvas = document.createElement('canvas')
+  sunsetCanvas.width = innerWidth
+  sunsetCanvas.height = innerHeight / innerWidth * sunsetCanvas.width
 
   function loadQuad() {
-    let canvas = document.createElement('canvas')
-    canvas.width = 1000
-    canvas.height = innerHeight / innerWidth * canvas.width
-    quad = Sunset(canvas, assets)
+    quad = Sunset(sunsetCanvas, assets)
   } 
+
+  function onResizeWindow(event) {
+    sunsetCanvas.width = innerWidth
+    sunsetCanvas.height = innerHeight / innerWidth * sunsetCanvas.width
+    if (quad)
+      quad.onCanvasResize()
+  }
 
   const assets = Assets({
     paths: spec.assets,
@@ -312,6 +319,8 @@ function World(spec) {
     start,
     tick,
     draw,
+
+    onResizeWindow,
 
     toggleRunning,
 

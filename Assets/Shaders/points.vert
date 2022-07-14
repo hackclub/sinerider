@@ -27,7 +27,7 @@ void main() {
     //  1, -1,
     //  1,  1,
 
-    float w = 0.003;
+    float w = 0.0025;
 
     vec2 diff = newParticlePos - oldParticlePos;
     vec2 tang = normalize(vec2(diff.y, -diff.x));

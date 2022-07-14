@@ -269,10 +269,15 @@ function GLUtils(gl) {
       parameter(gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
       parameter(gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
 
+      function destroy() {
+        gl.deleteTexture(texture)
+      }
+
       return _.merge(self, {
           bind,
           parameter,
           image,
+          destroy,
 
           _texture: texture,
           width: size ? size.width : 0,
