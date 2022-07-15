@@ -16,14 +16,14 @@ worldData.push({
       sam_stand_snowball: 'sam_float_left.svg',
       cabin_1: '.png',
       world_map: '.svg',
-      cloud1: '.png',
-      cloud2: '.png',
-      cloud3: '.png',
-      cloud3: '.png',
-      tree1: '.png',
-      tree2: '.png',
-      tree3: '.png',
-      tree4: '.png',
+      cloud_1: '.png',
+      cloud_2: '.png',
+      cloud_3: '.png',
+      tree_1: '.png',
+      tree_2: '.png',
+      tree_3: '.png',
+      tree_4: '.png',
+      tree_home_1: '.png',
       initial_bg:'initial-bg.jpeg',
       western_slopes_background: '.png',
       western_slopes_background_no_sky: '.png',
@@ -140,7 +140,7 @@ worldData.push({
       },
     },
     {
-      asset: 'images.tree4',
+      asset: 'images.tree_home_1',
       flipX: "*",
       size: 6.1,
       x: 2,
@@ -149,7 +149,7 @@ worldData.push({
       anchored:true
     },
     {
-      asset: 'images.tree2',
+      asset: 'images.tree_home_1',
       flipX: "*",
       size: 5.4,
       x: -9,
@@ -157,7 +157,7 @@ worldData.push({
       drawOrder: 0,
       anchored:true
     },{
-      asset: 'images.tree1',
+      asset: 'images.tree_home_1',
       flipX: "*",
       size: 6.7,
       x: -7.5,
@@ -166,7 +166,7 @@ worldData.push({
       anchored:true
     },
     {
-      asset: 'images.tree3',
+      asset: 'images.tree_home_1',
       flipX: "*",
       size: 6.4,
       x: 13,
@@ -175,7 +175,7 @@ worldData.push({
       anchored:true
     },
     {
-      asset: 'images.tree2',
+      asset: 'images.tree_home_1',
       flipX: "*",
       size: 5.2,
       x: 21,
@@ -184,7 +184,7 @@ worldData.push({
       anchored:true
     },
     {
-      asset: 'images.tree4',
+      asset: 'images.tree_home_1',
       flipX: "*",
       size: 5.9,
       x: 10,
@@ -193,7 +193,7 @@ worldData.push({
       anchored:true
     },
     {
-      asset: 'images.tree3',
+      asset: 'images.tree_home_1',
       flipX: "*",
       size: 7.1,
       x: 34.2,
@@ -202,7 +202,7 @@ worldData.push({
       anchored:true
     },
     {
-      asset: 'images.tree1',
+      asset: 'images.tree_home_1',
       flipX: "*",
       size: 5.6,
       x: 36.3,
