@@ -4,7 +4,7 @@
 function Sunset(canvas, assets) {
   gl = canvas.getContext('webgl')
   if (!gl) {
-      return alert('Your browser does not support WebGL. Try switching or updating your browser!')
+    return alert('Your browser does not support WebGL. Try switching or updating your browser!')
   }
 
   gl.enable(gl.BLEND)
@@ -14,53 +14,53 @@ function Sunset(canvas, assets) {
   const ext = utils.InstancingExtension()
 
   const line = utils.Vertices(gl.STATIC_DRAW, {
-      'vertexId': {
-          type: 'float',
-          data: [ 0, 1, 2, 3 ]
-      }
+    'vertexId': {
+      type: 'float',
+      data: [ 0, 1, 2, 3 ]
+    }
   })
 
   const quad = utils.Vertices(gl.STATIC_DRAW, {
-      'aCoords': {
-          type: 'vec2',
-          data: [
-              -1, -1,
-              -1,  1,
-               1, -1,
-               1,  1,
-          ]
-      },
-      'aTexCoords': {
-          type: 'vec2',
-          data: [
-              0, 0,
-              0, 1,
-              1, 0,
-              1, 1,
-          ]
-      }
+    'aCoords': {
+      type: 'vec2',
+      data: [
+        -1, -1,
+        -1,  1,
+         1, -1,
+         1,  1,
+      ]
+    },
+    'aTexCoords': {
+      type: 'vec2',
+      data: [
+        0, 0,
+        0, 1,
+        1, 0,
+        1, 1,
+      ]
+    }
   })
 
   const shaders = assets.shaders
 
   const quadProgram = utils.Program({
-      vert: shaders.quad_vert,
-      frag: shaders.quad_frag,
+    vert: shaders.quad_vert,
+    frag: shaders.quad_frag,
   })
 
   const blendProgram = utils.Program({
-      vert: shaders.quad_vert,
-      frag: shaders.blend_frag,
+    vert: shaders.quad_vert,
+    frag: shaders.blend_frag,
   })
 
   const pointsProgram = utils.Program({
-      vert: shaders.points_vert,
-      frag: shaders.points_frag,
+    vert: shaders.points_vert,
+    frag: shaders.points_frag,
   })
 
   const sunsetProgram = utils.Program({
-      vert: shaders.quad_vert,
-      frag: shaders.sunset_frag,
+    vert: shaders.quad_vert,
+    frag: shaders.sunset_frag,
   })
 
   const particleCount = 5000
@@ -72,33 +72,33 @@ function Sunset(canvas, assets) {
   const livedFor = new Float32Array(particleCount)
 
   function genParticleColor() {
-      const c1 = Math.random() * 0.3
-      const c2 = Math.random() * 0.3
-      const c3 = Math.random() * 0.5 + 0.5
-      const scale = Math.pow(Math.random(), 2.0) * 0.8 + 0.2
-      return [ c1 * scale, c2 * scale, c3 * scale ]
+    const c1 = Math.random() * 0.3
+    const c2 = Math.random() * 0.3
+    const c3 = Math.random() * 0.5 + 0.5
+    const scale = Math.pow(Math.random(), 2.0) * 0.8 + 0.2
+    return [ c1 * scale, c2 * scale, c3 * scale ]
   }
 
   for (let i = 0; i < particleCount; i++) {
-      const posIndex = 2 * i
-      const colIndex = 3 * i
+    const posIndex = 2 * i
+    const colIndex = 3 * i
 
-      const x = Math.random()
-      const y = Math.random()
-      
-      oldParticlePositions[posIndex] = x
-      oldParticlePositions[posIndex + 1] = y
+    const x = Math.random()
+    const y = Math.random()
+    
+    oldParticlePositions[posIndex] = x
+    oldParticlePositions[posIndex + 1] = y
 
-      newParticlePositions[posIndex] = x
-      newParticlePositions[posIndex + 1] = y
+    newParticlePositions[posIndex] = x
+    newParticlePositions[posIndex + 1] = y
 
-      const col = genParticleColor()
+    const col = genParticleColor()
 
-      particleColors[colIndex] = col[0]
-      particleColors[colIndex + 1] = col[1]
-      particleColors[colIndex + 2] = col[2]
+    particleColors[colIndex] = col[0]
+    particleColors[colIndex + 1] = col[1]
+    particleColors[colIndex + 2] = col[2]
 
-      livedFor[i] = 0
+    livedFor[i] = 0
   }
 
   const oldParticlePositionsBuffer = utils.Array(oldParticlePositions, gl.DYNAMIC_DRAW)
@@ -114,52 +114,52 @@ function Sunset(canvas, assets) {
   t = 0
 
   function updateParticlePositions(vectorField) {
-      for (let i = 0; i < particleCount; i++) {
-          const index = 2 * i
+    for (let i = 0; i < particleCount; i++) {
+      const index = 2 * i
 
-          const normX = newParticlePositions[index]
-          const normY = newParticlePositions[index + 1]
+      const normX = newParticlePositions[index]
+      const normY = newParticlePositions[index + 1]
 
-          // If out of bounds of canvas then reset
-          if (Math.abs(normX) > 1 || Math.abs(normY) > 1) {
-              const resetX = Math.random()
-              const resetY = Math.random()
-              
-              oldParticlePositions[index] = resetX
-              oldParticlePositions[index + 1] = resetY
+      // If out of bounds of canvas then reset
+      if (Math.abs(normX) > 1 || Math.abs(normY) > 1) {
+        const resetX = Math.random()
+        const resetY = Math.random()
+        
+        oldParticlePositions[index] = resetX
+        oldParticlePositions[index + 1] = resetY
 
-              newParticlePositions[index] = resetX
-              newParticlePositions[index + 1] = resetY
+        newParticlePositions[index] = resetX
+        newParticlePositions[index + 1] = resetY
 
-              const colIndex = 3 * i
-              const col = genParticleColor()
+        const colIndex = 3 * i
+        const col = genParticleColor()
 
-              particleColors[colIndex] = col[0]
-              particleColors[colIndex + 1] = col[1]
-              particleColors[colIndex + 2] = col[2]
+        particleColors[colIndex] = col[0]
+        particleColors[colIndex + 1] = col[1]
+        particleColors[colIndex + 2] = col[2]
 
-              livedFor[i] = 0
+        livedFor[i] = 0
 
-              continue
-          }
-
-          const x = (normX - .5) * 10
-          const y = (normY - .5) * 10
-
-          const [dx, dy] = vectorField(x, y, t)
-
-          const newX = eta * dx + normX
-          const newY = eta * dy + normY
-
-          // otherwise nudge w/ gradient
-          oldParticlePositions[index] = normX
-          oldParticlePositions[index + 1] = normY
-
-          newParticlePositions[index] = newX
-          newParticlePositions[index + 1] = newY
-
-          livedFor[i] += 0.03
+        continue
       }
+
+      const x = (normX - .5) * 10
+      const y = (normY - .5) * 10
+
+      const [dx, dy] = vectorField(x, y, t)
+
+      const newX = eta * dx + normX
+      const newY = eta * dy + normY
+
+      // otherwise nudge w/ gradient
+      oldParticlePositions[index] = normX
+      oldParticlePositions[index + 1] = normY
+
+      newParticlePositions[index] = newX
+      newParticlePositions[index + 1] = newY
+
+      livedFor[i] += 0.03
+    }
   }
 
   /*
@@ -204,45 +204,51 @@ function Sunset(canvas, assets) {
   let last = null
 
   function update(vectorField) {
-      const now = performance.now()
-      const delta = last ? now - last : 0
-      last = now
+    const now = performance.now()
+    const delta = last ? now - last : 0
+    last = now
 
-      t += delta * 0.00005
+    t += delta * 0.00005
 
-      // console.log(vectorField)
-      updateParticlePositions(vectorField)
-      oldParticlePositionsBuffer.data(oldParticlePositions)
-      newParticlePositionsBuffer.data(newParticlePositions)
-      livedForBuffer.data(livedFor)
-      particleColorBuffer.data(particleColors)
+    // console.log(vectorField)
+    updateParticlePositions(vectorField)
+    oldParticlePositionsBuffer.data(oldParticlePositions)
+    newParticlePositionsBuffer.data(newParticlePositions)
+    livedForBuffer.data(livedFor)
+    particleColorBuffer.data(particleColors)
   }
+
+  // `START_STARS_FADE_IN` constant as defined in sunset.frag
+  const START_STARS_FADE_IN = 9.0
 
   // Pass in progress parameter (x distance)
   function draw(progress) {
-      console.log('time', progress, 'iTime', 5 * progress)
+    // console.log('time', progress, 'iTime', 5 * progress)
 
-      const start = performance.now()
+    const iTime = (progress + 0.7) * 5
 
+    // Only bother rendering stars if faded in at all
+    // subtract 1 b/c uv
+    if (iTime > START_STARS_FADE_IN - 1) {
       // Draw points
       step.bind()
       step.setColorAttachment(current)
       pointsProgram.use()
-          .vertices(line)
-          .instancedAttributes(oldParticlePositionsBuffer, ext, [
-              { type: 'vec2', name: 'oldParticlePos', perInstance: 1 }
-          ])
-          .instancedAttributes(newParticlePositionsBuffer, ext, [
-              { type: 'vec2', name: 'newParticlePos', perInstance: 1 }
-          ])
-          .instancedAttributes(livedForBuffer, ext, [
-              { type: 'float', name: 'livedFor', perInstance: 1 }
-          ])
-          .instancedAttributes(particleColorBuffer, ext, [
-              { type: 'vec3', name: 'particleColor', perInstance: 1 }
-          ])
-          .viewport(canvas.width, canvas.height)
-          .drawInstanced(ext, gl.TRIANGLE_STRIP, 4, particleCount)
+        .vertices(line)
+        .instancedAttributes(oldParticlePositionsBuffer, ext, [
+          { type: 'vec2', name: 'oldParticlePos', perInstance: 1 }
+        ])
+        .instancedAttributes(newParticlePositionsBuffer, ext, [
+          { type: 'vec2', name: 'newParticlePos', perInstance: 1 }
+        ])
+        .instancedAttributes(livedForBuffer, ext, [
+          { type: 'float', name: 'livedFor', perInstance: 1 }
+        ])
+        .instancedAttributes(particleColorBuffer, ext, [
+          { type: 'vec3', name: 'particleColor', perInstance: 1 }
+        ])
+        .viewport(canvas.width, canvas.height)
+        .drawInstanced(ext, gl.TRIANGLE_STRIP, 4, particleCount)
 
       // Blend
       step.bind()
@@ -250,32 +256,30 @@ function Sunset(canvas, assets) {
       current.bind(0)
       acc.bind(1)
       blendProgram.use()
-          .resetVerticesInstancing(ext, quad)
-          .vertices(quad)
-          .uniform('resolution', [ canvas.width, canvas.height ])
-          .uniformi('current', 0)
-          .uniformi('acc', 1)
-          .viewport(canvas.width, canvas.height)
-          .draw(gl.TRIANGLE_STRIP, 4)
+        .resetVerticesInstancing(ext, quad)
+        .vertices(quad)
+        .uniform('resolution', [ canvas.width, canvas.height ])
+        .uniformi('current', 0)
+        .uniformi('acc', 1)
+        .viewport(canvas.width, canvas.height)
+        .draw(gl.TRIANGLE_STRIP, 4)
 
       // Swap blend and acc
       let tmp = acc
       acc = blend
       blend = tmp
+    }
 
-      // Draw acc
-      utils.bindDisplay()
-      acc.bind(0)
-      sunsetProgram.use()
-          .vertices(quad)
-          .uniform('resolution', [ canvas.width, canvas.height ])
-          .uniform('time', progress)
-          .uniformi('texture', 0)
-          .viewport(canvas.width, canvas.height)
-          .draw(gl.TRIANGLE_STRIP, 4)
-      
-      const end = performance.now()
-
+    // Draw acc
+    utils.bindDisplay()
+    acc.bind(0)
+    sunsetProgram.use()
+      .vertices(quad)
+      .uniform('resolution', [ canvas.width, canvas.height ])
+      .uniform('time', progress)
+      .uniformi('texture', 0)
+      .viewport(canvas.width, canvas.height)
+      .draw(gl.TRIANGLE_STRIP, 4)
   }
 
   function getBuffer() {

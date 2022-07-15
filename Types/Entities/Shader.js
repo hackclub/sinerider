@@ -11,13 +11,14 @@ function Shader(spec) {
     fullscreen = false,
     quad,
     walkerPosition,
+    defaultExpression,
   } = spec
 
   const ctx = screen.ctx
 
   const transform = Transform(spec, self)
 
-  evaluator = math.compile('(sin(x)-(y-2)*i)*i/2')
+  evaluator = math.compile(defaultExpression)
 
   vectorField = (x, y, t) => {
     const c = evaluator.evaluate({ x, y, t })

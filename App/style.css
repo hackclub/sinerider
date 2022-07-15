@@ -543,6 +543,10 @@ input[valid=false] {
   accent-color: rgb(0,255,0);
 }
 
+.hidden {
+  display: none !important;
+}
+
 .hstack {
   display: flex;
   gap: 10px;

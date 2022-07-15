@@ -19,8 +19,8 @@ uniform float time;
 #define DARK_PURPLE       vec3(0.094118, 0.058824, 0.266667)
 #define BLACK             vec3(0.031373, 0.011765, 0.14902)
 
-#define SUN_WHITE         vec3(1., 0.972549, 0.8)
-#define SUN_ORANGE_WHITE  vec3(1., 0.984314, 0.972549)
+#define SUN_ORANGE_WHITE  vec3(1., 0.972549, 0.7)
+#define SUN_WHITE         vec3(1., 0.984314, 0.972549)
 
 
 #define SUN_GLOW_ORANGE   vec3(0.988235, 0.568627, 0.)
@@ -28,6 +28,10 @@ uniform float time;
 
 #define HORIZON_Y         0.35
 #define SUN_START_Y       0.9
+
+// When to start fading in stars w.r.t. iTime
+#define START_STARS_FADE_IN  9.0
+#define END_STARS_FADE_IN    10.0
 
 float rand(vec2 c){
 	return fract(sin(dot(c.xy ,vec2(12.9898,78.233))) * 43758.5453);
@@ -82,7 +86,7 @@ void main(void) {
   vec3 col = vec3(0.);
   
   vec2 sunPos = vec2(0.5, SUN_START_Y - 0.5 * iTime/5.);
-  float horizonProx = 1.0 - clamp(0., 1., lerpBetween(HORIZON_Y, SUN_START_Y, sunPos.y));
+  float horizonProx = 2.0 * (1.0 - lerpBetween(HORIZON_Y - (SUN_START_Y - HORIZON_Y), SUN_START_Y, sunPos.y));
   
   vec3 lightSkyCol = mix(LIGHT_SKY_G0_COL, LIGHT_SKY_G1_COL, uv.y);
   vec3 horizonCol = mix(LIGHT_ORANGE, VELVET, uv.y);
@@ -91,32 +95,38 @@ void main(void) {
 
   float sunDist = distance(sunPos, uv);
 
-  float noise = pNoise((uv - vec2(2.0 * (SUN_START_Y - sunPos.y), 0.0)) * vec2(200.0, 1000.0), 50);
+  float noise = pNoise((uv - vec2(1.0 * (SUN_START_Y - sunPos.y), 0.0)) * vec2(200.0, 1000.0), 50);
 
   float skyProgress = horizonProx;
 
-  float a = noise + smoothstep(0.0, 0.6, uv.y + skyProgress);
-  float b = noise + smoothstep(0.6, 1.0, uv.y + skyProgress);
-  float c = noise + smoothstep(7.0, 8.0, uv.y + skyProgress);
 
-  vec3 skyCol = mix(lightSkyCol, horizonCol, clamp(0., 1., a));
-  skyCol = mix(skyCol, purpleCol, clamp(0., 1., b));
-  skyCol += SUN_GLOW_ORANGE * 1./(1. + sunDist * 3.0); // Sun glow
-  skyCol = mix(skyCol, blackCol, clamp(0., 1., c));
+
+
+  vec3 skyCol = mix(horizonCol, lightSkyCol, noise + smoothstep(0.0, 0.1 + 1.7 * pow(horizonProx, 2.0), uv.y));
+  skyCol = mix(skyCol, purpleCol, noise + smoothstep(1.0 - 1.3 * pow(horizonProx, 3.0), 2.0 - 2.0 * pow(max(0., horizonProx - 1.0), 6.0), uv.y));
+  skyCol += SUN_GLOW_ORANGE * 1./(1. + sunDist * 5.0); // Sun glow
+  skyCol = mix(skyCol, blackCol, smoothstep(1.0 - pow(horizonProx / 1.2, 8.5), 2.0 - 2. * pow(horizonProx / 3.3, 8.5), uv.y));
+  skyCol *= 1.0 - smoothstep(1.3, 1.7, horizonProx);
+  
+
+
+
+
+  // skyCol = mix(skyCol, blackCol, c);
 
 
   col += skyCol;
 
 
   float sun = pow(.15/sunDist, mix(1.0, 10.0, pow(horizonProx, 3.0)));
-  vec3 sunCol = mix(SUN_WHITE, SUN_ORANGE_WHITE, pow(lerpBetween(0.65, 0.9, horizonProx), 2.0));
+  vec3 sunCol = mix(SUN_WHITE, SUN_ORANGE_WHITE, pow(lerpBetween(0.65, 1.1, horizonProx), 2.0));
   col = mix(col, sunCol, min(1.0, sun));
 
 
   vec2 sampleUv = gl_FragCoord.xy/resolution.xy;
 
   vec3 starCol = texture2D(stars, sampleUv).rgb;
-  col = mix(col, starCol, lerpBetween(9.0, 10.5, iTime + sampleUv.y));
+  col = mix(col, starCol, lerpBetween(START_STARS_FADE_IN, END_STARS_FADE_IN, iTime + sampleUv.y));
 
   gl_FragColor = vec4(col, 1.0);
 }

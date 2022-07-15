@@ -77,7 +77,7 @@ function Level(spec) {
   const graph = Graph({
     camera,
     globalScope,
-    expression: defaultExpression,
+    expression: mathquillToMathJS(defaultExpression),
     parent: self,
     drawOrder: 100,
     colors,
@@ -99,15 +99,31 @@ function Level(spec) {
 
   loadDatum(spec.datum)
 
+  const defaultVectorExpression = '\\frac{(\\sin(x) - (y - 2) \\cdot i) \\cdot i}{2}'
+
   function awake() {
     refreshLowestOrder()
 
     // Add a variable to globalScope for player position
     globalScope.p = math.complex()
     assignPlayerPosition()
+    
+    if (isConstantLake()) {
+      // Change editor to vector field and hide until
+      // star field comes out
+      ui.expressionEnvelope.classList.add('hidden')
+      ui.mathFieldLabel.innerText = 'Z='
 
-    ui.mathField.latex(defaultExpression)
-    ui.mathFieldStatic.latex(defaultExpression)
+      ui.mathField.latex(defaultVectorExpression)
+      ui.mathFieldStatic.latex(defaultVectorExpression)
+    } else {
+      // Otherwise display editor normally as graph editor
+      ui.expressionEnvelope.classList.remove('hidden')
+      ui.mathFieldLabel.innerText = 'Y='
+
+      ui.mathField.latex(defaultExpression)
+      ui.mathFieldStatic.latex(defaultExpression)
+    }
   }
 
   function start() {
@@ -131,6 +147,11 @@ function Level(spec) {
   }
 
   function draw() {
+    if (isConstantLake() &&
+        walkers[0] &&
+        walkers[0].transform.position)
+      drawConstantLakeEditor(walkers[0].transform.position.x)
+
     screen.ctx.save()
     screen.ctx.scale(1, screen.height)
     screen.ctx.fillStyle = skyGradient
@@ -352,6 +373,49 @@ function Level(spec) {
     refreshLowestOrder()
   }
 
+  function isConstantLake() {
+    return datum.name === 'Constant Lake'
+  }
+
+  let isVectorEditorActive = false
+
+  function drawConstantLakeEditor(walkerPositionX) {
+    if (walkerPositionX > 17.5) {
+      if (!isVectorEditorActive) {
+        isVectorEditorActive = true
+
+        ui.expressionEnvelope.classList.remove('hidden')
+
+        ui.expressionEnvelope.animate([
+          // { transform: 'translateY(calc(100% + 20px))', opacity: '0' },
+          // { transform: 'translateY(0px)', opacity: '1' },
+          { opacity: '0' },
+          { opacity: '1' },
+        ], {
+          duration: 1700,
+          easing: 'ease-out',
+          fill: 'forwards'
+        })
+      }
+    } else if (walkerPositionX < 16.5 && isVectorEditorActive) {
+      isVectorEditorActive = false
+
+      const animation = ui.expressionEnvelope.animate([
+        // { transform: 'translateY(0px)', opacity: '1' },
+        // { transform: 'translateY(calc(100% + 20px))', opacity: '0' },
+        { opacity: '1' },
+        { opacity: '0' },
+      ], {
+        duration: 1700,
+        easing: 'ease-out',
+      })
+
+      animation.onfinish = () => {
+        ui.expressionEnvelope.classList.add('hidden')
+      }
+    }
+  }
+
   function loadDatum(datum) {
     _.each(datum.sprites, addSprite)
     _.each(datum.walkers, addWalker)
@@ -371,19 +435,16 @@ function Level(spec) {
         ...datum.clouds,
       })
     // Constant Lake sunset scene
-    if (!isBubbleLevel && 
-        datum.name === 'Constant Lake') {
-      console.log('loaded shader', datum)
+    if (!isBubbleLevel && isConstantLake()) {
       shader = Shader({
         parent: self,
         screen,
         assets,
         quad,
         drawOrder: -10,
-        walkerPosition: walkers[0].transform.position
+        defaultExpression: '(sin(x)-(y-2)*i)*i/2',
+        walkerPosition: walkers[0].transform.position,
       })
-      setTimeout(() => {
-      }, 12000)
     } else {
       shader = null
     }
@@ -413,7 +474,6 @@ function Level(spec) {
       })
 
     if (datum.slider && !isBubbleLevel) {
-
       const dottedGraph = Graph({
         camera,
         globalScope,
@@ -448,12 +508,19 @@ function Level(spec) {
   }
 
   function setGraphExpression(text, latex) {
+    ui.mathFieldStatic.latex(latex)
+
+    if (isConstantLake()) {
+      console.log('setting expression')
+      shader.setVectorFieldExpression(text)
+      return
+    }
+
+    graph.expression = text
     currentLatex = latex
 
     graph.expression = text
     ui.expressionEnvelope.setAttribute('valid', graph.valid)
-
-    ui.mathFieldStatic.latex(latex)
 
     _.invokeEach(sledders, 'reset')
     _.invokeEach(goals, 'reset')
