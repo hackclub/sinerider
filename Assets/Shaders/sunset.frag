@@ -30,14 +30,14 @@ uniform float time;
 #define SUN_START_Y       0.9
 
 // When to start fading in stars w.r.t. iTime
-#define START_STARS_FADE_IN  9.0
+#define START_STARS_FADE_IN  8.0
 #define END_STARS_FADE_IN    10.0
 
 float rand(vec2 c){
 	return fract(sin(dot(c.xy ,vec2(12.9898,78.233))) * 43758.5453);
 }
 
-// Credit to https://gist.github.com/patriciogonzalezvivo/670c22f3966e662d2f83
+// Credit for noise helpers to https://gist.github.com/patriciogonzalezvivo/670c22f3966e662d2f83
 float noise(vec2 p, float freq ){
 	float unit = resolution.y/freq;
 	vec2 ij = floor(p/unit);
@@ -126,7 +126,7 @@ void main(void) {
   vec2 sampleUv = gl_FragCoord.xy/resolution.xy;
 
   vec3 starCol = texture2D(stars, sampleUv).rgb;
-  col = mix(col, starCol, lerpBetween(START_STARS_FADE_IN, END_STARS_FADE_IN, iTime + sampleUv.y));
+  col = mix(col, starCol, lerpBetween(START_STARS_FADE_IN, END_STARS_FADE_IN, iTime + sampleUv.y) * (1. - length(skyCol)));
 
   gl_FragColor = vec4(col, 1.0);
 }

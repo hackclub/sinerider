@@ -6,16 +6,11 @@ uniform sampler2D acc;
 varying vec2 TexCoords;
 
 void main(void) {
-    vec3 currentCol = texture2D(current, TexCoords).rgb;
-    vec3 accCol = texture2D(acc, TexCoords).rgb;
+  vec3 currentCol = texture2D(current, TexCoords).rgb;
+  vec3 accCol = texture2D(acc, TexCoords).rgb;
 
-    vec3 col = accCol * 0.95 + currentCol;
+  vec3 col = accCol * 0.95 + currentCol;
+  col *= smoothstep(0.0, 0.5, length(col));
 
-    // col = currentCol;
-
-    col *= smoothstep(0.0, 0.5, length(col));
-
-    // col = currentCol;
-
-    gl_FragColor = vec4(col, 1.0);
+  gl_FragColor = vec4(col, 1.0);
 }

@@ -36,7 +36,7 @@ function World(spec) {
     quad = Sunset(sunsetCanvas, assets)
   } 
 
-  function onResizeWindow(event) {
+  function onResizeWindow() {
     sunsetCanvas.width = innerWidth
     sunsetCanvas.height = innerHeight / innerWidth * sunsetCanvas.width
     if (quad)

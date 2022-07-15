@@ -269,6 +269,7 @@ function Level(spec) {
   }
 
   function addSprite(spriteDatum) {
+    console.log(spriteDatum)
     const sprite = Sprite({
       name: 'Sprite '+sprites.length,
       parent: self,
@@ -380,31 +381,31 @@ function Level(spec) {
   let isVectorEditorActive = false
 
   function drawConstantLakeEditor(walkerPositionX) {
-    if (walkerPositionX > 17.5) {
+    if (walkerPositionX > 18.5) {
       if (!isVectorEditorActive) {
         isVectorEditorActive = true
 
         ui.expressionEnvelope.classList.remove('hidden')
 
         ui.expressionEnvelope.animate([
-          // { transform: 'translateY(calc(100% + 20px))', opacity: '0' },
-          // { transform: 'translateY(0px)', opacity: '1' },
-          { opacity: '0' },
-          { opacity: '1' },
+          { transform: 'translateY(calc(100% + 20px))', opacity: '0' },
+          { transform: 'translateY(0px)', opacity: '1' },
+          // { opacity: '0' },
+          // { opacity: '1' },
         ], {
           duration: 1700,
           easing: 'ease-out',
           fill: 'forwards'
         })
       }
-    } else if (walkerPositionX < 16.5 && isVectorEditorActive) {
+    } else if (walkerPositionX < 17.5 && isVectorEditorActive) {
       isVectorEditorActive = false
 
       const animation = ui.expressionEnvelope.animate([
-        // { transform: 'translateY(0px)', opacity: '1' },
-        // { transform: 'translateY(calc(100% + 20px))', opacity: '0' },
-        { opacity: '1' },
-        { opacity: '0' },
+        { transform: 'translateY(0px)', opacity: '1' },
+        { transform: 'translateY(calc(100% + 20px))', opacity: '0' },
+        // { opacity: '1' },
+        // { opacity: '0' },
       ], {
         duration: 1700,
         easing: 'ease-out',
@@ -417,6 +418,7 @@ function Level(spec) {
   }
 
   function loadDatum(datum) {
+    console.log('level datum', datum)
     _.each(datum.sprites, addSprite)
     _.each(datum.walkers, addWalker)
     _.each(datum.sledders, addSledder)

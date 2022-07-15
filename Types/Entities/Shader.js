@@ -1,6 +1,3 @@
-let evaluator
-let vectorField
-
 function Shader(spec) {
   const {
     self,
@@ -18,9 +15,9 @@ function Shader(spec) {
 
   const transform = Transform(spec, self)
 
-  evaluator = math.compile(defaultExpression)
+  let evaluator = math.compile(defaultExpression)
 
-  vectorField = (x, y, t) => {
+  function vectorField(x, y, t) {
     const c = evaluator.evaluate({ x, y, t })
     
     try {

@@ -219,7 +219,7 @@ function Sunset(canvas, assets) {
   }
 
   // `START_STARS_FADE_IN` constant as defined in sunset.frag
-  const START_STARS_FADE_IN = 9.0
+  const START_STARS_FADE_IN = 1.0
 
   // Pass in progress parameter (x distance)
   function draw(progress) {

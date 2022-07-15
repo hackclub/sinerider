@@ -24,9 +24,9 @@ function Sprite(spec = {}) {
 
   const origin = Vector2(spec)
   
-  if (flipX == "*")
+  if (flipX == '*')
     flipX = Math.random() < .5
-  if (flipY == "*")
+  if (flipY == '*')
     flipY = Math.random() < .5
   if (!spec.offset && anchored)
     offset.y = 1
@@ -39,10 +39,10 @@ function Sprite(spec = {}) {
   const slopeTangent = Vector2()
 
   if (asset) {
-    if (asset.includes("*")) {
-      let assetSearch = asset.split(".")[1]?.split("*")[0]
-      let possibleSprites = Object.keys(assets.images).filter(v => v.includes(assetSearch))
-      asset = "images." + possibleSprites[Math.floor(Math.random()*possibleSprites.length)]
+    if (asset.includes('*')) {
+      const assetSearch = new RegExp(`${asset.split('.')[1]?.split('*')[0]}_[0-9]+`)
+      let possibleSprites = Object.keys(assets.images).filter(v => assetSearch.test(v))
+      asset = 'images.' + possibleSprites[Math.floor(Math.random()*possibleSprites.length)]
     }
     image = _.get(assets, asset, $('#error-sprite'))
   }
