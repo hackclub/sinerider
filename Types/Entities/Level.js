@@ -96,7 +96,7 @@ function Level(spec) {
 
   const graph = Graph({
     camera,
-    screen: darkenBufferScreen,
+    screen: isConstantLake() ? darkenBufferScreen : screen,
     globalScope,
     expression: mathquillToMathJS(defaultExpression),
     parent: self,
@@ -303,7 +303,7 @@ function Level(spec) {
       globalScope,
       drawOrder: -3,
       anchored: true,
-      screen: darkenBufferScreen,
+      screen: isConstantLake() ? darkenBufferScreen : screen,
       ...spriteDatum,
     })
 
@@ -484,7 +484,7 @@ function Level(spec) {
         globalScope,
         asset: datum.sky.asset,
         margin: datum.sky.margin,
-        screen: darkenBufferScreen,
+        screen: isConstantLake() ? darkenBufferScreen : screen,
         drawOrder: -10,
         ...datum.sky,
       })
