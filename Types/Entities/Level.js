@@ -74,12 +74,33 @@ function Level(spec) {
 
   trackedEntities.unshift(axes)
 
+  // Credit for screen buffer business logic to LevelBubble.js by @cwalker
+  let darkenBufferOpacity = 0.0
+  const darkenBuffer = ScreenBuffer({
+    parent: self,
+    screen,
+    drawOrder: 2,
+    postProcess: (ctx, width, height) => {
+      // Darken screen
+      ctx.globalCompositeOperation = 'source-atop'
+      ctx.fillStyle = `rgba(0, 0, 0, ${darkenBufferOpacity})`
+      ctx.fillRect(0, 0, width, height)
+      ctx.globalCompositeOperation = 'source-over'
+    }
+  })
+
+  const darkenBufferScreen = Screen({
+    canvas: darkenBuffer.canvas,
+    element: darkenBuffer.canvas,
+  })
+
   const graph = Graph({
     camera,
+    screen: darkenBufferScreen,
     globalScope,
     expression: mathquillToMathJS(defaultExpression),
     parent: self,
-    drawOrder: 100,
+    drawOrder: 1,
     colors,
   })
 
@@ -149,8 +170,12 @@ function Level(spec) {
   function draw() {
     if (isConstantLake() &&
         walkers[0] &&
-        walkers[0].transform.position)
-      drawConstantLakeEditor(walkers[0].transform.position.x)
+        walkers[0].transform.position) {
+      const x = walkers[0].transform.position.x
+      drawConstantLakeEditor(x)
+      console.log(x/20)
+      darkenBufferOpacity = Math.min(0.8, x / 20)
+    }
 
     screen.ctx.save()
     screen.ctx.scale(1, screen.height)
@@ -243,7 +268,7 @@ function Level(spec) {
       camera,
       graph,
       globalScope,
-      drawOrder: 1,
+      drawOrder: 3,
       ...walkerDatum
     })
 
@@ -276,8 +301,9 @@ function Level(spec) {
       camera,
       graph,
       globalScope,
-      drawOrder: -1,
+      drawOrder: -3,
       anchored: true,
+      screen: darkenBufferScreen,
       ...spriteDatum,
     })
 
@@ -291,6 +317,7 @@ function Level(spec) {
       camera,
       globalScope,
       drawOrder: 105,
+      bucket: 2,
       ...textDatum,
     })
 
@@ -455,10 +482,10 @@ function Level(spec) {
         parent:self,
         camera,
         globalScope,
-        asset:datum.sky.asset,
+        asset: datum.sky.asset,
         margin: datum.sky.margin,
-        screen,
-        drawOrder:-10,
+        screen: darkenBufferScreen,
+        drawOrder: -10,
         ...datum.sky,
       })
     if (datum.snow) 
@@ -489,6 +516,7 @@ function Level(spec) {
         dashSettings: [0.5, 0.5],
         fill: false,
       })
+
 
       function setSliderExpression(text) {
         dottedGraph.expression = mathquillToMathJS(text)

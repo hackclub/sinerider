@@ -14,6 +14,7 @@ function Entity(spec, defaultName = 'Entity') {
     drawOrder = 0,
     debugSelf = false,
     debugTree = false,
+    screenBuffer = null,
   } = spec
 
   // Because I constantly forget to use debugSelf instead of simply 'debug'.

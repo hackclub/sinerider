@@ -234,7 +234,7 @@ function onClickResetButton(event) {
 ui.resetButton.addEventListener('click', onClickResetButton)
 
 function onResizeWindow(event) {
-  world.onResizeWindow(innerWidth, innerHeight)
+  world.sendEvent('resize', [innerWidth, innerHeight])
   screen.resize()
   canvasIsDirty = true
   draw()

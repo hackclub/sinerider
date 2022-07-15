@@ -29,6 +29,7 @@
         }
         let deltaX = Math.abs(camera.lowerLeft.x - initialBounding[0].x)/10
         let deltaY = Math.abs(camera.lowerLeft.y - initialBounding[0].y)/10
+        
         screen.ctx.drawImage(image, 
           pos[0] - margin - (1-(1/(1+deltaX)))*margin,
           pos[1] - margin - (1-(1/(1+deltaY)))*margin, 

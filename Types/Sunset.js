@@ -64,7 +64,7 @@ function Sunset(canvas, assets) {
   })
 
   const particleCount = 5000
-  
+
   // [ x, y ]
   const oldParticlePositions = new Float32Array(particleCount * 2)
   const newParticlePositions = new Float32Array(particleCount * 2)
@@ -124,7 +124,7 @@ function Sunset(canvas, assets) {
       if (Math.abs(normX) > 1 || Math.abs(normY) > 1) {
         const resetX = Math.random()
         const resetY = Math.random()
-        
+
         oldParticlePositions[index] = resetX
         oldParticlePositions[index + 1] = resetY
 
@@ -192,8 +192,7 @@ function Sunset(canvas, assets) {
     return newTexture
   }
 
-  function onCanvasResize() {
-    const { width, height } = canvas
+  function resize(width, height) {
     current.destroy()
     current = utils.Texture([ width, height ], gl.RGBA)
     acc = resizeTexture(acc, width, height, gl.RGBA)
@@ -288,8 +287,9 @@ function Sunset(canvas, assets) {
 
   return {
     draw,
+    resize,
     update,
+
     getBuffer,
-    onCanvasResize
   }
 }

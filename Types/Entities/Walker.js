@@ -49,7 +49,7 @@ function Walker(spec) {
     following: self,
     globalScope,
     graph,
-    drawOrder: 1,
+    drawOrder: 3,
   }))
   
   let walking = false

@@ -36,11 +36,10 @@ function World(spec) {
     quad = Sunset(sunsetCanvas, assets)
   } 
 
-  function onResizeWindow() {
-    sunsetCanvas.width = innerWidth
-    sunsetCanvas.height = innerHeight / innerWidth * sunsetCanvas.width
-    if (quad)
-      quad.onCanvasResize()
+  function resize(width, height) {
+    sunsetCanvas.width = width
+    sunsetCanvas.height = height / width * sunsetCanvas.width
+    if (quad) quad.resize(width, height)
   }
 
   const assets = Assets({
@@ -75,7 +74,6 @@ function World(spec) {
   }
 
   function loadingVeilClicked() {
-
     ui.loadingVeil.setAttribute('hide', true)
 
     navigator = Navigator({
@@ -166,7 +164,6 @@ function World(spec) {
   }
 
   function levelCompleted() {
-
     ui.victoryBar.setAttribute('hide', false)
     ui.controlBar.setAttribute('hide', true)
     ui.showAllButton.setAttribute('hide', true)
@@ -319,8 +316,7 @@ function World(spec) {
     start,
     tick,
     draw,
-
-    onResizeWindow,
+    resize,
 
     toggleRunning,
 
