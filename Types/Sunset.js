@@ -218,7 +218,7 @@ function Sunset(canvas, assets) {
   }
 
   // `START_STARS_FADE_IN` constant as defined in sunset.frag
-  const START_STARS_FADE_IN = 1.0
+  const START_STARS_FADE_IN = 8.0
 
   // Pass in progress parameter (x distance)
   function draw(progress) {
@@ -227,8 +227,8 @@ function Sunset(canvas, assets) {
     const iTime = (progress + 0.7) * 5
 
     // Only bother rendering stars if faded in at all
-    // subtract 1 b/c uv
-    if (iTime > START_STARS_FADE_IN - 1) {
+    // subtract 1 b/c uv and length(skyCol)
+    if (iTime > START_STARS_FADE_IN - 2) {
       // Draw points
       step.bind()
       step.setColorAttachment(current)

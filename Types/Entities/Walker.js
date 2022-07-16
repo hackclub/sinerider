@@ -2,8 +2,6 @@ function Walker(spec) {
   const {
     self,
     camera,
-    screen,
-    ctx,
   } = Entity(spec, 'Walker')
 
   const transform = Transform(spec, self)
@@ -20,11 +18,15 @@ function Walker(spec) {
     followDistance = 2,
     domainTransform = null,
     bobSpeed = 0.6,
+    hasDarkMode = false,
+    darkModeOpacity = 0,
   } = spec
 
   if (!_.isArray(walkers))
     walkers = [walkers]
   
+  s = sprite
+
   sprite = Sprite({
     parent: self,
     asset,
@@ -34,6 +36,19 @@ function Walker(spec) {
     speech,
     ...sprite
   })
+
+  const darkSprite = hasDarkMode
+    ? Sprite({
+      parent: self,
+      asset: asset + '_dark',
+      size,
+      globalScope,
+      y: size/2,
+      speech,
+      opacity: darkModeOpacity,
+      ...s,
+    })
+    : null
   
   const clickable = following ? null : Clickable({
     entity: self,
@@ -50,6 +65,7 @@ function Walker(spec) {
     globalScope,
     graph,
     drawOrder: 3,
+    hasDarkMode,
   }))
   
   let walking = false
@@ -80,16 +96,19 @@ function Walker(spec) {
         walkSign = newWalkSign
         transform.position.x += walkSign*walkSpeed*self.tickDelta
         sprite.flipX = walkSign == -1
+        if (darkSprite) darkSprite.flipX = walkSign == -1
       }
     }
     else if (following) {
       if (transform.x - following.transform.x > followDistance) {
         transform.x = following.transform.x + followDistance
         sprite.flipX = true
+        if (darkSprite) darkSprite.flipX = true
       }
       else if (following.transform.x - transform.x > followDistance) {
         transform.x = following.transform.x - followDistance
         sprite.flipX = false
+        if (darkSprite) darkSprite.flipX = false
       }
     }
     
@@ -131,6 +150,16 @@ function Walker(spec) {
     domainTransform: domainTransform || transform,
     
     clickable,
+
+    set darkModeOpacity(o) {
+      if (darkSprite)
+        darkSprite.opacity = o
+      else
+        throw `Tried to set opacity of Sprite without an opacity`
+    },
+    get hasDarkMode() {return hasDarkMode},
+
+    get walkers() {return walkers},
 
     mouseDown,
     mouseMove,

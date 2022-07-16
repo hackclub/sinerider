@@ -96,7 +96,7 @@ function Level(spec) {
 
   const graph = Graph({
     camera,
-    screen: isConstantLake() ? darkenBufferScreen : screen,
+    screen: darkenBufferScreen,
     globalScope,
     expression: mathquillToMathJS(defaultExpression),
     parent: self,
@@ -173,8 +173,15 @@ function Level(spec) {
         walkers[0].transform.position) {
       const x = walkers[0].transform.position.x
       drawConstantLakeEditor(x)
-      console.log(x/20)
-      darkenBufferOpacity = Math.min(0.8, x / 20)
+      darkenBufferOpacity = Math.min(0.9, Math.pow(x / 20, 2))
+      console.log('walkers', walkers)
+      walkers.forEach(walker => {
+        walker.darkModeOpacity = darkenBufferOpacity
+        walker.walkers.map(w => {
+          if (w.hasDarkMode)
+            w.darkModeOpacity = darkenBufferOpacity
+        })
+      })
     }
 
     screen.ctx.save()
@@ -247,15 +254,14 @@ function Level(spec) {
   }
   
   function addTextBubbles(bubbleDatum) {
-
     bubbles.push(
       TextBubble({
         parent:self,
         camera,
-      graph,
-      globalScope,
-        visible:false,
-        place:"top-right",
+        graph,
+        globalScope,
+        visible: false,
+        place: 'top-right',
         ...bubbleDatum
       })
     )
@@ -269,6 +275,7 @@ function Level(spec) {
       graph,
       globalScope,
       drawOrder: 3,
+      hasDarkMode: true,
       ...walkerDatum
     })
 
@@ -303,7 +310,7 @@ function Level(spec) {
       globalScope,
       drawOrder: -3,
       anchored: true,
-      screen: isConstantLake() ? darkenBufferScreen : screen,
+      screen: darkenBufferScreen,
       ...spriteDatum,
     })
 
@@ -484,7 +491,7 @@ function Level(spec) {
         globalScope,
         asset: datum.sky.asset,
         margin: datum.sky.margin,
-        screen: isConstantLake() ? darkenBufferScreen : screen,
+        screen: darkenBufferScreen,
         drawOrder: -10,
         ...datum.sky,
       })

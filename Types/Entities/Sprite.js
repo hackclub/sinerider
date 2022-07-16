@@ -19,6 +19,7 @@ function Sprite(spec = {}) {
     anchored = false,
     sloped = false,
     offset = Vector2(),
+    opacity = 1,
     speech,
   } = spec
 
@@ -83,8 +84,10 @@ function Sprite(spec = {}) {
   }
 
   function drawLocal() {
+    ctx.globalAlpha = opacity
     ctx.scale(flipX ? -1 : 1, flipY ? -1 : 1)
     ctx.drawImage(image, -size/2+offset.x*size/2, -size/2-offset.y*size/2, size, size)
+    ctx.globalAlpha = 1
   }
 
   function draw() {
@@ -93,6 +96,10 @@ function Sprite(spec = {}) {
 
   return self.mix({
     transform,
+
+    get opacity() {return opacity},
+    set opacity(o) {opacity = o},
+
     get size() {return size},
     set size(v) {size = v},
 

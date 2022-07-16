@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 26.3.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#001D00;}
+	.st1{fill:#FFFFFF;}
+	.st2{fill:#2E0000;stroke:#3B0000;stroke-width:4;}
+	.st3{fill:#00000D;stroke:#00003E;stroke-width:4;}
+	.st4{fill:#2E0000;stroke:#3B0000;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;}
+</style>
+<g>
+	<path class="st0" d="M234,258.1c-2.8,65.1-53.8,146.3-79,178.8l28.1-7.7v30.4l37-22.7l34.6,31.6l42.5-22.1l25.7,40.4
+		c19.3-37.6,36-157.2,45.9-228.6s-43.5-76.4-65.2-79.2C281.9,176.2,237.5,176.7,234,258.1z"/>
+	<ellipse class="st1" cx="277" cy="260.6" rx="14.3" ry="20.5"/>
+	
+		<ellipse transform="matrix(0.9931 -0.1175 0.1175 0.9931 -28.0652 39.0801)" class="st1" cx="317.4" cy="257.6" rx="14.4" ry="20.4"/>
+	<ellipse class="st2" cx="262.3" cy="157.1" rx="6.9" ry="7.1"/>
+	<path class="st3" d="M238.6,206.4c9.3-11.3,52.7-27.4,85.1-32.7C292.4,151.8,246.1,160.1,238.6,206.4z"/>
+	<path class="st4" d="M339.7,186.5c-52.1-2.4-90.5,25.2-103.2,39.4l-2.9-16.8c24-28.8,71.5-40.7,95.8-37.7L339.7,186.5z"/>
+</g>
+</svg>
