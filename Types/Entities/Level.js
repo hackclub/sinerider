@@ -79,7 +79,7 @@ function Level(spec) {
   const darkenBuffer = ScreenBuffer({
     parent: self,
     screen,
-    drawOrder: 2,
+    drawOrder: 20,
     postProcess: (ctx, width, height) => {
       // Darken screen
       ctx.globalCompositeOperation = 'source-atop'
@@ -100,7 +100,7 @@ function Level(spec) {
     globalScope,
     expression: mathquillToMathJS(defaultExpression),
     parent: self,
-    drawOrder: 1,
+    drawOrder: 11,
     colors,
   })
 
@@ -133,7 +133,7 @@ function Level(spec) {
       // Change editor to vector field and hide until
       // star field comes out
       ui.expressionEnvelope.classList.add('hidden')
-      ui.mathFieldLabel.innerText = 'Z='
+      ui.mathFieldLabel.innerText = 'V='
 
       ui.mathField.latex(defaultVectorExpression)
       ui.mathFieldStatic.latex(defaultVectorExpression)
@@ -174,12 +174,12 @@ function Level(spec) {
       const x = walkers[0].transform.position.x
       drawConstantLakeEditor(x)
       darkenBufferOpacity = Math.min(0.9, Math.pow(x / 20, 2))
-      console.log('walkers', walkers)
+      const walkerDarkenOpacity = Math.pow(darkenBufferOpacity, 5)
       walkers.forEach(walker => {
-        walker.darkModeOpacity = darkenBufferOpacity
+        walker.darkModeOpacity = walkerDarkenOpacity
         walker.walkers.map(w => {
           if (w.hasDarkMode)
-            w.darkModeOpacity = darkenBufferOpacity
+            w.darkModeOpacity = walkerDarkenOpacity
         })
       })
     }
@@ -274,7 +274,7 @@ function Level(spec) {
       camera,
       graph,
       globalScope,
-      drawOrder: 3,
+      drawOrder: 21,
       hasDarkMode: true,
       ...walkerDatum
     })

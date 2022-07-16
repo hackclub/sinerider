@@ -15,6 +15,7 @@ worldData.push({
       sam_float: '.svg',
       sam_float_dark: '.svg',
       sam_float_left: '.svg',
+      lake: '.jpeg',
       sam_stand_snowball: 'sam_float_left.svg',
       cabin_1: '.png',
       world_map: '.svg',

@@ -63,7 +63,7 @@ function Sunset(canvas, assets) {
     frag: shaders.sunset_frag,
   })
 
-  const particleCount = 5000
+  const particleCount = 1000
 
   // [ x, y ]
   const oldParticlePositions = new Float32Array(particleCount * 2)
@@ -72,10 +72,11 @@ function Sunset(canvas, assets) {
   const livedFor = new Float32Array(particleCount)
 
   function genParticleColor() {
-    const c1 = Math.random() * 0.3
-    const c2 = Math.random() * 0.3
+    // const c = Math.random() * 0.5 + 0.5
+    const c1 = Math.random() * 0.5 + 0.5
+    const c2 = Math.random() * 0.5 + 0.5
     const c3 = Math.random() * 0.5 + 0.5
-    const scale = Math.pow(Math.random(), 2.0) * 0.8 + 0.2
+    const scale = 1.0 // Math.pow(Math.random(), 2.0) * 0.8 + 0.2
     return [ c1 * scale, c2 * scale, c3 * scale ]
   }
 
@@ -98,7 +99,7 @@ function Sunset(canvas, assets) {
     particleColors[colIndex + 1] = col[1]
     particleColors[colIndex + 2] = col[2]
 
-    livedFor[i] = 0
+    livedFor[i] = Math.random() * 3
   }
 
   const oldParticlePositionsBuffer = utils.Array(oldParticlePositions, gl.DYNAMIC_DRAW)
@@ -108,9 +109,7 @@ function Sunset(canvas, assets) {
 
   // const input = document.querySelector('input')
 
-  let F = (x, y) => [x, y]
-
-  const eta = 0.004;
+  const eta = 0.004
   t = 0
 
   function updateParticlePositions(vectorField) {
@@ -121,7 +120,7 @@ function Sunset(canvas, assets) {
       const normY = newParticlePositions[index + 1]
 
       // If out of bounds of canvas then reset
-      if (Math.abs(normX) > 1 || Math.abs(normY) > 1) {
+      if (livedFor[i] > 5 || Math.abs(normX) > 1 || Math.abs(normY) > 1) {
         const resetX = Math.random()
         const resetY = Math.random()
 
@@ -138,7 +137,7 @@ function Sunset(canvas, assets) {
         particleColors[colIndex + 1] = col[1]
         particleColors[colIndex + 2] = col[2]
 
-        livedFor[i] = 0
+        livedFor[i] = Math.random() * 3
 
         continue
       }
@@ -158,7 +157,7 @@ function Sunset(canvas, assets) {
       newParticlePositions[index] = newX
       newParticlePositions[index + 1] = newY
 
-      livedFor[i] += 0.03
+      livedFor[i] += 0.01
     }
   }
 

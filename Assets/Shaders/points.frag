@@ -10,7 +10,7 @@ void main(void) {
   // float a = 1.0;
   // float a = 1.0 - smoothstep(0.0, 0.5, abs(uv.x - 0.5));
   float a = 1.0 - 2.0 * abs(uv.x - 0.5);
-  a *= smoothstep(0.0, 0.5, _livedFor);
+  a *= smoothstep(0.0, 1.5, _livedFor) * (1.0 - smoothstep(3.0, 5.0, _livedFor));
 
   gl_FragColor = vec4(col, a);
 }

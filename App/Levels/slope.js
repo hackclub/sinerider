@@ -126,6 +126,7 @@ const SLOPE = [{
   walkers: [{
     x: -4,
     asset: 'images.benny_float',
+    range: [NINF, 26],
     speech: [{
       speakerX: -0.4,
       content: 'The sun is setting soon',
@@ -176,6 +177,13 @@ const SLOPE = [{
     },
   }],
   sprites: [
+    {
+      // TODO: Replace with actual animated/pretty lake
+      asset: 'images.lake',
+      x: 30,
+      size: 7,
+      y: -0.5,
+    },
     {
       asset: 'images.tree*',
       flipX: "*",

@@ -147,6 +147,7 @@ function Graph(spec) {
   }
   
   function resample() {
+    // console.log('resampling graph', screen, screen.minFramePoint, screen.maxFramePoint)
     camera.frameToWorld(screen.minFramePoint, minWorldPoint)
     camera.frameToWorld(screen.maxFramePoint, maxWorldPoint)
 
@@ -165,7 +166,8 @@ function Graph(spec) {
     sampler.sampleRange(scope, samples, sampleCount, 'x',  minX, maxX)
   }
 
-  function onResizeScreen() {
+  function resize() {
+    console.log('RESIZING GRAPH')
     resample()
   }
 
@@ -177,14 +179,12 @@ function Graph(spec) {
     resample()
   }
 
-  if (!bounds)
-    screen.resizeSubs.push(onResizeScreen)
-
   self.mix(sampler)
 
   return self.mix({
     tick,
     draw,
+    resize,
 
     startRunning,
     stopRunning,

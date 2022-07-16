@@ -20,6 +20,7 @@ function Walker(spec) {
     bobSpeed = 0.6,
     hasDarkMode = false,
     darkModeOpacity = 0,
+    range = [ NINF, PINF ],
   } = spec
 
   if (!_.isArray(walkers))
@@ -64,7 +65,7 @@ function Walker(spec) {
     following: self,
     globalScope,
     graph,
-    drawOrder: 3,
+    drawOrder: 21,
     hasDarkMode,
   }))
   
@@ -111,6 +112,8 @@ function Walker(spec) {
         if (darkSprite) darkSprite.flipX = false
       }
     }
+
+    transform.position.x = _.clamp(transform.position.x, range[0], range[1])
     
     const groundHeight = graph.sample('x', transform.position.x)
 
