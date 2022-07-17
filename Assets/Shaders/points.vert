@@ -4,12 +4,12 @@ attribute float vertexId;
 attribute vec2 oldParticlePos;
 attribute vec2 newParticlePos;
 attribute vec3 particleColor;
-attribute float livedFor;
+attribute float percentLifeLived;
 
 uniform float time;
 
 varying vec2 uv;
-varying float _livedFor;
+varying float _percentLifeLived;
 varying vec3 _particleColor;
 
 vec2 mux(vec2 a, vec2 b, vec2 c, vec2 d, float selector) {
@@ -50,6 +50,6 @@ void main() {
       vertexId
   );
 
-  _livedFor = livedFor;
+  _percentLifeLived = percentLifeLived;
   _particleColor = particleColor;
 }

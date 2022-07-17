@@ -17,23 +17,40 @@ worldData.push({
       sam_float_left: '.svg',
       lake: '.jpeg',
       sam_stand_snowball: 'sam_float_left.svg',
-      cabin_1: '.png',
+      cabin_1: '.webp',
       world_map: '.svg',
-      cloud_1: '.png',
-      cloud_2: '.png',
-      cloud_3: '.png',
-      tree_1: '.png',
-      tree_2: '.png',
-      tree_3: '.png',
-      tree_4: '.png',
-      tree_home_1: '.png',
-      initial_bg:'initial-bg.jpeg',
-      western_slopes_background: '.png',
-      western_slopes_background_no_sky: '.png',
-      logo_text:'.png',
-      rock: '.png',
+      cloud_1: '.webp',
+      cloud_2: '.webp',
+      cloud_3: '.webp',
+      tree_1: '.webp',
+      tree_2: '.webp',
+      tree_3: '.webp',
+      tree_4: '.webp',
+      tree_home_1: '.webp',
+      initial_bg:'initial-bg.webp',
+      western_slopes_background: '.webp',
+      western_slopes_background_no_sky: '.webp',
+      logo_text:'.webp',
+      rock: '.webp',
     },
     sounds: {
+      constant_lake: {
+        base_wo_wind: '.mp3',
+        base: '.mp3',
+        pad_1_loopable: '.mp3',
+        pad_1: '.mp3',
+        pad_2_loopable: '.mp3',
+        pad_2: '.mp3',
+        pad_3_loopable: '.mp3',
+        pad_3: '.mp3',
+        pad_swell_1: '.mp3',
+        pad_swell_2: '.mp3',
+        pad_swell_3: '.mp3',
+        swell_1: '.mp3',
+        swell_2: '.mp3',
+        swell_3: '.mp3',
+        wind: '.mp3',
+      },
       music: {
         intro: '.mp3',
       },
@@ -144,7 +161,7 @@ worldData.push({
     },
     {
       asset: 'images.tree_home_1',
-      flipX: "*",
+      flipX: '*',
       size: 6.1,
       x: 2,
       y: 0,
@@ -153,7 +170,7 @@ worldData.push({
     },
     {
       asset: 'images.tree_home_1',
-      flipX: "*",
+      flipX: '*',
       size: 5.4,
       x: -9,
       y: 0,
@@ -161,7 +178,7 @@ worldData.push({
       anchored:true
     },{
       asset: 'images.tree_home_1',
-      flipX: "*",
+      flipX: '*',
       size: 6.7,
       x: -7.5,
       y: 0,
@@ -170,7 +187,7 @@ worldData.push({
     },
     {
       asset: 'images.tree_home_1',
-      flipX: "*",
+      flipX: '*',
       size: 6.4,
       x: 13,
       y: 0,
@@ -179,7 +196,7 @@ worldData.push({
     },
     {
       asset: 'images.tree_home_1',
-      flipX: "*",
+      flipX: '*',
       size: 5.2,
       x: 21,
       y: 0,
@@ -188,7 +205,7 @@ worldData.push({
     },
     {
       asset: 'images.tree_home_1',
-      flipX: "*",
+      flipX: '*',
       size: 5.9,
       x: 10,
       y: 0,
@@ -197,7 +214,7 @@ worldData.push({
     },
     {
       asset: 'images.tree_home_1',
-      flipX: "*",
+      flipX: '*',
       size: 7.1,
       x: 34.2,
       y: 0,
@@ -206,7 +223,7 @@ worldData.push({
     },
     {
       asset: 'images.tree_home_1',
-      flipX: "*",
+      flipX: '*',
       size: 5.6,
       x: 36.3,
       y: 0,
@@ -236,7 +253,7 @@ worldData.push({
       content: 'A game about love and graphing.'
     }],
     sky: {
-      asset:"images.initial_bg",
+      asset:'images.initial_bg',
       margin: 1
     },
     clouds: {
@@ -251,7 +268,7 @@ worldData.push({
         y: 0.4
       }
     },
-    textBubbles: [{content:"this one!", domSelector:"#run-button", place:"top-left", destroyOnClick:true, style: {fontSize:"1.1rem"}}]
+    textBubbles: [{content:'this one!', domSelector:'#run-button', place:'top-left', destroyOnClick:true, style: {fontSize:'1.1rem'}}]
   },/*{
     name: 'Random',
     nick: 'RANDOM',

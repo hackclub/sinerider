@@ -68,7 +68,7 @@ function GLUtils(gl) {
           return location
       }
 
-      self.instancedAttributes = (array, ext, layout) => {
+      self.instancedAttributes = (ext, array, layout) => {
           array.bind()
       
           for ({ type, name, perInstance, stride = null, offset = null } of layout) {

@@ -38,7 +38,6 @@ function Screen(spec = {}) {
   const maxFramePoint = Vector2()
 
   function resize() {
-    console.log('Screen resize event invoked')
     width = element.innerWidth || element.width
     height = element.innerHeight || element.height
 

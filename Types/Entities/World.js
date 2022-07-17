@@ -29,7 +29,8 @@ function World(spec) {
 
   let quad = null
   let sunsetCanvas = document.createElement('canvas')
-  sunsetCanvas.width = innerWidth
+  const SUNSET_SUPERSAMPLE_RATIO = 1
+  sunsetCanvas.width = innerWidth * SUNSET_SUPERSAMPLE_RATIO
   sunsetCanvas.height = innerHeight / innerWidth * sunsetCanvas.width
 
   function loadQuad() {
@@ -37,7 +38,7 @@ function World(spec) {
   } 
 
   function resize(width, height) {
-    sunsetCanvas.width = width
+    sunsetCanvas.width = width * SUNSET_SUPERSAMPLE_RATIO
     sunsetCanvas.height = height / width * sunsetCanvas.width
     if (quad) quad.resize(width, height)
   }

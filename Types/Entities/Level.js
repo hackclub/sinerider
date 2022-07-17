@@ -1,3 +1,6 @@
+let _assets
+
+
 function Level(spec) {
   const {
     self,
@@ -5,6 +8,8 @@ function Level(spec) {
     screen,
     ui,
   } = Entity(spec, 'Level')
+
+  _assets = assets
 
   const {
     globalScope,
@@ -33,6 +38,7 @@ function Level(spec) {
   const speech = []
   const directors = []
   const bubbles = []
+  const sounds = []
   
   let lowestOrder = 'A'
   let highestOrder = 'A'
@@ -300,8 +306,18 @@ function Level(spec) {
     trackDescendants(sledder, speech)
   }
 
+  function addSound(soundDatum) {
+    const sound = Sound({
+      name: 'Sound ' + soundDatum.asset,
+      parent: self,
+      walkers,
+      ...soundDatum,
+    })
+
+    sounds.push(sound)
+  }
+
   function addSprite(spriteDatum) {
-    console.log(spriteDatum)
     const sprite = Sprite({
       name: 'Sprite '+sprites.length,
       parent: self,
@@ -452,7 +468,7 @@ function Level(spec) {
   }
 
   function loadDatum(datum) {
-    console.log('level datum', datum)
+    _.each(datum.sounds, addSound)
     _.each(datum.sprites, addSprite)
     _.each(datum.walkers, addWalker)
     _.each(datum.sledders, addSledder)
@@ -548,7 +564,6 @@ function Level(spec) {
     ui.mathFieldStatic.latex(latex)
 
     if (isConstantLake()) {
-      console.log('setting expression')
       shader.setVectorFieldExpression(text)
       return
     }

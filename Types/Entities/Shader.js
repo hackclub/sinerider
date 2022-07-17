@@ -32,13 +32,10 @@ function Shader(spec) {
   }
 
   function setVectorFieldExpression(text) {
-    console.log('text', text)
-
     try {
       const e = math.compile(text)
       e.evaluate({ x: 0, y: 0 }) // Make sure can evaluate properly
       evaluator = e
-      console.log('Set new evaluator to: ', text, evaluator)
     } catch (err) {}
   }
 

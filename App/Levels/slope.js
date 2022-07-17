@@ -123,6 +123,28 @@ const SLOPE = [{
     asset: 'images.western_slopes_background_no_sky',
     margin: 1
   },
+  sounds: [
+    // {
+    //   asset: 'sounds.constant_lake.base_wo_wind',
+    //   loop: true,
+    // },
+    // {
+    //   asset: 'sounds.constant_lake.pad_1_loopable',
+    //   loop: true,
+    // },
+    {
+      asset: 'sounds.constant_lake.pad_2_loopable',
+      domain: [ 8, 12 ],
+      fadeOut: 800,
+      duration: 20000
+    },
+    {
+      asset: 'sounds.constant_lake.pad_3_loopable',
+      domain: [ 14, 17 ],
+      fadeOut: 800,
+      duration: 10000,
+    },
+  ],
   walkers: [{
     x: -4,
     asset: 'images.benny_float',

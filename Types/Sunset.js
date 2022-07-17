@@ -69,20 +69,22 @@ function Sunset(canvas, assets) {
   const oldParticlePositions = new Float32Array(particleCount * 2)
   const newParticlePositions = new Float32Array(particleCount * 2)
   const particleColors = new Float32Array(particleCount * 3)
-  const livedFor = new Float32Array(particleCount)
+  const percentLifeLived = new Float32Array(particleCount)
+
+  const lifetimes = new Float32Array(particleCount) // Only used CPU side
 
   function genParticleColor() {
     // const c = Math.random() * 0.5 + 0.5
-    const c1 = Math.random() * 0.5 + 0.5
-    const c2 = Math.random() * 0.5 + 0.5
-    const c3 = Math.random() * 0.5 + 0.5
+    const c1 = Math.random() * 0.3 + 0.0
+    const c2 = Math.random() * 0.5 + 0.3
+    const c3 = Math.random() * 0.2 + 0.8
     const scale = 1.0 // Math.pow(Math.random(), 2.0) * 0.8 + 0.2
     return [ c1 * scale, c2 * scale, c3 * scale ]
   }
 
-  for (let i = 0; i < particleCount; i++) {
-    const posIndex = 2 * i
-    const colIndex = 3 * i
+  function createParticleAt(index) {
+    const posIndex = 2 * index
+    const colIndex = 3 * index
 
     const x = Math.random()
     const y = Math.random()
@@ -99,12 +101,19 @@ function Sunset(canvas, assets) {
     particleColors[colIndex + 1] = col[1]
     particleColors[colIndex + 2] = col[2]
 
-    livedFor[i] = Math.random() * 3
+    const lifetime = Math.random() * 4 + 4 // 5-10
+    
+    lifetimes[index] = lifetime
+    percentLifeLived[index] = 0
+  }
+
+  for (let i = 0; i < particleCount; i++) {
+    createParticleAt(i)
   }
 
   const oldParticlePositionsBuffer = utils.Array(oldParticlePositions, gl.DYNAMIC_DRAW)
   const newParticlePositionsBuffer = utils.Array(newParticlePositions, gl.DYNAMIC_DRAW)
-  const livedForBuffer = utils.Array(livedFor, gl.DYNAMIC_DRAW)
+  const percentLifeLivedBuffer = utils.Array(percentLifeLived, gl.DYNAMIC_DRAW)
   const particleColorBuffer = utils.Array(particleColors, gl.DYNAMIC_DRAW)
 
   // const input = document.querySelector('input')
@@ -119,26 +128,9 @@ function Sunset(canvas, assets) {
       const normX = newParticlePositions[index]
       const normY = newParticlePositions[index + 1]
 
-      // If out of bounds of canvas then reset
-      if (livedFor[i] > 5 || Math.abs(normX) > 1 || Math.abs(normY) > 1) {
-        const resetX = Math.random()
-        const resetY = Math.random()
-
-        oldParticlePositions[index] = resetX
-        oldParticlePositions[index + 1] = resetY
-
-        newParticlePositions[index] = resetX
-        newParticlePositions[index + 1] = resetY
-
-        const colIndex = 3 * i
-        const col = genParticleColor()
-
-        particleColors[colIndex] = col[0]
-        particleColors[colIndex + 1] = col[1]
-        particleColors[colIndex + 2] = col[2]
-
-        livedFor[i] = Math.random() * 3
-
+      // If out of bounds of canvas or end of life then reset
+      if (percentLifeLived[i] > 1 || Math.abs(normX) > 1 || Math.abs(normY) > 1) {
+        createParticleAt(i)
         continue
       }
 
@@ -157,7 +149,7 @@ function Sunset(canvas, assets) {
       newParticlePositions[index] = newX
       newParticlePositions[index + 1] = newY
 
-      livedFor[i] += 0.01
+      percentLifeLived[i] += 1 / (lifetimes[i] * ticksPerSecond)
     }
   }
 
@@ -212,12 +204,12 @@ function Sunset(canvas, assets) {
     updateParticlePositions(vectorField)
     oldParticlePositionsBuffer.data(oldParticlePositions)
     newParticlePositionsBuffer.data(newParticlePositions)
-    livedForBuffer.data(livedFor)
+    percentLifeLivedBuffer.data(percentLifeLived)
     particleColorBuffer.data(particleColors)
   }
 
   // `START_STARS_FADE_IN` constant as defined in sunset.frag
-  const START_STARS_FADE_IN = 8.0
+  const START_STARS_FADE_IN = 0.0
 
   // Pass in progress parameter (x distance)
   function draw(progress) {
@@ -233,17 +225,17 @@ function Sunset(canvas, assets) {
       step.setColorAttachment(current)
       pointsProgram.use()
         .vertices(line)
-        .instancedAttributes(oldParticlePositionsBuffer, ext, [
+        .instancedAttributes(ext, oldParticlePositionsBuffer, [
           { type: 'vec2', name: 'oldParticlePos', perInstance: 1 }
         ])
-        .instancedAttributes(newParticlePositionsBuffer, ext, [
+        .instancedAttributes(ext, newParticlePositionsBuffer, [
           { type: 'vec2', name: 'newParticlePos', perInstance: 1 }
         ])
-        .instancedAttributes(livedForBuffer, ext, [
-          { type: 'float', name: 'livedFor', perInstance: 1 }
-        ])
-        .instancedAttributes(particleColorBuffer, ext, [
+        .instancedAttributes(ext, particleColorBuffer, [
           { type: 'vec3', name: 'particleColor', perInstance: 1 }
+        ])
+        .instancedAttributes(ext, percentLifeLivedBuffer, [
+          { type: 'float', name: 'percentLifeLived', perInstance: 1 }
         ])
         .viewport(canvas.width, canvas.height)
         .drawInstanced(ext, gl.TRIANGLE_STRIP, 4, particleCount)
