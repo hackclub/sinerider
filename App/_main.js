@@ -16,6 +16,9 @@ const ui = {
   loadingVeil: $('#loading-veil'),
   loadingVeilString: $('#loading-string'),
 
+  mobileVeil: $('#mobile-warning-veil'),
+  mobileVeilDismissButton: $('#mobile-warning-dismiss'),
+
   bubblets: $('.bubblets'),
 
   topBar: $('#top-bar'),

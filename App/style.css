@@ -234,11 +234,11 @@ input[valid=false] {
 }
 
 #expression-envelope[disabled=true] > #math-field {
- display: none; 
+  display: none; 
 }
 
 #expression-envelope[disabled=false] > #math-field-static {
- display: none; 
+  display: none; 
 }
 
 #math-field-static {
@@ -379,6 +379,14 @@ input[valid=false] {
 #loading-string {
   text-decoration: underline;
   cursor: pointer;
+}
+
+// if you have a better media query suggestion im all ears
+@media screen and (max-width: 600px) { 
+  #mobile-warning-veil {
+    opacity: 1;
+    color: #676767;
+  }
 }
 
 .background {
