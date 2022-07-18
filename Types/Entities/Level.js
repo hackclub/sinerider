@@ -103,11 +103,11 @@ function Level(spec) {
 
   const graph = Graph({
     camera,
-    screen,
+    screen: darkenBufferScreen,
     globalScope,
     expression: mathquillToMathJS(defaultExpression),
     parent: self,
-    drawOrder: 21,
+    drawOrder: 10,
     colors,
   })
 
