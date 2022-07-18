@@ -36,6 +36,6 @@ function ScreenBuffer(spec) {
     draw,
     resize,
 
-    get canvas() {return bufferCanvas}
+    get canvas() {return bufferCanvas},
   })
 }

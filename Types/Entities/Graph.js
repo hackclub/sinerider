@@ -167,7 +167,6 @@ function Graph(spec) {
   }
 
   function resize() {
-    console.log('RESIZING GRAPH')
     resample()
   }
 

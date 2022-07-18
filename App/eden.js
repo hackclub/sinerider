@@ -35,7 +35,6 @@ worldData.push({
     },
     sounds: {
       constant_lake: {
-        base_wo_wind: '.mp3',
         base: '.mp3',
         pad_1_loopable: '.mp3',
         pad_1: '.mp3',

@@ -51,7 +51,7 @@ const SLOPE = [{
   slider: {expression:"nx", bounds:[-1,1,-1]},
   textBubbles: [{content:"Click here to edit your function", domSelector:"#expression-envelope", place:"top-right", destroyOnClick:true}, {content:"slide me up", domSelector:"#dotted-slider-box", place:"bottom-left",destroyOnClick:true}],
   sky: {
-    asset:'images.initial_bg',
+    asset:'images.western_slopes_background',
     margin: 1,
   },
 },
@@ -132,14 +132,14 @@ const SLOPE = [{
     margin: 1
   },
   sounds: [
-    // {
-    //   asset: 'sounds.constant_lake.base_wo_wind',
-    //   loop: true,
-    // },
-    // {
-    //   asset: 'sounds.constant_lake.pad_1_loopable',
-    //   loop: true,
-    // },
+    {
+      asset: 'sounds.constant_lake.base',
+      loop: true,
+    },
+    {
+      asset: 'sounds.constant_lake.pad_1_loopable',
+      loop: true,
+    },
     {
       asset: 'sounds.constant_lake.pad_2_loopable',
       domain: [ 8, 12 ],
@@ -309,10 +309,6 @@ const SLOPE = [{
   //   velocity: 0.1,
   //   heights:[4,4.8]
   // },
-  sky: {
-    asset: 'images.western_slopes_background',
-    margin: 1,
-  },
 },
 {
   name: 'A real steep hill',

@@ -84,7 +84,7 @@ function LevelBubble(spec) {
     globalScope: bubbletGlobalScope,
     parent: self,
     useDragCamera: false,
-    isBubbleLevel:true,
+    isBubbleLevel: true,
     drawOrder: 10,
   })
 

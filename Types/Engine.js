@@ -65,7 +65,7 @@ function Engine(spec) {
 
   }
 
-  window.addEventListener("keyup", onKeyUp)
+  window.addEventListener('keyup', onKeyUp)
 
   function onResizeWindow(event) {
     screen.resize()

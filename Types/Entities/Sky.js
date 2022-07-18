@@ -51,5 +51,6 @@
     return self.mix({
       tick,
       draw,
+      asset,
     })
   }

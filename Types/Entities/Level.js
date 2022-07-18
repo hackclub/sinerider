@@ -1,4 +1,5 @@
 let _assets
+let darkenBuffer
 
 
 function Level(spec) {
@@ -29,7 +30,7 @@ function Level(spec) {
     flashRunButton = false,
     camera: cameraSpec = {}
   } = datum
-
+  
   const sledders = []
   const walkers = []
   const goals = []
@@ -82,7 +83,7 @@ function Level(spec) {
 
   // Credit for screen buffer business logic to LevelBubble.js by @cwalker
   let darkenBufferOpacity = 0.0
-  const darkenBuffer = ScreenBuffer({
+  darkenBuffer = ScreenBuffer({
     parent: self,
     screen,
     drawOrder: 20,
@@ -102,11 +103,11 @@ function Level(spec) {
 
   const graph = Graph({
     camera,
-    screen: darkenBufferScreen,
+    screen,
     globalScope,
     expression: mathquillToMathJS(defaultExpression),
     parent: self,
-    drawOrder: 11,
+    drawOrder: 21,
     colors,
   })
 
@@ -468,7 +469,8 @@ function Level(spec) {
   }
 
   function loadDatum(datum) {
-    _.each(datum.sounds, addSound)
+    if (!isBubbleLevel)
+      _.each(datum.sounds, addSound)
     _.each(datum.sprites, addSprite)
     _.each(datum.walkers, addWalker)
     _.each(datum.sledders, addSledder)
@@ -566,6 +568,11 @@ function Level(spec) {
   function destroy() {
     _.invokeEach(bubbles, 'destroy')
   }
+
+  function resize(width, height) {
+    console.log('Resize event called in Level')
+    darkenBufferScreen.resize()
+  }
   
   return self.mix({
     awake,
@@ -574,6 +581,8 @@ function Level(spec) {
     
     tick,
     draw,
+
+    resize,
 
     startRunning,
     stopRunning,
