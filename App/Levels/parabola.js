@@ -32,6 +32,10 @@ const PARABOLA = [{
       distance: 1,
     }],
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'Translate Y',
@@ -61,6 +65,10 @@ const PARABOLA = [{
     x: -2,
     y: 0
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'Translate X',
@@ -90,6 +98,10 @@ const PARABOLA = [{
     x: -1,
     y: 0
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'Translate XY',
@@ -119,6 +131,10 @@ const PARABOLA = [{
     x: -1,
     y: 0
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'Way too steep for us.',
@@ -142,6 +158,10 @@ const PARABOLA = [{
     x: -5,
     y: 0
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'Scale X',
@@ -166,6 +186,10 @@ const PARABOLA = [{
     x: -5,
     y: 0
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'Translate Scale X',
@@ -190,6 +214,10 @@ const PARABOLA = [{
     x: 3,
     y: 0
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'Translate Scale XY',
@@ -213,6 +241,10 @@ const PARABOLA = [{
     x: 2,
     y: 0
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'Parabola Reverse Order',
@@ -265,4 +297,8 @@ const PARABOLA = [{
     x: 0,
     y: 0
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 }]

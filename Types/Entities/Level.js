@@ -500,9 +500,9 @@ function Level(spec) {
     } else {
       shader = null
     }
-    if (datum.sky) 
+    if (datum.sky)
       Sky({
-        parent:self,
+        parent: self,
         camera,
         globalScope,
         asset: datum.sky.asset,

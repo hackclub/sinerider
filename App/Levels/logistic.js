@@ -47,6 +47,10 @@ const LOGISTIC = [{
     x: 3,
     y: 0
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },{
   name: 'logistic',
   nick: 'LOGISTIC_PARABOLA',
@@ -96,6 +100,10 @@ const LOGISTIC = [{
     x: 1,
     y: 0
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },{
   name: 'logistic',
   nick: 'LOGISTIC_TRAJECTORY',
@@ -118,6 +126,10 @@ const LOGISTIC = [{
     x: -12,
     y: 0
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },{
   name: 'logistic reorder',
   nick: 'LOGISTIC_REORDER',
@@ -148,6 +160,10 @@ const LOGISTIC = [{
     x: -8,
     y: 0
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },{
   name: 'logistic jump',
   nick: 'LOGISTIC_JUMP',
@@ -177,4 +193,8 @@ const LOGISTIC = [{
     x: -8,
     y: 0
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 }]

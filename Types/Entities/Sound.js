@@ -20,7 +20,6 @@ function Sound(spec) {
 
   function awake() {
     if (!domain) {
-      alert('PLAYING')
       howl.play()
       played = true
       console.log('PLAYING')
@@ -39,7 +38,6 @@ function Sound(spec) {
       // Sounds w/ domains only play once
       if (x > domain[0] && !howl.playing() && !played) {
         played = true
-        alert('PLAYING SOUND')
         howl.play()
       }
 

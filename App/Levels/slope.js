@@ -49,7 +49,11 @@ const SLOPE = [{
     content: 'Edit this function to hit it!'
   }],
   slider: {expression:"nx", bounds:[-1,1,-1]},
-  textBubbles: [{content:"Click here to edit your function", domSelector:"#expression-envelope", place:"top-right", destroyOnClick:true}, {content:"slide me up", domSelector:"#dotted-slider-box", place:"bottom-left",destroyOnClick:true}]
+  textBubbles: [{content:"Click here to edit your function", domSelector:"#expression-envelope", place:"top-right", destroyOnClick:true}, {content:"slide me up", domSelector:"#dotted-slider-box", place:"bottom-left",destroyOnClick:true}],
+  sky: {
+    asset:'images.initial_bg',
+    margin: 1,
+  },
 },
 {
   name: 'Try facing forwards?',
@@ -88,6 +92,10 @@ const SLOPE = [{
     }]
   }],
   slider: {expression:"nx", bounds:[-1,1,1]},
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'Constant Lake',
@@ -301,6 +309,10 @@ const SLOPE = [{
   //   velocity: 0.1,
   //   heights:[4,4.8]
   // },
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'A real steep hill',
@@ -346,6 +358,10 @@ const SLOPE = [{
     expression: 'nx',
     bounds: [-1.5, -1, -1]
   },
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'The bunny slope',
@@ -388,7 +404,11 @@ const SLOPE = [{
       distance: 0.8,
     }]
   }],
-    slider: {expression:"\\frac{-x}{n}", bounds:[1,1.5,1]},
+  slider: {expression:"\\frac{-x}{n}", bounds:[1,1.5,1]},
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'Moving up in the world',
@@ -431,6 +451,10 @@ const SLOPE = [{
     }]
   }],
   slider: {expression:"-x + n", bounds:[-3,1,-3]},
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'About halfway down',
@@ -469,6 +493,10 @@ const SLOPE = [{
     }]
   }],
   slider: {expression:"-x + n", bounds:[-2,0,0]},
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'We\'re at the bottom',
@@ -517,4 +545,8 @@ const SLOPE = [{
       distance: 1,
     }]
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 }]

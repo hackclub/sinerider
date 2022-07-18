@@ -41,6 +41,10 @@ const TIME = [{
       distance: 1,
     }]
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'Time Translate',
@@ -81,6 +85,10 @@ const TIME = [{
     x: -4,
     y: 0,
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'Time Translate X',
@@ -124,6 +132,10 @@ const TIME = [{
       },
     }],
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'Time Translate XY',
@@ -154,6 +166,10 @@ const TIME = [{
       distance: 1,
     }],
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'Time Translate',
@@ -177,6 +193,10 @@ const TIME = [{
     y: 0,
     asset: 'images.lunchbox_sled',
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'sin time translate',
@@ -224,6 +244,10 @@ const TIME = [{
     y: 0,
     asset: 'images.lunchbox_sled',
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'sin time escalate',
@@ -271,6 +295,10 @@ const TIME = [{
     y: 0,
     asset: 'images.sam_sled',
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'sin time oscillate expand',
@@ -316,7 +344,11 @@ const TIME = [{
     x: 0,
     y: 0,
     asset: 'images.lunchbox_sled',
-  }]
+  }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'sin time oscillate parabola',
@@ -352,7 +384,11 @@ const TIME = [{
     x: 0,
     y: 0,
     asset: 'images.lunchbox_sled',
-  }]
+  }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'time parabola negator',
@@ -397,7 +433,11 @@ const TIME = [{
     x: -3,
     y: 0,
     asset: 'images.sam_sled',
-  }]
+  }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'time parabola vertical oscillator',
@@ -423,5 +463,9 @@ const TIME = [{
     x: -4,
     y: 0,
     asset: 'images.sam_sled',
-  }]
+  }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 }]

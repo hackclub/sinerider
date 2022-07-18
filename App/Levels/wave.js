@@ -31,6 +31,10 @@ const WAVE = [{
     x: TAU,
     y: 0
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'Cos',
@@ -65,6 +69,10 @@ const WAVE = [{
     x: TAU,
     y: 0
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'Cos',
@@ -99,6 +107,10 @@ const WAVE = [{
     x: TAU-0.1,
     y: 0
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'Sin Translate X',
@@ -133,6 +145,10 @@ const WAVE = [{
     x: TAU,
     y: 0
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'Sin Translate XY',
@@ -168,6 +184,10 @@ const WAVE = [{
     x: TAU+1,
     y: 0
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'Sin Scale X',
@@ -202,6 +222,10 @@ const WAVE = [{
     x: TAU,
     y: 0
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 },
 {
   name: 'Sin Scale XY',
@@ -231,4 +255,8 @@ const WAVE = [{
     x: -TAU*2/3,
     y: 0
   }],
+  sky: {
+    asset: 'images.western_slopes_background',
+    margin: 1,
+  },
 }]
