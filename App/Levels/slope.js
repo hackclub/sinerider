@@ -135,10 +135,12 @@ const SLOPE = [{
     {
       asset: 'sounds.constant_lake.base',
       loop: true,
+      volume: 0.2,
     },
     {
       asset: 'sounds.constant_lake.pad_1_loopable',
       loop: true,
+      volume: 0.3,
     },
     {
       asset: 'sounds.constant_lake.pad_2_loopable',
@@ -151,6 +153,7 @@ const SLOPE = [{
       domain: [ 14, 17 ],
       fadeOut: 800,
       duration: 10000,
+      volume: 1.2,  
     },
   ],
   walkers: [{

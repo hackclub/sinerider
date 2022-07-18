@@ -40,6 +40,7 @@ function Screen(spec = {}) {
   function resize() {
     width = element.innerWidth || element.width
     height = element.innerHeight || element.height
+    console.log('Width', width, 'height', height)
 
     canvas.width = width
     canvas.height = height

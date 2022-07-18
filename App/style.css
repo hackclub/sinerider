@@ -1,3 +1,14 @@
+* {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+   user-select: none;
+}
+
+
 body {
   position: absolute;
 
@@ -526,6 +537,7 @@ input[valid=false] {
 }
 
 #dotted-math-field-static {
+  filter: drop-shadow(1px 1px 1px #000);
   margin-top: auto; 
   margin-bottom: auto; 
   font-weight: bold;

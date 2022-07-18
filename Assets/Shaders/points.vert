@@ -29,8 +29,8 @@ void main() {
 
   float w = 0.0025;
 
-  vec2 diff = newParticlePos - oldParticlePos;
-  vec2 tang = normalize(vec2(diff.y, -diff.x));
+  vec2 diff = normalize(newParticlePos - oldParticlePos);
+  vec2 tang = vec2(diff.y, -diff.x);
 
   vec2 newA = newParticlePos - tang * w;
   vec2 newB = newParticlePos + tang * w;

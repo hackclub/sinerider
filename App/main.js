@@ -108,7 +108,7 @@ function draw() {
   // Draw order bug where Shader entity isn't actually
   // sorted in World draw array and needs another sort call
   // in order to work? Temp fix (TODO: Fix this)
-  world.sortDrawArray()
+  // world.sortDrawArray()
 
   let entity
   for (let i = 0; i < world.drawArray.length; i++) {
@@ -238,7 +238,7 @@ function onClickResetButton(event) {
 ui.resetButton.addEventListener('click', onClickResetButton)
 
 function onResizeWindow(event) {
-  world.sendEvent('resize', [event.target.innerWidth, event.target.innerHeight])
+  world.sendEvent('resize', [window.innerWidth, window.innerHeight])
   screen.resize()
   canvasIsDirty = true
   draw()

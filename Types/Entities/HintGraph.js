@@ -17,7 +17,7 @@ function HintGraph(spec) {
 
   function createExpression(n) {
     return expressionForm
-      .replace('n', n)
+      .replace('n', n.toFixed(2))
       .replaceAll('+ -', '-')
       .replaceAll('- +', '-')
   }
@@ -42,12 +42,12 @@ function HintGraph(spec) {
 
   function setSliderExpression(text) {
     dottedGraph.expression = mathquillToMathJS(text)
-    ui.dottedMathFieldStatic.latex(text)
+    ui.dottedMathFieldStatic.latex(`Y=${text}`)
   }
 
   ui.dottedSlider.oninput = e => {
-    let val = (ui.dottedSlider.value)/100
-    expression = createExpression(val * (bounds[1] - bounds[0]))
+    let val = (ui.dottedSlider.value) / 100
+    expression = createExpression(val * (bounds[1] - bounds[0]) + bounds[0])
     setSliderExpression(expression)
   }
 
@@ -56,7 +56,7 @@ function HintGraph(spec) {
   setSliderExpression(expression)
 
   function setVisible(visible) {
-    ui.dottedMathFieldStatic.latex(visible ? expression : '')
+    ui.dottedMathFieldStatic.latex(visible ?  `\\text{Y}=${expression}` : '')
     ui.dottedSlider.hidden = !visible
   }
 

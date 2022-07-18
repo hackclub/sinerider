@@ -11,6 +11,7 @@ function Sound(spec) {
     loop = false,
     duration = null,
     fadeOut = 300,
+    volume = 1,
   }  = spec
 
   const howl = _.get(assets, asset)
@@ -25,6 +26,7 @@ function Sound(spec) {
       console.log('PLAYING')
     }
 
+    howl.volume(volume)
     howl.loop(loop)
   }
 
@@ -41,7 +43,6 @@ function Sound(spec) {
         howl.play()
       }
 
-    
       if (domain.length != 2 && domain.length != 4)
         throw `Expected domain in Sound to have 2 (fade in range) or 4 (+ fade out range) elements, got ${domain.length}`
 
@@ -58,16 +59,25 @@ function Sound(spec) {
       howl.volume(howl.volume() * a)
     }
 
-    // if (fadeOut) {
-    //   howl.volume(howl.volume() * math.clamp01(math.unlerp(durationSeconds - fadeOut / 1000, durationSeconds, secondsPlayed)))
-    // }
-
     if (howl.playing())
       secondsPlayed += 1 / ticksPerSecond
+  }
+
+  function onTransitionMap(navigating) {
+    if (navigating)
+      howl.pause()
+    else
+      howl.play()
+  }
+
+  function destroy() {
+    howl.stop()
   }
 
   return self.mix({
     awake,
     tick,
+    destroy,
+    onTransitionMap,
   })
 }

@@ -237,6 +237,7 @@ function Sunset(canvas, assets) {
         .instancedAttributes(ext, percentLifeLivedBuffer, [
           { type: 'float', name: 'percentLifeLived', perInstance: 1 }
         ])
+        .uniform('resolution', [canvas.width, canvas.height])
         .viewport(canvas.width, canvas.height)
         .drawInstanced(ext, gl.TRIANGLE_STRIP, 4, particleCount)
 

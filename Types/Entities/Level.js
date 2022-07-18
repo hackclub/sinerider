@@ -1,5 +1,4 @@
-let _assets
-let darkenBuffer
+let _assets, darkenBuffer, darkenBufferScreen
 
 
 function Level(spec) {
@@ -90,15 +89,14 @@ function Level(spec) {
     postProcess: (ctx, width, height) => {
       // Darken screen
       ctx.globalCompositeOperation = 'source-atop'
-      ctx.fillStyle = `rgba(0, 0, 0, ${darkenBufferOpacity})`
+      ctx.fillStyle = `rgba(1.0, 0.5, 0, ${darkenBufferOpacity})`
       ctx.fillRect(0, 0, width, height)
       ctx.globalCompositeOperation = 'source-over'
     }
   })
 
-  const darkenBufferScreen = Screen({
+  darkenBufferScreen = Screen({
     canvas: darkenBuffer.canvas,
-    element: darkenBuffer.canvas,
   })
 
   const graph = Graph({
@@ -179,16 +177,20 @@ function Level(spec) {
         walkers[0] &&
         walkers[0].transform.position) {
       const x = walkers[0].transform.position.x
+
       drawConstantLakeEditor(x)
       darkenBufferOpacity = Math.min(0.9, Math.pow(x / 20, 2))
+
       const walkerDarkenOpacity = Math.pow(darkenBufferOpacity, 5)
-      walkers.forEach(walker => {
+
+      for (const walker of walkers) {
         walker.darkModeOpacity = walkerDarkenOpacity
-        walker.walkers.map(w => {
+
+        for (const w of walker.walkers) {
           if (w.hasDarkMode)
             w.darkModeOpacity = walkerDarkenOpacity
-        })
-      })
+        }
+      }
     }
 
     screen.ctx.save()
@@ -572,6 +574,7 @@ function Level(spec) {
   function resize(width, height) {
     console.log('Resize event called in Level')
     darkenBufferScreen.resize()
+    graph.resize()
   }
   
   return self.mix({
