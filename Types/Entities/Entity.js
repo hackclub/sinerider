@@ -193,6 +193,7 @@ function Entity(spec, defaultName = 'Entity') {
 
   function setActive(_active) {
     active = _active
+    sendEvent('onSetActive', [_active])
   }
 
   function getLineage() {

@@ -32,7 +32,7 @@ function TextBubble(spec) {
     
     function toggleVisible(newVis = !visible) {
       visible = newVis
-      helperBubble.style.display = visible ? "block" : "none"
+      helperBubble.style.display = visible ? 'block' : 'none'
     }
 
     function awake() {
@@ -40,7 +40,7 @@ function TextBubble(spec) {
     }
 
     function destroy() {
-      toggleVisible(false)
+      console.log('destroying text bubble')
       helperBubble.remove()
       domElement.onmousedown = () => {}
     }
@@ -48,11 +48,16 @@ function TextBubble(spec) {
     if (destroyOnClick)
       domElement.onmousedown = () => {
         self.destroy()  
-      }
+    }
+
+    function onTransitionMap(navigating) {
+      toggleVisible(!navigating)
+    }
 
     return self.mix({
       toggleVisible,
       helperBubble,
+      onTransitionMap,
       
       awake,
       destroy

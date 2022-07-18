@@ -35,7 +35,6 @@ function Sound(spec) {
         throw `walkers cannot be null if walkerRange is passed`
 
       const x = walkers[0].transform.position.x
-      console.log('x', x)
 
       // Sounds w/ domains only play once
       if (x > domain[0] && !howl.playing() && !played) {
@@ -58,7 +57,6 @@ function Sound(spec) {
 
     if (duration) {
       const a = 1 - math.clamp01(math.unlerp(duration - fadeOut, duration, secondsPlayed * 1000))
-      console.log('a', a, 'duration', duration, 'fadeOut', fadeOut, 'secondsPlayed', secondsPlayed)
       howl.volume(howl.volume() * a)
     }
 

@@ -342,7 +342,10 @@ const SLOPE = [{
       }
     }]
   }],
-  slider: {expression:"nx", bounds:[-1.5,-1,-1]},
+  slider: {
+    expression: 'nx',
+    bounds: [-1.5, -1, -1]
+  },
 },
 {
   name: 'The bunny slope',

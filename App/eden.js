@@ -118,7 +118,6 @@ worldData.push({
     sledders: [{
       x: 0,
       asset: 'images.lunchbox_sled',
-      drawOrder: -2,
       speech: {
         x: 0.3,
         content: 'snow!!',
@@ -254,7 +253,7 @@ worldData.push({
     }],
     sky: {
       asset:'images.initial_bg',
-      margin: 1
+      margin: 1,
     },
     clouds: {
       velocity: 0.4,
@@ -268,7 +267,7 @@ worldData.push({
         y: 0.4
       }
     },
-    textBubbles: [{content:'this one!', domSelector:'#run-button', place:'top-left', destroyOnClick:true, style: {fontSize:'1.1rem'}}]
+    textBubbles: [{content:'this one!', domSelector:'#run-button', place:'top-left', destroyOnClick:true, style: {fontSize:'1.1rem'}}],
   },/*{
     name: 'Random',
     nick: 'RANDOM',

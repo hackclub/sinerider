@@ -280,8 +280,8 @@ function Level(spec) {
       camera,
       graph,
       globalScope,
-      drawOrder: 21,
-      hasDarkMode: true,
+      drawOrder: 22,
+      hasDarkMode: isConstantLake(),
       ...walkerDatum
     })
 
@@ -297,7 +297,7 @@ function Level(spec) {
       camera,
       graph,
       globalScope,
-      drawOrder: 10,
+      drawOrder: 22,
       ...sledderDatum,
     })
 
@@ -508,7 +508,7 @@ function Level(spec) {
         asset: datum.sky.asset,
         margin: datum.sky.margin,
         screen: darkenBufferScreen,
-        drawOrder: -10,
+        drawOrder: -1000,
         ...datum.sky,
       })
     if (datum.snow) 
@@ -526,39 +526,20 @@ function Level(spec) {
       })
 
     if (datum.slider && !isBubbleLevel) {
-      const dottedGraph = Graph({
-        camera,
-        globalScope,
-        expression: datum.slider.expression.replace("n", "0"),
+      HintGraph({
+        ui,
         parent: self,
+        camera,
+        screen,
+        globalScope,
         drawOrder: 102,
-        strokeWidth: 0.1,
-        strokeColor: 'rgb(0,255,0)',
-        dashed: true,
-        scaleStroke: true,
-        dashSettings: [0.5, 0.5],
-        fill: false,
+        slider: datum.slider,
       })
-
-
-      function setSliderExpression(text) {
-        dottedGraph.expression = mathquillToMathJS(text)
-    
-        ui.dottedMathFieldStatic.latex(text)
-      }
-      ui.dottedSlider.hidden = false;
-      ui.dottedSlider.oninput = e => {
-        let val = (ui.dottedSlider.value)/100
-        let exp = datum.slider.expression.replace("n", (val*(datum.slider.bounds[1] - datum.slider.bounds[0]) +datum.slider.bounds[0]).toFixed(1))
-        exp = exp.replaceAll("+ -", "-")
-        exp = exp.replaceAll("- +", "-")
-        setSliderExpression(exp)
-      }
-      ui.dottedSlider.value = 100*((datum.slider.bounds[2] - datum.slider.bounds[0])/(datum.slider.bounds[1] - datum.slider.bounds[0]))
-      setSliderExpression(datum.slider.expression.replace("n", datum.slider.bounds[2]).replaceAll("+ -", "-").replaceAll("- +", "-"))
     }
+
     self.sortChildren()
   }
+
 
   function setGraphExpression(text, latex) {
     ui.mathFieldStatic.latex(latex)
@@ -583,10 +564,7 @@ function Level(spec) {
   }
 
   function destroy() {
-    _.invokeEach(bubbles, "destroy")
-
-    ui.dottedMathFieldStatic.latex("")
-    ui.dottedSlider.hidden = "true"
+    _.invokeEach(bubbles, 'destroy')
   }
   
   return self.mix({
