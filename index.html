@@ -127,12 +127,22 @@
       <div class='string' id='loading-string'></div>
     </div>
 
-    <div class='mobile-warning veil' id='mobile-warning-veil' hide=true>
+    <div class='veil mobile-warning' id='mobile-warning-veil' hide=true seen="false">
       <div class='string' id='mobile-warning-remarks'>
         <p>Sinerider is best played on wider screens.</p>
       </div>
       <button class='string button' id='mobile-warning-dismiss'>Nevermind, let me in</button>
     </div>
+
+    <script>
+      function onMobileWarningDismissClick(veil) {
+        console.log('click!')
+        $("#mobile-warning-veil").setAttribute('hide', 'seen')
+        $("#mobile-warning-veil").setAttribute('seen', 'true')
+      }
+      document.querySelector('#mobile-warning-dismiss').addEventListener('click', () => onMobileWarningDismissClick(document.querySelector('#mobile-warning-veil')))
+      // Why here? Just to make sure it's loaded first
+    </script>
 
     <!-- Load External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"></script>
