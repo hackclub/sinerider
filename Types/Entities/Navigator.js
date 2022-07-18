@@ -25,7 +25,7 @@ function Navigator(spec) {
   const map = Sprite({
     parent: self,
     camera,
-    drawOrder: -99.5,
+    drawOrder: LAYERS.map,
     anchored: false,
     size: 178,
     x: 70,
@@ -60,7 +60,7 @@ function Navigator(spec) {
       quad,
       parent: self,
       getShowAll: () => showAll,
-      drawOrder:-98
+      drawOrder: LAYERS.levelBubbles,
     })
 
     return bubble

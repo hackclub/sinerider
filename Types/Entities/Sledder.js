@@ -18,6 +18,7 @@ function Sledder(spec = {}) {
     camera,
     graph,
     speech,
+    speechScreen,
     x: originX = 0
   } = spec
 
@@ -50,6 +51,7 @@ function Sledder(spec = {}) {
     speech,
     globalScope,
     parent: self,
+    speechScreen,
     y: 1,
   })
 

@@ -223,7 +223,6 @@ const SLOPE = [{
       size: 4.8,
       x: -4.5,
       y: 0,
-      drawOrder: 0,
       anchored:true
     },
     {
@@ -232,7 +231,6 @@ const SLOPE = [{
       size: 5.2,
       x: -8.8,
       y: 0,
-      drawOrder: 0,
       anchored:true
     },
     {
@@ -241,7 +239,6 @@ const SLOPE = [{
       size: 4.1,
       x: -3.2,
       y: 0,
-      drawOrder: 0,
       anchored:true
     },
     {
@@ -250,7 +247,6 @@ const SLOPE = [{
       size: 5.4,
       x: 13,
       y: 0,
-      drawOrder: 0,
       anchored:true
     },
     {
@@ -259,7 +255,6 @@ const SLOPE = [{
       size: 4.3,
       x: 21,
       y: 0,
-      drawOrder: 0,
       anchored:true
     },
     {
@@ -268,7 +263,6 @@ const SLOPE = [{
       size: 4.9,
       x: 10,
       y: 0,
-      drawOrder: 0,
       anchored:true
     },
     {
@@ -277,7 +271,6 @@ const SLOPE = [{
       size: 2,
       x: -7,
       y: -0.2,
-      drawOrder: 0,
       anchored:true
     },
     {
@@ -286,7 +279,6 @@ const SLOPE = [{
       size: 3,
       x: 2,
       y: -0.2,
-      drawOrder: 0,
       anchored:true
     },
     {
@@ -295,7 +287,6 @@ const SLOPE = [{
       size: 2.5,
       x: 12,
       y: -0.2,
-      drawOrder: 0,
       anchored:true
     },
     {
@@ -304,7 +295,6 @@ const SLOPE = [{
       size: 1.5,
       x: 18,
       y: -0.2,
-      drawOrder: 0,
       anchored:true
     },
   ],

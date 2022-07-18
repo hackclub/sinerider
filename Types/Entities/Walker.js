@@ -2,6 +2,7 @@ function Walker(spec) {
   const {
     self,
     camera,
+    screen,
   } = Entity(spec, 'Walker')
 
   const transform = Transform(spec, self)
@@ -20,6 +21,7 @@ function Walker(spec) {
     bobSpeed = 0.6,
     hasDarkMode = false,
     darkModeOpacity = 0,
+    speechScreen,
     range = [ NINF, PINF ],
   } = spec
 
@@ -30,11 +32,13 @@ function Walker(spec) {
 
   sprite = Sprite({
     parent: self,
+    drawOrder: self.drawOrder,
     asset,
     size,
     globalScope,
     y: size/2,
     speech,
+    speechScreen,
     ...sprite
   })
 
@@ -47,6 +51,7 @@ function Walker(spec) {
       y: size/2,
       speech,
       opacity: darkModeOpacity,
+      drawOrder: 1000,
       ...s,
     })
     : null
@@ -58,14 +63,16 @@ function Walker(spec) {
   })
 
   walkers = _.map(walkers, v => Walker({
+    drawOrder: self.drawOrder,
     ...v,
     parent: self.parent,
     domainTransform: domainTransform || transform,
     camera,
     following: self,
     globalScope,
+    screen,
+    speechScreen,
     graph,
-    drawOrder: 21,
     hasDarkMode,
   }))
   

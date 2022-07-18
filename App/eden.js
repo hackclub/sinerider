@@ -1,3 +1,28 @@
+// Draw layer enum for layering convenience
+const LAYERS = {
+  sky: -100,
+  background: -90,
+  axes: -80,
+  backSprites: -10,
+  sledders: 0,
+  walkers: 1,
+  foreSprites: 10,
+  snow: 20,
+  graph: 30,
+  hintGraph: 40,
+  clouds: 60,
+  lighting: 70,
+  goals: 80,
+  text: 90,
+  navigator: 100,
+  speech: 110,
+  map: 150,
+  arrows: 160,
+  levelBubbles: 170,
+  darkness: 100,
+  level: 10000,
+}
+
 worldData = []
 
 worldData.push({
@@ -132,14 +157,12 @@ worldData.push({
       x: -4,
       // offset: [0, -2],
       anchored: true,
-      drawOrder: -3,
     },
     {
       asset: 'images.sam_stand_snowball',
       size: 2,
       x: 7.6,
       y: 0,
-      drawOrder: 0,
       sloped: true,
       speech: {
         x: -0.3,
@@ -159,12 +182,12 @@ worldData.push({
     },
     {
       asset: 'images.tree_home_1',
+      drawOrder: LAYERS.foreSprites,
       flipX: '*',
       size: 6.1,
       x: 2,
       y: 0,
-      drawOrder: 0,
-      anchored:true
+      anchored: true
     },
     {
       asset: 'images.tree_home_1',
@@ -172,16 +195,15 @@ worldData.push({
       size: 5.4,
       x: -9,
       y: 0,
-      drawOrder: 0,
-      anchored:true
+      anchored: true
     },{
       asset: 'images.tree_home_1',
+      drawOrder: LAYERS.foreSprites,
       flipX: '*',
       size: 6.7,
       x: -7.5,
       y: 0,
-      drawOrder: 0,
-      anchored:true
+      anchored: true
     },
     {
       asset: 'images.tree_home_1',
@@ -189,17 +211,16 @@ worldData.push({
       size: 6.4,
       x: 13,
       y: 0,
-      drawOrder: 0,
-      anchored:true
+      anchored: true
     },
     {
       asset: 'images.tree_home_1',
+      drawOrder: LAYERS.foreSprites,
       flipX: '*',
       size: 5.2,
       x: 21,
       y: 0,
-      drawOrder: 0,
-      anchored:true
+      anchored: true
     },
     {
       asset: 'images.tree_home_1',
@@ -207,17 +228,16 @@ worldData.push({
       size: 5.9,
       x: 10,
       y: 0,
-      drawOrder: 0,
-      anchored:true
+      anchored: true
     },
     {
       asset: 'images.tree_home_1',
+      drawOrder: LAYERS.foreSprites,
       flipX: '*',
       size: 7.1,
       x: 34.2,
       y: 0,
-      drawOrder: 0,
-      anchored:true
+      anchored: true
     },
     {
       asset: 'images.tree_home_1',
@@ -225,15 +245,14 @@ worldData.push({
       size: 5.6,
       x: 36.3,
       y: 0,
-      drawOrder: 0,
       anchored:true
     },
     {
       asset: 'images.logo_text',
+      drawOrder: LAYERS.foreSprites,
       size: 20,
       x: 20,
       y: 13,
-      drawOrder: 0,
       anchored: false,
     }
   ],
@@ -266,7 +285,13 @@ worldData.push({
         y: 0.4
       }
     },
-    textBubbles: [{content:'this one!', domSelector:'#run-button', place:'top-left', destroyOnClick:true, style: {fontSize:'1.1rem'}}],
+    textBubbles: [{
+      content: 'this one!',
+      domSelector: '#run-button',
+      place: 'top-left',
+      destroyOnClick: true,
+      style: {fontSize:'1.1rem'},
+    }],
   },/*{
     name: 'Random',
     nick: 'RANDOM',

@@ -111,10 +111,9 @@ function draw() {
   // world.sortDrawArray()
 
   let entity
-  for (let i = 0; i < world.drawArray.length; i++) {
-    entity = world.drawArray[i]
-
-    if (entity.activeInHierarchy && entity.draw)
+  for (let i = 0; i < world.activeDrawArray.length; i++) {
+    entity = world.activeDrawArray[i]
+    if (entity.draw)
       entity.draw()
   }
 }

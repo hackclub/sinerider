@@ -85,7 +85,7 @@ function LevelBubble(spec) {
     parent: self,
     useDragCamera: false,
     isBubbleLevel: true,
-    drawOrder: 10,
+    drawOrder: LAYERS.levelBubbles,
   })
 
   const ctx = screen.ctx
@@ -108,6 +108,7 @@ function LevelBubble(spec) {
         truncate: [radius+0.9, radius+0.9],
         point0: bubble.transform.position,
         point1: transform.position,
+        drawOrde: LAYERS.arrows,
         parent: self,
       })
 

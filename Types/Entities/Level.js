@@ -72,7 +72,7 @@ function Level(spec) {
   })
 
   const axes = Axes({
-    drawOrder: -5,
+    drawOrder: LAYERS.axes,
     camera,
     globalScope,
     parent: self,
@@ -85,7 +85,7 @@ function Level(spec) {
   darkenBuffer = ScreenBuffer({
     parent: self,
     screen,
-    drawOrder: 20,
+    drawOrder: LAYERS.lighting,
     postProcess: (ctx, width, height) => {
       // Darken screen
       ctx.globalCompositeOperation = 'source-atop'
@@ -105,7 +105,7 @@ function Level(spec) {
     globalScope,
     expression: mathquillToMathJS(defaultExpression),
     parent: self,
-    drawOrder: 10,
+    drawOrder: LAYERS.graph,
     colors,
   })
 
@@ -232,7 +232,7 @@ function Level(spec) {
       assets,
       sledders,
       globalScope,
-      drawOrder: 110,
+      drawOrder: LAYERS.goals,
       goalCompleted,
       goalFailed,
       getLowestOrder: () => lowestOrder,
@@ -283,7 +283,9 @@ function Level(spec) {
       camera,
       graph,
       globalScope,
-      drawOrder: 22,
+      screen: darkenBufferScreen,
+      speechScreen: screen,
+      drawOrder: LAYERS.walkers,
       hasDarkMode: isConstantLake(),
       ...walkerDatum
     })
@@ -300,7 +302,9 @@ function Level(spec) {
       camera,
       graph,
       globalScope,
-      drawOrder: 22,
+      screen: darkenBufferScreen,
+      drawOrder: LAYERS.sledders,
+      speechScreen: screen,
       ...sledderDatum,
     })
 
@@ -327,9 +331,10 @@ function Level(spec) {
       camera,
       graph,
       globalScope,
-      drawOrder: -3,
+      drawOrder: LAYERS.backSprites,
       anchored: true,
       screen: darkenBufferScreen,
+      speechScreen: screen,
       ...spriteDatum,
     })
 
@@ -342,7 +347,7 @@ function Level(spec) {
       parent: self,
       camera,
       globalScope,
-      drawOrder: 105,
+      drawOrder: LAYERS.text,
       bucket: 2,
       ...textDatum,
     })
@@ -374,7 +379,6 @@ function Level(spec) {
   }
 
   function goalFailed(goal) {
-
     if (goal.order) {
       for (g of goals) {
         if (g.order && !g.completed)
@@ -487,7 +491,8 @@ function Level(spec) {
         globalScope,
         velocity: datum.clouds.velocity,
         heights: datum.clouds.heights,
-        drawOrder: 50,
+        drawOrder: LAYERS.clouds,
+        screen: darkenBufferScreen,
         ...datum.clouds,
       })
     // Constant Lake sunset scene
@@ -497,7 +502,7 @@ function Level(spec) {
         screen,
         assets,
         quad,
-        drawOrder: -10,
+        drawOrder: LAYERS.sky,
         defaultExpression: '(sin(x)-(y-2)*i)*i/2',
         walkerPosition: walkers[0].transform.position,
       })
@@ -512,7 +517,7 @@ function Level(spec) {
         asset: datum.sky.asset,
         margin: datum.sky.margin,
         screen: darkenBufferScreen,
-        drawOrder: -1000,
+        drawOrder: LAYERS.background,
         ...datum.sky,
       })
     if (datum.snow) 
@@ -525,7 +530,8 @@ function Level(spec) {
         velocityX: datum.snow.velocity.x,
         velocityY: datum.snow.velocity.y,
         maxHeight: datum.snow.maxHeight,
-        drawOrder: 20,
+        drawOrder: LAYERS.snow,
+        screen: darkenBufferScreen,
         ...datum.snow,
       })
 
@@ -536,7 +542,7 @@ function Level(spec) {
         camera,
         screen,
         globalScope,
-        drawOrder: 102,
+        drawOrder: LAYERS.hintGraph,
         slider: datum.slider,
       })
     }
