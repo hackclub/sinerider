@@ -59,6 +59,7 @@ function Entity(spec, defaultName = 'Entity') {
 
   const children = []
   const drawArray = parent ? [] : [self]
+  let activeDrawArray = []
   
   const lifecycle = {
     awake: {
@@ -194,6 +195,7 @@ function Entity(spec, defaultName = 'Entity') {
   function setActive(_active) {
     active = _active
     sendEvent('onSetActive', [_active])
+    self.root.updateDrawArray()
   }
 
   function getLineage() {
@@ -222,9 +224,15 @@ function Entity(spec, defaultName = 'Entity') {
   function removeDescendant(descendant) {
     drawArray.splice(drawArray.indexOf(descendant), 1)
   }
+  
+  function updateDrawArray() {
+    console.log('UPDATING WORLD DRAW ARRAY:', activeDrawArray.map(v => v.name))
+    activeDrawArray = drawArray.filter(v => v.activeInHierarchy && v.draw)
+  }
 
   function sortDrawArray() {
     drawArray.sort((a, b) => a.drawOrder - b.drawOrder)
+    updateDrawArray()
   }
   
   return _.mixIn(self, {
@@ -250,7 +258,9 @@ function Entity(spec, defaultName = 'Entity') {
     removeDescendant,
 
     drawArray,
+    get activeDrawArray() {return activeDrawArray},
     sortDrawArray,
+    updateDrawArray,
     
     findChild,
     findDescendant,

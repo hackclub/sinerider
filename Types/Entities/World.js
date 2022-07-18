@@ -87,7 +87,7 @@ function World(spec) {
       quad,
       active: false,
       parent: self,
-      drawOrder:-1000
+      drawOrder: LAYERS.navigator,
     })
 
     if (_.endsWith(location.href, '#random'))
@@ -287,6 +287,7 @@ function World(spec) {
     return {
       name: 'Random Level',
       nick: 'RANDOM',
+      drawOrder: LAYERS.level,
       x: -10,
       y: 0,
       colors: biomes[_.random(0, biomes.length)],

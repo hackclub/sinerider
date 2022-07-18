@@ -21,6 +21,7 @@ function Sprite(spec = {}) {
     offset = Vector2(),
     opacity = 1,
     speech,
+    speechScreen,
   } = spec
 
   const origin = Vector2(spec)
@@ -61,7 +62,8 @@ function Sprite(spec = {}) {
         globalScope,
         x: size*offset.x,
         y: size*offset.y,
-        drawOrder: 100,
+        drawOrder: LAYERS.speech,
+        screen: speechScreen,
         ...s,
       })
     }
