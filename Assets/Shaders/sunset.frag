@@ -7,6 +7,7 @@ uniform float time;
 
 #define PI 3.1415926538
 
+// #define DEBUG_STAR_FIELD
 
 #define LIGHT_SKY_G0_COL  vec3(0.388235, 0.576471, 0.780392)
 #define LIGHT_SKY_G1_COL  vec3(0.243137, 0.431373, 0.686275)
@@ -32,7 +33,6 @@ uniform float time;
 // When to start fading in stars w.r.t. iTime
 #define START_STARS_FADE_IN  8.0
 #define END_STARS_FADE_IN    10.0
-
 
 float rand(vec2 c){
 	return fract(sin(dot(c.xy ,vec2(12.9898,78.233))) * 43758.5453);
@@ -118,7 +118,12 @@ void main(void) {
   vec2 sampleUv = gl_FragCoord.xy/resolution.xy;
 
   vec3 starCol = texture2D(stars, sampleUv).rgb;
+  starCol *= pow(smoothstep(0.0, 0.8, length(starCol)), 2.0);
   col = mix(col, starCol, lerpBetween(START_STARS_FADE_IN, END_STARS_FADE_IN, iTime + sampleUv.y) * (1. - length(skyCol)));
+
+  #if defined(DEBUG_STAR_FIELD)
+  col = starCol;
+  #endif
 
   gl_FragColor = vec4(col, 1.0);
 }

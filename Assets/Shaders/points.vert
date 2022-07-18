@@ -7,6 +7,7 @@ attribute vec3 particleColor;
 attribute float percentLifeLived;
 
 uniform float time;
+uniform vec2 resolution;
 
 varying vec2 uv;
 varying float _percentLifeLived;
@@ -30,12 +31,13 @@ void main() {
   float w = 0.0025;
 
   vec2 diff = normalize(newParticlePos - oldParticlePos);
-  vec2 tang = vec2(diff.y, -diff.x);
+  vec2 tang = vec2(diff.y, -diff.x) * w;
+  tang *= max(1.5 / min(resolution.x, resolution.y), length(tang)) / length(tang);
 
-  vec2 newA = newParticlePos - tang * w;
-  vec2 newB = newParticlePos + tang * w;
-  vec2 oldA = oldParticlePos - tang * w;
-  vec2 oldB = oldParticlePos + tang * w;
+  vec2 newA = newParticlePos - tang;
+  vec2 newB = newParticlePos + tang;
+  vec2 oldA = oldParticlePos - tang;
+  vec2 oldB = oldParticlePos + tang;
 
   vec2 pos = mux(oldA, newA, oldB, newB, vertexId);
   pos = pos * 2.0 - vec2(1.);
