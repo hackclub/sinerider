@@ -26,7 +26,11 @@ function Assets(spec) {
     const extension = extensions[0]
     const name = file.split('.')[0] || key
     const path = 'Assets/'
-      + folders.map(v => v.charAt(0).toUpperCase() + v.slice(1)).join('/')
+      + folders.map(v => v
+        .split('_')
+        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+        .join('_')
+      ).join('/')
       + '/'
       + name
       + '.'
