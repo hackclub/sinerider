@@ -21,8 +21,6 @@ vec2 mux(vec2 a, vec2 b, vec2 c, vec2 d, float selector) {
 }
 
 void main() {
-  // gl_Position = vec4(aCoords * .0095 + aPos.xy * 2. - vec2(1., 1.), 0.0, 1.0);
-
   // -1, -1,
   // -1,  1,
   //  1, -1,

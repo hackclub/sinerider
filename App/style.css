@@ -354,7 +354,27 @@ input[valid=false] {
   left: 0px;
   right: 0px;
 
-  justify-content: flex-end;
+  display: flex;
+  justify-content: space-between;
+}
+
+#volume-slider-box {
+  transition-duration: 1s;
+  border: 2px solid rgba(255,255,255,0);
+  padding: 10px;
+  border-radius: 0 0 10px 0;
+}
+#volume-slider-box:hover {
+  border: 2px solid rgba(255,255,255,0.2);
+  backdrop-filter: blur(9px);
+}
+
+#volume-slider {
+  opacity: 0.1;
+  transition-duration: 1s;
+}
+#volume-slider-box:hover > #volume-slider {
+  opacity: 1;
 }
 
 #top-bar[hide=true] {
@@ -537,14 +557,15 @@ input[valid=false] {
 }
 
 #dotted-math-field-static {
-  filter: drop-shadow(1px 1px 1px #000);
-  margin-top: auto; 
-  margin-bottom: auto; 
+  border: 2px solid rgba(255,255,255,0.2);
+  backdrop-filter: blur(9px);
+  text-shadow: 0px 0px 8px rgba(0,0,0,0.75);
+  margin-top: auto;
+  margin-bottom: auto;
   font-weight: bold;
   font-family:monospace;
-  color:rgb(0,255,0); 
+  color:rgb(0,255,0);
 }
-
 
 #dotted-slider {
   writing-mode: bt-lr; /* IE */

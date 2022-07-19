@@ -211,7 +211,7 @@ function World(spec) {
 
     ui.runButton.setAttribute('hide', true)
     ui.stopButton.setAttribute('hide', false)
-    ui.topBar.setAttribute('hide', true)
+    ui.navigatorButton.setAttribute('hide', true)
     ui.resetButton.setAttribute('hide', true)
 
     assets.sounds.start_running.play()
@@ -231,7 +231,7 @@ function World(spec) {
     ui.victoryBar.setAttribute('hide', true)
 
     ui.controlBar.setAttribute('hide', navigating)
-    ui.topBar.setAttribute('hide', false)
+    ui.navigatorButton.setAttribute('hide', false)
     ui.runButton.setAttribute('hide', false)
     ui.stopButton.setAttribute('hide', true)
     ui.resetButton.setAttribute('hide', false)

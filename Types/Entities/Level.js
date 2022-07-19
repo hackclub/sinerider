@@ -1,4 +1,4 @@
-let _assets, darkenBuffer, darkenBufferScreen
+let _assets, darkenBuffer, darkenBufferScreen, water
 
 
 function Level(spec) {
@@ -81,10 +81,10 @@ function Level(spec) {
   trackedEntities.unshift(axes)
 
   let darkBufferOrScreen = screen
+  let darkenBufferOpacity = 0.0
 
   if (isConstantLake()) {
     // Credit for screen buffer business logic to LevelBubble.js by @cwalker
-    let darkenBufferOpacity = 0.0
     darkenBuffer = ScreenBuffer({
       parent: self,
       screen,
@@ -113,6 +113,7 @@ function Level(spec) {
     parent: self,
     drawOrder: LAYERS.graph,
     colors,
+    sledders,
   })
 
   let shader = null // Only loaded for Constant Lake
@@ -191,7 +192,6 @@ function Level(spec) {
   const id = Math.random()
 
   function draw() {
-    console.log('Drawing level', id)
     if (isConstantLake() &&
         walkers[0] &&
         walkers[0].transform.position) {
@@ -454,7 +454,7 @@ function Level(spec) {
   }
 
   function isConstantLake() {
-    return datum.name === 'Constant Lake'
+    return datum.name === 'Constant Lake' && !isBubbleLevel
   }
 
   let isVectorEditorActive = false
@@ -541,6 +541,15 @@ function Level(spec) {
     } else {
       shader = null
     }
+    if (datum.water)
+      water = Water({
+        parent: self,
+        camera,
+        screen: darkBufferOrScreen,
+        globalScope,
+        drawOrder: LAYERS.backSprites,
+        ...datum.water,
+      })
     if (datum.sky)
       Sky({
         parent: self,
@@ -615,7 +624,6 @@ function Level(spec) {
   }
 
   function resize(width, height) {
-    console.log('Resize event called in Level')
     darkBufferOrScreen.resize()
     graph.resize()
   }

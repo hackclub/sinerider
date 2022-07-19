@@ -209,14 +209,12 @@ const SLOPE = [{
       }],
     },
   }],
+  water: {
+    x: 26,
+    size: 15,
+    y: 6,
+  },
   sprites: [
-    {
-      // TODO: Replace with actual animated/pretty lake
-      asset: 'images.lake',
-      x: 30,
-      size: 7,
-      y: -0.5,
-    },
     {
       asset: 'images.tree*',
       flipX: "*",

@@ -27,6 +27,8 @@ function Camera(spec) {
   const lowerLeft = Vector2()
   const upperRight = Vector2()
 
+  computeCorners()
+
   // Debug values
   const topScreen = Vector2()
   const topWorld = Vector2()
@@ -174,6 +176,7 @@ function Camera(spec) {
     transform.transformPoint(screen.minFramePoint, lowerLeft)
     transform.transformPoint(screen.maxFramePoint, upperRight)
   }
+
 
   function sampleDirector() {
     let _activeDirector

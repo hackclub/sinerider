@@ -40,18 +40,23 @@ worldData.push({
       sam_float: '.svg',
       sam_float_dark: '.svg',
       sam_float_left: '.svg',
-      lake: '.jpeg',
       sam_stand_snowball: 'sam_float_left.svg',
       cabin_1: '.webp',
       world_map: '.svg',
-      cloud_1: '.webp',
-      cloud_2: '.webp',
-      cloud_3: '.webp',
+      cloud_1: '.png',
+      cloud_2: '.png',
+      cloud_3: '.png',
+      cloud_4: '.png',
+      cloud_5: '.png',
       tree_1: '.webp',
       tree_2: '.webp',
       tree_3: '.webp',
       tree_4: '.webp',
+      fox: '.png',
+      slime: '.png',
+      crow: '.png',
       tree_home_1: '.webp',
+      tree_home_2: '.png',
       initial_bg:'initial-bg.webp',
       western_slopes_background: '.webp',
       western_slopes_background_no_sky: '.webp',
@@ -110,6 +115,7 @@ worldData.push({
       blend_frag: 'blend.frag',
       points_frag: 'points.frag',
       points_vert: 'points.vert',
+      lake_frag: 'lake.frag',
       quad_frag: 'quad.frag',
       quad_vert: 'quad.vert',
       sunset_frag: 'sunset.frag',
@@ -187,6 +193,7 @@ worldData.push({
       size: 6.1,
       x: 2,
       y: 0,
+      offset: Vector2(0, 0.8),
       anchored: true
     },
     {
@@ -195,6 +202,7 @@ worldData.push({
       size: 5.4,
       x: -9,
       y: 0,
+      offset: Vector2(0, 0.8),
       anchored: true
     },{
       asset: 'images.tree_home_1',
@@ -203,49 +211,63 @@ worldData.push({
       size: 6.7,
       x: -7.5,
       y: 0,
+      offset: Vector2(0, 0.8),
       anchored: true
     },
     {
-      asset: 'images.tree_home_1',
-      flipX: '*',
+      asset: 'images.tree_home_2',
+      flipX: false,
       size: 6.4,
-      x: 13,
+      x: 8,
       y: 0,
+      offset: Vector2(0, 0.8),
       anchored: true
     },
+    // {
+    //   asset: 'images.tree_home_1',
+    //   drawOrder: LAYERS.foreSprites,
+    //   flipX: '*',
+    //   size: 5.2,
+    //   x: 21,
+    //   y: 0,
+    //   offset: Vector2(0, 0.8),
+    //   anchored: true
+    // },
+    // {
+    //   asset: 'images.tree_home_1',
+    //   flipX: '*',
+    //   size: 5.9,
+    //   x: 10,
+    //   y: 0,
+    //   offset: Vector2(0, 0.8),
+    //   anchored: true
+    // },
+    // {
+    //   asset: 'images.tree_home_1',
+    //   drawOrder: LAYERS.foreSprites,
+    //   flipX: '*',
+    //   size: 7.1,
+    //   x: 34.2,
+    //   y: 0,
+    //   offset: Vector2(0, 0.7),
+    //   anchored: true
+    // },
+    // {
+    //   asset: 'images.tree_home_1',
+    //   flipX: '*',
+    //   size: 5.6,
+    //   x: 36.3,
+    //   y: 0,
+    //   offset: Vector2(0, 0.8),
+    //   anchored:true
+    // },
     {
-      asset: 'images.tree_home_1',
-      drawOrder: LAYERS.foreSprites,
+      asset: 'images.crow',
       flipX: '*',
-      size: 5.2,
-      x: 21,
+      size: 1,
+      x: 31,
       y: 0,
       anchored: true
-    },
-    {
-      asset: 'images.tree_home_1',
-      flipX: '*',
-      size: 5.9,
-      x: 10,
-      y: 0,
-      anchored: true
-    },
-    {
-      asset: 'images.tree_home_1',
-      drawOrder: LAYERS.foreSprites,
-      flipX: '*',
-      size: 7.1,
-      x: 34.2,
-      y: 0,
-      anchored: true
-    },
-    {
-      asset: 'images.tree_home_1',
-      flipX: '*',
-      size: 5.6,
-      x: 36.3,
-      y: 0,
-      anchored:true
     },
     {
       asset: 'images.logo_text',
@@ -274,8 +296,6 @@ worldData.push({
       margin: 1,
     },
     clouds: {
-      velocity: 0.4,
-      heights: [7, 8],
     },
     snow: {
       density: 0.4,
