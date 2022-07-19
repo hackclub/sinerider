@@ -109,13 +109,6 @@ const CONSTANT_LAKE = {
   }],
   sprites: [
     {
-      // TODO: Replace with actual animated/pretty lake
-      asset: 'images.lake',
-      size: 7,
-      x: 30,
-      y: -0.5,
-    },
-    {
       asset: 'images.tree_1',
       flipX: false,
       drawOrder: LAYERS.foreSprites,
