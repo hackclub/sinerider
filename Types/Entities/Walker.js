@@ -49,7 +49,6 @@ function Walker(spec) {
       size,
       globalScope,
       y: size/2,
-      speech,
       opacity: darkModeOpacity,
       drawOrder: 1000,
       ...s,

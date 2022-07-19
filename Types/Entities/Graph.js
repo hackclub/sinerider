@@ -83,8 +83,6 @@ function Graph(spec) {
         ctx.lineTo(screenSpaceSample.x, screenSpaceSample.y)
       }
 
-      console.log('Graph: ', screen.width, screen.height)
-
       ctx.lineTo(screen.width, screen.height)
       ctx.lineTo(0, screen.height)
 

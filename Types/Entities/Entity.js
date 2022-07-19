@@ -226,7 +226,7 @@ function Entity(spec, defaultName = 'Entity') {
   }
   
   function updateDrawArray() {
-    console.log('UPDATING WORLD DRAW ARRAY:', activeDrawArray.map(v => v.name))
+    // console.log('UPDATING WORLD DRAW ARRAY:', activeDrawArray.map(v => v.name))
     activeDrawArray = drawArray.filter(v => v.activeInHierarchy && v.draw)
   }
 

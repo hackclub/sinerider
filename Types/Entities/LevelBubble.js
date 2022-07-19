@@ -77,7 +77,7 @@ function LevelBubble(spec) {
     screen: bubbletScreen
   })
 
-  const bubbletLevel = Level({
+  let bubbletLevel = Level({
     datum: levelDatum,
     screen: bubbletScreen,
     camera: bubbletCamera,
@@ -87,6 +87,11 @@ function LevelBubble(spec) {
     isBubbleLevel: true,
     drawOrder: LAYERS.levelBubbles,
   })
+
+  bubbletLevel.sendEvent('draw')
+  bubbletLevel.active = false
+
+  bubbletLevel.destroy()
 
   const ctx = screen.ctx
 
@@ -125,10 +130,6 @@ function LevelBubble(spec) {
   }
 
   function tick() {
-    if (frameCounter++ < 5)
-      bubbletLevel.sendEvent('draw')
-    else
-      bubbletLevel.active = false
   }
 
   function drawLocal() {

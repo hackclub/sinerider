@@ -202,21 +202,16 @@ function onClickNextButton(event) {
 ui.nextButton.addEventListener('click', onClickNextButton)
 
 function onClickRunButton(event) {
-  if (!world.navigating)
+  if (!world.level?.isConstantLake() && !world.navigating)
     world.toggleRunning()
 
   return true
 }
 
+// TODO: Encapsulate run/stop/victory button behavior (Entity?)
 ui.runButton.addEventListener('click', onClickRunButton)
-
-function onClickStopButton(event) {
-  world.toggleRunning()
-
-  return true
-}
-ui.stopButton.addEventListener('click', onClickStopButton)
-ui.victoryStopButton.addEventListener('click', onClickStopButton)
+ui.stopButton.addEventListener('click', onClickRunButton)
+ui.victoryStopButton.addEventListener('click', onClickRunButton)
 
 function onClickShowAllButton(event) {
   world.navigator.showAll = !world.navigator.showAll

@@ -23,7 +23,6 @@ function Sound(spec) {
     if (!domain) {
       howl.play()
       played = true
-      console.log('PLAYING')
     }
 
     howl.volume(volume)
