@@ -26,6 +26,8 @@ function Walker(spec) {
     victoryX = null,
     levelCompleted,
     range = [ NINF, PINF ],
+    flipX = false,
+    followFlip = true,
   } = spec
 
   if (!_.isArray(walkers))
@@ -42,6 +44,7 @@ function Walker(spec) {
     y: size/2,
     speech,
     speechScreen,
+    flipX,
     ...sprite
   })
 
@@ -54,6 +57,7 @@ function Walker(spec) {
       y: size/2,
       opacity: darkModeOpacity,
       drawOrder: 1000,
+      flipX,
       ...s,
     })
     : null
@@ -81,6 +85,7 @@ function Walker(spec) {
   let walking = false
   let walkSign = 1
   let walkSpeed = 1
+  let oldWalkSign = walkSign
 
   let floatCycle = 0
   let floatCycleSpeed = bobSpeed
@@ -97,21 +102,17 @@ function Walker(spec) {
   let completed = false
 
   function tick() {
-    if (walking) {
+    if (followFlip && walking && !following) {
       camera.frameToWorld(mousePointFrame, mousePoint)
       transform.invertPoint(mousePoint)
 
-      const oldWalkSign = walkSign
-      const newWalkSign = Math.sign(mousePoint.x)
-
-      if (oldWalkSign == newWalkSign || Math.abs(mousePoint.x) > 0.5) {
-        walkSign = newWalkSign
+      if (oldWalkSign == walkSign || Math.abs(mousePoint.x) > 0.5) {
         transform.position.x += walkSign*walkSpeed*self.tickDelta
         sprite.flipX = walkSign == -1
         if (darkSprite) darkSprite.flipX = walkSign == -1
       }
     }
-    else if (following) {
+    else if (followFlip && following) {
       if (transform.x - following.transform.x > followDistance) {
         transform.x = following.transform.x + followDistance
         sprite.flipX = true
@@ -150,11 +151,16 @@ function Walker(spec) {
   }
 
   function mouseDown(point) {
-    walking = true
+    oldWalkSign = walkSign
+    walkSign = Math.sign(point.x)
     mousePointFrame.set(point)
+    walking = true
   }
 
   function mouseMove(point) {
+    oldWalkSign = walkSign
+    walkSign = Math.sign(point.x)
+    walking = true
     mousePointFrame.set(point)
   }
 
@@ -162,9 +168,22 @@ function Walker(spec) {
     walking = false
   }
 
-  function click() {
-
-  }
+  document.addEventListener("keydown", e => {
+    if (e.key == "ArrowRight") {
+      oldWalkSign = walkSign
+      walkSign = Math.sign(1)
+      walking = true
+      return
+    } else if(e.key == "ArrowLeft") {
+      oldWalkSign = walkSign
+      walkSign = Math.sign(-1)
+      walking = true
+    }
+  })
+  document.addEventListener("keyup", e => {
+    if (e.key == "ArrowRight" || e.key == "ArrowLeft") 
+      walking = false
+  })
 
   return self.mix({
     transform,
@@ -185,8 +204,6 @@ function Walker(spec) {
     mouseDown,
     mouseMove,
     mouseUp,
-
-    click,
 
     tick,
     draw,

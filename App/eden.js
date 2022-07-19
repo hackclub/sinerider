@@ -135,22 +135,16 @@ worldData.push({
         color: '#fff',
       }
     }],
-    sprites: [
-    {
-      asset: 'images.cabin_1',
-      size: 6,
-      x: -4,
-      // offset: [0, -2],
-      anchored: true,
-    },
-    {
+    walkers: [{
+      x: 7.6,
+      victoryX: 10,
+      followFlip:false,
       asset: 'images.sam_float',
+      range: [7.6, 7.6],
       size: 2,
       flipX: true,
-      x: 7.6,
-      y: 0,
-      sloped: true,
-      speech: {
+      sloped:true,
+      speech: [{
         x: -0.3,
         y: 1,
         content: 'now hit the green button ⇲',
@@ -164,7 +158,15 @@ worldData.push({
           distance: 0.8,
           color: '#fff',
         }
-      },
+      }]
+    }],
+    sprites: [
+    {
+      asset: 'images.cabin_1',
+      size: 6,
+      x: -4,
+      // offset: [0, -2],
+      anchored: true,
     },
     {
       asset: 'images.tree_home_1',
