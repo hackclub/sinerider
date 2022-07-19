@@ -44,6 +44,8 @@ const ui = {
   dottedMathField: $('#dotted-math-field'),
   dottedMathFieldStatic: $('#dotted-math-field-static'),
   dottedSlider: $("#dotted-slider"),
+
+  volumeSlider: $("#volume-slider"),
   
   variableLabel: $('#variable-label'),
 
@@ -186,6 +188,17 @@ function onExpressionTextChanged(event) {
 
   world.level.sendEvent('setGraphExpression', [ui.expressionText.value])
 }
+
+function onSetVolume(event) {
+  let volume = event.target.value/100
+  console.log("Setting volume to", volume)
+  setGlobalVolumeLevel(volume)
+}
+
+ui.volumeSlider.addEventListener('change', onSetVolume)
+ui.volumeSlider.addEventListener('mouseup', onSetVolume)
+ui.volumeSlider.addEventListener('input', onSetVolume)
+ui.volumeSlider.hidden = false
 
 function onClickMapButton(event) {
   world.onClickMapButton()
