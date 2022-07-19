@@ -83,8 +83,6 @@ function Graph(spec) {
         ctx.lineTo(screenSpaceSample.x, screenSpaceSample.y)
       }
 
-      console.log('Graph: ', screen.width, screen.height)
-
       ctx.lineTo(screen.width, screen.height)
       ctx.lineTo(0, screen.height)
 
@@ -149,7 +147,7 @@ function Graph(spec) {
   }
   
   function resample() {
-    // console.log('resampling graph', screen, screen.minFramePoint, screen.maxFramePoint)
+    // console.log('resampling graph', screen.minFramePoint.toString(), screen.maxFramePoint.toString(), screen)
     camera.frameToWorld(screen.minFramePoint, minWorldPoint)
     camera.frameToWorld(screen.maxFramePoint, maxWorldPoint)
 
