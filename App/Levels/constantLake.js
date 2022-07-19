@@ -69,7 +69,7 @@ const CONSTANT_LAKE = {
       distance: 1.5,
     },{
       speakerX: 0.3,
-      content: 'NOT AS BEAUTIFUL AS YOU M\'LOVELY',
+      content: 'Like a… giant glowing cabbage!!',
       direction: 'up-up-right',
       domain: [6, 9],
       distance: 1.8,
