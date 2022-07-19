@@ -245,6 +245,7 @@ const SLOPE = [{
     {
       asset: 'images.tree*',
       flipX: "*",
+      drawOrder: LAYERS.foreSprites,
       size: 4.4,
       x: 3.7,
       y: 0,
@@ -254,7 +255,6 @@ const SLOPE = [{
     {
       asset: 'images.tree*',
       flipX: "*",
-      drawOrder: LAYERS.foreSprites,
       size: 4.3,
       x: 4.8,
       y: 0,
