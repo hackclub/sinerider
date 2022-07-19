@@ -313,16 +313,17 @@ CONSTANT_LAKE,
     asset: 'images.sam_float',
     speech: [{
       speakerX: 0.3,
-      speakerY: -0.8,
+      speakerY: -0.4,
       content: 'I’m gonna split off and check out the valley.',
       direction: 'up-up-right',
-      distance: 2,
+      distance: 2.5,
     }]
   }],
   sledders: [{
-    asset: 'images.lunchbox_sled',
+    asset: 'images.benny_sled',
     speech: [{
       speakerX: 0,
+      y: 0.6,
       content: 'catch up with you later!',
       direction: 'up-up-left',
       distance: 1,

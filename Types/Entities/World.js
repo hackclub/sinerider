@@ -164,10 +164,15 @@ function World(spec) {
     }
   }
 
-  function levelCompleted() {
-    ui.victoryBar.setAttribute('hide', false)
-    ui.controlBar.setAttribute('hide', true)
-    ui.showAllButton.setAttribute('hide', true)
+  function levelCompleted(soft=false) {
+    if (soft) {
+      nextLevel(2.5)
+    }
+    else {
+      ui.victoryBar.setAttribute('hide', false)
+      ui.controlBar.setAttribute('hide', true)
+      ui.showAllButton.setAttribute('hide', true)
+    }
 
     levelBubble.complete()
   }
@@ -175,10 +180,12 @@ function World(spec) {
   function transitionNavigating(_navigating, duration=1, cb) {
     self.sendEvent('onTransitionMap', [_navigating])
 
+    ui.veil.setAttribute('style', `transition-duration: ${duration}s;`)
     ui.veil.setAttribute('hide', false)
     setTimeout(() => {
       // HACK: to fix camera flicker
       setTimeout(() => {
+        // ui.veil.setAttribute('style', `transition-duration: ${1}s;`)
         ui.veil.setAttribute('hide', true)
       }, 100)
       setNavigating(_navigating)
@@ -187,9 +194,9 @@ function World(spec) {
     }, duration*1000)
   }
 
-  function nextLevel() {
+  function nextLevel(transitionDuration=1) {
     assets.sounds.next_button.play()
-    transitionNavigating(true, 1, () => {
+    transitionNavigating(true, transitionDuration, () => {
       stopRunning(false)
     })
   }

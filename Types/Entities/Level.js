@@ -302,6 +302,7 @@ function Level(spec) {
       camera,
       graph,
       globalScope,
+      levelCompleted,
       screen: darkBufferOrScreen,
       speechScreen: screen,
       drawOrder: LAYERS.walkers,

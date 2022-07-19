@@ -11,7 +11,7 @@ const CONSTANT_LAKE = {
     fov: 7,
   },
   requirements: ['SLOPE_SHALLOWER', 'SLOPE_LOWER'],
-  defaultExpression: '\\frac{2}{1+\\frac{1}{e^{x-5}}}+\\frac{-8}{1+\\frac{1}{e^{x-28}}}',
+  defaultExpression: '\\frac{2}{1+\\frac{1}{e^{x-5}}}+\\frac{-8}{1+\\frac{1}{e^{x-30}}}',
   directors: [{
     type: 'lerp',
     point0: [-1, 0],
@@ -58,8 +58,9 @@ const CONSTANT_LAKE = {
   ],
   walkers: [{
     x: -4,
+    victoryX: 26,
     asset: 'images.benny_float',
-    range: [NINF, 26],
+    range: [NINF, 28],
     speech: [{
       speakerX: -0.4,
       content: 'The sun is setting soon',
@@ -102,7 +103,7 @@ const CONSTANT_LAKE = {
         speakerX: -0.4,
         content: 'I do love you, though.',
         direction: 'up-up-left',
-        domain: [22, 26],
+        domain: [22, 25],
         distance: 1.3,
       }],
     },

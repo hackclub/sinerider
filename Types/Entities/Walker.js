@@ -3,6 +3,7 @@ function Walker(spec) {
     self,
     camera,
     screen,
+    world,
   } = Entity(spec, 'Walker')
 
   const transform = Transform(spec, self)
@@ -22,6 +23,8 @@ function Walker(spec) {
     hasDarkMode = false,
     darkModeOpacity = 0,
     speechScreen,
+    victoryX = null,
+    levelCompleted,
     range = [ NINF, PINF ],
   } = spec
 
@@ -131,6 +134,11 @@ function Walker(spec) {
     floatBob = math.lerp(floatBob, floatCycle, floatBobCoefficient)
 
     transform.position.y = groundHeight+floatBob*floatBobHeight+floatOffset
+
+    if (victoryX != null) {
+      if (Math.sign(victoryX-spec.x) == Math.sign(transform.x-victoryX))
+        levelCompleted(true)
+    }
   }
 
   function draw() {
