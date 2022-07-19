@@ -51,7 +51,11 @@ worldData.push({
       tree_2: '.webp',
       tree_3: '.webp',
       tree_4: '.webp',
+      fox: '.png',
+      slime: '.png',
+      crow: '.png',
       tree_home_1: '.webp',
+      tree_home_2: '.png',
       initial_bg:'initial-bg.webp',
       western_slopes_background: '.webp',
       western_slopes_background_no_sky: '.webp',
@@ -208,15 +212,15 @@ worldData.push({
       offset: Vector2(0, 0.8),
       anchored: true
     },
-    // {
-    //   asset: 'images.tree_home_1',
-    //   flipX: '*',
-    //   size: 6.4,
-    //   x: 13,
-    //   y: 0,
-    //   offset: Vector2(0, 0.8),
-    //   anchored: true
-    // },
+    {
+      asset: 'images.tree_home_2',
+      flipX: false,
+      size: 6.4,
+      x: 8,
+      y: 0,
+      offset: Vector2(0, 0.8),
+      anchored: true
+    },
     // {
     //   asset: 'images.tree_home_1',
     //   drawOrder: LAYERS.foreSprites,
@@ -255,6 +259,14 @@ worldData.push({
     //   offset: Vector2(0, 0.8),
     //   anchored:true
     // },
+    {
+      asset: 'images.crow',
+      flipX: '*',
+      size: 1,
+      x: 31,
+      y: 0,
+      anchored: true
+    },
     {
       asset: 'images.logo_text',
       drawOrder: LAYERS.foreSprites,
