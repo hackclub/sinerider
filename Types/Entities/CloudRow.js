@@ -8,8 +8,9 @@ function CloudRow(spec) {
     } = Entity(spec, 'CloudRow')
 
     const {
-        velocity = 0.8,
+        velocities = [0.1, 0.8],
         heights = [8, 25],
+        sizes = [8, 16],
         graph
     } = spec;
     
@@ -22,7 +23,8 @@ function CloudRow(spec) {
 
     function pushCloud(start = false) {
         let cloudPos
-        let cloudSize = math.lerp(8, 16, Math.random())
+        let cloudSize = math.lerp(sizes[0], sizes[1], Math.random())
+        let velocity = math.lerp(velocities[0], velocities[1], Math.random())
 
         if (start)
             cloudPos = camera.lowerLeft.x + Math.random() * (camera.upperRight.x - camera.lowerLeft.x)
@@ -46,7 +48,7 @@ function CloudRow(spec) {
             y: math.lerp(heights[0], heights[1], Math.pow(Math.random(), 8)),
         })
         clouds.push(cloud)
-        vels.push((Math.random()+0.05)*velocity)
+        vels.push(velocity)
         pos.push(cloudPos) 
         return cloud
     }
