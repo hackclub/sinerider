@@ -94,6 +94,8 @@ function Walker(spec) {
   const mousePointFrame = Vector2()
   const mousePoint = Vector2()
 
+  let completed = false
+
   function tick() {
     if (walking) {
       camera.frameToWorld(mousePointFrame, mousePoint)
@@ -135,9 +137,11 @@ function Walker(spec) {
 
     transform.position.y = groundHeight+floatBob*floatBobHeight+floatOffset
 
-    if (victoryX != null) {
-      if (Math.sign(victoryX-spec.x) == Math.sign(transform.x-victoryX))
-        levelCompleted(true)
+    if (victoryX != null && !completed) {
+      if (Math.sign(victoryX-spec.x) == Math.sign(transform.x-victoryX)) {
+        completed = true
+        levelCompleted()
+      }
     }
   }
 

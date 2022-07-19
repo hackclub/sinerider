@@ -178,24 +178,34 @@ function World(spec) {
   }
 
   function transitionNavigating(_navigating, duration=1, cb) {
-    self.sendEvent('onTransitionMap', [_navigating])
-
     ui.veil.setAttribute('style', `transition-duration: ${duration}s;`)
     ui.veil.setAttribute('hide', false)
+
+    if (_navigating)
+      self.sendEvent('onLevelFadeOut', [_navigating, duration])
+    else
+      self.sendEvent('onMapFadeOut', [_navigating, duration])
+    
     setTimeout(() => {
       // HACK: to fix camera flicker
       setTimeout(() => {
-        // ui.veil.setAttribute('style', `transition-duration: ${1}s;`)
+        ui.veil.setAttribute('style', `transition-duration: ${1}s;`)
         ui.veil.setAttribute('hide', true)
       }, 100)
       setNavigating(_navigating)
+
+      self.sendEvent('onTransitionMap', [_navigating, duration])
+
+      if (_navigating)
+        self.sendEvent('onMapFadeIn', [_navigating, duration])
+      else
+        self.sendEvent('onLevelFadeIn', [_navigating, duration])
 
       if (cb) cb()
     }, duration*1000)
   }
 
   function nextLevel(transitionDuration=1) {
-    assets.sounds.next_button.play()
     transitionNavigating(true, transitionDuration, () => {
       stopRunning(false)
     })

@@ -302,7 +302,12 @@ function Level(spec) {
       camera,
       graph,
       globalScope,
-      levelCompleted,
+      levelCompleted: () => {
+        // for (sound of sounds)
+          // sound.howl.volume(0)
+
+        levelCompleted(true)
+      },
       screen: darkBufferOrScreen,
       speechScreen: screen,
       drawOrder: LAYERS.walkers,

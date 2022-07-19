@@ -223,6 +223,7 @@ ui.levelButton.addEventListener('click', onClickMapButton)
 ui.navigatorButton.addEventListener('click', onClickMapButton)
 
 function onClickNextButton(event) {
+  assets.sounds.next_button.play()
   world.nextLevel()
 }
 

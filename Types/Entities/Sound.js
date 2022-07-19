@@ -19,9 +19,11 @@ function Sound(spec) {
   let secondsPlayed = 0
   let played = false
 
+  let soundId
+
   function awake() {
     if (!domain) {
-      howl.play()
+      soundId = howl.play()
       played = true
     }
 
@@ -39,7 +41,7 @@ function Sound(spec) {
       // Sounds w/ domains only play once
       if (x > domain[0] && !howl.playing() && !played) {
         played = true
-        howl.play()
+        soundId = howl.play()
       }
 
       if (domain.length != 2 && domain.length != 4)
@@ -62,11 +64,12 @@ function Sound(spec) {
       secondsPlayed += 1 / ticksPerSecond
   }
 
-  function onTransitionMap(navigating) {
-    if (navigating)
-      howl.pause()
-    else
-      howl.play()
+  function onLevelFadeOut(navigating, duration) {
+    howl.fade(volume, 0, duration*1000, soundId)
+  }
+
+  function onLevelFadeIn(navigating, duration) {
+    howl.fade(0, volume, duration*1000, soundId)
   }
 
   function destroy() {
@@ -77,6 +80,8 @@ function Sound(spec) {
     awake,
     tick,
     destroy,
-    onTransitionMap,
+    onLevelFadeIn,
+    onLevelFadeOut,
+    howl,
   })
 }
