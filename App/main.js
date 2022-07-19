@@ -44,6 +44,8 @@ const ui = {
   dottedMathField: $('#dotted-math-field'),
   dottedMathFieldStatic: $('#dotted-math-field-static'),
   dottedSlider: $("#dotted-slider"),
+
+  volumeSlider: $("#volume-slider"),
   
   variableLabel: $('#variable-label'),
 
@@ -186,6 +188,31 @@ function onExpressionTextChanged(event) {
 
   world.level.sendEvent('setGraphExpression', [ui.expressionText.value])
 }
+
+function setGlobalVolumeLevel(i) {
+  Howler.volume(i)
+  window.localStorage.setItem('volume', i)
+}
+
+function onSetVolume(event) {
+  let volume = event.target.value / 100
+  console.log("Setting volume to", volume)
+  setGlobalVolumeLevel(volume)
+}
+
+ui.volumeSlider.addEventListener('change', onSetVolume)
+ui.volumeSlider.addEventListener('mouseup', onSetVolume)
+ui.volumeSlider.addEventListener('input', onSetVolume)
+
+// Initial page state
+{
+  let volume = window.localStorage.getItem('volume')
+  if (volume) {
+    setGlobalVolumeLevel(window.localStorage)
+    ui.volumeSlider.value = volume * 100
+  }
+}
+setGlobalVolumeLevel(ui.volumeSlider.value / 100)
 
 function onClickMapButton(event) {
   world.onClickMapButton()
