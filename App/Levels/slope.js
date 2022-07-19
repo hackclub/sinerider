@@ -170,7 +170,7 @@ const SLOPE = [{
       content: 'NOT AS BEAUTIFUL AS YOU M\'LOVELY',
       direction: 'up-up-right',
       domain: [6, 9],
-      distance: 1.3,
+      distance: 1.8,
     }],
     walkers: {
       x: -6,
@@ -180,7 +180,7 @@ const SLOPE = [{
         speakerX: -0.4,
         content: 'It\'s beautiful!',
         direction: 'up-up-left',
-        domain: [4, 7],
+        domain: [4, 8],
         distance: 1.3,
       },{
         color: '#fff',
@@ -210,24 +210,27 @@ const SLOPE = [{
     {
       // TODO: Replace with actual animated/pretty lake
       asset: 'images.lake',
-      x: 30,
       size: 7,
+      x: 30,
       y: -0.5,
     },
     {
       asset: 'images.tree*',
       flipX: "*",
+      drawOrder: LAYERS.foreSprites,
       size: 4.8,
-      x: -4.5,
+      x: -8,
       y: 0,
+      offset: [0, 0.9],
       anchored:true
     },
     {
       asset: 'images.tree*',
       flipX: "*",
       size: 5.2,
-      x: -8.8,
+      x: -4.5,
       y: 0,
+      offset: [0, 0.9],
       anchored:true
     },
     {
@@ -236,62 +239,83 @@ const SLOPE = [{
       size: 4.1,
       x: -3.2,
       y: 0,
+      offset: [0, 0.9],
       anchored:true
     },
     {
       asset: 'images.tree*',
       flipX: "*",
-      size: 5.4,
-      x: 13,
+      size: 4.4,
+      x: 3.7,
       y: 0,
+      offset: [0, 0.9],
       anchored:true
     },
     {
       asset: 'images.tree*',
       flipX: "*",
+      drawOrder: LAYERS.foreSprites,
       size: 4.3,
-      x: 21,
+      x: 4.8,
       y: 0,
+      offset: [0, 0.9],
+      anchored:true
+    },
+    {
+      asset: 'images.tree*',
+      flipX: "*",
+      size: 5,
+      x: 6.3,
+      y: 0,
+      offset: [0, 0.9],
+      anchored:true
+    },
+    {
+      asset: 'images.tree*',
+      flipX: "*",
+      drawOrder: LAYERS.foreSprites,
+      size: 5,
+      x: 7.4,
+      y: 0,
+      offset: [0, 0.9],
       anchored:true
     },
     {
       asset: 'images.tree*',
       flipX: "*",
       size: 4.9,
-      x: 10,
+      x: 11,
       y: 0,
+      offset: [0, 0.9],
+      anchored:true
+    },
+    {
+      asset: 'images.tree*',
+      flipX: "*",
+      size: 5.4,
+      x: 13.2,
+      y: 0,
+      offset: [0, 0.9],
+      anchored:true
+    },
+    {
+      asset: 'images.tree*',
+      flipX: "*",
+      drawOrder: LAYERS.foreSprites,
+      size: 4.3,
+      x: 15,
+      y: 0,
+      offset: [0, 0.9],
       anchored:true
     },
     {
       asset: 'images.rock',
       flipX: "*",
-      size: 2,
-      x: -7,
-      y: -0.2,
-      anchored:true
-    },
-    {
-      asset: 'images.rock',
-      flipX: "*",
+      drawOrder: LAYERS.foreSprites,
       size: 3,
-      x: 2,
+      x: 9,
       y: -0.2,
-      anchored:true
-    },
-    {
-      asset: 'images.rock',
-      flipX: "*",
-      size: 2.5,
-      x: 12,
-      y: -0.2,
-      anchored:true
-    },
-    {
-      asset: 'images.rock',
-      flipX: "*",
-      size: 1.5,
-      x: 18,
-      y: -0.2,
+      offset: [0, 0.6],
       anchored:true
     },
   ],
