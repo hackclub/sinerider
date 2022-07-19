@@ -211,6 +211,11 @@ function World(spec) {
     })
   }
 
+  function onClickNextButton() {
+    assets.sounds.next_button.play()
+    nextLevel()
+  }
+
   function getEditing() {
     return editing
   }
@@ -351,6 +356,7 @@ function World(spec) {
 
     onClickMapButton,
     onClickResetButton,
+    onClickNextButton,
 
     onMathFieldFocus,
     onMathFieldBlur,
