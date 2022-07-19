@@ -266,7 +266,7 @@ worldData.push({
       x: 14,
       y: -4,
       size: 1.5,
-      fill: '#ffffff',
+      fill: '#c4acd4',
       content: 'A game about love and graphing.'
     }],
     sky: {
