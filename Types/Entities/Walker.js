@@ -26,6 +26,8 @@ function Walker(spec) {
     victoryX = null,
     levelCompleted,
     range = [ NINF, PINF ],
+    flipX = false,
+    followFlip = true,
   } = spec
 
   if (!_.isArray(walkers))
@@ -42,6 +44,7 @@ function Walker(spec) {
     y: size/2,
     speech,
     speechScreen,
+    flipX,
     ...sprite
   })
 
@@ -54,6 +57,7 @@ function Walker(spec) {
       y: size/2,
       opacity: darkModeOpacity,
       drawOrder: 1000,
+      flipX,
       ...s,
     })
     : null
@@ -95,7 +99,7 @@ function Walker(spec) {
   const mousePoint = Vector2()
 
   function tick() {
-    if (walking) {
+    if (followFlip && walking) {
       camera.frameToWorld(mousePointFrame, mousePoint)
       transform.invertPoint(mousePoint)
 
@@ -109,7 +113,7 @@ function Walker(spec) {
         if (darkSprite) darkSprite.flipX = walkSign == -1
       }
     }
-    else if (following) {
+    else if (followFlip && following) {
       if (transform.x - following.transform.x > followDistance) {
         transform.x = following.transform.x + followDistance
         sprite.flipX = true
