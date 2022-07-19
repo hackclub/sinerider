@@ -15,6 +15,7 @@ function Navigator(spec) {
     screen,
     fov: 20,
     parent: self,
+    offset: [0, 0],
   })
 
   const waypointDirector = WaypointDirector({
