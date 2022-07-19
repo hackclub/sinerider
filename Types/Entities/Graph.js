@@ -19,6 +19,7 @@ function Graph(spec) {
     dashed = false,
     dashOffset = 0,
     dashSettings = [0.5, 0.5],
+    sledders = [],
   } = spec
 
   let {
@@ -176,6 +177,8 @@ function Graph(spec) {
 
   function stopRunning() {
     resample()
+    
+    _.invokeEach(sledders, 'reset')
   }
 
   self.mix(sampler)
