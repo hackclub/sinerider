@@ -25,6 +25,9 @@ function Sprite(spec = {}) {
   } = spec
 
   const origin = Vector2(spec)
+
+  if (spec.offset)
+    offset = Vector2(spec.offset)
   
   if (flipX == '*')
     flipX = Math.random() < .5

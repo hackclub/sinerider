@@ -1,28 +1,3 @@
-// Draw layer enum for layering convenience
-const LAYERS = {
-  sky: -100,
-  background: -90,
-  axes: -80,
-  backSprites: -10,
-  sledders: 0,
-  walkers: 1,
-  foreSprites: 10,
-  snow: 20,
-  graph: 30,
-  hintGraph: 40,
-  clouds: 60,
-  lighting: 70,
-  goals: 80,
-  text: 90,
-  navigator: 100,
-  speech: 110,
-  map: 150,
-  arrows: 160,
-  levelBubbles: 170,
-  darkness: 100,
-  level: 10000,
-}
-
 worldData = []
 
 worldData.push({
@@ -30,14 +5,14 @@ worldData.push({
   name: 'Eden',
   assets: {
     images: {
-      lunchbox_sam_sled: 'benny_sam_sled.svg',
+      lunchbox_sam_sled: 'ada_jack_sled.png',
       lunchbox_sled: 'benny_sled.svg',
-      benny_sled: '.svg',
-      benny_float: '.svg',
+      benny_sled: 'jack_sled.png',
+      benny_float: 'jack_float_right.png',
       benny_float_dark: '.svg',
       benny_float_left: '.svg',
       sam_sled: '.svg',
-      sam_float: '.svg',
+      sam_float: 'ada_float_right.png',
       sam_float_dark: '.svg',
       sam_float_left: '.svg',
       sam_stand_snowball: 'sam_float_left.svg',
@@ -147,7 +122,7 @@ worldData.push({
     ],
     sledders: [{
       x: 0,
-      asset: 'images.lunchbox_sled',
+      asset: 'images.benny_sled',
       speech: {
         x: 0.3,
         content: 'snow!!',
@@ -165,8 +140,9 @@ worldData.push({
       anchored: true,
     },
     {
-      asset: 'images.sam_stand_snowball',
+      asset: 'images.sam_float',
       size: 2,
+      flipX: true,
       x: 7.6,
       y: 0,
       sloped: true,

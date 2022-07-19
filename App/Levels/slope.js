@@ -111,17 +111,16 @@ const SLOPE = [{
   },
   requirements: ['SLOPE_NEGATIVE'],
   defaultExpression: '\\frac{2}{1+\\frac{1}{e^{x-5}}}+\\frac{-8}{1+\\frac{1}{e^{x-28}}}',
-  hint: 'hint: go negative',
   directors: [{
     type: 'lerp',
     point0: [-1, 0],
-    point1: [8, 0],
+    point1: [10, 0],
     state0: {
       position: [-2, 3.5],
       fov: 5,
     },
     state1: {
-      position: [10, 8],
+      position: [16, 8],
       fov: 12,
     },
   }],
@@ -167,44 +166,42 @@ const SLOPE = [{
       domain: [-3, 0],
       distance: 1.5,
     },{
-      color: '#fff',
       speakerX: 0.3,
       content: 'NOT AS BEAUTIFUL AS YOU M\'LOVELY',
       direction: 'up-up-right',
-      domain: [6, 10],
-      distance: 1.3,
+      domain: [6, 9],
+      distance: 1.8,
     }],
     walkers: {
       x: -6,
       asset: 'images.sam_float',
       bobSpeed: 0.918218,
       speech: [{
-        color: '#fff',
         speakerX: -0.4,
         content: 'It\'s beautiful!',
         direction: 'up-up-left',
-        domain: [4, 7],
+        domain: [4, 8],
         distance: 1.3,
       },{
         color: '#fff',
         speakerX: -0.4,
         content: '...',
         direction: 'up-up-left',
-        domain: [9, 12],
+        domain: [12, 14],
         distance: 1.0,
       },{
         color: '#fff',
         speakerX: -0.4,
         content: '…you\'re such a dork.',
         direction: 'up-up-left',
-        domain: [12, 15],
+        domain: [14, 17],
         distance: 1.3,
       },{
         color: '#fff',
         speakerX: -0.4,
         content: 'I do love you, though.',
         direction: 'up-up-left',
-        domain: [18, 24],
+        domain: [22, 26],
         distance: 1.3,
       }],
     },
@@ -218,17 +215,20 @@ const SLOPE = [{
     {
       asset: 'images.tree*',
       flipX: "*",
+      drawOrder: LAYERS.foreSprites,
       size: 4.8,
-      x: -4.5,
+      x: -8,
       y: 0,
+      offset: [0, 0.9],
       anchored:true
     },
     {
       asset: 'images.tree*',
       flipX: "*",
       size: 5.2,
-      x: -8.8,
+      x: -4.5,
       y: 0,
+      offset: [0, 0.9],
       anchored:true
     },
     {
@@ -237,62 +237,83 @@ const SLOPE = [{
       size: 4.1,
       x: -3.2,
       y: 0,
+      offset: [0, 0.9],
       anchored:true
     },
     {
       asset: 'images.tree*',
       flipX: "*",
-      size: 5.4,
-      x: 13,
+      drawOrder: LAYERS.foreSprites,
+      size: 4.4,
+      x: 3.7,
       y: 0,
+      offset: [0, 0.9],
       anchored:true
     },
     {
       asset: 'images.tree*',
       flipX: "*",
       size: 4.3,
-      x: 21,
+      x: 4.8,
       y: 0,
+      offset: [0, 0.9],
+      anchored:true
+    },
+    {
+      asset: 'images.tree*',
+      flipX: "*",
+      size: 5,
+      x: 6.3,
+      y: 0,
+      offset: [0, 0.9],
+      anchored:true
+    },
+    {
+      asset: 'images.tree*',
+      flipX: "*",
+      drawOrder: LAYERS.foreSprites,
+      size: 5,
+      x: 7.4,
+      y: 0,
+      offset: [0, 0.9],
       anchored:true
     },
     {
       asset: 'images.tree*',
       flipX: "*",
       size: 4.9,
-      x: 10,
+      x: 11,
       y: 0,
+      offset: [0, 0.9],
+      anchored:true
+    },
+    {
+      asset: 'images.tree*',
+      flipX: "*",
+      size: 5.4,
+      x: 13.2,
+      y: 0,
+      offset: [0, 0.9],
+      anchored:true
+    },
+    {
+      asset: 'images.tree*',
+      flipX: "*",
+      drawOrder: LAYERS.foreSprites,
+      size: 4.3,
+      x: 15,
+      y: 0,
+      offset: [0, 0.9],
       anchored:true
     },
     {
       asset: 'images.rock',
       flipX: "*",
-      size: 2,
-      x: -7,
-      y: -0.2,
-      anchored:true
-    },
-    {
-      asset: 'images.rock',
-      flipX: "*",
+      drawOrder: LAYERS.foreSprites,
       size: 3,
-      x: 2,
+      x: 9,
       y: -0.2,
-      anchored:true
-    },
-    {
-      asset: 'images.rock',
-      flipX: "*",
-      size: 2.5,
-      x: 12,
-      y: -0.2,
-      anchored:true
-    },
-    {
-      asset: 'images.rock',
-      flipX: "*",
-      size: 1.5,
-      x: 18,
-      y: -0.2,
+      offset: [0, 0.6],
       anchored:true
     },
   ],
