@@ -44,9 +44,11 @@ worldData.push({
       sam_stand_snowball: 'sam_float_left.svg',
       cabin_1: '.webp',
       world_map: '.svg',
-      cloud_1: '.webp',
-      cloud_2: '.webp',
-      cloud_3: '.webp',
+      cloud_1: '.png',
+      cloud_2: '.png',
+      cloud_3: '.png',
+      cloud_4: '.png',
+      cloud_5: '.png',
       tree_1: '.webp',
       tree_2: '.webp',
       tree_3: '.webp',
@@ -274,8 +276,6 @@ worldData.push({
       margin: 1,
     },
     clouds: {
-      velocity: 0.4,
-      heights: [7, 8],
     },
     snow: {
       density: 0.4,

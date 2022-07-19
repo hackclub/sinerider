@@ -8,8 +8,8 @@ function CloudRow(spec) {
     } = Entity(spec, 'CloudRow')
 
     const {
-        velocity,
-        heights,
+        velocity = 0.8,
+        heights = [8, 25],
         graph
     } = spec;
     
@@ -20,34 +20,51 @@ function CloudRow(spec) {
     let pastFOV = camera.fov
     let deltaFOV = 0
 
+    function pushCloud(start = false) {
+        let cloudPos
+        let cloudSize = math.lerp(8, 16, Math.random())
+
+        if (start)
+            cloudPos = camera.lowerLeft.x + Math.random() * (camera.upperRight.x - camera.lowerLeft.x)
+        else {
+            if (Math.abs(deltaFOV) > 0.001)
+                cloudPos = Math.random() > 0.5 ? camera.lowerLeft.x - cloudSize : camera.upperRight.x + cloudSize
+            else
+                cloudPos = velocity > 0 ? camera.lowerLeft.x - cloudSize : camera.upperRight.x + cloudSize
+        }
+
+        const cloud = Sprite({
+            name: 'Cloud '+i,
+            parent: self,
+            camera,
+            graph,
+            globalScope,
+            asset: `images.cloud_${Math.floor(Math.random()*4.99999) + 1}`,
+            size: cloudSize,
+            opacity: math.lerp(0.5, 0.9, Math.random()),
+            x: cloudPos,
+            y: math.lerp(heights[0], heights[1], Math.pow(Math.random(), 8)),
+        })
+        clouds.push(cloud)
+        vels.push((Math.random()+0.05)*velocity)
+        pos.push(cloudPos) 
+        return cloud
+    }
 
     function draw() {
         deltaFOV = camera.fov - pastFOV
         pastFOV = camera.fov
         if (firstFrame > 0) {
             firstFrame--
-            for (i = 0; i < camera.fov && firstFrame == 0; i+=0.2) {
-                let cloudPos = camera.lowerLeft.x + Math.random() * (camera.upperRight.x - camera.lowerLeft.x)
-                clouds.push(Sprite({
-                    name: 'Cloud '+i,
-                    parent: self,
-                    camera,
-                    graph,
-                    globalScope,
-                    asset: `images.cloud_${Math.floor(Math.random()*3) + 1}`,
-                    size: 2,
-                    x: cloudPos,
-                    y: Math.random() * (heights[1] - heights[0] + 1) + heights[0],
-                }))
-                vels.push(velocity)
-                pos.push(cloudPos) 
+            for (i = 0; i < camera.fov && firstFrame == 0; i+=0.4) {
+                pushCloud(true)
             }
         }
         for (cloud in clouds) {
-            clouds[cloud].size = 2
+            // clouds[cloud].size = 2
             pos[cloud] += vels[cloud]*tickDelta
             clouds[cloud].transform.x = pos[cloud]
-            if (pos[cloud] > camera.upperRight.x+clouds[cloud].size || pos[cloud] < camera.lowerLeft.x-clouds[cloud].size) {
+            if (pos[cloud] > camera.upperRight.x+clouds[cloud].size+1 || pos[cloud] < camera.lowerLeft.x-clouds[cloud].size-1) {
                 clouds[cloud].destroy()
                 delete clouds[cloud]
                 delete pos[cloud]
@@ -58,25 +75,8 @@ function CloudRow(spec) {
         pos.filter(v => v != null)
         vels.filter(v => v != null)
 
-        if (Math.random() < 0.02 + (deltaFOV*3)) {
-            let cloudPos;
-            if (Math.abs(deltaFOV) > 0.001) {
-                cloudPos = Math.random() > 0.5 ? camera.lowerLeft.x - 2 : camera.upperRight.x + 2;
-            } else
-                cloudPos = velocity > 0 ? camera.lowerLeft.x - 2 : camera.upperRight.x + 2;
-            clouds.push(Sprite({
-                name: 'Cloud '+Math.random(),
-                parent: self,
-                camera,
-                graph,
-                globalScope,
-                asset: `images.cloud_${Math.floor(Math.random()*3) + 1}`,
-                size: 2,
-                x: cloudPos,
-                y: Math.random() * (heights[1] - heights[0] + 1) + heights[0],
-            }))
-            vels.push((Math.random()+0.03)*velocity)
-            pos.push(cloudPos) 
+        if (Math.random() < 0.007 + (deltaFOV*3)) {
+            pushCloud()
         }
     }
 
