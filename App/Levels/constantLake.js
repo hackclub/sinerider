@@ -1,16 +1,16 @@
 const CONSTANT_LAKE = {
   name: 'Constant Lake',
-  nick: 'SLOPE_CONVERSATION_1',
+  nick: 'CONSTANT_LAKE',
   colors: Colors.biomes.alps,
-  radius: 2,
-  x: 7.5,
-  y: 0,
+  // radius: 2,
+  x: 5,
+  y: 10,
   camera: {
     x: 2,
     y: -2,
     fov: 7,
   },
-  requirements: ['SLOPE_NEGATIVE'],
+  requirements: ['SLOPE_SHALLOWER', 'SLOPE_LOWER'],
   defaultExpression: '\\frac{2}{1+\\frac{1}{e^{x-5}}}+\\frac{-8}{1+\\frac{1}{e^{x-28}}}',
   directors: [{
     type: 'lerp',
