@@ -74,7 +74,7 @@ const screen = Screen({
 
 let w = worldData[0]
 
-const DEBUG_CONSTANT_LAKE = false
+const DEBUG_CONSTANT_LAKE = true
 
 if (DEBUG_CONSTANT_LAKE) {
   // make Constant Lake first level for testing
