@@ -187,6 +187,7 @@ worldData.push({
       size: 6.1,
       x: 2,
       y: 0,
+      offset: Vector2(0, 0.8),
       anchored: true
     },
     {
@@ -195,6 +196,7 @@ worldData.push({
       size: 5.4,
       x: -9,
       y: 0,
+      offset: Vector2(0, 0.8),
       anchored: true
     },{
       asset: 'images.tree_home_1',
@@ -203,50 +205,56 @@ worldData.push({
       size: 6.7,
       x: -7.5,
       y: 0,
+      offset: Vector2(0, 0.8),
       anchored: true
     },
-    {
-      asset: 'images.tree_home_1',
-      flipX: '*',
-      size: 6.4,
-      x: 13,
-      y: 0,
-      anchored: true
-    },
-    {
-      asset: 'images.tree_home_1',
-      drawOrder: LAYERS.foreSprites,
-      flipX: '*',
-      size: 5.2,
-      x: 21,
-      y: 0,
-      anchored: true
-    },
-    {
-      asset: 'images.tree_home_1',
-      flipX: '*',
-      size: 5.9,
-      x: 10,
-      y: 0,
-      anchored: true
-    },
-    {
-      asset: 'images.tree_home_1',
-      drawOrder: LAYERS.foreSprites,
-      flipX: '*',
-      size: 7.1,
-      x: 34.2,
-      y: 0,
-      anchored: true
-    },
-    {
-      asset: 'images.tree_home_1',
-      flipX: '*',
-      size: 5.6,
-      x: 36.3,
-      y: 0,
-      anchored:true
-    },
+    // {
+    //   asset: 'images.tree_home_1',
+    //   flipX: '*',
+    //   size: 6.4,
+    //   x: 13,
+    //   y: 0,
+    //   offset: Vector2(0, 0.8),
+    //   anchored: true
+    // },
+    // {
+    //   asset: 'images.tree_home_1',
+    //   drawOrder: LAYERS.foreSprites,
+    //   flipX: '*',
+    //   size: 5.2,
+    //   x: 21,
+    //   y: 0,
+    //   offset: Vector2(0, 0.8),
+    //   anchored: true
+    // },
+    // {
+    //   asset: 'images.tree_home_1',
+    //   flipX: '*',
+    //   size: 5.9,
+    //   x: 10,
+    //   y: 0,
+    //   offset: Vector2(0, 0.8),
+    //   anchored: true
+    // },
+    // {
+    //   asset: 'images.tree_home_1',
+    //   drawOrder: LAYERS.foreSprites,
+    //   flipX: '*',
+    //   size: 7.1,
+    //   x: 34.2,
+    //   y: 0,
+    //   offset: Vector2(0, 0.7),
+    //   anchored: true
+    // },
+    // {
+    //   asset: 'images.tree_home_1',
+    //   flipX: '*',
+    //   size: 5.6,
+    //   x: 36.3,
+    //   y: 0,
+    //   offset: Vector2(0, 0.8),
+    //   anchored:true
+    // },
     {
       asset: 'images.logo_text',
       drawOrder: LAYERS.foreSprites,
