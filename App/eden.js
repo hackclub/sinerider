@@ -53,7 +53,11 @@ worldData.push({
       tree_2: '.webp',
       tree_3: '.webp',
       tree_4: '.webp',
+      fox: '.png',
+      slime: '.png',
+      crow: '.png',
       tree_home_1: '.webp',
+      tree_home_2: '.png',
       initial_bg:'initial-bg.webp',
       western_slopes_background: '.webp',
       western_slopes_background_no_sky: '.webp',
@@ -189,6 +193,7 @@ worldData.push({
       size: 6.1,
       x: 2,
       y: 0,
+      offset: Vector2(0, 0.8),
       anchored: true
     },
     {
@@ -197,6 +202,7 @@ worldData.push({
       size: 5.4,
       x: -9,
       y: 0,
+      offset: Vector2(0, 0.8),
       anchored: true
     },{
       asset: 'images.tree_home_1',
@@ -205,49 +211,63 @@ worldData.push({
       size: 6.7,
       x: -7.5,
       y: 0,
+      offset: Vector2(0, 0.8),
       anchored: true
     },
     {
-      asset: 'images.tree_home_1',
-      flipX: '*',
+      asset: 'images.tree_home_2',
+      flipX: false,
       size: 6.4,
-      x: 13,
+      x: 8,
       y: 0,
+      offset: Vector2(0, 0.8),
       anchored: true
     },
+    // {
+    //   asset: 'images.tree_home_1',
+    //   drawOrder: LAYERS.foreSprites,
+    //   flipX: '*',
+    //   size: 5.2,
+    //   x: 21,
+    //   y: 0,
+    //   offset: Vector2(0, 0.8),
+    //   anchored: true
+    // },
+    // {
+    //   asset: 'images.tree_home_1',
+    //   flipX: '*',
+    //   size: 5.9,
+    //   x: 10,
+    //   y: 0,
+    //   offset: Vector2(0, 0.8),
+    //   anchored: true
+    // },
+    // {
+    //   asset: 'images.tree_home_1',
+    //   drawOrder: LAYERS.foreSprites,
+    //   flipX: '*',
+    //   size: 7.1,
+    //   x: 34.2,
+    //   y: 0,
+    //   offset: Vector2(0, 0.7),
+    //   anchored: true
+    // },
+    // {
+    //   asset: 'images.tree_home_1',
+    //   flipX: '*',
+    //   size: 5.6,
+    //   x: 36.3,
+    //   y: 0,
+    //   offset: Vector2(0, 0.8),
+    //   anchored:true
+    // },
     {
-      asset: 'images.tree_home_1',
-      drawOrder: LAYERS.foreSprites,
+      asset: 'images.crow',
       flipX: '*',
-      size: 5.2,
-      x: 21,
+      size: 1,
+      x: 31,
       y: 0,
       anchored: true
-    },
-    {
-      asset: 'images.tree_home_1',
-      flipX: '*',
-      size: 5.9,
-      x: 10,
-      y: 0,
-      anchored: true
-    },
-    {
-      asset: 'images.tree_home_1',
-      drawOrder: LAYERS.foreSprites,
-      flipX: '*',
-      size: 7.1,
-      x: 34.2,
-      y: 0,
-      anchored: true
-    },
-    {
-      asset: 'images.tree_home_1',
-      flipX: '*',
-      size: 5.6,
-      x: 36.3,
-      y: 0,
-      anchored:true
     },
     {
       asset: 'images.logo_text',
