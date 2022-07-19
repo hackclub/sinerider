@@ -3,7 +3,6 @@ function Speech(spec) {
     self,
     screen,
     camera,
-    ctx,
   } = Entity(spec, 'Speech')
 
   let {
@@ -22,7 +21,6 @@ function Speech(spec) {
     drawIfRunning = false,
     globalScope,
   } = spec
-
 
   const transform = Transform(spec, self)
 
@@ -142,14 +140,14 @@ function Speech(spec) {
       if (_.isString(s))
         s = {content: s}
 
-      Speech({
-        parent: self,
-        domainTransform,
-        globalScope,
-        x: textOrigin.x + (s.x || 0),
-        y: textOrigin.y + (s.y || 0) + size*0.8,
-        ...s,
-      })
+      // Speech({
+      //   parent: self,
+      //   domainTransform,
+      //   globalScope,
+      //   x: textOrigin.x + (s.x || 0),
+      //   y: textOrigin.y + (s.y || 0) + size*0.8,
+      //   ...s,
+      // })
     }
   }
 
@@ -195,6 +193,8 @@ function Speech(spec) {
 
     calculatePoints()
     transformPoints()
+
+    ctx = screen.ctx
 
     ctx.strokeStyle = color
     ctx.lineWidth = scalar/15

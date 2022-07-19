@@ -173,7 +173,7 @@ function World(spec) {
   }
 
   function transitionNavigating(_navigating, duration=1, cb) {
-    self.sendEvent('onTransitionMap', [ _navigating ])
+    self.sendEvent('onTransitionMap', [_navigating])
 
     ui.veil.setAttribute('hide', false)
     setTimeout(() => {

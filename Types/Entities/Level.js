@@ -1,4 +1,4 @@
-let _assets, darkenBuffer, darkenBufferScreen
+let _assets, darkenBuffer, darkenBufferScreen, water
 
 
 function Level(spec) {
@@ -80,28 +80,34 @@ function Level(spec) {
 
   trackedEntities.unshift(axes)
 
-  // Credit for screen buffer business logic to LevelBubble.js by @cwalker
+  let darkBufferOrScreen = screen
   let darkenBufferOpacity = 0.0
-  darkenBuffer = ScreenBuffer({
-    parent: self,
-    screen,
-    drawOrder: LAYERS.lighting,
-    postProcess: (ctx, width, height) => {
-      // Darken screen
-      ctx.globalCompositeOperation = 'source-atop'
-      ctx.fillStyle = `rgba(1.0, 0.5, 0, ${darkenBufferOpacity})`
-      ctx.fillRect(0, 0, width, height)
-      ctx.globalCompositeOperation = 'source-over'
-    }
-  })
 
-  darkenBufferScreen = Screen({
-    canvas: darkenBuffer.canvas,
-  })
+  if (isConstantLake()) {
+    // Credit for screen buffer business logic to LevelBubble.js by @cwalker
+    darkenBuffer = ScreenBuffer({
+      parent: self,
+      screen,
+      drawOrder: LAYERS.lighting,
+      postProcess: (ctx, width, height) => {
+        // Darken screen
+        ctx.globalCompositeOperation = 'source-atop'
+        ctx.fillStyle = `rgba(1.0, 0.5, 0, ${darkenBufferOpacity})`
+        ctx.fillRect(0, 0, width, height)
+        ctx.globalCompositeOperation = 'source-over'
+      }
+    })
+
+    darkenBufferScreen = Screen({
+      canvas: darkenBuffer.canvas,
+    })
+
+    darkBufferOrScreen = darkenBufferScreen
+  }
 
   const graph = Graph({
     camera,
-    screen: darkenBufferScreen,
+    screen: darkBufferOrScreen,
     globalScope,
     expression: mathquillToMathJS(defaultExpression),
     parent: self,
@@ -128,6 +134,7 @@ function Level(spec) {
 
   const defaultVectorExpression = '\\frac{(\\sin(x) - (y - 2) \\cdot i) \\cdot i}{2}'
 
+
   function awake() {
     refreshLowestOrder()
 
@@ -136,6 +143,13 @@ function Level(spec) {
     assignPlayerPosition()
     
     if (isConstantLake()) {
+      // HACK: Enable run button for Walker scene
+      ui.runButton.setAttribute('hide', true)
+      ui.stopButton.setAttribute('hide', false)
+
+      // Hide reset until vector field
+      ui.resetButton.setAttribute('hide', true)
+
       // Change editor to vector field and hide until
       // star field comes out
       ui.expressionEnvelope.classList.add('hidden')
@@ -161,9 +175,11 @@ function Level(spec) {
   }
 
   function tick() {
-    let time = (Math.round(globalScope.t*10)/10).toString()
+    let time = isConstantLake()
+      ? walkers[0].transform.position.x.toFixed(1)
+      : (Math.round(globalScope.t*10)/10).toString()
 
-    if (globalScope.running && !_.includes(time, '.'))
+    if ((globalScope.running || isConstantLake()) && !_.includes(time, '.'))
       time += '.0'
 
     // ui.timeString.innerHTML = 'T='+time
@@ -172,6 +188,8 @@ function Level(spec) {
 
     assignPlayerPosition()
   }
+
+  const id = Math.random()
 
   function draw() {
     if (isConstantLake() &&
@@ -279,12 +297,12 @@ function Level(spec) {
 
   function addWalker(walkerDatum) {
     const walker = Walker({
-      name: 'Walker '+walkers.length,
+      name: 'Walker ' + walkers.length,
       parent: self,
       camera,
       graph,
       globalScope,
-      screen: darkenBufferScreen,
+      screen: darkBufferOrScreen,
       speechScreen: screen,
       drawOrder: LAYERS.walkers,
       hasDarkMode: isConstantLake(),
@@ -303,7 +321,7 @@ function Level(spec) {
       camera,
       graph,
       globalScope,
-      screen: darkenBufferScreen,
+      screen: darkBufferOrScreen,
       drawOrder: LAYERS.sledders,
       speechScreen: screen,
       ...sledderDatum,
@@ -334,7 +352,7 @@ function Level(spec) {
       globalScope,
       drawOrder: LAYERS.backSprites,
       anchored: true,
-      screen: darkenBufferScreen,
+      screen: darkBufferOrScreen,
       speechScreen: screen,
       ...spriteDatum,
     })
@@ -349,7 +367,6 @@ function Level(spec) {
       camera,
       globalScope,
       drawOrder: LAYERS.text,
-      bucket: 2,
       ...textDatum,
     })
 
@@ -396,8 +413,12 @@ function Level(spec) {
   }
 
   function reset() {
-    ui.mathField.latex(defaultExpression)
-    // self.sendEvent('setGraphExpression', [defaultExpression, defaultExpression])
+    const expression = isConstantLake() ? defaultVectorExpression : defaultExpression;
+
+    ui.mathField.latex(expression)
+
+    self.sendEvent('setGraphExpression', [ mathquillToMathJS(expression), expression ])
+
     refreshLowestOrder()
   }
 
@@ -433,45 +454,55 @@ function Level(spec) {
   }
 
   function isConstantLake() {
-    return datum.name === 'Constant Lake'
+    return datum.name === 'Constant Lake' && !isBubbleLevel
   }
 
   let isVectorEditorActive = false
 
+  const showUIAnimation = {
+    keyframes: [
+      { transform: 'translateY(calc(100% + 20px))', opacity: '0' },
+      { transform: 'translateY(0px)', opacity: '1' },
+      // { opacity: '0' },
+      // { opacity: '1' },
+    ],
+    options: {
+      duration: 1700,
+      easing: 'ease-out',
+      fill: 'forwards',
+    }
+  }
+
+  const hideUIAnimation = {
+    keyframes: [
+      { transform: 'translateY(0px)', opacity: '1' },
+      { transform: 'translateY(calc(100% + 20px))', opacity: '0' },
+    ],
+    options: {
+      duration: 1700,
+      easing: 'ease-out',
+    }
+  }
+
   function drawConstantLakeEditor(walkerPositionX) {
-    if (walkerPositionX > 18.5) {
+    if (walkerPositionX > 17.5) {
       if (!isVectorEditorActive) {
         isVectorEditorActive = true
 
+        ui.resetButton.setAttribute('hide', false)
         ui.expressionEnvelope.classList.remove('hidden')
 
-        ui.expressionEnvelope.animate([
-          { transform: 'translateY(calc(100% + 20px))', opacity: '0' },
-          { transform: 'translateY(0px)', opacity: '1' },
-          // { opacity: '0' },
-          // { opacity: '1' },
-        ], {
-          duration: 1700,
-          easing: 'ease-out',
-          fill: 'forwards'
-        })
+        ui.expressionEnvelope.animate(showUIAnimation.keyframes, showUIAnimation.options)
+        ui.resetButton.animate(showUIAnimation.keyframes, showUIAnimation.options)
       }
-    } else if (walkerPositionX < 17.5 && isVectorEditorActive) {
+    } else if (walkerPositionX < 13.5 && isVectorEditorActive) {
       isVectorEditorActive = false
 
-      const animation = ui.expressionEnvelope.animate([
-        { transform: 'translateY(0px)', opacity: '1' },
-        { transform: 'translateY(calc(100% + 20px))', opacity: '0' },
-        // { opacity: '1' },
-        // { opacity: '0' },
-      ], {
-        duration: 1700,
-        easing: 'ease-out',
-      })
+      const resetButtonAnimation = ui.resetButton.animate(hideUIAnimation.keyframes, hideUIAnimation.options)
+      const expressionEnvelopeAnimation = ui.expressionEnvelope.animate(hideUIAnimation.keyframes, hideUIAnimation.options)
 
-      animation.onfinish = () => {
-        ui.expressionEnvelope.classList.add('hidden')
-      }
+      resetButtonAnimation.onfinish = () => ui.resetButton.setAttribute('hide', true)
+      expressionEnvelopeAnimation.onfinish = () => ui.expressionEnvelope.classList.add('hidden')
     }
   }
 
@@ -493,7 +524,7 @@ function Level(spec) {
         velocity: datum.clouds.velocity,
         heights: datum.clouds.heights,
         drawOrder: LAYERS.clouds,
-        screen: darkenBufferScreen,
+        screen: darkBufferOrScreen,
         ...datum.clouds,
       })
     // Constant Lake sunset scene
@@ -510,6 +541,15 @@ function Level(spec) {
     } else {
       shader = null
     }
+    if (datum.water)
+      water = Water({
+        parent: self,
+        camera,
+        screen: darkBufferOrScreen,
+        globalScope,
+        drawOrder: LAYERS.backSprites,
+        ...datum.water,
+      })
     if (datum.sky)
       Sky({
         parent: self,
@@ -517,7 +557,7 @@ function Level(spec) {
         globalScope,
         asset: datum.sky.asset,
         margin: datum.sky.margin,
-        screen: darkenBufferScreen,
+        screen: darkBufferOrScreen,
         drawOrder: LAYERS.background,
         ...datum.sky,
       })
@@ -532,7 +572,7 @@ function Level(spec) {
         velocityY: datum.snow.velocity.y,
         maxHeight: datum.snow.maxHeight,
         drawOrder: LAYERS.snow,
-        screen: darkenBufferScreen,
+        screen: darkBufferOrScreen,
         ...datum.snow,
       })
 
@@ -575,12 +615,16 @@ function Level(spec) {
   }
 
   function destroy() {
+    if (isConstantLake()) {
+      // Undo run/stop button swap
+      ui.runButton.setAttribute('hide', false)
+      ui.stopButton.setAttribute('hide', true)
+    }
     _.invokeEach(bubbles, 'destroy')
   }
 
   function resize(width, height) {
-    console.log('Resize event called in Level')
-    darkenBufferScreen.resize()
+    darkBufferOrScreen.resize()
     graph.resize()
   }
   
@@ -607,6 +651,8 @@ function Level(spec) {
     playOpenMusic,
 
     mathFieldFocused,
+
+    isConstantLake,
 
     get datum() {return spec.datum},
     get completed() {return completed},

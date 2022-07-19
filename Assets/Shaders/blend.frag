@@ -10,7 +10,6 @@ void main(void) {
   vec3 accCol = texture2D(acc, TexCoords).rgb;
 
   vec3 col = accCol * 0.96 + currentCol;
-  // col *= smoothstep(0.0, 1.0, length(col));
 
   gl_FragColor = vec4(col, 1.0);
 }
