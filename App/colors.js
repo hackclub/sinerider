@@ -26,7 +26,7 @@ const Colors = {
         [1, '#55aaff'],
       ],
       groundFill: '#115555',
-      groundPattern: '#118de677',
+      groundPattern: '#113333',
       groundStroke: '#ffffff',
       groundStrokeWidth: 12,
     },
@@ -56,7 +56,7 @@ const Colors = {
         [1, '#4488ff'],
       ],
       groundFill: '#fff8dd',
-      groundPattern: '#118de677',
+      groundPattern: '#eecc66',
       groundStroke: '#ffcc33',
       groundStrokeWidth: 12,
     },
@@ -66,7 +66,7 @@ const Colors = {
         [1, '#66ccff'],
       ],
       groundFill: '#ffaa11',
-      groundPattern: '#118de677',
+      groundPattern: '#e06608',
       groundStroke: '#ffdd88',
       groundStrokeWidth: 12,
     },
@@ -76,9 +76,18 @@ const Colors = {
         [1, '#66ddff'],
       ],
       groundFill: '#555555',
-      groundPattern: '#118de677',
+      groundPattern: '#222222',
       groundStroke: '#666666',
       groundStrokeWidth: 32,
     },
   }
 }
+
+/*
+Colors.champlain = Colors.alps
+Colors.wetlands = Colors.alps
+Colors.gunnison = Colors.alps
+Colors.yosemite = Colors.alps
+Colors.mojave = Colors.alps
+Colors.gunnison = Colors.alps
+*/
