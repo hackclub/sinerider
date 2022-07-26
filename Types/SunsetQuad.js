@@ -1,7 +1,12 @@
 /**
  * Sunset shader class for Constant Lake scene
  */
-function Sunset(canvas, assets) {
+function SunsetQuad(assets) {
+  let canvas = document.createElement('canvas')
+
+  canvas.width = innerWidth
+  canvas.height = innerHeight
+
   gl = canvas.getContext('webgl')
   if (!gl) {
     return alert('Your browser does not support WebGL. Try switching or updating your browser!')
@@ -273,15 +278,11 @@ function Sunset(canvas, assets) {
       .draw(gl.TRIANGLE_STRIP, 4)
   }
 
-  function getBuffer() {
-    return canvas
-  }
-
   return {
     draw,
     resize,
     update,
 
-    getBuffer,
+    get canvas() {return canvas},
   }
 }

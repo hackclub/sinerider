@@ -56,21 +56,25 @@ function HintGraph(spec) {
   setSliderExpression(expression)
 
   function setVisible(visible) {
-    ui.dottedMathFieldStatic.latex(visible ?  `\\text{Y}=${expression}` : '')
-    ui.dottedSlider.hidden = !visible
+    ui.dottedMathContainer.style.display = visible ? 'flex' : 'none'
+    // ui.dottedMathFieldStatic.latex(visible ?  `\\text{Y}=${expression}` : '')
+    // ui.dottedSlider.hidden = !visible
   }
+
+  setVisible(true)
 
   function destroy() {
     setVisible(false)
   }
 
-  function onTransitionMap(navigating) {
-    setVisible(!navigating)
+  function onToggleMap(mapEnabled) {
+    console.log('Transitioning map', mapEnabled)
+    setVisible(!mapEnabled)
   }
 
   return self.mix({
     destroy,
     setVisible,
-    onTransitionMap,
+    onToggleMap,
   })
 }

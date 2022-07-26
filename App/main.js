@@ -41,6 +41,7 @@ const ui = {
   mathField: $('#math-field'),
   mathFieldStatic: $('#math-field-static'),
 
+  dottedMathContainer: $('#dotted-math-container'),
   dottedMathField: $('#dotted-math-field'),
   dottedMathFieldStatic: $('#dotted-math-field-static'),
   dottedSlider: $("#dotted-slider"),
@@ -74,13 +75,14 @@ const screen = Screen({
 
 let w = worldData[0]
 
-const DEBUG_CONSTANT_LAKE = false
+const DEBUG_CONSTANT_LAKE = true
 
 if (DEBUG_CONSTANT_LAKE) {
   // make Constant Lake first level for testing
+  const constantLakeIndex = w.levelData.findIndex(l => l.name === 'Constant Lake')
   const tmp = w.levelData[0]
-  w.levelData[0] = w.levelData[3]
-  w.levelData[3] = tmp
+  w.levelData[0] = w.levelData[constantLakeIndex]
+  w.levelData[constantLakeIndex] = tmp
 }
 
 const world = World({
