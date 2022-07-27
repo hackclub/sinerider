@@ -2,6 +2,7 @@ const CONSTANT_LAKE = {
   name: 'Constant Lake',
   nick: 'CONSTANT_LAKE',
   colors: Colors.biomes.alps,
+  axesEnabled: false,
   // radius: 2,
   x: 5,
   y: 10,
@@ -30,6 +31,12 @@ const CONSTANT_LAKE = {
   sky: {
     asset: 'images.western_slopes_background_no_sky',
     margin: 1
+  },
+  bubble: {
+    sky: {
+      asset: 'images.western_slopes_background',
+      margin: 1
+    }
   },
   sounds: [
     {
@@ -232,6 +239,11 @@ const CONSTANT_LAKE = {
       anchored:true
     },
   ],
+  water: {
+    x: 26,
+    size: 18,
+    y: 8,
+  },
   // clouds: {
   //   velocity: 0.1,
   //   heights:[4,4.8]

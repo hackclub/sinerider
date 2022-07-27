@@ -27,14 +27,14 @@ function World(spec) {
   let navigating = false
   let editing = false
 
+  let waterQuad = null
+
   let quad = null
-  let sunsetCanvas = document.createElement('canvas')
-  const SUNSET_SUPERSAMPLE_RATIO = 1
-  sunsetCanvas.width = innerWidth * SUNSET_SUPERSAMPLE_RATIO
-  sunsetCanvas.height = innerHeight / innerWidth * sunsetCanvas.width
+  
 
   function loadQuad() {
-    quad = Sunset(sunsetCanvas, assets)
+    waterQuad = WaterQuad(assets)
+    quad = SunsetQuad(assets)
   } 
 
   function resize(width, height) {
@@ -130,6 +130,7 @@ function World(spec) {
       tickDelta,
       isBubbleLevel: false,
       quad,
+      waterQuad,
     })
 
     level.playOpenMusic()
@@ -144,8 +145,14 @@ function World(spec) {
   function setNavigating(_navigating) {
     navigating = _navigating
 
+    if (navigating)
+      self.sendEvent('onToggleMap', [_navigating])
+
     level.active = !navigating
     navigator.active = navigating
+
+    if (!navigating)
+      self.sendEvent('onToggleMap', [_navigating])
 
     ui.controlBar.setAttribute('hide', navigating)
     ui.navigatorFloatingBar.setAttribute('hide', !navigating)
@@ -193,8 +200,6 @@ function World(spec) {
         ui.veil.setAttribute('hide', true)
       }, 100)
       setNavigating(_navigating)
-
-      self.sendEvent('onTransitionMap', [_navigating, duration])
 
       if (_navigating)
         self.sendEvent('onMapFadeIn', [_navigating, duration])

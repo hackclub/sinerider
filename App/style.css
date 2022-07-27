@@ -548,11 +548,12 @@ input[valid=false] {
   top: -20px;
 }
 
-#left-bar {
+#dotted-math-container {
   position: fixed;
   right:15px; 
   top:25%; 
-  display:flex; 
+  /* display: flex;  */
+  display: none; /* Disabled by default */
   border-width: 3px;
 }
 

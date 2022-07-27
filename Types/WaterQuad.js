@@ -1,19 +1,4 @@
-let myCtx
-
-function Water(spec) {
-  const {
-    screen,
-    self,
-    camera,
-    assets,
-  } = Entity(spec, 'Water')
-
-  let {
-    size,
-  } = spec
-  
-  const transform = Transform(spec, self)
-
+function WaterQuad(assets) {
   const canvas = document.createElement('canvas')
 
   canvas.width = 1024
@@ -61,28 +46,22 @@ function Water(spec) {
 
   let t = 0
   
-  function tick() {
+  function update() {
     t += 0.01
   }
 
-  function drawLocal() {
+  function draw() {
     waterProgram.use()
       .vertices(quad)
       .uniform('time', t)
       .viewport(canvas.width, canvas.height)
       .draw(gl.TRIANGLE_STRIP, 4)
-
-    ctx.drawImage(canvas, 0, 0, size, size)
   }
 
-  function draw() {
-    camera.drawThrough(ctx, drawLocal, transform)
-  }
-
-  return _.mixIn(self, {
-    tick,
+  return {
+    update,
     draw,
-    transform,
-    set size(_size) {size = _size}
-  })
+    name: 'WaterQuad',
+    get canvas() {return canvas},
+  }
 }

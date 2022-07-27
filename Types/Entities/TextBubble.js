@@ -50,14 +50,14 @@ function TextBubble(spec) {
         self.destroy()  
     }
 
-    function onTransitionMap(navigating) {
+    function onToggleMap(navigating) {
       toggleVisible(!navigating)
     }
 
     return self.mix({
       toggleVisible,
       helperBubble,
-      onTransitionMap,
+      onToggleMap,
       
       awake,
       destroy

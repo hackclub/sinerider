@@ -151,14 +151,15 @@ worldData.push({
         direction: 'up-left',
         distance: 1.6,
         color: '#fff',
-        speech: {
+      },
+      {
           x: -1.5,
           content: 'yes, snow.',
           direction: 'up-up-left',
           distance: 0.8,
           color: '#fff',
         }
-      }]
+      ]
     }],
     sprites: [
     {

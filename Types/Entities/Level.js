@@ -1,5 +1,4 @@
-let _assets, darkenBuffer, darkenBufferScreen, water
-
+let _assets, darkenBuffer, darkenBufferScreen, water, hg
 
 function Level(spec) {
   const {
@@ -17,6 +16,7 @@ function Level(spec) {
     datum,
     isBubbleLevel,
     quad,
+    waterQuad,
   } = spec
 
   let {
@@ -71,19 +71,24 @@ function Level(spec) {
     ...cameraSpec,
   })
 
-  const axes = Axes({
-    drawOrder: LAYERS.axes,
-    camera,
-    globalScope,
-    parent: self,
-  })
+  if (isConstantLake())
+    console.log('constant lake datum', datum)
+
+  let axes = null
+  if (!datum.hasOwnProperty('axesEnabled') || datum.axesEnabled)
+    axes = Axes({
+      drawOrder: LAYERS.axes,
+      camera,
+      globalScope,
+      parent: self,
+    })
 
   trackedEntities.unshift(axes)
 
   let darkBufferOrScreen = screen
   let darkenBufferOpacity = 0.0
 
-  if (isConstantLake()) {
+  if (isConstantLakeAndNotBubble()) {
     // Credit for screen buffer business logic to LevelBubble.js by @cwalker
     darkenBuffer = ScreenBuffer({
       parent: self,
@@ -142,7 +147,7 @@ function Level(spec) {
     globalScope.p = math.complex()
     assignPlayerPosition()
     
-    if (isConstantLake()) {
+    if (isConstantLakeAndNotBubble()) {
       // HACK: Enable run button for Walker scene
       ui.runButton.setAttribute('hide', true)
       ui.stopButton.setAttribute('hide', false)
@@ -460,7 +465,11 @@ function Level(spec) {
   }
 
   function isConstantLake() {
-    return datum.name === 'Constant Lake' && !isBubbleLevel
+    return datum.name === 'Constant Lake'
+  }
+
+  function isConstantLakeAndNotBubble() {
+    return isConstantLake() && !isBubbleLevel
   }
 
   let isVectorEditorActive = false
@@ -522,6 +531,11 @@ function Level(spec) {
     _.each(datum.texts, addText)
     _.each(datum.directors || [{}], addDirector)
     isBubbleLevel || _.each(datum.textBubbles || [], addTextBubbles)
+
+    if (isBubbleLevel && datum.bubble) {
+      datum = _.merge(_.cloneDeep(datum), datum.bubble)
+    }
+
     if (datum.clouds) 
       CloudRow({
         parent:self,
@@ -534,7 +548,8 @@ function Level(spec) {
         ...datum.clouds,
       })
     // Constant Lake sunset scene
-    if (!isBubbleLevel && isConstantLake()) {
+    if (isConstantLakeAndNotBubble()) {
+      console.log('loading shader')
       shader = Shader({
         parent: self,
         screen,
@@ -547,16 +562,18 @@ function Level(spec) {
     } else {
       shader = null
     }
-    if (datum.water)
+    if (datum.water && !isBubbleLevel) {
       water = Water({
         parent: self,
         camera,
+        waterQuad,
         screen: darkBufferOrScreen,
         globalScope,
         drawOrder: LAYERS.backSprites,
         ...datum.water,
       })
-    if (datum.sky)
+    }
+    if (datum.sky) {
       Sky({
         parent: self,
         camera,
@@ -567,6 +584,7 @@ function Level(spec) {
         drawOrder: LAYERS.background,
         ...datum.sky,
       })
+    }
     if (datum.snow) 
       SnowFall({
         parent:self,
@@ -583,7 +601,7 @@ function Level(spec) {
       })
 
     if (datum.slider && !isBubbleLevel) {
-      HintGraph({
+      hg = HintGraph({
         ui,
         parent: self,
         camera,
@@ -601,7 +619,7 @@ function Level(spec) {
   function setGraphExpression(text, latex) {
     ui.mathFieldStatic.latex(latex)
 
-    if (isConstantLake()) {
+    if (isConstantLakeAndNotBubble()) {
       shader.setVectorFieldExpression(text)
       return
     }
