@@ -6,12 +6,12 @@ worldData.push({
   assets: {
     images: {
       lunchbox_sam_sled: 'ada_jack_sled.png',
-      lunchbox_sled: 'benny_sled.svg',
+      lunchbox_sled: 'jack_sled.png',
       benny_sled: 'jack_sled.png',
       benny_float: 'jack_float_right.png',
       benny_float_dark: '.svg',
       benny_float_left: '.svg',
-      sam_sled: '.svg',
+      sam_sled: 'ada_sled.png',
       sam_float: 'ada_float_right.png',
       sam_float_dark: '.svg',
       sam_float_left: '.svg',
