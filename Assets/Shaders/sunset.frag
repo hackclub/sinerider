@@ -112,7 +112,7 @@ void main(void) {
 
   float sun = pow(.15/sunDist, mix(1.0, 10.0, pow(horizonProx, 3.0)));
   vec3 sunCol = mix(SUN_WHITE, SUN_ORANGE_WHITE, pow(lerpBetween(0.65, 1.1, horizonProx), 2.0));
-  col = mix(col, sunCol, clamp(0.0, 1.0, sun));
+  col = mix(col, sunCol, clamp(sun, 0.0, 1.0));
 
 
   vec2 sampleUv = gl_FragCoord.xy/resolution.xy;
