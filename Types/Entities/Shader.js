@@ -6,7 +6,7 @@ function Shader(spec) {
 
   const {
     fullscreen = false,
-    quad,
+    sunsetQuad,
     walkerPosition,
     defaultExpression,
   } = spec
@@ -40,13 +40,13 @@ function Shader(spec) {
   }
 
   function tick() {
-    quad.update(vectorField)
+    sunsetQuad.update(vectorField)
   }
 
   function draw() {
     // quad.draw(Math.max(0, walkerPosition.x / 20))
-    quad.draw(walkerPosition.x / 20)
-    ctx.drawImage(quad.canvas, 0, 0, screen.width, screen.height)
+    sunsetQuad.draw(walkerPosition.x / 20)
+    ctx.drawImage(sunsetQuad.canvas, 0, 0, screen.width, screen.height)
   }
 
   function resize() {

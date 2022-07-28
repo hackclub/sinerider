@@ -15,7 +15,7 @@ function Level(spec) {
     levelCompleted,
     datum,
     isBubbleLevel,
-    quad,
+    sunsetQuad,
     waterQuad,
   } = spec
 
@@ -554,7 +554,7 @@ function Level(spec) {
         parent: self,
         screen,
         assets,
-        quad,
+        sunsetQuad,
         drawOrder: LAYERS.sky,
         defaultExpression: '(sin(x)-(y-2)*i)*i/2',
         walkerPosition: walkers[0].transform.position,

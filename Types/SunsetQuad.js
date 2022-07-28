@@ -189,6 +189,9 @@ function SunsetQuad(assets) {
   }
 
   function resize(width, height) {
+    canvas.width = width
+    canvas.height = height
+
     current.destroy()
     current = utils.Texture([ width, height ], gl.RGBA)
     acc = resizeTexture(acc, width, height, gl.RGBA)

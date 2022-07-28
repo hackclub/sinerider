@@ -28,19 +28,15 @@ function World(spec) {
   let editing = false
 
   let waterQuad = null
-
-  let quad = null
-  
+  let sunsetQuad = null
 
   function loadQuad() {
     waterQuad = WaterQuad(assets)
-    quad = SunsetQuad(assets)
+    sunsetQuad = SunsetQuad(assets)
   } 
 
   function resize(width, height) {
-    sunsetCanvas.width = width * SUNSET_SUPERSAMPLE_RATIO
-    sunsetCanvas.height = height / width * sunsetCanvas.width
-    if (quad) quad.resize(width, height)
+    if (sunsetQuad) sunsetQuad.resize(width, height)
   }
 
   const assets = Assets({
@@ -84,7 +80,6 @@ function World(spec) {
       levelData,
       getEditing,
       setLevel,
-      quad,
       active: false,
       parent: self,
       drawOrder: LAYERS.navigator,
@@ -129,7 +124,7 @@ function World(spec) {
       levelCompleted,
       tickDelta,
       isBubbleLevel: false,
-      quad,
+      sunsetQuad,
       waterQuad,
     })
 
