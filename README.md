@@ -1,18 +1,17 @@
 Sinerider
 ===
-A game about love and graphing
 
-Sinerider is a game we at [Hack Club](https://hackclub.com) have been working on for a couple months as of now (July 2022).
+Sinerider is a game about love and graphing, in development by teenagers at [Hack Club](https://hackclub.com).
+
 ![A screenshot of the game](https://user-images.githubusercontent.com/58434499/181846910-a99f2cde-efec-46df-ae75-0894c4ec4f4f.png)
 
 In it, you manipulate equations to create a curve that your player character can ride in order to progress through the levels!
 
-## History
+## In a Time Long Ago
 
-Chris Walker, one of our amazing staff memebers at HQ, made an early version of this game 8 years ago (2015)!
-Here is an old video about the original prototype:
+SineRider began its life as a Unity web game in 2014. It disappeared from the internet shortly thereafter, but was recently sighted by a roving gang of student hackers, ensnared in a lasso of fiendish construction, brought to heel, taught manners, groomed, and presented for your enjoyment.
 
-[![Watch the video](https://img.youtube.com/vi/9FU103w2EWg/0.jpg)](https://youtu.be/9FU103w2EWg)
+[![James Portnow describes SineRider](https://img.youtube.com/vi/9FU103w2EWg/0.jpg)](https://youtu.be/9FU103w2EWg)
 
-As you can see from this old screen recording, the game has gotten a lot better!
-![Old development screen recording](https://i.imgur.com/RttKiF7.gif)
+So yeah. It used to look like this
+![Old SineRider recording](https://i.imgur.com/RttKiF7.gif)
