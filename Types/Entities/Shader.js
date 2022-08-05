@@ -50,10 +50,7 @@ function Shader(spec) {
   }
 
   function resize() {
-    if (fullscreen) {
-      xRes = screen.size.x
-      yRes = screen.size.y
-    }
+    sunsetQuad.resize(innerWidth, innerHeight)
   }
 
   return _.mixIn(self, {

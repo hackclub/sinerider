@@ -24,6 +24,7 @@
     </script>
   </head>
   <body>
+    <video autoplay controls style='display:none;'></video>
     <img src='Assets/Images/error.png' style='display: none;' id='error-sprite'/>
 
     <div class='bubblets'></div>
@@ -131,6 +132,18 @@
       <div class='string' id='loading-string'></div>
     </div>
 
+    <div id='teaser' class='loading teaser veil' hide='true'>
+      <div>
+        <!-- Have logo file be in root dir for now to separate from game assets -->
+        <img class='teaser-logo' src='temp_logo.png' />
+        <video src='placeholder-teaser-compressed.mp4' controls></video>
+        <div class='string teaser-remarks'>
+          <p>Coming soon -- made by <span>@cwalker</span> with some touches from <a class='teaser-link' href='https://hackclub.com'>hackclub</a>.</p>
+          <p>SineRider is fully <a href='https://github.com/hackclub/sinerider'>open source</a>! Learn more on the <a class='teaser-link' href='https://github.com/hackclub/sinerider'>README</a>.</p>
+        </div>
+      </div>
+    </div>
+
     <!-- Load External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
@@ -163,6 +176,7 @@
     <script src='App/colors.js'></script>
 
     <!-- Load Basic Types -->
+    <script src='Types/Recorder.js'></script>
     <script src='Types/Assets.js'></script>
     <script src='Types/Engine.js'></script>
     <script src='Types/Sampler.js'></script>

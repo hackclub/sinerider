@@ -1,5 +1,6 @@
 // Welcome to main.js, where we set up the SineRider engine basics
 
+const teaser = true
 const stepping = false
 
 // Core constants
@@ -12,6 +13,7 @@ const ui = {
   levelButtonString: $('#level-button > .string'),
   resetButton: $('#reset-button'),
 
+  teaser: $('#teaser'),
   veil: $('#veil'),
   loadingVeil: $('#loading-veil'),
   loadingVeilString: $('#loading-string'),
@@ -105,6 +107,12 @@ function tick() {
   requestDraw()
 }
 
+// let recorder = null
+// if (teaser) {
+//   recorder = Recorder(canvas)
+//   recorder.start()
+// }
+
 function draw() {
   if (!canvasIsDirty) return
   canvasIsDirty = false
@@ -120,6 +128,9 @@ function draw() {
     if (entity.draw)
       entity.draw()
   }
+
+  // if (recorder)
+  //   recorder.snap()
 }
 
 function requestDraw() {

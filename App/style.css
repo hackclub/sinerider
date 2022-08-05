@@ -428,6 +428,35 @@ input[valid=false] {
   display: none;
 }
 
+.teaser-logo {
+  width: 50%;
+  max-width: 300px;
+}
+
+.teaser-remarks {
+  padding: 20px;
+  width: 95%;
+  max-width: 700px;
+}
+
+.teaser-remarks span {
+  color: #68f;
+}
+
+.teaser > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px 0px;
+}
+
+.teaser video {
+  align-items: center;
+  width: 95%;
+  max-width: 700px;
+}
+
 .veil {
   position: absolute;
 

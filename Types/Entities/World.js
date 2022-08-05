@@ -35,10 +35,6 @@ function World(spec) {
     sunsetQuad = SunsetQuad(assets)
   } 
 
-  function resize(width, height) {
-    if (sunsetQuad) sunsetQuad.resize(width, height)
-  }
-
   const assets = Assets({
     paths: spec.assets,
     callbacks: {
@@ -206,9 +202,14 @@ function World(spec) {
   }
 
   function nextLevel(transitionDuration=1) {
-    transitionNavigating(true, transitionDuration, () => {
-      stopRunning(false)
-    })
+    console.log('LEVEL COMPLETED')
+    if (teaser)
+      ui.teaser.setAttribute('hide', false)
+    else {
+      transitionNavigating(true, transitionDuration, () => {
+        stopRunning(false)
+      })
+    }
   }
 
   function onClickNextButton() {
@@ -342,7 +343,6 @@ function World(spec) {
     start,
     tick,
     draw,
-    resize,
 
     toggleRunning,
 
