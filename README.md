@@ -50,6 +50,10 @@ SineRider is a game about graphing, but also a game about love, loss, and reconn
 
 ## But… but where do I come in??
 
-Well, this is a grass-roots open-source free-forever indie game with a $0 advertising budget, so right now we mostly need your help in spreading the word… unless you're a smart teenager who wants to change education for the better, in which case you should come join [Hack Club](https://hackclub.com)!
+Well if you like, you can contribute to this open-source repository of vanilla javascripty goodness. We need volunteer artists, writers, programmers, and puzzle designers. Most of all we need your help spreading the word about this grassroots free-forever indie game with a $0 advertising budget… but if you're a smart teenager who wants to change education for the better, you should come join [Hack Club](https://hackclub.com)!
+
+## Ok, so what exactly is Hack Club?
+
+Hack Club is a global network of students building student-led learning initiatives. We create financial, educational, and community infrastructure for hack clubs, hackathons, and individual hackers worldwide. It's a nice place where nice people do nice things for each other. You should check it out.
 
 Hack Club and SineRider are founded upon the same principles: self-direction, playfulness, and respect for the time, agency, and intelligence of young people. If you want to contribute to projects like this one, you've found your tribe. [Come join us.](https://slack.hackclub.com)
