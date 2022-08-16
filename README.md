@@ -28,9 +28,9 @@ Unfortunately, SineRider disappeared from the internet shortly after release whe
 Educational games go back a long way. Monopoly began as a parable about the dangers of unregulated capitalism. For thousands of years, Go has been used to convey deep truths about everything from military conquest to flood control. So as as humanity discovered the utility of computers for gaming in the mid-20th century, so too emerged bold claims about the educational potential of this new interactive frontier.
 
 The thesis of educational gaming is clear and convincing:
-  A) Education occurs through instruction and practice
-  B) Video Games are natural vessels for instruction and practice
-  C) Therefore, Video Games are natural vessels for Education
+- Education occurs through instruction and practice
+- Video Games are natural vessels for instruction and practice
+- Therefore, Video Games are natural vessels for Education
 
 We hold the premises of this basic syllogism to be self-evident. And yet, The Oregon Trail remains as the quintessential educational video game for most of us in 2022. This raises a troubling question: why is a game first released in 1971—a year before Pong—still the archetype for an idea that was supposed to revolutionize education?
 
