@@ -11,7 +11,7 @@ SineRider began its life as a Unity web game in 2014. At the time it looked like
 
 ![Old SineRider recording](https://i.imgur.com/RttKiF7.gif)
 
-The game made a minor splash, at least in the small puddle where the math games swim. In 2015 it was shown at GDC's Experimental Gameplay Workshop:
+The game made a minor splash… at least in the small puddle where the math games swim. In 2015 it was shown at GDC's Experimental Gameplay Workshop:
 
 [![James Portnow describes SineRider](https://img.youtube.com/vi/rbJTzGNC8Bs/0.jpg)](https://youtu.be/rbJTzGNC8Bs)
 
