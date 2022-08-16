@@ -19,7 +19,7 @@ After that it was [covered by Rock Paper Shotgun](https://www.rockpapershotgun.c
 
 [![James Portnow describes SineRider](https://img.youtube.com/vi/9FU103w2EWg/0.jpg)](https://youtu.be/9FU103w2EWg)
 
-Unfortunately, SineRider disappeared from the internet shortly after release. Every major browser deprecated the NPAPI plugin structure, killing the Unity Web Player and SineRider with it. SineRider ran feral through the internet until this summer, when it was sighted by a roving gang of student hackers, ensnared in a lasso of fiendish construction, brought to heel, taught manners, groomed, and presented for your enjoyment:
+Unfortunately, SineRider disappeared from the internet shortly after release when every major browser deprecated the NPAPI plugin structure, killing the Unity Web Player and SineRider with it. SineRider ran feral through the internet until this summer, when it was sighted by a roving gang of student hackers, ensnared in a lasso of fiendish construction, brought to heel, taught manners, groomed, and presented for your enjoyment:
 
 ![SineRider's new teaser](./Assets/teaser.mp4)
 
