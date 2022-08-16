@@ -385,6 +385,9 @@ input[valid=false] {
   margin-right: 20px;
   border-radius: 0 0 10px 10px;
   font-size: 2.4rem;
+
+  /* Hide for teaser deployment */
+  display: none;
 }
 
 #navigator-button > .string {
@@ -426,6 +429,11 @@ input[valid=false] {
 
 .bubblets {
   display: none;
+}
+
+.teaser {
+  overflow: scroll;
+  pointer-events: all;
 }
 
 .teaser-logo {
