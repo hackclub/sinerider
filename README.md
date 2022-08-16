@@ -32,7 +32,9 @@ The thesis of educational gaming is clear and convincing:
   B) Video Games are natural vessels for instruction and practice
   C) Therefore, Video Games are natural vessels for Education
 
-We hold the premises of this basic syllogism to be self-evident. And yet, The Oregon Trail remains as the quintessential educational video game for most of us in 2022. This raises a troubling question: why is a game first released in 1971—a year before Pong—still the archetype for an idea that was supposed to revolutionize education? A virtually infinite landscape of refined, evocative, ever-improving titles have piled atop Pong in the last fifty years, intermingling with every other kind of entertainment medium in an industry now bigger than Hollywood. Why have game designers had such comparatively weak influence on the world of education? Could the thesis of educational gaming be wrong after all? We don't believe so.
+We hold the premises of this basic syllogism to be self-evident. And yet, The Oregon Trail remains as the quintessential educational video game for most of us in 2022. This raises a troubling question: why is a game first released in 1971—a year before Pong—still the archetype for an idea that was supposed to revolutionize education?
+
+A virtually infinite landscape of refined, evocative, ever-improving titles have piled atop Pong in the last fifty years, intermingling with every other kind of entertainment medium in an industry now bigger than Hollywood. Why have game designers had such comparatively weak influence on the world of education? Could the thesis of educational gaming be wrong after all? We don't believe so.
 
 **We the students contend that educational games fail to deliver because the incentives of this market sector contradict the very nature of what a game should be.**
 
