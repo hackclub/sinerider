@@ -587,3 +587,27 @@ input[valid=false] {
   flex-direction: row;
   align-items: center;
 }
+
+@media only screen and (max-width: 600px) {
+  .hstack {
+    position: fixed;
+    top: 20px;
+  }
+
+  #navigator-button {
+    position: fixed;
+    bottom: 20px;
+    height: 30px;
+    font-size: 1.9rem;
+    left: calc(50% - (30px / 2));
+    border-radius: 5px;
+  }
+
+  #volume-slider-box {
+    display: none;
+  }
+
+  #expression-envelope {
+    font-size: 0.9rem;
+  }
+}
