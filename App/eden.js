@@ -261,13 +261,13 @@ worldData.push({
       anchored: false,
     }
   ],
-    texts: [{
+    texts: [/*{
       x: 14,
       y: -5.5,
       size: 0.7,
       fill: '#ffffff',
       content: 'WIP Pre-Alpha. Don’t distribute yet!'
-    },{
+    },*/{
       x: 14,
       y: -4,
       size: 1.5,
