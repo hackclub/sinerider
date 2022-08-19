@@ -1,4 +1,4 @@
-Sinerider
+SineRider
 ===
 
 SineRider is a game about love and graphing, built by teenagers at [Hack Club](https://hackclub.com) and slated for release in Fall of 2022.
