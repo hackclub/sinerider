@@ -20,15 +20,15 @@ body {
   margin: 0;
   padding: 0;
 
-  font-family: 'Roboto Mono';
-
-  color: #333;
-  background: #fff;
-
   font-size: 18px;
-
   overflow: hidden;
   user-select: none;
+}
+
+body, input {
+  font-family: 'Roboto Mono';
+  color: #333;
+  background: #fff;
 }
 
 html {
@@ -620,6 +620,12 @@ input[valid=false] {
 
 #expression-envelope-container {
   display: flex;
+}
+
+input, .submit-button {
+  border: 1px solid #000;
+  padding: 3px 10px;
+  border-radius: 5px;
 }
 
 @media only screen and (max-width: 600px) {
