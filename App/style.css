@@ -614,6 +614,55 @@ input[valid=false] {
   accent-color: rgb(0,255,0);
 }
 
+.orpheus-flag {
+  position: absolute;
+  background-image: url(flag-orpheus-top.png);
+  top: 0;
+  left: 20px;
+  -webkit-transition: 0.1875s cubic-bezier(0.375, 0, 0.675, 1) transform;
+  transition: 0.1875s cubic-bezier(0.375, 0, 0.675, 1) transform;
+  transform-origin: top left;
+  width: 112px;
+  height: auto;
+}
+
+.orpheus-flag:hover {
+  -webkit-animation: rotate 0.5s linear infinite alternate;
+  animation: rotate 0.5s linear infinite alternate;
+}
+
+@-webkit-keyframes rotate {
+  from {
+      -webkit-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      transform: rotate(0deg);
+  }
+
+  to {
+      -webkit-transform: rotate(-5deg);
+      -moz-transform: rotate(-5deg);
+      -ms-transform: rotate(-5deg);
+      transform: rotate(-5deg);
+  }
+}
+
+@keyframes rotate {
+  from {
+      -webkit-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      transform: rotate(0deg);
+  }
+
+  to {
+      -webkit-transform: rotate(-5deg);
+      -moz-transform: rotate(-5deg);
+      -ms-transform: rotate(-5deg);
+      transform: rotate(-5deg);
+  }
+}
+
 .hidden {
   display: none !important;
 }
