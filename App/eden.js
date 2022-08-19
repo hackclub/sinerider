@@ -144,21 +144,26 @@ worldData.push({
       size: 2,
       flipX: true,
       sloped:true,
-      speech: [{
-        x: -0.3,
-        y: 1,
-        content: 'now hit the green button ⇲',
-        direction: 'up-left',
-        distance: 1.6,
-        color: '#fff',
-      },
-      {
-          x: -1.5,
-          content: 'yes, snow.',
-          direction: 'up-up-left',
-          distance: 0.8,
+      speech: [
+        {
+          x: -0.3,
+          y: 1,
+          content: 'now hit the green button ⇲',
+          direction: 'up-left',
+          distance: 1.6,
           color: '#fff',
-        }
+          speech: [
+            {
+              x: -1.5,
+              content: 'yes, snow.',
+              direction: 'up-up-left',
+              distance: 0.8,
+              color: '#fff',
+              speech: [
+              ]
+            }
+          ]
+        },
       ]
     }],
     sprites: [
