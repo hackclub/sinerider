@@ -581,30 +581,43 @@ input[valid=false] {
   display: none !important;
 }
 
-.hstack {
+#expression-envelope-container {
   display: flex;
-  gap: 10px;
-  flex-direction: row;
-  align-items: center;
 }
 
 @media only screen and (max-width: 600px) {
-  .hstack {
+  #expression-envelope-container {
     position: fixed;
     top: 20px;
+  }
+
+  #expression-envelope-container[hide=true] {
+    top: -50vh;
   }
 
   #navigator-button {
     position: fixed;
     bottom: 20px;
+    font-size: 1.5rem;
     height: 30px;
-    font-size: 1.9rem;
+    width: 40px;
     left: calc(50% - (30px / 2));
+    padding: 0px;
     border-radius: 5px;
+    margin: 0;
   }
 
   #volume-slider-box {
     display: none;
+  }
+
+  #navigator-floating-bar {
+    top: 0;
+    bottom: auto;
+  }
+
+  #show-all-button {
+    border-radius: 0 0 10px 10px;
   }
 
   #expression-envelope {
