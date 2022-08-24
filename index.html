@@ -1,134 +1,102 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width'>
 
     <title>SineRider</title>
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="manifest" href="/site.webmanifest" />
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
-    <meta name="msapplication-TileColor" content="#da532c" />
-    <meta name="theme-color" content="#ffffff" />
-    <meta
-      name="description"
-      content="A beautiful game about love, math, and graphing, built by teenagers at Hack Club and fully open-source! Coming Autumn 2022."
-    />
-    <meta
-      name="keywords"
-      content="games, math, graphing, art, game design, love, sinerider"
-    />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="description" content="A beautiful game about love, math, and graphing, built by teenagers at Hack Club and fully open-source! Coming Autumn 2022.">
+    <meta name="keywords" content="games, math, graphing, art, game design, love, sinerider">
 
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://sinerider.com/" />
-    <meta property="og:title" content="SineRider" />
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sinerider.com/">
+    <meta property="og:title" content="SineRider">
     <meta
-      property="og:description"
-      content="A beautiful game about love, math, and graphing, built by teenagers at Hack Club and fully open-source! Coming Autumn 2022."
-    />
-    <meta property="og:image" content="https://sinerider.com/sr_logo.webp" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-
+          property="og:description"
+          content="A beautiful game about love, math, and graphing, built by teenagers at Hack Club and fully open-source! Coming Autumn 2022."
+    >
+    <meta property="og:image" content="https://sinerider.com/sr_logo.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://sinerider.com/" />
-    <meta property="twitter:title" content="SineRider" />
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://sinerider.com/">
+    <meta property="twitter:title" content="SineRider">
     <meta
-      property="twitter:description"
-      content="A beautiful game about love, math, and graphing, built by teenagers at Hack Club and fully open-source! Coming Autumn 2022."
-    />
+          property="twitter:description"
+          content="A beautiful game about love, math, and graphing, built by teenagers at Hack Club and fully open-source! Coming Autumn 2022."
+    >
     <meta
-      property="twitter:image"
-      content="https://sinerider.com/sr_logo.webp"
-    />
+          property="twitter:image"
+          content="https://sinerider.com/sr_logo.png"
+    >
 
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Roboto&family=Roboto+Mono&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Edu+QLD+Beginner&display=swap"
-      rel="stylesheet"
-    />
 
-    <link href="App/style.css" rel="stylesheet" type="text/css" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
-    />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com"> 
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Roboto&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Edu+QLD+Beginner&display=swap" rel="stylesheet">
+    
+    <link href='App/style.css' rel='stylesheet' type='text/css'/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-SLDEWZQ8N1"
-    ></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SLDEWZQ8N1"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
+      function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
       gtag('config', 'G-SLDEWZQ8N1');
     </script>
   </head>
   <body>
-    <img
-      src="Assets/Images/error.png"
-      style="display: none"
-      id="error-sprite"
-    />
+    <img src='Assets/Images/error.png' style='display: none;' id='error-sprite'/>
 
-    <div class="bubblets"></div>
+    <div class='bubblets'></div>
 
-    <canvas id="canvas"></canvas>
+    <canvas id='canvas'></canvas>
 
-    <div class="variables floating bar" id="variables-bar" hide="true">
-      <div class="string" id="time-string">T=0</div>
+    <div class='variables floating bar' id='variables-bar' hide=true>
+      <div class='string' id='time-string'>T=0</div>
     </div>
 
-    <div class="bar floating top" id="top-bar" hide="false">
+    <div class='bar floating top' id='top-bar' hide=false>
       <div id="volume-slider-box">
-        <div class="">🔊</div>
-        <input
-          id="volume-slider"
-          type="range"
-          orient="horizontal"
-          hide="true"
-        />
+        <div class=''>🔊</div>
+        <input id="volume-slider" type="range" orient="horizontal" hide="true"/>  
       </div>
-      <div class="button" id="navigator-button" hide="false">
-        <div class="string">🏔</div>
+      <div class='button' id='navigator-button' hide=false>
+        <div class='string'>🏔</div>
       </div>
     </div>
 
     <div id="dotted-math-container">
-      <div id="dotted-math-field-static"></div>
+      <div id='dotted-math-field-static'></div>
       <div id="dotted-slider-box">
-        <input
-          id="dotted-slider"
-          type="range"
-          orient="vertical"
-          hidden="true"
-        />
+        <input id="dotted-slider" type="range" orient="vertical" hidden="true"/>  
       </div>
     </div>
-
-    <div class="bar menu" id="menu-bar" hide="false">
-      <div class="button" id="edit-button" hide="true">
-        <div class="string">Edit</div>
+      
+    <div class='bar menu' id='menu-bar' hide=false>
+      <div class='button' id='edit-button' hide=true>
+        <div class='string'>Edit</div>
       </div>
 
-      <input class="text" id="level-text" type="text" />
+      <input class='text' id='level-text' type='text'/>
 
-      <div class="button" id="level-button">
-        <div class="string"></div>
+      <div class='button' id='level-button'>
+        <div class='string'></div>
       </div>
 
       <!--<div class='button' id='reset-button'>-->
@@ -136,163 +104,161 @@
       <!--</div>-->
     </div>
 
-    <div class="bar floating controls" id="controls-bar">
-      <div class="button" id="reset-button">
-        <div class="string">↺</div>
+    <div class='bar floating controls' id='controls-bar'>
+      <div class='button' id='reset-button'>
+        <div class='string'>↺</div>
       </div>
 
-      <div class="hstack">
-        <div class="envelope" id="expression-envelope" disabled="false">
-          <div class="label" id="variable-label">
-            <div class="string">Y=</div>
+      <div class='hstack'>
+        <div class='envelope' id='expression-envelope' disabled=false>
+          <div class='label' id='variable-label'>
+            <div class='string'>Y=</div>
           </div>
-
-          <div id="math-field"></div>
-
-          <div id="math-field-static"></div>
+  
+          <div id='math-field'></div>
+  
+          <div id='math-field-static'></div>
         </div>
       </div>
 
-      <input class="text" id="expression-text" type="text" hide="true" />
+      <input class='text' id='expression-text' type='text' hide=true/>
 
-      <div class="button" id="run-button" hide="false">
-        <div class="string">GO</div>
+      <div class='button' id='run-button' hide=false>
+        <div class='string'>GO</div>
       </div>
 
-      <div class="button" id="stop-button" hide="true">
-        <div class="string">STOP</div>
+      <div class='button' id='stop-button' hide=true>
+        <div class='string'>STOP</div>
       </div>
     </div>
 
-    <div class="bar message" id="message-bar" hide="true">
-      <div class="string">MESSAGE</div>
+    <div class='bar message' id='message-bar' hide=true>
+      <div class='string'>MESSAGE</div>
     </div>
 
-    <div class="bar victory floating" id="victory-bar" hide="true">
-      <div class="envelope" id="victory-envelope">
-        <div class="button" id="victory-stop-button">
-          <div class="string">STOP</div>
+    <div class='bar victory floating' id='victory-bar' hide=true>
+      <div class='envelope' id='victory-envelope'>
+        <div class='button' id='victory-stop-button'>
+          <div class='string'>STOP</div>
         </div>
 
-        <div class="label" id="victory-label">
-          <div class="string">Victory!</div>
+        <div class='label' id='victory-label'>
+          <div class='string'>Victory!</div>
         </div>
 
-        <div class="button" id="next-button">
-          <div class="string">NEXT</div>
+        <div class='button' id='next-button'>
+          <div class='string'>NEXT</div>
         </div>
       </div>
     </div>
 
-    <div class="bar floating navigator" id="navigator-floating-bar" hide="true">
-      <div class="button" id="show-all-button" hide="false">
-        <div class="string">SHOW ALL</div>
+    <div class='bar floating navigator' id='navigator-floating-bar' hide=true>
+      <div class='button' id='show-all-button' hide=false>
+        <div class='string'>SHOW ALL</div>
       </div>
     </div>
 
-    <div class="veil" id="veil" hide="true"> </div>
+    <div class='veil' id='veil' hide=true>
+    </div>
 
-    <div class="loading veil" id="loading-veil" hide="false">
-      <div class="string" id="loading-remarks">
-        <p
-          >To load a level from a previous session click the ⛰️ button and then
-          SHOW ALL.</p
-        >
+    <div class='loading veil' id='loading-veil' hide=false>
+      <div class='string' id='loading-remarks'>
+        <p>To load a level from a previous session click the ⛰️ button and then SHOW ALL.</p>
       </div>
-      <div class="string" id="loading-string"></div>
+      <div class='string' id='loading-string'></div>
     </div>
 
     <!-- Load External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/7.3.0/math.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjs/7.3.0/math.min.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.9.1/mathquill.min.js"></script>
 
-    <link rel="stylesheet" href="Libraries/mathquill.css" />
+    <link rel="stylesheet" href="Libraries/mathquill.css"/>
     <script src="Libraries/mathquill.min.js"></script>
     <script>
       var MQ = MathQuill.getInterface(2);
     </script>
 
     <!-- Load Extension Methods -->
-    <script src="Libraries/GLUtils.js"></script>
-    <script src="Libraries/extensions.js"></script>
-    <script src="Libraries/preprocessMathQuill.js"></script>
+    <script src='Libraries/GLUtils.js'></script>
+    <script src='Libraries/extensions.js'></script>
+    <script src='Libraries/preprocessMathQuill.js'></script>
 
     <!-- Load Structs -->
-    <script src="Types/Structs/Test.js"></script>
-    <script src="Types/Structs/Vector2.js"></script>
-    <script src="Types/Structs/Bounds.js"></script>
-    <script src="Types/Structs/Shape.js"></script>
-    <script src="Types/Structs/Circle.js"></script>
-    <script src="Types/Structs/Rect.js"></script>
-    <script src="Types/Structs/Color.js"></script>
-    <script src="Types/Structs/CameraState.js"></script>
+    <script src='Types/Structs/Test.js'></script>
+    <script src='Types/Structs/Vector2.js'></script>
+    <script src='Types/Structs/Bounds.js'></script>
+    <script src='Types/Structs/Shape.js'></script>
+    <script src='Types/Structs/Circle.js'></script>
+    <script src='Types/Structs/Rect.js'></script>
+    <script src='Types/Structs/Color.js'></script>
+    <script src='Types/Structs/CameraState.js'></script>
 
     <!-- Color Palette -->
-    <script src="App/colors.js"></script>
+    <script src='App/colors.js'></script>
 
     <!-- Load Basic Types -->
-    <script src="Types/Assets.js"></script>
-    <script src="Types/Engine.js"></script>
-    <script src="Types/Sampler.js"></script>
-    <script src="Types/Transform.js"></script>
-    <script src="Types/Screen.js"></script>
-    <script src="Types/Rigidbody.js"></script>
-    <script src="Types/Clickable.js"></script>
-    <script src="Types/ClickableContext.js"></script>
-    <script src="Types/WaterQuad.js"></script>
-    <script src="Types/SunsetQuad.js"></script>
+    <script src='Types/Assets.js'></script>
+    <script src='Types/Engine.js'></script>
+    <script src='Types/Sampler.js'></script>
+    <script src='Types/Transform.js'></script>
+    <script src='Types/Screen.js'></script>
+    <script src='Types/Rigidbody.js'></script>
+    <script src='Types/Clickable.js'></script>
+    <script src='Types/ClickableContext.js'></script>
+    <script src='Types/WaterQuad.js'></script>
+    <script src='Types/SunsetQuad.js'></script>
 
     <!-- Load Components -->
-    <script src="Types/Entities/Directors/Director.js"></script>
-    <script src="Types/Entities/Directors/TrackingDirector.js"></script>
-    <script src="Types/Entities/Directors/WaypointDirector.js"></script>
-    <script src="Types/Entities/Directors/LerpDirector.js"></script>
+    <script src='Types/Entities/Directors/Director.js'></script>
+    <script src='Types/Entities/Directors/TrackingDirector.js'></script>
+    <script src='Types/Entities/Directors/WaypointDirector.js'></script>
+    <script src='Types/Entities/Directors/LerpDirector.js'></script>
     <!--<script src='Types/Entities/Directors/DragDirector.js'></script>-->
 
     <!-- Load Entities -->
-    <script src="Types/Entities/HintGraph.js"></script>
-    <script src="Types/Entities/Sound.js"></script>
-    <script src="Types/Entities/ScreenBuffer.js"></script>
-    <script src="Types/Entities/Water.js"></script>
-    <script src="Types/Entities/Shader.js"></script>
-    <script src="Types/Entities/Entity.js"></script>
-    <script src="Types/Entities/World.js"></script>
-    <script src="Types/Entities/Level.js"></script>
-    <script src="Types/Entities/Navigator.js"></script>
-    <script src="Types/Entities/Camera.js"></script>
-    <script src="Types/Entities/Axes.js"></script>
-    <script src="Types/Entities/Sprite.js"></script>
-    <script src="Types/Entities/Goals/Goal.js"></script>
-    <script src="Types/Entities/Goals/PathGoal.js"></script>
-    <script src="Types/Entities/Goals/DynamicGoal.js"></script>
-    <script src="Types/Entities/Goals/FixedGoal.js"></script>
-    <script src="Types/Entities/Trail.js"></script>
-    <script src="Types/Entities/Text.js"></script>
-    <script src="Types/Entities/Speech.js"></script>
-    <script src="Types/Entities/Arrow.js"></script>
-    <script src="Types/Entities/Graph.js"></script>
-    <script src="Types/Entities/Sledder.js"></script>
-    <script src="Types/Entities/Walker.js"></script>
-    <script src="Types/Entities/LevelBubble.js"></script>
-    <script src="Types/Entities/TextBubble.js"></script>
-    <script src="Types/Entities/CloudRow.js"></script>
-    <script src="Types/Entities/Sky.js"></script>
-    <script src="Types/Entities/SnowFall.js"></script>
-
+    <script src='Types/Entities/HintGraph.js'></script>
+    <script src='Types/Entities/Sound.js'></script>
+    <script src='Types/Entities/ScreenBuffer.js'></script>
+    <script src='Types/Entities/Water.js'></script>
+    <script src='Types/Entities/Shader.js'></script>
+    <script src='Types/Entities/Entity.js'></script>
+    <script src='Types/Entities/World.js'></script>
+    <script src='Types/Entities/Level.js'></script>
+    <script src='Types/Entities/Navigator.js'></script>
+    <script src='Types/Entities/Camera.js'></script>
+    <script src='Types/Entities/Axes.js'></script>
+    <script src='Types/Entities/Sprite.js'></script>
+    <script src='Types/Entities/Goals/Goal.js'></script>
+    <script src='Types/Entities/Goals/PathGoal.js'></script>
+    <script src='Types/Entities/Goals/DynamicGoal.js'></script>
+    <script src='Types/Entities/Goals/FixedGoal.js'></script>
+    <script src='Types/Entities/Trail.js'></script>
+    <script src='Types/Entities/Text.js'></script>
+    <script src='Types/Entities/Speech.js'></script>
+    <script src='Types/Entities/Arrow.js'></script>
+    <script src='Types/Entities/Graph.js'></script>
+    <script src='Types/Entities/Sledder.js'></script>
+    <script src='Types/Entities/Walker.js'></script>
+    <script src='Types/Entities/LevelBubble.js'></script>
+    <script src='Types/Entities/TextBubble.js'></script>
+    <script src='Types/Entities/CloudRow.js'></script>
+    <script src='Types/Entities/Sky.js'></script>
+    <script src='Types/Entities/SnowFall.js'></script>
+    
     <!-- Load World Data -->
-    <script src="App/layers.js"></script>
-    <script src="App/Levels/constantLake.js"></script>
-    <script src="App/Levels/slope.js"></script>
-    <script src="App/Levels/parabola.js"></script>
-    <script src="App/Levels/wave.js"></script>
-    <script src="App/Levels/logistic.js"></script>
-    <script src="App/Levels/time.js"></script>
-    <script src="App/eden.js"></script>
+    <script src='App/layers.js'></script>
+    <script src='App/Levels/constantLake.js'></script>
+    <script src='App/Levels/slope.js'></script>
+    <script src='App/Levels/parabola.js'></script>
+    <script src='App/Levels/wave.js'></script>
+    <script src='App/Levels/logistic.js'></script>
+    <script src='App/Levels/time.js'></script>
+    <script src='App/eden.js'></script>
 
     <!-- Start the Engine -->
-    <script src="App/main.js"></script>
+    <script src='App/main.js'></script>
   </body>
 </html>
