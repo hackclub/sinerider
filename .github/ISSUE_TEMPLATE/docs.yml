@@ -1,7 +1,7 @@
 name: 📄 Documentation issue
 description: Found an issue in the documentation? You can use this one!
 title: "[DOCS] <description>"
-labels: ["📄 aspect: text"]
+labels: ["documentation "]
 body:
   - type: textarea
     id: description
@@ -24,8 +24,3 @@ body:
       description: Is there anything else we should know about this issue?
     validations:
       required: false
-  - type: markdown
-    attributes:
-      value: |
-        Follow me on Twitter [here](https://twitter.com/)
-        Feel free to check out other cool repositories [here](https://github.com/)

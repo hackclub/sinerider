@@ -1,7 +1,7 @@
 name: 💡 General Feature Request
 description: Have a new idea/feature for Milan? Please suggest!
 title: "[FEATURE] <description>"
-labels: ["⭐ goal: addition"]
+labels: ["enhancement"]
 body:
   - type: textarea
     id: description
@@ -24,8 +24,3 @@ body:
       description: Is there anything else we should know about this idea?
     validations:
       required: false
-  - type: markdown
-    attributes:
-      value: |
-        Follow me on Twitter [here](https://twitter.com/)
-        Feel free to check out other cool repositories [here](https://github.com/)

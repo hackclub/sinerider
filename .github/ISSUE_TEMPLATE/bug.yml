@@ -1,6 +1,6 @@
 name: 🐛 Bug
 description: Report an issue to help improve the project.
-labels: ["🛠 goal: fix"]
+labels: ["bug"]
 body:
   - type: textarea
     id: description
@@ -23,8 +23,3 @@ body:
       description: Is there anything else we should know about this bug?
     validations:
       required: false
-  - type: markdown
-    attributes:
-      value: |
-        Follow me on Twitter [here](https://twitter.com/)
-        Feel free to check out other cool repositories [here](https://github.com/)
