@@ -1,5 +1,5 @@
 name: 💡 General Feature Request
-description: Have a new idea/feature for Sinerider ? Please suggest !
+description: Have a new idea/feature for Sinerider? Please tell us!
 title: "[FEATURE] <description>"
 labels: ["enhancement"]
 body:
@@ -21,6 +21,6 @@ body:
     id: extrainfo
     attributes:
       label: Additional information
-      description: Is there anything else we should know about this idea ?
+      description: Is there anything else we should know about this idea?
     validations:
       required: false
