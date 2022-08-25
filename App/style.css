@@ -667,11 +667,11 @@ input[valid=false] {
 
 }
 
-.tooltip-1::before {
+.tooltip-e::before {
   top: 90%;
   left: calc(100% + 50px);
 }
-.tooltip-1::after {
+.tooltip-e::after {
   top: 50%;
   left: 105%;
   transform: translateY(-50%);
