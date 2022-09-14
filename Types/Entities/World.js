@@ -31,8 +31,7 @@ function World(spec) {
   let sunsetQuad = null
 
   function loadQuad() {
-    waterQuad = WaterQuad(assets)
-    sunsetQuad = SunsetQuad(assets)
+    /* Don't need to load shaders for teaser */
   } 
 
   const assets = Assets({
