@@ -171,7 +171,7 @@ worldData.push({
       asset: 'images.cabin_1',
       size: 6,
       x: -4,
-      // offset: [0, -2],
+      offset: [0, 0.7],
       anchored: true,
     },
     {

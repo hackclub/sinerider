@@ -17,6 +17,8 @@ function Level(spec) {
     isBubbleLevel,
     sunsetQuad,
     waterQuad,
+    storage,
+    savedLatex,
   } = spec
 
   let {
@@ -29,7 +31,7 @@ function Level(spec) {
     flashRunButton = false,
     camera: cameraSpec = {}
   } = datum
-  
+
   const sledders = []
   const walkers = []
   const goals = []
@@ -110,11 +112,14 @@ function Level(spec) {
     darkBufferOrScreen = darkenBufferScreen
   }
 
+  const startingExpression = (!isConstantLakeAndNotBubble() ? savedLatex : null) ?? defaultExpression
+  console.log('Starting expression', startingExpression)
+
   const graph = Graph({
     camera,
     screen: darkBufferOrScreen,
     globalScope,
-    expression: mathquillToMathJS(defaultExpression),
+    expression: mathquillToMathJS(startingExpression),
     parent: self,
     drawOrder: LAYERS.graph,
     colors,
@@ -137,8 +142,11 @@ function Level(spec) {
 
   loadDatum(spec.datum)
 
-  const defaultVectorExpression = '\\frac{(\\sin(x) - (y - 2) \\cdot i) \\cdot i}{2}'
-
+  let defaultVectorExpression = '\\frac{(\\sin(x) - (y - 2) \\cdot i) \\cdot i}{2}'
+  if (isConstantLakeAndNotBubble() && savedLatex) {
+    walkerPositionX = VECTOR_FIELD_END_X
+    defaultVectorExpression = savedLatex
+  }
 
   function awake() {
     refreshLowestOrder()
@@ -167,8 +175,8 @@ function Level(spec) {
       ui.expressionEnvelope.classList.remove('hidden')
       ui.mathFieldLabel.innerText = 'Y='
 
-      ui.mathField.latex(defaultExpression)
-      ui.mathFieldStatic.latex(defaultExpression)
+      ui.mathField.latex(startingExpression)
+      ui.mathFieldStatic.latex(startingExpression)
     }
   }
 
@@ -407,6 +415,19 @@ function Level(spec) {
     }
   }
 
+  // Serialize to
+  //  1. Store completed levels
+  //  2. Share solutions
+  //  3. Share custom levels
+
+  function serialize() {
+    return {
+      v: 0.1, // TODO: change version handling to World?
+      nick: datum.nick,
+      savedLatex: currentLatex,
+    }
+  }
+
   function goalFailed(goal) {
     if (goal.order) {
       for (g of goals) {
@@ -499,8 +520,11 @@ function Level(spec) {
     }
   }
 
+  const VECTOR_FIELD_START_X = 13.5
+  const VECTOR_FIELD_END_X = 17.5
+
   function drawConstantLakeEditor(walkerPositionX) {
-    if (walkerPositionX > 17.5) {
+    if (walkerPositionX > VECTOR_FIELD_END_X) {
       if (!isVectorEditorActive) {
         isVectorEditorActive = true
 
@@ -510,7 +534,7 @@ function Level(spec) {
         ui.expressionEnvelope.animate(showUIAnimation.keyframes, showUIAnimation.options)
         ui.resetButton.animate(showUIAnimation.keyframes, showUIAnimation.options)
       }
-    } else if (walkerPositionX < 13.5 && isVectorEditorActive) {
+    } else if (walkerPositionX < VECTOR_FIELD_START_X && isVectorEditorActive) {
       isVectorEditorActive = false
 
       const resetButtonAnimation = ui.resetButton.animate(hideUIAnimation.keyframes, hideUIAnimation.options)
@@ -619,13 +643,18 @@ function Level(spec) {
   function setGraphExpression(text, latex) {
     ui.mathFieldStatic.latex(latex)
 
+    currentLatex = latex
+
+    // Save level when graph edited to player storage and URL
+    storage.setLevel(datum.nick, serialize())
+    history.pushState(null, null, '?' + LZString.compressToBase64(JSON.stringify(serialize())))
+
     if (isConstantLakeAndNotBubble()) {
       shader.setVectorFieldExpression(text)
       return
     }
 
     graph.expression = text
-    currentLatex = latex
 
     graph.expression = text
     ui.expressionEnvelope.setAttribute('valid', graph.valid)
@@ -661,6 +690,8 @@ function Level(spec) {
     draw,
 
     resize,
+
+    serialize,
 
     startRunning,
     stopRunning,

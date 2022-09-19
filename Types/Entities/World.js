@@ -10,6 +10,8 @@ function World(spec) {
     version,
   } = spec
 
+  const storage = PlayerStorage()
+
   let running = false
   let runTime = 0
 
@@ -85,6 +87,19 @@ function World(spec) {
       drawOrder: LAYERS.navigator,
     })
 
+    const url = new URL(location)
+
+    if (url.search) {
+      try {
+        urlData = JSON.parse(LZString.decompressFromBase64(url.search.slice(1)))
+        setLevel(urlData.nick, urlData)
+        return
+      } catch (_) {
+        // TODO: Maybe switch to modal
+        alert('Sorry, this URL is malformed :(')
+      }
+    }
+
     if (_.endsWith(location.href, '#random'))
       setLevel('RANDOM')
     else
@@ -102,7 +117,7 @@ function World(spec) {
     ui.loadingVeilString.innerHTML = `loading…<br>${Math.round(100*progress/total)}%`
   }
 
-  function setLevel(nick) {
+  function setLevel(nick, urlData = null) {
     if (level) level.destroy()
 
     levelBubble = navigator.getBubbleByNick(nick)
@@ -111,6 +126,8 @@ function World(spec) {
       levelDatum = generateRandomLevel()
     else
       levelDatum = _.find(levelData, v => v.nick == nick)
+    
+    const savedLatex = urlData?.savedLatex ?? storage.getLevel(nick)?.savedLatex
 
     level = Level({
       ui,
@@ -126,6 +143,9 @@ function World(spec) {
       isBubbleLevel: false,
       sunsetQuad,
       waterQuad,
+
+      storage,
+      savedLatex,
     })
 
     level.playOpenMusic()
