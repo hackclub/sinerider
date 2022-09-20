@@ -123,7 +123,6 @@ function LevelBubble(spec) {
     }
 
     refreshPlayable()
-
   }
 
   function startLate() {

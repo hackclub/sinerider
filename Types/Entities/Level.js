@@ -680,7 +680,13 @@ function Level(spec) {
     darkBufferOrScreen.resize()
     graph.resize()
   }
-  
+
+  function goalAdded(type) {
+    addGoal({
+      type,
+    })
+  }
+
   return self.mix({
     awake,
     start,
@@ -708,6 +714,8 @@ function Level(spec) {
     mathFieldFocused,
 
     isConstantLake,
+
+    goalAdded,
 
     get datum() {return spec.datum},
     get completed() {return completed},

@@ -321,6 +321,7 @@ worldData.push({
     }],
   },*/
   ...SLOPE,
+  ...EDITOR,
   ...PARABOLA,
   ...WAVE,
   ...LOGISTIC,

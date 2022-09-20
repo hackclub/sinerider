@@ -358,6 +358,13 @@ input[valid=false] {
   justify-content: space-between;
 }
 
+#fixed-goal-selector, #dynamic-goal-selector {
+  height: 70px;
+  width: 70px;
+  background: white;
+  transition: 0.05s;
+}
+
 #volume-slider-box {
   transition-duration: 1s;
   border: 2px solid rgba(255,255,255,0);

@@ -19,6 +19,13 @@ function FixedGoal(spec) {
     height: size,
   })
 
+  const clickable = Clickable({
+    entity: self,
+    shape,
+    transform,
+    camera,
+  })
+
   function drawLocal() {
     ctx.strokeStyle = self.strokeStyle
     ctx.fillStyle = self.fillStyle
@@ -40,8 +47,34 @@ function FixedGoal(spec) {
     ctx.globalAlpha = 1
   }
 
+  let moving = false
+
+  function mouseDown() {
+    console.log('moved down')
+    transform.scale = 1.1
+    moving = true
+  }
+
+  function mouseMove(point) {
+    if (!moving) return
+    startPosition = point
+    transform.position = point
+  }
+
+  function mouseUp() {
+    if (!moving) return
+    transform.scale = 1
+    moving = false
+    reset()
+  }
+
   return self.mix({
     draw,
     shape,
+
+    clickable,
+    mouseDown,
+    mouseMove,
+    mouseUp,
   })
 }
