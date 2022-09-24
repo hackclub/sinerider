@@ -76,12 +76,20 @@
         <div class=''>🔊</div>
         <input id="volume-slider" type="range" orient="horizontal" hide="true"/>  
       </div>
-      <div id='dynamic-goal-selector'>dynamic goal</div>
-      <div id='fixed-goal-selector'>fixed goal</div>
+      <div class="bar" id="editor-bar" hide=false>
+        <input id="order">
+        <div  id="position">
+          <input id="x">
+          <input id="y">
+        </div>
+        <input id="timer">
+        <!-- TODO: Path goal -->
+      </div>
       <div class='button' id='navigator-button' hide=false>
         <div class='string'>🏔</div>
       </div>
     </div>
+
 
     <div id="dotted-math-container">
       <div id='dotted-math-field-static'></div>

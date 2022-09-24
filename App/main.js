@@ -37,9 +37,6 @@ const ui = {
   expressionText: $('#expression-text'),
   expressionEnvelope: $('#expression-envelope'),
 
-  fixedGoalSelector: $('#fixed-goal-selector'),
-  dynamicGoalSelector: $('#dynamic-goal-selector'),
-
   mathFieldLabel: $('#variable-label > .string'),
   mathField: $('#math-field'),
   mathFieldStatic: $('#math-field-static'),
@@ -96,10 +93,6 @@ const world = World({
   drawOrder: NINF,
   ...worldData[0],
 })
-
-ui.fixedGoalSelector.onclick = () => world.sendEvent('goalAdded', ['fixed'])
-ui.dynamicGoalSelector.onclick = () => world.sendEvent('goalAdded', ['dynamic'])
-
 
 // Core methods
 

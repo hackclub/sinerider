@@ -19,6 +19,7 @@ function Level(spec) {
     waterQuad,
     storage,
     savedLatex,
+    world,
   } = spec
 
   let {
@@ -268,6 +269,7 @@ function Level(spec) {
       goalCompleted,
       goalFailed,
       getLowestOrder: () => lowestOrder,
+      world,
       ...goalDatum
     })
 

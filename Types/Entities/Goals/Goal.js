@@ -186,10 +186,11 @@ function Goal(spec) {
   }
 
   function startRunning() {
-
+    if (self.clickable) self.clickable.enabled = false
   }
 
   function stopRunning() {
+    if (self.clickable) self.clickable.enabled = true
     self.reset()
   }
 
@@ -278,5 +279,8 @@ function Goal(spec) {
     get flashWhite() {return flashWhite},
 
     get completedProgress() {return completed ? 1 : 0},
+
+    // TODO: Separate level editor state from playing level/normal levels
+    get selectable() {return !globalScope.running},
   })
 }

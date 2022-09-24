@@ -93,6 +93,10 @@ body > .bar {
   user-select: none;
 }
 
+#editor-bar {
+  background: '#000';
+}
+
 .label {
   min-width: 30px;
   min-height: 30px;

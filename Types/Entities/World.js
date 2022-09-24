@@ -143,6 +143,7 @@ function World(spec) {
       isBubbleLevel: false,
       sunsetQuad,
       waterQuad,
+      world: self,
 
       storage,
       savedLatex,
