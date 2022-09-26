@@ -29,6 +29,14 @@ function FixedGoal(spec) {
 
   t = 0
 
+  function select() {
+    editor.select(self, 'fixed')
+  }
+
+  function deselect() {
+    editor.deselect()
+  }
+
   function drawLocal() {
     t += 0.01
     if (clickable.selected) {
@@ -79,8 +87,9 @@ function FixedGoal(spec) {
 
   function mouseMove(point) {
     if (!moving) return
-    startPosition = point
     transform.position = point
+    ui.editorInspector.x.value = point.x.toFixed(2)
+    ui.editorInspector.y.value = point.y.toFixed(2)
   }
 
   function mouseUp() {
@@ -96,5 +105,10 @@ function FixedGoal(spec) {
     mouseDown,
     mouseMove,
     mouseUp,
-  })
+
+    select,
+    deselect,
+ 
+    get type() {return 'fixed'},
+ })
 }

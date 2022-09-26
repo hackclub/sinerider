@@ -112,6 +112,13 @@ function PathGoal(spec) {
   trackPoints.push(pathStartWorld)
   trackPoints.push(pathEndWorld)
 
+  function select() {
+    editor.select(self, 'path')
+  }
+
+  function deselect() {
+    editor.deselect()
+  }
   function tick() {
     base.tick()
     tickPath()
@@ -253,6 +260,10 @@ function PathGoal(spec) {
     trackPoints,
     shape,
 
+    select,
+    deselect,
+
     get completedProgress() {return pathProgress},
+    get type() {return 'path'}
   })
 }

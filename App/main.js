@@ -57,7 +57,24 @@ const ui = {
 
   navigatorFloatingBar: $('#navigator-floating-bar'),
   showAllButton: $('#show-all-button'),
+
+  editorInspector: {
+    editorInspector: $('#editor-inspector'),
+    order: $('#editor-order-input'),
+    timer: $('#editor-timer-input'),
+    x: $('#editor-x-input'),
+    y: $('#editor-y-input'),
+  },
+
+  editorSpawner: {
+    editorSpawner: $('#editor-spawner'),
+    addFixed: $('#editor-spawner-fixed'),
+    addDynamic: $('#editor-spawner-dynamic'),
+    addPath: $('#editor-spawner-path'),
+  }
 }
+
+const editor = Editor(ui)
 
 ui.levelText.setAttribute('hide', true)
 ui.veil.setAttribute('hide', true)

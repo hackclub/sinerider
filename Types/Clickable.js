@@ -176,13 +176,15 @@ function Clickable(spec) {
   let deselectMe = null
 
   function select(_deselectMe) {
-    deselectMe = _deselectMe 
+    deselectMe = _deselectMe
     selected = true
+    entity.sendEvent('select', [])
   }
 
   function deselect() {
     deselectMe = null
     selected = false
+    entity.sendEvent('deselect', [])
   }
 
   return _.mixIn(self, {

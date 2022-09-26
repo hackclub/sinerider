@@ -156,6 +156,7 @@ function Goal(spec) {
       ctx.textBaseline = 'middle'
       ctx.font = '1px Roboto Mono'
       ctx.scale(0.7, 0.7)
+      ctx.translate(0, -0.15)
 
       let center = self.shape.center
       ctx.fillText(order, center.x, center.y+0.25)
@@ -238,6 +239,20 @@ function Goal(spec) {
     self.refreshColors()
   }
 
+  function setOrder(_order) {
+    console.log('setting order', _order)
+    order = _order
+    world.level.reset()
+  }
+
+  function setX(x) {
+    transform.position.x = x
+  }
+
+  function setY(y) {
+    transform.position.y = y
+  }
+
   return self.mix({
     transform,
 
@@ -260,6 +275,13 @@ function Goal(spec) {
     fail,
 
     setAlphaByFlashFade,
+
+    setOrder,
+    setX,
+    setY,
+
+    get x() {return transform.position.x},
+    get y() {return transform.position.y},
 
     get completed() {return completed},
     get available() {return available},

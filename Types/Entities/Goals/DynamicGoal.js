@@ -111,6 +111,8 @@ function DynamicGoal(spec) {
     if (!moving) return
     startPosition = point
     transform.position = point
+    ui.editorInspector.x.value = point.x.toFixed(2)
+    ui.editorInspector.y.value = point.y.toFixed(2)
   }
 
   function mouseUp() {
@@ -118,6 +120,14 @@ function DynamicGoal(spec) {
     transform.scale = 1
     moving = false
     reset()
+  }
+
+  function select() {
+    editor.select(self, 'dynamic')
+  }
+
+  function deselect() {
+    editor.deselect()
   }
 
   return self.mix({
@@ -135,6 +145,11 @@ function DynamicGoal(spec) {
 
     reset,
 
+    select,
+    deselect,
+
     shape,
+  
+    get type() {return 'dynamic'},
   })
 }
