@@ -25,12 +25,12 @@ const SLOPE = [{
   sledders: [{
     speech: [{
       speakerX: -0.4,
-      content: 'Ready to go?',
+      content: 'Remember, follow the WHOLE path.',
       direction: 'up-up-left',
       distance: 1.5,
     },{
       speakerX: 0.3,
-      content: 'Let’s do it!',
+      content: 'I know how to do this, Ada!',
       direction: 'right-up',
       distance: 1,
     }]
@@ -172,19 +172,26 @@ const SLOPE = [{
   sledders: [{
     speech: [{
       speakerX: -0.4,
-      content: 'But also definitely less fun.',
-      direction: 'up',
-      distance: 1.5,
+      speakerY: 0.7,
+      content: '…yes.',
+      direction: 'up-up-left',
+      distance: 1.4,
       speech: {
-        content: 'This is definitely safer.',
-        direction: 'up-up-left',
+        content: 'No.',
+        direction: 'up',
         distance: 0.8,
       }
     },{
-      speakerX: 0.3,
-      content: 'There’s probably a connection there.',
-      direction: 'right-up',
-      distance: 0.8,
+      speakerX: 0.7,
+      speakerY: 0.7,
+      content: 'Do you want my scarf?',
+      direction: 'right-up-up',
+      distance: 2.2,
+      speech: {
+        content: 'Are you cold?',
+        direction: 'up-up-left',
+        distance: 1.2,
+      }
     }]
   }],
   slider: {expression:"\\frac{-x}{n}", bounds:[1,1.5,1]},
