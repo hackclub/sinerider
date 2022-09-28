@@ -112,6 +112,26 @@ function PathGoal(spec) {
   trackPoints.push(pathStartWorld)
   trackPoints.push(pathEndWorld)
 
+  // TODO: Make sane
+  const s = [...Array(20)].map((_, i) => graph.sample('x', i/19 * pathX))
+  // console.log('samples', s)
+  const max = s.reduce((max, v) => v > max ? v : max) * 4
+  const min = s.reduce((min, v) => v < min ? v : min) * 4
+
+  const bounds = Rect({
+    transform,
+    width: pathX,
+    height: max - min,
+    center: Vector2(pathX / 2, -(max - min) / 2)
+  })
+
+  const clickable = Clickable({
+    entity: self,
+    shape: bounds,
+    transform,
+    camera,
+  })
+
   function select() {
     editor.select(self, 'path')
   }
@@ -195,6 +215,9 @@ function PathGoal(spec) {
   }
 
   function draw() {
+    // TODO: Polish bounding box
+    bounds.draw(ctx, camera)
+
     // Set alpha to fade with flash if completed
     self.setAlphaByFlashFade()
 
@@ -247,11 +270,46 @@ function PathGoal(spec) {
     pathPositionWorld.set(pathStartWorld)
   }
 
+  let moving = false
+
+  function mouseDown() {
+    console.log('moved sledder')
+    moving = true
+  }
+
+  function mouseMove(point) {
+    if (!moving) return
+    transform.position = point
+    ui.editorInspector.x.value = point.x.toFixed(2)
+    ui.editorInspector.y.value = point.y.toFixed(2)
+  }
+
+  function mouseUp() {
+    if (!moving) return
+    moving = false
+    reset()
+  }
+
+  function setX(x) {
+    transform.position.x = x
+  }
+
+  function setY(y) {
+    transform.position.y = y
+  }
+
   return self.mix({
     transform,
 
     tick,
     draw,
+
+    setX,
+    setY,
+
+    mouseDown,
+    mouseMove,
+    mouseUp,
 
     reset,
 
@@ -262,6 +320,8 @@ function PathGoal(spec) {
 
     select,
     deselect,
+
+    clickable,
 
     get completedProgress() {return pathProgress},
     get type() {return 'path'}

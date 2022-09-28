@@ -5,6 +5,7 @@ function Editor(ui) {
     timer,
     x,
     y,
+    deleteSelection,
   } = ui.editorInspector
 
   const {
@@ -31,12 +32,29 @@ function Editor(ui) {
   let selection
   let selectionType
 
-  function select(_selection, _selectionType) {
+  deleteSelection.onclick = () => {
+    if (selectionType == 'fixed' 
+        || selectionType == 'path' 
+        || selectionType == 'dynamic'
+        || selectionType == 'sledder')
+      selection.remove()
+  }
+
+  function select(_selection, _selectionType, attributes = null) {
     editorSpawner.setAttribute('hide', true)
     editorInspector.setAttribute('hide', false)
 
     selection = _selection
     selectionType = _selectionType
+
+    // TODO: Resolve source of truth as either consumer or branching in Editor
+    // from passed type
+    if (attributes) {
+      for (input of ['order', 'timer', 'x', 'y'])
+        ui.editorInspector[input].setAttribute('hide', true)
+      for (input of attributes)
+        ui.editorInspector[input].setAttribute('hide', false)
+    }
 
     order.value = selection.order ?? ''
     x.value = selection.x ? selection.x.toFixed(2) : ''
@@ -46,6 +64,10 @@ function Editor(ui) {
 
   function deselect() {
     world.level.save()
+
+    for (input of ['order', 'timer', 'x', 'y'])
+      ui.editorInspector[input].setAttribute('hide', false)
+
     editorSpawner.setAttribute('hide', false)
     editorInspector.setAttribute('hide', true)
   }

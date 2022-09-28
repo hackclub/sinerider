@@ -724,6 +724,10 @@ input[valid=false] {
   display: inherit;
 }
 
+#editor-inspector-delete {
+  background: #f46;
+}
+
 .editor-bar {
   transition: 0.5s;
 }

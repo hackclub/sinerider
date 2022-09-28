@@ -64,6 +64,7 @@ const ui = {
     timer: $('#editor-timer-input'),
     x: $('#editor-x-input'),
     y: $('#editor-y-input'),
+    deleteSelection: $('#editor-inspector-delete'),
   },
 
   editorSpawner: {

@@ -76,7 +76,8 @@ function Sledder(spec = {}) {
   }
 
   function draw() {
-    // shape.draw(ctx, camera)
+    if (clickable.selected)
+      shape.draw(ctx, camera)
     // rigidbody.draw(ctx)
   }
 
@@ -107,11 +108,40 @@ function Sledder(spec = {}) {
 
   function select() {
     console.log('selecting')
-    editor.select(self, 'sledder')
+    editor.select(self, 'sledder', ['x', 'y'])
   }
 
   function deselect() {
     editor.deselect()
+  }
+
+  let moving = false
+
+  function mouseDown() {
+    console.log('moved sledder')
+    moving = true
+  }
+
+  function mouseMove(point) {
+    if (!moving) return
+    transform.position = point
+    ui.editorInspector.x.value = point.x.toFixed(2)
+    ui.editorInspector.y.value = point.y.toFixed(2)
+  }
+
+  function mouseUp() {
+    if (!moving) return
+    moving = false
+    originX = transform.x
+    reset()
+  }
+
+  function setX(x) {
+    transform.position.x = x
+  }
+
+  function setY(y) {
+    transform.position.y = y
   }
 
   return self.mix({
@@ -121,6 +151,13 @@ function Sledder(spec = {}) {
 
     tick,
     draw,
+
+    setX,
+    setY,
+
+    mouseDown,
+    mouseMove,
+    mouseUp,
 
     startRunning,
     stopRunning,

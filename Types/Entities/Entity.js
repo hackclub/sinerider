@@ -234,11 +234,16 @@ function Entity(spec, defaultName = 'Entity') {
     updateDrawArray()
   }
   
+  // TODO: Refactor to name?
+  const id = (Math.random() + 1).toString(36).substring(2)
+  
   return _.mixIn(self, {
     awake,
     start,
     
     destroy,
+
+    get id() {return id},
 
     get name() {return name},
     set name(v) {name = v},

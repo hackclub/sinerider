@@ -38,7 +38,6 @@ function ClickableContext(spec) {
       console.log(hits)
       let newSelection = hits.reverse().find(h => h.enabled && h.entity.selectable)
 
-      console.log('found selection', newSelection)
       if (newSelection != selection) {
         selection?.deselect()
         newSelection?.select(() => {
@@ -61,8 +60,24 @@ function ClickableContext(spec) {
     return a.drawOrder - b.drawOrder
   }
 
+  function keydown(key) {
+    alert('keydown')
+    if (key == 'Backspace' || key == 'Delete') {
+      // TODO: Maybe tag entities with general type for polymorphism?
+        console.log('deleting')
+      if (selection && selection.name.includes('Goal')) {
+        console.log('deleted goal')
+        editor.deselect()
+        console.log('called editor.deselect()')
+        world.level.sendEvent('goalDeleted', [selection])
+        selection.destroy()
+      }
+    }
+  }
+
   return {
     deselect,
     processEvent,
+    keydown,
   }
 }

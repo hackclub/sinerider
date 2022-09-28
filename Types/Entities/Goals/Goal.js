@@ -253,10 +253,25 @@ function Goal(spec) {
     transform.position.y = y
   }
 
+  function remove() {
+    self.deselect()
+    world.level.sendEvent('goalDeleted', [self])
+    self.destroy()
+  }
+
+  function keydown(key) {
+    if (self.clickable?.selected && (key == 'Backspace' || key == 'Delete')) {
+      remove()
+    }
+  }
+
   return self.mix({
     transform,
 
     awake,
+
+    keydown,
+    remove,
 
     tick,
     draw,

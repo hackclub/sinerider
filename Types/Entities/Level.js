@@ -433,14 +433,12 @@ function Level(spec) {
       savedLatex: currentLatex,
       goals: isEditor()
         ? goals.map(g => {
-          console.log('goal', g)
           s = {
             type: g.type,
             x: g.transform.x,
             y: g.transform.y,
             order: g.order,
           }
-          console.log('s', s)
           return s
         })
         : null
@@ -709,10 +707,24 @@ function Level(spec) {
     graph.resize()
   }
 
+  function removeGoal(type) {
+
+  }
+
+  // TODO: Refactor?
+  let goalLookup = {}
+
   function goalAdded(type) {
     addGoal({
       type,
     })
+    goalLookup[goals[goals.length - 1].id] = goals.length - 1
+    console.log('goal lookup', goalLookup)
+  }
+
+  // Takes in entity -- refactor?
+  function goalDeleted(goal) {
+    goals.splice(goals.findIndex(g => g.id == goal.id), 1)
   }
 
   return self.mix({
@@ -745,8 +757,11 @@ function Level(spec) {
     isConstantLake,
 
     goalAdded,
+    goalDeleted,
 
     save,
+
+    goals,
 
     get datum() {return spec.datum},
     get completed() {return completed},
