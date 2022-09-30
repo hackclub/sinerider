@@ -112,15 +112,13 @@ function PathGoal(spec) {
   trackPoints.push(pathStartWorld)
   trackPoints.push(pathEndWorld)
 
-  graph.resize()
-
-  const height = (graph.max - graph.min) * 1.1
+  const height = (pathGraph.max - pathGraph.min) * 1.1
 
   const bounds = Rect({
     transform,
     width: pathX,
     height: height,
-    center: Vector2(0, 0)
+    center: Vector2(pathX/2, pathGraph.max)
   })
 
   const clickable = Clickable({
@@ -258,9 +256,8 @@ function PathGoal(spec) {
     }
 
     // TODO: Polish bounding box
-    bounds.draw(ctx, camera)
-    p1.draw(ctx, camera)
-    p2.draw(ctx, camera)
+    if (clickable.selected)
+      bounds.draw(ctx, camera)
   }
 
   function reset() {
@@ -279,7 +276,13 @@ function PathGoal(spec) {
 
   function mouseMove(point) {
     if (!moving) return
+
     transform.position = point
+    pathPosition = point
+    pathPositionWorld = point
+    pathStart = point
+    pathStartWorld = point
+
     ui.editorInspector.x.value = point.x.toFixed(2)
     ui.editorInspector.y.value = point.y.toFixed(2)
   }
