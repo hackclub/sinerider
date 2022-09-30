@@ -59,7 +59,7 @@ function Graph(spec) {
       math.lerp(0.05, 0.15, Math.random()),
     ])
   }
-  
+
   resample()
 
   function tick() {
@@ -104,6 +104,7 @@ function Graph(spec) {
 
       for (let i = 1; i < sampleCount; i++) {
         camera.worldToScreen(samples[i], screenSpaceSample)
+        console.log('graphing point', samples[i].x, samples[i].y, screenSpaceSample.x, screenSpaceSample.y)
         ctx.lineTo(screenSpaceSample.x, screenSpaceSample.y)
       }
 

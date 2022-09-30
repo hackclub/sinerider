@@ -112,17 +112,15 @@ function PathGoal(spec) {
   trackPoints.push(pathStartWorld)
   trackPoints.push(pathEndWorld)
 
-  // TODO: Make sane
-  const s = [...Array(20)].map((_, i) => graph.sample('x', i/19 * pathX))
-  // console.log('samples', s)
-  const max = s.reduce((max, v) => v > max ? v : max) * 4
-  const min = s.reduce((min, v) => v < min ? v : min) * 4
+  graph.resize()
+
+  const height = (graph.max - graph.min) * 1.1
 
   const bounds = Rect({
     transform,
     width: pathX,
-    height: max - min,
-    center: Vector2(pathX / 2, -(max - min) / 2)
+    height: height,
+    center: Vector2(0, 0)
   })
 
   const clickable = Clickable({
@@ -215,9 +213,6 @@ function PathGoal(spec) {
   }
 
   function draw() {
-    // TODO: Polish bounding box
-    bounds.draw(ctx, camera)
-
     // Set alpha to fade with flash if completed
     self.setAlphaByFlashFade()
 
@@ -261,6 +256,11 @@ function PathGoal(spec) {
       if (dynamic)
         rigidbody.draw(ctx)
     }
+
+    // TODO: Polish bounding box
+    bounds.draw(ctx, camera)
+    p1.draw(ctx, camera)
+    p2.draw(ctx, camera)
   }
 
   function reset() {
