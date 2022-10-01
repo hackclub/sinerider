@@ -33,7 +33,7 @@ function PathGoal(spec) {
   const pathEnd = Vector2(pathX, 0)
 
   const pathMin = Vector2()
-const pathMax = Vector2()
+  const pathMax = Vector2()
 
   const pathStartWorld = Vector2()
   const pathEndWorld = Vector2()
@@ -73,8 +73,8 @@ const pathMax = Vector2()
     parent: self,
     globalScope,
     expression: pathExpression,
-    fill: false,
     freeze: true,
+    fill: false,
     scaleStroke: true,
     bounds: [pathStartWorld.x, pathEndWorld.x],
     sampleCount: Math.round(pathSpan*4),
@@ -84,9 +84,25 @@ const pathMax = Vector2()
     dashSettings: [0.5, 0.5],
   })
 
+  const hintGraph = Graph({
+    name: 'Path Hint Graph',
+    parent: self,
+    globalScope,
+    expression: pathExpression,
+    fill: false,
+    scaleStroke: true,
+    strokeWidth: 0.1,
+    strokeColor: '#FFA500',
+    dashed: true,
+    dashSettings: [0.5, 0.5],
+  })
+
   // HACK: Hijack the graph's draw method to draw it behind the goal object
   const drawPathGraph = pathGraph.draw.bind(pathGraph)
   pathGraph.draw = () => {}
+
+  const drawHintGraph = hintGraph.draw.bind(hintGraph)
+  hintGraph.draw = () => {}
 
   // Sample start/end points
   pathStartWorld.y = pathGraph.sample('x', pathStartWorld.x)
@@ -112,16 +128,13 @@ const pathMax = Vector2()
   trackPoints.push(pathStartWorld)
   trackPoints.push(pathEndWorld)
 
-  const height = (pathGraph.max - pathGraph.min) * 1.1
-
   const boundsTransform = Transform(spec)
 
   const bounds = Rect({
     transform: boundsTransform,
-    width: pathX,
-    height: height,
-    center: Vector2(pathX/2, pathGraph.max)
   })
+
+  updateBounds()
 
   const clickable = Clickable({
     entity: self,
@@ -130,14 +143,67 @@ const pathMax = Vector2()
     camera,
   })
 
+  function updateBounds() {
+    const max = pathGraph.samples.reduce((max, el) => el[1] > max ? el[1] : max, NINF)
+    const min = pathGraph.samples.reduce((min, el) => el[1] < min ? el[1] : min, PINF)
+    const height = max - min
+    const top = transform.invertScalar(max)
+
+    bounds.width = pathX
+    bounds.height = height
+    bounds.center = Vector2(pathX/2, top - height/2)
+  }
+
+  let oldExpression
+
   function select() {
+    editor.editingPath = true
+
+    ui.mathFieldLabel.innerText = 'P='
+
+    ui.mathField.latex(pathExpression)
+    ui.mathFieldStatic.latex(pathExpression)
+
+    oldExpression = world.level.currentLatex
+
     editor.select(self, 'path')
   }
 
   function deselect() {
+    editor.editingPath = false
+
+    ui.mathFieldLabel.innerText = 'Y='
+
+    ui.mathField.latex(oldExpression)
+    ui.mathFieldStatic.latex(oldExpression)
+
     editor.deselect()
   }
+
+  function setGraphExpression(text, latex) {
+    if (!clickable.selected)
+      return
+
+    pathExpression = text
+
+    pathGraph.expression = text
+    pathGraph.resample()
+
+    hintGraph.expression = text
+    hintGraph.resample()
+
+    ui.mathFieldStatic.latex(latex)
+
+    updateBounds()
+  }
+
   function tick() {
+    const height = pathGraph.max - pathGraph.min
+    const top = transform.invertScalar(pathGraph.max)
+
+    bounds.height = height
+    bounds.center = Vector2(pathX/2, top - height/2)
+
     base.tick()
     tickPath()
   }
@@ -171,7 +237,6 @@ const pathMax = Vector2()
       }
     }
   }
-
 
   function checkComplete() {
     if (self.triggered && !self.completed && !self.failed) {
@@ -233,6 +298,11 @@ const pathMax = Vector2()
     innerStyle.addColorStop(pathProgress, '#4F6')
     innerStyle.addColorStop(math.clamp01(pathProgress+0.02), '#FFF')
 
+    if (clickable.selected) {
+      hintGraph.resize()
+      drawHintGraph()
+    }
+
     pathGraph.strokeWidth = 0.4
     pathGraph.strokeColor = outerStyle
     pathGraph.dashed = false
@@ -266,6 +336,10 @@ const pathMax = Vector2()
 
     pathPosition.set(pathStart)
     pathPositionWorld.set(pathStartWorld)
+  }
+
+  function resize() {
+    hintGraph.resize()
   }
 
   let moving = false
@@ -307,6 +381,7 @@ const pathMax = Vector2()
     pathGraph.resample()
 
     boundsTransform.x = point.x
+    updateBounds()
 
     trackPoints = [pathStartWorld, pathEndWorld]
 
@@ -342,6 +417,7 @@ const pathMax = Vector2()
     mouseUp,
 
     reset,
+    resize,
 
     checkComplete,
 
@@ -352,6 +428,8 @@ const pathMax = Vector2()
     deselect,
 
     clickable,
+
+    setGraphExpression,
 
     get completedProgress() {return pathProgress},
     get type() {return 'path'}

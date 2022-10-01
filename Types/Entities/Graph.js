@@ -163,6 +163,7 @@ function Graph(spec) {
       maxX = maxWorldPoint[0]
     }
 
+    sampler.resetExtrema()
     sampler.sampleRange(scope, samples, sampleCount, 'x',  minX, maxX)
   }
 
@@ -192,6 +193,8 @@ function Graph(spec) {
 
     startRunning,
     stopRunning,
+
+    get samples() {return samples},
 
     get expression() {return sampler.expression},
     set expression(v) {sampler.expression = v},

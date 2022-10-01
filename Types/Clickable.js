@@ -222,7 +222,7 @@ function Clickable(spec) {
     get selected() {return selected},
     get enabled() {return enabled},
     set enabled(v) {
-      if (!v && deselectMe) {
+      if (!v && deselectMe && editor.active) {
         console.log('calling deselectMe')
         deselectMe()
       }
