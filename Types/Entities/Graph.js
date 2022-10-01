@@ -129,7 +129,6 @@ function Graph(spec) {
     ctx.moveTo(screen.width, screen.height)
     ctx.lineTo(0, screen.height)
 
-
     for (let i = 0; i < sampleCount; i++) {
       const x = samples[i].x;
       const increasedX = x + 50;
@@ -187,6 +186,9 @@ function Graph(spec) {
     tick,
     draw,
     resize,
+
+    resample,
+    bounds,
 
     startRunning,
     stopRunning,

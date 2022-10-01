@@ -19,7 +19,7 @@ function PathGoal(spec) {
     pathY = 0,
   } = spec
 
-  const trackPoints = []
+  let trackPoints = []
 
   const bottom = Vector2(0, -size/2)
   const bottomWorld = Vector2()
@@ -33,7 +33,7 @@ function PathGoal(spec) {
   const pathEnd = Vector2(pathX, 0)
 
   const pathMin = Vector2()
-  const pathMax = Vector2()
+const pathMax = Vector2()
 
   const pathStartWorld = Vector2()
   const pathEndWorld = Vector2()
@@ -44,10 +44,10 @@ function PathGoal(spec) {
   const pathMinWorld = Vector2()
   const pathMaxWorld = Vector2()
 
-  const pathSign = Math.sign(pathX)
-  const pathSpan = Math.abs(pathX)
+  let pathSign = Math.sign(pathX)
+  let pathSpan = Math.abs(pathX)
 
-  const maxPathResetSpeed = 3
+  let maxPathResetSpeed = 3
   let pathResetSpeed = 0
   let pathProgress = 0
 
@@ -114,8 +114,10 @@ function PathGoal(spec) {
 
   const height = (pathGraph.max - pathGraph.min) * 1.1
 
+  const boundsTransform = Transform(spec)
+
   const bounds = Rect({
-    transform,
+    transform: boundsTransform,
     width: pathX,
     height: height,
     center: Vector2(pathX/2, pathGraph.max)
@@ -147,8 +149,7 @@ function PathGoal(spec) {
       if (self.triggered) {
         pathPositionWorld.x += self.triggeringSledderDelta.x
         pathResetSpeed = 0
-      }
-      else {
+      } else {
         pathPositionWorld.x -= pathSign*self.tickDelta*pathResetSpeed
         pathResetSpeed = Math.min(pathResetSpeed+self.tickDelta*6, maxPathResetSpeed)
       }
@@ -278,10 +279,36 @@ function PathGoal(spec) {
     if (!moving) return
 
     transform.position = point
-    pathPosition = point
-    pathPositionWorld = point
-    pathStart = point
-    pathStartWorld = point
+   
+    // Reset pathStart/pathEnd
+    pathStart.set(Vector2())
+    pathEnd.set(Vector2(pathX, 0))
+  
+    // Re-transform to world space
+    transform.transformPoint(pathStart, pathStartWorld)
+    transform.transformPoint(pathEnd, pathEndWorld)
+
+    // Reset pathPosition
+    pathPosition.set(pathStart)
+    transform.transformPoint(pathPosition, pathPositionWorld)
+
+    pathStart.min(pathEnd, pathMin)
+    pathStart.max(pathEnd, pathMax)
+
+    pathStartWorld.min(pathEndWorld, pathMinWorld)
+    pathStartWorld.max(pathEndWorld, pathMaxWorld)
+    
+    // Re-calculate path progress
+    tickPath()
+
+    // Update graph
+    pathGraph.bounds[0] = pathStartWorld.x
+    pathGraph.bounds[1] = pathEndWorld.x
+    pathGraph.resample()
+
+    boundsTransform.x = point.x
+
+    trackPoints = [pathStartWorld, pathEndWorld]
 
     ui.editorInspector.x.value = point.x.toFixed(2)
     ui.editorInspector.y.value = point.y.toFixed(2)
