@@ -194,6 +194,14 @@ function Level(spec) {
     // self.sendEvent('levelFullyStarted')
   }
 
+  function activeRangeMet(activeRange, x) {
+    // [[start1, end1], [start2, end2], ...]
+    return _.isArray(activeRange[0])
+      ? activeRange.some(r => x > r[0] && x < r[1])
+      // [start, end]
+      : x > activeRange[0] && x < activeRange[1] 
+  }
+
   function tick() {
     let time = isConstantLake()
       ? walkers[0].transform.position.x.toFixed(1)
@@ -201,6 +209,23 @@ function Level(spec) {
 
     if ((globalScope.running || isConstantLake()) && !_.includes(time, '.'))
       time += '.0'
+    
+    for (walker of walkers) {
+      const transition = walker.transition
+      if (transition) {
+        if (transition.xTargets.length == 0) {
+          transition.target.active = true
+          walker.active = false
+          walker.transition = null
+        } else {
+          if (Math.abs(
+            transition.xTargets[transition.xTargets.length - 1] - walker.transform.x
+          ) < 0.1) {
+            transition.xTargets.pop()
+          }
+        }
+      }
+    }
 
     // ui.timeString.innerHTML = 'T='+time
     ui.runButtonString.innerHTML = 'T='+time
@@ -334,6 +359,11 @@ function Level(spec) {
       ...walkerDatum
     })
 
+    if (walker.transition) {
+      walker.transition.target = sledders.find(s => s.name === walker.transition.name)
+      walker.transition.target.active = false
+    }
+
     walkers.push(walker)
 
     trackDescendants(walker)
@@ -341,7 +371,7 @@ function Level(spec) {
 
   function addSledder(sledderDatum) {
     const sledder = Sledder({
-      name: 'Sledder '+sledders.length,
+      name: 'Sledder ' + sledders.length,
       parent: self,
       camera,
       graph,
@@ -572,8 +602,8 @@ function Level(spec) {
     if (!isBubbleLevel)
       _.each(datum.sounds, addSound)
     _.each(datum.sprites, addSprite)
-    _.each(datum.walkers, addWalker)
     _.each(datum.sledders, addSledder)
+    _.each(datum.walkers, addWalker)
     _.each(datum.goals, addGoal)
     _.each(datum.texts, addText)
     _.each(datum.directors || [{}], addDirector)
@@ -664,8 +694,8 @@ function Level(spec) {
   
   function save() {
     // Save to player storage and to URI
-    storage.setLevel(datum.nick, serialize())
-    history.pushState(null, null, '?' + LZString.compressToBase64(JSON.stringify(serialize())))
+    // storage.setLevel(datum.nick, serialize())
+    // history.pushState(null, null, '?' + LZString.compressToBase64(JSON.stringify(serialize())))
   }
 
   function setGraphExpression(text, latex) {

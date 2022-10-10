@@ -93,14 +93,16 @@ const screen = Screen({
 
 let w = worldData[0]
 
-const DEBUG_CONSTANT_LAKE = false
+const DEBUG_LEVEL = 'Volcano'
 
-if (DEBUG_CONSTANT_LAKE) {
-  // make Constant Lake first level for testing
-  const constantLakeIndex = w.levelData.findIndex(l => l.name === 'Constant Lake')
+if (DEBUG_LEVEL) {
+  // make debug level first level for testing
+  const debugLevelIndex = w.levelData.findIndex(l => l.name === DEBUG_LEVEL)
+  if (debugLevelIndex == -1)
+    alert(`DEBUG: Unable to find level '${DEBUG_LEVEL}'`)
   const tmp = w.levelData[0]
-  w.levelData[0] = w.levelData[constantLakeIndex]
-  w.levelData[constantLakeIndex] = tmp
+  w.levelData[0] = w.levelData[debugLevelIndex]
+  w.levelData[debugLevelIndex] = tmp
 }
 
 const world = World({

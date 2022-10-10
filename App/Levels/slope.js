@@ -333,4 +333,7 @@ CONSTANT_LAKE,
     asset: 'images.western_slopes_background',
     margin: 1,
   },
-}]
+},
+VOLCANO,
+// Should volcano be in western slopes/where should it be?
+]

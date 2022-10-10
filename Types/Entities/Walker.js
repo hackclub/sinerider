@@ -28,6 +28,7 @@ function Walker(spec) {
     range = [ NINF, PINF ],
     flipX = false,
     followFlip = true,
+    transition = null,
   } = spec
 
   if (!_.isArray(walkers))
@@ -61,7 +62,7 @@ function Walker(spec) {
       ...s,
     })
     : null
-  
+
   const clickable = following ? null : Clickable({
     entity: self,
     space: 'frame',
@@ -81,7 +82,7 @@ function Walker(spec) {
     graph,
     hasDarkMode,
   }))
-  
+
   let walking = false
   let walkSign = 1
   let walkSpeed = 1
@@ -200,6 +201,9 @@ function Walker(spec) {
     get hasDarkMode() {return hasDarkMode},
 
     get walkers() {return walkers},
+
+    get transition() {return transition},
+    set transition(v) {transition = v},
 
     mouseDown,
     mouseMove,

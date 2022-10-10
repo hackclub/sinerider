@@ -20,6 +20,16 @@ const Colors = {
       groundStroke: '#222222',
       groundStrokeWidth: 8,
     },
+    volcano: {
+      sky: [
+        [0, '#3366ff'],
+        [1, '#55aaff'],
+      ],
+      groundFill: '#ffffff',
+      groundPattern: '#118de677',
+      groundStroke: '#222222',
+      groundStrokeWidth: 8,
+    },
     champlain: {
       sky: [
         [0, '#8048ff'],

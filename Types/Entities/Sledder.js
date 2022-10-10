@@ -19,7 +19,8 @@ function Sledder(spec = {}) {
     graph,
     speech,
     speechScreen,
-    x: originX = 0
+    x: originX = 0,
+    activeRange = [NINF, PINF],
   } = spec
 
   const ctx = screen.ctx
@@ -72,12 +73,14 @@ function Sledder(spec = {}) {
   reset()
 
   function tick() {
+    console.log('ticking sledder')
     rigidbody.tick()
   }
 
   function draw() {
     if (clickable.selected)
       shape.draw(ctx, camera)
+    console.log('drawing sledder')
     // rigidbody.draw(ctx)
   }
 
@@ -169,6 +172,7 @@ function Sledder(spec = {}) {
     select,
     deselect,
 
+    get activeRange() {return activeRange},
     get selectable() {return !globalScope.running},
   })
 }

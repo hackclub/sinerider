@@ -15,6 +15,7 @@ function Entity(spec, defaultName = 'Entity') {
     debugSelf = false,
     debugTree = false,
     screenBuffer = null,
+    activeRange = [NINF, PINF],
   } = spec
 
   // Because I constantly forget to use debugSelf instead of simply 'debug'.
@@ -46,6 +47,7 @@ function Entity(spec, defaultName = 'Entity') {
   const ctx = screen ? screen.ctx : null
 
   // Mix in the fundamentals
+  console.log(defaultName)
   _.mixIn(self, {
     self,
     camera,
@@ -54,7 +56,10 @@ function Entity(spec, defaultName = 'Entity') {
     ctx,
     ui,
     tickDelta,
-    get time() {return getTime()},
+    get time() {
+      console.log('Getting time of ', defaultName)
+      return getTime()
+    },
   })
 
   const children = []
@@ -234,16 +239,11 @@ function Entity(spec, defaultName = 'Entity') {
     updateDrawArray()
   }
   
-  // TODO: Refactor to name?
-  const id = (Math.random() + 1).toString(36).substring(2)
-  
   return _.mixIn(self, {
     awake,
     start,
     
     destroy,
-
-    get id() {return id},
 
     get name() {return name},
     set name(v) {name = v},
@@ -303,6 +303,7 @@ function Entity(spec, defaultName = 'Entity') {
       drawOrder = v
     },
     
+    get activeRange() {return activeRange},
     get debug() {return debugSelf || debugTree},
   })
 }
