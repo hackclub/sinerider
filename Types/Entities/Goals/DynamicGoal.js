@@ -130,6 +130,18 @@ function DynamicGoal(spec) {
     editor.deselect()
   }
 
+  function setX(x) {
+    startPosition.x = x
+    transform.position.x = x
+    self.reset()
+  }
+
+  function setY(y) {
+    startPosition.y = y
+    transform.position.y = y
+    self.reset()
+  }
+
   return self.mix({
     transform,
     rigidbody,
@@ -147,6 +159,9 @@ function DynamicGoal(spec) {
 
     select,
     deselect,
+
+    setX,
+    setY,
 
     shape,
   
