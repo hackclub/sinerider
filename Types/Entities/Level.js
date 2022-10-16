@@ -83,7 +83,7 @@ function Level(spec) {
       parent: self,
     })
 
-  trackedEntities.unshift(axes)
+  if (axes) trackedEntities.unshift(axes)
 
   let darkBufferOrScreen = screen
   let darkenBufferOpacity = 0.0
@@ -111,7 +111,6 @@ function Level(spec) {
   }
 
   const startingExpression = (!isConstantLakeAndNotBubble() ? savedLatex : null) ?? defaultExpression
-  console.log('Starting expression', startingExpression)
 
   const graph = Graph({
     camera,
@@ -209,19 +208,26 @@ function Level(spec) {
 
     if ((globalScope.running || isConstantLake()) && !_.includes(time, '.'))
       time += '.0'
+
+    // console.log('tracked entities', trackedEntities)
     
     for (walker of walkers) {
       const transition = walker.transition
       if (transition) {
-        if (transition.xTargets.length == 0) {
+        // If X values met then make transition
+        if (transition.xRequirements.length == 0) {
           transition.target.active = true
           walker.active = false
+          walker.walkers.forEach(w => w.active = false)
+          const startRunning = walker.transition.startWhenTransitioned
           walker.transition = null
-        } else {
-          if (Math.abs(
-            transition.xTargets[transition.xTargets.length - 1] - walker.transform.x
-          ) < 0.1) {
-            transition.xTargets.pop()
+          if (startRunning) world.toggleRunning()
+        } 
+        // Otherwise check if current target met, if so then pop
+        else {
+          if (Math.abs(transition.xRequirements[0] - walker.transform.x) < 0.1) {
+            console.log('Met x target', _.last(transition.xRequirements), walker.transform.x)
+            transition.xRequirements.splice(0, 1)
           }
         }
       }
@@ -276,7 +282,7 @@ function Level(spec) {
     _.each(entity.children, v => {
       array.push(v)
       trackDescendants(v, array)
-    })
+    }) 
   }
 
   function addGoal(goalDatum) {
@@ -360,13 +366,18 @@ function Level(spec) {
     })
 
     if (walker.transition) {
+      walker.transition = _.cloneDeep(walker.transition)
       walker.transition.target = sledders.find(s => s.name === walker.transition.name)
-      walker.transition.target.active = false
+      if (!walker.transition.target) {
+        console.error(`Unable to find matching target for transition: '${walker.transition.name}'`)
+      } else {
+        walker.transition.target.active = false
+      }
     }
 
     walkers.push(walker)
 
-    trackDescendants(walker)
+    // trackDescendants(walker)
   }
 
   function addSledder(sledderDatum) {
@@ -384,7 +395,7 @@ function Level(spec) {
 
     sledders.push(sledder)
 
-    trackDescendants(sledder, speech)
+    // trackDescendants(sledder, speech)
   }
 
   function addSound(soundDatum) {
@@ -598,6 +609,18 @@ function Level(spec) {
     }
   }
 
+  function mergeData(source, out) {
+    for (const [key, value] of Object.entries(source)) {
+      if (_.isObject(value)) {
+        let tmp = {}
+        mergeData(value, tmp)
+        out[key] = tmp
+      } else {
+        out[key] = value
+      }
+    }
+  }
+
   function loadDatum(datum) {
     if (!isBubbleLevel)
       _.each(datum.sounds, addSound)
@@ -610,7 +633,9 @@ function Level(spec) {
     isBubbleLevel || _.each(datum.textBubbles || [], addTextBubbles)
 
     if (isBubbleLevel && datum.bubble) {
+      console.log('Starting merge', datum, datum.bubble)
       datum = _.merge(_.cloneDeep(datum), datum.bubble)
+      console.log('Merge ended', datum)
     }
 
     if (datum.clouds) 
@@ -795,5 +820,10 @@ function Level(spec) {
 
     get datum() {return spec.datum},
     get completed() {return completed},
+
+    isEditor,
+
+    // TODO: temp
+    trackedEntities,
   })
 }

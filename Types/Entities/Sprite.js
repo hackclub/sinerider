@@ -93,6 +93,9 @@ function Sprite(spec = {}) {
     ctx.scale(flipX ? -1 : 1, flipY ? -1 : 1)
     ctx.drawImage(image, -size/2+offset.x*size/2, -size/2-offset.y*size/2, size, size)
     ctx.globalAlpha = 1
+
+    if (self.name == 'Test Sprite')
+      console.log('Drawing sprite', transform.x, transform.y)
   }
 
   function draw() {

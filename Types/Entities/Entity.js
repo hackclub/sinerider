@@ -25,7 +25,7 @@ function Entity(spec, defaultName = 'Entity') {
   if (parent) {
     parent.addChild(self)
     parent.root.addDescendant(self)
-    
+ 
     if (!camera)
       camera = parent.camera
     if (!assets)
@@ -47,7 +47,6 @@ function Entity(spec, defaultName = 'Entity') {
   const ctx = screen ? screen.ctx : null
 
   // Mix in the fundamentals
-  console.log(defaultName)
   _.mixIn(self, {
     self,
     camera,
@@ -57,7 +56,7 @@ function Entity(spec, defaultName = 'Entity') {
     ui,
     tickDelta,
     get time() {
-      console.log('Getting time of ', defaultName)
+      console.log('Getting time of', defaultName)
       return getTime()
     },
   })

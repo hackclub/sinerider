@@ -93,6 +93,7 @@ const screen = Screen({
 
 let w = worldData[0]
 
+// const DEBUG_LEVEL = null
 const DEBUG_LEVEL = 'Volcano'
 
 if (DEBUG_LEVEL) {

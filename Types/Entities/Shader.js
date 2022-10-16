@@ -49,7 +49,8 @@ function Shader(spec) {
     ctx.drawImage(sunsetQuad.canvas, 0, 0, screen.width, screen.height)
   }
 
-  function resize() {
+  function resize(width, height) {
+    sunsetQuad.resize(width, height)
     if (fullscreen) {
       xRes = screen.size.x
       yRes = screen.size.y

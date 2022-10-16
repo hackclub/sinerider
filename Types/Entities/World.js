@@ -39,10 +39,6 @@ function World(spec) {
     sunsetQuad = SunsetQuad(assets)
   } 
 
-  function resize(width, height) {
-    if (sunsetQuad) sunsetQuad.resize(width, height)
-  }
-
   assets = Assets({
     paths: spec.assets,
     callbacks: {
@@ -370,7 +366,6 @@ function World(spec) {
     start,
     tick,
     draw,
-    resize,
 
     toggleRunning,
 

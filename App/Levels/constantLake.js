@@ -241,8 +241,8 @@ const CONSTANT_LAKE = {
   ],
   water: {
     x: 26,
-    size: 18,
     y: 8,
+    size: 18,
   },
   // clouds: {
   //   velocity: 0.1,

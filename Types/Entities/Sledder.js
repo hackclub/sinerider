@@ -21,6 +21,7 @@ function Sledder(spec = {}) {
     speechScreen,
     x: originX = 0,
     activeRange = [NINF, PINF],
+    flipX,
   } = spec
 
   const ctx = screen.ctx
@@ -54,6 +55,7 @@ function Sledder(spec = {}) {
     parent: self,
     speechScreen,
     y: 1,
+    flipX,
   })
 
   const shape = Rect({
@@ -73,14 +75,12 @@ function Sledder(spec = {}) {
   reset()
 
   function tick() {
-    console.log('ticking sledder')
     rigidbody.tick()
   }
 
   function draw() {
     if (clickable.selected)
       shape.draw(ctx, camera)
-    console.log('drawing sledder')
     // rigidbody.draw(ctx)
   }
 

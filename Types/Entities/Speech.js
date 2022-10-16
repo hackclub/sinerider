@@ -20,6 +20,7 @@ function Speech(spec) {
     domain = [NINF, PINF],
     drawIfRunning = false,
     globalScope,
+    repeatable = true,
   } = spec
 
   const transform = Transform(spec, self)
@@ -181,10 +182,26 @@ function Speech(spec) {
     camera.worldToScreen(controlPointWorld, controlPointScreen)
   }
 
+  let inDomain = false
+
   function draw() {
     // Draw based on whether we are within the given domain 
+
+    // TODO: Fix (doesn't destroy itself)
     if (domainTransform && (domainTransform.x < domain[0] || domainTransform.x > domain[1]))
       return
+
+    // if (domainTransform && (domainTransform.x < domain[0] || domainTransform.x > domain[1])) {
+    //   if (inDomain) {
+    //     if (!repeatable) self.destroy()
+    //   }
+    //   inDomain = false
+    // } else {
+    //   inDomain = true
+    // }
+    
+    // if (!inDomain)
+    //   return
 
     if (globalScope.running && !drawIfRunning)
       return
