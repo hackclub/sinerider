@@ -34,6 +34,7 @@ worldData.push({
       initial_bg:'initial-bg.webp',
       western_slopes_background: '.webp',
       western_slopes_background_no_sky: '.webp',
+      valley_background: '.png',
       logo_text:'.webp',
       rock_1: '.webp',
       rock_2: '.webp',
