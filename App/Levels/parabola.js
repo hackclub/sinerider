@@ -26,10 +26,11 @@ const PARABOLA = [{
     x: -2,
     y: 0,
     speech: [{
-      speakerX: 0.3,
+      speakerX: 0.5,
+      speakerY: 0.5,
       content: 'Be positive.',
-      direction: 'up',
-      distance: 1,
+      direction: 'up-right',
+      distance: 1.2,
     }],
   }],
   sky: {
@@ -63,7 +64,19 @@ const PARABOLA = [{
   sledders: [{
     asset: 'images.sam_sled',
     x: -2,
-    y: 0
+    y: 0,
+    speech: [{
+      speakerX: 0.2,
+      speakerY: 0.5,
+      content: 'If he won\'t, I will.',
+      direction: 'up',
+      distance: 1,
+      speech: [{
+        content: 'I wish he\'d take this seriously…',
+        direction: 'up',
+        distance: 1,
+      }],
+    }],
   }],
   sky: {
     asset: 'images.valley_background',
@@ -96,7 +109,14 @@ const PARABOLA = [{
   sledders: [{
     asset: 'images.sam_sled',
     x: -1,
-    y: 0
+    y: 0,
+    speech: [{
+      speakerX: 0.5,
+      speakerY: 0.5,
+      content: 'Fast and steady wins the race!',
+      direction: 'up-up-right',
+      distance: 1.2,
+    }],
   }],
   sky: {
     asset: 'images.valley_background',
@@ -129,7 +149,14 @@ const PARABOLA = [{
   sledders: [{
     asset: 'images.sam_sled',
     x: -1,
-    y: 0
+    y: 0,
+    speech: [{
+      speakerX: 0.2,
+      speakerY: 0.5,
+      content: 'I should sell motivational posters',
+      direction: 'up',
+      distance: 1,
+    }],
   }],
   sky: {
     asset: 'images.valley_background',
@@ -156,7 +183,14 @@ const PARABOLA = [{
   sledders: [{
     asset: 'images.sam_sled',
     x: -5,
-    y: 0
+    y: 0,
+    speech: [{
+      speakerX: 0.2,
+      speakerY: 0.5,
+      content: 'Time to finally make some progress',
+      direction: 'up',
+      distance: 1.5,
+    }],
   }],
   sky: {
     asset: 'images.valley_background',
@@ -184,7 +218,14 @@ const PARABOLA = [{
   sledders: [{
     asset: 'images.sam_sled',
     x: -5,
-    y: 0
+    y: 0,
+    speech: [{
+      speakerX: 0.2,
+      speakerY: 0.5,
+      content: 'It\'s so… quiet out here.',
+      direction: 'up',
+      distance: 1.5,
+    }],
   }],
   sky: {
     asset: 'images.valley_background',
@@ -212,7 +253,14 @@ const PARABOLA = [{
   sledders: [{
     asset: 'images.sam_sled',
     x: 3,
-    y: 0
+    y: 0,
+    speech: [{
+      speakerX: 0.5,
+      speakerY: 0.4,
+      content: 'I wonder how Jack\'s doing',
+      direction: 'up-up-right',
+      distance: 1.5,
+    }],
   }],
   sky: {
     asset: 'images.valley_background',
@@ -239,7 +287,14 @@ const PARABOLA = [{
   sledders: [{
     asset: 'images.sam_sled',
     x: 2,
-    y: 0
+    y: 0,
+    speech: [{
+      speakerX: 0.5,
+      speakerY: 0.4,
+      content: 'He\'s probably stuck somewhere.',
+      direction: 'up-up-right',
+      distance: 1.5,
+    }],
   }],
   sky: {
     asset: 'images.valley_background',
@@ -295,7 +350,14 @@ const PARABOLA = [{
   sledders: [{
     asset: 'images.sam_sled',
     x: 0,
-    y: 0
+    y: 0,
+    speech: [{
+      speakerX: 0.5,
+      speakerY: 0.4,
+      content: 'I do miss him.',
+      direction: 'up-up-right',
+      distance: 1.5,
+    }],
   }],
   sky: {
     asset: 'images.valley_background',
