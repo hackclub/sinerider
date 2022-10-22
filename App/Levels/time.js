@@ -117,19 +117,10 @@ const TIME = [{
     asset: 'images.lunchbox_sled',
     speech: [{
       speakerX: 0.3,
-      content: 'So slowly I’ll never see it.',
-      direction: 'right-right-up',
-      distance: 1,
-      speech: {
-        content: 'It’s like the river is slicing up the rock',
-        direction: 'up-left',
-        distance: 1,
-        speech: {
-          content: 'Canyons freaks me out.',
-          direction: 'right-up',
-          distance: 1,
-        },
-      },
+      speakerY: 0.8,
+      content: 'I hate being alone.',
+      direction: 'up',
+      distance: 2,
     }],
   }],
   sky: {
@@ -144,7 +135,7 @@ const TIME = [{
   x: 10,
   y: 10,
   requirements: [null],
-  defaultExpression: '(x-t)^2',
+  defaultExpression: '\\left(x-t\\right)^2',
   goals: [
     {
       type: 'path',
@@ -160,10 +151,16 @@ const TIME = [{
     asset: 'images.lunchbox_sled',
     speech: [{
       speakerX: 0.3,
-      content: 'Maybe I should tweet these cosmic moments',
-      direction: 'right',
-      alignment: 'middle',
-      distance: 1,
+      speakerY: 0.8,
+      content: 'I find myself thinking that a lot.',
+      direction: 'up',
+      distance: 2.2,
+      speech: {
+        speakerX: 0.3,
+        content: 'I wish she didn\'t seem so mad.',
+        direction: 'up',
+        distance: 1,
+      }
     }],
   }],
   sky: {
@@ -192,6 +189,13 @@ const TIME = [{
     x: 0,
     y: 0,
     asset: 'images.lunchbox_sled',
+    speech: {
+      speakerX: 0.3,
+      speakerY: 0.8,
+      content: 'I don\'t want to be a constant disappointment.',
+      direction: 'up',
+      distance: 2,
+    }
   }],
   sky: {
     asset: 'images.western_slopes_background',

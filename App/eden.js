@@ -149,7 +149,7 @@ worldData.push({
         {
           x: -0.3,
           y: 1,
-          content: 'now hit the green button ⇲',
+          content: 'I gotta work, hit the green button ⇲',
           direction: 'up-left',
           distance: 1.6,
           color: '#fff',
