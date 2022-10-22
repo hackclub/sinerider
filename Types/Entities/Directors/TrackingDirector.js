@@ -54,11 +54,11 @@ function TrackingDirector(spec) {
 
     cameraState.position.lerp(targetState.position, smoothing)
 
-    console.log('camera state', cameraState.position.x.toFixed(2), cameraState.position.y.toFixed(2),
-      'max track point', maxTrackPoint.x.toFixed(2), maxTrackPoint.y.toFixed(2),
-      'min track point', minTrackPoint.x.toFixed(2), minTrackPoint.y.toFixed(2),
-      'target fov', targetState.fov,
-      'camera fov', cameraState.fov)
+    // console.log('camera state', cameraState.position.x.toFixed(2), cameraState.position.y.toFixed(2),
+    //   'max track point', maxTrackPoint.x.toFixed(2), maxTrackPoint.y.toFixed(2),
+    //   'min track point', minTrackPoint.x.toFixed(2), minTrackPoint.y.toFixed(2),
+    //   'target fov', targetState.fov,
+    //   'camera fov', cameraState.fov)
 
     targetState.fov = Math.max(
       maxTrackPoint.x-cameraState.position.x,
@@ -70,7 +70,7 @@ function TrackingDirector(spec) {
       minFov
     )
 
-    console.log('Setting camera state fov; current:', cameraState.fov, 'target:', targetState.fov)
+    // console.log('Setting camera state fov; current:', cameraState.fov, 'target:', targetState.fov)
 
     cameraState.fov = math.lerp(cameraState.fov, targetState.fov, smoothing)
   }
@@ -94,7 +94,6 @@ function TrackingDirector(spec) {
   }
 
   function snap() {
-    console.log('SNAPPING')
     trackEntities()
     cameraState.set(targetState)
     trackEntities()

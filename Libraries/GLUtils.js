@@ -13,7 +13,7 @@ function GLUtils(gl) {
   }
 
   function Program({vert, frag}) {
-      const self = {}
+      const self = {vert, frag}
 
       const program = gl.createProgram()
 
@@ -36,7 +36,7 @@ function GLUtils(gl) {
       if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
           throw `Error in compiling fragment shader ${gl.getShaderInfoLog(
               fragmentShader
-          )}`
+          )}. Source ${frag}`
       }
 
       gl.attachShader(program, vertexShader)
@@ -273,11 +273,17 @@ function GLUtils(gl) {
         gl.deleteTexture(texture)
       }
 
+      function resize(size) {
+        destroy()
+        return Texture(size, format)
+      }
+
       return _.merge(self, {
           bind,
           parameter,
           image,
           destroy,
+          resize,
 
           _texture: texture,
           width: size ? size.width : 0,

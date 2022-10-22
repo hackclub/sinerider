@@ -50,25 +50,33 @@ const VOLCANO = {
       transition: {
         name: 'SLEDDER_1',
         startWhenTransitioned: true,
-        xRequirements: [102, 99]
+        // xRequirements: [102, 99]
+        xRequirements: []
       },
-      range: [99, 102],
+      range: [99, 105],
       transitionX: 95.5,
-      speech: [],
-      // speech: [{
-      //   speakerX: 100,
-      //   content: 'Woah woah woah let\'s go to the right of this really cool sigmoid curve',
-      //   direction: 'up-up-left',
-      //   domain: [99.5, 103],
-      //   distance: 1.5,
-      //   repeatable: false,
-      // },{
-      //   speakerX: 103,
-      //   content: 'UH OH! WE\'re going to have to turn back to the left--but what!1!! There\'s a VOLCANO?!?!?!',
-      //   direction: 'up-up-left',
-      //   domain: [105, 108],
-      //   distance: 1.5,
-      // }],
+      speech: [{
+        speakerX: 100,
+        content: 'Woah woah woah let\'s go to the right of this really cool sigmoid curve',
+        direction: 'up-up-left',
+        deactivationThreshold: 105,
+        domain: [99.5, 102],
+        distance: 1.5,
+        repeatable: false,
+      },{
+        speakerX: 103,
+        content: 'UH OH! WE\'re going to have to turn back to the left--but what!1!! There\'s a VOLCANO?!?!?!',
+        direction: 'up-up-left',
+        domain: [104, 105],
+        distance: 1.5,
+      },{
+        speakerX: 100,
+        content: 'Woah woah owah we need to turn into -- WHAT!11!! SLEDS?!/1/!',
+        direction: 'up-up-left',
+        activationThreshold: 105,
+        domain: [100, 101],
+        distance: 1.5,
+      }],
       walkers: {
         x: -6,
         asset: 'images.sam_float',

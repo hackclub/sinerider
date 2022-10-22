@@ -5,65 +5,33 @@ function Shader(spec) {
   } = Entity(spec, 'Shader')
 
   const {
-    fullscreen = false,
-    sunsetQuad,
-    walkerPosition,
-    defaultExpression,
+    quad,
   } = spec
 
   const ctx = screen.ctx
 
   const transform = Transform(spec, self)
 
-  let evaluator = math.compile(defaultExpression)
-
-  function vectorField(x, y, t) {
-    const c = evaluator.evaluate({ x, y, t })
-    
-    try {
-      // Either real or complex
-      return typeof c === 'number'
-        ? [ c, 0 ]
-        : [ math.re(c), math.im(c) ]
-    }
-    catch (ex) {
-      return [0, 0]
-    }
-  }
-
-  function setVectorFieldExpression(text) {
-    try {
-      const e = math.compile(text)
-      e.evaluate({ x: 0, y: 0 }) // Make sure can evaluate properly
-      evaluator = e
-    } catch (err) {}
+  function draw() {
+    quad.render()
+    ctx.drawImage(quad.localCanvas, 0, 0, screen.width, screen.height)
+    // screen.ctx.fillStyle = '#f00'
+    // screen.ctx.fillRect(0, 0, 5000, 5000)
   }
 
   function tick() {
-    sunsetQuad.update(vectorField)
-  }
-
-  function draw() {
-    // quad.draw(Math.max(0, walkerPosition.x / 20))
-    sunsetQuad.draw(walkerPosition.x / 20)
-    ctx.drawImage(sunsetQuad.canvas, 0, 0, screen.width, screen.height)
+    if (quad.tick) quad.tick()
   }
 
   function resize(width, height) {
-    sunsetQuad.resize(width, height)
-    if (fullscreen) {
-      xRes = screen.size.x
-      yRes = screen.size.y
-    }
+    if (quad.resize) quad.resize(width, height)
   }
 
   return _.mixIn(self, {
-    tick,
     draw,
     resize,
+    tick,
 
     transform,
-
-    setVectorFieldExpression,
   })
 }

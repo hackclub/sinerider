@@ -1,7 +1,7 @@
 /**
  * Sunset shader class for Constant Lake scene
  */
-function SunsetQuad(assets) {
+function SunsetQuad(defaultExpression, assets) {
   let canvas = document.createElement('canvas')
 
   canvas.width = innerWidth
@@ -201,7 +201,31 @@ function SunsetQuad(assets) {
 
   let last = null
 
-  function update(vectorField) {
+  let evaluator = math.compile(defaultExpression)
+
+  function setVectorFieldExpression(text) {
+    try {
+      const e = math.compile(text)
+      e.evaluate({ x: 0, y: 0 }) // Make sure can evaluate properly
+      evaluator = e
+    } catch (err) {}
+  }
+
+  function vectorField(x, y, t) {
+    const c = evaluator.evaluate({ x, y, t })
+    
+    try {
+      // Either real or complex
+      return typeof c === 'number'
+        ? [ c, 0 ]
+        : [ math.re(c), math.im(c) ]
+    }
+    catch (ex) {
+      return [0, 0]
+    }
+  }
+
+  function update() {
     const now = performance.now()
     const delta = last ? now - last : 0
     last = now
@@ -220,10 +244,10 @@ function SunsetQuad(assets) {
   const START_STARS_FADE_IN = 0.0
 
   // Pass in progress parameter (x distance)
-  function draw(progress) {
+  function render() {
     // console.log('time', progress, 'iTime', 5 * progress)
 
-    const iTime = (progress + 0.7) * 5
+    const iTime = (world.level.firstWalkerX / 20.0 + 0.7) * 5
 
     // Only bother rendering stars if faded in at all
     // subtract 1 b/c uv and length(skyCol)
@@ -282,10 +306,12 @@ function SunsetQuad(assets) {
   }
 
   return {
-    draw,
+    render,
     resize,
     update,
+    setVectorFieldExpression,
+    resize,
 
-    get canvas() {return canvas},
+    get localCanvas() {return canvas},
   }
 }

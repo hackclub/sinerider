@@ -20,12 +20,15 @@ function Speech(spec) {
     domain = [NINF, PINF],
     drawIfRunning = false,
     globalScope,
-    repeatable = true,
+    deactivationThreshold = null,
+    activationThreshold = null,
   } = spec
 
   const transform = Transform(spec, self)
 
   let domainTransform
+
+  let activationThresholdMet = false
   
   let textDirection
   switch (direction) {
@@ -185,23 +188,19 @@ function Speech(spec) {
   let inDomain = false
 
   function draw() {
-    // Draw based on whether we are within the given domain 
+    // Activation/deactivation threshold logic
+    if (deactivationThreshold && domainTransform && Math.abs(domainTransform.x - deactivationThreshold) < 0.1)
+      self.destroy()
 
-    // TODO: Fix (doesn't destroy itself)
-    if (domainTransform && (domainTransform.x < domain[0] || domainTransform.x > domain[1]))
+    if (activationThreshold && domainTransform && Math.abs(domainTransform.x - activationThreshold) < 0.1)
+      activationThresholdMet = true
+
+    if (activationThreshold && !activationThresholdMet)    
       return
 
-    // if (domainTransform && (domainTransform.x < domain[0] || domainTransform.x > domain[1])) {
-    //   if (inDomain) {
-    //     if (!repeatable) self.destroy()
-    //   }
-    //   inDomain = false
-    // } else {
-    //   inDomain = true
-    // }
-    
-    // if (!inDomain)
-    //   return
+    // Draw based on whether we are within the given domain 
+    if (domainTransform && (domainTransform.x < domain[0] || domainTransform.x > domain[1]))
+      return
 
     if (globalScope.running && !drawIfRunning)
       return

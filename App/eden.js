@@ -99,6 +99,12 @@ worldData.push({
       quad_frag: 'quad.frag',
       quad_vert: 'quad.vert',
       sunset_frag: 'sunset.frag',
+      volcano: {
+        gaussian_x: '.frag',
+        gaussian_y: '.frag',
+        output: '.frag',
+        source: '.frag',
+      }
     }
   },
   levelData: [{

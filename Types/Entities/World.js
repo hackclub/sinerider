@@ -1,4 +1,4 @@
-let assets
+let assets, volcanoQuad
 
 function World(spec) {
   const self = Entity(spec, 'World')
@@ -20,6 +20,7 @@ function World(spec) {
   const globalScope = {
     get t() {return runTime},
     dt: tickDelta,
+
     lerp: (a, b, t) => {
       t = math.clamp01(t)
       return a*(1-t)+b*t
@@ -33,10 +34,12 @@ function World(spec) {
 
   let waterQuad = null
   let sunsetQuad = null
+  volcanoQuad = null
 
   function loadQuad() {
     waterQuad = WaterQuad(assets)
-    sunsetQuad = SunsetQuad(assets)
+    sunsetQuad = SunsetQuad('(sin(x)-(y-2)*i)*i/2', assets)
+    volcanoQuad = VolcanoQuad(assets)
   } 
 
   assets = Assets({
@@ -146,6 +149,7 @@ function World(spec) {
       isBubbleLevel: false,
       sunsetQuad,
       waterQuad,
+      volcanoQuad,
       world: self,
 
       storage,

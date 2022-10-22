@@ -17,6 +17,7 @@ function Level(spec) {
     isBubbleLevel,
     sunsetQuad,
     waterQuad,
+    volcanoQuad,
     storage,
     savedLatex,
     world,
@@ -205,6 +206,17 @@ function Level(spec) {
     let time = isConstantLake()
       ? walkers[0].transform.position.x.toFixed(1)
       : (Math.round(globalScope.t*10)/10).toString()
+
+    if (shader) {
+      let progress = sledders[0].transform.x
+      if (progress < 20 && progress > 15) {
+        volcanoQuad.opacity = 1-math.unlerp(15, 20, progress)
+      } else if (progress < -35 && progress > -40) {
+        volcanoQuad.opacity = math.unlerp(-40, -35, progress)
+      }
+      shader.active = progress > -40 && progress < 20
+      console.log('new active', shader.active)
+    }
 
     if ((globalScope.running || isConstantLake()) && !_.includes(time, '.'))
       time += '.0'
@@ -631,11 +643,22 @@ function Level(spec) {
     _.each(datum.texts, addText)
     _.each(datum.directors || [{}], addDirector)
     isBubbleLevel || _.each(datum.textBubbles || [], addTextBubbles)
-
+      
     if (isBubbleLevel && datum.bubble) {
       console.log('Starting merge', datum, datum.bubble)
       datum = _.merge(_.cloneDeep(datum), datum.bubble)
       console.log('Merge ended', datum)
+    }
+
+    if (!isBubbleLevel && datum.name == 'Volcano') {
+      shader = Shader({
+        parent: self,
+        screen,
+        assets,
+        quad: volcanoQuad,
+        drawOrder: 100000,
+        active: false,
+      })
     }
 
     if (datum.clouds) 
@@ -656,13 +679,10 @@ function Level(spec) {
         parent: self,
         screen,
         assets,
-        sunsetQuad,
+        quad: sunsetQuad,
         drawOrder: LAYERS.sky,
-        defaultExpression: '(sin(x)-(y-2)*i)*i/2',
         walkerPosition: walkers[0].transform.position,
       })
-    } else {
-      shader = null
     }
     if (datum.water && !isBubbleLevel) {
       water = Water({
@@ -731,7 +751,7 @@ function Level(spec) {
     save()
 
     if (isConstantLakeAndNotBubble()) {
-      shader.setVectorFieldExpression(text)
+      sunsetQuad.setVectorFieldExpression(text)
       return
     }
 
@@ -822,8 +842,11 @@ function Level(spec) {
     get completed() {return completed},
 
     isEditor,
+    sledders,
 
     // TODO: temp
     trackedEntities,
+
+    get firstWalkerX() {return walkers[0].transform.x}
   })
 }
