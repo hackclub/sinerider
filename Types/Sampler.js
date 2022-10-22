@@ -15,6 +15,9 @@ function Sampler(spec = {}) {
   let evaluator
   let lastValidEvaluator = math.compile(lastValidExpression)
 
+  let min = PINF
+  let max = NINF
+
   let valid = false
 
   setExpression(spec.expression || '0')
@@ -53,6 +56,9 @@ function Sampler(spec = {}) {
     catch (err) {
       v = 0
     }
+
+    if (v < min) min = v
+    if (v > max) max = v
 
     return v
   }
@@ -142,6 +148,9 @@ function Sampler(spec = {}) {
 
     get expression() {return expression},
     set expression(v) {setExpression(v)},
+
+    get max() {return max},
+    get min() {return min},
 
     get valid() {return valid},
   }

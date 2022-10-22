@@ -9,7 +9,6 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
@@ -76,10 +75,35 @@
         <div class=''>🔊</div>
         <input id="volume-slider" type="range" orient="horizontal" hide="true"/>  
       </div>
+      <div class="bar editor-bar"  id="editor-spawner" hide=true>
+        <div id="editor-spawner-fixed" class='button string'>Add fixed goal</div>
+        <div id="editor-spawner-dynamic" class='button string'>Add dynamic goal</div>
+        <div id="editor-spawner-path" class='button string'>Add path goal</div>
+      </div>
+      <div class="bar editor-bar" id="editor-inspector" hide=true>
+        <div class='label' id='order-label'>
+          <div class='string'>Order</div>
+        </div>
+        <input id="editor-order-input" maxlength="1">
+        <div class='label' id='position-label'>
+          <div class='string'>Position</div>
+        </div>
+        <div id="editor-position">
+          <input id="editor-x-input" type="number" placeholder="X">
+          <input id="editor-y-input" type="number" placeholder="Y">
+        </div>
+        <div class='label' id='timer-label'>
+          <div class='string'>Timer</div>
+        </div>
+        <input id="editor-timer-input" min="0">
+        <div id="editor-inspector-delete" class="button string">X</div>
+        <!-- TODO: Add path goal -->
+      </div>
       <div class='button' id='navigator-button' hide=false>
         <div class='string'>🏔</div>
       </div>
     </div>
+
 
     <div id="dotted-math-container">
       <div id='dotted-math-field-static'></div>
@@ -189,6 +213,7 @@
     <script src='Libraries/preprocessMathQuill.js'></script>
 
     <!-- Load Structs -->
+    <script src='Types/Structs/Editor.js'></script>
     <script src='Types/Structs/PlayerStorage.js'></script>
     <script src='Types/Structs/Test.js'></script>
     <script src='Types/Structs/Vector2.js'></script>
@@ -254,6 +279,7 @@
     <!-- Load World Data -->
     <script src='App/layers.js'></script>
     <script src='App/Levels/constantLake.js'></script>
+    <script src='App/Levels/editor.js'></script>
     <script src='App/Levels/slope.js'></script>
     <script src='App/Levels/parabola.js'></script>
     <script src='App/Levels/wave.js'></script>

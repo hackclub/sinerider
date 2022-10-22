@@ -199,6 +199,10 @@ body > .bar {
   display: none;
 }
 
+input {
+  font-family: 'Roboto Mono';
+}
+
 input:placeholder-shown {
    font-style: italic;
 }
@@ -356,6 +360,13 @@ input[valid=false] {
 
   display: flex;
   justify-content: space-between;
+}
+
+#fixed-goal-selector, #dynamic-goal-selector {
+  height: 70px;
+  width: 70px;
+  background: white;
+  transition: 0.05s;
 }
 
 #volume-slider-box {
@@ -577,6 +588,11 @@ input[valid=false] {
   accent-color: rgb(0,255,0);
 }
 
+.vstack {
+  display: flex;
+  flex-direction: column;
+}
+
 .hidden {
   display: none !important;
 }
@@ -671,6 +687,7 @@ input[valid=false] {
   top: 90%;
   left: calc(100% + 50px);
 }
+
 .tooltip-e::after {
   top: 50%;
   left: 105%;
@@ -678,5 +695,54 @@ input[valid=false] {
   border-left-width: 0;
   border-top-color: transparent !important;
   border-right-color: var(--tooltip-color);
- 
+}
+
+#editor-inspector, #editor-spawner {
+  background: '#000';
+  display: flex;
+  align-items: center;
+  height: 2.5em;
+  column-gap: 10px;
+  padding: 3px 10px;
+  margin: auto;
+}
+
+#editor-order-input {
+  width: 4em;
+  text-align: center;
+}
+
+#editor-x-input, #editor-y-input {
+  width: 5em;
+}
+
+#editor-timer-input {
+  width: 6em;`
+}
+
+#editor-position {
+  display: inherit;
+}
+
+#editor-inspector-delete {
+  background: #f46;
+}
+
+.editor-bar {
+  transition: 0.5s;
+}
+
+.editor-bar[hide=true] {
+  display: none !important;
+  transform: translateY(calc(-100% - 73px/2));
+}
+
+.editor-bar[hide=false] {
+  display: inherit;
+  animation: show-editor-bar 0.5s;
+}
+
+@keyframes show-editor-bar {
+  from { transform: translateY(calc(-100% - 73px/2)); }
+  to { transform: translateY(0px); }
 }

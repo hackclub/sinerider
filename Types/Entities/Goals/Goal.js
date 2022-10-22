@@ -156,6 +156,7 @@ function Goal(spec) {
       ctx.textBaseline = 'middle'
       ctx.font = '1px Roboto Mono'
       ctx.scale(0.7, 0.7)
+      ctx.translate(0, -0.15)
 
       let center = self.shape.center
       ctx.fillText(order, center.x, center.y+0.25)
@@ -186,10 +187,11 @@ function Goal(spec) {
   }
 
   function startRunning() {
-
+    if (self.clickable) self.clickable.enabled = false
   }
 
   function stopRunning() {
+    if (self.clickable) self.clickable.enabled = true
     self.reset()
   }
 
@@ -237,10 +239,39 @@ function Goal(spec) {
     self.refreshColors()
   }
 
+  function setOrder(_order) {
+    console.log('setting order', _order)
+    order = _order
+    world.level.reset()
+  }
+
+  function setX(x) {
+    transform.position.x = x
+  }
+
+  function setY(y) {
+    transform.position.y = y
+  }
+
+  function remove() {
+    self.deselect()
+    world.level.sendEvent('goalDeleted', [self])
+    self.destroy()
+  }
+
+  function keydown(key) {
+    if (self.clickable?.selected && (key == 'Backspace' || key == 'Delete')) {
+      remove()
+    }
+  }
+
   return self.mix({
     transform,
 
     awake,
+
+    keydown,
+    remove,
 
     tick,
     draw,
@@ -260,6 +291,13 @@ function Goal(spec) {
 
     setAlphaByFlashFade,
 
+    setOrder,
+    setX,
+    setY,
+
+    get x() {return transform.position.x},
+    get y() {return transform.position.y},
+
     get completed() {return completed},
     get available() {return available},
     get triggered() {return triggered},
@@ -278,5 +316,8 @@ function Goal(spec) {
     get flashWhite() {return flashWhite},
 
     get completedProgress() {return completed ? 1 : 0},
+
+    // TODO: Separate level editor state from playing level/normal levels
+    get selectable() {return !globalScope.running},
   })
 }

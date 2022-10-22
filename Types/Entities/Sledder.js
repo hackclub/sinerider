@@ -55,6 +55,20 @@ function Sledder(spec = {}) {
     y: 1,
   })
 
+  const shape = Rect({
+    transform,
+    width: size,
+    height: size - 0.2,
+    center: Vector2(0, size/2 - 0.2),
+  })
+
+  const clickable = Clickable({
+    entity: self,
+    shape,
+    transform,
+    camera,
+  })
+
   reset()
 
   function tick() {
@@ -62,6 +76,8 @@ function Sledder(spec = {}) {
   }
 
   function draw() {
+    if (clickable.selected)
+      shape.draw(ctx, camera)
     // rigidbody.draw(ctx)
   }
 
@@ -90,11 +106,58 @@ function Sledder(spec = {}) {
     trail.reset()
   }
 
+  function select() {
+    console.log('selecting')
+    editor.select(self, 'sledder', ['x', 'y'])
+  }
+
+  function deselect() {
+    editor.deselect()
+  }
+
+  let moving = false
+
+  function mouseDown() {
+    console.log('moved sledder')
+    moving = true
+  }
+
+  function mouseMove(point) {
+    if (!moving) return
+    transform.position = point
+    ui.editorInspector.x.value = point.x.toFixed(2)
+    ui.editorInspector.y.value = point.y.toFixed(2)
+  }
+
+  function mouseUp() {
+    if (!moving) return
+    moving = false
+    originX = transform.x
+    reset()
+  }
+
+  function setX(x) {
+    transform.position.x = x
+  }
+
+  function setY(y) {
+    transform.position.y = y
+  }
+
   return self.mix({
     transform,
 
+    clickable,
+
     tick,
     draw,
+
+    setX,
+    setY,
+
+    mouseDown,
+    mouseMove,
+    mouseUp,
 
     startRunning,
     stopRunning,
@@ -102,5 +165,10 @@ function Sledder(spec = {}) {
     reset,
 
     pointCloud,
+
+    select,
+    deselect,
+
+    get selectable() {return !globalScope.running},
   })
 }

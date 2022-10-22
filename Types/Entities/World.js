@@ -1,3 +1,5 @@
+let assets
+
 function World(spec) {
   const self = Entity(spec, 'World')
 
@@ -41,7 +43,7 @@ function World(spec) {
     if (sunsetQuad) sunsetQuad.resize(width, height)
   }
 
-  const assets = Assets({
+  assets = Assets({
     paths: spec.assets,
     callbacks: {
       complete: assetsComplete,
@@ -94,8 +96,9 @@ function World(spec) {
         urlData = JSON.parse(LZString.decompressFromBase64(url.search.slice(1)))
         setLevel(urlData.nick, urlData)
         return
-      } catch (_) {
+      } catch (err) {
         // TODO: Maybe switch to modal
+        console.log('Error parsing url', err.stack, err.name, err.message)
         alert('Sorry, this URL is malformed :(')
       }
     }
@@ -129,6 +132,10 @@ function World(spec) {
     
     const savedLatex = urlData?.savedLatex ?? storage.getLevel(nick)?.savedLatex
 
+    console.log('url data', urlData, urlData?.goals)
+    if (urlData?.goals && urlData?.goals.length)
+      levelDatum.goals = (levelDatum.goals ?? []).concat(urlData?.goals)
+
     level = Level({
       ui,
       screen,
@@ -143,13 +150,14 @@ function World(spec) {
       isBubbleLevel: false,
       sunsetQuad,
       waterQuad,
+      world: self,
 
       storage,
       savedLatex,
     })
 
     level.playOpenMusic()
-    level.reset()
+    level.restart()
 
     ui.levelText.value = levelDatum.name
     ui.levelButtonString.innerHTML = levelDatum.name
@@ -346,7 +354,7 @@ function World(spec) {
   }
 
   function onClickResetButton() {
-    level.reset()
+    level.restart()
     assets.sounds.restart_button.play()
   }
 

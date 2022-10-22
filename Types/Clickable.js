@@ -9,6 +9,8 @@ function Clickable(spec) {
     dragThreshold = 0.05,
   } = spec
 
+  let enabled = spec.enabled ?? true
+
   const {
     screen = entity.screen,
     camera = entity.camera,
@@ -22,6 +24,7 @@ function Clickable(spec) {
   let hovering = false
   let holding = false
   let dragging = false
+  let selected = false
 
   const overlapPoint = Vector2()
 
@@ -158,9 +161,6 @@ function Clickable(spec) {
   function mouseUp(point) {
     recordPoint(point, clickPoint)
 
-    if (hovering) {
-
-    }
     if (holding) {
       holding = false
       entity.sendEvent('click', [clickPoint])
@@ -171,6 +171,20 @@ function Clickable(spec) {
       recordPoint(point, dragEndPoint)
       entity.sendEvent('dragEnd', [dragEndPoint])
     }
+  }
+
+  let deselectMe = null
+
+  function select(_deselectMe) {
+    deselectMe = _deselectMe
+    selected = true
+    entity.sendEvent('select', [])
+  }
+
+  function deselect() {
+    deselectMe = null
+    selected = false
+    entity.sendEvent('deselect', [])
   }
 
   return _.mixIn(self, {
@@ -197,11 +211,24 @@ function Clickable(spec) {
     dragEndPoint,
     dragDelta,
 
+    select,
+    deselect,
+
     get layer() {return layer},
 
     get hovering() {return hovering},
     get dragging() {return dragging},
     get holding() {return holding},
+    get selected() {return selected},
+    get enabled() {return enabled},
+    set enabled(v) {
+      if (!v && deselectMe) {
+        console.log('calling deselectMe')
+        deselectMe()
+      }
+      if (deselect) deselect()
+      enabled = v
+    },
 
     get dragDistance() {return dragDistance},
   })

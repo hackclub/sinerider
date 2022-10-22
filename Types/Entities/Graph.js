@@ -59,7 +59,7 @@ function Graph(spec) {
       math.lerp(0.05, 0.15, Math.random()),
     ])
   }
-  
+
   resample()
 
   function tick() {

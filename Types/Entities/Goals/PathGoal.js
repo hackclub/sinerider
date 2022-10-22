@@ -112,6 +112,29 @@ function PathGoal(spec) {
   trackPoints.push(pathStartWorld)
   trackPoints.push(pathEndWorld)
 
+  const height = (pathGraph.max - pathGraph.min) * 1.1
+
+  const bounds = Rect({
+    transform,
+    width: pathX,
+    height: height,
+    center: Vector2(pathX/2, pathGraph.max)
+  })
+
+  const clickable = Clickable({
+    entity: self,
+    shape: bounds,
+    transform,
+    camera,
+  })
+
+  function select() {
+    editor.select(self, 'path')
+  }
+
+  function deselect() {
+    editor.deselect()
+  }
   function tick() {
     base.tick()
     tickPath()
@@ -231,6 +254,10 @@ function PathGoal(spec) {
       if (dynamic)
         rigidbody.draw(ctx)
     }
+
+    // TODO: Polish bounding box
+    if (clickable.selected)
+      bounds.draw(ctx, camera)
   }
 
   function reset() {
@@ -240,11 +267,52 @@ function PathGoal(spec) {
     pathPositionWorld.set(pathStartWorld)
   }
 
+  let moving = false
+
+  function mouseDown() {
+    console.log('moved sledder')
+    moving = true
+  }
+
+  function mouseMove(point) {
+    if (!moving) return
+
+    transform.position = point
+    pathPosition = point
+    pathPositionWorld = point
+    pathStart = point
+    pathStartWorld = point
+
+    ui.editorInspector.x.value = point.x.toFixed(2)
+    ui.editorInspector.y.value = point.y.toFixed(2)
+  }
+
+  function mouseUp() {
+    if (!moving) return
+    moving = false
+    reset()
+  }
+
+  function setX(x) {
+    transform.position.x = x
+  }
+
+  function setY(y) {
+    transform.position.y = y
+  }
+
   return self.mix({
     transform,
 
     tick,
     draw,
+
+    setX,
+    setY,
+
+    mouseDown,
+    mouseMove,
+    mouseUp,
 
     reset,
 
@@ -253,6 +321,12 @@ function PathGoal(spec) {
     trackPoints,
     shape,
 
+    select,
+    deselect,
+
+    clickable,
+
     get completedProgress() {return pathProgress},
+    get type() {return 'path'}
   })
 }

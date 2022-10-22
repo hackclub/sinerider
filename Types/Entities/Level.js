@@ -19,6 +19,7 @@ function Level(spec) {
     waterQuad,
     storage,
     savedLatex,
+    world,
   } = spec
 
   let {
@@ -72,9 +73,6 @@ function Level(spec) {
     parent: self,
     ...cameraSpec,
   })
-
-  if (isConstantLake())
-    console.log('constant lake datum', datum)
 
   let axes = null
   if (!datum.hasOwnProperty('axesEnabled') || datum.axesEnabled)
@@ -148,12 +146,21 @@ function Level(spec) {
     defaultVectorExpression = savedLatex
   }
 
+  function isEditor() {
+    return datum.nick == 'LEVEL_EDITOR'
+  }
+
   function awake() {
     refreshLowestOrder()
 
     // Add a variable to globalScope for player position
     globalScope.p = math.complex()
     assignPlayerPosition()
+
+    if (isEditor())
+      editor.show()
+    else
+      editor.hide()
     
     if (isConstantLakeAndNotBubble()) {
       // HACK: Enable run button for Walker scene
@@ -201,8 +208,6 @@ function Level(spec) {
 
     assignPlayerPosition()
   }
-
-  const id = Math.random()
 
   function draw() {
     if (isConstantLake() &&
@@ -268,6 +273,7 @@ function Level(spec) {
       goalCompleted,
       goalFailed,
       getLowestOrder: () => lowestOrder,
+      world,
       ...goalDatum
     })
 
@@ -425,6 +431,17 @@ function Level(spec) {
       v: 0.1, // TODO: change version handling to World?
       nick: datum.nick,
       savedLatex: currentLatex,
+      goals: isEditor()
+        ? goals.map(g => {
+          s = {
+            type: g.type,
+            x: g.transform.x,
+            y: g.transform.y,
+            order: g.order,
+          }
+          return s
+        })
+        : null
     }
   }
 
@@ -445,7 +462,13 @@ function Level(spec) {
   }
 
   function reset() {
-    const expression = isConstantLake() ? defaultVectorExpression : defaultExpression;
+    stopRunning()
+  }
+
+  function restart() {
+    console.log('resetting level')
+
+    const expression = isConstantLake() ? defaultVectorExpression : defaultExpression
 
     ui.mathField.latex(expression)
 
@@ -638,16 +661,19 @@ function Level(spec) {
 
     self.sortChildren()
   }
-
+  
+  function save() {
+    // Save to player storage and to URI
+    storage.setLevel(datum.nick, serialize())
+    history.pushState(null, null, '?' + LZString.compressToBase64(JSON.stringify(serialize())))
+  }
 
   function setGraphExpression(text, latex) {
     ui.mathFieldStatic.latex(latex)
 
     currentLatex = latex
 
-    // Save level when graph edited to player storage and URL
-    storage.setLevel(datum.nick, serialize())
-    history.pushState(null, null, '?' + LZString.compressToBase64(JSON.stringify(serialize())))
+    save()
 
     if (isConstantLakeAndNotBubble()) {
       shader.setVectorFieldExpression(text)
@@ -680,7 +706,27 @@ function Level(spec) {
     darkBufferOrScreen.resize()
     graph.resize()
   }
-  
+
+  function removeGoal(type) {
+
+  }
+
+  // TODO: Refactor?
+  let goalLookup = {}
+
+  function goalAdded(type) {
+    addGoal({
+      type,
+    })
+    goalLookup[goals[goals.length - 1].id] = goals.length - 1
+    console.log('goal lookup', goalLookup)
+  }
+
+  // Takes in entity -- refactor?
+  function goalDeleted(goal) {
+    goals.splice(goals.findIndex(g => g.id == goal.id), 1)
+  }
+
   return self.mix({
     awake,
     start,
@@ -701,6 +747,7 @@ function Level(spec) {
     camera,
     graph,
     
+    restart,
     reset,
 
     playOpenMusic,
@@ -708,6 +755,13 @@ function Level(spec) {
     mathFieldFocused,
 
     isConstantLake,
+
+    goalAdded,
+    goalDeleted,
+
+    save,
+
+    goals,
 
     get datum() {return spec.datum},
     get completed() {return completed},

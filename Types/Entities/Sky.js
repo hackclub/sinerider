@@ -12,10 +12,10 @@
       asset,
       margin,
     } = spec
-    
+
     let initialBounding
     image = _.get(assets, asset, $('#error-sprite'))
-    let pos = [0,0];
+    let pos = [0,0]
     let size = [0,0]
     margin*=camera.worldToScreenScalar()
 

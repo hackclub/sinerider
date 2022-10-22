@@ -33,7 +33,7 @@ const PARABOLA = [{
     }],
   }],
   sky: {
-    asset: 'images.western_slopes_background',
+    asset: 'images.valley_background',
     margin: 1,
   },
 },
@@ -66,7 +66,7 @@ const PARABOLA = [{
     y: 0
   }],
   sky: {
-    asset: 'images.western_slopes_background',
+    asset: 'images.valley_background',
     margin: 1,
   },
 },
@@ -99,7 +99,7 @@ const PARABOLA = [{
     y: 0
   }],
   sky: {
-    asset: 'images.western_slopes_background',
+    asset: 'images.valley_background',
     margin: 1,
   },
 },
@@ -132,7 +132,7 @@ const PARABOLA = [{
     y: 0
   }],
   sky: {
-    asset: 'images.western_slopes_background',
+    asset: 'images.valley_background',
     margin: 1,
   },
 },
@@ -159,7 +159,7 @@ const PARABOLA = [{
     y: 0
   }],
   sky: {
-    asset: 'images.western_slopes_background',
+    asset: 'images.valley_background',
     margin: 1,
   },
 },
@@ -187,7 +187,7 @@ const PARABOLA = [{
     y: 0
   }],
   sky: {
-    asset: 'images.western_slopes_background',
+    asset: 'images.valley_background',
     margin: 1,
   },
 },
@@ -215,7 +215,7 @@ const PARABOLA = [{
     y: 0
   }],
   sky: {
-    asset: 'images.western_slopes_background',
+    asset: 'images.valley_background',
     margin: 1,
   },
 },
@@ -242,7 +242,7 @@ const PARABOLA = [{
     y: 0
   }],
   sky: {
-    asset: 'images.western_slopes_background',
+    asset: 'images.valley_background',
     margin: 1,
   },
 },
@@ -298,7 +298,7 @@ const PARABOLA = [{
     y: 0
   }],
   sky: {
-    asset: 'images.western_slopes_background',
+    asset: 'images.valley_background',
     margin: 1,
   },
 }]

@@ -4,6 +4,7 @@ function ClickableContext(spec) {
   } = spec
 
   let target = null
+  let selection = null
 
   const mousePoint = Vector2()
 
@@ -33,15 +34,50 @@ function ClickableContext(spec) {
       target = newTarget
     }
 
+    if (eventName == 'mouseDown') {
+      console.log(hits)
+      let newSelection = hits.reverse().find(h => h.enabled && h.entity.selectable)
+
+      if (newSelection != selection) {
+        selection?.deselect()
+        newSelection?.select(() => {
+          selection = null
+        })
+        selection = newSelection
+      }
+    }
+
     // Ping every clickable in this tree
     entity.sendEvent('clickable.'+eventName, [mousePoint])
   }
 
+  function deselect(entity) {
+    selection = null
+    entity.deselect()
+  }
+
   function compareHits(a, b) {
-    return a.layer - b.layer
+    return a.drawOrder - b.drawOrder
+  }
+
+  function keydown(key) {
+    alert('keydown')
+    if (key == 'Backspace' || key == 'Delete') {
+      // TODO: Maybe tag entities with general type for polymorphism?
+        console.log('deleting')
+      if (selection && selection.name.includes('Goal')) {
+        console.log('deleted goal')
+        editor.deselect()
+        console.log('called editor.deselect()')
+        world.level.sendEvent('goalDeleted', [selection])
+        selection.destroy()
+      }
+    }
   }
 
   return {
+    deselect,
     processEvent,
+    keydown,
   }
 }

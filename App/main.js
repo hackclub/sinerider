@@ -57,7 +57,25 @@ const ui = {
 
   navigatorFloatingBar: $('#navigator-floating-bar'),
   showAllButton: $('#show-all-button'),
+
+  editorInspector: {
+    editorInspector: $('#editor-inspector'),
+    order: $('#editor-order-input'),
+    timer: $('#editor-timer-input'),
+    x: $('#editor-x-input'),
+    y: $('#editor-y-input'),
+    deleteSelection: $('#editor-inspector-delete'),
+  },
+
+  editorSpawner: {
+    editorSpawner: $('#editor-spawner'),
+    addFixed: $('#editor-spawner-fixed'),
+    addDynamic: $('#editor-spawner-dynamic'),
+    addPath: $('#editor-spawner-path'),
+  }
 }
+
+const editor = Editor(ui)
 
 ui.levelText.setAttribute('hide', true)
 ui.veil.setAttribute('hide', true)
@@ -184,10 +202,11 @@ function onKeyUp(event) {
   }
 }
 
+window.addEventListener('keydown', event => world.level.sendEvent('keydown', [event.key]))
+
 window.addEventListener("keyup", onKeyUp)
 
 function onExpressionTextChanged(event) {
-
   world.level.sendEvent('setGraphExpression', [ui.expressionText.value])
 }
 

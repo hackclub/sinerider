@@ -54,6 +54,167 @@ const SLOPE = [{
     asset:'images.western_slopes_background',
     margin: 1,
   },
+  snow: {
+    density: 0.4,
+    maxHeight: 8,
+    velocity: {
+      x: 0.2,
+      y: 0.4
+    }
+  },
+  sprites: [
+    {
+      //tree 1
+      asset: 'images.tree_1',
+      flipX: '*',
+      size: 5.4,
+      x: 3,
+      y: 0,
+      offset: Vector2(0, 0.5),
+      anchored: true
+    },
+    {
+      asset: 'images.bush_1',
+      flipX: '*',
+      size: 1.7,
+      x: 2.5,
+      y: -1,
+      offset: Vector2(0, 0.5),
+      anchored: true
+    },
+    {
+      asset: 'images.rock_3',
+      flipX: '*',
+      size: 0.9,
+      x: 3.3,
+      y: 0,
+      offset: Vector2(0, 0.8),
+      anchored: true
+    },
+    //
+    {
+      //tree 2
+      asset: 'images.tree_2',
+      flipX: '*',
+      size: 5.4,
+      x: -9.0,
+      y: 0,
+      offset: Vector2(0, 0.8),
+      anchored: true
+    },
+    //
+    {//tree 3
+      asset: 'images.tree_3',
+      flipX: '*',
+      size: 5.4,
+      x: -13,
+      y: 0,
+      offset: Vector2(0, 0.8),
+      anchored: true
+    },
+    //
+    //tree 4
+    
+    {
+    asset: 'images.tree_2',
+    flipX: '*',
+    size: 5.4,
+    x: -20,
+    y: 0,
+    offset: Vector2(0, 0.8),
+    anchored: true
+    },
+      {
+        asset: 'images.rock_3',
+        flipX: '*',
+        size: 0.9,
+        x: -19.4,
+        y: 0,
+        offset: Vector2(0, 0.8),
+        anchored: true
+      },
+      {
+        asset: 'images.bush_1',
+        flipX: '*',
+        size: 1.5,
+        x: -13.6,
+        y: -3,
+        offset: Vector2(0, 0.5),
+        anchored: true
+        },
+      //
+    {
+      //tree 5
+      asset: 'images.tree_1',
+      flipX: '*',
+      size: 5.4,
+      x: -27,
+      y: 0,
+      offset: Vector2(0, 0.8),
+      anchored: true
+    },
+    {
+      asset: 'images.rock_3',
+      flipX: '*',
+      size: 1.5,
+      x: -27.5,
+      y: -0,
+      offset: Vector2(0, 0.8),
+      anchored: true
+    },
+    {
+      asset: 'images.bush_1',
+      flipX: '*',
+      size: 1.5,
+      x: -28,
+      y: -0,
+      offset: Vector2(0, 0.5),
+      anchored: true
+    },
+    //
+    //tree 6
+    {
+      asset: 'images.tree_1',
+      flipX: '*',
+      size: 5.4,
+      x: -32,
+      y: 0,
+      offset: Vector2(0, 0.8),
+      anchored: true
+    },
+    //
+    //tree 7
+    {
+      asset: 'images.tree_2',
+      flipX: '*',
+      size: 5.4,
+      x: -39,
+      y: 0,
+      offset: Vector2(0, 0.8),
+      anchored: true
+    },
+    //
+    //tree 8
+    {
+      asset: 'images.tree_2',
+      flipX: '*',
+      size: 5.4,
+      x: -45,
+      y: 0,
+      offset: Vector2(0, 0.8),
+      anchored: true
+    },
+    {
+      asset: 'images.tree_3',
+      flipX: '*',
+      size: 5.4,
+      x: -52,
+      y: 0,
+      offset: Vector2(0, 0.8),
+      anchored: true
+    },
+  ]
+
 },
 {
   name: 'Try facing forwards?',
@@ -96,6 +257,81 @@ const SLOPE = [{
     asset: 'images.western_slopes_background',
     margin: 1,
   },
+  snow: {
+    density: 0.4,
+    maxHeight: 8,
+    velocity: {
+      x: 0.2,
+      y: 0.4
+    }
+  },
+  sprites: [
+    {
+      asset: 'images.tree_1',
+      flipX: '*',
+      size: 5.4,
+      x: 3,
+      y: 0,
+      offset: Vector2(0, 0.7),
+      anchored: true
+    },
+    {
+      asset: 'images.rock_2',
+      flipX: '*',
+      size: 2.4,
+      x: 3.7,
+      y: -5,
+      offset: Vector2(0, 0.5),
+      anchored: true
+    },
+    {
+      asset: 'images.crow',
+      flipX: '*',
+      size: 1.4,
+      x: 3.8,
+      y: 1,
+      anchored: true
+    },
+    {
+      asset: 'images.tree_2',
+      flipX: '*',
+      size: 6.5,
+      x: 5.5,
+      y: 0,
+      offset: Vector2(0, 0.7),
+      anchored: true
+    },
+    {
+      asset: 'images.bush_1',
+      flipX: '*',
+      size: 4,
+      x: 9.5,
+      y: 0,
+      offset: Vector2(0, 0.5),
+      anchored: true
+    },
+    {
+      asset: 'images.bush_2',
+      flipX: '*',
+      size: 4,
+      x: 8.3,
+      y: 0,
+      offset: Vector2(0, 0.7),
+      anchored: true
+    },
+    {
+      asset: 'images.bush_2',
+      flipX: '*',
+      size: 4,
+      x: -3,
+      y: 0,
+      offset: Vector2(0, 0.7),
+      anchored: true
+    },
+
+
+
+  ]
 },
 {
   name: 'A real steep hill',
@@ -145,6 +381,61 @@ const SLOPE = [{
     asset: 'images.western_slopes_background',
     margin: 1,
   },
+  snow: {
+    density: 0.4,
+    maxHeight: 8,
+    velocity: {
+      x: 0.2,
+      y: 0.4
+    }
+  },
+  sprites: [
+    {
+    asset: 'images.rock_2',
+      flipX: '*',
+      size: 5.4,
+      x: 3,
+      y: 0,
+      offset: Vector2(0, 0.5),
+      anchored: true
+    },
+    {
+      asset: 'images.bush_1',
+      flipX: '*',
+      size: 5.4,
+      x: 7,
+      y: 0,
+      offset: Vector2(0, 0.7),
+      anchored: true
+    },
+    {
+      asset: 'images.tree_2',
+      flipX: '*',
+      size: 8.4,
+      x: 10,
+      y: 0,
+      offset: Vector2(0, 0.7),
+      anchored: true
+    },
+    {
+      asset: 'images.tree_1',
+      flipX: '*',
+      size: 7.4,
+      x: 5,
+      y: 0,
+      offset: Vector2(0, 0.7),
+      anchored: true
+    },
+    {
+      asset: 'images.tree_3',
+      flipX: '*',
+      size: 4,
+      x: -2,
+      y: 0,
+      offset: Vector2(0, 0.7),
+      anchored: true
+    },
+  ]
 },
 {
   name: 'The bunny slope',
@@ -199,6 +490,187 @@ const SLOPE = [{
     asset: 'images.western_slopes_background',
     margin: 1,
   },
+  snow: {
+    density: 0.4,
+    maxHeight: 8,
+    velocity: {
+      x: 0.2,
+      y: 0.4
+    }
+  },
+  sprites: [
+    {
+      asset: 'images.tree_2',
+      flipX: '*',
+      size: 1.4,
+      x: -2,
+      y: 0,
+      offset: Vector2(0, 0.8),
+      anchored: true
+    },
+    {
+      asset: 'images.tree_2',
+      flipX: '*',
+      size: 3.4,
+      x: -5,
+      y: 0,
+      offset: Vector2(0, 0.8),
+      anchored: true
+    },
+    {
+      asset: 'images.bush_2',
+      flipX: '*',
+      size: 2.4,
+      x: -3,
+      y: 0,
+      offset: Vector2(0, 0.8),
+      anchored: true
+    },
+    {
+      asset: 'images.tree_2',
+      flipX: '*',
+      size: 7.4,
+      x: -7,
+      y: 0,
+      offset: Vector2(0, 0.8),
+      anchored: true
+    },
+    {
+      asset: 'images.cloud_1',
+      flipX: '*',
+      size: 5.4,
+      x: 7,
+      y: 7,
+      offset: Vector2(0, 0.8),
+      anchored: true
+    },
+    {
+      asset: 'images.rock_3',
+      flipX: '*',
+      size: 1.5,
+      x: -2.5,
+      y: -1.5,
+      offset: Vector2(0, 0.5),
+      anchored: true
+    },
+    {
+      asset: 'images.rock_3',
+      flipX: '*',
+      size: 1.5,
+      x: -5.5,
+      y: -1.5,
+      offset: Vector2(0, 0.5),
+      anchored: true
+    },
+    {
+      asset: 'images.rock_3',
+      flipX: '*',
+      size: 1.5,
+      x: -4.5,
+      y: -1.5,
+      offset: Vector2(0, 0.5),
+      anchored: true
+    },
+    {
+      asset: 'images.rock_3',
+      flipX: '*',
+      size: 1.5,
+      x: -2.5,
+      y: -1.5,
+      offset: Vector2(0, 0.5),
+      anchored: true
+    },
+    {
+      asset: 'images.rock_1',
+      flipX: '*',
+      size: 2.5,
+      x: -4,
+      y: -1.5,
+      offset: Vector2(0, 0.3),
+      anchored: true
+    },
+    {
+      asset: 'images.cloud_1',
+      flipX: '*',
+      size: 2.5,
+      x: 3,
+      y: 5,
+      offset: Vector2(5, 0),
+      anchored: true
+    },
+    {
+      asset: 'images.cloud_2',
+      flipX: '*',
+      size: 2.5,
+      x: 5,
+      y: 5,
+      offset: Vector2(5, 0),
+      anchored: true
+    },
+    {
+      asset: 'images.cloud_2',
+      flipX: '*',
+      size: 2.5,
+      x: 5,
+      y: 5,
+      offset: Vector2(5, 0),
+      anchored: true
+    },
+    {
+      asset: 'images.cloud_1',
+      flipX: '*',
+      size: 5.5,
+      x: 3,
+      y: 8,
+      offset: Vector2(6, 0),
+      anchored: true
+    },
+    {
+      asset: 'images.cloud_2',
+      flipX: '*',
+      size: 3.5,
+      x: 10,
+      y: 9,
+      offset: Vector2(8, 0),
+      anchored: true
+    },
+    {
+      asset: 'images.cloud_2',
+      flipX: '*',
+      size: 2.5,
+      x: 7,
+      y: 9,
+      offset: Vector2(7, 0),
+      anchored: true
+    },
+    {
+      asset: 'images.tree_3',
+      flipX: '*',
+      size: 5.5,
+      x: 10,
+      y: 0,
+      offset: Vector2(0, 0.8),
+      anchored: true
+    },
+    {
+      asset: 'images.tree_2',
+      flipX: '*',
+      size: 2.5,
+      x: 12,
+      y: 0,
+      offset: Vector2(0, 0.8),
+      anchored: true
+    },
+    {
+      asset: 'images.tree_1',
+      flipX: '*',
+      size: 1.5,
+      x: 1,
+      y: 0,
+      offset: Vector2(0, 0.8),
+      anchored: true
+    },
+]
 },
 {
   name: 'Moving up in the world',
@@ -245,6 +717,109 @@ const SLOPE = [{
     asset: 'images.western_slopes_background',
     margin: 1,
   },
+  snow: {
+    density: 0.4,
+    maxHeight: 8,
+    velocity: {
+      x: 0.2,
+      y: 0.4
+    }
+  },
+
+  sprites: [
+    {
+      asset: 'images.tree_2',
+      flipX: '*',
+      size: 6,
+      x: -4,
+      offset: [0, 0.9],
+      anchored: true
+
+    },
+    {
+      asset: 'images.fox',
+      flipX: '*',
+      size: 1.5,
+      x: -4,
+      y:1,
+      offset: [0, 0.7],
+      anchored: true
+
+    },
+    {
+    asset: 'images.bush_1',
+    flipX: '*',
+    size: 3.5,
+    x: -2.5,
+    y:-2.8,
+    offset: [0, 0.5],
+    anchored: true
+    },
+    {
+      asset: 'images.rock_3',
+      flipX: '*',
+      size: 2,
+      x: -3.2,
+      y: -2,
+      offset: [0, 0.7],
+      anchored: true
+
+    },
+    {
+    asset: 'images.cloud_1',
+    flipX: '*',
+    size: 3.7,
+    x: 4,
+    y:5,
+    offset: [0, 3],
+    anchored: true
+  },
+  {
+    asset: 'images.cloud_2',
+    flipX: '*',
+    size: 3.7,
+    x: 7,
+    y:15,
+    offset: [0, 2],
+    anchored: true
+  },
+  {
+    asset: 'images.cloud_3',
+    flipX: '*',
+    size: 3.7,
+    x: 14,
+    y:20,
+    offset: [0, 4],
+    anchored: true
+  },
+  {
+    asset: 'images.cloud_1',
+    flipX: '*',
+    size: 3.7,
+    x: 4,
+    y:5,
+    offset: [0, 3],
+    anchored: true
+  },
+  {
+    asset: 'images.cloud_2',
+    flipX: '*',
+    size: 3.7,
+    x: 7,
+    y:15,
+    offset: [0, 2],
+    anchored: true
+  },
+  {
+    asset: 'images.cloud_3',
+    flipX: '*',
+    size: 3.7,
+    x: 14,
+    y:20,
+    offset: [0, 4],
+    anchored: true
+  },
+  ],
 },
 {
   name: 'About halfway down',
@@ -287,6 +862,181 @@ const SLOPE = [{
     asset: 'images.western_slopes_background',
     margin: 1,
   },
+  snow: {
+    density: 0.4,
+    maxHeight: 8,
+    velocity: {
+      x: 0.2,
+      y: 0.4
+    }
+  },
+  sprites: [
+  {
+    asset: 'images.cloud_1',
+    flipX: '*',
+    size: 3.7,
+    x: 4,
+    y:5,
+    offset: [5, 0],
+    anchored: true
+  },
+  {
+    asset: 'images.cloud_2',
+    flipX: '*',
+    size: 3.7,
+    x: 7,
+    y:15,
+    offset: [3, 2],
+    anchored: true
+  },
+  {
+    asset: 'images.cloud_3',
+    flipX: '*',
+    size: 3.7,
+    x: 14,
+    y:20,
+    offset: [1, 4],
+    anchored: true
+  },
+  {
+    asset: 'images.cloud_1',
+    flipX: '*',
+    size: 3.7,
+    x: 4,
+    y:5,
+    offset: [2, 3],
+    anchored: true
+  },
+  {
+    asset: 'images.cloud_2',
+    flipX: '*',
+    size: 5.7,
+    x: 20,
+    y:15,
+    offset: [5, 0],
+    anchored: true
+  },
+  {
+    asset: 'images.cloud_3',
+    flipX: '*',
+    size: 3.7,
+    x: 14,
+    y:20,
+    offset: [3, 2],
+    anchored: true
+  },
+  {
+    asset: 'images.cloud_2',
+    flipX: '*',
+    size: 3.7,
+    x: 7,
+    y:15,
+    offset: [16, 2],
+    anchored: true
+  },
+  {
+    asset: 'images.cloud_3',
+    flipX: '*',
+    size: 3.7,
+    x: 14,
+    y:20,
+    offset: [15, 4],
+    anchored: true
+  },
+  {
+    asset: 'images.cloud_1',
+    flipX: '*',
+    size: 3.7,
+    x: 4,
+    y:5,
+    offset: [14, 3],
+    anchored: true
+  },
+  {
+    asset: 'images.cloud_2',
+    flipX: '*',
+    size: 5.7,
+    x: 20,
+    y:15,
+    offset: [10, 0],
+    anchored: true
+  },
+  {
+    asset: 'images.cloud_3',
+    flipX: '*',
+    size: 3.7,
+    x: 18,
+    y:20,
+    offset: [9, 2],
+    anchored: true
+  },
+  {
+    asset: 'images.cloud_2',
+    flipX: '*',
+    size: 3.7,
+    x: 7,
+    y:15,
+    offset: [0, 2],
+    anchored: true
+  },
+  {
+    asset: 'images.cloud_3',
+    flipX: '*',
+    size: 3.7,
+    x: 14,
+    y:20,
+    offset: [0, 4],
+    anchored: true
+  },
+  {
+    asset: 'images.cloud_1',
+    flipX: '*',
+    size: 3.7,
+    x: 4,
+    y:5,
+    offset: [0, 3],
+    anchored: true
+  },
+  {
+    asset: 'images.cloud_2',
+    flipX: '*',
+    size: 5.7,
+    x: 20,
+    y:15,
+    offset: [5, 0],
+    anchored: true
+  },
+  {
+    asset: 'images.cloud_3',
+    flipX: '*',
+    size: 3.7,
+    x: 1,
+    y:20,
+    offset: [3, 2],
+    anchored: true
+  },
+  {
+    asset: 'images.cabin_2',
+    size: 6,
+    x: -4,
+    offset: [0, 0.7],
+    anchored: true,
+  },
+  {
+    asset: 'images.tree_2',
+    size: 5,
+    x: -2,
+    offset: [0, 0.7],
+    anchored: true,
+  },
+  {
+    asset: 'images.tree_3',
+    size: 5,
+    x: -6,
+    offset: [0, 0.7],
+    anchored: true,
+  },
+]
 },
 CONSTANT_LAKE,
 {
@@ -325,7 +1075,8 @@ CONSTANT_LAKE,
       direction: 'up-up-right',
       distance: 2.5,
     }]
-  }],
+  },
+],
   sledders: [{
     asset: 'images.benny_sled',
     speech: [{
@@ -339,5 +1090,13 @@ CONSTANT_LAKE,
   sky: {
     asset: 'images.western_slopes_background',
     margin: 1,
+  },
+  snow: {
+    density: 0.4,
+    maxHeight: 8,
+    velocity: {
+      x: 0.2,
+      y: 0.4
+    }
   },
 }]
