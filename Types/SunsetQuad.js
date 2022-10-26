@@ -299,7 +299,7 @@ function SunsetQuad(defaultExpression, assets) {
     sunsetProgram.use()
       .vertices(quad)
       .uniform('resolution', [ canvas.width, canvas.height ])
-      .uniform('time', progress)
+      .uniform('time', iTime)
       .uniformi('texture', 0)
       .viewport(canvas.width, canvas.height)
       .draw(gl.TRIANGLE_STRIP, 4)

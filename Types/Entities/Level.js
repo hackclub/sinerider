@@ -199,7 +199,7 @@ function Level(spec) {
       ? walkers[0].transform.position.x.toFixed(1)
       : (Math.round(globalScope.t*10)/10).toString()
 
-    if (shader) {
+    if (!isBubbleLevel && datum.name == 'Volcano' && shader) {
       let progress = sledders[0].transform.x
       // if (progress < 20 && progress > 15) {
       //   volcanoQuad.opacity = 1-math.unlerp(15, 20, progress)
