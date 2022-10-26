@@ -209,7 +209,7 @@ function Level(spec) {
       // shader.active = progress > -40 && progress < 20
       volcanoQuad.opacity = 1.0
       const vel = sledders[0].rigidbody.velocity.magnitude
-      volcanoQuad.kernelWidth = (1 - 1/(1+vel)) * 8.
+      volcanoQuad.kernelWidth = vel/20 * 8
       shader.active = true
     }
 
