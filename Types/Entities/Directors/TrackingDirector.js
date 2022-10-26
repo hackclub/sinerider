@@ -5,9 +5,12 @@ function TrackingDirector(spec) {
     cameraState,
   } = Director(spec, 'TrackingDirector')
 
+  let {
+    trackedEntities = []
+  } = spec
+
   const {
     camera,
-    trackedEntities = [],
     globalScope,
   } = spec
 
@@ -54,23 +57,15 @@ function TrackingDirector(spec) {
 
     cameraState.position.lerp(targetState.position, smoothing)
 
-    // console.log('camera state', cameraState.position.x.toFixed(2), cameraState.position.y.toFixed(2),
-    //   'max track point', maxTrackPoint.x.toFixed(2), maxTrackPoint.y.toFixed(2),
-    //   'min track point', minTrackPoint.x.toFixed(2), minTrackPoint.y.toFixed(2),
-    //   'target fov', targetState.fov,
-    //   'camera fov', cameraState.fov)
-
     targetState.fov = Math.max(
-      maxTrackPoint.x-cameraState.position.x,
-      maxTrackPoint.y-cameraState.position.y
+      Math.abs(maxTrackPoint.x-cameraState.position.x),
+      Math.abs(maxTrackPoint.y-cameraState.position.y)
     )
 
     targetState.fov = Math.max(
       targetState.fov+minFovMargin,
       minFov
     )
-
-    // console.log('Setting camera state fov; current:', cameraState.fov, 'target:', targetState.fov)
 
     cameraState.fov = math.lerp(cameraState.fov, targetState.fov, smoothing)
   }

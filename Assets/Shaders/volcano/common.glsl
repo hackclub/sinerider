@@ -10,7 +10,7 @@ precision mediump float;
 #define INNER_SHADOW_RADIUS 10.0
 
 #define FADE_BUFFER 2.0
-// #define GAUSSIAN_KERNEL_WIDTH 9.0
+#define GAUSSIAN_KERNEL_WIDTH 3.0
 
 float gaussian(float x, float y) {
     return 1.0 / (2.0 * PI * pow(SIGMA, 2.0)) * exp(-(pow(x, 2.0) + pow(y, 2.0)) / (2.0 * pow(SIGMA, 2.0)));

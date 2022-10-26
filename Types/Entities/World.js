@@ -97,7 +97,6 @@ function World(spec) {
         return
       } catch (err) {
         // TODO: Maybe switch to modal
-        console.log('Error parsing url', err.stack, err.name, err.message)
         alert('Sorry, this URL is malformed :(')
       }
     }
@@ -131,7 +130,6 @@ function World(spec) {
     
     const savedLatex = urlData?.savedLatex ?? storage.getLevel(nick)?.savedLatex
 
-    console.log('url data', urlData, urlData?.goals)
     if (urlData?.goals && urlData?.goals.length)
       levelDatum.goals = (levelDatum.goals ?? []).concat(urlData?.goals)
 

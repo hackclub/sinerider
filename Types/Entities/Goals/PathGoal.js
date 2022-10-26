@@ -270,7 +270,6 @@ function PathGoal(spec) {
   let moving = false
 
   function mouseDown() {
-    console.log('moved sledder')
     moving = true
   }
 

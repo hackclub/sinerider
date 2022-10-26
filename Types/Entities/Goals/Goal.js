@@ -241,7 +241,6 @@ function Goal(spec) {
   }
 
   function setOrder(_order) {
-    console.log('setting order', _order)
     order = _order
     world.level.reset()
   }

@@ -28,19 +28,19 @@ void main(void) {
 
     vec3 col = texture2D(frame, uv).rgb;
  
-    vec3 c = vec3(0.0);
+    // vec3 c = vec3(0.0);
      
-    float sum = 0.;
+    // float sum = 0.;
     
-    for (float x = -1.; x <= 1.; x++) {
-        for (float y = -1.; y <= 1.; y++) {
-            vec2 uv = (gl_FragCoord.xy + vec2(x, y))/resolution.xy;
-            c += texture2D(frame, uv).rgb * kernel[int(x+1. + (y+1.)*3.)];
-        }
-    }
+    // for (float x = -1.; x <= 1.; x++) {
+    //     for (float y = -1.; y <= 1.; y++) {
+    //         vec2 uv = (gl_FragCoord.xy + vec2(x, y))/resolution.xy;
+    //         c += texture2D(frame, uv).rgb * kernel[int(x+1. + (y+1.)*3.)];
+    //     }
+    // }
     
-    col = c;
-    col *= 100. + 50. * sin(time);
+    // col = c;
+    // col *= 100.;
 
     // Output to screen
     gl_FragColor = vec4(col,1.0);

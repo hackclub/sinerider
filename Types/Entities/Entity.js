@@ -56,7 +56,6 @@ function Entity(spec, defaultName = 'Entity') {
     ui,
     tickDelta,
     get time() {
-      console.log('Getting time of', defaultName)
       return getTime()
     },
   })
@@ -297,7 +296,7 @@ function Entity(spec, defaultName = 'Entity') {
     get drawOrder() {return drawOrder},
     set drawOrder(v) {
       if (drawOrder != v)
-        self.root.sortdrawArray()
+        self.root.sortDrawArray()
       
       drawOrder = v
     },

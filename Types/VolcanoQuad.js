@@ -81,6 +81,7 @@ function VolcanoQuad(spec) {
   }
 
   let time = 0
+  let kernelWidth = 9
 
   let frame = utils.Texture([canvas.width, canvas.height], gl.RGBA)
 
@@ -110,6 +111,7 @@ function VolcanoQuad(spec) {
       .vertices(quad)
       .uniform('resolution', [local.width, local.height])
       .uniform('time', time)
+      .uniform('kernelWidth', kernelWidth)
       .uniformi('source', 0)
       .viewport(local.width, local.height)
       .draw(gl.TRIANGLE_STRIP, 4)
@@ -123,6 +125,7 @@ function VolcanoQuad(spec) {
       .vertices(quad)
       .uniform('resolution', [local.width, local.height])
       .uniform('time', time)
+      .uniform('kernelWidth', kernelWidth)
       .uniformi('gaussianX', 0)
       .viewport(local.width, local.height)
       .draw(gl.TRIANGLE_STRIP, 4)
@@ -145,6 +148,7 @@ function VolcanoQuad(spec) {
     resize,
 
     set opacity(v) {opacity = v},
+    set kernelWidth(v) {kernelWidth = v},
     get localCanvas() {return local},
   }
 }

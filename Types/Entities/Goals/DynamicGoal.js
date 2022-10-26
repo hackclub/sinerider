@@ -102,7 +102,6 @@ function DynamicGoal(spec) {
   let moving = false
 
   function mouseDown() {
-    console.log('moved down')
     transform.scale = 1.1
     moving = true
   }

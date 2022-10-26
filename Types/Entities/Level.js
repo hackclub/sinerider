@@ -194,14 +194,6 @@ function Level(spec) {
     // self.sendEvent('levelFullyStarted')
   }
 
-  function activeRangeMet(activeRange, x) {
-    // [[start1, end1], [start2, end2], ...]
-    return _.isArray(activeRange[0])
-      ? activeRange.some(r => x > r[0] && x < r[1])
-      // [start, end]
-      : x > activeRange[0] && x < activeRange[1] 
-  }
-
   function tick() {
     let time = isConstantLake()
       ? walkers[0].transform.position.x.toFixed(1)
@@ -209,13 +201,16 @@ function Level(spec) {
 
     if (shader) {
       let progress = sledders[0].transform.x
-      if (progress < 20 && progress > 15) {
-        volcanoQuad.opacity = 1-math.unlerp(15, 20, progress)
-      } else if (progress < -35 && progress > -40) {
-        volcanoQuad.opacity = math.unlerp(-40, -35, progress)
-      }
-      shader.active = progress > -40 && progress < 20
-      console.log('new active', shader.active)
+      // if (progress < 20 && progress > 15) {
+      //   volcanoQuad.opacity = 1-math.unlerp(15, 20, progress)
+      // } else if (progress < -35 && progress > -40) {
+      //   volcanoQuad.opacity = math.unlerp(-40, -35, progress)
+      // }
+      // shader.active = progress > -40 && progress < 20
+      volcanoQuad.opacity = 1.0
+      const vel = sledders[0].rigidbody.velocity.magnitude
+      volcanoQuad.kernelWidth = (1 - 1/(1+vel)) * 8.
+      shader.active = true
     }
 
     if ((globalScope.running || isConstantLake()) && !_.includes(time, '.'))
@@ -238,7 +233,6 @@ function Level(spec) {
         // Otherwise check if current target met, if so then pop
         else {
           if (Math.abs(transition.xRequirements[0] - walker.transform.x) < 0.1) {
-            console.log('Met x target', _.last(transition.xRequirements), walker.transform.x)
             transition.xRequirements.splice(0, 1)
           }
         }
@@ -519,8 +513,6 @@ function Level(spec) {
   }
 
   function restart() {
-    console.log('resetting level')
-
     const expression = isConstantLake() ? defaultVectorExpression : defaultExpression
 
     ui.mathField.latex(expression)
@@ -645,9 +637,7 @@ function Level(spec) {
     isBubbleLevel || _.each(datum.textBubbles || [], addTextBubbles)
       
     if (isBubbleLevel && datum.bubble) {
-      console.log('Starting merge', datum, datum.bubble)
       datum = _.merge(_.cloneDeep(datum), datum.bubble)
-      console.log('Merge ended', datum)
     }
 
     if (!isBubbleLevel && datum.name == 'Volcano') {
@@ -656,9 +646,10 @@ function Level(spec) {
         screen,
         assets,
         quad: volcanoQuad,
-        drawOrder: 100000,
+        drawOrder: 500,
         active: false,
       })
+      // sledders.forEach(s => s.drawOrder = 10000)
     }
 
     if (datum.clouds) 
@@ -674,7 +665,6 @@ function Level(spec) {
       })
     // Constant Lake sunset scene
     if (isConstantLakeAndNotBubble()) {
-      console.log('loading shader')
       shader = Shader({
         parent: self,
         screen,
@@ -794,7 +784,6 @@ function Level(spec) {
       type,
     })
     goalLookup[goals[goals.length - 1].id] = goals.length - 1
-    console.log('goal lookup', goalLookup)
   }
 
   // Takes in entity -- refactor?

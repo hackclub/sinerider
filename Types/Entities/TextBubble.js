@@ -40,7 +40,6 @@ function TextBubble(spec) {
     }
 
     function destroy() {
-      console.log('destroying text bubble')
       helperBubble.remove()
       domElement.onmousedown = () => {}
     }

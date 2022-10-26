@@ -220,7 +220,6 @@ function setGlobalVolumeLevel(i) {
 
 function onSetVolume(event) {
   let volume = event.target.value / 100
-  console.log("Setting volume to", volume)
   setGlobalVolumeLevel(volume)
 }
 

@@ -35,7 +35,6 @@ function ClickableContext(spec) {
     }
 
     if (eventName == 'mouseDown') {
-      console.log(hits)
       let newSelection = hits.reverse().find(h => h.enabled && h.entity.selectable)
 
       if (newSelection != selection) {
@@ -64,11 +63,8 @@ function ClickableContext(spec) {
     alert('keydown')
     if (key == 'Backspace' || key == 'Delete') {
       // TODO: Maybe tag entities with general type for polymorphism?
-        console.log('deleting')
       if (selection && selection.name.includes('Goal')) {
-        console.log('deleted goal')
         editor.deselect()
-        console.log('called editor.deselect()')
         world.level.sendEvent('goalDeleted', [selection])
         selection.destroy()
       }

@@ -178,7 +178,7 @@ function Vector2() {
     
     const ox = Math.min(x, other.x)
     const oy = Math.min(y, other.y)
-    
+
     output.set(ox, oy)
     
     return output

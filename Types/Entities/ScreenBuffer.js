@@ -17,7 +17,6 @@ function ScreenBuffer(spec) {
   bufferCtx.owner = 'ScreenBuffer' // For debugging
 
   function resize(width, height) {
-    console.log('RESIZING WINDOW', width, height)
     bufferCanvas.width = width
     bufferCanvas.height = height
   }

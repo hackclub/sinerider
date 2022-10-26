@@ -110,7 +110,6 @@ function Sledder(spec = {}) {
   }
 
   function select() {
-    console.log('selecting')
     editor.select(self, 'sledder', ['x', 'y'])
   }
 
@@ -121,7 +120,6 @@ function Sledder(spec = {}) {
   let moving = false
 
   function mouseDown() {
-    console.log('moved sledder')
     moving = true
   }
 
@@ -174,5 +172,7 @@ function Sledder(spec = {}) {
 
     get activeRange() {return activeRange},
     get selectable() {return !globalScope.running},
+
+    get rigidbody() {return rigidbody},
   })
 }

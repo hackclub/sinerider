@@ -5,7 +5,7 @@ const LAYERS = {
   background: -90,
   axes: -80,
   backSprites: -10,
-  sledders: 0,
+  sledders: 10000,
   walkers: 1,
   foreSprites: 10,
   snow: 20,

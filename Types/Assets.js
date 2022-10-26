@@ -68,7 +68,7 @@ function Assets(spec) {
       // TODO: Fix 'common' caching between shader fetch requests
       if (!_.has(shaderCommons, dir)) {
         if (!_.has(shaderFetchPromises, dir))
-          shaderFetchPromises[dir] = fetch(dir + '/common')
+          shaderFetchPromises[dir] = fetch(dir + '/common.glsl')
         Promise.all([
           fetch(path),
           shaderFetchPromises[dir]

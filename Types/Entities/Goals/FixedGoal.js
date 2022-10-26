@@ -81,7 +81,6 @@ function FixedGoal(spec) {
   let moving = false
 
   function mouseDown() {
-    console.log('moved down')
     moving = true
   }
 

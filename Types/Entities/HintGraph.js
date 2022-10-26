@@ -13,8 +13,6 @@ function HintGraph(spec) {
 
   const { bounds, expression: expressionForm } = slider
 
-  console.log('camera', camera, 'spec', spec)
-
   function createExpression(n) {
     return expressionForm
       .replace('n', n.toFixed(2))
@@ -68,7 +66,6 @@ function HintGraph(spec) {
   }
 
   function onToggleMap(mapEnabled) {
-    console.log('Transitioning map', mapEnabled)
     setVisible(!mapEnabled)
   }
 
