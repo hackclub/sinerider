@@ -104,6 +104,10 @@ worldData.push({
         gaussian_y: '.frag',
         output: '.frag',
         source: '.frag',
+        volcano_blend: '.frag',
+        volcano_stars_frag: 'volcano_stars.frag',
+        volcano_stars_vert: 'volcano_stars.vert',
+        volcano_sunset: '.frag',
       }
     }
   },

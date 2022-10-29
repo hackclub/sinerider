@@ -8,7 +8,7 @@ const VOLCANO = {
   y: 0,
   camera: {
     x: 2,
-    y: -2,
+    offset: [0, 0.4],
     fov: 30,
   },
   requirements: ['TIME_COOL'],
@@ -18,6 +18,7 @@ const VOLCANO = {
       type: 'tracking',
       smoothing: 0.08,
       minFov: 8,
+      minFovMargin: 7,
     }
     // {
     //   type: 'lerp',
@@ -35,12 +36,12 @@ const VOLCANO = {
   ],
   goals: [],
   sky: {
-    asset: 'images.volcano_background',
+    asset: 'images.western_slopes_background_no_sky',
     margin: 1
   },
   bubble: {
     sky: {
-      asset: 'images.volcano_background',
+      asset: 'images.western_slopes_background',
       margin: 1
     }
   },

@@ -40,9 +40,6 @@ function Assets(spec) {
     const isSound = _.includes(soundExtensions, extension)
     const isShader = _.includes(shaderExtensions, extension)
 
-    const shaderCommons = {}
-    const shaderFetchPromises = {}
-
     let asset
 
     if (isImage) {
@@ -59,44 +56,12 @@ function Assets(spec) {
       })
     }
     else if (isShader) {
-      const dir = path.substring(0, 
-        path.length - 1 - path.split('')
-          .reverse()
-          .findIndex(ch => ch == '/')
-      )
-
-      // TODO: Fix 'common' caching between shader fetch requests
-      if (!_.has(shaderCommons, dir)) {
-        if (!_.has(shaderFetchPromises, dir))
-          shaderFetchPromises[dir] = fetch(dir + '/common.glsl')
-        Promise.all([
-          fetch(path),
-          shaderFetchPromises[dir]
-        ]).then(([asset, common]) => {
-          if (common.status != 404) {
-            Promise.all([asset.text(), common.text()])
-              .then(([assetText, commonText]) => {
-                shaderCommons[dir] = commonText
-                object[key] = commonText + '\n' + assetText
-                assetLoaded(path)
-              })
-          } else {
-            shaderCommons[dir] = false
-            asset.text().then(text => {
-              object[key] = text
-              assetLoaded(path)
-            })
-          }
+      fetch(path)
+        .then(raw => raw.text())
+        .then(text => {
+          object[key] = text
+          assetLoaded(path)
         })
-      } else {
-        fetch(path)
-          .then(response => response.text())
-          .then(text => {
-            const textAppended = (shaderCommons[dir] || '') + '\n' + text
-            object[key] = textAppended
-            assetLoaded(path)
-          })
-      }
     }
     else {
       return

@@ -1,6 +1,7 @@
 // TODO: Add JSDoc
 
 function GLUtils(gl) {
+  const self = {}
   const FLOAT_SIZE = 4
 
   function viewport(width, height) {
@@ -187,6 +188,31 @@ function GLUtils(gl) {
       return new Uint8Array(width * height * formatSize)
   }
 
+  // TODO
+  function pipeline(...programs) {
+    const self = {}
+    const fb = Framebuffer()
+
+    self.instancedAttributes = (...args) => { programs.forEach(p => p.instancedAttributes(args)); return self }
+    self.vertices = (...args) => { programs.forEach(p => p.vertices(args)); return self }
+    self.resetVerticesInstancing = (...args) => { programs.forEach(p => p.resetVerticesInstancing(args)); return self }
+    self.attributes = (...args) => { programs.forEach(p => p.attributes(args)); return self }
+    self.attrib = (...args) => { programs.forEach(p => p.attrib(args)); return self }
+    self.attribDivisor = (...args) => { programs.forEach(p => p.attribDivisor(args)); return self }
+    self.uniform = (...args) => { programs.forEach(p => p.uniform(args)); return self }
+
+    self.uniformi = (...args) => { programs.forEach(p => p.uniformi(args)); return self }
+    self.buffer = (...args) => { programs.forEach(p => p.buffer(args)); return self }
+    self.viewport = (...args) => { programs.forEach(p => p.viewport(args)); return self }
+    self.drawInstanced = (...args) => { programs.forEach(p => p.drawInstanced(args)); return self }
+
+    self.draw = (type, count) => {
+      for (const program of programs) {
+
+      } 
+    }
+  }
+
   function Framebuffer() {
       const framebuffer = gl.createFramebuffer()
 
@@ -221,6 +247,8 @@ function GLUtils(gl) {
       gl.bindFramebuffer(gl.FRAMEBUFFER, null)
   }
 
+  const fb = Framebuffer()
+
   function Texture(size = null, format = null) {
       const texture = gl.createTexture()
       const self = {}
@@ -240,6 +268,20 @@ function GLUtils(gl) {
           gl.texImage2D(gl.TEXTURE_2D, 0, format, format, gl.UNSIGNED_BYTE, img)
           self.width = img.width
           self.height = img.height
+      }
+
+      function resize(_width, _height, _format) {
+        const newTexture = Texture([_width, _height], _format)
+        fb.bind()
+        fb.setColorAttachment(newTexture)
+        bind(0)
+        self.quadProgram.use()
+          .vertices(self.quad)
+          .uniformi('texture', 0)
+          .viewport(_width, _height)
+          .draw(gl.TRIANGLE_STRIP, 4)
+        texture.destroy()
+        return newTexture
       }
 
       if (size) {
@@ -393,7 +435,48 @@ function GLUtils(gl) {
       }
   }
 
-  return {
+  const quad = Vertices(gl.STATIC_DRAW, {
+    'aCoords': {
+      type: 'vec2',
+      data: [
+        -1, -1,
+        -1,  1,
+         1, -1,
+         1,  1,
+     ]
+    },
+    'aTexCoords': {
+      type: 'vec2',
+      data: [
+        0, 0,
+        0, 1,
+        1, 0,
+        1, 1,
+     ]
+    }
+  })
+
+  const quadProgram = Program({
+    vert: `
+precision mediump float;
+attribute vec2 aCoords;
+attribute vec2 aTexCoords;
+varying vec2 TexCoords;
+void main() {
+  gl_Position = vec4(aCoords, 0, 1);
+  TexCoords = aTexCoords;
+}`,
+    frag: `
+precision mediump float;
+uniform sampler2D texture;
+varying vec2 uv;
+void main(void) {
+vec3 col = texture2D(texture, uv).rgb;
+gl_FragColor = vec4(col, 1.0);
+}`
+  })
+
+  return _.mixIn(self, {
       Program,
       Framebuffer,
       Texture,
@@ -404,5 +487,8 @@ function GLUtils(gl) {
       bindDisplay,
       imageTexture,
       createReadBuffer,
-  }
+
+      get quad() {return quad},
+      get quadProgram() {return quadProgram},
+  })
 }

@@ -1,6 +1,6 @@
 precision mediump float;
 
-// uniform sampler2D stars;
+uniform sampler2D stars;
 uniform vec2 resolution;
 
 uniform float time;
@@ -79,7 +79,7 @@ float lerpBetween(float lower, float upper, float a) {
 
 void main(void) {
   // adapt to ShaderToy
-  float iTime = (time + .7) * 5.;
+  float iTime = time;
 
   vec2 uv = gl_FragCoord.xy/resolution.y;
   uv.x += 0.5-.5*resolution.x/resolution.y;
@@ -117,9 +117,9 @@ void main(void) {
 
   vec2 sampleUv = gl_FragCoord.xy/resolution.xy;
 
-  // vec3 starCol = texture2D(stars, sampleUv).rgb;
-  // starCol *= pow(smoothstep(0.0, 0.8, length(starCol)), 2.0);
-  // col = mix(col, starCol, lerpBetween(START_STARS_FADE_IN, END_STARS_FADE_IN, iTime + sampleUv.y) * (1. - length(skyCol)));
+  vec3 starCol = texture2D(stars, sampleUv).rgb;
+  starCol *= pow(smoothstep(0.0, 0.8, length(starCol)), 2.0);
+  col = mix(col, starCol, lerpBetween(START_STARS_FADE_IN, END_STARS_FADE_IN, iTime + sampleUv.y) * (1. - length(skyCol)));
 
   #if defined(DEBUG_STAR_FIELD)
   col = starCol;
