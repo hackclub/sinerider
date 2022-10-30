@@ -271,17 +271,17 @@ function GLUtils(gl) {
       }
 
       function resize(_width, _height, _format) {
-        const newTexture = Texture([_width, _height], _format)
-        fb.bind()
-        fb.setColorAttachment(newTexture)
-        bind(0)
-        self.quadProgram.use()
-          .vertices(self.quad)
-          .uniformi('texture', 0)
-          .viewport(_width, _height)
-          .draw(gl.TRIANGLE_STRIP, 4)
-        texture.destroy()
-        return newTexture
+        // const newTexture = Texture([_width, _height], _format)
+        // // fb.bind()
+        // // fb.setColorAttachment(newTexture)
+        // // bind(0)
+        // // self.quadProgram.use()
+        // //   .vertices(self.quad)
+        // //   .uniformi('texture', 0)
+        // //   .viewport(_width, _height)
+        // //   .draw(gl.TRIANGLE_STRIP, 4)
+        // texture.destroy()
+        // return newTexture
       }
 
       if (size) {
@@ -327,7 +327,7 @@ function GLUtils(gl) {
           destroy,
           resize,
 
-          _texture: texture,
+          get _texture() {return texture},
           width: size ? size.width : 0,
           height: size ? size.height: 0,
       })

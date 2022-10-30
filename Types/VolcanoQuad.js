@@ -70,12 +70,15 @@ function VolcanoQuad(spec) {
   const fb = utils.Framebuffer()
 
   function resize(width, height) {
-    sourceBuffer = sourceBuffer.resize(width, height)
-    gaussianXBuffer = gaussianXBuffer.resize(width, height)
-    gaussianYBuffer = gaussianYBuffer.resize(width, height)
-
     local.width = width
     local.height = height
+
+    sourceBuffer.destroy()
+    sourceBuffer = utils.Texture([width, height], gl.RGBA)
+    gaussianXBuffer.destroy()
+    gaussianXBuffer = utils.Texture([width, height], gl.RGBA)
+    gaussianYBuffer.destroy()
+    gaussianYBuffer = utils.Texture([width, height], gl.RGBA)
   }
 
   let time = 0

@@ -142,15 +142,15 @@ function VolcanoSunsetQuad(defaultExpression, assets) {
   */
 
   // TODO: Handle resizing
-  let current = utils.Texture([ canvas.width, canvas.height ], gl.RGBA)
-  let acc = utils.Texture([ canvas.width, canvas.height ], gl.RGBA)
-  let blend = utils.Texture([ canvas.width, canvas.height ], gl.RGBA)
+  let current = utils.Texture([ local.width, local.height ], gl.RGBA)
+  let acc = utils.Texture([ local.width, local.height ], gl.RGBA)
+  let blend = utils.Texture([ local.width, local.height ], gl.RGBA)
 
   const step = utils.Framebuffer()
 
   function resize(width, height) {
-    canvas.width = width
-    canvas.height = height
+    local.width = width
+    local.height = height
 
     current.destroy()
     current = utils.Texture([width, height], gl.RGBA)
@@ -230,8 +230,8 @@ function VolcanoSunsetQuad(defaultExpression, assets) {
       .instancedAttributes(ext, percentLifeLivedBuffer, [
         { type: 'float', name: 'percentLifeLived', perInstance: 1 }
       ])
-      .uniform('resolution', [canvas.width, canvas.height])
-      .viewport(canvas.width, canvas.height)
+      .uniform('resolution', [local.width, local.height])
+      .viewport(local.width, local.height)
       .drawInstanced(ext, gl.TRIANGLE_STRIP, 4, particleCount)
 
     // Blend
@@ -242,10 +242,10 @@ function VolcanoSunsetQuad(defaultExpression, assets) {
     blendProgram.use()
       .resetVerticesInstancing(ext, quad)
       .vertices(quad)
-      .uniform('resolution', [ canvas.width, canvas.height ])
+      .uniform('resolution', [ local.width, local.height ])
       .uniformi('current', 0)
       .uniformi('acc', 1)
-      .viewport(canvas.width, canvas.height)
+      .viewport(local.width, local.height)
       .draw(gl.TRIANGLE_STRIP, 4)
 
     // Swap blend and acc
@@ -258,10 +258,10 @@ function VolcanoSunsetQuad(defaultExpression, assets) {
     acc.bind(0)
     sunsetProgram.use()
       .vertices(quad)
-      .uniform('resolution', [local.width, local.height])
+      .uniform('resolution', [innerWidth, innerHeight])
       .uniform('time', sunsetTime)
       .uniformi('stars', 0)
-      .viewport(canvas.width, canvas.height)
+      .viewport(local.width, local.height)
       .draw(gl.TRIANGLE_STRIP, 4)
   }
 
