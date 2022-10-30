@@ -1,4 +1,4 @@
-let assets, volcanoQuad
+let assets
 
 function World(spec) {
   const self = Entity(spec, 'World')
@@ -17,6 +17,8 @@ function World(spec) {
   let running = false
   let runTime = 0
 
+  const quads = {}
+
   const globalScope = {
     get t() {return runTime},
     dt: tickDelta,
@@ -27,20 +29,19 @@ function World(spec) {
     },
 
     get running() {return running},
+
+    get quads() {return quads},
   }
 
   let navigating = false
   let editing = false
 
-  let waterQuad = null
-  let sunsetQuad = null
-  volcanoQuad = null
-
   function loadQuad() {
-    waterQuad = WaterQuad(assets)
-    sunsetQuad = SunsetQuad('(sin(x)-(y-2)*i)*i/2', assets)
-    volcanoQuad = VolcanoQuad(assets)
-  } 
+    quads.water = WaterQuad(assets)
+    quads.sunset = SunsetQuad('(sin(x)-(y-2)*i)*i/2', assets)
+    quads.volcano = VolcanoQuad(assets)
+    quads.volcanoSunset = VolcanoSunsetQuad('(sin(x)-(y-2)*i)*i/2', assets)
+  }
 
   assets = Assets({
     paths: spec.assets,
@@ -145,9 +146,6 @@ function World(spec) {
       levelCompleted,
       tickDelta,
       isBubbleLevel: false,
-      sunsetQuad,
-      waterQuad,
-      volcanoQuad,
       world: self,
 
       storage,

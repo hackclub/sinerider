@@ -1,5 +1,3 @@
-let _assets, darkenBuffer, darkenBufferScreen, water, hg
-
 function Level(spec) {
   const {
     self,
@@ -8,16 +6,11 @@ function Level(spec) {
     ui,
   } = Entity(spec, 'Level')
 
-  _assets = assets
-
   const {
     globalScope,
     levelCompleted,
     datum,
     isBubbleLevel,
-    sunsetQuad,
-    waterQuad,
-    volcanoQuad,
     storage,
     savedLatex,
     world,
@@ -33,6 +26,8 @@ function Level(spec) {
     flashRunButton = false,
     camera: cameraSpec = {}
   } = datum
+
+  const quads = globalScope.quads
 
   const sledders = []
   const walkers = []
@@ -88,6 +83,7 @@ function Level(spec) {
 
   let darkBufferOrScreen = screen
   let darkenBufferOpacity = 0.0
+  let darkenBuffer, darkenBufferScreen
 
   if (isConstantLakeAndNotBubble()) {
     // Credit for screen buffer business logic to LevelBubble.js by @cwalker
@@ -166,15 +162,15 @@ function Level(spec) {
       // HACK: Enable run button for Walker scene
       ui.runButton.setAttribute('hide', true)
       ui.stopButton.setAttribute('hide', false)
-
+      
       // Hide reset until vector field
       ui.resetButton.setAttribute('hide', true)
-
+      
       // Change editor to vector field and hide until
       // star field comes out
       ui.expressionEnvelope.classList.add('hidden')
       ui.mathFieldLabel.innerText = 'V='
-
+      
       ui.mathField.latex(defaultVectorExpression)
       ui.mathFieldStatic.latex(defaultVectorExpression)
     } else {
@@ -199,19 +195,9 @@ function Level(spec) {
       ? walkers[0].transform.position.x.toFixed(1)
       : (Math.round(globalScope.t*10)/10).toString()
 
-    if (!isBubbleLevel && datum.name == 'Volcano' && shader) {
-      let progress = sledders[0].transform.x
-      // if (progress < 20 && progress > 15) {
-      //   volcanoQuad.opacity = 1-math.unlerp(15, 20, progress)
-      // } else if (progress < -35 && progress > -40) {
-      //   volcanoQuad.opacity = math.unlerp(-40, -35, progress)
-      // }
-      // shader.active = progress > -40 && progress < 20
-      volcanoQuad.opacity = 1.0
-      const vel = sledders[0].rigidbody.velocity.magnitude
-      volcanoQuad.kernelWidth = vel/20 * 8
-      shader.active = true
-    }
+    // LakeSunsetShader
+    // VolcanoShader
+    // VolcanoSunsetShader
 
     if ((globalScope.running || isConstantLake()) && !_.includes(time, '.'))
       time += '.0'
@@ -641,13 +627,21 @@ function Level(spec) {
     }
 
     if (!isBubbleLevel && datum.name == 'Volcano') {
-      shader = Shader({
+      VolcanoShader({
         parent: self,
         screen,
         assets,
-        quad: volcanoQuad,
+        quad: quads.volcano,
         drawOrder: 500,
-        active: false,
+        sledders,
+      })
+      VolcanoSunsetShader({
+        parent: self,
+        screen,
+        assets,
+        quad: quads.volcanoSunset,
+        drawOrder: LAYERS.sky,
+        sledders,
       })
       // sledders.forEach(s => s.drawOrder = 10000)
     }
@@ -665,17 +659,17 @@ function Level(spec) {
       })
     // Constant Lake sunset scene
     if (isConstantLakeAndNotBubble()) {
-      shader = Shader({
+      ConstantLakeShader({
         parent: self,
         screen,
         assets,
-        quad: sunsetQuad,
+        quad: quads.sunset,
         drawOrder: LAYERS.sky,
         walkerPosition: walkers[0].transform.position,
       })
     }
     if (datum.water && !isBubbleLevel) {
-      water = Water({
+      Water({
         parent: self,
         camera,
         waterQuad,
@@ -713,7 +707,7 @@ function Level(spec) {
       })
 
     if (datum.slider && !isBubbleLevel) {
-      hg = HintGraph({
+      HintGraph({
         ui,
         parent: self,
         camera,
@@ -836,6 +830,6 @@ function Level(spec) {
     // TODO: temp
     trackedEntities,
 
-    get firstWalkerX() {return walkers[0].transform.x}
+    get firstWalkerX() {return walkers[0]?.transform.x}
   })
 }

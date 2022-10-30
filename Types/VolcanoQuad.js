@@ -41,8 +41,6 @@ function VolcanoQuad(spec) {
     }
   })
 
-  let opacity = 0
-
   const shaders = assets.shaders
 
   const sourceProgram = utils.Program({
@@ -72,12 +70,15 @@ function VolcanoQuad(spec) {
   const fb = utils.Framebuffer()
 
   function resize(width, height) {
-    sourceBuffer = sourceBuffer.resize(width, height)
-    gaussianXBuffer = gaussianXBuffer.resize(width, height)
-    gaussianYBuffer = gaussianYBuffer.resize(width, height)
-
     local.width = width
     local.height = height
+
+    sourceBuffer.destroy()
+    sourceBuffer = utils.Texture([width, height], gl.RGBA)
+    gaussianXBuffer.destroy()
+    gaussianXBuffer = utils.Texture([width, height], gl.RGBA)
+    gaussianYBuffer.destroy()
+    gaussianYBuffer = utils.Texture([width, height], gl.RGBA)
   }
 
   let time = 0
@@ -137,7 +138,7 @@ function VolcanoQuad(spec) {
       .vertices(quad)
       .uniform('resolution', [local.width, local.height])
       .uniform('time', time)
-      .uniform('opacity', opacity)
+      .uniform('opacity', 1)
       .uniformi('gaussianY', 0)
       .viewport(local.width, local.height)
       .draw(gl.TRIANGLE_STRIP, 4)
@@ -147,7 +148,6 @@ function VolcanoQuad(spec) {
     render,
     resize,
 
-    set opacity(v) {opacity = v},
     set kernelWidth(v) {kernelWidth = v},
     get localCanvas() {return local},
   }

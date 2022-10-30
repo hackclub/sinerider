@@ -22,13 +22,13 @@ const Colors = {
     },
     volcano: {
       sky: [
-        [0, '#3366ff'],
-        [1, '#55aaff'],
+        [0, '#4488ff'],
+        [1, '#66ddff'],
       ],
-      groundFill: '#ffffff',
-      groundPattern: '#118de677',
-      groundStroke: '#222222',
-      groundStrokeWidth: 8,
+      groundFill: '#555555',
+      groundPattern: '#222222',
+      groundStroke: '#666666',
+      groundStrokeWidth: 32,
     },
     champlain: {
       sky: [

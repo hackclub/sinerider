@@ -1,13 +1,11 @@
-/**
- * Sunset shader class for Constant Lake scene
- */
-function SunsetQuad(defaultExpression, assets) {
-  let canvas = document.createElement('canvas')
+let sunsetTime = 0
+function VolcanoSunsetQuad(defaultExpression, assets) {
+  let local = document.createElement('canvas')
 
-  canvas.width = innerWidth
-  canvas.height = innerHeight
+  local.width = innerWidth
+  local.height = innerHeight
 
-  gl = canvas.getContext('webgl')
+  gl = local.getContext('webgl')
   if (!gl) {
     return alert('Your browser does not support WebGL. Try switching or updating your browser!')
   }
@@ -24,48 +22,24 @@ function SunsetQuad(defaultExpression, assets) {
       data: [ 0, 1, 2, 3 ]
     }
   })
-
-  const quad = utils.Vertices(gl.STATIC_DRAW, {
-    'aCoords': {
-      type: 'vec2',
-      data: [
-        -1, -1,
-        -1,  1,
-         1, -1,
-         1,  1,
-      ]
-    },
-    'aTexCoords': {
-      type: 'vec2',
-      data: [
-        0, 0,
-        0, 1,
-        1, 0,
-        1, 1,
-      ]
-    }
-  })
-
+  
   const shaders = assets.shaders
 
-  const quadProgram = utils.Program({
-    vert: shaders.quad_vert,
-    frag: shaders.quad_frag,
-  })
+  const quad = utils.quad
 
   const blendProgram = utils.Program({
     vert: shaders.quad_vert,
-    frag: shaders.blend_frag,
+    frag: shaders.volcano.volcano_blend,
   })
 
   const pointsProgram = utils.Program({
-    vert: shaders.points_vert,
-    frag: shaders.points_frag,
+    vert: shaders.volcano.volcano_stars_vert,
+    frag: shaders.volcano.volcano_stars_frag,
   })
 
   const sunsetProgram = utils.Program({
     vert: shaders.quad_vert,
-    frag: shaders.sunset_frag,
+    frag: shaders.volcano.volcano_sunset,
   })
 
   const particleCount = 1000
@@ -168,15 +142,15 @@ function SunsetQuad(defaultExpression, assets) {
   */
 
   // TODO: Handle resizing
-  let current = utils.Texture([ canvas.width, canvas.height ], gl.RGBA)
-  let acc = utils.Texture([ canvas.width, canvas.height ], gl.RGBA)
-  let blend = utils.Texture([ canvas.width, canvas.height ], gl.RGBA)
+  let current = utils.Texture([ local.width, local.height ], gl.RGBA)
+  let acc = utils.Texture([ local.width, local.height ], gl.RGBA)
+  let blend = utils.Texture([ local.width, local.height ], gl.RGBA)
 
   const step = utils.Framebuffer()
 
   function resize(width, height) {
-    canvas.width = width
-    canvas.height = height
+    local.width = width
+    local.height = height
 
     current.destroy()
     current = utils.Texture([width, height], gl.RGBA)
@@ -231,63 +205,63 @@ function SunsetQuad(defaultExpression, assets) {
 
   // Pass in progress parameter (x distance)
   function render() {
+    console.log('rendering volcano sunset')
     // console.log('time', progress, 'iTime', 5 * progress)
 
-    const iTime = (world.level.firstWalkerX / 20.0 + 0.7) * 5
+    // const iTime = (world.level.firstWalkerX / 20.0 + 0.7) * 5
+    const iTime = 10
 
     // Only bother rendering stars if faded in at all
     // subtract 1 b/c uv and length(skyCol)
-    if (iTime > START_STARS_FADE_IN - 2) {
-      // Draw points
-      step.bind()
-      step.setColorAttachment(current)
-      pointsProgram.use()
-        .vertices(line)
-        .instancedAttributes(ext, oldParticlePositionsBuffer, [
-          { type: 'vec2', name: 'oldParticlePos', perInstance: 1 }
-        ])
-        .instancedAttributes(ext, newParticlePositionsBuffer, [
-          { type: 'vec2', name: 'newParticlePos', perInstance: 1 }
-        ])
-        .instancedAttributes(ext, particleColorBuffer, [
-          { type: 'vec3', name: 'particleColor', perInstance: 1 }
-        ])
-        .instancedAttributes(ext, percentLifeLivedBuffer, [
-          { type: 'float', name: 'percentLifeLived', perInstance: 1 }
-        ])
-        .uniform('resolution', [canvas.width, canvas.height])
-        .viewport(canvas.width, canvas.height)
-        .drawInstanced(ext, gl.TRIANGLE_STRIP, 4, particleCount)
+    // Draw points
+    step.bind()
+    step.setColorAttachment(current)
+    pointsProgram.use()
+      .vertices(line)
+      .instancedAttributes(ext, oldParticlePositionsBuffer, [
+        { type: 'vec2', name: 'oldParticlePos', perInstance: 1 }
+      ])
+      .instancedAttributes(ext, newParticlePositionsBuffer, [
+        { type: 'vec2', name: 'newParticlePos', perInstance: 1 }
+      ])
+      .instancedAttributes(ext, particleColorBuffer, [
+        { type: 'vec3', name: 'particleColor', perInstance: 1 }
+      ])
+      .instancedAttributes(ext, percentLifeLivedBuffer, [
+        { type: 'float', name: 'percentLifeLived', perInstance: 1 }
+      ])
+      .uniform('resolution', [local.width, local.height])
+      .viewport(local.width, local.height)
+      .drawInstanced(ext, gl.TRIANGLE_STRIP, 4, particleCount)
 
-      // Blend
-      step.bind()
-      step.setColorAttachment(blend)
-      current.bind(0)
-      acc.bind(1)
-      blendProgram.use()
-        .resetVerticesInstancing(ext, quad)
-        .vertices(quad)
-        .uniform('resolution', [ canvas.width, canvas.height ])
-        .uniformi('current', 0)
-        .uniformi('acc', 1)
-        .viewport(canvas.width, canvas.height)
-        .draw(gl.TRIANGLE_STRIP, 4)
+    // Blend
+    step.bind()
+    step.setColorAttachment(blend)
+    current.bind(0)
+    acc.bind(1)
+    blendProgram.use()
+      .resetVerticesInstancing(ext, quad)
+      .vertices(quad)
+      .uniform('resolution', [ local.width, local.height ])
+      .uniformi('current', 0)
+      .uniformi('acc', 1)
+      .viewport(local.width, local.height)
+      .draw(gl.TRIANGLE_STRIP, 4)
 
-      // Swap blend and acc
-      let tmp = acc
-      acc = blend
-      blend = tmp
-    }
+    // Swap blend and acc
+    let tmp = acc
+    acc = blend
+    blend = tmp
 
     // Draw acc
     utils.bindDisplay()
     acc.bind(0)
     sunsetProgram.use()
       .vertices(quad)
-      .uniform('resolution', [ canvas.width, canvas.height ])
-      .uniform('time', iTime)
-      .uniformi('texture', 0)
-      .viewport(canvas.width, canvas.height)
+      .uniform('resolution', [innerWidth, innerHeight])
+      .uniform('time', sunsetTime)
+      .uniformi('stars', 0)
+      .viewport(local.width, local.height)
       .draw(gl.TRIANGLE_STRIP, 4)
   }
 
@@ -298,6 +272,6 @@ function SunsetQuad(defaultExpression, assets) {
     setVectorFieldExpression,
     resize,
 
-    get localCanvas() {return canvas},
+    get localCanvas() {return local},
   }
 }
