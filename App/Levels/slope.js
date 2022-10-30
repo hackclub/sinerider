@@ -1062,26 +1062,36 @@ CONSTANT_LAKE,
     },
   ],
   sprites: [{
-    x: 2,
+    x: 3,
     size: 2,
     asset: 'images.sam_float',
     speech: [{
       speakerX: 0.3,
       speakerY: -0.4,
-      content: 'I’m gonna split off and check out the valley.',
-      direction: 'up-up-right',
-      distance: 2.5,
+      content: 'Do whatever you want',
+      direction: 'up-right',
+      distance: 2,
+      speech: {
+        content: 'It\'s not on the route, Jack.',
+        direction: 'up',
+        distance: 1.5,
+      }
     }]
   },
 ],
   sledders: [{
     asset: 'images.benny_sled',
     speech: [{
-      speakerX: 0,
-      y: 0.6,
-      content: 'catch up with you later!',
+      speakerX: 0.4,
+      y: 0.5,
+      content: 'I wanna see it. Could be a shortcut.',
       direction: 'up-up-left',
-      distance: 1,
+      distance: 1.5,
+      speech: {
+        content: 'Woah, see that canyon down there??',
+        direction: 'up',
+        distance: 1.5,
+      }
     }]
   }],
   sky: {
