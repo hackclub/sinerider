@@ -85,10 +85,10 @@ const Colors = {
         [0, '#4488ff'],
         [1, '#66ddff'],
       ],
-      groundFill: '#555555',
-      groundPattern: '#222222',
-      groundStroke: '#666666',
-      groundStrokeWidth: 32,
+      groundFill: '#566c78',
+      groundPattern: '#2d383e',
+      groundStroke: '#f3f7f9',
+      groundStrokeWidth: 12,
     },
   }
 }
