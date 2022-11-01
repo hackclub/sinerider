@@ -32,6 +32,7 @@ worldData.push({
       tree_home_1: '.webp',
       tree_home_2: '.webp',
       initial_bg:'initial-bg.webp',
+      logistic_dunes_background: '.png',
       western_slopes_background: '.webp',
       western_slopes_background_no_sky: '.webp',
       valley_background: '.png',

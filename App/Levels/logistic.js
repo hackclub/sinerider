@@ -48,7 +48,7 @@ const LOGISTIC = [{
     y: 0
   }],
   sky: {
-    asset: 'images.western_slopes_background',
+    asset: 'images.logistic_dunes_background',
     margin: 1,
   },
 },{
@@ -101,7 +101,7 @@ const LOGISTIC = [{
     y: 0
   }],
   sky: {
-    asset: 'images.western_slopes_background',
+    asset: 'images.logistic_dunes_background',
     margin: 1,
   },
 },{
@@ -127,7 +127,7 @@ const LOGISTIC = [{
     y: 0
   }],
   sky: {
-    asset: 'images.western_slopes_background',
+    asset: 'images.logistic_dunes_background',
     margin: 1,
   },
 },{
@@ -161,7 +161,7 @@ const LOGISTIC = [{
     y: 0
   }],
   sky: {
-    asset: 'images.western_slopes_background',
+    asset: 'images.logistic_dunes_background',
     margin: 1,
   },
 },{
@@ -194,7 +194,7 @@ const LOGISTIC = [{
     y: 0
   }],
   sky: {
-    asset: 'images.western_slopes_background',
+    asset: 'images.logistic_dunes_background',
     margin: 1,
   },
 }]
