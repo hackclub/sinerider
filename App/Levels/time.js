@@ -42,7 +42,7 @@ const TIME = [{
     }]
   }],
   sky: {
-    asset: 'images.valley_background',
+    asset: 'images.eternal_canyon_background',
     margin: 1,
   },
 },
@@ -86,7 +86,7 @@ const TIME = [{
     y: 0,
   }],
   sky: {
-    asset: 'images.valley_background',
+    asset: 'images.eternal_canyon_background',
     margin: 1,
   },
 },
@@ -124,7 +124,7 @@ const TIME = [{
     }],
   }],
   sky: {
-    asset: 'images.valley_background',
+    asset: 'images.eternal_canyon_background',
     margin: 1,
   },
 },
@@ -164,7 +164,7 @@ const TIME = [{
     }],
   }],
   sky: {
-    asset: 'images.valley_background',
+    asset: 'images.eternal_canyon_background',
     margin: 1,
   },
 },
@@ -198,7 +198,7 @@ const TIME = [{
     }
   }],
   sky: {
-    asset: 'images.valley_background',
+    asset: 'images.eternal_canyon_background',
     margin: 1,
   },
 },
@@ -249,7 +249,7 @@ const TIME = [{
     asset: 'images.lunchbox_sled',
   }],
   sky: {
-    asset: 'images.valley_background',
+    asset: 'images.eternal_canyon_background',
     margin: 1,
   },
 },
@@ -300,7 +300,7 @@ const TIME = [{
     asset: 'images.sam_sled',
   }],
   sky: {
-    asset: 'images.valley_background',
+    asset: 'images.eternal_canyon_background',
     margin: 1,
   },
 },
@@ -350,7 +350,7 @@ const TIME = [{
     asset: 'images.lunchbox_sled',
   }],
   sky: {
-    asset: 'images.valley_background',
+    asset: 'images.eternal_canyon_background',
     margin: 1,
   },
 },
@@ -390,7 +390,7 @@ const TIME = [{
     asset: 'images.lunchbox_sled',
   }],
   sky: {
-    asset: 'images.valley_background',
+    asset: 'images.eternal_canyon_background',
     margin: 1,
   },
 },
@@ -439,7 +439,7 @@ const TIME = [{
     asset: 'images.sam_sled',
   }],
   sky: {
-    asset: 'images.valley_background',
+    asset: 'images.eternal_canyon_background',
     margin: 1,
   },
 },
@@ -469,7 +469,7 @@ const TIME = [{
     asset: 'images.sam_sled',
   }],
   sky: {
-    asset: 'images.valley_background',
+    asset: 'images.eternal_canyon_background',
     margin: 1,
   },
 }]
