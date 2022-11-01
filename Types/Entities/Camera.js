@@ -17,7 +17,7 @@ function Camera(spec) {
     directors = [],
   } = spec
 
-  const offset = Vector2(spec.offset || [0, 0])
+  const offset = Vector2(spec.offset || [0, 0.5])
   const scaledOffset = Vector2()
   
   let activeDirector
@@ -203,7 +203,8 @@ function Camera(spec) {
       offset.multiply(fov, scaledOffset)
       transform.position = activeDirector.cameraState.position
       transform.position.add(scaledOffset)
-      setFov(activeDirector.cameraState.fov)
+      const offsetMargin = math.max(scaledOffset.x, scaledOffset.y)
+      setFov(activeDirector.cameraState.fov+offsetMargin)
     }
   }
 
