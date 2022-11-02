@@ -87,7 +87,7 @@ const Colors = {
       ],
       groundFill: '#566c78',
       groundPattern: '#2d383e',
-      groundStroke: '#f3f7f9',
+      groundStroke: '#cfdee6',
       groundStrokeWidth: 12,
     },
   }
