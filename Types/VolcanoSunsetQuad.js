@@ -198,6 +198,8 @@ function VolcanoSunsetQuad(defaultExpression, assets) {
     newParticlePositionsBuffer.data(newParticlePositions)
     percentLifeLivedBuffer.data(percentLifeLived)
     particleColorBuffer.data(particleColors)
+
+    sunsetTime = (80 - (world.level.sledders[0].transform.x)) / (80-27) * 12, 10
   }
 
   // `START_STARS_FADE_IN` constant as defined in sunset.frag

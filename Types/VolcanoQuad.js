@@ -2,7 +2,6 @@
  * Volcano scene shader
  */
 function VolcanoQuad(spec) {
-
   const ctx = screen.ctx
 
   let local = document.createElement('canvas')
