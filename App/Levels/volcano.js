@@ -33,44 +33,44 @@ const VOLCANO = {
     }
   },
   walkers: [
-    {
-      x: 100,
-      asset: 'images.benny_float',
-      transition: {
-        name: 'SLEDDER_1',
-        startWhenTransitioned: true,
-        xRequirements: [102, 99]
-      },
-      range: [99, 105],
-      transitionX: 95.5,
-      speech: [{
-        speakerX: 100,
-        content: 'Woah woah woah let\'s go to the right of this really cool sigmoid curve',
-        direction: 'up-up-left',
-        deactivationThreshold: 105,
-        domain: [99.5, 102],
-        distance: 1.5,
-        repeatable: false,
-      },{
-        speakerX: 103,
-        content: 'UH OH! WE\'re going to have to turn back to the left--but what!1!! There\'s a VOLCANO?!?!?!',
-        direction: 'up-up-left',
-        domain: [104, 105],
-        distance: 1.5,
-      },{
-        speakerX: 100,
-        content: 'Woah woah owah we need to turn into -- WHAT!11!! SLEDS?!/1/!',
-        direction: 'up-up-left',
-        activationThreshold: 105,
-        domain: [100, 101],
-        distance: 1.5,
-      }],
-      walkers: {
-        x: -6,
-        asset: 'images.sam_float',
-        bobSpeed: 0.918218,
-      },
-    }
+    // {
+    //   x: 100,
+    //   asset: 'images.benny_float',
+    //   transition: {
+    //     name: 'SLEDDER_1',
+    //     startWhenTransitioned: true,
+    //     xRequirements: [102, 99]
+    //   },
+    //   range: [99, 105],
+    //   transitionX: 95.5,
+    //   speech: [{
+    //     speakerX: 100,
+    //     content: 'Woah woah woah let\'s go to the right of this really cool sigmoid curve',
+    //     direction: 'up-up-left',
+    //     deactivationThreshold: 105,
+    //     domain: [99.5, 102],
+    //     distance: 1.5,
+    //     repeatable: false,
+    //   },{
+    //     speakerX: 103,
+    //     content: 'UH OH! WE\'re going to have to turn back to the left--but what!1!! There\'s a VOLCANO?!?!?!',
+    //     direction: 'up-up-left',
+    //     domain: [104, 105],
+    //     distance: 1.5,
+    //   },{
+    //     speakerX: 100,
+    //     content: 'Woah woah owah we need to turn into -- WHAT!11!! SLEDS?!/1/!',
+    //     direction: 'up-up-left',
+    //     activationThreshold: 105,
+    //     domain: [100, 101],
+    //     distance: 1.5,
+    //   }],
+    //   walkers: {
+    //     x: -6,
+    //     asset: 'images.sam_float',
+    //     bobSpeed: 0.918218,
+    //   },
+    // }
   ],
   sprites: [
     {
@@ -87,16 +87,17 @@ const VOLCANO = {
     {
       name: 'SLEDDER_1',
       transitionX: 95,
-      x: 99,
+      // x: 99,
+      x: 80,
       y: 50,
       flipX: true,
-      speech: [{
-        speakerX: 95,
-        content: 'Yaow!!!! We just turned into some SLEDS!',
-        direction: 'up-up-right',
-        domain: [NINF, 95],
-        distance: 1.8,
-      }]
+      // speech: [{
+      //   speakerX: 95,
+      //   content: 'Yaow!!!! We just turned into some SLEDS!',
+      //   direction: 'up-up-right',
+      //   domain: [NINF, 95],
+      //   distance: 1.8,
+      // }]
     }
   ],
 }

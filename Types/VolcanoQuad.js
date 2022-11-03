@@ -88,6 +88,8 @@ function VolcanoQuad(spec) {
   function render() {
     time += 0.1
 
+    const sunsetTime = (80 - (world.level.sledders[0].transform.x))/(80-27) * 12
+
     frame.image(canvas, gl.RGBA)
 
     fb.bind()
@@ -97,7 +99,7 @@ function VolcanoQuad(spec) {
     sourceProgram.use()
       .vertices(quad)
       .uniform('resolution', [local.width, local.height])
-      .uniform('time', time)
+      .uniform('time', sunsetTime)
       .uniformi('frame', 0)
       .viewport(local.width, local.height)
       .draw(gl.TRIANGLE_STRIP, 4)

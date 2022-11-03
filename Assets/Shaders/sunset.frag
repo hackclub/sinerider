@@ -34,11 +34,11 @@ uniform float time;
 #define START_STARS_FADE_IN  8.0
 #define END_STARS_FADE_IN    10.0
 
-float rand(vec2 c){
-	return fract(sin(dot(c.xy ,vec2(12.9898,78.233))) * 43758.5453);
+// Credit for noise helpers to https://gist.github.com/patriciogonzalezvivo/670c22f3966e662d2f83
+float rand(vec2 c) {
+	return fract(sin(dot(c.xy, vec2(12.9898,78.233))) * 43758.5453);
 }
 
-// Credit for noise helpers to https://gist.github.com/patriciogonzalezvivo/670c22f3966e662d2f83
 float noise(vec2 p, float freq ){
 	float unit = resolution.y/freq;
 	vec2 ij = floor(p/unit);
@@ -54,7 +54,7 @@ float noise(vec2 p, float freq ){
 	return mix(x1, x2, xy.y);
 }
 
-float pNoise(vec2 p, int res){
+float pNoise(vec2 p, int res) {
 	float persistance = .5;
 	float n = 0.;
 	float normK = 0.;

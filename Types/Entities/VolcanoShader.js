@@ -23,7 +23,7 @@ function VolcanoShader(spec) {
   function tick() {
     if (quad.tick) quad.tick()
     const vel = sledders[0]?.rigidbody.velocity.magnitude ?? 20
-    quad.kernelWidth = Math.min(vel/20 * 8, 10)
+    quad.kernelWidth = Math.min(vel/40 * 4, 10)
   }
 
   function resize(width, height) {
