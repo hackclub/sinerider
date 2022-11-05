@@ -6,7 +6,7 @@ const LAYERS = {
   axes: -80,
   backSprites: -10,
   walkers: 1,
-  sledders: 2,
+  // sledders: 2,
   foreSprites: 10,
   snow: 20,
   graph: 30,
@@ -21,5 +21,7 @@ const LAYERS = {
   arrows: 160,
   levelBubbles: 170,
   darkness: 100,
-  level: 10000,
+  volcanoPostProcessing: 180,
+  sledders: 190,
+  level: 10000, 
 }

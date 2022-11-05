@@ -16,6 +16,7 @@ function Entity(spec, defaultName = 'Entity') {
     debugTree = false,
     screenBuffer = null,
     activeRange = [NINF, PINF],
+    motionBlur = true,
   } = spec
 
   // Because I constantly forget to use debugSelf instead of simply 'debug'.
@@ -181,6 +182,21 @@ function Entity(spec, defaultName = 'Entity') {
     return null
   }
 
+  let lastFramePos = Vector2()
+  let currentFramePos = Vector2()
+
+  function predraw() {
+    if (motionBlur && camera && self.transform) {
+      camera.transform.invertPoint(self.transform.transformPoint(Vector2(0, 0)), currentFramePos)
+
+      const blur = lastFramePos.subtract(currentFramePos).magnitude * 300
+      screen.ctx.filter = `blur(${Math.floor(blur)}px)`
+      // console.log('blur', blur, lastFramePos.toString(), currentFramePos.toString(), screen.ctx.canvas.filter)
+
+      lastFramePos.set(currentFramePos)
+    }
+  }
+
   function sortChildren() {
     children.sort(compareChildren)
   }
@@ -259,6 +275,8 @@ function Entity(spec, defaultName = 'Entity') {
     addDescendant,
     removeDescendant,
 
+    predraw,
+
     drawArray,
     get activeDrawArray() {return activeDrawArray},
     sortDrawArray,
@@ -303,5 +321,8 @@ function Entity(spec, defaultName = 'Entity') {
     
     get activeRange() {return activeRange},
     get debug() {return debugSelf || debugTree},
+
+    get motionBlur() {return motionBlur},
+    set motionBlur(v) {motionBlur = v},
   })
 }

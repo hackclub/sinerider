@@ -191,6 +191,8 @@ function Level(spec) {
   }
 
   function tick() {
+    // screen.ctx.filter = `blur(${Math.floor(world.level.sledders[0].rigidbody.velocity/40 * 4)}px)`
+
     let time = isConstantLake()
       ? walkers[0].transform.position.x.toFixed(1)
       : (Math.round(globalScope.t*10)/10).toString()
@@ -382,6 +384,7 @@ function Level(spec) {
       screen: darkBufferOrScreen,
       drawOrder: LAYERS.sledders,
       speechScreen: screen,
+      motionBlur: false,
       ...sledderDatum,
     })
 
@@ -627,14 +630,23 @@ function Level(spec) {
     }
 
     if (!isBubbleLevel && datum.name == 'Volcano') {
-      VolcanoShader({
-        parent: self,
-        screen,
-        assets,
-        quad: quads.volcano,
-        drawOrder: 500,
-        sledders,
-      })
+      // VolcanoShader({
+      //   parent: self,
+      //   screen,
+      //   assets,
+      //   quad: quads.volcano,
+      //   drawOrder: LAYERS.volcanoPostProcessing,
+      //   sledders,
+      // })
+      // PostProcessing({
+      //   parent: self,
+      //   screen,
+      //   drawOrder: LAYERS.volcanoPostProcessing,
+      //   process: ctx => {
+      //     blur = Math.floor(Math.min(sledders[0].rigidbody.velocity.magnitude/40 * 4, 10))
+      //     ctx.filter = `blur(${blur}px)`
+      //   }
+      // })
       VolcanoSunsetShader({
         parent: self,
         screen,
@@ -688,6 +700,7 @@ function Level(spec) {
         margin: datum.sky.margin,
         screen: darkBufferOrScreen,
         drawOrder: LAYERS.background,
+        motionBlur: false,
         ...datum.sky,
       })
     }

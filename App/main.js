@@ -139,8 +139,11 @@ function draw() {
   let entity
   for (let i = 0; i < world.activeDrawArray.length; i++) {
     entity = world.activeDrawArray[i]
-    if (entity.draw)
+    if (entity.draw) {
+      if (entity.predraw) 
+        entity.predraw()
       entity.draw()
+    }
   }
 }
 
