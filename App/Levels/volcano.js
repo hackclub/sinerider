@@ -12,7 +12,7 @@ const VOLCANO = {
     fov: 30,
   },
   requirements: ['TIME_COOL'],
-  defaultExpression: '\\frac{20}{1+\\left(\\frac{x}{20}\\right)^{4}}-\\frac{20}{1+\\left(\\frac{x}{7}\\right)^{4}}+\\frac{40}{1+e^{-\\frac{\\left(x-60\\right)}{10}}}',
+  defaultExpression: '\\frac{40}{1+\\left(\\frac{x+40}{70}\\right)^6}-\\frac{60}{1+\\left(\\frac{x+40}{20}\\right)^6}+\\frac{90}{1+e^{-\\frac{\\left(x-60\\right)}{10}}}+\\left(\\frac{x+40}{60}\\right)^2',
   directors: [
     {
       type: 'tracking',
@@ -78,7 +78,7 @@ const VOLCANO = {
       flipX: true,
       drawOrder: LAYERS.foreSprites,
       size: 3,
-      x: 99,
+      x: 100,
       offset: [0, 0.6],
       anchored: true
     },
@@ -88,7 +88,7 @@ const VOLCANO = {
       name: 'SLEDDER_1',
       transitionX: 95,
       // x: 99,
-      x: 80,
+      x: 100,
       y: 50,
       flipX: true,
       // speech: [{
