@@ -199,7 +199,7 @@ function VolcanoSunsetQuad(defaultExpression, assets) {
     percentLifeLivedBuffer.data(percentLifeLived)
     particleColorBuffer.data(particleColors)
 
-    sunsetTime = (80 - (world.level.sledders[0].transform.x)) / (80-27) * 12
+    sunsetTime = world.level.sledders[0].transform.x/221 * 12
   }
 
   // `START_STARS_FADE_IN` constant as defined in sunset.frag
@@ -207,7 +207,6 @@ function VolcanoSunsetQuad(defaultExpression, assets) {
 
   // Pass in progress parameter (x distance)
   function render() {
-    console.log('rendering volcano sunset')
     // console.log('time', progress, 'iTime', 5 * progress)
 
     // const iTime = (world.level.firstWalkerX / 20.0 + 0.7) * 5
