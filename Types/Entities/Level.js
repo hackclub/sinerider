@@ -630,14 +630,14 @@ function Level(spec) {
     }
 
     if (!isBubbleLevel && datum.name == 'Volcano') {
-      // VolcanoShader({
-      //   parent: self,
-      //   screen,
-      //   assets,
-      //   quad: quads.volcano,
-      //   drawOrder: LAYERS.volcanoPostProcessing,
-      //   sledders,
-      // })
+      VolcanoShader({
+        parent: self,
+        screen,
+        assets,
+        quad: quads.volcano,
+        drawOrder: LAYERS.volcanoPostProcessing,
+        sledders,
+      })
       // PostProcessing({
       //   parent: self,
       //   screen,
