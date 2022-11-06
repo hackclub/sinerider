@@ -79,7 +79,7 @@ float lerpBetween(float lower, float upper, float a) {
 
 void main(void) {
   // adapt to ShaderToy
-  float iTime = (time + .7) * 5.;
+  float iTime = time;
 
   vec2 uv = gl_FragCoord.xy/resolution.y;
   uv.x += 0.5-.5*resolution.x/resolution.y;

@@ -20,11 +20,11 @@ function ConstantLakeShader(spec) {
   }
 
   function tick() {
-    if (quad.tick) quad.tick()
+    quad.update()
   }
 
   function resize(width, height) {
-    if (quad.resize) quad.resize(width, height)
+    quad.resize(width, height)
   }
 
   return _.mixIn(self, {

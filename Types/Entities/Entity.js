@@ -190,7 +190,7 @@ function Entity(spec, defaultName = 'Entity') {
       camera.transform.invertPoint(self.transform.transformPoint(Vector2(0, 0)), currentFramePos)
 
       const blur = lastFramePos.subtract(currentFramePos).magnitude * 300
-      screen.ctx.filter = `blur(${Math.floor(blur)}px)`
+      // screen.ctx.filter = `blur(${Math.floor(blur)}px)`
       // console.log('blur', blur, lastFramePos.toString(), currentFramePos.toString(), screen.ctx.canvas.filter)
 
       lastFramePos.set(currentFramePos)

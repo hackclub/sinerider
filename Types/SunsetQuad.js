@@ -237,7 +237,7 @@ function SunsetQuad(defaultExpression, assets) {
 
     // Only bother rendering stars if faded in at all
     // subtract 1 b/c uv and length(skyCol)
-    if (iTime > START_STARS_FADE_IN - 2) {
+    // if (iTime > START_STARS_FADE_IN - 2) {
       // Draw points
       step.bind()
       step.setColorAttachment(current)
@@ -277,7 +277,7 @@ function SunsetQuad(defaultExpression, assets) {
       let tmp = acc
       acc = blend
       blend = tmp
-    }
+    // }
 
     // Draw acc
     utils.bindDisplay()

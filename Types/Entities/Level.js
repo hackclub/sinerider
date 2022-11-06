@@ -684,7 +684,7 @@ function Level(spec) {
       Water({
         parent: self,
         camera,
-        waterQuad,
+        waterQuad: quads.water,
         screen: darkBufferOrScreen,
         globalScope,
         drawOrder: LAYERS.backSprites,
@@ -748,7 +748,7 @@ function Level(spec) {
     save()
 
     if (isConstantLakeAndNotBubble()) {
-      sunsetQuad.setVectorFieldExpression(text)
+      quads.sunset.setVectorFieldExpression(text)
       return
     }
 
