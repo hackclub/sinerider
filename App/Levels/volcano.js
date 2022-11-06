@@ -78,7 +78,7 @@ const VOLCANO = {
       flipX: true,
       drawOrder: LAYERS.foreSprites,
       size: 3,
-      x: 100,
+      x: 0,
       offset: [0, 0.6],
       anchored: true
     },
