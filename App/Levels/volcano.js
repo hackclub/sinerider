@@ -12,7 +12,7 @@ const VOLCANO = {
     fov: 30,
   },
   requirements: ['TIME_COOL'],
-  defaultExpression: '\\frac{40}{1+\\left(\\frac{x+40}{70}\\right)^6}-\\frac{60}{1+\\left(\\frac{x+40}{20}\\right)^6}+\\frac{90}{1+e^{-\\frac{\\left(x-60\\right)}{10}}}+\\left(\\frac{x+40}{60}\\right)^2',
+  defaultExpression: '\\frac{40}{1+\\left(\\frac{x-200}{80}\\right)^6}-\\frac{60}{1+\\left(\\frac{x-200}{30}\\right)^6}+\\frac{90}{1+e^{-\\frac{\\left(-x+60\\right)}{10}}}+\\left(\\frac{x-200}{60}\\right)^2',
   directors: [
     {
       type: 'tracking',
@@ -86,11 +86,9 @@ const VOLCANO = {
   sledders: [
     {
       name: 'SLEDDER_1',
-      transitionX: 95,
+      transitionX: 0,
       // x: 99,
-      x: 100,
-      y: 50,
-      flipX: true,
+      x: 0,
       // speech: [{
       //   speakerX: 95,
       //   content: 'Yaow!!!! We just turned into some SLEDS!',
