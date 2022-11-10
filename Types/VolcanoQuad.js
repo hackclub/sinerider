@@ -88,7 +88,7 @@ function VolcanoQuad(spec) {
   function render() {
     time += 0.1
 
-    const sunsetTime = (80 - (world.level.sledders[0].transform.x))/(80-27) * 12
+    const sunsetTime = world.level.sledders[0].transform.x/150 * 12
 
     frame.image(canvas, gl.RGBA)
 
