@@ -34,8 +34,8 @@ const VOLCANO = {
   },
   walkers: [
      {
-       x: -5,
-      //  x: -34.5,
+      //  x: -5,
+       x: -34.5,
        asset: 'images.sam_float',
        name: 'WALKER_1',
        transition: {
