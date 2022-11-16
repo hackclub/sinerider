@@ -190,6 +190,41 @@ function Level(spec) {
     // self.sendEvent('levelFullyStarted')
   }
 
+  function checkTransition(entity) {
+    if (!entity.activeInHierarchy)
+      return
+
+    const transition = entity.transition
+    if (transition) {
+      // If X values met then make transition
+      if (transition.xRequirements.length == 0) {
+        const target = self.children.find(s => s.name === transition.name)
+        target.active = true
+        entity.active = false
+
+        if (entity.walkers)
+          entity.walkers.forEach(w => w.active = false)
+        if (target.walkers)
+          target.walkers.forEach(w => w.active = true)
+
+        const x = entity.transform.x
+
+        const startRunning = transition.startWhenTransitioned
+        entity.transition = null
+        if (startRunning) world.toggleRunning()
+
+        target.transform.x = x
+      } 
+      // Otherwise check if current target met, if so then pop
+      else {
+        if (Math.abs(transition.xRequirements[0] - entity.transform.x) < 1) {
+          transition.xRequirements.splice(0, 1)
+        }
+      }
+    }
+
+  }
+
   function tick() {
     // screen.ctx.filter = `blur(${Math.floor(world.level.sledders[0].rigidbody.velocity/40 * 4)}px)`
 
@@ -207,24 +242,10 @@ function Level(spec) {
     // console.log('tracked entities', trackedEntities)
     
     for (walker of walkers) {
-      const transition = walker.transition
-      if (transition) {
-        // If X values met then make transition
-        if (transition.xRequirements.length == 0) {
-          transition.target.active = true
-          walker.active = false
-          walker.walkers.forEach(w => w.active = false)
-          const startRunning = walker.transition.startWhenTransitioned
-          walker.transition = null
-          if (startRunning) world.toggleRunning()
-        } 
-        // Otherwise check if current target met, if so then pop
-        else {
-          if (Math.abs(transition.xRequirements[0] - walker.transform.x) < 0.1) {
-            transition.xRequirements.splice(0, 1)
-          }
-        }
-      }
+      checkTransition(walker)
+    }
+    for (sledder of sledders) {
+      checkTransition(sledder)
     }
 
     // ui.timeString.innerHTML = 'T='+time
@@ -358,16 +379,6 @@ function Level(spec) {
       hasDarkMode: isConstantLake(),
       ...walkerDatum
     })
-
-    if (walker.transition) {
-      walker.transition = _.cloneDeep(walker.transition)
-      walker.transition.target = sledders.find(s => s.name === walker.transition.name)
-      if (!walker.transition.target) {
-        console.error(`Unable to find matching target for transition: '${walker.transition.name}'`)
-      } else {
-        walker.transition.target.active = false
-      }
-    }
 
     walkers.push(walker)
 

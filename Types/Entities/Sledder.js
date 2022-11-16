@@ -22,6 +22,7 @@ function Sledder(spec = {}) {
     x: originX = 0,
     activeRange = [NINF, PINF],
     flipX,
+    transition = null,
   } = spec
 
   const ctx = screen.ctx
@@ -169,6 +170,9 @@ function Sledder(spec = {}) {
 
     select,
     deselect,
+
+    get transition() {return transition},
+    set transition(v) {transition = v},
 
     get activeRange() {return activeRange},
     get selectable() {return !globalScope.running},
