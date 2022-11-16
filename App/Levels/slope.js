@@ -1011,14 +1011,7 @@ const SLOPE = [{
     y:20,
     offset: [3, 2],
     anchored: true
-  },
-  {
-    asset: 'images.cabin_2',
-    size: 6,
-    x: -4,
-    offset: [0, 0.7],
-    anchored: true,
-  },
+  },  
   {
     asset: 'images.tree_2',
     size: 5,
@@ -1078,6 +1071,14 @@ CONSTANT_LAKE,
       }
     }]
   },
+    {
+      asset: 'images.cabin_1',
+      size: 6,
+      x: 4,
+      y: 0,
+      offset: [0, 0.7],
+      anchored: true,
+    }
 ],
   sledders: [{
     asset: 'images.benny_sled',
@@ -1098,7 +1099,13 @@ CONSTANT_LAKE,
     asset: 'images.western_slopes_background',
     margin: 1,
   },
-},
-VOLCANO,
-// Should volcano be in western slopes/where should it be?
-]
+  snow: {
+    density: 0.4,
+    maxHeight: 8,
+    velocity: {
+      x: 0.2,
+      y: 0.4
+    }
+  },
+
+},VOLCANO]

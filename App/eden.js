@@ -45,6 +45,18 @@ worldData.push({
       bush_1: '.webp',
       bush_2: '.webp',
       grass_1: '.webp',
+      plant_1: '.webp',
+      plant_2: '.webp',
+      plant_3: '.webp',
+      plant_4: '.webp',
+      plant_5: '.webp',
+      plant_clump_1: '.webp',
+      plant_clump_2: '.webp',
+      plant_clump_3: '.webp',
+      plant_clump_4: '.webp',
+      plant_clump_5: '.webp',
+
+
     },
     sounds: {
       constant_lake: {
@@ -181,13 +193,6 @@ worldData.push({
       ]
     }],
     sprites: [
-    {
-      asset: 'images.cabin_1',
-      size: 6,
-      x: -4,
-      offset: [0, 0.7],
-      anchored: true,
-    },
     {
       asset: 'images.tree_home_1',
       drawOrder: LAYERS.foreSprites,
