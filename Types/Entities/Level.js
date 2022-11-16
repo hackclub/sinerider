@@ -691,6 +691,17 @@ function Level(spec) {
         ...datum.water,
       })
     }
+    if (datum.lava && !isBubbleLevel) {
+      Water({
+        parent: self,
+        camera,
+        waterQuad: quads.lava,
+        screen: darkBufferOrScreen,
+        globalScope,
+        drawOrder: LAYERS.backSprites,
+        ...datum.lava,
+      })
+    }
     if (datum.sky) {
       Sky({
         parent: self,

@@ -72,6 +72,11 @@ const VOLCANO = {
     //   },
     // }
   ],
+  lava: {
+    x: 165,
+    y: 60,
+    size: 90,
+  },
   sprites: [
     {
       asset: 'images.rock_1',

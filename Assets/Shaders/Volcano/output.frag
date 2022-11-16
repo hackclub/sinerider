@@ -1,13 +1,10 @@
 precision mediump float;
 
 uniform float time;
+uniform float progress;
 uniform sampler2D gaussianY;
 uniform vec2 resolution;
 uniform float opacity;
-
-float hash11(float a) {
-    return fract(53.156*sin(a*45.45));
-}
 
 void main(void) {
     // Normalized pixel coordinates (from 0 to 1)
@@ -16,6 +13,5 @@ void main(void) {
     vec3 col = texture2D(gaussianY, vec2(uv.x, 1.0 - uv.y)).rgb;
     
     // Output to screen
-    gl_FragColor = vec4(col, opacity);
-    // gl_FragColor = vec4(0.4, 0.8, 0.3, 1.0);
+    gl_FragColor = vec4(col, 1.);
 }

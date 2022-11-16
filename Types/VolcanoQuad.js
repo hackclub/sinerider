@@ -135,10 +135,15 @@ function VolcanoQuad(spec) {
     utils.bindDisplay()
     gaussianYBuffer.bind(0)
 
+    const x = world.level.sledders[0].transform.x
+    const _sunsetTime = 12*Math.exp(-(((x-221)/100)**2))
+    console.log(_sunsetTime)
+
     outputProgram.use()
       .vertices(quad)
       .uniform('resolution', [local.width, local.height])
       .uniform('time', time)
+      .uniform('progress', _sunsetTime)
       .uniform('opacity', 1)
       .uniformi('gaussianY', 0)
       .viewport(local.width, local.height)
