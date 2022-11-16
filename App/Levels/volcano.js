@@ -3,7 +3,7 @@ const VOLCANO = {
   nick: 'VOLCANO',
   colors: Colors.biomes.volcano,
   axesEnabled: false,
-  // radius: 2,
+   radius: 2,
   x: -20,
   y: 0,
   camera: {
@@ -91,16 +91,20 @@ const VOLCANO = {
   sledders: [
     {
       name: 'SLEDDER_1',
-      transitionX: 0,
-      // x: 99,
+      active: false,
+      transition: {
+        name: 'WALKER_1',
+        startWhenTransitioned: true,
+        xRequirements: [400]
+      },
       x: 0,
-      // speech: [{
-      //   speakerX: 95,
-      //   content: 'Yaow!!!! We just turned into some SLEDS!',
-      //   direction: 'up-up-right',
-      //   domain: [NINF, 95],
-      //   distance: 1.8,
-      // }]
+       speech: [{
+         speakerX: -25,
+         content: 'Follow me, m\'lady!',
+         direction: 'up-up-right',
+         domain: [NINF, 0],
+         distance: 1.8,
+       }]
     }
   ],
 }
