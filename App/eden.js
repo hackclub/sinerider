@@ -55,8 +55,6 @@ worldData.push({
       plant_clump_3: '.webp',
       plant_clump_4: '.webp',
       plant_clump_5: '.webp',
-
-
     },
     sounds: {
       constant_lake: {

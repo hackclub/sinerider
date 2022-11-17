@@ -137,7 +137,6 @@ function VolcanoQuad(spec) {
 
     const x = world.level.sledders[0].transform.x
     const _sunsetTime = 12*Math.exp(-(((x-221)/100)**2))
-    console.log(_sunsetTime)
 
     outputProgram.use()
       .vertices(quad)

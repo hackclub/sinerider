@@ -241,18 +241,24 @@ function Level(spec) {
 
     // console.log('tracked entities', trackedEntities)
     
-    for (walker of walkers) {
-      checkTransition(walker)
-    }
-    for (sledder of sledders) {
-      checkTransition(sledder)
-    }
+    // for (walker of walkers) {
+    //   checkTransition(walker)
+    // }
+    // for (sledder of sledders) {
+    //   checkTransition(sledder)
+    // }
 
     // ui.timeString.innerHTML = 'T='+time
     ui.runButtonString.innerHTML = 'T='+time
     ui.stopButtonString.innerHTML = 'T='+time
 
     assignPlayerPosition()
+
+    if (datum.name == 'Volcano') {
+      const x = sledders[0].transform.x
+      const sunsetTime = Math.exp(-(((x-221)/100)**2))
+      globalScope.timescale = 1 - sunsetTime * 0.3
+    }
   }
 
   function draw() {
