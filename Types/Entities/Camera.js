@@ -203,8 +203,9 @@ function Camera(spec) {
       offset.multiply(fov, scaledOffset)
       transform.position = activeDirector.cameraState.position
       transform.position.add(scaledOffset)
-      const offsetMargin = math.max(scaledOffset.x, scaledOffset.y)
-      setFov(activeDirector.cameraState.fov+offsetMargin)
+      setFov(activeDirector.cameraState.fov)
+      // const offsetMargin = math.max(scaledOffset.x, scaledOffset.y)
+      // setFov(activeDirector.cameraState.fov+offsetMargin)
     }
   }
 

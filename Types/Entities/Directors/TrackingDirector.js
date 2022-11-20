@@ -43,23 +43,23 @@ function TrackingDirector(spec) {
   function tick() {
     trackEntities()
 
-    // let _transitionActive = false
-    // for (const transition of transitions) {
-    //   if (_.inRange(targetState.position.x, ...transition.domain)) {
-    //     minFov = transition.properties.minFov ?? minFov
-    //     minFovMargin = transition.properties.minFovMargin ?? minFovMargin
-    //     smoothing = transition.properties.smoothing ?? smoothing
-    //     _transitionActive = true
-    //   }
-    // }
+    let _transitionActive = false
+    for (const transition of transitions) {
+      if (_.inRange(targetState.position.x, ...transition.domain)) {
+        minFov = transition.properties.minFov ?? minFov
+        minFovMargin = transition.properties.minFovMargin ?? minFovMargin
+        smoothing = transition.properties.smoothing ?? smoothing
+        _transitionActive = true
+      }
+    }
 
-    // if (!_transitionActive && transitionActive) {
-    //   minFov = spec.minFov
-    //   minFovMargin = spec.minFovMargin
-    //   smoothing = spec.smoothing
-    // }
+    if (!_transitionActive && transitionActive) {
+      minFov = spec.minFov
+      minFovMargin = spec.minFovMargin
+      smoothing = spec.smoothing
+    }
 
-    // transitionActive = _transitionActive
+    transitionActive = _transitionActive
   }
 
   function trackEntities() {
