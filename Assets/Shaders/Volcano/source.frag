@@ -64,7 +64,8 @@ void main(void) {
   vec2 uv_scaled = uv + s;
   vec3 col = texture2D(frame, uv_scaled).rgb;
 
-  col *= 1.0 - 1.6 * smoothstep(1.-1.1*volcano_prox, 1., distance(uv, vec2(.5)));
+  // Vignette
+  col *= 1.0 - 1.8 * smoothstep(1.-1.1*volcano_prox, 1., distance(uv, vec2(.5)));
 
   // Output to screen
   // col = vec3(volcano_prox);

@@ -21,7 +21,9 @@ function World(spec) {
 
   const globalScope = {
     get t() {return runTime},
-    dt: tickDelta,
+
+    timescale: 1,
+    get dt() {return tickDelta * globalScope.timescale},
 
     lerp: (a, b, t) => {
       t = math.clamp01(t)

@@ -12,6 +12,7 @@ function TrackingDirector(spec) {
   const {
     camera,
     globalScope,
+    transitions = []
   } = spec
 
   let {
@@ -31,6 +32,8 @@ function TrackingDirector(spec) {
 
   const difference = Vector2()
 
+  let transitionActive = false
+
   cameraState.set(targetState)
 
   function start() {
@@ -39,6 +42,24 @@ function TrackingDirector(spec) {
 
   function tick() {
     trackEntities()
+
+    // let _transitionActive = false
+    // for (const transition of transitions) {
+    //   if (_.inRange(targetState.position.x, ...transition.domain)) {
+    //     minFov = transition.properties.minFov ?? minFov
+    //     minFovMargin = transition.properties.minFovMargin ?? minFovMargin
+    //     smoothing = transition.properties.smoothing ?? smoothing
+    //     _transitionActive = true
+    //   }
+    // }
+
+    // if (!_transitionActive && transitionActive) {
+    //   minFov = spec.minFov
+    //   minFovMargin = spec.minFovMargin
+    //   smoothing = spec.smoothing
+    // }
+
+    // transitionActive = _transitionActive
   }
 
   function trackEntities() {

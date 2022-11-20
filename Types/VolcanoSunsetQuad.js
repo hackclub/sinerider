@@ -202,7 +202,6 @@ function VolcanoSunsetQuad(defaultExpression, assets) {
     // sunsetTime = world.level.sledders[0].transform.x/221 * 12
     const x = world.level.sledders[0].transform.x
     sunsetTime = 12*Math.exp(-(((x-221)/100)**2))
-    console.log(sunsetTime)
   }
 
   // `START_STARS_FADE_IN` constant as defined in sunset.frag
