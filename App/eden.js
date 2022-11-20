@@ -192,6 +192,16 @@ worldData.push({
       ]
     }],
     sprites: [
+      {
+        asset: 'images.cabin_1',
+      drawOrder: LAYERS.foreSprites,
+      flipX: '*',
+      size: 6.1,
+      x: -3,
+      y: -1,
+      offset: Vector2(0, 0.7),
+      anchored: true
+      },
     {
       asset: 'images.tree_home_1',
       drawOrder: LAYERS.foreSprites,
