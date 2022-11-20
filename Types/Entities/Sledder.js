@@ -177,6 +177,8 @@ function Sledder(spec = {}) {
     get activeRange() {return activeRange},
     get selectable() {return !globalScope.running},
 
+    get velocity() {return self.active ? rigidbody.velocity.magnitude : 0},
+
     get rigidbody() {return rigidbody},
   })
 }

@@ -241,12 +241,12 @@ function Level(spec) {
 
     // console.log('tracked entities', trackedEntities)
     
-    // for (walker of walkers) {
-    //   checkTransition(walker)
-    // }
-    // for (sledder of sledders) {
-    //   checkTransition(sledder)
-    // }
+    for (walker of walkers) {
+      checkTransition(walker)
+    }
+    for (sledder of sledders) {
+      checkTransition(sledder)
+    }
 
     // ui.timeString.innerHTML = 'T='+time
     ui.runButtonString.innerHTML = 'T='+time

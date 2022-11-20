@@ -3,7 +3,7 @@ const VOLCANO = {
   nick: 'VOLCANO',
   colors: Colors.biomes.volcano,
   axesEnabled: false,
-  // radius: 2,
+   radius: 2,
   x: -20,
   y: 0,
   camera: {
@@ -19,12 +19,6 @@ const VOLCANO = {
       smoothing: 0.08,
       minFov: 8,
       minFovMargin: 7,
-      transitions: [{
-        domain: [135, 250],
-        properties: {
-          minFov: 40,
-        }
-      }]
     }
   ],
   goals: [],
@@ -196,8 +190,8 @@ const VOLCANO = {
          x: -33,
          asset: 'images.benny_float',
          transition: {
-          name: 'SLEDDER_2',
-          startWhenTransitioned: true,
+          name: 'SLEDDER_1',
+          startWhenTransitioned: false,
           xRequirements: [-33, -34.5],
          },
         //  range: [-33, 0],
@@ -352,16 +346,20 @@ const VOLCANO = {
   sledders: [
     {
       name: 'SLEDDER_1',
-      transitionX: 0,
-      // x: 99,
+      active: false,
+      transition: {
+        name: 'WALKER_1',
+        startWhenTransitioned: false,
+        xRequirements: [400]
+      },
       x: 0,
-      // speech: [{
-      //   speakerX: 95,
-      //   content: 'Yaow!!!! We just turned into some SLEDS!',
-      //   direction: 'up-up-right',
-      //   domain: [NINF, 95],
-      //   distance: 1.8,
-      // }]
+       speech: [{
+         speakerX: -25,
+         content: 'Follow me, m\'lady!',
+         direction: 'up-up-right',
+         domain: [NINF, 0],
+         distance: 1.8,
+       }]
     }
   ],
 }
