@@ -55,8 +55,6 @@ worldData.push({
       plant_clump_3: '.webp',
       plant_clump_4: '.webp',
       plant_clump_5: '.webp',
-
-
     },
     sounds: {
       constant_lake: {
@@ -119,6 +117,7 @@ worldData.push({
         gaussian_y: '.frag',
         output: '.frag',
         source: '.frag',
+        lava: '.frag',
         volcano_blend: '.frag',
         volcano_stars_frag: 'volcano_stars.frag',
         volcano_stars_vert: 'volcano_stars.vert',

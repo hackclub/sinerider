@@ -24,9 +24,10 @@ function GLUtils(gl) {
       gl.compileShader(vertexShader)
 
       if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
+          console.log('self', self)
           throw `Error in compiling vertex shader ${gl.getShaderInfoLog(
               vertexShader
-          )}`
+          )}.`
       }
 
       const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER)
@@ -35,6 +36,7 @@ function GLUtils(gl) {
       gl.compileShader(fragmentShader)
 
       if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
+          console.log('self', self)
           throw `Error in compiling fragment shader ${gl.getShaderInfoLog(
               fragmentShader
           )}. Source ${frag}`

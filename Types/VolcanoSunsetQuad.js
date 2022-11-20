@@ -54,9 +54,9 @@ function VolcanoSunsetQuad(defaultExpression, assets) {
 
   function genParticleColor() {
     // const c = Math.random() * 0.5 + 0.5
-    const c1 = Math.random() * 0.3 + 0.0
-    const c2 = Math.random() * 0.5 + 0.3
-    const c3 = Math.random() * 0.2 + 0.8
+    const c1 = Math.random() * 0.3 + 0.7
+    const c2 = Math.random() * 0.2 + 0.1
+    const c3 = Math.random() * 0.1
     const scale = 1.0 // Math.pow(Math.random(), 2.0) * 0.8 + 0.2
     return [ c1 * scale, c2 * scale, c3 * scale ]
   }
@@ -199,7 +199,9 @@ function VolcanoSunsetQuad(defaultExpression, assets) {
     percentLifeLivedBuffer.data(percentLifeLived)
     particleColorBuffer.data(particleColors)
 
-    sunsetTime = world.level.sledders[0].transform.x/221 * 12
+    // sunsetTime = world.level.sledders[0].transform.x/221 * 12
+    const x = world.level.sledders[0].transform.x
+    sunsetTime = 12*Math.exp(-(((x-221)/100)**2))
   }
 
   // `START_STARS_FADE_IN` constant as defined in sunset.frag

@@ -21,7 +21,9 @@ function World(spec) {
 
   const globalScope = {
     get t() {return runTime},
-    dt: tickDelta,
+
+    timescale: 1,
+    get dt() {return tickDelta * globalScope.timescale},
 
     lerp: (a, b, t) => {
       t = math.clamp01(t)
@@ -41,6 +43,7 @@ function World(spec) {
     quads.sunset = SunsetQuad('(sin(x)-(y-2)*i)*i/2', assets)
     quads.volcano = VolcanoQuad(assets)
     quads.volcanoSunset = VolcanoSunsetQuad('(sin(x)-(y-2)*i)*i/2', assets)
+    quads.lava = LavaQuad(assets)
   }
 
   assets = Assets({
