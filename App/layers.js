@@ -20,8 +20,8 @@ const LAYERS = {
   map: 150,
   arrows: 160,
   levelBubbles: 170,
+  sledders: 190,
   darkness: 100,
   volcanoPostProcessing: 180,
-  sledders: 190,
   level: 10000, 
 }

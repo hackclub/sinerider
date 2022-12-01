@@ -241,10 +241,10 @@ function Level(spec) {
 
     // console.log('tracked entities', trackedEntities)
     
-    for (walker of walkers) {
+    for (const walker of walkers) {
       checkTransition(walker)
     }
-    for (sledder of sledders) {
+    for (const sledder of sledders) {
       checkTransition(sledder)
     }
 
@@ -256,8 +256,9 @@ function Level(spec) {
 
     if (datum.name == 'Volcano') {
       const x = sledders[0].transform.x
-      const sunsetTime = Math.exp(-(((x-221)/100)**2))
-      globalScope.timescale = 1 - sunsetTime * 0.3
+      const sunsetTime = Math.exp(-(((x-205)/100)**2))
+      globalScope.timescale = 1 - sunsetTime * 0.7
+      camera.shake = sunsetTime > 0.1 ? sunsetTime * 0.3 : 0
     }
   }
 
@@ -415,6 +416,7 @@ function Level(spec) {
       name: 'Sound ' + soundDatum.asset,
       parent: self,
       walkers,
+      sledders,
       ...soundDatum,
     })
 
@@ -655,6 +657,14 @@ function Level(spec) {
         drawOrder: LAYERS.volcanoPostProcessing,
         sledders,
       })
+      LavaMonster({
+        parent: self,
+        world,
+        screen,
+        assets,
+        drawOrder: 1000, // LAYERS.backSprites,
+        camera,
+      })
       // PostProcessing({
       //   parent: self,
       //   screen,
@@ -867,6 +877,7 @@ function Level(spec) {
 
     isEditor,
     sledders,
+    walkers,
 
     // TODO: temp
     trackedEntities,

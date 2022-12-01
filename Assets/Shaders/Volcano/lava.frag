@@ -2,13 +2,17 @@ precision mediump float;
 
 varying vec2 TexCoords;
 
-uniform float time;
+uniform float t;
 uniform float progress;
 
 #define PI 3.14159
 
 float rand(vec2 c){
   return fract(sin(dot(c.xy ,vec2(12.9898,78.233))) * 43758.5453);
+}
+
+vec2 random2( vec2 p ) {
+    return fract(sin(vec2(dot(p,vec2(127.1,311.7)),dot(p,vec2(269.5,183.3))))*43758.5453);
 }
 
 float noise(vec2 p, float freq) {
@@ -45,27 +49,57 @@ float pNoise(vec2 p, int res){
   return nf*nf*nf*nf;
 }
 
+float linearstep(float a, float b, float t) {
+    return clamp((t-a)/(b-a), 0., 1.);
+}
+
 vec4 lava(vec2 uv, vec2 s) {
-    float t = time;
+    float time = t * 0.3;
 
-    float o = pow(pNoise((uv + 0.01 * vec2(t, t)) * 2000., 6), 0.4);
-    vec3 lavaCol = mix(vec3(0.6, 0.15, 0.), vec3(0.9, 0.2, 0.), o);
+    // Voronoi coordinates
+    vec2 st = uv * 20.;
 
-    float height = 0.55;
+    // Tile
+    vec2 i_st = floor(st);
+    vec2 f_st = fract(st);
+
+    float m_dist = 1.;  // minimum distance
+    for (int j = -1; j <= 1; j++) {
+        for (int i = -1; i <= 1; i++) {
+            // Neighbor place in the grid
+            vec2 neighbor = vec2(float(i),float(j));
+
+            // Random position from current + neighbor place in the grid
+            vec2 offset = random2(i_st + neighbor);
+
+            // Animate the offset
+            offset = 0.5 + 0.5*sin(time * 2. + 6.2831*offset);
+
+            // Position of the cell
+            vec2 pos = neighbor + offset - f_st;
+
+            // Cell distance
+            float dist = length(pos); // * 0.9 * smoothstep(.01, .07, uv.y) * (1.-smoothstep(.1, .25, uv.y));
+
+            // Metaball it!
+            m_dist = min(m_dist, m_dist*dist);
+        }
+    }
     
-    float innerHeight = s.y + sin((s.x + t)) * 0.005 + cos((s.x + t) * 5.) * 0.03;
-    float surfaceHeight = innerHeight + 0.1;
+    float innerHeight = smoothstep(0.2, 0.4, uv.y + cos((uv.x + time) * 10.) * 0.01 + cos((uv.x + time) * 0.3) * 0.02);
+    float h = uv.y + sin(time) * 0.03 + cos(time) * 0.01 + sin((uv.x + time) * 12.) * 0.03 + sin((uv.x + time + 0.6) * 8.) * 0.02;
 
-    float b = 0.005;
+    float blobThreshold = (1.-smoothstep(innerHeight+0.01, innerHeight + 0.1, h)) * linearstep(0.0, smoothstep(.45, .55, h), uv.y) * 0.2;
+    
+    float o = pow(pNoise((uv + 0.1 * vec2(time, time)) * 2000., 6), 0.4);
+    
+    vec3 lavaCol = mix(vec3(0.6, 0.15, 0.), vec3(0.9, 0.2, 0.), o - 0.4*step(blobThreshold, m_dist));
 
-    vec3 col = mix(lavaCol, lavaCol * 3.5, smoothstep(0.18, 0.4, uv.y + cos((uv.x + t) * 10.) * 0.01 + cos((uv.x + t) * 0.3) * 0.02));
-    float h = uv.y + sin(t) * 0.03 + cos(t) * 0.01 + sin((uv.x + t) * 12.) * 0.03 + sin((uv.x + t + 0.6) * 8.) * 0.02;
-    float a = smoothstep(0.45, 0.6, h);
-    float a2 = smoothstep(0.6, 0.7, h);
+    vec3 col = mix(lavaCol, lavaCol * 3.5, innerHeight);
+    float a = smoothstep(0.6, 0.68, h);
     col = mix(col, vec3(1.0), a);
-    // col = mix(col, mix(vec3(0.6, 0.15, 0.) * 1.8, vec3(1.0), a2), step(1., a));
     
-    return vec4(col.r, col.g, col.b, 1.-step(1., a));
+    return vec4(col, 1.-smoothstep(0.98, 1., a));
 }
 
 void main(void) {

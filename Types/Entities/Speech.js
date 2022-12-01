@@ -189,8 +189,10 @@ function Speech(spec) {
 
   function draw() {
     // Activation/deactivation threshold logic
-    if (deactivationThreshold && domainTransform && Math.abs(domainTransform.x - deactivationThreshold) < 0.1)
+    if (deactivationThreshold && domainTransform && Math.abs(domainTransform.x - deactivationThreshold) < 0.1) {
       self.destroy()
+      console.log('destroyed speech sprite')
+    }
 
     if (activationThreshold && domainTransform && Math.abs(domainTransform.x - activationThreshold) < 0.1)
       activationThresholdMet = true

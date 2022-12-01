@@ -8,11 +8,13 @@ function Sound(spec) {
     asset,
     domain = null,
     walkers = null,
+    sledders = null,
     loop = false,
     duration = null,
     fadeOut = 300,
     volume = 1,
-  }  = spec
+    track = 'walkers',
+  } = spec
 
   const howl = _.get(assets, asset)
 
@@ -20,6 +22,7 @@ function Sound(spec) {
   let played = false
 
   let soundId
+
 
   function awake() {
     if (!domain) {
@@ -33,10 +36,16 @@ function Sound(spec) {
 
   function tick() {
     if (domain) {
-      if (!walkers)
-        throw `walkers cannot be null if walkerRange is passed`
+      let entityToTrack = track === 'walkers' 
+        ? walkers[0]
+        : track === 'sledders'
+          ? sledders[0]
+          : null
 
-      const x = walkers[0].transform.position.x
+      if (!entityToTrack)
+        throw `Level '${track}' cannot be null if domain is passed`
+
+      const x = entityToTrack.transform.position.x
 
       // Sounds w/ domains only play once
       if (x > domain[0] && !howl.playing() && !played) {

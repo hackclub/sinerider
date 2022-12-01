@@ -17,7 +17,10 @@ function Camera(spec) {
     directors = [],
   } = spec
 
-  const offset = Vector2(spec.offset || [0, 0.5])
+  let shake = 0
+
+  const defaultOffset = Vector2(spec.offset || [0, 0.5])
+  const offset = defaultOffset.clone()
   const scaledOffset = Vector2()
   
   let activeDirector
@@ -213,12 +216,20 @@ function Camera(spec) {
     directors.push(director)
   }
 
+  let target = offset.clone()
+
   function tick() {
     computeCorners()
     sampleDirector()
 
-    if (self.debug) {
+
+    // Every n ticks, translate camera slightly then lerp to normal
+
+    if (Math.random() > 1 - shake) {
+      defaultOffset.add(Vector2((Math.random() - 0.5) * shake/2, (Math.random() - 0.5) * shake/2), target)
     }
+
+    offset.lerp(shake > 0 ? target : defaultOffset, 0.1 * globalScope.timescale)
   }
 
   function drawLocal(ctx) {
@@ -312,5 +323,8 @@ function Camera(spec) {
 
     get rotation() {return rotation},
     set rotation(v) {transform.rotation = v},
+
+    get shake() {return shake},
+    set shake(v) {shake = v},
   })
 }

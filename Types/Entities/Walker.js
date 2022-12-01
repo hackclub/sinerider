@@ -209,6 +209,9 @@ function Walker(spec) {
     mouseMove,
     mouseUp,
 
+    sprite,
+    speech,
+
     tick,
     draw,
   })

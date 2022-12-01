@@ -9,9 +9,9 @@ uniform float time;
 
 // #define DEBUG_STAR_FIELD
 
-#define LIGHT_SKY_G0_COL  vec3(0.388235, 0.576471, 0.780392)
-#define LIGHT_SKY_G1_COL  vec3(0.243137, 0.431373, 0.686275)
-#define SKY_COL           vec3(1., 0.972549, 0.8)
+#define LIGHT_SKY_G0_COL  vec3(0.188235, 0.476471, 0.680392)
+#define LIGHT_SKY_G1_COL  vec3(0.143137, 0.331373, 0.586275)
+#define SKY_COL           vec3(.9, 0.872549, 0.5)
 
 #define LIGHT_YELLOW      vec3(0.937255, 0.886275, 0.568627)
 #define LIGHT_ORANGE      vec3(0.92549, 0.764706, 0.435294)

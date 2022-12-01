@@ -40,24 +40,24 @@ const CONSTANT_LAKE = {
   },
   sounds: [
     {
-      asset: 'sounds.constant_lake.base',
+      asset: 'sounds.music.constant_lake.base',
       loop: true,
       volume: 0.2,
     },
     {
-      asset: 'sounds.constant_lake.pad_1_loopable',
+      asset: 'sounds.music.constant_lake.pad_1_loopable',
       loop: true,
       volume: 0.3,
     },
     {
-      asset: 'sounds.constant_lake.pad_2_loopable',
-      domain: [ 8, 12 ],
+      asset: 'sounds.music.constant_lake.pad_2_loopable',
+      domain: [8, 12],
       fadeOut: 800,
       duration: 20000
     },
     {
-      asset: 'sounds.constant_lake.pad_3_loopable',
-      domain: [ 14, 17 ],
+      asset: 'sounds.music.constant_lake.pad_3_loopable',
+      domain: [14, 17],
       fadeOut: 800,
       duration: 10000,
       volume: 1.2,  

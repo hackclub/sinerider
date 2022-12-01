@@ -34,7 +34,7 @@ function LavaQuad(assets) {
     const sunsetTime = 12*Math.exp(-(((x-221)/100)**2))
     lavaProgram.use()
       .vertices(utils.quad)
-      .uniform('time', t)
+      .uniform('t', t)
       .uniform('progress', sunsetTime)
       .viewport(canvas.width, canvas.height)
       .draw(gl.TRIANGLE_STRIP, 4)
