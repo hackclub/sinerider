@@ -1,0 +1,11 @@
+TODO:
+- Level bubbles broken
+- Lava monster
+- Lava tweaked
+- Refactor blur
+- Camera shake
+- Goal
+- Music (Timing?)
+- Polish, fix misc bugs
+  - Start/stop
+  - Resizing
