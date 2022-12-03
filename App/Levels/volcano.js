@@ -3,7 +3,7 @@ const VOLCANO = {
   nick: 'VOLCANO',
   colors: Colors.biomes.volcano,
   axesEnabled: false,
-   radius: 2,
+  radius: 2,
   x: -20,
   y: 0,
   camera: {
@@ -358,7 +358,8 @@ const VOLCANO = {
       asset: 'images.goalpost_left',
       drawOrder: LAYERS.backSprites,
       size: 8,
-      x: 393,
+      x: 393.8,
+      offset: [0, 0.25],
       anchored: true
     },
     {
