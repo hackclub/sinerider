@@ -48,6 +48,8 @@ function Clickable(spec) {
   function collectHit(point, hits) {
     const overlapping = testOverlap(point)
 
+    console.log('collect hit', entity.name, 'overlapping', overlapping)
+
     if (overlapping) {
       hits.push(self)
       return true

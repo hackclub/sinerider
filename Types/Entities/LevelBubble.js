@@ -83,9 +83,7 @@ function LevelBubble(spec) {
     camera: bubbletCamera,
     globalScope: bubbletGlobalScope,
     parent: self,
-    useDragCamera: false,
-    isBubbleLevel: true,
-    drawOrder: LAYERS.levelBubbles,
+    useDragCamera: false, isBubbleLevel: true, drawOrder: LAYERS.levelBubbles,
   })
 
   bubbletLevel.sendEvent('draw')
@@ -211,7 +209,6 @@ function LevelBubble(spec) {
 
     completed = true
     refreshPlayable()
-
 
     _.invokeEach(dependencies, 'refreshPlayable')
   }
