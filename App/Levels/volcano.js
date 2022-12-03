@@ -358,8 +358,7 @@ const VOLCANO = {
       asset: 'images.goalpost_left',
       drawOrder: LAYERS.backSprites,
       size: 8,
-      x: 391.5,
-      offset: [0, 0.6],
+      x: 393,
       anchored: true
     },
     {

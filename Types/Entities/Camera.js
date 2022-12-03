@@ -230,7 +230,6 @@ function Camera(spec) {
     }
 
     const timescale = globalScope.timescale ?? 1 // globalScope is cleared on map navigation, not sure why?
-    console.log('lerping', (shake > 0 ? target : defaultOffset).toString(), 0.1 * timescale)
     offset.lerp(shake > 0 ? target : defaultOffset, 0.1 * timescale)
   }
 
