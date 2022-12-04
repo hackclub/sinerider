@@ -209,9 +209,9 @@ function Level(spec) {
 
         const x = entity.transform.x
 
-        const startRunning = transition.startWhenTransitioned
+        const toggleRunning = transition.toggleRunning
         entity.transition = null
-        if (startRunning) world.toggleRunning()
+        if (toggleRunning) world.toggleRunning()
 
         target.transform.x = x
       } 
@@ -255,8 +255,9 @@ function Level(spec) {
     assignPlayerPosition()
 
     if (datum.name == 'Volcano') {
-      const x = sledders[0].transform.x
-      const sunsetTime = Math.exp(-(((x-205)/100)**2))
+      let sunsetTime
+      const x = sledders[0]?.transform.x
+      sunsetTime = x ? Math.exp(-(((x-205)/100)**2)) : 0
       globalScope.timescale = 1 - sunsetTime * 0.7
       camera.shake = sunsetTime > 0.1 ? sunsetTime * 0.3 : 0
     }

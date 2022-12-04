@@ -3,7 +3,7 @@ const VOLCANO = {
   nick: 'VOLCANO',
   colors: Colors.biomes.volcano,
   axesEnabled: false,
-   radius: 2,
+  radius: 2,
   x: -20,
   y: 0,
   camera: {
@@ -47,7 +47,7 @@ const VOLCANO = {
        name: 'WALKER_1',
        transition: {
          name: 'SLEDDER_1',
-         startWhenTransitioned: true,
+         toggleRunning: true,
          xRequirements: [0]
        },
       //  range: [-34, 1],
@@ -198,8 +198,8 @@ const VOLCANO = {
          asset: 'images.benny_float',
          transition: {
           name: 'SLEDDER_1',
-          startWhenTransitioned: false,
           xRequirements: [-33, -34.5],
+          runningAfterTransition: true,
          },
         //  range: [-33, 0],
          transitionX: 0,
@@ -354,6 +354,22 @@ const VOLCANO = {
       offset: [0, 0.6],
       anchored: true
     },
+    {
+      asset: 'images.goalpost_left',
+      drawOrder: LAYERS.backSprites,
+      size: 8,
+      x: 393.8,
+      offset: [0, 0.25],
+      anchored: true
+    },
+    {
+      asset: 'images.goalpost_right',
+      drawOrder: LAYERS.foreSprites,
+      size: 6,
+      x: 393,
+      offset: [0, 0.6],
+      anchored: true
+    },
   ],
   sledders: [
     {
@@ -361,8 +377,8 @@ const VOLCANO = {
       active: false,
       transition: {
         name: 'WALKER_1',
-        startWhenTransitioned: false,
-        xRequirements: [400]
+        // toggleRunning: true,
+        xRequirements: [400],
       },
       x: 0,
        speech: [{

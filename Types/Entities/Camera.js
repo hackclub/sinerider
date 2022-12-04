@@ -19,7 +19,7 @@ function Camera(spec) {
 
   let shake = 0
 
-  const defaultOffset = Vector2(spec.offset || [0, 0.5])
+  const defaultOffset = Vector2(spec.offset || [0, 0])
   const offset = defaultOffset.clone()
   const scaledOffset = Vector2()
   
@@ -229,7 +229,8 @@ function Camera(spec) {
       defaultOffset.add(Vector2((Math.random() - 0.5) * shake/2, (Math.random() - 0.5) * shake/2), target)
     }
 
-    offset.lerp(shake > 0 ? target : defaultOffset, 0.1 * globalScope.timescale)
+    const timescale = globalScope.timescale ?? 1 // globalScope is cleared on map navigation, not sure why?
+    offset.lerp(shake > 0 ? target : defaultOffset, 0.1 * timescale)
   }
 
   function drawLocal(ctx) {

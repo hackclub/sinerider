@@ -19,6 +19,8 @@ worldData.push({
       sam_stand_snowball: 'sam_float_left.svg',
       cabin_1: '.webp',
       world_map: '.svg',
+      goalpost_left: '.png',
+      goalpost_right: '.png',
       cloud_1: '.webp',
       cloud_2: '.webp',
       cloud_3: '.webp',
