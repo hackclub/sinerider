@@ -40,6 +40,8 @@ function TrackingDirector(spec) {
     snap()
   }
 
+  let originalCameraOffset = camera.offset.clone()
+
   function tick() {
     trackEntities()
 
@@ -50,6 +52,7 @@ function TrackingDirector(spec) {
         minFovMargin = transition.properties.minFovMargin ?? minFovMargin
         smoothing = transition.properties.smoothing ?? smoothing
         _transitionActive = true
+        camera.offset = transition.properties.offset ?? camera.offset
       }
     }
 
@@ -57,6 +60,7 @@ function TrackingDirector(spec) {
       minFov = spec.minFov
       minFovMargin = spec.minFovMargin
       smoothing = spec.smoothing
+      camera.offset = originalCameraOffset
     }
 
     transitionActive = _transitionActive

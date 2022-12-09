@@ -663,7 +663,7 @@ function Level(spec) {
         world,
         screen,
         assets,
-        drawOrder: 1000, // LAYERS.backSprites,
+        drawOrder: LAYERS.backSprites - 1,
         camera,
       })
       // PostProcessing({

@@ -96,7 +96,7 @@ vec4 lava(vec2 uv, vec2 s) {
     vec3 lavaCol = mix(vec3(0.6, 0.15, 0.), vec3(0.9, 0.2, 0.), o - 0.4*step(blobThreshold, m_dist));
 
     vec3 col = mix(lavaCol, lavaCol * 3.5, innerHeight);
-    float a = smoothstep(0.6, 0.65, h);
+    float a = smoothstep(0.57, 0.6, h);
     col = mix(col, vec3(1.0), a);
     
     return vec4(col, 1.-smoothstep(0.98, 1., a));

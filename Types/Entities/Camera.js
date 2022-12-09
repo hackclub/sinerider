@@ -327,5 +327,8 @@ function Camera(spec) {
 
     get shake() {return shake},
     set shake(v) {shake = v},
+
+    get offset() {return defaultOffset},
+    set offset(v) {defaultOffset.set(v)},
   })
 }

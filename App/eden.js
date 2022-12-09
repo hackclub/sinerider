@@ -11,7 +11,7 @@ worldData.push({
       benny_float: 'jack_float_right.webp',
       benny_float_dark: '.svg',
       benny_float_left: '.svg',
-      lavamonster: '.png',
+      lavamonster: 'lavamonster_transparent.png',
       sam_sled: 'ada_sled.webp',
       sam_float: 'ada_float_right.webp',
       sam_float_dark: '.svg',
@@ -81,6 +81,7 @@ worldData.push({
         volcano: {
           start: '.mp3',
           middle_buildup: '.mp3',
+          jump: '.mp3',
           middle_guitar: 'middle_guitar.mp3',
         }
       },

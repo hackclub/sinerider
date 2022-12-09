@@ -17,7 +17,7 @@ function LavaMonster(spec) {
     camera,
     assets,
     screen,
-    size: 8,
+    size: 15,
   })
 
   function draw() {

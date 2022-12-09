@@ -23,6 +23,7 @@ const VOLCANO = {
         domain: [135, 250],
         properties: {
           minFov: 50,
+          offset: [0, -0.3]
         }
       }]
     }
@@ -398,16 +399,29 @@ const VOLCANO = {
       domain: [-50, -3, -5, -3],
     },
     {
-      asset: 'sounds.music.volcano.middle_buildup',
+      asset: 'sounds.music.volcano.jump',
       loop: true,
       volume: 0.4,
-      domain: [-3, 10, 100, 140],
+      domain: [3, 10, 200, 240],
       track: 'sledders'
     },
+    // {
+    //   asset: 'sounds.music.volcano.middle_buildup',
+    //   loop: true,
+    //   volume: 0.4,
+    //   domain: [-3, 10, 100, 140],
+    //   track: 'sledders'
+    // },
+    // {
+    //   asset: 'sounds.music.volcano.jump',
+    //   volume: 0.4,
+    //   domain: [120, 150],
+    //   track: 'sledders'
+    // },
     {
       asset: 'sounds.music.volcano.middle_guitar',
       volume: 0.4,
-      domain: [120, 150],
+      domain: [240, 320],
       track: 'sledders'
     },
   ],

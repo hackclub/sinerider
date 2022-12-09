@@ -433,7 +433,7 @@ const TIME = [{
     x: 3,
     y: 0,
     asset: 'images.lunchbox_sled',
-  },{
+  }, {
     x: -3,
     y: 0,
     asset: 'images.sam_sled',
@@ -472,4 +472,6 @@ const TIME = [{
     asset: 'images.eternal_canyon_background',
     margin: 1,
   },
-}]
+},
+DESERT,
+]

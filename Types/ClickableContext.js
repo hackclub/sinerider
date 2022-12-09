@@ -18,8 +18,6 @@ function ClickableContext(spec) {
     hits.length = 0
     entity.sendEvent('clickable.collectHit', collectHitArgs)
 
-    console.log('hits', hits)
-
     // Sort hits by layer
     hits.sort(compareHits)
 
