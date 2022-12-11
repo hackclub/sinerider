@@ -46,7 +46,7 @@ const WAVE = [{
     }],
   }],
   sky: {
-    asset: 'images.western_slopes_background',
+    asset: 'images.sinusoidaldesertbiome_1',
     margin: 1,
   },
 },
@@ -103,7 +103,7 @@ const WAVE = [{
     }],
   }],
   sky: {
-    asset: 'images.western_slopes_background',
+    asset: 'images.sinusoidaldesertbiome_1',
     margin: 1,
   },
 },
@@ -141,7 +141,7 @@ const WAVE = [{
     y: 0
   }],
   sky: {
-    asset: 'images.western_slopes_background',
+    asset: 'images.sinusoidaldesertbiome_1',
     margin: 1,
   },
 },
@@ -179,7 +179,7 @@ const WAVE = [{
     y: 0
   }],
   sky: {
-    asset: 'images.western_slopes_background',
+    asset: 'images.sinusoidaldesertbiome_1',
     margin: 1,
   },
 },
@@ -218,7 +218,7 @@ const WAVE = [{
     y: 0
   }],
   sky: {
-    asset: 'images.western_slopes_background',
+    asset: 'images.sinusoidaldesertbiome_1',
     margin: 1,
   },
 },
@@ -256,7 +256,7 @@ const WAVE = [{
     y: 0
   }],
   sky: {
-    asset: 'images.western_slopes_background',
+    asset: 'images.sinusoidaldesertbiome_1',
     margin: 1,
   },
 },
@@ -289,7 +289,7 @@ const WAVE = [{
     y: 0
   }],
   sky: {
-    asset: 'images.western_slopes_background',
+    asset: 'images.sinusoidaldesertbiome_1',
     margin: 1,
   },
 }]
