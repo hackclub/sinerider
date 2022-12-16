@@ -80,6 +80,7 @@ function Sledder(spec = {}) {
   }
 
   function draw() {
+    screen.ctx.filter = 'none'
     if (clickable.selected)
       shape.draw(ctx, camera)
     // rigidbody.draw(ctx)

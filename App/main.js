@@ -140,9 +140,11 @@ function draw() {
   for (let i = 0; i < world.activeDrawArray.length; i++) {
     entity = world.activeDrawArray[i]
     if (entity.draw) {
+      screen.ctx.save()
       if (entity.predraw) 
         entity.predraw()
       entity.draw()
+      screen.ctx.restore()
     }
   }
 }

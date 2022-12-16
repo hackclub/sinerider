@@ -42,6 +42,8 @@ function Level(spec) {
   let lowestOrder = 'A'
   let highestOrder = 'A'
 
+  let lava, volcanoSunset, sky
+
   if (flashMathField)
     ui.expressionEnvelope.classList.add('flash-shadow')
   else
@@ -260,6 +262,13 @@ function Level(spec) {
       sunsetTime = x ? Math.exp(-(((x-205)/100)**2)) : 0
       globalScope.timescale = 1 - sunsetTime * 0.7
       camera.shake = sunsetTime > 0.1 ? sunsetTime * 0.3 : 0
+      const vel = sledders[0]?.velocity ?? 20
+      const motionBlur = Math.min(vel/40 * 4, 10)
+      
+      volcanoSunset.blur = motionBlur
+      sky.blur = motionBlur
+      graph.blur = motionBlur
+      lava.blur = motionBlur
     }
   }
 
@@ -665,6 +674,7 @@ function Level(spec) {
         assets,
         drawOrder: LAYERS.backSprites - 1,
         camera,
+        globalScope,
       })
       // PostProcessing({
       //   parent: self,
@@ -675,7 +685,7 @@ function Level(spec) {
       //     ctx.filter = `blur(${blur}px)`
       //   }
       // })
-      VolcanoSunsetShader({
+      volcanoSunset = VolcanoSunsetShader({
         parent: self,
         screen,
         assets,
@@ -720,7 +730,7 @@ function Level(spec) {
       })
     }
     if (datum.lava && !isBubbleLevel) {
-      Water({
+      lava = Water({
         parent: self,
         camera,
         waterQuad: quads.lava,
@@ -731,7 +741,7 @@ function Level(spec) {
       })
     }
     if (datum.sky) {
-      Sky({
+      sky = Sky({
         parent: self,
         camera,
         globalScope,

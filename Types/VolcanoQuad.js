@@ -81,7 +81,7 @@ function VolcanoQuad(spec) {
   }
 
   let time = 0
-  let kernelWidth = 9
+  let kernelWidth = 0
 
   let frame = utils.Texture([canvas.width, canvas.height], gl.RGBA)
 
