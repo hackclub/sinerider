@@ -30,7 +30,7 @@ const VOLCANO = {
   ],
   goals: [],
   sky: {
-    asset: 'images.volcano_background',
+    asset: 'images.volcano_background_tall',
     margin: 1
   },
   bubble: {

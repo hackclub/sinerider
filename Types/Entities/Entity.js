@@ -17,6 +17,7 @@ function Entity(spec, defaultName = 'Entity') {
     screenBuffer = null,
     activeRange = [NINF, PINF],
     motionBlur = true,
+    blur = 0,
   } = spec
 
   // Because I constantly forget to use debugSelf instead of simply 'debug'.
@@ -186,15 +187,16 @@ function Entity(spec, defaultName = 'Entity') {
   let currentFramePos = Vector2()
 
   function predraw() {
+    screen.ctx.filter = `blur(${Math.floor(blur)}px)`
     if (motionBlur && camera && self.transform) {
-      camera.transform.invertPoint(self.transform.transformPoint(Vector2(0, 0)), currentFramePos)
+      // camera.transform.invertPoint(self.transform.transformPoint(Vector2(0, 0)), currentFramePos)
 
-      const blur = lastFramePos.subtract(currentFramePos).magnitude * 300
-      // TODO: Switch from blur based on sledder velocity to being based on camera velocity wrt object
+      // const blur = lastFramePos.subtract(currentFramePos).magnitude * 300
       // screen.ctx.filter = `blur(${Math.floor(blur)}px)`
+      // // TODO: Switch from blur based on sledder velocity to being based on camera velocity wrt object
       // console.log('blur', blur, lastFramePos.toString(), currentFramePos.toString(), screen.ctx.canvas.filter)
 
-      lastFramePos.set(currentFramePos)
+      // lastFramePos.set(currentFramePos)
     }
   }
 
@@ -319,6 +321,9 @@ function Entity(spec, defaultName = 'Entity') {
       
       drawOrder = v
     },
+
+    get blur() {return blur},
+    set blur(v) {blur = v},
     
     get activeRange() {return activeRange},
     get debug() {return debugSelf || debugTree},
