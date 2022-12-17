@@ -94,7 +94,7 @@ const screen = Screen({
 let w = worldData[0]
 
 // const DEBUG_LEVEL = null
-const DEBUG_LEVEL = 'Volcano'
+const DEBUG_LEVEL = 'Desert'
 // const DEBUG_LEVEL = 'Constant Lake'
 
 if (DEBUG_LEVEL) {
