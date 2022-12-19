@@ -57,23 +57,27 @@ function LavaMonster(spec) {
     transform.position.x = 0
     transform.position.y = 110
 
-    const x = world.level.sledders[0]?.transform.x
-    const t = 2.5*(1 - 1/(1 + Math.exp(-4*(x-190))))
-
-    const theta = Math.PI/4 * Math.sin(t - Math.PI/2)
-
-    topJaw.transform.rotation = theta * 0.7
-    topJaw.transform.x = 1.7 + Math.cos(theta * 0.7) * 2.5/2
-    topJaw.transform.y = -1.5 + Math.sin(theta * 0.7) * 2.5/2
-
-    bottomJaw.transform.rotation = -theta * 0.5
-    bottomJaw.transform.x = 1.5 + Math.cos(-theta * 0.5) * 2.5/2
-    bottomJaw.transform.y = -3.2 + Math.sin(-theta * 0.5) * 2.5/2
-
     if (world.level?.sledders) {
       const x = world.level.sledders[0].transform.x
+
+      const tangentAngle = Math.atan(-(x-200)/85)
+      transform.rotation = tangentAngle
+
+      const t = 2.5*(1 - 1/(1 + Math.exp(-2*(x-190))))
+
+      const theta = Math.PI/4 * Math.sin(t - Math.PI/2)
+
+      topJaw.transform.rotation = theta * 0.7
+      topJaw.transform.x = 1.7 + Math.cos(theta * 0.7) * 2.5/2
+      topJaw.transform.y = -1.5 + Math.sin(theta * 0.7) * 2.5/2
+
+      bottomJaw.transform.rotation = -theta * 0.5
+      bottomJaw.transform.x = 1.5 + Math.cos(-theta * 0.5) * 2.5/2
+      bottomJaw.transform.y = -3.2 + Math.sin(-theta * 0.5) * 2.5/2
+
       transform.position.y = 40 - ((x-200)/6)**2
       transform.position.x = (x - 5) * 1.01
+
     }
   }
 

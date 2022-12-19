@@ -12,6 +12,7 @@ worldData.push({
       benny_float_dark: '.svg',
       benny_float_left: '.svg',
       lavamonster: 'lavamonster_transparent.png',
+      lavamonster_jaw: '.png',
       lavamonster_top_jaw: '.png',
       lavamonster_bottom_jaw: '.png',
       sam_sled: 'ada_sled.webp',
