@@ -20,7 +20,7 @@ function Assets(spec) {
     callbacks.progress(0, loadTotal)
   
   function loadAsset(object, folders, file, key, assetSpec={}) {
-    console.log(`Loading asset '${file}' from folders `, folders)
+    // console.log(`Loading asset '${file}' from folders `, folders)
     
     const extensions = _.tail(file.split('.'))
     const extension = extensions[0]

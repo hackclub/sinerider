@@ -31,8 +31,12 @@ function Editor(ui) {
     world.level.sendEvent('goalAdded', ['path'])
   }
 
+  let editingPath = false
+
   let selection
   let selectionType
+
+  let active = false
 
   deleteSelection.onclick = () => {
     if (selectionType == 'fixed'
@@ -43,6 +47,8 @@ function Editor(ui) {
   }
 
   function select(_selection, _selectionType, attributes = null) {
+    if (!active) return
+
     editorSpawner.setAttribute('hide', true)
     editorInspector.setAttribute('hide', false)
 
@@ -65,6 +71,8 @@ function Editor(ui) {
   }
 
   function deselect() {
+    if (!active) return
+
     world.level.save()
 
     for (input of ['order', 'timer', 'x', 'y'])
@@ -135,6 +143,19 @@ function Editor(ui) {
   return {
     show,
     hide,
+
+    get active() {return active},
+    set active(v) {
+      active = v
+      if (v) {
+        show()
+      } else {
+        hide()
+      }
+    },
+
+    get editingPath() {return editingPath},
+    set editingPath(v) {editingPath = v},
 
     deselect,
     select,
