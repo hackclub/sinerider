@@ -208,7 +208,7 @@ function SunsetQuad(assets) {
 
     t += delta * 0.00005
 
-    // console.log(vectorField)
+    // // console.log(vectorField)
     updateParticlePositions(vectorField)
     oldParticlePositionsBuffer.data(oldParticlePositions)
     newParticlePositionsBuffer.data(newParticlePositions)
@@ -221,7 +221,7 @@ function SunsetQuad(assets) {
 
   // Pass in progress parameter (x distance)
   function draw(progress) {
-    // console.log('time', progress, 'iTime', 5 * progress)
+    // // console.log('time', progress, 'iTime', 5 * progress)
 
     const iTime = (progress + 0.7) * 5
 

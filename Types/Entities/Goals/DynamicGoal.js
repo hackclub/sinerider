@@ -42,7 +42,30 @@ function DynamicGoal(spec) {
     positionOffset: Vector2(0, -0.5),
   })
 
+  let t = 0
+
   function drawLocal() {
+    t += 0.1
+    if (clickable.selectedInEditor) {
+      transform.scale = 1.1
+
+      ctx.fillStyle = ctx.createConicGradient(Math.PI/4, size/2, size/2)
+      ctx.fillStyle.addColorStop(t % 1, '#FBA')
+      ctx.fillStyle.addColorStop((t + 0.25) % 1, '#BC1')
+      ctx.fillStyle.addColorStop((t + 0.5) % 1, '#BFC')
+      ctx.fillStyle.addColorStop((t + 0.75) % 1, '#A9D')
+      ctx.fillStyle.addColorStop((t + 1) % 1, '#A9B')
+
+      ctx.lineWidth = 0.05
+
+      let outlinePadding = 0.3
+
+      ctx.fillRect(-size/2 - outlinePadding/2, -size/2 - outlinePadding/2, size + outlinePadding, size + outlinePadding)
+    } else {
+      transform.scale = 1
+    }    
+
+
     ctx.strokeStyle = self.strokeStyle
     ctx.fillStyle = self.fillStyle
 
@@ -102,9 +125,11 @@ function DynamicGoal(spec) {
   let moving = false
 
   function mouseDown() {
-    console.log('moved down')
-    transform.scale = 1.1
-    moving = true
+    // console.log('moved down')
+    if (editor.active) {
+      transform.scale = 1.1
+      moving = true
+    }
   }
 
   function mouseMove(point) {

@@ -76,7 +76,7 @@ function Sledder(spec = {}) {
   }
 
   function draw() {
-    if (clickable.selected)
+    if (clickable.selectedInEditor)
       shape.draw(ctx, camera)
     // rigidbody.draw(ctx)
   }
@@ -107,7 +107,7 @@ function Sledder(spec = {}) {
   }
 
   function select() {
-    console.log('selecting')
+    // console.log('selecting')
     editor.select(self, 'sledder', ['x', 'y'])
   }
 
@@ -118,12 +118,12 @@ function Sledder(spec = {}) {
   let moving = false
 
   function mouseDown() {
-    console.log('moved sledder')
+    // console.log('moved sledder')
     moving = true
   }
 
   function mouseMove(point) {
-    if (!moving) return
+    if (!moving || !editor.active) return
     transform.position = point
     ui.editorInspector.x.value = point.x.toFixed(2)
     ui.editorInspector.y.value = point.y.toFixed(2)

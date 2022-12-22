@@ -39,7 +39,7 @@ function FixedGoal(spec) {
 
   function drawLocal() {
     t += 0.01
-    if (clickable.selected) {
+    if (clickable.selectedInEditor) {
       transform.scale = 1.1
 
       ctx.fillStyle = ctx.createConicGradient(Math.PI/4, size/2, size/2)
@@ -81,8 +81,10 @@ function FixedGoal(spec) {
   let moving = false
 
   function mouseDown() {
-    console.log('moved down')
-    moving = true
+    // console.log('moved down')
+    if (editor.active) {
+      moving = true
+    }
   }
 
   function mouseMove(point) {

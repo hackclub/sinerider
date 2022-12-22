@@ -220,10 +220,11 @@ function Clickable(spec) {
     get dragging() {return dragging},
     get holding() {return holding},
     get selected() {return selected},
+    get selectedInEditor() {return selected && editor.active},
     get enabled() {return enabled},
     set enabled(v) {
       if (!v && deselectMe && editor.active) {
-        console.log('calling deselectMe')
+        // console.log('calling deselectMe')
         deselectMe()
       }
       if (deselect) deselect()

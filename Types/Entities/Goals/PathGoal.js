@@ -204,6 +204,8 @@ function PathGoal(spec) {
     bounds.height = height
     bounds.center = Vector2(pathX/2, top - height/2)
 
+    boundsTransform.y = top - height/2
+
     base.tick()
     tickPath()
   }
@@ -327,7 +329,7 @@ function PathGoal(spec) {
     }
 
     // TODO: Polish bounding box
-    if (clickable.selected)
+    if (clickable.selectedInEditor)
       bounds.draw(ctx, camera)
   }
 
@@ -345,8 +347,9 @@ function PathGoal(spec) {
   let moving = false
 
   function mouseDown() {
-    console.log('moved sledder')
-    moving = true
+    // console.log('moved sledder')
+    if (editor.active)
+      moving = true
   }
 
   function mouseMove(point) {
@@ -430,6 +433,9 @@ function PathGoal(spec) {
     clickable,
 
     setGraphExpression,
+
+    bounds,
+    boundsTransform,
 
     get completedProgress() {return pathProgress},
     get type() {return 'path'}

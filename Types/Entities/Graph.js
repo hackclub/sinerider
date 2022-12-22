@@ -133,7 +133,7 @@ function Graph(spec) {
       const x = samples[i].x;
       const increasedX = x + 50;
 
-      // if (!window.logged) console.log(samples[i]);
+      // if (!window.logged) // console.log(samples[i]);
       window.logged = true;
       camera.worldToScreen(samples[i], screenSpaceSample)
       const y = screenSpaceSample.y+((Math.sin(((x+xOffset)/xScale))+1)*camera.worldToScreenScalar(1))*yScale+yOffset*camera.worldToScreenScalar(1)
@@ -147,7 +147,7 @@ function Graph(spec) {
   }
   
   function resample() {
-    // console.log('resampling graph', screen.minFramePoint.toString(), screen.maxFramePoint.toString(), screen)
+    // // console.log('resampling graph', screen.minFramePoint.toString(), screen.maxFramePoint.toString(), screen)
     camera.frameToWorld(screen.minFramePoint, minWorldPoint)
     camera.frameToWorld(screen.maxFramePoint, maxWorldPoint)
 

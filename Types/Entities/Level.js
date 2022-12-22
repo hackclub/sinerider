@@ -111,7 +111,6 @@ function Level(spec) {
   }
 
   const startingExpression = (!isConstantLakeAndNotBubble() ? savedLatex : null) ?? defaultExpression
-  console.log('Starting expression', startingExpression)
 
   const graph = Graph({
     camera,
@@ -463,7 +462,7 @@ function Level(spec) {
   }
 
   function restart() {
-    console.log('resetting level')
+    // console.log('resetting level')
 
     const expression = isConstantLake() ? defaultVectorExpression : defaultExpression
 
@@ -593,7 +592,7 @@ function Level(spec) {
       })
     // Constant Lake sunset scene
     if (isConstantLakeAndNotBubble()) {
-      console.log('loading shader')
+      // console.log('loading shader')
       shader = Shader({
         parent: self,
         screen,
@@ -667,7 +666,7 @@ function Level(spec) {
 
   function setGraphExpression(text, latex) {
     if (editor.editingPath) {
-      console.log('returning')
+      // console.log('returning')
       return
     }
 
@@ -719,7 +718,7 @@ function Level(spec) {
       type,
     })
     goalLookup[goals[goals.length - 1].id] = goals.length - 1
-    console.log('goal lookup', goalLookup)
+    // console.log('goal lookup', goalLookup)
   }
 
   // Takes in entity -- refactor?
