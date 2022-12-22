@@ -1,16 +1,16 @@
 const DESERT = {
   name: 'Desert',
   nick: 'DESERT',
-  colors: Colors.biomes.mojave,
+  colors: Colors.biomes.arches,
   axesEnabled: false,
-  x: -15,
-  y: -15,
+  x: 20,
+  y: -5,
   camera: {
     x: 2,
     y: -2,
     fov: 7,
   },
-  requirements: ['LOGISTIC_JUMP'],
+  requirements: ['SIN_SCALE_X_Y'],
   defaultExpression: '\\frac{1}{3}\\sin\\left(\\frac{x}{10}\\right)+\\frac{1}{4}\\sin\\left(\\frac{x}{20}+\\frac{\\pi}{3}\\right)+\\frac{1}{2}\\sin\\left(\\frac{x}{53}+3\\frac{\\pi}{6}\\right)',
   directors: [{
     type: 'lerp',
@@ -27,7 +27,7 @@ const DESERT = {
   }],
   goals: [],
   sky: {
-    asset: 'images.logistic_dunes_background',
+    asset: 'images.western_slopes_background',
     margin: 1
   },
   walkers: [{

@@ -260,7 +260,10 @@ function Goal(spec) {
   }
 
   function keydown(key) {
-    if (self.clickable?.selected && (key == 'Backspace' || key == 'Delete')) {
+    if (document.activeElement == document.body // Ignore if in text field
+        && self.clickable?.selected
+        && (key == 'Backspace' || key == 'Delete')
+    ) {
       remove()
     }
   }

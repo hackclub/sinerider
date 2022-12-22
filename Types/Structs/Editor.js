@@ -15,6 +15,8 @@ function Editor(ui) {
     addPath,
   } = ui.editorSpawner
 
+  let showing = true
+
   addFixed.onclick = () => {
     world.level.sendEvent('goalAdded', ['fixed'])
   }
@@ -33,10 +35,10 @@ function Editor(ui) {
   let selectionType
 
   deleteSelection.onclick = () => {
-    if (selectionType == 'fixed' 
-        || selectionType == 'path' 
-        || selectionType == 'dynamic'
-        || selectionType == 'sledder')
+    if (selectionType == 'fixed'
+      || selectionType == 'path'
+      || selectionType == 'dynamic'
+      || selectionType == 'sledder')
       selection.remove()
   }
 
@@ -69,15 +71,22 @@ function Editor(ui) {
       ui.editorInspector[input].setAttribute('hide', false)
 
     editorSpawner.setAttribute('hide', false)
-    editorInspector.setAttribute('hide', true)
+
+    // If level editor is still active,
+    // show inspector in place of spawner, otherwise hide
+    editorInspector.setAttribute('hide', showing)
   }
 
   function show() {
+    showing = true
+    ui.nextButton.setAttribute('hide', true)
     editorSpawner.setAttribute('hide', false)
     editorInspector.setAttribute('hide', true)
   }
 
   function hide() {
+    showing = false
+    ui.nextButton.setAttribute('hide', false)
     editorSpawner.setAttribute('hide', true)
     editorInspector.setAttribute('hide', true)
   }

@@ -277,10 +277,6 @@ function PathGoal(spec) {
     if (!moving) return
 
     transform.position = point
-    pathPosition = point
-    pathPositionWorld = point
-    pathStart = point
-    pathStartWorld = point
 
     ui.editorInspector.x.value = point.x.toFixed(2)
     ui.editorInspector.y.value = point.y.toFixed(2)
