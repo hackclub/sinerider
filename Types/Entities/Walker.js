@@ -29,6 +29,7 @@ function Walker(spec) {
     flipX = false,
     followFlip = true,
     transition = null,
+    backflip = null,
   } = spec
 
   if (!_.isArray(walkers))
@@ -97,6 +98,8 @@ function Walker(spec) {
 
   let floatOffset = -0.1
 
+  let jumpProgress = 0
+
   const mousePointFrame = Vector2()
   const mousePoint = Vector2()
 
@@ -126,8 +129,28 @@ function Walker(spec) {
       }
     }
 
+
     transform.position.x = _.clamp(transform.position.x, range[0], range[1])
-    
+
+    if (backflip && transform.position.x > backflip[0] && transform.position.x < backflip[1])
+    {
+      jumpProgress = math.lerp(jumpProgress, 1, 0.05)
+      sprite.transform.rotation += globalScope.dt*10
+    }
+    else 
+    {
+      jumpProgress = math.lerp(jumpProgress, 0, 0.12)
+      sprite.transform.rotation = math.lerp(sprite.transform.rotation, 0, 0.12)
+    }
+
+    while (sprite.transform.rotation > PI)
+    sprite.transform.rotation -= TAU
+
+    while (sprite.transform.rotation < -PI)
+    sprite.transform.rotation += TAU
+
+    sprite.transform.y = math.lerp(size/2, size/2+1, jumpProgress)
+
     const groundHeight = graph.sample('x', transform.position.x)
 
     floatCycle -= self.tickDelta*floatCycleSpeed

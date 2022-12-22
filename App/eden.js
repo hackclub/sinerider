@@ -15,6 +15,8 @@ worldData.push({
       lavamonster_jaw: '.png',
       lavamonster_top_jaw: '.png',
       lavamonster_bottom_jaw: '.png',
+      sinusoidaldesertbiome_1: 'sinusoidaldesertbiome_1.png',
+      sinusoidaldesertbiome_2: 'sinusoidaldesertbiome_2.png',
       sam_sled: 'ada_sled.webp',
       sam_float: 'ada_float_right.webp',
       sam_float_dark: '.svg',
