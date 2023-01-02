@@ -129,12 +129,11 @@ function Graph(spec) {
     ctx.moveTo(screen.width, screen.height)
     ctx.lineTo(0, screen.height)
 
-
     for (let i = 0; i < sampleCount; i++) {
       const x = samples[i].x;
       const increasedX = x + 50;
 
-      // if (!window.logged) console.log(samples[i]);
+      // if (!window.logged) // console.log(samples[i]);
       window.logged = true;
       camera.worldToScreen(samples[i], screenSpaceSample)
       const y = screenSpaceSample.y+((Math.sin(((x+xOffset)/xScale))+1)*camera.worldToScreenScalar(1))*yScale+yOffset*camera.worldToScreenScalar(1)
@@ -148,7 +147,7 @@ function Graph(spec) {
   }
   
   function resample() {
-    // console.log('resampling graph', screen.minFramePoint.toString(), screen.maxFramePoint.toString(), screen)
+    // // console.log('resampling graph', screen.minFramePoint.toString(), screen.maxFramePoint.toString(), screen)
     camera.frameToWorld(screen.minFramePoint, minWorldPoint)
     camera.frameToWorld(screen.maxFramePoint, maxWorldPoint)
 
@@ -164,6 +163,7 @@ function Graph(spec) {
       maxX = maxWorldPoint[0]
     }
 
+    sampler.resetExtrema()
     sampler.sampleRange(scope, samples, sampleCount, 'x',  minX, maxX)
   }
 
@@ -188,8 +188,13 @@ function Graph(spec) {
     draw,
     resize,
 
+    resample,
+    bounds,
+
     startRunning,
     stopRunning,
+
+    get samples() {return samples},
 
     get expression() {return sampler.expression},
     set expression(v) {sampler.expression = v},

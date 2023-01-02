@@ -5,7 +5,7 @@ const VOLCANO = {
   runAsCutscene: true,
   axesEnabled: false,
   radius: 2,
-  x: -20,
+  x: 0,
   y: 0,
   camera: {
     x: 2,
@@ -350,7 +350,7 @@ const VOLCANO = {
     {
       asset: 'images.rock_1',
       flipX: true,
-      drawOrder: LAYERS.level,
+      drawOrder: LAYERS.foreSprites,
       size: 3,
       x: 0,
       offset: [0, 0.6],

@@ -38,6 +38,7 @@ const ui = {
   expressionEnvelope: $('#expression-envelope'),
 
   mathFieldLabel: $('#variable-label > .string'),
+  _mathField: $('#math-field'),
   mathField: $('#math-field'),
   mathFieldStatic: $('#math-field-static'),
 
@@ -93,9 +94,7 @@ const screen = Screen({
 
 let w = worldData[0]
 
-// const DEBUG_LEVEL = null
-const DEBUG_LEVEL = 'Volcano'
-// const DEBUG_LEVEL = 'Constant Lake'
+const DEBUG_LEVEL = 'Level Editor'
 
 if (DEBUG_LEVEL) {
   // make debug level first level for testing
@@ -187,6 +186,7 @@ function createMathField(field, eventNameOnEdit) {
 }
 
 ui.mathField = createMathField(ui.mathField, 'setGraphExpression')
+ui.mathField.focused = () => ui._mathField.classList.contains('mq-focused')
 
 ui.dottedMathFieldStatic = MQ.StaticMath(ui.dottedMathFieldStatic)
 
@@ -211,7 +211,10 @@ function onKeyUp(event) {
   }
 }
 
-window.addEventListener('keydown', event => world.level.sendEvent('keydown', [event.key]))
+window.addEventListener('keydown', event => {
+  if (ui.mathField.focused()) return
+  world.level.sendEvent('keydown', [event.key])
+})
 
 window.addEventListener("keyup", onKeyUp)
 
@@ -316,6 +319,7 @@ canvas.addEventListener('pointermove', onMouseMoveCanvas)
 function onMouseDownCanvas(event) {
   world.clickableContext.processEvent(event, 'mouseDown')
   event.preventDefault()
+  ui.mathField.blur()
 }
 
 canvas.addEventListener('mousedown', onMouseDownCanvas)

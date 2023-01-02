@@ -473,5 +473,4 @@ const TIME = [{
     margin: 1,
   },
 },
-DESERT,
 ]

@@ -164,6 +164,8 @@ function Level(spec) {
       ui.expressionEnvelope.classList.add('hidden')
     }
 
+    editor.active = isEditor()
+    
     // For constant lake, change math field to vector
     // field editor for later in the scene
     if (isConstantLakeAndNotBubble()) {
@@ -794,6 +796,11 @@ function Level(spec) {
   }
 
   function setGraphExpression(text, latex) {
+    if (editor.editingPath) {
+      // console.log('returning')
+      return
+    }
+
     ui.mathFieldStatic.latex(latex)
 
     currentLatex = latex
@@ -804,8 +811,6 @@ function Level(spec) {
       quads.sunset.setVectorFieldExpression(text)
       return
     }
-
-    graph.expression = text
 
     graph.expression = text
     ui.expressionEnvelope.setAttribute('valid', graph.valid)
@@ -825,7 +830,7 @@ function Level(spec) {
     _.invokeEach(bubbles, 'destroy')
   }
 
-  function resize(width, height) {
+  function resize() {
     darkBufferOrScreen.resize()
     graph.resize()
   }
@@ -884,6 +889,8 @@ function Level(spec) {
     save,
 
     goals,
+
+    get currentLatex() {return currentLatex},
 
     get datum() {return spec.datum},
     get completed() {return completed},
