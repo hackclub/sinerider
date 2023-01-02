@@ -48,16 +48,14 @@ function LavaMonster(spec) {
     if (world.level?.sledders) {
       const x = world.level.sledders[0].transform.x
 
-      const tangentAngle = Math.atan(-(x-200)/85)
+      const tangentAngle = Math.atan(-(x-200)/170)
       transform.rotation = tangentAngle
       transform.position.y = 40 - ((x-200)/6)**2
       transform.position.x = (x - 5) * 1.01
 
-      const t = 1/(1 + Math.exp(-2*(x-220)))
+      const t = 1/(1 + Math.exp(-2*(x-200)))
 
       jaw.transform.y = -6.2 + 3*t
-
-
     }
   }
 

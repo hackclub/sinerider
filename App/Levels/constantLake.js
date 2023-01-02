@@ -1,6 +1,7 @@
 const CONSTANT_LAKE = {
   name: 'Constant Lake',
   nick: 'CONSTANT_LAKE',
+  runAsCutscene: true,
   colors: Colors.biomes.alps,
   axesEnabled: false,
   // radius: 2,

@@ -24,6 +24,7 @@ function Level(spec) {
     runMusic,
     flashMathField = false,
     flashRunButton = false,
+    runAsCutscene = false,
     camera: cameraSpec = {}
   } = datum
 
@@ -155,24 +156,20 @@ function Level(spec) {
     globalScope.p = math.complex()
     assignPlayerPosition()
 
-    if (isEditor())
-      editor.show()
-    else
-      editor.hide()
-    
+    if (runAsCutscene) {
+      // Don't play sound, keep navigator 
+      world._startRunning(false, false)
+
+      // Hide math field by default
+      ui.expressionEnvelope.classList.add('hidden')
+    }
+
+    // For constant lake, change math field to vector
+    // field editor for later in the scene
     if (isConstantLakeAndNotBubble()) {
-      // HACK: Enable run button for Walker scene
-      ui.runButton.setAttribute('hide', true)
-      ui.stopButton.setAttribute('hide', false)
-      
-      // Hide reset until vector field
-      ui.resetButton.setAttribute('hide', true)
-      
-      // Change editor to vector field and hide until
-      // star field comes out
       ui.expressionEnvelope.classList.add('hidden')
       ui.mathFieldLabel.innerText = 'V='
-      
+
       ui.mathField.latex(defaultVectorExpression)
       ui.mathFieldStatic.latex(defaultVectorExpression)
     } else {
@@ -201,6 +198,8 @@ function Level(spec) {
       // If X values met then make transition
       if (transition.xRequirements.length == 0) {
         const target = self.children.find(s => s.name === transition.name)
+        if (!target)
+          throw Error(`Unable to find transition target from '${entity.name}' to '${transition.name}' (check the manifest!)`)
         target.active = true
         entity.active = false
 
@@ -210,10 +209,6 @@ function Level(spec) {
           target.walkers.forEach(w => w.active = true)
 
         const x = entity.transform.x
-
-        const toggleRunning = transition.toggleRunning
-        entity.transition = null
-        if (toggleRunning) world.toggleRunning()
 
         target.transform.x = x
       } 
@@ -227,18 +222,23 @@ function Level(spec) {
 
   }
 
+  function getCutsceneDistanceParameter() {
+    let playerEntity = walkers.find(s => s.active) || sledders.find(w => w.active)
+    return playerEntity.transform.x.toFixed(1)
+  }
+
   function tick() {
     // screen.ctx.filter = `blur(${Math.floor(world.level.sledders[0].rigidbody.velocity/40 * 4)}px)`
 
-    let time = isConstantLake()
-      ? walkers[0].transform.position.x.toFixed(1)
+    let time = runAsCutscene
+      ? getCutsceneDistanceParameter()
       : (Math.round(globalScope.t*10)/10).toString()
 
     // LakeSunsetShader
     // VolcanoShader
     // VolcanoSunsetShader
 
-    if ((globalScope.running || isConstantLake()) && !_.includes(time, '.'))
+    if ((globalScope.running || runAsCutscene) && !_.includes(time, '.'))
       time += '.0'
 
     // console.log('tracked entities', trackedEntities)
@@ -256,7 +256,7 @@ function Level(spec) {
 
     assignPlayerPosition()
 
-    if (datum.name == 'Volcano') {
+    if (isVolcano()) {
       let sunsetTime
       const x = sledders[0]?.transform.x
       sunsetTime = x ? Math.exp(-(((x-205)/100)**2)) : 0
@@ -571,6 +571,10 @@ function Level(spec) {
     refreshLowestOrder()
   }
 
+  function isVolcano() {
+    return datum.name === 'Volcano'
+  }
+
   function isConstantLake() {
     return datum.name === 'Constant Lake'
   }
@@ -658,7 +662,7 @@ function Level(spec) {
       datum = _.merge(_.cloneDeep(datum), datum.bubble)
     }
 
-    if (!isBubbleLevel && datum.name == 'Volcano') {
+    if (!isBubbleLevel && isVolcano()) {
       VolcanoShader({
         parent: self,
         screen,
@@ -815,10 +819,8 @@ function Level(spec) {
   }
 
   function destroy() {
-    if (isConstantLake()) {
-      // Undo run/stop button swap
-      ui.runButton.setAttribute('hide', false)
-      ui.stopButton.setAttribute('hide', true)
+    if (runAsCutscene && !isBubbleLevel) {
+      world._stopRunning()
     }
     _.invokeEach(bubbles, 'destroy')
   }
@@ -874,7 +876,7 @@ function Level(spec) {
 
     mathFieldFocused,
 
-    isConstantLake,
+    get isRunningAsCutscene() {return runAsCutscene},
 
     goalAdded,
     goalDeleted,

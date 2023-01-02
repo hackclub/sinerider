@@ -2,6 +2,7 @@ const VOLCANO = {
   name: 'Volcano',
   nick: 'VOLCANO',
   colors: Colors.biomes.volcano,
+  runAsCutscene: true,
   axesEnabled: false,
   radius: 2,
   x: -20,

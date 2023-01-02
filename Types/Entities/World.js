@@ -251,7 +251,7 @@ function World(spec) {
     editing = _editing
   }
 
-  function startRunning() {
+  function startRunning(playSound=true, hideNavigator=true) {
     running = true
 
     ui.mathField.blur()
@@ -260,10 +260,12 @@ function World(spec) {
 
     ui.runButton.setAttribute('hide', true)
     ui.stopButton.setAttribute('hide', false)
-    ui.navigatorButton.setAttribute('hide', true)
+    if (hideNavigator)
+      ui.navigatorButton.setAttribute('hide', true)
     ui.resetButton.setAttribute('hide', true)
 
-    assets.sounds.start_running.play()
+    if (playSound)
+      assets.sounds.start_running.play()
 
     self.sendEvent('startRunning', [])
 
@@ -370,6 +372,8 @@ function World(spec) {
     tick,
     draw,
 
+    _startRunning: startRunning,
+    _stopRunning: stopRunning,
     toggleRunning,
 
     nextLevel,

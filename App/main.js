@@ -258,7 +258,7 @@ function onClickNextButton(event) {
 ui.nextButton.addEventListener('click', onClickNextButton)
 
 function onClickRunButton(event) {
-  if (!world.level?.isConstantLake() && !world.navigating)
+  if (!world.level?.isRunningAsCutscene && !world.navigating)
     world.toggleRunning()
 
   return true
