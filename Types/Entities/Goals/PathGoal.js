@@ -19,7 +19,7 @@ function PathGoal(spec) {
     pathY = 0,
   } = spec
 
-  const trackPoints = []
+  let trackPoints = []
 
   const bottom = Vector2(0, -size/2)
   const bottomWorld = Vector2()
@@ -44,10 +44,10 @@ function PathGoal(spec) {
   const pathMinWorld = Vector2()
   const pathMaxWorld = Vector2()
 
-  const pathSign = Math.sign(pathX)
-  const pathSpan = Math.abs(pathX)
+  let pathSign = Math.sign(pathX)
+  let pathSpan = Math.abs(pathX)
 
-  const maxPathResetSpeed = 3
+  let maxPathResetSpeed = 3
   let pathResetSpeed = 0
   let pathProgress = 0
 
@@ -73,8 +73,8 @@ function PathGoal(spec) {
     parent: self,
     globalScope,
     expression: pathExpression,
-    fill: false,
     freeze: true,
+    fill: false,
     scaleStroke: true,
     bounds: [pathStartWorld.x, pathEndWorld.x],
     sampleCount: Math.round(pathSpan*4),
@@ -84,9 +84,25 @@ function PathGoal(spec) {
     dashSettings: [0.5, 0.5],
   })
 
+  const hintGraph = Graph({
+    name: 'Path Hint Graph',
+    parent: self,
+    globalScope,
+    expression: pathExpression,
+    fill: false,
+    scaleStroke: true,
+    strokeWidth: 0.1,
+    strokeColor: '#FFA500',
+    dashed: true,
+    dashSettings: [0.5, 0.5],
+  })
+
   // HACK: Hijack the graph's draw method to draw it behind the goal object
   const drawPathGraph = pathGraph.draw.bind(pathGraph)
   pathGraph.draw = () => {}
+
+  const drawHintGraph = hintGraph.draw.bind(hintGraph)
+  hintGraph.draw = () => {}
 
   // Sample start/end points
   pathStartWorld.y = pathGraph.sample('x', pathStartWorld.x)
@@ -112,14 +128,13 @@ function PathGoal(spec) {
   trackPoints.push(pathStartWorld)
   trackPoints.push(pathEndWorld)
 
-  const height = (pathGraph.max - pathGraph.min) * 1.1
+  const boundsTransform = Transform(spec)
 
   const bounds = Rect({
-    transform,
-    width: pathX,
-    height: height,
-    center: Vector2(pathX/2, pathGraph.max)
+    transform: boundsTransform,
   })
+
+  updateBounds()
 
   const clickable = Clickable({
     entity: self,
@@ -128,14 +143,69 @@ function PathGoal(spec) {
     camera,
   })
 
+  function updateBounds() {
+    const max = pathGraph.samples.reduce((max, el) => el[1] > max ? el[1] : max, NINF)
+    const min = pathGraph.samples.reduce((min, el) => el[1] < min ? el[1] : min, PINF)
+    const height = max - min
+    const top = transform.invertScalar(max)
+
+    bounds.width = pathX
+    bounds.height = height
+    bounds.center = Vector2(pathX/2, top - height/2)
+  }
+
+  let oldExpression
+
   function select() {
+    editor.editingPath = true
+
+    ui.mathFieldLabel.innerText = 'P='
+
+    ui.mathField.latex(pathExpression)
+    ui.mathFieldStatic.latex(pathExpression)
+
+    oldExpression = world.level.currentLatex
+
     editor.select(self, 'path')
   }
 
   function deselect() {
+    editor.editingPath = false
+
+    ui.mathFieldLabel.innerText = 'Y='
+
+    ui.mathField.latex(oldExpression)
+    ui.mathFieldStatic.latex(oldExpression)
+
     editor.deselect()
   }
+
+  function setGraphExpression(text, latex) {
+    if (!clickable.selected)
+      return
+
+    pathExpression = text
+
+    pathGraph.expression = text
+    pathGraph.resample()
+
+    hintGraph.expression = text
+    hintGraph.resample()
+
+    ui.mathFieldStatic.latex(latex)
+
+    updateBounds()
+  }
+
   function tick() {
+    const height = pathGraph.max - pathGraph.min
+    const top = transform.invertScalar(pathGraph.max)
+
+    bounds.height = height
+    bounds.center = Vector2(pathX/2, top - height/2)
+
+    boundsTransform.y = top - height/2
+
     base.tick()
     tickPath()
   }
@@ -147,8 +217,7 @@ function PathGoal(spec) {
       if (self.triggered) {
         pathPositionWorld.x += self.triggeringSledderDelta.x
         pathResetSpeed = 0
-      }
-      else {
+      } else {
         pathPositionWorld.x -= pathSign*self.tickDelta*pathResetSpeed
         pathResetSpeed = Math.min(pathResetSpeed+self.tickDelta*6, maxPathResetSpeed)
       }
@@ -170,7 +239,6 @@ function PathGoal(spec) {
       }
     }
   }
-
 
   function checkComplete() {
     if (self.triggered && !self.completed && !self.failed) {
@@ -232,6 +300,11 @@ function PathGoal(spec) {
     innerStyle.addColorStop(pathProgress, '#4F6')
     innerStyle.addColorStop(math.clamp01(pathProgress+0.02), '#FFF')
 
+    if (clickable.selected) {
+      hintGraph.resize()
+      drawHintGraph()
+    }
+
     pathGraph.strokeWidth = 0.4
     pathGraph.strokeColor = outerStyle
     pathGraph.dashed = false
@@ -256,7 +329,7 @@ function PathGoal(spec) {
     }
 
     // TODO: Polish bounding box
-    if (clickable.selected)
+    if (clickable.selectedInEditor)
       bounds.draw(ctx, camera)
   }
 
@@ -267,20 +340,53 @@ function PathGoal(spec) {
     pathPositionWorld.set(pathStartWorld)
   }
 
+  function resize() {
+    hintGraph.resize()
+  }
+
   let moving = false
 
   function mouseDown() {
-    moving = true
+    // console.log('moved sledder')
+    if (editor.active)
+      moving = true
   }
 
   function mouseMove(point) {
     if (!moving) return
 
     transform.position = point
-    pathPosition = point
-    pathPositionWorld = point
-    pathStart = point
-    pathStartWorld = point
+   
+    // Reset pathStart/pathEnd
+    pathStart.set(Vector2())
+    pathEnd.set(Vector2(pathX, 0))
+  
+    // Re-transform to world space
+    transform.transformPoint(pathStart, pathStartWorld)
+    transform.transformPoint(pathEnd, pathEndWorld)
+
+    // Reset pathPosition
+    pathPosition.set(pathStart)
+    transform.transformPoint(pathPosition, pathPositionWorld)
+
+    pathStart.min(pathEnd, pathMin)
+    pathStart.max(pathEnd, pathMax)
+
+    pathStartWorld.min(pathEndWorld, pathMinWorld)
+    pathStartWorld.max(pathEndWorld, pathMaxWorld)
+    
+    // Re-calculate path progress
+    tickPath()
+
+    // Update graph
+    pathGraph.bounds[0] = pathStartWorld.x
+    pathGraph.bounds[1] = pathEndWorld.x
+    pathGraph.resample()
+
+    boundsTransform.x = point.x
+    updateBounds()
+
+    trackPoints = [pathStartWorld, pathEndWorld]
 
     ui.editorInspector.x.value = point.x.toFixed(2)
     ui.editorInspector.y.value = point.y.toFixed(2)
@@ -314,6 +420,7 @@ function PathGoal(spec) {
     mouseUp,
 
     reset,
+    resize,
 
     checkComplete,
 
@@ -324,6 +431,11 @@ function PathGoal(spec) {
     deselect,
 
     clickable,
+
+    setGraphExpression,
+
+    bounds,
+    boundsTransform,
 
     get completedProgress() {return pathProgress},
     get type() {return 'path'}

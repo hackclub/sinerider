@@ -155,10 +155,7 @@ function Level(spec) {
     globalScope.p = math.complex()
     assignPlayerPosition()
 
-    if (isEditor())
-      editor.show()
-    else
-      editor.hide()
+    editor.active = isEditor()
     
     if (isConstantLakeAndNotBubble()) {
       // HACK: Enable run button for Walker scene
@@ -790,6 +787,11 @@ function Level(spec) {
   }
 
   function setGraphExpression(text, latex) {
+    if (editor.editingPath) {
+      // console.log('returning')
+      return
+    }
+
     ui.mathFieldStatic.latex(latex)
 
     currentLatex = latex
@@ -800,8 +802,6 @@ function Level(spec) {
       quads.sunset.setVectorFieldExpression(text)
       return
     }
-
-    graph.expression = text
 
     graph.expression = text
     ui.expressionEnvelope.setAttribute('valid', graph.valid)
@@ -823,7 +823,7 @@ function Level(spec) {
     _.invokeEach(bubbles, 'destroy')
   }
 
-  function resize(width, height) {
+  function resize() {
     darkBufferOrScreen.resize()
     graph.resize()
   }
@@ -882,6 +882,8 @@ function Level(spec) {
     save,
 
     goals,
+
+    get currentLatex() {return currentLatex},
 
     get datum() {return spec.datum},
     get completed() {return completed},

@@ -30,7 +30,7 @@ function SnowFall(spec) {
             for (i = 0; i < 1000 && initialFrame == 0; i+=1)
                 Math.random() < density ? particles.push([Math.random()*(camera.upperRight.x-camera.lowerLeft.x+3) + camera.lowerLeft.x-3,Math.random()*(camera.upperRight.y-camera.lowerLeft.y) + camera.lowerLeft.y, Math.random()]) : 0
         } else {
-            //console.log(particles[0][1],camera.worldToScreenScalar(-camera.lowerLeft.y) )
+            //// console.log(particles[0][1],camera.worldToScreenScalar(-camera.lowerLeft.y) )
             for (flake in particles) {
                 if (particles[flake][1] + deltaFOV + 2 < camera.lowerLeft.y)
                     delete particles[flake]

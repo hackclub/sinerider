@@ -26,6 +26,11 @@ function Sampler(spec = {}) {
     return expression.split('//')[0]
   }
 
+  function resetExtrema() {
+    min = PINF
+    max = NINF
+  }
+
   function evaluate(scope) {
     if (expression == '') return 0
 
@@ -143,6 +148,8 @@ function Sampler(spec = {}) {
     sampleSlope,
 
     generateSampleArray,
+
+    resetExtrema,
 
     setExpression,
 

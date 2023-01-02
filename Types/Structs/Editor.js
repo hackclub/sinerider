@@ -15,6 +15,8 @@ function Editor(ui) {
     addPath,
   } = ui.editorSpawner
 
+  let showing = true
+
   addFixed.onclick = () => {
     world.level.sendEvent('goalAdded', ['fixed'])
   }
@@ -29,18 +31,24 @@ function Editor(ui) {
     world.level.sendEvent('goalAdded', ['path'])
   }
 
+  let editingPath = false
+
   let selection
   let selectionType
 
+  let active = false
+
   deleteSelection.onclick = () => {
-    if (selectionType == 'fixed' 
-        || selectionType == 'path' 
-        || selectionType == 'dynamic'
-        || selectionType == 'sledder')
+    if (selectionType == 'fixed'
+      || selectionType == 'path'
+      || selectionType == 'dynamic'
+      || selectionType == 'sledder')
       selection.remove()
   }
 
   function select(_selection, _selectionType, attributes = null) {
+    if (!active) return
+
     editorSpawner.setAttribute('hide', true)
     editorInspector.setAttribute('hide', false)
 
@@ -63,21 +71,30 @@ function Editor(ui) {
   }
 
   function deselect() {
+    if (!active) return
+
     world.level.save()
 
     for (input of ['order', 'timer', 'x', 'y'])
       ui.editorInspector[input].setAttribute('hide', false)
 
     editorSpawner.setAttribute('hide', false)
-    editorInspector.setAttribute('hide', true)
+
+    // If level editor is still active,
+    // show inspector in place of spawner, otherwise hide
+    editorInspector.setAttribute('hide', showing)
   }
 
   function show() {
+    showing = true
+    ui.nextButton.setAttribute('hide', true)
     editorSpawner.setAttribute('hide', false)
     editorInspector.setAttribute('hide', true)
   }
 
   function hide() {
+    showing = false
+    ui.nextButton.setAttribute('hide', false)
     editorSpawner.setAttribute('hide', true)
     editorInspector.setAttribute('hide', true)
   }
@@ -126,6 +143,19 @@ function Editor(ui) {
   return {
     show,
     hide,
+
+    get active() {return active},
+    set active(v) {
+      active = v
+      if (v) {
+        show()
+      } else {
+        hide()
+      }
+    },
+
+    get editingPath() {return editingPath},
+    set editingPath(v) {editingPath = v},
 
     deselect,
     select,
