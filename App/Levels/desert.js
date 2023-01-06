@@ -3,8 +3,8 @@ const DESERT = {
   nick: 'DESERT',
   colors: Colors.biomes.arches,
   axesEnabled: false,
-  x: 20,
-  y: -5,
+  x: 5,
+  y: -20,
   camera: {
     x: 2,
     y: -2,

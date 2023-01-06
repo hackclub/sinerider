@@ -17,7 +17,7 @@ const WAVE = [{
     {
       type: 'path',
       expression: '-sin(x)',
-      x: TAU+1,
+      x: TAU + 1,
       y: 0,
       pathX: 2.5,
     },
@@ -33,7 +33,7 @@ const WAVE = [{
       direction: 'up-up-right',
       distance: 1.5,
     }],
-  },{
+  }, {
     asset: 'images.lunchbox_sled',
     x: TAU,
     y: 0,
@@ -69,7 +69,7 @@ const WAVE = [{
     {
       type: 'path',
       expression: 'cos(x)+4',
-      x: TAU+1,
+      x: TAU + 1,
       y: 0,
       pathX: 4.5,
     },
@@ -90,7 +90,7 @@ const WAVE = [{
         distance: 1.5,
       }],
     }],
-  },{
+  }, {
     asset: 'images.sam_sled',
     x: TAU,
     y: 0,
@@ -119,25 +119,25 @@ const WAVE = [{
     {
       type: 'path',
       expression: '-cos(x/2)',
-      x: -TAU+1.5,
+      x: -TAU + 1.5,
       y: 0,
       pathX: 4.5,
     },
     {
       type: 'path',
       expression: '-cos(x/2)',
-      x: TAU-1.5,
+      x: TAU - 1.5,
       y: 0,
       pathX: -4.5,
     },
   ],
   sledders: [{
     asset: 'images.sam_sled',
-    x: -TAU+0.1,
+    x: -TAU + 0.1,
     y: 0
-  },{
+  }, {
     asset: 'images.lunchbox_sled',
-    x: TAU-0.1,
+    x: TAU - 0.1,
     y: 0
   }],
   sky: {
@@ -164,7 +164,7 @@ const WAVE = [{
     {
       type: 'path',
       expression: 'cos(x)',
-      x: TAU+1,
+      x: TAU + 1,
       y: 0,
       pathX: 4,
     },
@@ -173,7 +173,7 @@ const WAVE = [{
     asset: 'images.sam_sled',
     x: 0,
     y: 0
-  },{
+  }, {
     asset: 'images.lunchbox_sled',
     x: TAU,
     y: 0
@@ -203,7 +203,7 @@ const WAVE = [{
     {
       type: 'path',
       expression: 'cos(x-1)+4',
-      x: TAU+2,
+      x: TAU + 2,
       y: 0,
       pathX: 4,
     },
@@ -212,9 +212,9 @@ const WAVE = [{
     asset: 'images.sam_sled',
     x: 1,
     y: 0
-  },{
+  }, {
     asset: 'images.lunchbox_sled',
-    x: TAU+1,
+    x: TAU + 1,
     y: 0
   }],
   sky: {
@@ -241,7 +241,7 @@ const WAVE = [{
     {
       type: 'path',
       expression: 'sin(x/2)',
-      x: TAU+1,
+      x: TAU + 1,
       y: 0,
       pathX: 5,
     },
@@ -250,7 +250,7 @@ const WAVE = [{
     asset: 'images.sam_sled',
     x: 0,
     y: 0
-  },{
+  }, {
     asset: 'images.lunchbox_sled',
     x: TAU,
     y: 0
@@ -272,24 +272,26 @@ const WAVE = [{
     {
       type: 'path',
       expression: '-sin(x/3)*2',
-      x: TAU-1,
+      x: TAU - 1,
       y: 0,
       pathX: -5,
     },
     {
       type: 'path',
       expression: '-sin(x/3)*2',
-      x: TAU+1,
+      x: TAU + 1,
       y: 0,
       pathX: 5,
     },
   ],
   sledders: [{
-    x: -TAU*2/3,
+    x: -TAU * 2 / 3,
     y: 0
   }],
   sky: {
     asset: 'images.sinusoidaldesertbiome_1',
     margin: 1,
   },
-}]
+},
+  DESERT
+]
