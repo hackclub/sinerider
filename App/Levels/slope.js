@@ -1071,14 +1071,6 @@ CONSTANT_LAKE,
       }
     }]
   },
-    {
-      asset: 'images.cabin_1',
-      size: 6,
-      x: 4,
-      y: 0,
-      offset: [0, 0.7],
-      anchored: true,
-    }
 ],
   sledders: [{
     asset: 'images.benny_sled',
