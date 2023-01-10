@@ -27,7 +27,7 @@ const DESERT = {
   }],
   goals: [],
   sky: {
-    asset: 'images.western_slopes_background',
+    asset: 'images.sinusoidaldesertbiome_2',
     margin: 1
   },
   walkers: [{
