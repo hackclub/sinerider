@@ -54,7 +54,7 @@ Well if you like, you can contribute to this open-source repository of vanilla j
 
 ## How do I run the game locally for development and debugging purposes?
 
-To quickly run the server from a terminal you can execute the following command (note: requires python3 to be installed):
+To quickly run the server from a terminal you can execute the following command (*note: requires python3 to be installed*):
 ```python3 -m http.server 3000```
 
 For more serious development in an integrated development environment, one attractive option is using Visual Studio's [Live Server plugin](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) which supports features such as live reload, etc.
