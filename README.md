@@ -60,6 +60,8 @@ To quickly run the server from a terminal you can execute the following command 
 
 For more serious development in an integrated development environment, one attractive option is using Visual Studio's [Live Server plugin](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) which supports features such as live reload, etc.
 
+After successfully starting the server, navigate to [http://localhost:3000](http://localhost:3000) in your browser.
+
 ## By the way, what exactly is Hack Club?
 
 Hack Club is a global network of students building student-led learning initiatives. We create financial, educational, and community infrastructure for hack clubs, hackathons, and individual hackers worldwide. It's a nice place where nice people do nice things for each other. You should check it out.
