@@ -52,7 +52,17 @@ SineRider is a game about graphing, but also a game about love, loss, and reconn
 
 Well if you like, you can contribute to this open-source repository of vanilla javascripty goodness. We need volunteer artists, writers, programmers, and puzzle designers. Most of all we need your help spreading the word about this free-forever indie game with a $0 advertising budget… but if you're a smart teenager who wants to change education for the better, you should come join [Hack Club](https://hackclub.com)!
 
-## Ok, so what exactly is Hack Club?
+## How do I run the game locally for development and debugging purposes?
+
+To quickly run the server from a terminal you can execute the following command (*note: requires python3 to be installed*):
+
+```python3 -m http.server 3000```
+
+For more serious development in an integrated development environment, one attractive option is using Visual Studio's [Live Server plugin](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) which supports features such as live reload, etc.
+
+After successfully starting the server, navigate to [http://localhost:3000](http://localhost:3000) in your browser.
+
+## By the way, what exactly is Hack Club?
 
 Hack Club is a global network of students building student-led learning initiatives. We create financial, educational, and community infrastructure for hack clubs, hackathons, and individual hackers worldwide. It's a nice place where nice people do nice things for each other. You should check it out.
 
