@@ -1,120 +1,136 @@
 function Sprite(spec = {}) {
-  const {
-    self,
-    screen,
-    camera,
-    assets,
-  } = Entity(spec, 'Sprite')
+	const { self, screen, camera, assets } = Entity(spec, "Sprite");
 
-  const transform = Transform(spec, self)
+	const transform = Transform(spec, self);
 
-  let {
-    asset,
-    image,
-    graph,
-    size = 1,
-    flipX = false,
-    flipY = false,
-    globalScope,
-    anchored = false,
-    sloped = false,
-    offset = Vector2(),
-    opacity = 1,
-    speech,
-    speechScreen,
-  } = spec
+	let {
+		asset,
+		image,
+		graph,
+		size = 1,
+		flipX = false,
+		flipY = false,
+		globalScope,
+		anchored = false,
+		sloped = false,
+		offset = Vector2(),
+		opacity = 1,
+		speech,
+		speechScreen,
+	} = spec;
 
-  const origin = Vector2(spec)
+	const origin = Vector2(spec);
 
-  if (spec.offset)
-    offset = Vector2(spec.offset)
-  
-  if (flipX == '*')
-    flipX = Math.random() < .5
-  if (flipY == '*')
-    flipY = Math.random() < .5
-  if (!spec.offset && anchored)
-    offset.y = 1
+	if (spec.offset) offset = Vector2(spec.offset);
 
-  if (!spec.offset && spec.y && anchored)
-    offset.y += spec.y
+	if (flipX == "*") flipX = Math.random() < 0.5;
+	if (flipY == "*") flipY = Math.random() < 0.5;
+	if (!spec.offset && anchored) offset.y = 1;
 
-  const ctx = screen.ctx
+	if (!spec.offset && spec.y && anchored) offset.y += spec.y;
 
-  const slopeTangent = Vector2()
+	const ctx = screen.ctx;
 
-  if (asset) {
-    if (asset.includes('*')) {
-      const assetSearch = new RegExp(`${asset.split('.')[1]?.split('*')[0]}_[0-9]+`)
-      let possibleSprites = Object.keys(assets.images).filter(v => assetSearch.test(v))
-      asset = 'images.' + possibleSprites[Math.floor(Math.random()*possibleSprites.length)]
-    }
-    image = _.get(assets, asset, $('#error-sprite'))
-  }
+	const slopeTangent = Vector2();
 
-  if (speech) {
-    if (!_.isArray(speech))
-      speech = [speech]
+	if (asset) {
+		if (asset.includes("*")) {
+			const assetSearch = new RegExp(
+				`${asset.split(".")[1]?.split("*")[0]}_[0-9]+`
+			);
+			let possibleSprites = Object.keys(assets.images).filter((v) =>
+				assetSearch.test(v)
+			);
+			asset =
+				"images." +
+				possibleSprites[Math.floor(Math.random() * possibleSprites.length)];
+		}
+		image = _.get(assets, asset, $("#error-sprite"));
+	}
 
-    for (s of speech) {
-      if (_.isString(s))
-        s = {content: s}
+	if (speech) {
+		if (!_.isArray(speech)) speech = [speech];
 
-      Speech({
-        parent: self,
-        globalScope,
-        x: size*offset.x,
-        y: size*offset.y,
-        drawOrder: LAYERS.speech,
-        screen: speechScreen,
-        ...s,
-      })
-    }
-  }
+		for (s of speech) {
+			if (_.isString(s)) s = { content: s };
 
-  function tick() {
-    if (anchored) {
-      transform.x = origin.x
-      transform.y = graph.sample('x', transform.x)
-    }
+			Speech({
+				parent: self,
+				globalScope,
+				x: size * offset.x,
+				y: size * offset.y,
+				drawOrder: LAYERS.speech,
+				screen: speechScreen,
+				...s,
+			});
+		}
+	}
 
-    if (sloped) {
-      slopeTangent.x = 1
-      slopeTangent.y = graph.sampleSlope('x', transform.x)
-      slopeTangent.normalize()
+	function tick() {
+		if (anchored) {
+			transform.x = origin.x;
+			transform.y = graph.sample("x", transform.x);
+		}
 
-      let angle = Math.asin(slopeTangent.y)
-      transform.rotation = angle
-    }
-  }
+		if (sloped) {
+			slopeTangent.x = 1;
+			slopeTangent.y = graph.sampleSlope("x", transform.x);
+			slopeTangent.normalize();
 
-  function drawLocal() {
-    ctx.globalAlpha = opacity
-    ctx.scale(flipX ? -1 : 1, flipY ? -1 : 1)
-    ctx.drawImage(image, -size/2+offset.x*size/2, -size/2-offset.y*size/2, size, size)
-    ctx.globalAlpha = 1
-  }
+			let angle = Math.asin(slopeTangent.y);
+			transform.rotation = angle;
+		}
+	}
 
-  function draw() {
-    camera.drawThrough(ctx, drawLocal, transform)
-  }
+	function drawLocal() {
+		ctx.globalAlpha = opacity;
+		ctx.scale(flipX ? -1 : 1, flipY ? -1 : 1);
+		ctx.drawImage(
+			image,
+			-size / 2 + (offset.x * size) / 2,
+			-size / 2 - (offset.y * size) / 2,
+			size,
+			size
+		);
+		ctx.globalAlpha = 1;
+	}
 
-  return self.mix({
-    transform,
+	function draw() {
+		camera.drawThrough(ctx, drawLocal, transform);
+	}
 
-    get opacity() {return opacity},
-    set opacity(o) {opacity = o},
+	return self.mix({
+		transform,
 
-    get size() {return size},
-    set size(v) {size = v},
+		get opacity() {
+			return opacity;
+		},
+		set opacity(o) {
+			opacity = o;
+		},
 
-    tick,
-    draw,
+		get size() {
+			return size;
+		},
+		set size(v) {
+			size = v;
+		},
 
-    get flipX() {return flipX},
-    set flipX(v) {flipX = v},
+		tick,
+		draw,
 
-    get flipY() {return flipY},
-    set flipY(v) {flipY = v},
-  })
+		get flipX() {
+			return flipX;
+		},
+		set flipX(v) {
+			flipX = v;
+		},
+
+		get flipY() {
+			return flipY;
+		},
+		set flipY(v) {
+			flipY = v;
+		},
+	});
 }

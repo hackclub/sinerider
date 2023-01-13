@@ -1,45 +1,38 @@
 function Axes(spec) {
-  const {
-    self,
-    screen,
-  } = Entity(spec, 'Axes')
+	const { self, screen } = Entity(spec, "Axes");
 
-  const transform = Transform()
+	const transform = Transform();
 
-  let {
-    camera,
-  } = spec
+	let { camera } = spec;
 
-  const ctx = screen.ctx
+	const ctx = screen.ctx;
 
-  const origin = Vector2()
-  const screenOrigin = Vector2()
+	const origin = Vector2();
+	const screenOrigin = Vector2();
 
-  function tick() {
+	function tick() {}
 
-  }
+	function draw() {
+		camera.worldToScreen(origin, screenOrigin);
 
-  function draw() {
-    camera.worldToScreen(origin, screenOrigin)
+		ctx.beginPath();
 
-    ctx.beginPath()
+		ctx.moveTo(0, screenOrigin.y);
+		ctx.lineTo(screen.width, screenOrigin.y);
 
-    ctx.moveTo(0, screenOrigin.y)
-    ctx.lineTo(screen.width, screenOrigin.y)
+		ctx.moveTo(screenOrigin.x, 0);
+		ctx.lineTo(screenOrigin.x, screen.height);
 
-    ctx.moveTo(screenOrigin.x, 0)
-    ctx.lineTo(screenOrigin.x, screen.height)
+		ctx.strokeStyle = "#aaa";
+		ctx.lineWidth = 1;
 
-    ctx.strokeStyle = '#aaa'
-    ctx.lineWidth = 1
+		ctx.stroke();
+	}
 
-    ctx.stroke()
-  }
+	return self.mix({
+		transform,
 
-  return self.mix({
-    transform,
-
-    tick,
-    draw,
-  })
+		tick,
+		draw,
+	});
 }

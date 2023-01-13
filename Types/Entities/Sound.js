@@ -1,96 +1,96 @@
 function Sound(spec) {
-  const {
-    self,
-    assets,
-  } = Entity(spec, 'Sound')
+	const { self, assets } = Entity(spec, "Sound");
 
-  const {
-    asset,
-    domain = null,
-    walkers = null,
-    sledders = null,
-    loop = false,
-    duration = null,
-    fadeOut = 300,
-    volume = 1,
-    track = 'walkers',
-  } = spec
+	const {
+		asset,
+		domain = null,
+		walkers = null,
+		sledders = null,
+		loop = false,
+		duration = null,
+		fadeOut = 300,
+		volume = 1,
+		track = "walkers",
+	} = spec;
 
-  const howl = _.get(assets, asset)
+	const howl = _.get(assets, asset);
 
-  let secondsPlayed = 0
-  let played = false
+	let secondsPlayed = 0;
+	let played = false;
 
-  let soundId
+	let soundId;
 
+	function awake() {
+		if (!domain) {
+			soundId = howl.play();
+			played = true;
+		}
 
-  function awake() {
-    if (!domain) {
-      soundId = howl.play()
-      played = true
-    }
+		howl.volume(volume);
+		howl.loop(loop);
+	}
 
-    howl.volume(volume)
-    howl.loop(loop)
-  }
+	function tick() {
+		if (domain) {
+			let entityToTrack =
+				track === "walkers"
+					? walkers[0]
+					: track === "sledders"
+					? sledders[0]
+					: null;
 
-  function tick() {
-    if (domain) {
-      let entityToTrack = track === 'walkers' 
-        ? walkers[0]
-        : track === 'sledders'
-          ? sledders[0]
-          : null
+			if (!entityToTrack)
+				throw `Level '${track}' cannot be null if domain is passed`;
 
-      if (!entityToTrack)
-        throw `Level '${track}' cannot be null if domain is passed`
+			const x = entityToTrack.transform.position.x;
 
-      const x = entityToTrack.transform.position.x
+			// Sounds w/ domains only play once
+			if (x > domain[0] && !howl.playing() && !played) {
+				played = true;
+				soundId = howl.play();
+			}
 
-      // Sounds w/ domains only play once
-      if (x > domain[0] && !howl.playing() && !played) {
-        played = true
-        soundId = howl.play()
-      }
+			if (domain.length != 2 && domain.length != 4)
+				throw `Expected domain in Sound to have 2 (fade in range) or 4 (+ fade out range) elements, got ${domain.length}`;
 
-      if (domain.length != 2 && domain.length != 4)
-        throw `Expected domain in Sound to have 2 (fade in range) or 4 (+ fade out range) elements, got ${domain.length}`
+			let volume = math.clamp01(math.unlerp(domain[0], domain[1], x));
 
-      let volume = math.clamp01(math.unlerp(domain[0], domain[1], x))
+			if (domain.length == 4)
+				volume *= math.clamp01(math.unlerp(domain[3], domain[2], x));
 
-      if (domain.length == 4)
-        volume *= math.clamp01(math.unlerp(domain[3], domain[2], x))
+			howl.volume(volume);
+		}
 
-      howl.volume(volume)
-    }
+		if (duration) {
+			const a =
+				1 -
+				math.clamp01(
+					math.unlerp(duration - fadeOut, duration, secondsPlayed * 1000)
+				);
+			howl.volume(howl.volume() * a);
+		}
 
-    if (duration) {
-      const a = 1 - math.clamp01(math.unlerp(duration - fadeOut, duration, secondsPlayed * 1000))
-      howl.volume(howl.volume() * a)
-    }
+		if (howl.playing()) secondsPlayed += 1 / ticksPerSecond;
+	}
 
-    if (howl.playing())
-      secondsPlayed += 1 / ticksPerSecond
-  }
+	function onLevelFadeOut(navigating, duration) {
+		howl.fade(volume, 0, duration * 1000, soundId);
+	}
 
-  function onLevelFadeOut(navigating, duration) {
-    howl.fade(volume, 0, duration*1000, soundId)
-  }
+	function onLevelFadeIn(navigating, duration) {
+		howl.fade(0, volume, duration * 1000, soundId);
+	}
 
-  function onLevelFadeIn(navigating, duration) {
-    howl.fade(0, volume, duration*1000, soundId)
-  }
+	function destroy() {
+		howl.stop();
+	}
 
-  function destroy() {
-    howl.stop()
-  }
-
-  return self.mix({
-    awake,
-    tick,
-    destroy,
-    onLevelFadeIn,
-    onLevelFadeOut,
-    howl,
-  })
+	return self.mix({
+		awake,
+		tick,
+		destroy,
+		onLevelFadeIn,
+		onLevelFadeOut,
+		howl,
+	});
 }

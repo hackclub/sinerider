@@ -1,21 +1,18 @@
 function Shape(spec) {
-  const {
-    transform
-  } = spec
+	const { transform } = spec;
 
-  const p = Vector2()
+	const p = Vector2();
 
-  function localize(point) {
-    p.set(point)
+	function localize(point) {
+		p.set(point);
 
-    if (transform)
-      transform.invertPoint(p)
+		if (transform) transform.invertPoint(p);
 
-    return p
-  }
+		return p;
+	}
 
-  return {
-    localize,
-    transform
-  }
+	return {
+		localize,
+		transform,
+	};
 }

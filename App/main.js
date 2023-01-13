@@ -1,334 +1,332 @@
 // Welcome to main.js, where we set up the SineRider engine basics
 
-const stepping = false
+const stepping = false;
 
 // Core constants
 
 const ui = {
-  menuBar: $('#menu-bar'),
-  editButton: $('#edit-button'),
-  levelText: $('#level-text'),
-  levelButton: $('#level-button'),
-  levelButtonString: $('#level-button > .string'),
-  resetButton: $('#reset-button'),
+	menuBar: $("#menu-bar"),
+	editButton: $("#edit-button"),
+	levelText: $("#level-text"),
+	levelButton: $("#level-button"),
+	levelButtonString: $("#level-button > .string"),
+	resetButton: $("#reset-button"),
 
-  veil: $('#veil'),
-  loadingVeil: $('#loading-veil'),
-  loadingVeilString: $('#loading-string'),
+	veil: $("#veil"),
+	loadingVeil: $("#loading-veil"),
+	loadingVeilString: $("#loading-string"),
 
-  bubblets: $('.bubblets'),
+	bubblets: $(".bubblets"),
 
-  topBar: $('#top-bar'),
-  navigatorButton: $('#navigator-button'),
+	topBar: $("#top-bar"),
+	navigatorButton: $("#navigator-button"),
 
-  victoryBar: $('#victory-bar'),
-  victoryLabel: $('#victory-label'),
-  victoryLabelString: $('#victory-label > .string'),
-  victoryStopButton: $('#victory-stop-button'),
-  nextButton: $('#next-button'),
+	victoryBar: $("#victory-bar"),
+	victoryLabel: $("#victory-label"),
+	victoryLabelString: $("#victory-label > .string"),
+	victoryStopButton: $("#victory-stop-button"),
+	nextButton: $("#next-button"),
 
-  messageBar: $('#message-bar'),
-  messageBarString: $('#message-bar > .string'),
+	messageBar: $("#message-bar"),
+	messageBarString: $("#message-bar > .string"),
 
-  variablesBar: $('#variables-bar'),
-  timeString: $('#time-string'),
+	variablesBar: $("#variables-bar"),
+	timeString: $("#time-string"),
 
-  controlBar: $('#controls-bar'),
-  expressionText: $('#expression-text'),
-  expressionEnvelope: $('#expression-envelope'),
+	controlBar: $("#controls-bar"),
+	expressionText: $("#expression-text"),
+	expressionEnvelope: $("#expression-envelope"),
 
-  mathFieldLabel: $('#variable-label > .string'),
-  _mathField: $('#math-field'),
-  mathField: $('#math-field'),
-  mathFieldStatic: $('#math-field-static'),
+	mathFieldLabel: $("#variable-label > .string"),
+	_mathField: $("#math-field"),
+	mathField: $("#math-field"),
+	mathFieldStatic: $("#math-field-static"),
 
-  dottedMathContainer: $('#dotted-math-container'),
-  dottedMathField: $('#dotted-math-field'),
-  dottedMathFieldStatic: $('#dotted-math-field-static'),
-  dottedSlider: $("#dotted-slider"),
+	dottedMathContainer: $("#dotted-math-container"),
+	dottedMathField: $("#dotted-math-field"),
+	dottedMathFieldStatic: $("#dotted-math-field-static"),
+	dottedSlider: $("#dotted-slider"),
 
-  volumeSlider: $("#volume-slider"),
-  
-  variableLabel: $('#variable-label'),
+	volumeSlider: $("#volume-slider"),
 
-  runButton: $('#run-button'),
-  runButtonString: $('#run-button > .string'),
-  stopButton: $('#stop-button'),
-  stopButtonString: $('#stop-button > .string'),
+	variableLabel: $("#variable-label"),
 
-  navigatorFloatingBar: $('#navigator-floating-bar'),
-  showAllButton: $('#show-all-button'),
+	runButton: $("#run-button"),
+	runButtonString: $("#run-button > .string"),
+	stopButton: $("#stop-button"),
+	stopButtonString: $("#stop-button > .string"),
 
-  editorInspector: {
-    editorInspector: $('#editor-inspector'),
-    order: $('#editor-order-input'),
-    timer: $('#editor-timer-input'),
-    x: $('#editor-x-input'),
-    y: $('#editor-y-input'),
-    deleteSelection: $('#editor-inspector-delete'),
-  },
+	navigatorFloatingBar: $("#navigator-floating-bar"),
+	showAllButton: $("#show-all-button"),
 
-  editorSpawner: {
-    editorSpawner: $('#editor-spawner'),
-    addFixed: $('#editor-spawner-fixed'),
-    addDynamic: $('#editor-spawner-dynamic'),
-    addPath: $('#editor-spawner-path'),
-  }
-}
+	editorInspector: {
+		editorInspector: $("#editor-inspector"),
+		order: $("#editor-order-input"),
+		timer: $("#editor-timer-input"),
+		x: $("#editor-x-input"),
+		y: $("#editor-y-input"),
+		deleteSelection: $("#editor-inspector-delete"),
+	},
 
-const editor = Editor(ui)
+	editorSpawner: {
+		editorSpawner: $("#editor-spawner"),
+		addFixed: $("#editor-spawner-fixed"),
+		addDynamic: $("#editor-spawner-dynamic"),
+		addPath: $("#editor-spawner-path"),
+	},
+};
 
-ui.levelText.setAttribute('hide', true)
-ui.veil.setAttribute('hide', true)
+const editor = Editor(ui);
 
-const canvas = $('#canvas')
+ui.levelText.setAttribute("hide", true);
+ui.veil.setAttribute("hide", true);
 
-let canvasIsDirty = true
+const canvas = $("#canvas");
 
-const ticksPerSecond = 30
-const tickDelta = 1/ticksPerSecond
+let canvasIsDirty = true;
+
+const ticksPerSecond = 30;
+const tickDelta = 1 / ticksPerSecond;
 
 const screen = Screen({
-  canvas
-})
+	canvas,
+});
 
-let w = worldData[0]
+let w = worldData[0];
 
-const DEBUG_LEVEL = 'Level Editor'
+const DEBUG_LEVEL = "Level Editor";
 
 if (DEBUG_LEVEL) {
-  // make debug level first level for testing
-  const debugLevelIndex = w.levelData.findIndex(l => l.name === DEBUG_LEVEL)
-  if (debugLevelIndex == -1)
-    alert(`DEBUG: Unable to find level '${DEBUG_LEVEL}'`)
-  const tmp = w.levelData[0]
-  w.levelData[0] = w.levelData[debugLevelIndex]
-  w.levelData[debugLevelIndex] = tmp
+	// make debug level first level for testing
+	const debugLevelIndex = w.levelData.findIndex((l) => l.name === DEBUG_LEVEL);
+	if (debugLevelIndex == -1)
+		alert(`DEBUG: Unable to find level '${DEBUG_LEVEL}'`);
+	const tmp = w.levelData[0];
+	w.levelData[0] = w.levelData[debugLevelIndex];
+	w.levelData[debugLevelIndex] = tmp;
 }
 
 const world = World({
-  ui,
-  screen,
-  requestDraw,
-  tickDelta,
-  drawOrder: NINF,
-  ...worldData[0],
-})
+	ui,
+	screen,
+	requestDraw,
+	tickDelta,
+	drawOrder: NINF,
+	...worldData[0],
+});
 
 // Core methods
 
 function tick() {
-  world.awake()
-  world.start()
-  
-  world.sendEvent('tick')
+	world.awake();
+	world.start();
 
-  requestDraw()
+	world.sendEvent("tick");
+
+	requestDraw();
 }
 
 function draw() {
-  if (!canvasIsDirty) return
-  canvasIsDirty = false
-  
-  // Draw order bug where Shader entity isn't actually
-  // sorted in World draw array and needs another sort call
-  // in order to work? Temp fix (TODO: Fix this)
-  world.sortDrawArray()
+	if (!canvasIsDirty) return;
+	canvasIsDirty = false;
 
-  let entity
-  for (let i = 0; i < world.activeDrawArray.length; i++) {
-    entity = world.activeDrawArray[i]
-    if (entity.draw) {
-      screen.ctx.save()
-      if (entity.predraw) 
-        entity.predraw()
-      entity.draw()
-      screen.ctx.restore()
-    }
-  }
+	// Draw order bug where Shader entity isn't actually
+	// sorted in World draw array and needs another sort call
+	// in order to work? Temp fix (TODO: Fix this)
+	world.sortDrawArray();
+
+	let entity;
+	for (let i = 0; i < world.activeDrawArray.length; i++) {
+		entity = world.activeDrawArray[i];
+		if (entity.draw) {
+			screen.ctx.save();
+			if (entity.predraw) entity.predraw();
+			entity.draw();
+			screen.ctx.restore();
+		}
+	}
 }
 
 function requestDraw() {
-  if (!canvasIsDirty) {
-    canvasIsDirty = true
-    requestAnimationFrame(draw)
-  }
+	if (!canvasIsDirty) {
+		canvasIsDirty = true;
+		requestAnimationFrame(draw);
+	}
 }
 
-tick()
-draw()
+tick();
+draw();
 
 if (!stepping) {
-  setInterval(tick, 1000/ticksPerSecond)
+	setInterval(tick, 1000 / ticksPerSecond);
 }
 
 // MathQuill
 
-ui.mathFieldStatic = MQ.StaticMath(ui.mathFieldStatic)
+ui.mathFieldStatic = MQ.StaticMath(ui.mathFieldStatic);
 
 function createMathField(field, eventNameOnEdit) {
-  field = MQ.MathField(field, {
-    handlers: {
-      edit: function() {
-        const text = field.getPlainExpression()
-        const latex = field.latex()
-        world.level.sendEvent(eventNameOnEdit, [text, latex])
-      } 
-    }
-  })
+	field = MQ.MathField(field, {
+		handlers: {
+			edit: function () {
+				const text = field.getPlainExpression();
+				const latex = field.latex();
+				world.level.sendEvent(eventNameOnEdit, [text, latex]);
+			},
+		},
+	});
 
-  field.getPlainExpression = function() {
-    var tex = field.latex()
-    return mathquillToMathJS(tex)
-  }
-  
-  return field
+	field.getPlainExpression = function () {
+		var tex = field.latex();
+		return mathquillToMathJS(tex);
+	};
+
+	return field;
 }
 
-ui.mathField = createMathField(ui.mathField, 'setGraphExpression')
-ui.mathField.focused = () => ui._mathField.classList.contains('mq-focused')
+ui.mathField = createMathField(ui.mathField, "setGraphExpression");
+ui.mathField.focused = () => ui._mathField.classList.contains("mq-focused");
 
-ui.dottedMathFieldStatic = MQ.StaticMath(ui.dottedMathFieldStatic)
+ui.dottedMathFieldStatic = MQ.StaticMath(ui.dottedMathFieldStatic);
 
 function onMathFieldFocus(event) {
-  world.onMathFieldFocus()
+	world.onMathFieldFocus();
 }
 
-ui.expressionEnvelope.addEventListener('focusin', onMathFieldFocus)
+ui.expressionEnvelope.addEventListener("focusin", onMathFieldFocus);
 
 function onMathFieldBlur(event) {
-  world.onMathFieldBlur()
+	world.onMathFieldBlur();
 }
 
-ui.expressionEnvelope.addEventListener('blurout', onMathFieldBlur)
+ui.expressionEnvelope.addEventListener("blurout", onMathFieldBlur);
 
 // HTML events
 
 function onKeyUp(event) {
-  if (event.keyCode === 13) {
-    if (!world.navigating)
-      world.toggleRunning()
-  }
+	if (event.keyCode === 13) {
+		if (!world.navigating) world.toggleRunning();
+	}
 }
 
-window.addEventListener('keydown', event => {
-  if (ui.mathField.focused()) return
-  world.level.sendEvent('keydown', [event.key])
-})
+window.addEventListener("keydown", (event) => {
+	if (ui.mathField.focused()) return;
+	world.level.sendEvent("keydown", [event.key]);
+});
 
-window.addEventListener("keyup", onKeyUp)
+window.addEventListener("keyup", onKeyUp);
 
 function onExpressionTextChanged(event) {
-  world.level.sendEvent('setGraphExpression', [ui.expressionText.value])
+	world.level.sendEvent("setGraphExpression", [ui.expressionText.value]);
 }
 
 function setGlobalVolumeLevel(i) {
-  Howler.volume(i)
-  window.localStorage.setItem('volume', i)
+	Howler.volume(i);
+	window.localStorage.setItem("volume", i);
 }
 
 function onSetVolume(event) {
-  let volume = event.target.value / 100
-  setGlobalVolumeLevel(volume)
+	let volume = event.target.value / 100;
+	setGlobalVolumeLevel(volume);
 }
 
-ui.volumeSlider.addEventListener('change', onSetVolume)
-ui.volumeSlider.addEventListener('mouseup', onSetVolume)
-ui.volumeSlider.addEventListener('input', onSetVolume)
+ui.volumeSlider.addEventListener("change", onSetVolume);
+ui.volumeSlider.addEventListener("mouseup", onSetVolume);
+ui.volumeSlider.addEventListener("input", onSetVolume);
 
 // Initial page state
 {
-  let volume = window.localStorage.getItem('volume')
-  if (volume) {
-    setGlobalVolumeLevel(window.localStorage)
-    ui.volumeSlider.value = volume * 100
-  }
+	let volume = window.localStorage.getItem("volume");
+	if (volume) {
+		setGlobalVolumeLevel(window.localStorage);
+		ui.volumeSlider.value = volume * 100;
+	}
 }
-setGlobalVolumeLevel(ui.volumeSlider.value / 100)
+setGlobalVolumeLevel(ui.volumeSlider.value / 100);
 
 function onClickMapButton(event) {
-  world.onClickMapButton()
-  requestDraw()
+	world.onClickMapButton();
+	requestDraw();
 }
 
-ui.levelButton.addEventListener('click', onClickMapButton)
-ui.navigatorButton.addEventListener('click', onClickMapButton)
+ui.levelButton.addEventListener("click", onClickMapButton);
+ui.navigatorButton.addEventListener("click", onClickMapButton);
 
 function onClickNextButton(event) {
-  world.onClickNextButton()
+	world.onClickNextButton();
 }
 
-ui.nextButton.addEventListener('click', onClickNextButton)
+ui.nextButton.addEventListener("click", onClickNextButton);
 
 function onClickRunButton(event) {
-  if (!world.level?.isRunningAsCutscene && !world.navigating)
-    world.toggleRunning()
+	if (!world.level?.isRunningAsCutscene && !world.navigating)
+		world.toggleRunning();
 
-  return true
+	return true;
 }
 
 // TODO: Encapsulate run/stop/victory button behavior (Entity?)
-ui.runButton.addEventListener('click', onClickRunButton)
-ui.stopButton.addEventListener('click', onClickRunButton)
-ui.victoryStopButton.addEventListener('click', onClickRunButton)
+ui.runButton.addEventListener("click", onClickRunButton);
+ui.stopButton.addEventListener("click", onClickRunButton);
+ui.victoryStopButton.addEventListener("click", onClickRunButton);
 
 function onClickShowAllButton(event) {
-  world.navigator.showAll = !world.navigator.showAll
+	world.navigator.showAll = !world.navigator.showAll;
 }
 
-ui.showAllButton.addEventListener('click', onClickShowAllButton)
+ui.showAllButton.addEventListener("click", onClickShowAllButton);
 
 function onClickEditButton(event) {
-  world.editing = !world.editing
+	world.editing = !world.editing;
 }
 
-ui.editButton.addEventListener('click', onClickEditButton)
+ui.editButton.addEventListener("click", onClickEditButton);
 
 function onClickResetButton(event) {
-  world.onClickResetButton()
+	world.onClickResetButton();
 }
 
-ui.resetButton.addEventListener('click', onClickResetButton)
+ui.resetButton.addEventListener("click", onClickResetButton);
 
 function onResizeWindow(event) {
-  world.sendEvent('resize', [window.innerWidth, window.innerHeight])
-  screen.resize()
-  canvasIsDirty = true
-  draw()
+	world.sendEvent("resize", [window.innerWidth, window.innerHeight]);
+	screen.resize();
+	canvasIsDirty = true;
+	draw();
 }
 
-window.addEventListener('resize', onResizeWindow)
+window.addEventListener("resize", onResizeWindow);
 
 function onClickCanvas() {
-  if (stepping) {
-    tick()
-  }
+	if (stepping) {
+		tick();
+	}
 }
 
-canvas.addEventListener('click', onClickCanvas)
-ui.veil.addEventListener('click', onClickCanvas)
+canvas.addEventListener("click", onClickCanvas);
+ui.veil.addEventListener("click", onClickCanvas);
 
 function onMouseMoveCanvas(event) {
-  world.clickableContext.processEvent(event, 'mouseMove')
-  event.preventDefault()
+	world.clickableContext.processEvent(event, "mouseMove");
+	event.preventDefault();
 }
 
-canvas.addEventListener('mousemove', onMouseMoveCanvas)
-canvas.addEventListener('pointermove', onMouseMoveCanvas)
+canvas.addEventListener("mousemove", onMouseMoveCanvas);
+canvas.addEventListener("pointermove", onMouseMoveCanvas);
 
 function onMouseDownCanvas(event) {
-  world.clickableContext.processEvent(event, 'mouseDown')
-  event.preventDefault()
-  ui.mathField.blur()
+	world.clickableContext.processEvent(event, "mouseDown");
+	event.preventDefault();
+	ui.mathField.blur();
 }
 
-canvas.addEventListener('mousedown', onMouseDownCanvas)
-canvas.addEventListener('pointerdown', onMouseDownCanvas)
+canvas.addEventListener("mousedown", onMouseDownCanvas);
+canvas.addEventListener("pointerdown", onMouseDownCanvas);
 
 function onMouseUpCanvas(event) {
-  world.clickableContext.processEvent(event, 'mouseUp')
-  event.preventDefault()
+	world.clickableContext.processEvent(event, "mouseUp");
+	event.preventDefault();
 }
 
-canvas.addEventListener('mouseup', onMouseUpCanvas)
-canvas.addEventListener('pointerup', onMouseUpCanvas)
+canvas.addEventListener("mouseup", onMouseUpCanvas);
+canvas.addEventListener("pointerup", onMouseUpCanvas);

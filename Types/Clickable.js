@@ -1,236 +1,230 @@
 // Anything on the canvas that responds to mouse events
 
 function Clickable(spec) {
-  const self = {}
+	const self = {};
 
-  const {
-    entity,
-    space = 'world',
-    dragThreshold = 0.05,
-  } = spec
+	const { entity, space = "world", dragThreshold = 0.05 } = spec;
 
-  let enabled = spec.enabled ?? true
+	let enabled = spec.enabled ?? true;
 
-  const {
-    screen = entity.screen,
-    camera = entity.camera,
-    shape = entity.shape,
-  } = spec
+	const {
+		screen = entity.screen,
+		camera = entity.camera,
+		shape = entity.shape,
+	} = spec;
 
-  // If layer is unspecified, default is layer 1
-  // except for "shapeless" clickables, which are layer 0
-  let layer = _.get(spec, 'layer', shape ? 1 : 0)
+	// If layer is unspecified, default is layer 1
+	// except for "shapeless" clickables, which are layer 0
+	let layer = _.get(spec, "layer", shape ? 1 : 0);
 
-  let hovering = false
-  let holding = false
-  let dragging = false
-  let selected = false
+	let hovering = false;
+	let holding = false;
+	let dragging = false;
+	let selected = false;
 
-  const overlapPoint = Vector2()
+	const overlapPoint = Vector2();
 
-  const clickPoint = Vector2()
+	const clickPoint = Vector2();
 
-  const mouseDownPoint = Vector2()
-  const mouseMovePoint = Vector2()
-  const mouseUpPoint = Vector2()
+	const mouseDownPoint = Vector2();
+	const mouseMovePoint = Vector2();
+	const mouseUpPoint = Vector2();
 
-  const hoverOnPoint = Vector2()
-  const hoverMovePoint = Vector2()
-  const hoverOffPoint = Vector2()
+	const hoverOnPoint = Vector2();
+	const hoverMovePoint = Vector2();
+	const hoverOffPoint = Vector2();
 
-  const dragStartPoint = Vector2()
-  const dragMovePoint = Vector2()
-  const dragEndPoint = Vector2()
+	const dragStartPoint = Vector2();
+	const dragMovePoint = Vector2();
+	const dragEndPoint = Vector2();
 
-  const dragDelta = Vector2()
-  let dragDistance = 0
+	const dragDelta = Vector2();
+	let dragDistance = 0;
 
-  function collectHit(point, hits) {
-    const overlapping = testOverlap(point)
+	function collectHit(point, hits) {
+		const overlapping = testOverlap(point);
 
-    if (overlapping) {
-      hits.push(self)
-      return true
-    }
+		if (overlapping) {
+			hits.push(self);
+			return true;
+		}
 
-    return false
-  }
+		return false;
+	}
 
-  function testOverlap(point) {
-    if (!shape) return true
+	function testOverlap(point) {
+		if (!shape) return true;
 
-    overlapPoint.set(point)
+		overlapPoint.set(point);
 
-    if (camera)
-      camera.screenToWorld(overlapPoint)
+		if (camera) camera.screenToWorld(overlapPoint);
 
-    return shape.intersectPoint(overlapPoint)
-  }
+		return shape.intersectPoint(overlapPoint);
+	}
 
-  function hoverStart(point) {
+	function hoverStart(point) {}
 
-  }
+	function hoverMove(point) {}
 
-  function hoverMove(point) {
+	function hoverEnd(point) {}
 
-  }
+	function dragStart(point) {}
 
-  function hoverEnd(point) {
+	function dragMove(point) {}
 
-  }
+	function dragEnd(point) {}
 
-  function dragStart(point) {
+	function toFrameScalar(scalar) {
+		if (space == "world") return camera.worldToFrameScalar(scalar);
+		if (space == "screen") return screen.transform.transformScalar(scalar);
 
-  }
+		// Already in frame space
+		return scalar;
+	}
 
-  function dragMove(point) {
+	function recordPoint(point, output) {
+		if (space == "world") return camera.screenToWorld(point, output);
+		else if (space == "frame") return screen.screenToFrame(point, output);
 
-  }
+		// Event points are in screenspace by default
+		return output.set(point);
+	}
 
-  function dragEnd(point) {
+	function mouseEnter(point) {
+		hovering = true;
+		recordPoint(point, hoverOnPoint);
+		entity.sendEvent("hoverOn", [hoverOnPoint]);
+	}
 
-  }
+	function mouseExit(point) {
+		hovering = false;
+		recordPoint(point, hoverOffPoint);
+		entity.sendEvent("hoverOff", [hoverOffPoint]);
+	}
 
-  function toFrameScalar(scalar) {
-    if (space == 'world')
-      return camera.worldToFrameScalar(scalar)
-    if (space == 'screen')
-      return screen.transform.transformScalar(scalar)
+	function mouseDown(point) {
+		recordPoint(point, mouseDownPoint);
 
-    // Already in frame space
-    return scalar
-  }
+		if (hovering) {
+			holding = true;
+			recordPoint(point, dragStartPoint);
 
-  function recordPoint(point, output) {
-    if (space == 'world')
-      return camera.screenToWorld(point, output)
-    else if (space == 'frame')
-      return screen.screenToFrame(point, output)
+			entity.sendEvent("mouseDown", [mouseDownPoint]);
+		}
+	}
 
-    // Event points are in screenspace by default
-    return output.set(point)
-  }
+	function mouseMove(point) {
+		if (hovering) {
+			recordPoint(point, hoverMovePoint);
+			entity.sendEvent("hoverMove", [hoverMovePoint]);
+		}
+		if (holding) {
+			recordPoint(point, dragMovePoint);
+			dragMovePoint.subtract(dragStartPoint, dragDelta);
 
-  function mouseEnter(point) {
-    hovering = true
-    recordPoint(point, hoverOnPoint)
-    entity.sendEvent('hoverOn', [hoverOnPoint])
-  }
+			dragDistance = dragDelta.magnitude;
+			let dragThresholdMet = toFrameScalar(dragDistance) > dragThreshold;
 
-  function mouseExit(point) {
-    hovering = false
-    recordPoint(point, hoverOffPoint)
-    entity.sendEvent('hoverOff', [hoverOffPoint])
-  }
+			if (dragging) {
+				entity.sendEvent("dragMove", [dragMovePoint]);
+			} else if (dragThresholdMet) {
+				dragging = true;
+				entity.sendEvent("dragStart", [dragStartPoint]);
+			}
 
-  function mouseDown(point) {
-    recordPoint(point, mouseDownPoint)
+			entity.sendEvent("mouseMove", [dragMovePoint]);
+		}
+	}
 
-    if (hovering) {
-      holding = true
-      recordPoint(point, dragStartPoint)
+	function mouseUp(point) {
+		recordPoint(point, clickPoint);
 
-      entity.sendEvent('mouseDown', [mouseDownPoint])
-    }
-  }
+		if (holding) {
+			holding = false;
+			entity.sendEvent("click", [clickPoint]);
+			entity.sendEvent("mouseUp", [mouseUpPoint]);
+		}
+		if (dragging) {
+			dragging = false;
+			recordPoint(point, dragEndPoint);
+			entity.sendEvent("dragEnd", [dragEndPoint]);
+		}
+	}
 
-  function mouseMove(point) {
-    if (hovering) {
-      recordPoint(point, hoverMovePoint)
-      entity.sendEvent('hoverMove', [hoverMovePoint])
-    }
-    if (holding) {
-      recordPoint(point, dragMovePoint)
-      dragMovePoint.subtract(dragStartPoint, dragDelta)
+	let deselectMe = null;
 
-      dragDistance = dragDelta.magnitude
-      let dragThresholdMet = toFrameScalar(dragDistance) > dragThreshold
+	function select(_deselectMe) {
+		deselectMe = _deselectMe;
+		selected = true;
+		entity.sendEvent("select", []);
+	}
 
-      if (dragging) {
-        entity.sendEvent('dragMove', [dragMovePoint])
-      }
-      else if (dragThresholdMet) {
-        dragging = true
-        entity.sendEvent('dragStart', [dragStartPoint])
-      }
+	function deselect() {
+		deselectMe = null;
+		selected = false;
+		entity.sendEvent("deselect", []);
+	}
 
-      entity.sendEvent('mouseMove', [dragMovePoint])
-    }
-  }
+	return _.mixIn(self, {
+		entity,
 
-  function mouseUp(point) {
-    recordPoint(point, clickPoint)
+		testOverlap,
+		collectHit,
 
-    if (holding) {
-      holding = false
-      entity.sendEvent('click', [clickPoint])
-      entity.sendEvent('mouseUp', [mouseUpPoint])
-    }
-    if (dragging) {
-      dragging = false
-      recordPoint(point, dragEndPoint)
-      entity.sendEvent('dragEnd', [dragEndPoint])
-    }
-  }
+		mouseMove,
+		mouseDown,
+		mouseUp,
 
-  let deselectMe = null
+		mouseEnter,
+		mouseExit,
 
-  function select(_deselectMe) {
-    deselectMe = _deselectMe
-    selected = true
-    entity.sendEvent('select', [])
-  }
+		clickPoint,
 
-  function deselect() {
-    deselectMe = null
-    selected = false
-    entity.sendEvent('deselect', [])
-  }
+		hoverOnPoint,
+		hoverMovePoint,
+		hoverOffPoint,
 
-  return _.mixIn(self, {
-    entity,
+		dragStartPoint,
+		dragMovePoint,
+		dragEndPoint,
+		dragDelta,
 
-    testOverlap,
-    collectHit,
+		select,
+		deselect,
 
-    mouseMove,
-    mouseDown,
-    mouseUp,
+		get layer() {
+			return layer;
+		},
 
-    mouseEnter,
-    mouseExit,
+		get hovering() {
+			return hovering;
+		},
+		get dragging() {
+			return dragging;
+		},
+		get holding() {
+			return holding;
+		},
+		get selected() {
+			return selected;
+		},
+		get selectedInEditor() {
+			return selected && editor.active;
+		},
+		get enabled() {
+			return enabled;
+		},
+		set enabled(v) {
+			if (!v && deselectMe && editor.active) {
+				// console.log('calling deselectMe')
+				deselectMe();
+			}
+			if (deselect) deselect();
+			enabled = v;
+		},
 
-    clickPoint,
-
-    hoverOnPoint,
-    hoverMovePoint,
-    hoverOffPoint,
-
-    dragStartPoint,
-    dragMovePoint,
-    dragEndPoint,
-    dragDelta,
-
-    select,
-    deselect,
-
-    get layer() {return layer},
-
-    get hovering() {return hovering},
-    get dragging() {return dragging},
-    get holding() {return holding},
-    get selected() {return selected},
-    get selectedInEditor() {return selected && editor.active},
-    get enabled() {return enabled},
-    set enabled(v) {
-      if (!v && deselectMe && editor.active) {
-        // console.log('calling deselectMe')
-        deselectMe()
-      }
-      if (deselect) deselect()
-      enabled = v
-    },
-
-    get dragDistance() {return dragDistance},
-  })
+		get dragDistance() {
+			return dragDistance;
+		},
+	});
 }

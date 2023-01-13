@@ -1,5 +1,4 @@
-SineRider
-===
+# SineRider
 
 SineRider is a game about love and graphing, built by teenagers at [Hack Club](https://hackclub.com) and slated for release soon in 2023. This open-source project is powered by teenage hackers of all kinds: artists, musicians, programmers, storytellers… so if that's you, come join us; we need your help to make this thing real!
 
@@ -28,6 +27,7 @@ Unfortunately, SineRider disappeared from the internet shortly after release whe
 Educational games go back a long way. Monopoly began as a parable about the dangers of unregulated capitalism. For thousands of years, Go has been used to convey deep truths about everything from military conquest to flood control. So as as humanity discovered the utility of computers for gaming in the mid-20th century, so too emerged bold claims about the educational potential of this new interactive frontier.
 
 The thesis of educational gaming is clear and convincing:
+
 - Education occurs through instruction and practice
 - Video Games are natural vessels for instruction and practice
 - Therefore, Video Games are natural vessels for Education
@@ -40,7 +40,7 @@ A virtually infinite landscape of refined, evocative, ever-improving titles have
 
 Educational institutions demand uniform instruction along a well-defined linear curriculum—and they want a randomized controlled longitudinal study to affirm that your product will yield a 3% bump in standardized test scores. But games are fundamentally voluntary pursuits, moreso even than books or movies. The simple paradox of institutionally-mandated play undermines the most basic needs of an effective game.
 
-Ironically, the best evidence for the value of educational games has come from the entertainment sector. Cultural phenoms like Minecraft and Kerbal Space Program conclusively prove that it is quite possible to learn deep technical skills from a game, *even when this is not a primary goal of any party involved.* In fact, it almost works *because* this is nobody's primary goal. The primary goal is play, and learning flows naturally from playing with a deeply-technical system like orbital mechanics or Redstone.
+Ironically, the best evidence for the value of educational games has come from the entertainment sector. Cultural phenoms like Minecraft and Kerbal Space Program conclusively prove that it is quite possible to learn deep technical skills from a game, _even when this is not a primary goal of any party involved._ In fact, it almost works _because_ this is nobody's primary goal. The primary goal is play, and learning flows naturally from playing with a deeply-technical system like orbital mechanics or Redstone.
 
 SineRider is built around playing with mathematical systems, piggybacked on a venerable tradition: the near-universal impulse for geeky teenagers to mess around with graphing calculators. Every puzzle yields an infinite well of solutions, yet each one can be crafted to convey a specific concept and gate the player based on their level of understanding. Instead of a linearized sequence of concepts bolted onto the Common Core standard, we present a rich interactive world optimized for mathematical exploration and discovery through play. SineRider is built for joy, and from joy emerges learning.
 
@@ -54,9 +54,9 @@ Well if you like, you can contribute to this open-source repository of vanilla j
 
 ## How do I run the game locally for development and debugging purposes?
 
-To quickly run the server from a terminal you can execute the following command (*note: requires python3 to be installed*):
+To quickly run the server from a terminal you can execute the following command (_note: requires python3 to be installed_):
 
-```python3 -m http.server 3000```
+`python3 -m http.server 3000`
 
 For more serious development in an integrated development environment, one attractive option is using Visual Studio's [Live Server plugin](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) which supports features such as live reload, etc.
 

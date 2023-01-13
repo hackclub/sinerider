@@ -1,346 +1,362 @@
 function Bounds() {
-  const self = {}
+	const self = {};
 
-  const center = Vector2()
-  const size = Vector2()
+	const center = Vector2();
+	const size = Vector2();
 
-  const extents = Vector2()
+	const extents = Vector2();
 
-  const min = Vector2()
-  const max = Vector2()
+	const min = Vector2();
+	const max = Vector2();
 
-  let recomputing = false
+	let recomputing = false;
 
-  center.observe(centerModified)
-  size.observe(sizeModified)
-  extents.observe(extentsModified)
-  min.observe(minModified)
-  max.observe(maxModified)
+	center.observe(centerModified);
+	size.observe(sizeModified);
+	extents.observe(extentsModified);
+	min.observe(minModified);
+	max.observe(maxModified);
 
-  set.apply(self, arguments)
+	set.apply(self, arguments);
 
-  function set() {
-    recomputing = true
+	function set() {
+		recomputing = true;
 
-    if (arguments.length == 1) {
-      const spec = arguments[0]
-      center.set(spec.center)
-      size.set(spec.size)
-    }
-    else if (arguments.length == 2) {
-      center.set(arguments[0])
-      size.set(arguments[1])
-    }
-    else if (arguments.length == 4) {
-      center.set(arguments[0], arguments[1])
-      size.set(arguments[2], arguments[3])
-    }
+		if (arguments.length == 1) {
+			const spec = arguments[0];
+			center.set(spec.center);
+			size.set(spec.size);
+		} else if (arguments.length == 2) {
+			center.set(arguments[0]);
+			size.set(arguments[1]);
+		} else if (arguments.length == 4) {
+			center.set(arguments[0], arguments[1]);
+			size.set(arguments[2], arguments[3]);
+		}
 
-    size.abs()
+		size.abs();
 
-    recomputeFromCenterSize()
-  }
+		recomputeFromCenterSize();
+	}
 
-  function setMinMax() {
-    if (arguments.length == 2) {
-      min.set(arguments[0])
-      max.set(arguments[1])
-    }
-    else if (arguments.length == 4) {
-      min.set(arguments[0], arguments[1])
-      max.set(arguments[2], arguments[3])
-    }
+	function setMinMax() {
+		if (arguments.length == 2) {
+			min.set(arguments[0]);
+			max.set(arguments[1]);
+		} else if (arguments.length == 4) {
+			min.set(arguments[0], arguments[1]);
+			max.set(arguments[2], arguments[3]);
+		}
 
-    recomputeFromMinMax()
-  }
+		recomputeFromMinMax();
+	}
 
-  function clone() {
-    return Bounds(center, size)
-  }
+	function clone() {
+		return Bounds(center, size);
+	}
 
-  function equals(other) {
-    const equalCenter = center.equals(other.center)
-    const equalSize = size.equals(other.size)
+	function equals(other) {
+		const equalCenter = center.equals(other.center);
+		const equalSize = size.equals(other.size);
 
-    return equalCenter && equalSize
-  }
+		return equalCenter && equalSize;
+	}
 
-  function centerModified() {
-    if (recomputing) return
-    recomputing = true
+	function centerModified() {
+		if (recomputing) return;
+		recomputing = true;
 
-    recomputeFromCenter()
-  }
+		recomputeFromCenter();
+	}
 
-  function sizeModified() {
-    if (recomputing) return
-    recomputing = true
+	function sizeModified() {
+		if (recomputing) return;
+		recomputing = true;
 
-    size.abs()
+		size.abs();
 
-    recomputeFromCenterSize()
-  }
+		recomputeFromCenterSize();
+	}
 
-  function extentsModified() {
-    if (recomputing) return
-    recomputing = true
+	function extentsModified() {
+		if (recomputing) return;
+		recomputing = true;
 
-    extents.abs()
+		extents.abs();
 
-    recomputeFromCenterExtents()
-  }
+		recomputeFromCenterExtents();
+	}
 
-  function minModified() {
-    if (recomputing) return
-    recomputing = true
+	function minModified() {
+		if (recomputing) return;
+		recomputing = true;
 
-    recomputeFromMinMax()
-  }
+		recomputeFromMinMax();
+	}
 
-  function maxModified() {
-    if (recomputing) return
-    recomputing = true
+	function maxModified() {
+		if (recomputing) return;
+		recomputing = true;
 
-    recomputeFromMinMax()
-  }
+		recomputeFromMinMax();
+	}
 
-  function recomputeFromCenter() {
-    center.add(extents, max)
-    center.subtract(extents, min)
+	function recomputeFromCenter() {
+		center.add(extents, max);
+		center.subtract(extents, min);
 
-    recomputing = false
-  }
+		recomputing = false;
+	}
 
-  function recomputeFromCenterSize() {
-    size.divide(2, extents)
-    center.add(extents, max)
-    center.subtract(extents, min)
+	function recomputeFromCenterSize() {
+		size.divide(2, extents);
+		center.add(extents, max);
+		center.subtract(extents, min);
 
-    recomputing = false
-  }
+		recomputing = false;
+	}
 
-  function recomputeFromCenterExtents() {
-    extents.multiply(2, size)
-    center.add(extents, max)
-    center.subtract(extents, min)
+	function recomputeFromCenterExtents() {
+		extents.multiply(2, size);
+		center.add(extents, max);
+		center.subtract(extents, min);
 
-    recomputing = false
-  }
+		recomputing = false;
+	}
 
-  function recomputeFromMinMax() {
-    if (min.x > max.x)
-      min.swapX(max)
-    if (min.y > max.y)
-      min.swapY(max)
+	function recomputeFromMinMax() {
+		if (min.x > max.x) min.swapX(max);
+		if (min.y > max.y) min.swapY(max);
 
-    max.subtract(min, size)
-    size.divide(2, extents)
-    min.add(extents, center)
+		max.subtract(min, size);
+		size.divide(2, extents);
+		min.add(extents, center);
 
+		recomputing = false;
+	}
 
-    recomputing = false
-  }
+	function expand(other) {
+		if (other.generator == Vector2) {
+			min.min(other);
+			max.max(other);
+		} else if (other.generator == Bounds) {
+			self.expand(other.min);
+			self.expand(other.max);
+		} else {
+			throw new Error(
+				`Cannot expand bounds to fit other of invalid type: `,
+				other
+			);
+		}
+	}
 
-  function expand(other) {
-    if (other.generator == Vector2) {
-      min.min(other)
-      max.max(other)
-    }
-    else if (other.generator == Bounds) {
-      self.expand(other.min)
-      self.expand(other.max)
-    }
-    else {
-      throw new Error(`Cannot expand bounds to fit other of invalid type: `, other)
-    }
-  }
+	function contains(other) {
+		if (other.generator == Vector2) {
+			const cx = other.x >= min.x && other.x <= max.x;
+			const cy = other.y >= min.y && other.y <= max.y;
 
-  function contains(other) {
-    if (other.generator == Vector2) {
-      const cx = other.x >= min.x && other.x <= max.x
-      const cy = other.y >= min.y && other.y <= max.y
+			return cx && cy;
+		} else if (other.generator == Bounds) {
+			return self.contains(other.min) && self.contains(other.max);
+		} else {
+			throw new Error(
+				`Cannot check if bounds contains other of invalid type: `,
+				other
+			);
+		}
+	}
 
-      return cx && cy
-    }
-    else if (other.generator == Bounds) {
-      return self.contains(other.min) && self.contains(other.max)
-    }
-    else {
-      throw new Error(`Cannot check if bounds contains other of invalid type: `, other)
-    }
-  }
+	function toString() {
+		return `{center: ${center.toString()}, size: ${size.toString()}}`;
+	}
 
-  function toString() {
-    return `{center: ${center.toString()}, size: ${size.toString()}}`
-  }
+	return _.mixIn(self, {
+		generator: Bounds,
 
-  return _.mixIn(self, {
-    generator: Bounds,
+		set,
+		setMinMax,
 
-    set,
-    setMinMax,
+		clone,
+		equals,
 
-    clone,
-    equals,
+		expand,
+		contains,
 
-    expand,
-    contains,
+		toString,
 
-    toString,
+		get center() {
+			return center;
+		},
+		set center(v) {
+			center.set(v);
+		},
 
-    get center() {return center},
-    set center(v) {center.set(v)},
+		get size() {
+			return size;
+		},
+		set size(v) {
+			size.set(v);
+		},
 
-    get size() {return size},
-    set size(v) {size.set(v)},
+		get extents() {
+			return extents;
+		},
+		set extents(v) {
+			setSize(v);
+		},
 
-    get extents() {return extents},
-    set extents(v) {setSize(v)},
+		get min() {
+			return min;
+		},
+		set min(v) {
+			min.set(v);
+		},
 
-    get min() {return min},
-    set min(v) {min.set(v)},
-
-    get max() {return max},
-    set max(v) {max.set(v)},
-  })
+		get max() {
+			return max;
+		},
+		set max(v) {
+			max.set(v);
+		},
+	});
 }
 
 // Tests
 LOGTESTS = false;
 
 (() => {
-  let a
-  let b
-  let c
-  let d
-  let p
+	let a;
+	let b;
+	let c;
+	let d;
+	let p;
 
-  function Validate(bounds) {
-    // center+extents=max
-    Test(Vector2(bounds.center).add(bounds.extents)).equals(bounds.max)
+	function Validate(bounds) {
+		// center+extents=max
+		Test(Vector2(bounds.center).add(bounds.extents)).equals(bounds.max);
 
-    // center-extents=min
-    Test(Vector2(bounds.center).subtract(bounds.extents)).equals(bounds.min)
+		// center-extents=min
+		Test(Vector2(bounds.center).subtract(bounds.extents)).equals(bounds.min);
 
-    // size/2=extents
-    Test(Vector2(bounds.size).divide(2)).equals(bounds.extents)
+		// size/2=extents
+		Test(Vector2(bounds.size).divide(2)).equals(bounds.extents);
 
-    // min.x <= max.x
-    Test(bounds.min.x).lessThanOrEquals(bounds.max.x)
+		// min.x <= max.x
+		Test(bounds.min.x).lessThanOrEquals(bounds.max.x);
 
-    // min.y <= max.y
-    Test(bounds.min.y).lessThanOrEquals(bounds.max.y)
+		// min.y <= max.y
+		Test(bounds.min.y).lessThanOrEquals(bounds.max.y);
 
-    // size.x >= 0
-    Test(bounds.size.x).greaterThanOrEquals(0)
+		// size.x >= 0
+		Test(bounds.size.x).greaterThanOrEquals(0);
 
-    // size.y >= 0
-    Test(bounds.size.y).greaterThanOrEquals(0)
+		// size.y >= 0
+		Test(bounds.size.y).greaterThanOrEquals(0);
 
-    // extents.x >= 0
-    Test(bounds.extents.x).greaterThanOrEquals(0)
+		// extents.x >= 0
+		Test(bounds.extents.x).greaterThanOrEquals(0);
 
-    // extents.y >= 0
-    Test(bounds.extents.y).greaterThanOrEquals(0) 
-  }
+		// extents.y >= 0
+		Test(bounds.extents.y).greaterThanOrEquals(0);
+	}
 
-  function ValidateProperty(bounds, path) {
-    const property = bounds[path]
-    // Randomize
-    property.randomize(-10, 10)
-    Validate(bounds)
+	function ValidateProperty(bounds, path) {
+		const property = bounds[path];
+		// Randomize
+		property.randomize(-10, 10);
+		Validate(bounds);
 
-    // Set
-    property.set(property.x+1, property.y+1)
-    Validate(bounds)
+		// Set
+		property.set(property.x + 1, property.y + 1);
+		Validate(bounds);
 
-    // Set x
-    property.x = property.x+1
-    Validate(bounds)
+		// Set x
+		property.x = property.x + 1;
+		Validate(bounds);
 
-    // Set y
-    property.y = property.y+1
-    Validate(bounds)
+		// Set y
+		property.y = property.y + 1;
+		Validate(bounds);
 
-    // Add
-    property.add(Vector2(1, 1))
-    Validate(bounds)
+		// Add
+		property.add(Vector2(1, 1));
+		Validate(bounds);
 
-    // Multiply
-    property.multiply(2)
-    Validate(bounds)
-  }
+		// Multiply
+		property.multiply(2);
+		Validate(bounds);
+	}
 
-  // Test basic instantiation
+	// Test basic instantiation
 
-  a = Bounds(1, 2, 3, 4)
+	a = Bounds(1, 2, 3, 4);
 
-  Test(a.center).equals(Vector2(1, 2))
-  Test(a.size).equals(Vector2(3, 4))
-  Test(a.min).equals(Vector2(-0.5, 0))
-  Test(a.max).equals(Vector2(2.5, 4))
-  Test(a.extents).equals(Vector2(1.5, 2))
+	Test(a.center).equals(Vector2(1, 2));
+	Test(a.size).equals(Vector2(3, 4));
+	Test(a.min).equals(Vector2(-0.5, 0));
+	Test(a.max).equals(Vector2(2.5, 4));
+	Test(a.extents).equals(Vector2(1.5, 2));
 
-  b = Bounds(a.center, a.size)
-  c = Bounds(a)
-  d = a.clone()
+	b = Bounds(a.center, a.size);
+	c = Bounds(a);
+	d = a.clone();
 
-  Test(a).equals(a)
-  Test(a).equals(b)
-  Test(a).equals(c)
-  Test(a).equals(d)
+	Test(a).equals(a);
+	Test(a).equals(b);
+	Test(a).equals(c);
+	Test(a).equals(d);
 
-  Validate(a) 
-  Validate(b)
-  Validate(c)
-  Validate(d)
+	Validate(a);
+	Validate(b);
+	Validate(c);
+	Validate(d);
 
-  // Test modification of values
+	// Test modification of values
 
-  a = Bounds(1, 2, 3, 4)
+	a = Bounds(1, 2, 3, 4);
 
-  ValidateProperty(a, 'center')
-  ValidateProperty(a, 'size')
-  ValidateProperty(a, 'min')
-  ValidateProperty(a, 'max')
-  ValidateProperty(a, 'extents')
+	ValidateProperty(a, "center");
+	ValidateProperty(a, "size");
+	ValidateProperty(a, "min");
+	ValidateProperty(a, "max");
+	ValidateProperty(a, "extents");
 
-  // Test contains/expand on Vector2
+	// Test contains/expand on Vector2
 
-  a = Bounds(1, 2, 3, 4)
-  p = Vector2(2, 1)
+	a = Bounds(1, 2, 3, 4);
+	p = Vector2(2, 1);
 
-  Test(a.contains(p)).isTrue()
+	Test(a.contains(p)).isTrue();
 
-  p = Vector2(5, -7)
+	p = Vector2(5, -7);
 
-  Test(a.contains(p)).isFalse()
+	Test(a.contains(p)).isFalse();
 
-  a.expand(p)
-  Validate(a)
+	a.expand(p);
+	Validate(a);
 
-  Test(a.contains(p)).isTrue()
+	Test(a.contains(p)).isTrue();
 
-  // Test contains/expand on Bounds
+	// Test contains/expand on Bounds
 
-  a = Bounds(1, 2, 3, 4)
-  b = Bounds(1, 1, 1, 1)
+	a = Bounds(1, 2, 3, 4);
+	b = Bounds(1, 1, 1, 1);
 
-  Test(a.contains(b)).isTrue()
+	Test(a.contains(b)).isTrue();
 
-  b = Bounds(-6, 4, 3, 2)
+	b = Bounds(-6, 4, 3, 2);
 
-  Test(a.contains(b)).isFalse()
+	Test(a.contains(b)).isFalse();
 
-  a.expand(b)
-  Validate(a)
+	a.expand(b);
+	Validate(a);
 
-  Test(a.contains(b)).isTrue()
+	Test(a.contains(b)).isTrue();
 
-  Test(b.contains(a)).isFalse()
+	Test(b.contains(a)).isFalse();
 
-  b.expand(a)
-  Validate(b)
+	b.expand(a);
+	Validate(b);
 
-  Test(b.contains(a)).isTrue()
-})()
+	Test(b.contains(a)).isTrue();
+})();

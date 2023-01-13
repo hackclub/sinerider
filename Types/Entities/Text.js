@@ -1,54 +1,47 @@
 function Text(spec) {
-  const {
-    self,
-    screen
-  } = Entity(spec, 'Text')
+	const { self, screen } = Entity(spec, "Text");
 
-  const transform = Transform(spec)
+	const transform = Transform(spec);
 
-  const {
-    camera,
-    size = 1,
-    fill = '#222',
-    stroke = false,
-    align = 'center',
-    baseline = 'middle',
-    font = 'Edu QLD Beginner'
-  } = spec
+	const {
+		camera,
+		size = 1,
+		fill = "#222",
+		stroke = false,
+		align = "center",
+		baseline = "middle",
+		font = "Edu QLD Beginner",
+	} = spec;
 
-  let {
-    content = 'Hello',
-  } = spec
+	let { content = "Hello" } = spec;
 
-  const ctx = screen.ctx
+	const ctx = screen.ctx;
 
-  function tick() {
+	function tick() {}
 
-  }
+	function drawLocal() {
+		ctx.textAlign = align;
+		ctx.textBaseline = baseline;
+		ctx.scale(size, size);
 
-  function drawLocal() {
-    ctx.textAlign = align
-    ctx.textBaseline = baseline
-    ctx.scale(size, size)
-    
-    ctx.font = `1px ${font}`
-    
-    if (fill) {
-      ctx.fillStyle = fill
-      ctx.fillText(content, 0, 0)
-    }
-    if (stroke) {
-      ctx.fillStyle = stroke
-      ctx.strokeText(content, 0, 0)
-    }
-  }
+		ctx.font = `1px ${font}`;
 
-  function draw() {
-    camera.drawThrough(ctx, drawLocal, transform)
-  }
+		if (fill) {
+			ctx.fillStyle = fill;
+			ctx.fillText(content, 0, 0);
+		}
+		if (stroke) {
+			ctx.fillStyle = stroke;
+			ctx.strokeText(content, 0, 0);
+		}
+	}
 
-  return self.mix({
-    tick,
-    draw,
-  })
+	function draw() {
+		camera.drawThrough(ctx, drawLocal, transform);
+	}
+
+	return self.mix({
+		tick,
+		draw,
+	});
 }

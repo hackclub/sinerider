@@ -1,17 +1,11 @@
 function Intersections() {
-  function pointCircle(point, circle, hit) {
+	function pointCircle(point, circle, hit) {}
 
-  }
+	function pointRect(point, rect, hit) {}
 
-  function pointRect(point, rect, hit) {
+	function pointPolygon(point, polygon, hit) {}
 
-  }
-
-  function pointPolygon(point, polygon, hit) {
-
-  }
-
-  return {
-    pointCircle,
-  }
+	return {
+		pointCircle,
+	};
 }

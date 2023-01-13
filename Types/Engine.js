@@ -1,113 +1,105 @@
 function Engine(spec) {
-  const self = {}
+	const self = {};
 
-  const {
-    ui,
-    canvas,
-    ticksPerSecond = 60,
-    stepping = false,
-  } = spec
+	const { ui, canvas, ticksPerSecond = 60, stepping = false } = spec;
 
+	let canvasIsDirty = true;
 
-  let canvasIsDirty = true
+	const tickDelta = 1 / ticksPerSecond;
+	let time = 0;
 
-  const tickDelta = 1/ticksPerSecond
-  let time = 0
+	const screen = Screen({
+		canvas,
+	});
 
-  const screen = Screen({
-    canvas
-  })
+	const world = World({
+		ui,
+		screen,
+		tickDelta,
+		getTime: () => time,
+	});
 
-  const world = World({
-    ui,
-    screen,
-    tickDelta,
-    getTime: () => time,
-  })
+	tick();
+	draw();
 
-  tick()
-  draw()
+	if (!stepping) {
+		setInterval(tick, 1000 / ticksPerSecond);
+	}
 
-  if (!stepping) {
-    setInterval(tick, 1000/ticksPerSecond)
-  }
+	// Core methods
 
-  // Core methods
+	function tick() {
+		world.sendLifecycleEvent("awake");
+		world.sendLifecycleEvent("start");
 
-  function tick() {
-    world.sendLifecycleEvent('awake')
-    world.sendLifecycleEvent('start')
+		world.sendEvent("tick");
 
-    world.sendEvent('tick')
+		time += tickDelta;
 
-    time += tickDelta
+		requestDraw();
+	}
 
-    requestDraw()
-  }
+	function draw() {
+		if (!canvasIsDirty) return;
+		canvasIsDirty = false;
 
-  function draw() {
-    if (!canvasIsDirty) return
-    canvasIsDirty = false
+		world.sendEvent("draw");
+	}
 
-    world.sendEvent('draw')
-  }
+	function requestDraw() {
+		if (!canvasIsDirty) {
+			canvasIsDirty = true;
+			requestAnimationFrame(draw);
+		}
+	}
 
-  function requestDraw() {
-    if (!canvasIsDirty) {
-      canvasIsDirty = true
-      requestAnimationFrame(draw)
-    }
-  }
+	// HTML events
 
-  // HTML events
+	function onKeyUp(event) {}
 
-  function onKeyUp(event) {
+	window.addEventListener("keyup", onKeyUp);
 
-  }
+	function onResizeWindow(event) {
+		screen.resize();
+		canvasIsDirty = true;
+		draw();
+	}
 
-  window.addEventListener('keyup', onKeyUp)
+	window.addEventListener("resize", onResizeWindow);
 
-  function onResizeWindow(event) {
-    screen.resize()
-    canvasIsDirty = true
-    draw()
-  }
+	function onClickCanvas() {
+		if (stepping) {
+			tick();
+		}
+	}
 
-  window.addEventListener('resize', onResizeWindow)
+	canvas.addEventListener("click", onClickCanvas);
 
-  function onClickCanvas() {
-    if (stepping) {
-      tick()
-    }
-  }
+	function onMouseMoveCanvas(event) {
+		world.clickableContext.processEvent(event, "mouseMove");
+		event.preventDefault();
+	}
 
-  canvas.addEventListener('click', onClickCanvas)
+	canvas.addEventListener("mousemove", onMouseMoveCanvas);
+	canvas.addEventListener("pointermove", onMouseMoveCanvas);
 
-  function onMouseMoveCanvas(event) {
-    world.clickableContext.processEvent(event, 'mouseMove')
-    event.preventDefault()
-  }
+	function onMouseDownCanvas(event) {
+		world.clickableContext.processEvent(event, "mouseDown");
+		event.preventDefault();
+	}
 
-  canvas.addEventListener('mousemove', onMouseMoveCanvas)
-  canvas.addEventListener('pointermove', onMouseMoveCanvas)
+	canvas.addEventListener("mousedown", onMouseDownCanvas);
+	canvas.addEventListener("pointerdown", onMouseDownCanvas);
 
-  function onMouseDownCanvas(event) {
-    world.clickableContext.processEvent(event, 'mouseDown')
-    event.preventDefault()
-  }
+	function onMouseUpCanvas(event) {
+		world.clickableContext.processEvent(event, "mouseUp");
+		event.preventDefault();
+	}
 
-  canvas.addEventListener('mousedown', onMouseDownCanvas)
-  canvas.addEventListener('pointerdown', onMouseDownCanvas)
+	canvas.addEventListener("mouseup", onMouseUpCanvas);
+	canvas.addEventListener("pointerup", onMouseUpCanvas);
 
-  function onMouseUpCanvas(event) {
-    world.clickableContext.processEvent(event, 'mouseUp')
-    event.preventDefault()
-  }
-
-  canvas.addEventListener('mouseup', onMouseUpCanvas)
-  canvas.addEventListener('pointerup', onMouseUpCanvas)
-
-  return _.mixIn(self, {
-    world,
-  })
+	return _.mixIn(self, {
+		world,
+	});
 }

@@ -1,245 +1,263 @@
 function Speech(spec) {
-  const {
-    self,
-    screen,
-    camera,
-  } = Entity(spec, 'Speech')
+	const { self, screen, camera } = Entity(spec, "Speech");
 
-  let {
-    content = 'WORDS WORDS WORDS',
-    direction = 'up',
-    font = 'Patrick Hand',
-    baseline = 'alphabetic',
-    align = 'center',
-    color = '#222',
-    size = 0.5,
-    distance = 1,
-    speech,
-    speakerX = 0,
-    speakerY = 0,
-    domain = [NINF, PINF],
-    drawIfRunning = false,
-    globalScope,
-    deactivationThreshold = null,
-    activationThreshold = null,
-  } = spec
+	let {
+		content = "WORDS WORDS WORDS",
+		direction = "up",
+		font = "Patrick Hand",
+		baseline = "alphabetic",
+		align = "center",
+		color = "#222",
+		size = 0.5,
+		distance = 1,
+		speech,
+		speakerX = 0,
+		speakerY = 0,
+		domain = [NINF, PINF],
+		drawIfRunning = false,
+		globalScope,
+		deactivationThreshold = null,
+		activationThreshold = null,
+	} = spec;
 
-  const transform = Transform(spec, self)
+	const transform = Transform(spec, self);
 
-  let domainTransform
+	let domainTransform;
 
-  let activationThresholdMet = false
-  
-  let textDirection
-  switch (direction) {
-    case 'up-left':
-      textDirection = Vector2(-1, 1)
-      align = 'center'
-      // baseline = 'middle'
-      break
-    case 'up-up-left':
-      textDirection = Vector2(-1, 2)
-      align = 'center'
-      // baseline = 'middle'
-      break
-    case 'up-left-left':
-      textDirection = Vector2(-2, 1)
-      align = 'center'
-      // baseline = 'middle'
-      break
-    case 'left':
-      textDirection = Vector2(-1, 0)
-      align = 'right'
-      // baseline = 'middle'
-      break
-    case 'left-up':
-      textDirection = Vector2(-1, 1)
-      align = 'right'
-      // baseline = 'middle'
-      break
-    case 'left-left-up':
-      textDirection = Vector2(-2, 1)
-      align = 'right'
-      // baseline = 'middle'
-      break
-    case 'left-up-up':
-      textDirection = Vector2(-1, 2)
-      align = 'right'
-      // baseline = 'middle'
-      break
-    case 'up':
-      textDirection = Vector2(0, 1)
-      align = 'center'
-      // baseline = 'middle'
-      break
-    case 'up-right':
-      textDirection = Vector2(1, 1)
-      align = 'center'
-      // baseline = 'middle'
-      break
-    case 'up-up-right':
-      textDirection = Vector2(1, 2)
-      align = 'center'
-      // baseline = 'middle'
-      break
-    case 'up-right-right':
-      textDirection = Vector2(2, 1)
-      align = 'center'
-      // baseline = 'middle'
-      break
-    case 'right':
-      textDirection = Vector2(1, 0)
-      align = 'left'
-      // baseline = 'middle'
-      break
-    case 'right-up':
-      textDirection = Vector2(1, 1)
-      align = 'left'
-      // baseline = 'middle'
-      break
-    case 'right-up-up':
-      textDirection = Vector2(1, 2)
-      align = 'left'
-      // baseline = 'middle'
-      break
-    case 'right-right-up':
-      textDirection = Vector2(2, 1)
-      align = 'left'
-      // baseline = 'middle'
-      break
-    default:
-      textDirection = direction
-  }
-  textDirection.normalize()
+	let activationThresholdMet = false;
 
-  const textTangent = Vector2(textDirection).orthogonalize()
-  const textOriginPerturbation = Vector2(textTangent).multiply(0)//Math.random()*distance/6)
+	let textDirection;
+	switch (direction) {
+		case "up-left":
+			textDirection = Vector2(-1, 1);
+			align = "center";
+			// baseline = 'middle'
+			break;
+		case "up-up-left":
+			textDirection = Vector2(-1, 2);
+			align = "center";
+			// baseline = 'middle'
+			break;
+		case "up-left-left":
+			textDirection = Vector2(-2, 1);
+			align = "center";
+			// baseline = 'middle'
+			break;
+		case "left":
+			textDirection = Vector2(-1, 0);
+			align = "right";
+			// baseline = 'middle'
+			break;
+		case "left-up":
+			textDirection = Vector2(-1, 1);
+			align = "right";
+			// baseline = 'middle'
+			break;
+		case "left-left-up":
+			textDirection = Vector2(-2, 1);
+			align = "right";
+			// baseline = 'middle'
+			break;
+		case "left-up-up":
+			textDirection = Vector2(-1, 2);
+			align = "right";
+			// baseline = 'middle'
+			break;
+		case "up":
+			textDirection = Vector2(0, 1);
+			align = "center";
+			// baseline = 'middle'
+			break;
+		case "up-right":
+			textDirection = Vector2(1, 1);
+			align = "center";
+			// baseline = 'middle'
+			break;
+		case "up-up-right":
+			textDirection = Vector2(1, 2);
+			align = "center";
+			// baseline = 'middle'
+			break;
+		case "up-right-right":
+			textDirection = Vector2(2, 1);
+			align = "center";
+			// baseline = 'middle'
+			break;
+		case "right":
+			textDirection = Vector2(1, 0);
+			align = "left";
+			// baseline = 'middle'
+			break;
+		case "right-up":
+			textDirection = Vector2(1, 1);
+			align = "left";
+			// baseline = 'middle'
+			break;
+		case "right-up-up":
+			textDirection = Vector2(1, 2);
+			align = "left";
+			// baseline = 'middle'
+			break;
+		case "right-right-up":
+			textDirection = Vector2(2, 1);
+			align = "left";
+			// baseline = 'middle'
+			break;
+		default:
+			textDirection = direction;
+	}
+	textDirection.normalize();
 
-  const worldPosition = Vector2()
+	const textTangent = Vector2(textDirection).orthogonalize();
+	const textOriginPerturbation = Vector2(textTangent).multiply(0); //Math.random()*distance/6)
 
-  const speakerOrigin = Vector2(speakerX, speakerY)
-  const speakerOriginWorld = Vector2()
+	const worldPosition = Vector2();
 
-  const textOrigin = Vector2(textDirection).multiply(distance).add(textOriginPerturbation)
-  const textOriginWorld = Vector2()
-  const textOriginScreen = Vector2()
+	const speakerOrigin = Vector2(speakerX, speakerY);
+	const speakerOriginWorld = Vector2();
 
-  const lineDirection = Vector2()
+	const textOrigin = Vector2(textDirection)
+		.multiply(distance)
+		.add(textOriginPerturbation);
+	const textOriginWorld = Vector2();
+	const textOriginScreen = Vector2();
 
-  const lineOriginWorld = Vector2()
-  const lineOriginScreen = Vector2()
+	const lineDirection = Vector2();
 
-  const lineTerminusWorld = Vector2()
-  const lineTerminusScreen = Vector2()
+	const lineOriginWorld = Vector2();
+	const lineOriginScreen = Vector2();
 
-  const controlPointWorld = Vector2()
-  const controlPointPerturbation = Vector2(Math.random()*Math.sign(textDirection.x || (Math.round(Math.random())*2-1))*distance/10, Math.random()*distance/10)
-  const controlPointScreen = Vector2()
+	const lineTerminusWorld = Vector2();
+	const lineTerminusScreen = Vector2();
 
-  if (speech) {
-    if (!_.isArray(speech))
-      speech = [speech]
+	const controlPointWorld = Vector2();
+	const controlPointPerturbation = Vector2(
+		(Math.random() *
+			Math.sign(textDirection.x || Math.round(Math.random()) * 2 - 1) *
+			distance) /
+			10,
+		(Math.random() * distance) / 10
+	);
+	const controlPointScreen = Vector2();
 
-    for (s of speech) {
-      if (_.isString(s))
-        s = {content: s}
+	if (speech) {
+		if (!_.isArray(speech)) speech = [speech];
 
-      Speech({
-        parent: self,
-        domainTransform,
-        globalScope,
-        x: textOrigin.x + (s.x || 0),
-        y: textOrigin.y + (s.y || 0) + size*0.8,
-        ...s,
-      })
-    }
-  }
+		for (s of speech) {
+			if (_.isString(s)) s = { content: s };
 
-  function awake() {
-    domainTransform = self.getFromAncestor('domainTransform')
-  }
-  
-  function tick() {
-    transform.rotation = -transform.parentWorldRotation
-  }
+			Speech({
+				parent: self,
+				domainTransform,
+				globalScope,
+				x: textOrigin.x + (s.x || 0),
+				y: textOrigin.y + (s.y || 0) + size * 0.8,
+				...s,
+			});
+		}
+	}
 
-  function calculatePoints() {
-    speakerOriginWorld.set(speakerOrigin).add(transform.position)
-    transform.parent.transformPoint(speakerOriginWorld)
+	function awake() {
+		domainTransform = self.getFromAncestor("domainTransform");
+	}
 
-    transform.transformPoint(worldPosition.set())
+	function tick() {
+		transform.rotation = -transform.parentWorldRotation;
+	}
 
-    worldPosition.add(textOrigin, textOriginWorld)
-    textOriginWorld.subtract(speakerOriginWorld, lineDirection).normalize()
+	function calculatePoints() {
+		speakerOriginWorld.set(speakerOrigin).add(transform.position);
+		transform.parent.transformPoint(speakerOriginWorld);
 
-    lineOriginWorld.set(lineDirection).multiply(0.25).add(speakerOriginWorld)
-    lineTerminusWorld.set(lineDirection).multiply(-0.25).add(textOriginWorld)
+		transform.transformPoint(worldPosition.set());
 
-    lineOriginWorld.lerp(lineTerminusWorld, 0.5, controlPointWorld).add(controlPointPerturbation)
-  }
+		worldPosition.add(textOrigin, textOriginWorld);
+		textOriginWorld.subtract(speakerOriginWorld, lineDirection).normalize();
 
-  function transformPoints() {
-    camera.worldToScreen(textOriginWorld, textOriginScreen)
-    camera.worldToScreen(lineOriginWorld, lineOriginScreen)
-    camera.worldToScreen(lineTerminusWorld, lineTerminusScreen)
-    camera.worldToScreen(controlPointWorld, controlPointScreen)
-  }
+		lineOriginWorld.set(lineDirection).multiply(0.25).add(speakerOriginWorld);
+		lineTerminusWorld.set(lineDirection).multiply(-0.25).add(textOriginWorld);
 
-  let inDomain = false
+		lineOriginWorld
+			.lerp(lineTerminusWorld, 0.5, controlPointWorld)
+			.add(controlPointPerturbation);
+	}
 
-  function draw() {
-    // Activation/deactivation threshold logic
-    if (deactivationThreshold && domainTransform && Math.abs(domainTransform.x - deactivationThreshold) < 0.1) {
-      self.destroy()
-      console.log('destroyed speech sprite')
-    }
+	function transformPoints() {
+		camera.worldToScreen(textOriginWorld, textOriginScreen);
+		camera.worldToScreen(lineOriginWorld, lineOriginScreen);
+		camera.worldToScreen(lineTerminusWorld, lineTerminusScreen);
+		camera.worldToScreen(controlPointWorld, controlPointScreen);
+	}
 
-    if (activationThreshold && domainTransform && Math.abs(domainTransform.x - activationThreshold) < 0.1)
-      activationThresholdMet = true
+	let inDomain = false;
 
-    if (activationThreshold && !activationThresholdMet)    
-      return
+	function draw() {
+		// Activation/deactivation threshold logic
+		if (
+			deactivationThreshold &&
+			domainTransform &&
+			Math.abs(domainTransform.x - deactivationThreshold) < 0.1
+		) {
+			self.destroy();
+			console.log("destroyed speech sprite");
+		}
 
-    // Draw based on whether we are within the given domain 
-    if (domainTransform && (domainTransform.x < domain[0] || domainTransform.x > domain[1]))
-      return
+		if (
+			activationThreshold &&
+			domainTransform &&
+			Math.abs(domainTransform.x - activationThreshold) < 0.1
+		)
+			activationThresholdMet = true;
 
-    if (globalScope.running && !drawIfRunning)
-      return
-      
-    const scalar = camera.worldToScreenScalar()
+		if (activationThreshold && !activationThresholdMet) return;
 
-    calculatePoints()
-    transformPoints()
+		// Draw based on whether we are within the given domain
+		if (
+			domainTransform &&
+			(domainTransform.x < domain[0] || domainTransform.x > domain[1])
+		)
+			return;
 
-    ctx = screen.ctx
+		if (globalScope.running && !drawIfRunning) return;
 
-    ctx.strokeStyle = color
-    ctx.lineWidth = scalar/15
-    ctx.lineCap = 'round'
+		const scalar = camera.worldToScreenScalar();
 
-    ctx.beginPath()
-    ctx.moveTo(lineOriginScreen.x, lineOriginScreen.y)
-    ctx.quadraticCurveTo(controlPointScreen.x, controlPointScreen.y, lineTerminusScreen.x, lineTerminusScreen.y)
-    ctx.stroke()
+		calculatePoints();
+		transformPoints();
 
-    ctx.fillStyle = color
-    ctx.textAlign = align
-    ctx.textBaseline = baseline
-    ctx.font = '1px '+font
+		ctx = screen.ctx;
 
-    ctx.save()
-    ctx.translate(textOriginScreen.x, textOriginScreen.y)
-    ctx.scale(size*scalar, size*scalar)
-    ctx.fillText(content, 0, 0)
-    ctx.restore()
-  }
+		ctx.strokeStyle = color;
+		ctx.lineWidth = scalar / 15;
+		ctx.lineCap = "round";
 
-  return self.mix({
-    transform,
+		ctx.beginPath();
+		ctx.moveTo(lineOriginScreen.x, lineOriginScreen.y);
+		ctx.quadraticCurveTo(
+			controlPointScreen.x,
+			controlPointScreen.y,
+			lineTerminusScreen.x,
+			lineTerminusScreen.y
+		);
+		ctx.stroke();
 
-    awake,    
-    tick,
-    draw,
-  })
+		ctx.fillStyle = color;
+		ctx.textAlign = align;
+		ctx.textBaseline = baseline;
+		ctx.font = "1px " + font;
+
+		ctx.save();
+		ctx.translate(textOriginScreen.x, textOriginScreen.y);
+		ctx.scale(size * scalar, size * scalar);
+		ctx.fillText(content, 0, 0);
+		ctx.restore();
+	}
+
+	return self.mix({
+		transform,
+
+		awake,
+		tick,
+		draw,
+	});
 }

@@ -1,77 +1,70 @@
 function HintGraph(spec) {
-  const {
-    self,
-    camera,
-    ui,
-  } = Entity(spec, 'Hint Graph')
+	const { self, camera, ui } = Entity(spec, "Hint Graph");
 
-  const {
-    slider,
-    globalScope,
-    drawOrder,
-  } = spec
+	const { slider, globalScope, drawOrder } = spec;
 
-  const { bounds, expression: expressionForm } = slider
+	const { bounds, expression: expressionForm } = slider;
 
-  function createExpression(n) {
-    return expressionForm
-      .replace('n', n.toFixed(2))
-      .replaceAll('+ -', '-')
-      .replaceAll('- +', '-')
-  }
+	function createExpression(n) {
+		return expressionForm
+			.replace("n", n.toFixed(2))
+			.replaceAll("+ -", "-")
+			.replaceAll("- +", "-");
+	}
 
-  const dottedGraph = Graph({
-    camera,
-    globalScope,
-    expression: createExpression(0),
-    parent: self,
-    strokeWidth: 0.1,
-    strokeColor: 'rgb(0,255,0)',
-    dashed: true,
-    scaleStroke: true,
-    dashSettings: [0.5, 0.5],
-    fill: false,
-    drawOrder,
-  })
+	const dottedGraph = Graph({
+		camera,
+		globalScope,
+		expression: createExpression(0),
+		parent: self,
+		strokeWidth: 0.1,
+		strokeColor: "rgb(0,255,0)",
+		dashed: true,
+		scaleStroke: true,
+		dashSettings: [0.5, 0.5],
+		fill: false,
+		drawOrder,
+	});
 
-  ui.dottedSlider.hidden = false
+	ui.dottedSlider.hidden = false;
 
-  let expression = createExpression(bounds[2])
+	let expression = createExpression(bounds[2]);
 
-  function setSliderExpression(text) {
-    dottedGraph.expression = mathquillToMathJS(text)
-    ui.dottedMathFieldStatic.latex(`Y=${text}`)
-  }
+	function setSliderExpression(text) {
+		dottedGraph.expression = mathquillToMathJS(text);
+		ui.dottedMathFieldStatic.latex(`Y=${text}`);
+	}
 
-  ui.dottedSlider.oninput = e => {
-    let val = (ui.dottedSlider.value) / 100
-    expression = createExpression(val * (bounds[1] - bounds[0]) + bounds[0])
-    setSliderExpression(expression)
-  }
+	ui.dottedSlider.oninput = (e) => {
+		let val = ui.dottedSlider.value / 100;
+		expression = createExpression(val * (bounds[1] - bounds[0]) + bounds[0]);
+		setSliderExpression(expression);
+	};
 
-  ui.dottedSlider.value = 100 * ((bounds[2] - bounds[0]) / (bounds[1] - bounds[0]))
+	ui.dottedSlider.value =
+		100 * ((bounds[2] - bounds[0]) / (bounds[1] - bounds[0]));
 
-  setSliderExpression(expression)
+	setSliderExpression(expression);
 
-  function setVisible(visible) {
-    ui.dottedMathContainer.style.display = visible ? 'flex' : 'none'
-    // ui.dottedMathFieldStatic.latex(visible ?  `\\text{Y}=${expression}` : '')
-    // ui.dottedSlider.hidden = !visible
-  }
+	function setVisible(visible) {
+		ui.dottedMathContainer.style.display = visible ? "flex" : "none";
+		// ui.dottedMathFieldStatic.latex(visible ?  `\\text{Y}=${expression}` : '')
+		// ui.dottedSlider.hidden = !visible
+	}
 
-  setVisible(true)
+	setVisible(true);
 
-  function destroy() {
-    setVisible(false)
-  }
+	function destroy() {
+		setVisible(false);
+	}
 
-  function onToggleMap(mapEnabled) {
-    setVisible(!mapEnabled)
-  }
+	function onToggleMap(mapEnabled) {
+		setVisible(!mapEnabled);
+	}
 
-  return self.mix({
-    destroy,
-    setVisible,
-    onToggleMap,
-  })
+	return self.mix({
+		destroy,
+		setVisible,
+		onToggleMap,
+	});
 }

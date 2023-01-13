@@ -1,37 +1,32 @@
 function Water(spec) {
-  const {
-    self,
-    screen,
-    camera,
-  } = Entity(spec, 'Water')
+	const { self, screen, camera } = Entity(spec, "Water");
 
-  let {
-    size,
-    waterQuad,
-  } = spec
+	let { size, waterQuad } = spec;
 
-  const ctx = screen.ctx
-  
-  const transform = Transform(spec, self)
+	const ctx = screen.ctx;
 
-  function tick() {
-    waterQuad.update()
-  }
+	const transform = Transform(spec, self);
 
-  function drawLocal() {
-    waterQuad.draw()
-    ctx.drawImage(waterQuad.canvas, 0, 0, size, size)
-  }
+	function tick() {
+		waterQuad.update();
+	}
 
-  function draw() {
-    camera.drawThrough(ctx, drawLocal, transform)
-  }
+	function drawLocal() {
+		waterQuad.draw();
+		ctx.drawImage(waterQuad.canvas, 0, 0, size, size);
+	}
 
-  return _.mixIn(self, {
-    tick,
-    draw,
-    transform,
-    waterQuad,
-    set size(_size) {size = _size}
-  })
+	function draw() {
+		camera.drawThrough(ctx, drawLocal, transform);
+	}
+
+	return _.mixIn(self, {
+		tick,
+		draw,
+		transform,
+		waterQuad,
+		set size(_size) {
+			size = _size;
+		},
+	});
 }

@@ -1,102 +1,96 @@
 function Assets(spec) {
-  const {
-    paths,
-    callbacks,
-  } = spec
+	const { paths, callbacks } = spec;
 
-  const self = _.cloneDeep(paths)
+	const self = _.cloneDeep(paths);
 
-  let loadTotal = 0
-  let loadCount = 0
-  let loaded = false
+	let loadTotal = 0;
+	let loadCount = 0;
+	let loaded = false;
 
-  const imageExtensions = ['svg', 'png', 'jpg', 'jpeg', 'webp']
-  const soundExtensions = ['m4a', 'mp3', 'ogg', 'wav']
-  const shaderExtensions = ['glsl', 'frag', 'vert']
+	const imageExtensions = ["svg", "png", "jpg", "jpeg", "webp"];
+	const soundExtensions = ["m4a", "mp3", "ogg", "wav"];
+	const shaderExtensions = ["glsl", "frag", "vert"];
 
-  load(self)
+	load(self);
 
-  if (callbacks.progress)
-    callbacks.progress(0, loadTotal)
-  
-  function loadAsset(object, folders, file, key, assetSpec={}) {
-    // console.log(`Loading asset '${file}' from folders `, folders)
-    
-    const extensions = _.tail(file.split('.'))
-    const extension = extensions[0]
-    const name = file.split('.')[0] || key
-    const path = 'Assets/'
-      + folders.map(v => v
-        .split('_')
-        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
-        .join('_')
-      ).join('/')
-      + '/'
-      + name
-      + '.'
-      + extension
+	if (callbacks.progress) callbacks.progress(0, loadTotal);
 
-    const isImage = _.includes(imageExtensions, extension)
-    const isSound = _.includes(soundExtensions, extension)
-    const isShader = _.includes(shaderExtensions, extension)
+	function loadAsset(object, folders, file, key, assetSpec = {}) {
+		// console.log(`Loading asset '${file}' from folders `, folders)
 
-    let asset
+		const extensions = _.tail(file.split("."));
+		const extension = extensions[0];
+		const name = file.split(".")[0] || key;
+		const path =
+			"Assets/" +
+			folders
+				.map((v) =>
+					v
+						.split("_")
+						.map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+						.join("_")
+				)
+				.join("/") +
+			"/" +
+			name +
+			"." +
+			extension;
 
-    if (isImage) {
-      asset = new Image()
-      asset.loading = 'eager'
-      asset.src = path
-      asset.onload = () => assetLoaded(path)
-    }
-    else if (isSound) {
-      assetSpec.src = path,
-      asset = new Howl({
-        ...assetSpec,
-        onload: () => assetLoaded(path),
-      })
-    }
-    else if (isShader) {
-      fetch(path)
-        .then(raw => raw.text())
-        .then(text => {
-          object[key] = text
-          assetLoaded(path)
-        })
-    }
-    else {
-      return
-    }
+		const isImage = _.includes(imageExtensions, extension);
+		const isSound = _.includes(soundExtensions, extension);
+		const isShader = _.includes(shaderExtensions, extension);
 
-    object[key] = asset
+		let asset;
 
-    loadCount++
-    loadTotal++
-  }
+		if (isImage) {
+			asset = new Image();
+			asset.loading = "eager";
+			asset.src = path;
+			asset.onload = () => assetLoaded(path);
+		} else if (isSound) {
+			(assetSpec.src = path),
+				(asset = new Howl({
+					...assetSpec,
+					onload: () => assetLoaded(path),
+				}));
+		} else if (isShader) {
+			fetch(path)
+				.then((raw) => raw.text())
+				.then((text) => {
+					object[key] = text;
+					assetLoaded(path);
+				});
+		} else {
+			return;
+		}
 
-  function load(object, folders=[]) {
-    _.each(object, (v, i) => {
-      if (_.isObject(v)) {
-        if (_.has(v, 'src'))
-          loadAsset(object, folders, v.src, i, v)
-        else
-          load(v, [...folders, i])
-      }
-      else if (_.isString(v))
-        loadAsset(object, folders, v, i)
-    })
-  }
+		object[key] = asset;
 
-  function assetLoaded(path) {
-    loadCount--
-    if (loadCount == 0) {
-      callbacks.complete()
-    }
-    else if (callbacks.progress) {
-      callbacks.progress(loadTotal-loadCount, loadTotal)
-    }
-  }
+		loadCount++;
+		loadTotal++;
+	}
 
-  return _.mixIn(self, {
-    get loaded() {return loaded},
-  })
+	function load(object, folders = []) {
+		_.each(object, (v, i) => {
+			if (_.isObject(v)) {
+				if (_.has(v, "src")) loadAsset(object, folders, v.src, i, v);
+				else load(v, [...folders, i]);
+			} else if (_.isString(v)) loadAsset(object, folders, v, i);
+		});
+	}
+
+	function assetLoaded(path) {
+		loadCount--;
+		if (loadCount == 0) {
+			callbacks.complete();
+		} else if (callbacks.progress) {
+			callbacks.progress(loadTotal - loadCount, loadTotal);
+		}
+	}
+
+	return _.mixIn(self, {
+		get loaded() {
+			return loaded;
+		},
+	});
 }
