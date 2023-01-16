@@ -92,6 +92,7 @@ worldData.push({
           middle_guitar: 'middle_guitar.mp3',
         }
       },
+      lava_monster_roar: '.mp3',
       map_button: 'map_button_compressed.mp3',
       next_button: 'next_button_compressed.mp3',
       enter_level: 'enter_level_compressed.mp3',

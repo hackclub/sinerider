@@ -7,13 +7,12 @@ function Sound(spec) {
   const {
     asset,
     domain = null,
-    walkers = null,
-    sledders = null,
     loop = false,
     duration = null,
     fadeOut = 300,
     volume = 1,
     track = 'walkers',
+    level = null,
   } = spec
 
   const howl = _.get(assets, asset)
@@ -22,7 +21,6 @@ function Sound(spec) {
   let played = false
 
   let soundId
-
 
   function awake() {
     if (!domain) {
@@ -36,16 +34,10 @@ function Sound(spec) {
 
   function tick() {
     if (domain) {
-      let entityToTrack = track === 'walkers' 
-        ? walkers[0]
-        : track === 'sledders'
-          ? sledders[0]
-          : null
-
-      if (!entityToTrack)
-        throw `Level '${track}' cannot be null if domain is passed`
-
-      const x = entityToTrack.transform.position.x
+      const x = level?.cutsceneDistanceParameter
+      
+      if (!x)
+        throw `Expected level to not be null and return a valid distance parameter for Sound domain in tick()`
 
       // Sounds w/ domains only play once
       if (x > domain[0] && !howl.playing() && !played) {

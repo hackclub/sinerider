@@ -12,6 +12,8 @@ function LavaMonster(spec) {
 
   const transform = Transform(spec, self)
 
+  const roar = _.get(assets, 'sounds.lava_monster_roar')
+
   transform.position.x = 150 // Lava x
   transform.position.y = 0
 
@@ -56,6 +58,9 @@ function LavaMonster(spec) {
       const t = 1/(1 + Math.exp(-2*(x-190)))
 
       jaw.transform.y = -6.2 + 3*t
+
+      if (x > 150 && !roar.playing())
+        roar.play()
     }
   }
 

@@ -226,7 +226,7 @@ function Level(spec) {
 
   function getCutsceneDistanceParameter() {
     let playerEntity = walkers.find(s => s.active) || sledders.find(w => w.active)
-    return playerEntity.transform.x.toFixed(1)
+    return playerEntity?.transform.x.toFixed(1)
   }
 
   function tick() {
@@ -427,6 +427,7 @@ function Level(spec) {
     const sound = Sound({
       name: 'Sound ' + soundDatum.asset,
       parent: self,
+      level: self,
       walkers,
       sledders,
       ...soundDatum,
@@ -876,6 +877,8 @@ function Level(spec) {
     
     restart,
     reset,
+
+    get cutsceneDistanceParameter() {return getCutsceneDistanceParameter()},
 
     playOpenMusic,
 
