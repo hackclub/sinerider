@@ -73,7 +73,11 @@ const ui = {
     addFixed: $('#editor-spawner-fixed'),
     addDynamic: $('#editor-spawner-dynamic'),
     addPath: $('#editor-spawner-path'),
-  }
+  },
+  levelInfoDiv: $('#lvl-debug-info'),
+  levelInfoNameStr: $('#lvl_name_str'),
+  levelInfoNickStr: $('#lvl_nick_str'),
+  hideLevelInfoButton: $('#button-hide-level-info'),
 }
 
 const editor = Editor(ui)
@@ -333,3 +337,13 @@ function onMouseUpCanvas(event) {
 
 canvas.addEventListener('mouseup', onMouseUpCanvas)
 canvas.addEventListener('pointerup', onMouseUpCanvas)
+
+ui.levelInfoDiv.addEventListener('mouseover', function() {
+  console.log("mouseover")
+  ui.hideLevelInfoButton.setAttribute('hide', false);
+})
+
+ui.levelInfoDiv.addEventListener('mouseleave', function() {
+  console.log("mouseleave")
+  ui.hideLevelInfoButton.setAttribute('hide', true);  
+})
