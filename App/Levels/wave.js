@@ -27,6 +27,7 @@ const WAVE = [{
     x: 0,
     y: 0,
     speech: [{
+      color: "#FFF",
       speakerX: 0.5,
       speakerY: 0.4,
       content: 'Hey…',
@@ -38,6 +39,7 @@ const WAVE = [{
     x: TAU,
     y: 0,
     speech: [{
+      color: "#FFF",
       speakerX: 0.3,
       speakerY: 0.4,
       content: 'Hi.',
@@ -79,12 +81,14 @@ const WAVE = [{
     x: 0,
     y: 0,
     speech: [{
+      color: "#FFF",
       speakerX: 0.5,
       speakerY: 0.4,
       content: '…right, right.',
       direction: 'up-up-right',
       distance: 1.5,
       speech: [{
+        color: "#FFF",
         content: 'So did you see that canyon??',
         direction: 'up',
         distance: 1.5,
@@ -95,6 +99,7 @@ const WAVE = [{
     x: TAU,
     y: 0,
     speech: [{
+      color: "#FFF",
       speakerX: 0.2,
       speakerY: 0.4,
       content: 'I mean, obviously not.',
