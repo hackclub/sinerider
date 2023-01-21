@@ -747,7 +747,6 @@ input[valid=false] {
   to { transform: translateY(0px); }
 }
 
-<<<<<<< HEAD
 #try-again {
   display: none;
   background-color: #f46;
@@ -768,7 +767,7 @@ input[valid=false] {
   align-items: center;
   justify-content: center;
   margin: auto;
-=======
+}
 #lvl-debug-info {
   position:absolute;
   left: 25px;
@@ -807,5 +806,4 @@ input[valid=false] {
   grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: 12px;
   padding:0px;
->>>>>>> 06ac1b1050099ba10a7a713125a978aef487dc66
 }
