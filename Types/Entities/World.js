@@ -12,6 +12,11 @@ function World(spec) {
     version,
   } = spec
 
+  document.getElementById("try-again").addEventListener("click", function () {
+    stopRunning();
+    document.getElementById("try-again").style.display = "none";
+  });
+
   const storage = PlayerStorage()
 
   let running = false

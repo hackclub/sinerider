@@ -746,3 +746,25 @@ input[valid=false] {
   from { transform: translateY(calc(-100% - 73px/2)); }
   to { transform: translateY(0px); }
 }
+
+#try-again {
+  display: none;
+  background-color: #f46;
+  color: black;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  margin-top: 250px;
+  font-family: 'Roboto Mono';
+}
+
+.try-again-button{
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
