@@ -146,7 +146,7 @@ body > .bar {
   pointer-events: none;
 }
 
-.envelope[hide=true],.text[hide=true],.label[hide=true],.button[hide=true] {
+*[hide=true] {
   display: none;
 }
 
@@ -717,7 +717,7 @@ input[valid=false] {
 }
 
 #editor-timer-input {
-  width: 6em;`
+  width: 6em;
 }
 
 #editor-position {
@@ -747,6 +747,7 @@ input[valid=false] {
   to { transform: translateY(0px); }
 }
 
+<<<<<<< HEAD
 #try-again {
   display: none;
   background-color: #f46;
@@ -767,4 +768,44 @@ input[valid=false] {
   align-items: center;
   justify-content: center;
   margin: auto;
+=======
+#lvl-debug-info {
+  position:absolute;
+  left: 25px;
+  top: 10px;
+  font-size: 10px;
+  width: 350px;
+  height: 25px;
+}
+
+#button-hide-level-info {
+  position:absolute;
+  width:25px;
+  height:25px;
+  right:50px;
+  min-width:25px;
+  min-height:25px;
+}
+
+.debugtitle {
+  font-weight:bold;
+  text-align:right;
+  width:150px;
+}
+
+.debuginfo {
+  width:150px;
+  text-align:left;
+}
+
+.grid {
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:300px;
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 12px;
+  padding:0px;
+>>>>>>> 06ac1b1050099ba10a7a713125a978aef487dc66
 }

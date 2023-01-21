@@ -70,6 +70,8 @@ function World(spec) {
   let levelBubble
 
   function start() {
+    ui.hideLevelInfoButton.addEventListener('click', hideLevelInfoClicked)
+
   }
 
   function tick() {
@@ -80,6 +82,10 @@ function World(spec) {
   }
 
   function draw() {
+  }
+
+  function hideLevelInfoClicked() {
+    ui.levelInfoDiv.setAttribute('hide', true)
   }
 
   function loadingVeilClicked() {
@@ -166,6 +172,10 @@ function World(spec) {
     ui.levelText.value = levelDatum.name
     ui.levelButtonString.innerHTML = levelDatum.name
 
+    ui.levelInfoNameStr.innerHTML = levelDatum.name
+    ui.levelInfoNickStr.innerHTML = levelDatum.nick
+    ui.levelInfoDiv.setAttribute('hide', false)
+    
     setNavigating(false)
   }
 
