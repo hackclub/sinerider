@@ -527,7 +527,12 @@ function Level(spec) {
   }
 
   document.getElementById("try-again").addEventListener("click", function () {
+    this.classList.add('slide-out');
     reset();
+    setTimeout(() => {
+      this.classList.remove('slide-out');
+      this.style.display = 'none';
+    }, 500);
     document.getElementById("try-again").style.display = "none";
     document.getElementById("try-again").removeEventListener("click", reset);
 });
