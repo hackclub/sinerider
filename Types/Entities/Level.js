@@ -513,25 +513,40 @@ function Level(spec) {
     }
   }
 
+
+
   function goalFailed(goal) {
     if (goal.order) {
       for (g of goals) {
-        if (g.order && !g.completed)
-          g.fail()
+        if (g.order && !g.completed) g.fail();
       }
     }
 
-    assets.sounds.goal_fail.play()
+    assets.sounds.goal_fail.play();
+    document.getElementById("try-again").style.display = "block";
   }
+
+  document.getElementById("try-again").addEventListener("click", function () {
+    this.classList.add('slide-out');
+    reset();
+    setTimeout(() => {
+      this.classList.remove('slide-out');
+      this.style.display = 'none';
+    }, 500);
+    document.getElementById("try-again").style.display = "none";
+    document.getElementById("try-again").removeEventListener("click", reset);
+});
 
   function playOpenMusic() {
     if (openMusic)
       openMusic.play()
   }
+  
 
   function reset() {
     stopRunning()
   }
+
 
   function restart() {
     const expression = isConstantLake() ? defaultVectorExpression : defaultExpression
