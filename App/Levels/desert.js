@@ -38,6 +38,7 @@ const DESERT = {
     backflip: [32, 36],
     
     speech: [{
+      color: "#FFF",
       speakerx: -4,
       content: 'Scary. Hard.',
       direction: 'up-up-left',
@@ -46,6 +47,7 @@ const DESERT = {
       color:'#FFFFFF'
     },
     {
+      color: "#FFF",
       speakerx: -4,
       content: 'I still had fun.',
       direction: 'up-up-left',
@@ -56,6 +58,7 @@ const DESERT = {
       color:'#FFFFFF'
     },
     {
+      color: "#FFF",
       speakerx: -4,
       content: 'I did a backflip!',
       direction: 'up-left',
@@ -64,6 +67,7 @@ const DESERT = {
       color:'#FFFFFF'
     },
     {
+      color: "#FFF",
       speakerx: -4,
       content: 'Yes I did!',
       direction: 'up-up-left',
@@ -72,6 +76,7 @@ const DESERT = {
       color:'#FFFFFF'
     },
     {
+      color: "#FFF",
       speakerx: -4,
       content: 'Why you gotta be so negative?',
       direction: 'up-up-left',
@@ -80,6 +85,7 @@ const DESERT = {
       color:'#FFFFFF'
     },
     {
+      color: "#FFF",
       speakerx: -4,
       content: 'Are you mad at me?',
       direction: 'up-up-left',
@@ -88,6 +94,7 @@ const DESERT = {
       color:'#FFFFFF'
     },
     {
+      color: "#FFF",
       speakerx: -4,
       content: 'You\'re right, I\'m sorry.',
       direction: 'up-up-left',
@@ -98,6 +105,7 @@ const DESERT = {
       color:'#FFFFFF'
     },
     {
+      color: "#FFF",
       speakerx: -4,
       content: 'Let me make it up to you. Watch this',
       direction: 'up-up-left',
@@ -106,6 +114,7 @@ const DESERT = {
       color:'#FFFFFF'
     },
     {
+      color: "#FFF",
       speakerx: -4,
       content: 'Because it made you smile.',
       direction: 'up-up-left',
@@ -114,12 +123,13 @@ const DESERT = {
       color:'#FFFFFF'
     },
 
-  ],
+    ],
     walkers: {
       x: -6,
       asset: 'images.sam_float',
       bobSpeed: 0.918218,
       speech: [{
+        color: "#FFF",
         speakerx: -0.4,
         content: 'How was the canyon?',
         direction: 'up-up-left',
@@ -128,6 +138,7 @@ const DESERT = {
         color:'#FFFFFF'
       },
       {
+        color: "#FFF",
         speakerx: -0.4,
         content: 'Well, that\'s why it\'s not on the route.',
         direction: 'up-up-left',
@@ -144,6 +155,7 @@ const DESERT = {
        color:'#FFFFFF'
       },
       {
+        color: "#FFF",
         speakerx: -0.4,
         content: 'We\'re ghosts, Jack. We float.',
         direction: 'up-up-left',
@@ -154,6 +166,7 @@ const DESERT = {
         color:'#FFFFFF'
       },
       {
+        color: "#FFF",
         speakerx: -0.4,
         content: 'Spinning in place is not a backflip.',
         direction: 'up-left',
@@ -162,6 +175,7 @@ const DESERT = {
         color:'#FFFFFF'
       },
       {
+        color: "#FFF",
         speakerx: -0.4,
         content: 'The truth isn\'t negative!',
         direction: 'up-up-left',
@@ -172,6 +186,7 @@ const DESERT = {
         color:'#FFFFFF'
       },
       {
+        color: "#FFF",
         speakerx: -0.4,
         content: 'It\'s just the truth!!',
         direction: 'up-left',
@@ -180,6 +195,7 @@ const DESERT = {
         color:'#FFFFFF'
       },
       {
+        color: "#FFF",
         speakerx: -0.4,
         content: 'A little, yeah!',
         direction: 'up-up-left',
@@ -190,6 +206,7 @@ const DESERT = {
         color:'#FFFFFF'
       },
       {
+        color: "#FFF",
         speakerx: -0.4,
         content: 'Your "shortcut" cost us time',
         direction: 'up-left',
@@ -198,6 +215,7 @@ const DESERT = {
         color:'#FFFFFF'
       },
       {
+        color: "#FFF",
         speakerx: -0.4,
         content: '...how is this helping',
         direction: 'up-up-left',
@@ -206,6 +224,7 @@ const DESERT = {
         color:'#FFFFFF'
       },
       {
+        color: "#FFF",
         speakerx: -0.4,
         content: 'You do have a talent for that.',
         direction: 'up-up-left',
@@ -213,7 +232,7 @@ const DESERT = {
         distance: [1.5],
         color:'#FFFFFF'
       },
-    ],
+      ],
     },
   }],
   sprites: [],
