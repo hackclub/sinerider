@@ -188,7 +188,7 @@ function Goal(spec) {
 
   function startRunning() {
     // TODO: Fix editor vs. non-editor logic for showing/hiding GUI
-    if (self.clickable && world.currentLevel.isEditor()) self.clickable.enabled = false
+    if (self.clickable && world.level.isEditor()) self.clickable.enabled = false
   }
 
   function stopRunning() {
