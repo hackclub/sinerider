@@ -523,18 +523,18 @@ function Level(spec) {
     }
 
     assets.sounds.goal_fail.play();
-    document.getElementById("try-again").style.display = "block";
+    ui.tryAgain.style.display = "block";
   }
 
-  document.getElementById("try-again").addEventListener("click", function () {
+  ui.tryAgain.addEventListener("click", function () {
     this.classList.add('slide-out');
     reset();
     setTimeout(() => {
       this.classList.remove('slide-out');
       this.style.display = 'none';
     }, 500);
-    document.getElementById("try-again").style.display = "none";
-    document.getElementById("try-again").removeEventListener("click", reset);
+    ui.tryAgain.style.display = "none";
+    ui.tryAgain.removeEventListener("click", reset);
 });
 
   function playOpenMusic() {

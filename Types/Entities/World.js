@@ -12,9 +12,9 @@ function World(spec) {
     version,
   } = spec
 
-  document.getElementById("try-again").addEventListener("click", function () {
+  ui.tryAgain.addEventListener("click", function () {
     stopRunning();
-    document.getElementById("try-again").style.display = "none";
+    ui.tryAgain.style.display = "none";
   });
 
   const storage = PlayerStorage()
