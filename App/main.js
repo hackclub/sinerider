@@ -12,7 +12,7 @@ const ui = {
   levelButtonString: $('#level-button > .string'),
   resetButton: $('#reset-button'),
 
-  tryAgain: $('try-again'),
+  tryAgain: $('#try-again'),
 
   veil: $('#veil'),
   loadingVeil: $('#loading-veil'),
@@ -47,10 +47,10 @@ const ui = {
   dottedMathContainer: $('#dotted-math-container'),
   dottedMathField: $('#dotted-math-field'),
   dottedMathFieldStatic: $('#dotted-math-field-static'),
-  dottedSlider: $("#dotted-slider"),
+  dottedSlider: $('#dotted-slider'),
 
-  volumeSlider: $("#volume-slider"),
-  
+  volumeSlider: $('#volume-slider'),
+
   variableLabel: $('#variable-label'),
 
   runButton: $('#run-button'),
@@ -92,10 +92,10 @@ const canvas = $('#canvas')
 let canvasIsDirty = true
 
 const ticksPerSecond = 30
-const tickDelta = 1/ticksPerSecond
+const tickDelta = 1 / ticksPerSecond
 
 const screen = Screen({
-  canvas
+  canvas,
 })
 
 let w = worldData[0]
@@ -105,7 +105,7 @@ const DEBUG_LEVEL = 'Volcano'
 
 if (DEBUG_LEVEL) {
   // make debug level first level for testing
-  const debugLevelIndex = w.levelData.findIndex(l => l.name === DEBUG_LEVEL)
+  const debugLevelIndex = w.levelData.findIndex((l) => l.name === DEBUG_LEVEL)
   if (debugLevelIndex == -1)
     alert(`DEBUG: Unable to find level '${DEBUG_LEVEL}'`)
   const tmp = w.levelData[0]
@@ -127,7 +127,7 @@ const world = World({
 function tick() {
   world.awake()
   world.start()
-  
+
   world.sendEvent('tick')
 
   requestDraw()
@@ -136,7 +136,7 @@ function tick() {
 function draw() {
   if (!canvasIsDirty) return
   canvasIsDirty = false
-  
+
   // Draw order bug where Shader entity isn't actually
   // sorted in World draw array and needs another sort call
   // in order to work? Temp fix (TODO: Fix this)
@@ -147,8 +147,7 @@ function draw() {
     entity = world.activeDrawArray[i]
     if (entity.draw) {
       screen.ctx.save()
-      if (entity.predraw) 
-        entity.predraw()
+      if (entity.predraw) entity.predraw()
       entity.draw()
       screen.ctx.restore()
     }
@@ -166,7 +165,7 @@ tick()
 draw()
 
 if (!stepping) {
-  setInterval(tick, 1000/ticksPerSecond)
+  setInterval(tick, 1000 / ticksPerSecond)
 }
 
 // MathQuill
@@ -176,19 +175,19 @@ ui.mathFieldStatic = MQ.StaticMath(ui.mathFieldStatic)
 function createMathField(field, eventNameOnEdit) {
   field = MQ.MathField(field, {
     handlers: {
-      edit: function() {
+      edit: function () {
         const text = field.getPlainExpression()
         const latex = field.latex()
         world.level.sendEvent(eventNameOnEdit, [text, latex])
-      } 
-    }
+      },
+    },
   })
 
-  field.getPlainExpression = function() {
+  field.getPlainExpression = function () {
     var tex = field.latex()
     return mathquillToMathJS(tex)
   }
-  
+
   return field
 }
 
@@ -213,17 +212,16 @@ ui.expressionEnvelope.addEventListener('blurout', onMathFieldBlur)
 
 function onKeyUp(event) {
   if (event.keyCode === 13) {
-    if (!world.navigating)
-      world.toggleRunning()
+    if (!world.navigating) world.toggleRunning()
   }
 }
 
-window.addEventListener('keydown', event => {
+window.addEventListener('keydown', (event) => {
   if (ui.mathField.focused()) return
   world.level.sendEvent('keydown', [event.key])
 })
 
-window.addEventListener("keyup", onKeyUp)
+window.addEventListener('keyup', onKeyUp)
 
 function onExpressionTextChanged(event) {
   world.level.sendEvent('setGraphExpression', [ui.expressionText.value])
@@ -297,6 +295,8 @@ function onClickResetButton(event) {
 
 ui.resetButton.addEventListener('click', onClickResetButton)
 
+ui.tryAgain.addEventListener('click', world.onClickTryAgainButton)
+
 function onResizeWindow(event) {
   world.sendEvent('resize', [window.innerWidth, window.innerHeight])
   screen.resize()
@@ -340,12 +340,12 @@ function onMouseUpCanvas(event) {
 canvas.addEventListener('mouseup', onMouseUpCanvas)
 canvas.addEventListener('pointerup', onMouseUpCanvas)
 
-ui.levelInfoDiv.addEventListener('mouseover', function() {
-  console.log("mouseover")
-  ui.hideLevelInfoButton.setAttribute('hide', false);
+ui.levelInfoDiv.addEventListener('mouseover', function () {
+  console.log('mouseover')
+  ui.hideLevelInfoButton.setAttribute('hide', false)
 })
 
-ui.levelInfoDiv.addEventListener('mouseleave', function() {
-  console.log("mouseleave")
-  ui.hideLevelInfoButton.setAttribute('hide', true);  
+ui.levelInfoDiv.addEventListener('mouseleave', function () {
+  console.log('mouseleave')
+  ui.hideLevelInfoButton.setAttribute('hide', true)
 })

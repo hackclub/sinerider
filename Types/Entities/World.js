@@ -3,19 +3,7 @@ let assets
 function World(spec) {
   const self = Entity(spec, 'World')
 
-  const {
-    ui,
-    screen,
-    levelData,
-    requestDraw,
-    tickDelta,
-    version,
-  } = spec
-
-  ui.tryAgain.addEventListener("click", function () {
-    stopRunning();
-    ui.tryAgain.style.display = "none";
-  });
+  const { ui, screen, levelData, requestDraw, tickDelta, version } = spec
 
   const storage = PlayerStorage()
 
@@ -25,19 +13,27 @@ function World(spec) {
   const quads = {}
 
   const globalScope = {
-    get t() {return runTime},
+    get t() {
+      return runTime
+    },
 
     timescale: 1,
-    get dt() {return tickDelta * globalScope.timescale},
+    get dt() {
+      return tickDelta * globalScope.timescale
+    },
 
     lerp: (a, b, t) => {
       t = math.clamp01(t)
-      return a*(1-t)+b*t
+      return a * (1 - t) + b * t
     },
 
-    get running() {return running},
+    get running() {
+      return running
+    },
 
-    get quads() {return quads},
+    get quads() {
+      return quads
+    },
   }
 
   let navigating = false
@@ -56,7 +52,7 @@ function World(spec) {
     callbacks: {
       complete: assetsComplete,
       progress: assetsProgress,
-    }
+    },
   })
 
   const clickableContext = ClickableContext({
@@ -71,18 +67,19 @@ function World(spec) {
 
   function start() {
     ui.hideLevelInfoButton.addEventListener('click', hideLevelInfoClicked)
-
   }
 
   function tick() {
-    if (window.innerHeight != screen.height || window.innerWidth != screen.width)
+    if (
+      window.innerHeight != screen.height ||
+      window.innerWidth != screen.width
+    )
       screen.resize()
 
     if (running) runTime += tickDelta
   }
 
-  function draw() {
-  }
+  function draw() {}
 
   function hideLevelInfoClicked() {
     ui.levelInfoDiv.setAttribute('hide', true)
@@ -116,10 +113,8 @@ function World(spec) {
       }
     }
 
-    if (_.endsWith(location.href, '#random'))
-      setLevel('RANDOM')
-    else
-      setLevel(levelData[0].nick)
+    if (_.endsWith(location.href, '#random')) setLevel('RANDOM')
+    else setLevel(levelData[0].nick)
   }
 
   function assetsComplete() {
@@ -130,7 +125,9 @@ function World(spec) {
   }
 
   function assetsProgress(progress, total) {
-    ui.loadingVeilString.innerHTML = `loading…<br>${Math.round(100*progress/total)}%`
+    ui.loadingVeilString.innerHTML = `loading…<br>${Math.round(
+      (100 * progress) / total
+    )}%`
   }
 
   function setLevel(nick, urlData = null) {
@@ -138,11 +135,9 @@ function World(spec) {
 
     levelBubble = navigator.getBubbleByNick(nick)
 
-    if (nick == 'RANDOM')
-      levelDatum = generateRandomLevel()
-    else
-      levelDatum = _.find(levelData, v => v.nick == nick)
-    
+    if (nick == 'RANDOM') levelDatum = generateRandomLevel()
+    else levelDatum = _.find(levelData, (v) => v.nick == nick)
+
     const savedLatex = urlData?.savedLatex ?? storage.getLevel(nick)?.savedLatex
 
     if (urlData?.goals && urlData?.goals.length)
@@ -175,22 +170,20 @@ function World(spec) {
     ui.levelInfoNameStr.innerHTML = levelDatum.name
     ui.levelInfoNickStr.innerHTML = levelDatum.nick
     ui.levelInfoDiv.setAttribute('hide', false)
-    
+
     setNavigating(false)
   }
 
   function setNavigating(_navigating) {
     navigating = _navigating
 
-    if (navigating)
-      self.sendEvent('onToggleMap', [_navigating])
+    if (navigating) self.sendEvent('onToggleMap', [_navigating])
 
     editor.active = !navigating
     level.active = !navigating
     navigator.active = navigating
 
-    if (!navigating)
-      self.sendEvent('onToggleMap', [_navigating])
+    if (!navigating) self.sendEvent('onToggleMap', [_navigating])
 
     ui.controlBar.setAttribute('hide', navigating)
     ui.navigatorFloatingBar.setAttribute('hide', !navigating)
@@ -199,21 +192,19 @@ function World(spec) {
     if (navigating) {
       navigator.revealHighlightedLevels(levelDatum.nick)
       navigator.refreshBubbles()
-    }
-    else {
+    } else {
       // ui.variablesBar.setAttribute('hide', true)
 
       navigator.showAll = false
       // if (navigator.showAllUsed)
-        ui.showAllButton.setAttribute('hide', false)
+      ui.showAllButton.setAttribute('hide', false)
     }
   }
 
-  function levelCompleted(soft=false) {
+  function levelCompleted(soft = false) {
     if (soft) {
       nextLevel(2.5)
-    }
-    else {
+    } else {
       ui.victoryBar.setAttribute('hide', false)
       ui.controlBar.setAttribute('hide', true)
       ui.showAllButton.setAttribute('hide', true)
@@ -222,15 +213,13 @@ function World(spec) {
     levelBubble.complete()
   }
 
-  function transitionNavigating(_navigating, duration=1, cb) {
+  function transitionNavigating(_navigating, duration = 1, cb) {
     ui.veil.setAttribute('style', `transition-duration: ${duration}s;`)
     ui.veil.setAttribute('hide', false)
 
-    if (_navigating)
-      self.sendEvent('onLevelFadeOut', [_navigating, duration])
-    else
-      self.sendEvent('onMapFadeOut', [_navigating, duration])
-    
+    if (_navigating) self.sendEvent('onLevelFadeOut', [_navigating, duration])
+    else self.sendEvent('onMapFadeOut', [_navigating, duration])
+
     setTimeout(() => {
       // HACK: to fix camera flicker
       setTimeout(() => {
@@ -239,16 +228,14 @@ function World(spec) {
       }, 100)
       setNavigating(_navigating)
 
-      if (_navigating)
-        self.sendEvent('onMapFadeIn', [_navigating, duration])
-      else
-        self.sendEvent('onLevelFadeIn', [_navigating, duration])
+      if (_navigating) self.sendEvent('onMapFadeIn', [_navigating, duration])
+      else self.sendEvent('onLevelFadeIn', [_navigating, duration])
 
       if (cb) cb()
-    }, duration*1000)
+    }, duration * 1000)
   }
 
-  function nextLevel(transitionDuration=1) {
+  function nextLevel(transitionDuration = 1) {
     transitionNavigating(true, transitionDuration, () => {
       stopRunning(false)
     })
@@ -267,7 +254,7 @@ function World(spec) {
     editing = _editing
   }
 
-  function startRunning(playSound=true, hideNavigator=true) {
+  function startRunning(playSound = true, hideNavigator = true) {
     running = true
 
     ui.mathField.blur()
@@ -276,19 +263,17 @@ function World(spec) {
 
     ui.runButton.setAttribute('hide', true)
     ui.stopButton.setAttribute('hide', false)
-    if (hideNavigator)
-      ui.navigatorButton.setAttribute('hide', true)
+    if (hideNavigator) ui.navigatorButton.setAttribute('hide', true)
     ui.resetButton.setAttribute('hide', true)
 
-    if (playSound)
-      assets.sounds.start_running.play()
+    if (playSound) assets.sounds.start_running.play()
 
     self.sendEvent('startRunning', [])
 
     requestDraw()
   }
 
-  function stopRunning(playSound=true) {
+  function stopRunning(playSound = true) {
     runTime = 0
     running = false
 
@@ -308,8 +293,7 @@ function World(spec) {
       setTimeout(() => ui.expressionText.focus(), 250)
     }
 
-    if (playSound)
-      assets.sounds.stop_running.play()
+    if (playSound) assets.sounds.stop_running.play()
 
     self.sendEvent('stopRunning', [])
 
@@ -331,7 +315,9 @@ function World(spec) {
       do {
         goalPosition.x = _.random(-10, 10)
         goalPosition.y = _.random(-10, 10)
-      } while (_.find(goals, v => v.x == goalPosition.x && v.y == goalPosition.y))
+      } while (
+        _.find(goals, (v) => v.x == goalPosition.x && v.y == goalPosition.y)
+      )
 
       goals.push(goalPosition)
     }
@@ -344,9 +330,12 @@ function World(spec) {
 
       do {
         sledderX = _.random(-10, 10)
-      } while (_.find(goals, v => v.x == sledderX) || _.find(sledders, v => v.x == sledderX))
+      } while (
+        _.find(goals, (v) => v.x == sledderX) ||
+        _.find(sledders, (v) => v.x == sledderX)
+      )
 
-      sledders.push({x: sledderX})
+      sledders.push({ x: sledderX })
     }
 
     const biomes = _.values(Colors.biomes)
@@ -373,6 +362,11 @@ function World(spec) {
   function onClickResetButton() {
     level.restart()
     assets.sounds.restart_button.play()
+  }
+
+  function onClickTryAgainButton() {
+    stopRunning()
+    ui.tryAgain.style.display = 'none'
   }
 
   function onMathFieldFocus() {
@@ -403,18 +397,31 @@ function World(spec) {
     onClickMapButton,
     onClickResetButton,
     onClickNextButton,
+    onClickTryAgainButton,
 
     onMathFieldFocus,
     onMathFieldBlur,
 
-    get navigator() {return navigator},
+    get navigator() {
+      return navigator
+    },
 
-    get editing() {return editing},
-    set editing(v) {setEditing(v)},
+    get editing() {
+      return editing
+    },
+    set editing(v) {
+      setEditing(v)
+    },
 
-    get level() {return level},
+    get level() {
+      return level
+    },
 
-    get navigating() {return navigating},
-    set navigating(v) {setNavigating(v)},
+    get navigating() {
+      return navigating
+    },
+    set navigating(v) {
+      setNavigating(v)
+    },
   })
 }
