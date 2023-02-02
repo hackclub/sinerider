@@ -521,21 +521,24 @@ function Level(spec) {
         if (g.order && !g.completed) g.fail();
       }
     }
-
+  
     assets.sounds.goal_fail.play();
     ui.tryAgain.style.display = "block";
+    ui.tryAgain.classList.add('slide-in');
   }
-
+  
   ui.tryAgain.addEventListener("click", function () {
     this.classList.add('slide-out');
     reset();
     setTimeout(() => {
+      this.classList.remove('slide-in');
       this.classList.remove('slide-out');
       this.style.display = 'none';
     }, 500);
     ui.tryAgain.style.display = "none";
     ui.tryAgain.removeEventListener("click", reset);
-});
+  });
+  
 
   function playOpenMusic() {
     if (openMusic)
