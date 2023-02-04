@@ -23,32 +23,27 @@ function Color() {
       if (_.isString(o)) {
         setHex(o)
         computeHsv()
-      }
-      else if (_.isObject(o)) {
+      } else if (_.isObject(o)) {
         if (_.has(o, ['h', 's', 'v'])) {
           setHsv(o.h, o.s, o.v)
-        }
-        else {
+        } else {
           r = o.r || 0
           g = o.g || 0
           b = o.b || 0
           computeHsv()
         }
-      }
-      else if (_.isArray(o)) {
+      } else if (_.isArray(o)) {
         r = o.r
         g = o.g
         b = o.b
         computeHsv()
       }
-    }
-    else if (arguments.length < 3) {
+    } else if (arguments.length < 3) {
       r = 0
       g = 0
       b = 0
       computeHsv()
-    }
-    else {
+    } else {
       r = arguments[0] || 0
       g = arguments[1] || 0
       b = arguments[2] || 0
@@ -66,13 +61,17 @@ function Color() {
     if (!stringsDirty) return
 
     hexString = '#' + componentToHex(r) + componentToHex(g) + componentToHex(b)
-    rgbString = `rgb(${Math.round(r*255)}, ${Math.round(g*255)}, ${Math.round(b*255)}`
-    hsvString = `hsv(${Math.round(h*255)}, ${Math.round(s*255)}, ${Math.round(v*255)}`
+    rgbString = `rgb(${Math.round(r * 255)}, ${Math.round(
+      g * 255,
+    )}, ${Math.round(b * 255)}`
+    hsvString = `hsv(${Math.round(h * 255)}, ${Math.round(
+      s * 255,
+    )}, ${Math.round(v * 255)}`
   }
 
   function componentToHex(c) {
     c = math.clamp01(c)
-    const hex = (Math.round(c*255)).toString(16)
+    const hex = Math.round(c * 255).toString(16)
     return hex.length == 1 ? '0' + hex : hex
   }
 
@@ -80,22 +79,21 @@ function Color() {
     const max = Math.max(r, g, b)
     const min = Math.min(r, g, b)
 
-    h, s, v = max
+    h, s, (v = max)
     let d = max - min
 
     s = max == 0 ? 0 : d / max
 
     if (max == min) {
       h = 0 // achromatic
-    }
-    else {
+    } else {
       switch (max) {
         case r:
           h = (g - b) / d + (g < b ? 6 : 0)
           break
         case g:
           h = (b - r) / d + 2
-          break;
+          break
         case b:
           h = (r - g) / d + 4
           break
@@ -117,22 +115,22 @@ function Color() {
 
     switch (i % 6) {
       case 0:
-        r = v, g = t, b = p
+        ;(r = v), (g = t), (b = p)
         break
       case 1:
-        r = q, g = v, b = p
+        ;(r = q), (g = v), (b = p)
         break
       case 2:
-        r = p, g = v, b = t
+        ;(r = p), (g = v), (b = t)
         break
       case 3:
-        r = p, g = q, b = v
+        ;(r = p), (g = q), (b = v)
         break
       case 4:
-        r = t, g = p, b = v
+        ;(r = t), (g = p), (b = v)
         break
       case 5:
-        r = v, g = p, b = q
+        ;(r = v), (g = p), (b = q)
         break
     }
 
@@ -199,21 +197,20 @@ function Color() {
   function setHex(_hexString) {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(_hexString)
 
-    r = parseInt(result[1], 16)/255
-    g = parseInt(result[2], 16)/255
-    b = parseInt(result[3], 16)/255
+    r = parseInt(result[1], 16) / 255
+    g = parseInt(result[2], 16) / 255
+    b = parseInt(result[3], 16) / 255
 
     computeHsv()
     stringsDirty = true
   }
 
-
   function add(other, output) {
     if (!output) output = this
 
-    output.r = r+other.r
-    output.g = g+other.g
-    output.b = b+other.b
+    output.r = r + other.r
+    output.g = g + other.g
+    output.b = b + other.b
 
     return output
   }
@@ -221,9 +218,9 @@ function Color() {
   function subtract(other, output) {
     if (!output) output = this
 
-    output.r = r-other.r
-    output.g = g-other.g
-    output.b = b-other.b
+    output.r = r - other.r
+    output.g = g - other.g
+    output.b = b - other.b
 
     return output
   }
@@ -232,14 +229,13 @@ function Color() {
     if (!output) output = this
 
     if (_.isObject(other)) {
-      output.r = r*other.r
-      output.g = g*other.g
-      output.b = b*other.b
-    }
-    else {
-      output.r = r*other
-      output.g = g*other
-      output.b = b*other
+      output.r = r * other.r
+      output.g = g * other.g
+      output.b = b * other.b
+    } else {
+      output.r = r * other
+      output.g = g * other
+      output.b = b * other
     }
 
     return output
@@ -248,9 +244,9 @@ function Color() {
   function divide(scalar, output) {
     if (!output) output = this
 
-    output.r = r/scalar
-    output.g = g/scalar
-    output.b = b/scalar
+    output.r = r / scalar
+    output.g = g / scalar
+    output.b = b / scalar
 
     return output
   }
@@ -258,9 +254,9 @@ function Color() {
   function invertRgb(output) {
     if (!output) output = this
 
-    output.r = 1-r
-    output.g = 1-g
-    output.b = 1-b
+    output.r = 1 - r
+    output.g = 1 - g
+    output.b = 1 - b
 
     return output
   }
@@ -276,39 +272,61 @@ function Color() {
   }
 
   function toString() {
-    return `RGB(${
-      math.truncate(r, 2)
-
-    }, ${
-      math.truncate(g, 2)
-
-    }, ${
-      math.truncate(b, 2)
-
-    })`
+    return `RGB(${math.truncate(r, 2)}, ${math.truncate(g, 2)}, ${math.truncate(
+      b,
+      2,
+    )})`
   }
 
   return _.mixIn(self, {
-    get r() {return r},
-    set r(_r) {setR(_r)},
+    get r() {
+      return r
+    },
+    set r(_r) {
+      setR(_r)
+    },
 
-    get g() {return g},
-    set g(_g) {setG(_g)},
+    get g() {
+      return g
+    },
+    set g(_g) {
+      setG(_g)
+    },
 
-    get b() {return b},
-    set b(_b) {setB(_b)},
+    get b() {
+      return b
+    },
+    set b(_b) {
+      setB(_b)
+    },
 
-    get h() {return h},
-    set h(_h) {setHsv(_h, s, v)},
+    get h() {
+      return h
+    },
+    set h(_h) {
+      setHsv(_h, s, v)
+    },
 
-    get s() {return s},
-    set s(_s) {setHsv(h, _s, v)},
+    get s() {
+      return s
+    },
+    set s(_s) {
+      setHsv(h, _s, v)
+    },
 
-    get v() {return v},
-    set v(_v) {setHsv(h, s, _v)},
+    get v() {
+      return v
+    },
+    set v(_v) {
+      setHsv(h, s, _v)
+    },
 
-    get hex() {return getHex()},
-    set hex(_hex) {setHex(_hex)},
+    get hex() {
+      return getHex()
+    },
+    set hex(_hex) {
+      setHex(_hex)
+    },
 
     set,
     clone,

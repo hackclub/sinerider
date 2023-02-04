@@ -1,23 +1,16 @@
 function Axes(spec) {
-  const {
-    self,
-    screen,
-  } = Entity(spec, 'Axes')
+  const { self, screen } = Entity(spec, 'Axes')
 
   const transform = Transform()
 
-  let {
-    camera,
-  } = spec
+  let { camera } = spec
 
   const ctx = screen.ctx
 
   const origin = Vector2()
   const screenOrigin = Vector2()
 
-  function tick() {
-
-  }
+  function tick() {}
 
   function draw() {
     camera.worldToScreen(origin, screenOrigin)

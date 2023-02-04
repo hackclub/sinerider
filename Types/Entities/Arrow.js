@@ -1,10 +1,5 @@
 function Arrow(spec) {
-  const {
-    self,
-    screen,
-    camera,
-    ctx,
-  } = Entity(spec, 'Arrow')
+  const { self, screen, camera, ctx } = Entity(spec, 'Arrow')
 
   const {
     point0 = Vector2(),
@@ -16,15 +11,11 @@ function Arrow(spec) {
     truncate = [0, 0],
   } = spec
 
-  let {
-    dashed = false,
-    dashSettings = [0.5, 0.5],
-    dashOffset = 0,
-  } = spec
+  let { dashed = false, dashSettings = [0.5, 0.5], dashOffset = 0 } = spec
 
   const transform = Transform({
     position: point0,
-    ...spec
+    ...spec,
   })
 
   const endTransform = Transform({
@@ -42,14 +33,12 @@ function Arrow(spec) {
 
   recomputeValues()
 
-  function tick() {
-
-  }
+  function tick() {}
 
   function drawLocalShaft() {
     ctx.beginPath()
     ctx.moveTo(0, truncate[0])
-    ctx.lineTo(0, direction.magnitude-truncate[1]-headSize)
+    ctx.lineTo(0, direction.magnitude - truncate[1] - headSize)
 
     ctx.globalAlpha = opacity
     ctx.strokeStyle = color
@@ -62,12 +51,12 @@ function Arrow(spec) {
   }
 
   function drawLocalPoint() {
-    const y = -truncate[1]/headSize
+    const y = -truncate[1] / headSize
     ctx.beginPath()
     ctx.moveTo(0, y)
 
-    ctx.lineTo(-0.5, y-1)
-    ctx.lineTo(0.5, y-1)
+    ctx.lineTo(-0.5, y - 1)
+    ctx.lineTo(0.5, y - 1)
     ctx.lineTo(0, y)
 
     ctx.globalAlpha = opacity
@@ -99,23 +88,35 @@ function Arrow(spec) {
     tick,
     draw,
 
-    get point0() {return point0},
+    get point0() {
+      return point0
+    },
     set point0(v) {
       transform.position.set(v)
       point0.set(v)
       recomputeValues()
     },
 
-    get point1() {return point0},
+    get point1() {
+      return point0
+    },
     set point1(v) {
       point1.set(v)
       recomputeValues()
     },
 
-    get opacity() {return opacity},
-    set opacity(v) {opacity = v},
+    get opacity() {
+      return opacity
+    },
+    set opacity(v) {
+      opacity = v
+    },
 
-    get dashed() {return dashed},
-    set dashed(v) {dashed = v},
+    get dashed() {
+      return dashed
+    },
+    set dashed(v) {
+      dashed = v
+    },
   })
 }

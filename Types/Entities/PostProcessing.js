@@ -1,12 +1,7 @@
 function PostProcessing(spec) {
-  const {
-    self,
-    screen,
-  } = Entity(spec, 'Post-processing Layer')
+  const { self, screen } = Entity(spec, 'Post-processing Layer')
 
-  const {
-    process
-  } = spec
+  const { process } = spec
 
   const ctx = screen.ctx
 

@@ -1,7 +1,7 @@
 name: 💡 General Feature Request
 description: Have a new idea/feature for Sinerider? Please tell us!
-title: "[FEATURE] <description>"
-labels: ["enhancement"]
+title: '[FEATURE] <description>'
+labels: ['enhancement']
 body:
   - type: textarea
     id: description

@@ -1,18 +1,14 @@
 function Rect(spec) {
   const self = Shape(spec)
 
-  let {
-    center = Vector2(),
-    width = 1,
-    height = 1,
-  } = spec
+  let { center = Vector2(), width = 1, height = 1 } = spec
 
   function intersectPoint(point, hit) {
     let p = self.localize(point)
     p.subtract(center)
 
-    const insideX = Math.abs(p.x) < width/2
-    const insideY = Math.abs(p.y) < height/2
+    const insideX = Math.abs(p.x) < width / 2
+    const insideY = Math.abs(p.y) < height / 2
 
     const intersecting = insideX && insideY
 
@@ -37,7 +33,7 @@ function Rect(spec) {
     ctx.strokeStyle = 'green'
     ctx.lineWidth = 0.1
     ctx.beginPath()
-    ctx.rect(center.x-width/2, -center.y-height/2, width, height)
+    ctx.rect(center.x - width / 2, -center.y - height / 2, width, height)
     ctx.stroke()
   }
 
@@ -54,13 +50,25 @@ function Rect(spec) {
     intersectCircle,
     intersectRect,
 
-    get center() {return center},
-    set center(v) {center.set(v)},
+    get center() {
+      return center
+    },
+    set center(v) {
+      center.set(v)
+    },
 
-    get width() {return width},
-    set width(v) {width = v},
+    get width() {
+      return width
+    },
+    set width(v) {
+      width = v
+    },
 
-    get height() {return height},
-    set height(v) {height = v},
+    get height() {
+      return height
+    },
+    set height(v) {
+      height = v
+    },
   })
 }

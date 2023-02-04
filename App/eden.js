@@ -39,7 +39,7 @@ worldData.push({
       crow: '.webp',
       tree_home_1: '.webp',
       tree_home_2: '.webp',
-      initial_bg:'initial-bg.webp',
+      initial_bg: 'initial-bg.webp',
       logistic_dunes_background: '.webp',
       western_slopes_background: '.webp',
       western_slopes_background_no_sky: '.webp',
@@ -53,7 +53,7 @@ worldData.push({
       volcano_rock_2: '.webp',
       volcano_rock_4: '.webp',
       volcano_trees: '.webp',
-      logo_text:'.webp',
+      logo_text: '.webp',
       rock_1: '.webp',
       rock_2: '.webp',
       rock_3: '.webp',
@@ -95,7 +95,7 @@ worldData.push({
           middle_buildup: '.mp3',
           jump: '.mp3',
           middle_guitar: 'middle_guitar.mp3',
-        }
+        },
       },
       lava_monster_roar: '.mp3',
       map_button: 'map_button_compressed.mp3',
@@ -144,213 +144,223 @@ worldData.push({
         volcano_stars_frag: 'volcano_stars.frag',
         volcano_stars_vert: 'volcano_stars.vert',
         volcano_sunset: '.frag',
-      }
-    }
-  },
-  levelData: [{
-    name: 'Welcome',
-    nick: 'HELLO_WORLD',
-    colors: Colors.biomes.home,
-    x: 0,
-    y: 0,
-    requirements: [],
-    runMusic: 'sounds.music.intro',
-    flashRunButton: true,
-    defaultExpression: '\\frac{-2}{1+e^{-x+5}}+\\frac{-2}{1+\\left(x-28\\right)^2}',
-    hint: 'congratulations, you found the secret hint!',
-    camera: {
-      offset: {
-        x: 0,
-        y: 0.53,
-      }
-    },
-    goals: [
-      {
-        type: 'dynamic',
-        x: 6.7,
-        y: 0
       },
-    ],
-    sledders: [{
+    },
+  },
+  levelData: [
+    {
+      name: 'Welcome',
+      nick: 'HELLO_WORLD',
+      colors: Colors.biomes.home,
       x: 0,
-      asset: 'images.benny_sled',
-      speech: {
-        x: 0.3,
-        content: 'snow!!',
-        direction: Vector2(0.5, 1),
-        distance: 1.2,
-        color: '#fff',
-      }
-    }],
-    walkers: [{
-      x: 7.6,
-      victoryX: 10,
-      followFlip:false,
-      asset: 'images.sam_float',
-      range: [7.6, 7.6],
-      size: 2,
-      flipX: true,
-      sloped:true,
-      speech: [
+      y: 0,
+      requirements: [],
+      runMusic: 'sounds.music.intro',
+      flashRunButton: true,
+      defaultExpression:
+        '\\frac{-2}{1+e^{-x+5}}+\\frac{-2}{1+\\left(x-28\\right)^2}',
+      hint: 'congratulations, you found the secret hint!',
+      camera: {
+        offset: {
+          x: 0,
+          y: 0.53,
+        },
+      },
+      goals: [
         {
-          x: -0.3,
-          y: 1,
-          content: 'I gotta work, hit the green button ⇲',
-          direction: 'up-left',
-          distance: 1.6,
-          color: '#fff',
+          type: 'dynamic',
+          x: 6.7,
+          y: 0,
+        },
+      ],
+      sledders: [
+        {
+          x: 0,
+          asset: 'images.benny_sled',
+          speech: {
+            x: 0.3,
+            content: 'snow!!',
+            direction: Vector2(0.5, 1),
+            distance: 1.2,
+            color: '#fff',
+          },
+        },
+      ],
+      walkers: [
+        {
+          x: 7.6,
+          victoryX: 10,
+          followFlip: false,
+          asset: 'images.sam_float',
+          range: [7.6, 7.6],
+          size: 2,
+          flipX: true,
+          sloped: true,
           speech: [
             {
-              x: -1.5,
-              content: 'yes, snow.',
-              direction: 'up-up-left',
-              distance: 0.8,
+              x: -0.3,
+              y: 1,
+              content: 'I gotta work, hit the green button ⇲',
+              direction: 'up-left',
+              distance: 1.6,
               color: '#fff',
               speech: [
-              ]
-            }
-          ]
+                {
+                  x: -1.5,
+                  content: 'yes, snow.',
+                  direction: 'up-up-left',
+                  distance: 0.8,
+                  color: '#fff',
+                  speech: [],
+                },
+              ],
+            },
+          ],
         },
-      ]
-    }],
-    sprites: [
-      {
-        asset: 'images.cabin_1',
-      drawOrder: LAYERS.foreSprites,
-      flipX: '*',
-      size: 6.1,
-      x: -3,
-      y: -1,
-      offset: Vector2(0, 0.7),
-      anchored: true
+      ],
+      sprites: [
+        {
+          asset: 'images.cabin_1',
+          drawOrder: LAYERS.foreSprites,
+          flipX: '*',
+          size: 6.1,
+          x: -3,
+          y: -1,
+          offset: Vector2(0, 0.7),
+          anchored: true,
+        },
+        {
+          asset: 'images.tree_home_1',
+          drawOrder: LAYERS.foreSprites,
+          flipX: '*',
+          size: 6.1,
+          x: 2,
+          y: 0,
+          offset: Vector2(0, 0.8),
+          anchored: true,
+        },
+        {
+          asset: 'images.tree_home_1',
+          flipX: '*',
+          size: 5.4,
+          x: -9,
+          y: 0,
+          offset: Vector2(0, 0.8),
+          anchored: true,
+        },
+        {
+          asset: 'images.tree_home_1',
+          drawOrder: LAYERS.foreSprites,
+          flipX: '*',
+          size: 6.7,
+          x: -7.5,
+          y: 0,
+          offset: Vector2(0, 0.8),
+          anchored: true,
+        },
+        {
+          asset: 'images.tree_home_2',
+          flipX: false,
+          size: 6.4,
+          x: 8,
+          y: 0,
+          offset: Vector2(0, 0.8),
+          anchored: true,
+        },
+        // {
+        //   asset: 'images.tree_home_1',
+        //   drawOrder: LAYERS.foreSprites,
+        //   flipX: '*',
+        //   size: 5.2,
+        //   x: 21,
+        //   y: 0,
+        //   offset: Vector2(0, 0.8),
+        //   anchored: true
+        // },
+        // {
+        //   asset: 'images.tree_home_1',
+        //   flipX: '*',
+        //   size: 5.9,
+        //   x: 10,
+        //   y: 0,
+        //   offset: Vector2(0, 0.8),
+        //   anchored: true
+        // },
+        // {
+        //   asset: 'images.tree_home_1',
+        //   drawOrder: LAYERS.foreSprites,
+        //   flipX: '*',
+        //   size: 7.1,
+        //   x: 34.2,
+        //   y: 0,
+        //   offset: Vector2(0, 0.7),
+        //   anchored: true
+        // },
+        // {
+        //   asset: 'images.tree_home_1',
+        //   flipX: '*',
+        //   size: 5.6,
+        //   x: 36.3,
+        //   y: 0,
+        //   offset: Vector2(0, 0.8),
+        //   anchored:true
+        // },
+        {
+          asset: 'images.crow',
+          flipX: '*',
+          size: 1,
+          x: 31,
+          y: 0,
+          anchored: true,
+        },
+        {
+          asset: 'images.logo_text',
+          drawOrder: LAYERS.foreSprites,
+          size: 20,
+          x: 20,
+          y: 13,
+          anchored: false,
+        },
+      ],
+      texts: [
+        {
+          x: 14,
+          y: -5.5,
+          size: 0.7,
+          fill: '#ffffff',
+          content: 'WIP Pre-Alpha. Don’t distribute yet!',
+        },
+        {
+          x: 14,
+          y: -4,
+          size: 1.5,
+          fill: '#c4acd4',
+          content: 'A game about love and graphing.',
+        },
+      ],
+      sky: {
+        asset: 'images.initial_bg',
+        margin: 1,
       },
-    {
-      asset: 'images.tree_home_1',
-      drawOrder: LAYERS.foreSprites,
-      flipX: '*',
-      size: 6.1,
-      x: 2,
-      y: 0,
-      offset: Vector2(0, 0.8),
-      anchored: true
-    },
-    {
-      asset: 'images.tree_home_1',
-      flipX: '*',
-      size: 5.4,
-      x: -9,
-      y: 0,
-      offset: Vector2(0, 0.8),
-      anchored: true
-    },{
-      asset: 'images.tree_home_1',
-      drawOrder: LAYERS.foreSprites,
-      flipX: '*',
-      size: 6.7,
-      x: -7.5,
-      y: 0,
-      offset: Vector2(0, 0.8),
-      anchored: true
-    },
-    {
-      asset: 'images.tree_home_2',
-      flipX: false,
-      size: 6.4,
-      x: 8,
-      y: 0,
-      offset: Vector2(0, 0.8),
-      anchored: true
-    },
-    // {
-    //   asset: 'images.tree_home_1',
-    //   drawOrder: LAYERS.foreSprites,
-    //   flipX: '*',
-    //   size: 5.2,
-    //   x: 21,
-    //   y: 0,
-    //   offset: Vector2(0, 0.8),
-    //   anchored: true
-    // },
-    // {
-    //   asset: 'images.tree_home_1',
-    //   flipX: '*',
-    //   size: 5.9,
-    //   x: 10,
-    //   y: 0,
-    //   offset: Vector2(0, 0.8),
-    //   anchored: true
-    // },
-    // {
-    //   asset: 'images.tree_home_1',
-    //   drawOrder: LAYERS.foreSprites,
-    //   flipX: '*',
-    //   size: 7.1,
-    //   x: 34.2,
-    //   y: 0,
-    //   offset: Vector2(0, 0.7),
-    //   anchored: true
-    // },
-    // {
-    //   asset: 'images.tree_home_1',
-    //   flipX: '*',
-    //   size: 5.6,
-    //   x: 36.3,
-    //   y: 0,
-    //   offset: Vector2(0, 0.8),
-    //   anchored:true
-    // },
-    {
-      asset: 'images.crow',
-      flipX: '*',
-      size: 1,
-      x: 31,
-      y: 0,
-      anchored: true
-    },
-    {
-      asset: 'images.logo_text',
-      drawOrder: LAYERS.foreSprites,
-      size: 20,
-      x: 20,
-      y: 13,
-      anchored: false,
-    }
-  ],
-    texts: [{
-      x: 14,
-      y: -5.5,
-      size: 0.7,
-      fill: '#ffffff',
-      content: 'WIP Pre-Alpha. Don’t distribute yet!'
-    },{
-      x: 14,
-      y: -4,
-      size: 1.5,
-      fill: '#c4acd4',
-      content: 'A game about love and graphing.'
-    }],
-    sky: {
-      asset:'images.initial_bg',
-      margin: 1,
-    },
-    clouds: {
-    },
-    snow: {
-      density: 0.4,
-      maxHeight: 8,
-      velocity: {
-        x: 0.2,
-        y: 0.4
-      }
-    },
-    textBubbles: [{
-      content: 'this one!',
-      domSelector: '#run-button',
-      place: 'top-left',
-      destroyOnClick: true,
-      style: {fontSize:'1.1rem'},
-    }],
-  },/*{
+      clouds: {},
+      snow: {
+        density: 0.4,
+        maxHeight: 8,
+        velocity: {
+          x: 0.2,
+          y: 0.4,
+        },
+      },
+      textBubbles: [
+        {
+          content: 'this one!',
+          domSelector: '#run-button',
+          place: 'top-left',
+          destroyOnClick: true,
+          style: { fontSize: '1.1rem' },
+        },
+      ],
+    } /*{
     name: 'Random',
     nick: 'RANDOM',
     colors: Colors.biomes.alps,
@@ -369,14 +379,15 @@ worldData.push({
     sledders: [{
       x: 0,
     }],
-  },*/
-  ...SLOPE,
-  ...EDITOR,
-  ...PARABOLA,
-  ...WAVE,
-  ...LOGISTIC,
-  ...TIME,
-]})
+  },*/,
+    ...SLOPE,
+    ...EDITOR,
+    ...PARABOLA,
+    ...WAVE,
+    ...LOGISTIC,
+    ...TIME,
+  ],
+})
 
 // Allows you to leave requirements as null to signify dependence on the previous level
 for (world of worldData) {
@@ -386,13 +397,13 @@ for (world of worldData) {
     const d = levelData[i]
 
     if (d.requirements == null) {
-      d.requirements = [levelData[i-1].nick]
+      d.requirements = [levelData[i - 1].nick]
       continue
     }
 
     for (let j = 0; j < d.requirements.length; j++) {
       if (d.requirements[j] == null) {
-        d.requirements[j] = [levelData[i-1].nick]
+        d.requirements[j] = [levelData[i - 1].nick]
       }
     }
   }

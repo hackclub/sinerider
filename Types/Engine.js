@@ -1,21 +1,15 @@
 function Engine(spec) {
   const self = {}
 
-  const {
-    ui,
-    canvas,
-    ticksPerSecond = 60,
-    stepping = false,
-  } = spec
-
+  const { ui, canvas, ticksPerSecond = 60, stepping = false } = spec
 
   let canvasIsDirty = true
 
-  const tickDelta = 1/ticksPerSecond
+  const tickDelta = 1 / ticksPerSecond
   let time = 0
 
   const screen = Screen({
-    canvas
+    canvas,
   })
 
   const world = World({
@@ -29,7 +23,7 @@ function Engine(spec) {
   draw()
 
   if (!stepping) {
-    setInterval(tick, 1000/ticksPerSecond)
+    setInterval(tick, 1000 / ticksPerSecond)
   }
 
   // Core methods
@@ -61,9 +55,7 @@ function Engine(spec) {
 
   // HTML events
 
-  function onKeyUp(event) {
-
-  }
+  function onKeyUp(event) {}
 
   window.addEventListener('keyup', onKeyUp)
 

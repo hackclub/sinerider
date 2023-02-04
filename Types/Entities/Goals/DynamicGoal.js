@@ -1,31 +1,21 @@
 function DynamicGoal(spec) {
-  const {
-    self,
-    screen,
-    camera,
-    transform,
-    ctx,
-  } = Goal(spec, 'Dynamic Goal')
+  const { self, screen, camera, transform, ctx } = Goal(spec, 'Dynamic Goal')
 
   const base = _.mix(self)
 
-  let {
-    size = 1,
-    globalScope,
-    graph,
-  } = spec
+  let { size = 1, globalScope, graph } = spec
 
-  const bottom = Vector2(0, -size/2)
+  const bottom = Vector2(0, -size / 2)
   const bottomWorld = Vector2()
 
   const slopeTangent = Vector2()
- 
+
   let startPosition = Vector2(spec)
 
   const shape = Circle({
     transform,
     center: Vector2(0, 0),
-    radius: size/2,
+    radius: size / 2,
   })
 
   const clickable = Clickable({
@@ -49,7 +39,7 @@ function DynamicGoal(spec) {
     if (clickable.selectedInEditor) {
       transform.scale = 1.1
 
-      ctx.fillStyle = ctx.createConicGradient(Math.PI/4, size/2, size/2)
+      ctx.fillStyle = ctx.createConicGradient(Math.PI / 4, size / 2, size / 2)
       ctx.fillStyle.addColorStop(t % 1, '#FBA')
       ctx.fillStyle.addColorStop((t + 0.25) % 1, '#BC1')
       ctx.fillStyle.addColorStop((t + 0.5) % 1, '#BFC')
@@ -60,11 +50,15 @@ function DynamicGoal(spec) {
 
       let outlinePadding = 0.3
 
-      ctx.fillRect(-size/2 - outlinePadding/2, -size/2 - outlinePadding/2, size + outlinePadding, size + outlinePadding)
+      ctx.fillRect(
+        -size / 2 - outlinePadding / 2,
+        -size / 2 - outlinePadding / 2,
+        size + outlinePadding,
+        size + outlinePadding,
+      )
     } else {
       transform.scale = 1
-    }    
-
+    }
 
     ctx.strokeStyle = self.strokeStyle
     ctx.fillStyle = self.fillStyle
@@ -72,7 +66,7 @@ function DynamicGoal(spec) {
     ctx.lineWidth = self.strokeWidth
 
     ctx.beginPath()
-    ctx.arc(0, 0, size/2, 0, TAU)
+    ctx.arc(0, 0, size / 2, 0, TAU)
     ctx.fill()
     ctx.stroke()
   }
@@ -105,7 +99,7 @@ function DynamicGoal(spec) {
     transform.position = startPosition
     transform.rotation = 0
 
-    transform.position.y = graph.sample('x', transform.position.x)+size/2
+    transform.position.y = graph.sample('x', transform.position.x) + size / 2
 
     transform.transformPoint(bottom, bottomWorld)
 
@@ -189,7 +183,9 @@ function DynamicGoal(spec) {
     setY,
 
     shape,
-  
-    get type() {return 'dynamic'},
+
+    get type() {
+      return 'dynamic'
+    },
   })
 }

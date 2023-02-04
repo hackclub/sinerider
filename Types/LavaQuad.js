@@ -6,7 +6,9 @@ function LavaQuad(assets) {
 
   gl = canvas.getContext('webgl')
   if (!gl) {
-    return alert('Your browser does not support WebGL. Try switching or updating your browser!')
+    return alert(
+      'Your browser does not support WebGL. Try switching or updating your browser!',
+    )
   }
 
   gl.enable(gl.BLEND)
@@ -22,7 +24,7 @@ function LavaQuad(assets) {
   })
 
   let t = 0
-  
+
   function update() {
     t += 0.01
   }
@@ -31,8 +33,9 @@ function LavaQuad(assets) {
     // TODO: Move to shared state
     // TODO: Fix and reuse quad logic/entity wrapper
     const x = world.level.sledders[0].transform.x
-    const sunsetTime = 12*Math.exp(-(((x-221)/100)**2))
-    lavaProgram.use()
+    const sunsetTime = 12 * Math.exp(-(((x - 221) / 100) ** 2))
+    lavaProgram
+      .use()
       .vertices(utils.quad)
       .uniform('t', t)
       .uniform('progress', sunsetTime)
@@ -44,6 +47,8 @@ function LavaQuad(assets) {
     update,
     draw,
     name: 'LavaQuad',
-    get canvas() {return canvas},
+    get canvas() {
+      return canvas
+    },
   }
 }

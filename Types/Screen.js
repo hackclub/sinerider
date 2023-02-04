@@ -19,10 +19,7 @@
 function Screen(spec = {}) {
   const transform = Transform()
 
-  let {
-    canvas,
-    element = window
-  } = spec
+  let { canvas, element = window } = spec
 
   const ctx = canvas.getContext('2d')
 
@@ -44,18 +41,18 @@ function Screen(spec = {}) {
     canvas.width = width
     canvas.height = height
 
-    transform.x = width/2
-    transform.y = height/2
-    transform.scale = math.min(width, height)/2
+    transform.x = width / 2
+    transform.y = height / 2
+    transform.scale = math.min(width, height) / 2
 
     vertical = height > width
-    aspect = width/height
+    aspect = width / height
 
     minFramePoint[0] = vertical ? -1 : -aspect
-    minFramePoint[1] = vertical ? 1/aspect : -1
+    minFramePoint[1] = vertical ? 1 / aspect : -1
 
     maxFramePoint[0] = vertical ? 1 : aspect
-    maxFramePoint[1] = vertical ? 1/aspect : 1
+    maxFramePoint[1] = vertical ? 1 / aspect : 1
 
     _.callEach(resizeSubs)
   }
@@ -117,13 +114,25 @@ function Screen(spec = {}) {
     screenToFrameDirection,
     frameToScreenDirection,
 
-    get width() {return width},
-    get height() {return height},
+    get width() {
+      return width
+    },
+    get height() {
+      return height
+    },
 
-    get vertical() {return height},
-    get aspect() {return aspect},
+    get vertical() {
+      return height
+    },
+    get aspect() {
+      return aspect
+    },
 
-    get minFramePoint() {return minFramePoint},
-    get maxFramePoint() {return maxFramePoint},
+    get minFramePoint() {
+      return minFramePoint
+    },
+    get maxFramePoint() {
+      return maxFramePoint
+    },
   }
 }

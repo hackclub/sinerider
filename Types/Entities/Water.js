@@ -1,17 +1,10 @@
 function Water(spec) {
-  const {
-    self,
-    screen,
-    camera,
-  } = Entity(spec, 'Water')
+  const { self, screen, camera } = Entity(spec, 'Water')
 
-  let {
-    size,
-    waterQuad,
-  } = spec
+  let { size, waterQuad } = spec
 
   const ctx = screen.ctx
-  
+
   const transform = Transform(spec, self)
 
   function tick() {
@@ -32,6 +25,8 @@ function Water(spec) {
     draw,
     transform,
     waterQuad,
-    set size(_size) {size = _size}
+    set size(_size) {
+      size = _size
+    },
   })
 }

@@ -11,7 +11,9 @@ function VolcanoQuad(spec) {
 
   gl = local.getContext('webgl')
   if (!gl) {
-    return alert('Your browser does not support WebGL. Try switching or updating your browser!')
+    return alert(
+      'Your browser does not support WebGL. Try switching or updating your browser!',
+    )
   }
 
   gl.enable(gl.BLEND)
@@ -20,24 +22,14 @@ function VolcanoQuad(spec) {
   const utils = GLUtils(gl)
 
   const quad = utils.Vertices(gl.STATIC_DRAW, {
-    'aCoords': {
+    aCoords: {
       type: 'vec2',
-      data: [
-        -1, -1,
-        -1,  1,
-         1, -1,
-         1,  1,
-     ]
+      data: [-1, -1, -1, 1, 1, -1, 1, 1],
     },
-    'aTexCoords': {
+    aTexCoords: {
       type: 'vec2',
-      data: [
-        0, 0,
-        0, 1,
-        1, 0,
-        1, 1,
-     ]
-    }
+      data: [0, 0, 0, 1, 1, 0, 1, 1],
+    },
   })
 
   const shaders = assets.shaders
@@ -88,7 +80,7 @@ function VolcanoQuad(spec) {
   function render() {
     time += 0.1
 
-    const sunsetTime = world.level.sledders[0].transform.x/150 * 12
+    const sunsetTime = (world.level.sledders[0].transform.x / 150) * 12
 
     frame.image(canvas, gl.RGBA)
 
@@ -96,7 +88,8 @@ function VolcanoQuad(spec) {
     fb.setColorAttachment(sourceBuffer)
 
     frame.bind(0)
-    sourceProgram.use()
+    sourceProgram
+      .use()
       .vertices(quad)
       .uniform('resolution', [local.width, local.height])
       .uniform('time', sunsetTime)
@@ -109,7 +102,8 @@ function VolcanoQuad(spec) {
 
     sourceBuffer.bind(0)
 
-    gaussianXProgram.use()
+    gaussianXProgram
+      .use()
       .vertices(quad)
       .uniform('resolution', [local.width, local.height])
       .uniform('time', time)
@@ -123,7 +117,8 @@ function VolcanoQuad(spec) {
 
     gaussianXBuffer.bind(0)
 
-    gaussianYProgram.use()
+    gaussianYProgram
+      .use()
       .vertices(quad)
       .uniform('resolution', [local.width, local.height])
       .uniform('time', time)
@@ -136,9 +131,10 @@ function VolcanoQuad(spec) {
     gaussianYBuffer.bind(0)
 
     const x = world.level.sledders[0].transform.x
-    const _sunsetTime = 12*Math.exp(-(((x-221)/100)**2))
+    const _sunsetTime = 12 * Math.exp(-(((x - 221) / 100) ** 2))
 
-    outputProgram.use()
+    outputProgram
+      .use()
       .vertices(quad)
       .uniform('resolution', [local.width, local.height])
       .uniform('time', time)
@@ -153,7 +149,11 @@ function VolcanoQuad(spec) {
     render,
     resize,
 
-    set kernelWidth(v) {kernelWidth = v},
-    get localCanvas() {return local},
+    set kernelWidth(v) {
+      kernelWidth = v
+    },
+    get localCanvas() {
+      return local
+    },
   }
 }

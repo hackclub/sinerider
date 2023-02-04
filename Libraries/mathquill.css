@@ -10,7 +10,12 @@
 @font-face {
   font-family: Symbola;
   src: url(font/Symbola.eot);
-  src: local("Symbola Regular"), local("Symbola"), url(font/Symbola.woff2) format("woff2"), url(font/Symbola.woff) format("woff"), url(font/Symbola.ttf) format("truetype"), url(font/Symbola.otf) format("opentype"), url(font/Symbola.svg#Symbola) format("svg");
+  src: local('Symbola Regular'), local('Symbola'),
+    url(font/Symbola.woff2) format('woff2'),
+    url(font/Symbola.woff) format('woff'),
+    url(font/Symbola.ttf) format('truetype'),
+    url(font/Symbola.otf) format('opentype'),
+    url(font/Symbola.svg#Symbola) format('svg');
 }
 .mq-editable-field {
   display: -moz-inline-box;
@@ -37,7 +42,7 @@
   -webkit-box-shadow: #8bd 0 0 1px 2px, inset #6ae 0 0 2px 0;
   -moz-box-shadow: #8bd 0 0 1px 2px, inset #6ae 0 0 2px 0;
   box-shadow: #8bd 0 0 1px 2px, inset #6ae 0 0 2px 0;
-  border-color: #709AC0;
+  border-color: #709ac0;
   border-radius: 1px;
 }
 .mq-math-mode .mq-editable-field {
@@ -45,7 +50,7 @@
 }
 .mq-editable-field .mq-latex-command-input {
   color: inherit;
-  font-family: "Courier New", monospace;
+  font-family: 'Courier New', monospace;
   border: 1px solid gray;
   padding-right: 1px;
   margin-right: 1px;
@@ -105,8 +110,8 @@
 .mq-math-mode var,
 .mq-math-mode .mq-text-mode,
 .mq-math-mode .mq-nonSymbola {
-  font-family: "Times New Roman", Symbola, serif;
-  line-height: .9;
+  font-family: 'Times New Roman', Symbola, serif;
+  line-height: 0.9;
 }
 .mq-math-mode * {
   font-size: inherit;
@@ -132,7 +137,7 @@
   font-size: 87%;
 }
 .mq-math-mode .mq-font {
-  font: 1em "Times New Roman", Symbola, serif;
+  font: 1em 'Times New Roman', Symbola, serif;
 }
 .mq-math-mode .mq-font * {
   font-family: inherit;
@@ -188,7 +193,7 @@
   vertical-align: -0.4em;
 }
 .mq-math-mode .mq-supsub.mq-sup-only {
-  vertical-align: .5em;
+  vertical-align: 0.5em;
 }
 .mq-math-mode .mq-supsub.mq-sup-only .mq-sup {
   display: inline-block;
@@ -205,7 +210,7 @@
   margin-left: -0.25em;
 }
 .mq-math-mode .mq-supsub .mq-binary-operator {
-  padding: 0 .1em;
+  padding: 0 0.1em;
 }
 .mq-math-mode .mq-supsub .mq-fraction {
   font-size: 70%;
@@ -214,24 +219,24 @@
   font-size: 80%;
   vertical-align: 0.8em;
   margin-right: -0.6em;
-  margin-left: .2em;
-  min-width: .5em;
+  margin-left: 0.2em;
+  min-width: 0.5em;
 }
 .mq-math-mode .mq-paren {
-  padding: 0 .1em;
+  padding: 0 0.1em;
   vertical-align: top;
-  -webkit-transform-origin: center .06em;
-  -moz-transform-origin: center .06em;
-  -ms-transform-origin: center .06em;
-  -o-transform-origin: center .06em;
-  transform-origin: center .06em;
+  -webkit-transform-origin: center 0.06em;
+  -moz-transform-origin: center 0.06em;
+  -ms-transform-origin: center 0.06em;
+  -o-transform-origin: center 0.06em;
+  transform-origin: center 0.06em;
 }
 .mq-math-mode .mq-paren.mq-ghost {
   color: silver;
 }
 .mq-math-mode .mq-paren + span {
-  margin-top: .1em;
-  margin-bottom: .1em;
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
 }
 .mq-math-mode .mq-array {
   vertical-align: middle;
@@ -241,21 +246,21 @@
   display: block;
 }
 .mq-math-mode .mq-operator-name {
-  font-family: Symbola, "Times New Roman", serif;
-  line-height: .9;
+  font-family: Symbola, 'Times New Roman', serif;
+  line-height: 0.9;
   font-style: normal;
 }
 .mq-math-mode var.mq-operator-name.mq-first {
-  padding-left: .2em;
+  padding-left: 0.2em;
 }
 .mq-math-mode var.mq-operator-name.mq-last {
-  padding-right: .2em;
+  padding-right: 0.2em;
 }
 .mq-math-mode .mq-fraction {
   font-size: 90%;
   text-align: center;
   vertical-align: -0.4em;
-  padding: 0 .2em;
+  padding: 0 0.2em;
 }
 .mq-math-mode .mq-fraction,
 .mq-math-mode .mq-large-operator,
@@ -295,15 +300,15 @@
 .mq-math-mode .mq-sqrt-stem {
   border-top: 1px solid;
   margin-top: 1px;
-  padding-left: .15em;
-  padding-right: .2em;
-  margin-right: .1em;
+  padding-left: 0.15em;
+  padding-right: 0.2em;
+  margin-right: 0.1em;
   padding-top: 1px;
 }
 .mq-math-mode .mq-vector-prefix {
   display: block;
   text-align: center;
-  line-height: .25em;
+  line-height: 0.25em;
   margin-bottom: -0.1em;
   font-size: 0.75em;
 }
@@ -330,7 +335,7 @@
 .mq-math-mode,
 .mq-math-mode .mq-editable-field {
   cursor: text;
-  font-family: Symbola, "Times New Roman", serif;
+  font-family: Symbola, 'Times New Roman', serif;
 }
 .mq-math-mode .mq-overarrow {
   border-top: 1px solid black;
@@ -352,7 +357,7 @@
   -webkit-transform: scaleX(-1);
   transform: scaleX(-1);
   filter: FlipH;
-  -ms-filter: "FlipH";
+  -ms-filter: 'FlipH';
 }
 .mq-math-mode .mq-selection,
 .mq-editable-field .mq-selection,
@@ -360,14 +365,14 @@
 .mq-editable-field .mq-selection .mq-non-leaf,
 .mq-math-mode .mq-selection .mq-scaled,
 .mq-editable-field .mq-selection .mq-scaled {
-  background: #B4D5FE !important;
+  background: #b4d5fe !important;
   background: Highlight !important;
   color: HighlightText;
   border-color: HighlightText;
 }
 .mq-math-mode .mq-selection .mq-matrixed,
 .mq-editable-field .mq-selection .mq-matrixed {
-  background: #39F !important;
+  background: #39f !important;
 }
 .mq-math-mode .mq-selection .mq-matrixed-container,
 .mq-editable-field .mq-selection .mq-matrixed-container {
@@ -381,7 +386,7 @@
 .mq-editable-field .mq-selection.mq-blur .mq-scaled,
 .mq-math-mode .mq-selection.mq-blur .mq-matrixed,
 .mq-editable-field .mq-selection.mq-blur .mq-matrixed {
-  background: #D4D4D4 !important;
+  background: #d4d4d4 !important;
   color: black;
   border-color: black;
 }

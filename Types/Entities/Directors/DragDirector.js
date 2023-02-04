@@ -1,12 +1,7 @@
 function CameraDragger(spec) {
   const self = CameraController(spec, 'CameraDragger')
 
-  const {
-    camera,
-    entity,
-    screen,
-    globalScope,
-  } = self
+  const { camera, entity, screen, globalScope } = self
 
   const clickable = Clickable({
     entity: camera,
@@ -33,11 +28,9 @@ function CameraDragger(spec) {
     dragOrigin.add(dragOffset, self.position)
   }
 
-  function dragEnd(point) {
-  }
+  function dragEnd(point) {}
 
-  function click(point) {
-  }
+  function click(point) {}
 
   function canControl() {
     return clickable.dragging

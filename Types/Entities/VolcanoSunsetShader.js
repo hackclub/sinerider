@@ -1,12 +1,7 @@
 function VolcanoSunsetShader(spec) {
-  const {
-    self,
-    screen,
-  } = Entity(spec, 'Shader')
+  const { self, screen } = Entity(spec, 'Shader')
 
-  const {
-    quad,
-  } = spec
+  const { quad } = spec
 
   const ctx = screen.ctx
 

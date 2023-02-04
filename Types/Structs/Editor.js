@@ -1,19 +1,8 @@
 function Editor(ui) {
-  const {
-    editorInspector,
-    order,
-    timer,
-    x,
-    y,
-    deleteSelection,
-  } = ui.editorInspector
+  const { editorInspector, order, timer, x, y, deleteSelection } =
+    ui.editorInspector
 
-  const {
-    editorSpawner,
-    addFixed,
-    addDynamic,
-    addPath,
-  } = ui.editorSpawner
+  const { editorSpawner, addFixed, addDynamic, addPath } = ui.editorSpawner
 
   let showing = true
 
@@ -39,10 +28,12 @@ function Editor(ui) {
   let active = false
 
   deleteSelection.onclick = () => {
-    if (selectionType == 'fixed'
-      || selectionType == 'path'
-      || selectionType == 'dynamic'
-      || selectionType == 'sledder')
+    if (
+      selectionType == 'fixed' ||
+      selectionType == 'path' ||
+      selectionType == 'dynamic' ||
+      selectionType == 'sledder'
+    )
       selection.remove()
   }
 
@@ -99,7 +90,7 @@ function Editor(ui) {
     editorInspector.setAttribute('hide', true)
   }
 
-  order.oninput = event => {
+  order.oninput = (event) => {
     let data = event.data ? event.data.toUpperCase() : null
     if (!/[a-z]/i.test(data)) {
       event.preventDefault()
@@ -110,7 +101,7 @@ function Editor(ui) {
     if (selection?.setOrder) selection.setOrder(data)
   }
 
-  timer.oninput = event => {
+  timer.oninput = (event) => {
     let value
     try {
       value = Number(timer.value)
@@ -120,7 +111,7 @@ function Editor(ui) {
     if (selection?.setTimer) selection.setTimer(value)
   }
 
-  x.oninput = event => {
+  x.oninput = (event) => {
     let value
     try {
       value = Number(x.value)
@@ -130,7 +121,7 @@ function Editor(ui) {
     if (selection?.setX) selection.setX(value)
   }
 
-  y.oninput = event => {
+  y.oninput = (event) => {
     let value
     try {
       value = Number(y.value)
@@ -144,7 +135,9 @@ function Editor(ui) {
     show,
     hide,
 
-    get active() {return active},
+    get active() {
+      return active
+    },
     set active(v) {
       active = v
       if (v) {
@@ -154,8 +147,12 @@ function Editor(ui) {
       }
     },
 
-    get editingPath() {return editingPath},
-    set editingPath(v) {editingPath = v},
+    get editingPath() {
+      return editingPath
+    },
+    set editingPath(v) {
+      editingPath = v
+    },
 
     deselect,
     select,

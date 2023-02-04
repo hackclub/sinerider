@@ -17,7 +17,7 @@ function findClosingBrace(str, startIdx) {
     '[': ']',
     '<': '>',
     '(': ')',
-    '{': '}'
+    '{': '}',
   }
 
   const openingBrace = str[startIdx]
@@ -25,7 +25,9 @@ function findClosingBrace(str, startIdx) {
   const closingBrace = braces[openingBrace]
 
   if (closingBrace === undefined) {
-    throw Error(`${str} does not contain an opening brace at position ${startIdx}.`)
+    throw Error(
+      `${str} does not contain an opening brace at position ${startIdx}.`,
+    )
   }
 
   let stack = 1
@@ -34,8 +36,7 @@ function findClosingBrace(str, startIdx) {
   for (let j = startIdx + 1; j < str.length; j++) {
     if (str[j] === openingBrace) {
       stack += +1
-    }
-    else if (str[j] === closingBrace) {
+    } else if (str[j] === closingBrace) {
       stack += -1
     }
     if (stack === 0) {
@@ -44,7 +45,9 @@ function findClosingBrace(str, startIdx) {
   }
 
   // stack !== 0
-  throw Error(`${str} has a brace that opens at position ${startIdx} but does not close.`)
+  throw Error(
+    `${str} has a brace that opens at position ${startIdx} but does not close.`,
+  )
 }
 
 /**
@@ -81,15 +84,16 @@ function mathquillToMathJS(fromMQ) {
     { tex: '{', mathjs: '(' },
     { tex: '}', mathjs: ')' },
     { tex: '~', mathjs: ' ' },
-    { tex: '\\', mathjs: ' ' }
+    { tex: '\\', mathjs: ' ' },
   ]
 
   // remove fractions, then apply replacements
   const noFrac = fracToDivision(fromMQ)
   const noBraceSub = convertSubscript(noFrac)
   return replacements.reduce(
-    (acc, r) => replaceAll(acc, r['tex'], r['mathjs'] ),
-    noBraceSub)
+    (acc, r) => replaceAll(acc, r['tex'], r['mathjs']),
+    noBraceSub,
+  )
 }
 
 /**
@@ -100,11 +104,14 @@ function convertSubscript(expr) {
   const sub = '_{'
   const subStart = expr.indexOf(sub)
 
-  if (subStart < 0) { return expr }
+  if (subStart < 0) {
+    return expr
+  }
 
   const numStart = subStart + sub.length
   const closingBrace = expr.indexOf('}', numStart)
-  const newExpr = expr.slice(0, subStart) +
+  const newExpr =
+    expr.slice(0, subStart) +
     '_' +
     expr.slice(numStart, closingBrace) +
     expr.slice(closingBrace + 1)
@@ -116,20 +123,26 @@ function convertSubscript(expr) {
  * Recursively replaces LaTeX fractions with normal divison
  *   - example: \frac{a}{1 + \frac{b}{c}}x^2 + 1 --> ({a}/{1 + {b}/{c}})x^2 + 1
  */
- function fracToDivision(expr) {
+function fracToDivision(expr) {
   const frac = '\\frac'
   const fracStart = expr.indexOf(frac)
   const numStart = fracStart + frac.length
 
-  if (fracStart < 0) { return expr }
+  if (fracStart < 0) {
+    return expr
+  }
 
   const divIdx = findClosingBrace(expr, numStart)
   const fracEndIdx = findClosingBrace(expr, divIdx + 1)
 
   // Remove '\frac', add '/', and wrap parens around fraction expr
-  const newExpr = expr.slice(0, fracStart) +
-    '(' + expr.slice(numStart, divIdx + 1) + '/' +
-    expr.slice(divIdx + 1, fracEndIdx + 1) + ')' +
+  const newExpr =
+    expr.slice(0, fracStart) +
+    '(' +
+    expr.slice(numStart, divIdx + 1) +
+    '/' +
+    expr.slice(divIdx + 1, fracEndIdx + 1) +
+    ')' +
     expr.slice(fracEndIdx + 1)
 
   return fracToDivision(newExpr)

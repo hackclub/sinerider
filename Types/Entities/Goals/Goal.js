@@ -1,9 +1,5 @@
 function Goal(spec) {
-  const {
-    self,
-    screen,
-    ctx,
-  } = Entity(spec, 'Goal')
+  const { self, screen, ctx } = Entity(spec, 'Goal')
 
   const transform = Transform(spec)
 
@@ -82,10 +78,8 @@ function Goal(spec) {
     cameraDirection.set(camera.transform.position)
     transform.invertPoint
     cameraDistance = cameraDirection.magnitude
-    if (cameraDistance == 0)
-      cameraDirection.set(0, 1)
-    else
-      cameraDirection.normalize()
+    if (cameraDistance == 0) cameraDirection.set(0, 1)
+    else cameraDirection.normalize()
   }
 
   function refreshTriggered() {
@@ -98,7 +92,10 @@ function Goal(spec) {
         if (!alreadyTriggered)
           triggeringSledderPosition.set(sledder.transform.position)
 
-        sledder.transform.position.subtract(triggeringSledderPosition, triggeringSledderDelta)
+        sledder.transform.position.subtract(
+          triggeringSledderPosition,
+          triggeringSledderDelta,
+        )
         triggeringSledderPosition.set(sledder.transform.position)
 
         triggered = true
@@ -111,10 +108,8 @@ function Goal(spec) {
 
   function checkComplete() {
     if (triggered && !completed && !failed) {
-      if (available)
-        complete()
-      else
-        fail()
+      if (available) complete()
+      else fail()
     }
   }
 
@@ -141,8 +136,7 @@ function Goal(spec) {
       sledderPosition.set(sledderPoint)
       sledder.transform.transformPoint(sledderPosition)
 
-      if (self.shape.intersectPoint(sledderPosition))
-        return true
+      if (self.shape.intersectPoint(sledderPosition)) return true
     }
 
     return false
@@ -159,7 +153,7 @@ function Goal(spec) {
       ctx.translate(0, -0.15)
 
       let center = self.shape.center
-      ctx.fillText(order, center.x, center.y+0.25)
+      ctx.fillText(order, center.x, center.y + 0.25)
       ctx.restore()
     }
   }
@@ -197,34 +191,57 @@ function Goal(spec) {
   }
 
   function refreshColors() {
-    strokeColor.set(completed ? 
-      completedStroke : failed ? 
-      failedStroke : triggered ? 
-      triggeredStroke : available ? 
-      availableStroke : unavailableStroke)
+    strokeColor.set(
+      completed
+        ? completedStroke
+        : failed
+        ? failedStroke
+        : triggered
+        ? triggeredStroke
+        : available
+        ? availableStroke
+        : unavailableStroke,
+    )
 
-    strokeColorB.set(completed ? 
-      completedStrokeB : failed ? 
-      failedStrokeB : triggered ? 
-      triggeredStrokeB : available ? 
-      availableStrokeB : unavailableStrokeB)
+    strokeColorB.set(
+      completed
+        ? completedStrokeB
+        : failed
+        ? failedStrokeB
+        : triggered
+        ? triggeredStrokeB
+        : available
+        ? availableStrokeB
+        : unavailableStrokeB,
+    )
 
     availableFill.lerp(completedFill, self.completedProgress, triggeredFill)
 
-    fillColor.set(completed ? 
-      completedFill : failed ? 
-      failedFill : triggered ? 
-      triggeredFill : available ? 
-      availableFill : unavailableFill)
+    fillColor.set(
+      completed
+        ? completedFill
+        : failed
+        ? failedFill
+        : triggered
+        ? triggeredFill
+        : available
+        ? availableFill
+        : unavailableFill,
+    )
 
     strokeColor.lerp(flashWhite, flashProgress)
     strokeColorB.lerp(flashWhite, flashProgress)
     fillColor.lerp(flashWhite, flashProgress)
 
-    strokeStyle = ctx.createLinearGradient(cameraDirection.x*size/2, -cameraDirection.y*size/2, -cameraDirection.x*size/2, cameraDirection.y*size/2)
+    strokeStyle = ctx.createLinearGradient(
+      (cameraDirection.x * size) / 2,
+      (-cameraDirection.y * size) / 2,
+      (-cameraDirection.x * size) / 2,
+      (cameraDirection.y * size) / 2,
+    )
 
     strokeStyle.addColorStop(0, strokeColorB.hex)
-    strokeStyle.addColorStop(1-1/(1+cameraDistance), strokeColor.hex)
+    strokeStyle.addColorStop(1 - 1 / (1 + cameraDistance), strokeColor.hex)
     strokeStyle.addColorStop(1, strokeColorB.hex)
 
     fillStyle = fillColor.hex
@@ -260,9 +277,10 @@ function Goal(spec) {
   }
 
   function keydown(key) {
-    if (document.activeElement == document.body // Ignore if in text field
-        && self.clickable?.selected
-        && (key == 'Backspace' || key == 'Delete')
+    if (
+      document.activeElement == document.body && // Ignore if in text field
+      self.clickable?.selected &&
+      (key == 'Backspace' || key == 'Delete')
     ) {
       remove()
     }
@@ -298,29 +316,63 @@ function Goal(spec) {
     setX,
     setY,
 
-    get x() {return transform.position.x},
-    get y() {return transform.position.y},
+    get x() {
+      return transform.position.x
+    },
+    get y() {
+      return transform.position.y
+    },
 
-    get completed() {return completed},
-    get available() {return available},
-    get triggered() {return triggered},
-    get failed() {return failed},
-    get order() {return order},
+    get completed() {
+      return completed
+    },
+    get available() {
+      return available
+    },
+    get triggered() {
+      return triggered
+    },
+    get failed() {
+      return failed
+    },
+    get order() {
+      return order
+    },
 
-    get triggeringSledder() {return triggeringSledder},
-    get triggeringSledderPosition() {return triggeringSledderPosition},
-    get triggeringSledderDelta() {return triggeringSledderDelta},
+    get triggeringSledder() {
+      return triggeringSledder
+    },
+    get triggeringSledderPosition() {
+      return triggeringSledderPosition
+    },
+    get triggeringSledderDelta() {
+      return triggeringSledderDelta
+    },
 
-    get fillStyle() {return fillStyle},
-    get strokeStyle() {return strokeStyle},
-    get strokeWidth() {return strokeWidth},
+    get fillStyle() {
+      return fillStyle
+    },
+    get strokeStyle() {
+      return strokeStyle
+    },
+    get strokeWidth() {
+      return strokeWidth
+    },
 
-    get flashProgress() {return flashProgress},
-    get flashWhite() {return flashWhite},
+    get flashProgress() {
+      return flashProgress
+    },
+    get flashWhite() {
+      return flashWhite
+    },
 
-    get completedProgress() {return completed ? 1 : 0},
+    get completedProgress() {
+      return completed ? 1 : 0
+    },
 
     // TODO: Separate level editor state from playing level/normal levels
-    get selectable() {return !globalScope.running},
+    get selectable() {
+      return !globalScope.running
+    },
   })
 }

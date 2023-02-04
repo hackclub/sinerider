@@ -22,5 +22,5 @@ const LAYERS = {
   levelBubbles: 170,
   darkness: 100,
   volcanoPostProcessing: 180,
-  level: 10000, 
+  level: 10000,
 }

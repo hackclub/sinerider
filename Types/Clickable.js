@@ -3,11 +3,7 @@
 function Clickable(spec) {
   const self = {}
 
-  const {
-    entity,
-    space = 'world',
-    dragThreshold = 0.05,
-  } = spec
+  const { entity, space = 'world', dragThreshold = 0.05 } = spec
 
   let enabled = spec.enabled ?? true
 
@@ -61,51 +57,34 @@ function Clickable(spec) {
 
     overlapPoint.set(point)
 
-    if (camera)
-      camera.screenToWorld(overlapPoint)
+    if (camera) camera.screenToWorld(overlapPoint)
 
     return shape.intersectPoint(overlapPoint)
   }
 
-  function hoverStart(point) {
+  function hoverStart(point) {}
 
-  }
+  function hoverMove(point) {}
 
-  function hoverMove(point) {
+  function hoverEnd(point) {}
 
-  }
+  function dragStart(point) {}
 
-  function hoverEnd(point) {
+  function dragMove(point) {}
 
-  }
-
-  function dragStart(point) {
-
-  }
-
-  function dragMove(point) {
-
-  }
-
-  function dragEnd(point) {
-
-  }
+  function dragEnd(point) {}
 
   function toFrameScalar(scalar) {
-    if (space == 'world')
-      return camera.worldToFrameScalar(scalar)
-    if (space == 'screen')
-      return screen.transform.transformScalar(scalar)
+    if (space == 'world') return camera.worldToFrameScalar(scalar)
+    if (space == 'screen') return screen.transform.transformScalar(scalar)
 
     // Already in frame space
     return scalar
   }
 
   function recordPoint(point, output) {
-    if (space == 'world')
-      return camera.screenToWorld(point, output)
-    else if (space == 'frame')
-      return screen.screenToFrame(point, output)
+    if (space == 'world') return camera.screenToWorld(point, output)
+    else if (space == 'frame') return screen.screenToFrame(point, output)
 
     // Event points are in screenspace by default
     return output.set(point)
@@ -148,8 +127,7 @@ function Clickable(spec) {
 
       if (dragging) {
         entity.sendEvent('dragMove', [dragMovePoint])
-      }
-      else if (dragThresholdMet) {
+      } else if (dragThresholdMet) {
         dragging = true
         entity.sendEvent('dragStart', [dragStartPoint])
       }
@@ -214,14 +192,28 @@ function Clickable(spec) {
     select,
     deselect,
 
-    get layer() {return layer},
+    get layer() {
+      return layer
+    },
 
-    get hovering() {return hovering},
-    get dragging() {return dragging},
-    get holding() {return holding},
-    get selected() {return selected},
-    get selectedInEditor() {return selected && editor.active},
-    get enabled() {return enabled},
+    get hovering() {
+      return hovering
+    },
+    get dragging() {
+      return dragging
+    },
+    get holding() {
+      return holding
+    },
+    get selected() {
+      return selected
+    },
+    get selectedInEditor() {
+      return selected && editor.active
+    },
+    get enabled() {
+      return enabled
+    },
     set enabled(v) {
       if (!v && deselectMe && editor.active) {
         // console.log('calling deselectMe')
@@ -231,6 +223,8 @@ function Clickable(spec) {
       enabled = v
     },
 
-    get dragDistance() {return dragDistance},
+    get dragDistance() {
+      return dragDistance
+    },
   })
 }

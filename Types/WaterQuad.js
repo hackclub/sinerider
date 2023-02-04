@@ -6,7 +6,9 @@ function WaterQuad(assets) {
 
   gl = canvas.getContext('webgl')
   if (!gl) {
-    return alert('Your browser does not support WebGL. Try switching or updating your browser!')
+    return alert(
+      'Your browser does not support WebGL. Try switching or updating your browser!',
+    )
   }
 
   gl.enable(gl.BLEND)
@@ -15,24 +17,14 @@ function WaterQuad(assets) {
   const utils = GLUtils(gl)
 
   const quad = utils.Vertices(gl.STATIC_DRAW, {
-    'aCoords': {
+    aCoords: {
       type: 'vec2',
-      data: [
-        -1, -1,
-        -1,  1,
-         1, -1,
-         1,  1,
-      ]
+      data: [-1, -1, -1, 1, 1, -1, 1, 1],
     },
-    'aTexCoords': {
+    aTexCoords: {
       type: 'vec2',
-      data: [
-        0, 0,
-        0, 1,
-        1, 0,
-        1, 1,
-      ]
-    }
+      data: [0, 0, 0, 1, 1, 0, 1, 1],
+    },
   })
 
   const shaders = assets.shaders
@@ -45,13 +37,14 @@ function WaterQuad(assets) {
   })
 
   let t = 0
-  
+
   function update() {
     t += 0.01
   }
 
   function draw() {
-    waterProgram.use()
+    waterProgram
+      .use()
       .vertices(quad)
       .uniform('time', t)
       .viewport(canvas.width, canvas.height)
@@ -62,6 +55,8 @@ function WaterQuad(assets) {
     update,
     draw,
     name: 'WaterQuad',
-    get canvas() {return canvas},
+    get canvas() {
+      return canvas
+    },
   }
 }

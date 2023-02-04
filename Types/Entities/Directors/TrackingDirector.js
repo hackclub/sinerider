@@ -1,25 +1,11 @@
 function TrackingDirector(spec) {
-  const {
-    self,
-    screen,
-    cameraState,
-  } = Director(spec, 'TrackingDirector')
+  const { self, screen, cameraState } = Director(spec, 'TrackingDirector')
 
-  let {
-    trackedEntities = []
-  } = spec
+  let { trackedEntities = [] } = spec
 
-  const {
-    camera,
-    globalScope,
-    transitions = []
-  } = spec
+  const { camera, globalScope, transitions = [] } = spec
 
-  let {
-    minFov = 5,
-    minFovMargin = 3,
-    smoothing = 0.05,
-  } = spec
+  let { minFov = 5, minFovMargin = 3, smoothing = 0.05 } = spec
 
   const targetState = CameraState({
     fov: minFov,
@@ -83,14 +69,11 @@ function TrackingDirector(spec) {
     cameraState.position.lerp(targetState.position, smoothing)
 
     targetState.fov = Math.max(
-      Math.abs(maxTrackPoint.x-cameraState.position.x),
-      Math.abs(maxTrackPoint.y-cameraState.position.y)
+      Math.abs(maxTrackPoint.x - cameraState.position.x),
+      Math.abs(maxTrackPoint.y - cameraState.position.y),
     )
 
-    targetState.fov = Math.max(
-      targetState.fov+minFovMargin,
-      minFov
-    )
+    targetState.fov = Math.max(targetState.fov + minFovMargin, minFov)
 
     cameraState.fov = math.lerp(cameraState.fov, targetState.fov, smoothing)
   }
@@ -109,9 +92,7 @@ function TrackingDirector(spec) {
     }
   }
 
-  function draw() {
-
-  }
+  function draw() {}
 
   function snap() {
     trackEntities()
@@ -127,9 +108,7 @@ function TrackingDirector(spec) {
     snap()
   }
 
-  function startRunning() {
-
-  }
+  function startRunning() {}
 
   function stopRunning() {
     snap()

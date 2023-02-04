@@ -1,18 +1,9 @@
 function FixedGoal(spec) {
-  const {
-    self,
-    screen,
-    camera,
-    transform,
-    ctx,
-  } = Goal(spec, 'Fixed Goal')
+  const { self, screen, camera, transform, ctx } = Goal(spec, 'Fixed Goal')
 
   const base = _.mix(self)
 
-  let {
-    world,
-    size = 1,
-  } = spec
+  let { world, size = 1 } = spec
 
   const shape = Rect({
     transform,
@@ -42,7 +33,7 @@ function FixedGoal(spec) {
     if (clickable.selectedInEditor) {
       transform.scale = 1.1
 
-      ctx.fillStyle = ctx.createConicGradient(Math.PI/4, size/2, size/2)
+      ctx.fillStyle = ctx.createConicGradient(Math.PI / 4, size / 2, size / 2)
       ctx.fillStyle.addColorStop(t % 1, '#FBA')
       ctx.fillStyle.addColorStop((t + 0.25) % 1, '#BC1')
       ctx.fillStyle.addColorStop((t + 0.5) % 1, '#BFC')
@@ -53,18 +44,23 @@ function FixedGoal(spec) {
 
       let outlinePadding = 0.3
 
-      ctx.fillRect(-size/2 - outlinePadding/2, -size/2 - outlinePadding/2, size + outlinePadding, size + outlinePadding)
+      ctx.fillRect(
+        -size / 2 - outlinePadding / 2,
+        -size / 2 - outlinePadding / 2,
+        size + outlinePadding,
+        size + outlinePadding,
+      )
     } else {
       transform.scale = 1
     }
-    
+
     ctx.strokeStyle = self.strokeStyle
     ctx.fillStyle = self.fillStyle
 
     ctx.lineWidth = self.strokeWidth
 
-    ctx.fillRect(-size/2, -size/2, size, size)
-    ctx.strokeRect(-size/2, -size/2, size, size)
+    ctx.fillRect(-size / 2, -size / 2, size, size)
+    ctx.strokeRect(-size / 2, -size / 2, size, size)
   }
 
   function draw() {
@@ -110,7 +106,9 @@ function FixedGoal(spec) {
 
     select,
     deselect,
- 
-    get type() {return 'fixed'},
- })
+
+    get type() {
+      return 'fixed'
+    },
+  })
 }

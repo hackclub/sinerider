@@ -1,10 +1,5 @@
 function Level(spec) {
-  const {
-    self,
-    assets,
-    screen,
-    ui,
-  } = Entity(spec, 'Level')
+  const { self, assets, screen, ui } = Entity(spec, 'Level')
 
   const {
     globalScope,
@@ -25,7 +20,7 @@ function Level(spec) {
     flashMathField = false,
     flashRunButton = false,
     runAsCutscene = false,
-    camera: cameraSpec = {}
+    camera: cameraSpec = {},
   } = datum
 
   const quads = globalScope.quads
@@ -39,21 +34,17 @@ function Level(spec) {
   const directors = []
   const bubbles = []
   const sounds = []
-  
+
   let lowestOrder = 'A'
   let highestOrder = 'A'
 
   let lava, volcanoSunset, sky
 
-  if (flashMathField)
-    ui.expressionEnvelope.classList.add('flash-shadow')
-  else
-    ui.expressionEnvelope.classList.remove('flash-shadow')
+  if (flashMathField) ui.expressionEnvelope.classList.add('flash-shadow')
+  else ui.expressionEnvelope.classList.remove('flash-shadow')
 
-  if (flashRunButton)
-    ui.runButton.classList.add('flash-shadow')
-  else
-    ui.runButton.classList.remove('flash-shadow')
+  if (flashRunButton) ui.runButton.classList.add('flash-shadow')
+  else ui.runButton.classList.remove('flash-shadow')
 
   let currentLatex
 
@@ -100,7 +91,7 @@ function Level(spec) {
         ctx.fillStyle = `rgba(1.0, 0.5, 0, ${darkenBufferOpacity})`
         ctx.fillRect(0, 0, width, height)
         ctx.globalCompositeOperation = 'source-over'
-      }
+      },
     })
 
     darkenBufferScreen = Screen({
@@ -110,7 +101,8 @@ function Level(spec) {
     darkBufferOrScreen = darkenBufferScreen
   }
 
-  const startingExpression = (!isConstantLakeAndNotBubble() ? savedLatex : null) ?? defaultExpression
+  const startingExpression =
+    (!isConstantLakeAndNotBubble() ? savedLatex : null) ?? defaultExpression
 
   const graph = Graph({
     camera,
@@ -129,17 +121,16 @@ function Level(spec) {
 
   let skyColors = colors.sky
 
-  if (_.isString(skyColors))
-    skyColors = [[0, skyColors]]
+  if (_.isString(skyColors)) skyColors = [[0, skyColors]]
 
   let skyGradient = screen.ctx.createLinearGradient(0, 0, 0, 1)
 
-  for (const color of skyColors)
-    skyGradient.addColorStop(color[0], color[1])
+  for (const color of skyColors) skyGradient.addColorStop(color[0], color[1])
 
   loadDatum(spec.datum)
 
-  let defaultVectorExpression = '\\frac{(\\sin(x) - (y - 2) \\cdot i) \\cdot i}{2}'
+  let defaultVectorExpression =
+    '\\frac{(\\sin(x) - (y - 2) \\cdot i) \\cdot i}{2}'
   if (isConstantLakeAndNotBubble() && savedLatex) {
     walkerPositionX = VECTOR_FIELD_END_X
     defaultVectorExpression = savedLatex
@@ -157,7 +148,7 @@ function Level(spec) {
     assignPlayerPosition()
 
     if (runAsCutscene) {
-      // Don't play sound, keep navigator 
+      // Don't play sound, keep navigator
       world._startRunning(false, false)
 
       // Hide math field by default
@@ -165,7 +156,7 @@ function Level(spec) {
     }
 
     editor.active = isEditor()
-    
+
     // For constant lake, change math field to vector
     // field editor for later in the scene
     if (isConstantLakeAndNotBubble()) {
@@ -184,36 +175,34 @@ function Level(spec) {
     }
   }
 
-  function start() {
-  }
+  function start() {}
 
   function startLate() {
     // self.sendEvent('levelFullyStarted')
   }
 
   function checkTransition(entity) {
-    if (!entity.activeInHierarchy)
-      return
+    if (!entity.activeInHierarchy) return
 
     const transition = entity.transition
     if (transition) {
       // If X values met then make transition
       if (transition.xRequirements.length == 0) {
-        const target = self.children.find(s => s.name === transition.name)
+        const target = self.children.find((s) => s.name === transition.name)
         if (!target)
-          throw Error(`Unable to find transition target from '${entity.name}' to '${transition.name}' (check the manifest!)`)
+          throw Error(
+            `Unable to find transition target from '${entity.name}' to '${transition.name}' (check the manifest!)`,
+          )
         target.active = true
         entity.active = false
 
-        if (entity.walkers)
-          entity.walkers.forEach(w => w.active = false)
-        if (target.walkers)
-          target.walkers.forEach(w => w.active = true)
+        if (entity.walkers) entity.walkers.forEach((w) => (w.active = false))
+        if (target.walkers) target.walkers.forEach((w) => (w.active = true))
 
         const x = entity.transform.x
 
         target.transform.x = x
-      } 
+      }
       // Otherwise check if current target met, if so then pop
       else {
         if (Math.abs(transition.xRequirements[0] - entity.transform.x) < 1) {
@@ -221,11 +210,11 @@ function Level(spec) {
         }
       }
     }
-
   }
 
   function getCutsceneDistanceParameter() {
-    let playerEntity = walkers.find(s => s.active) || sledders.find(w => w.active)
+    let playerEntity =
+      walkers.find((s) => s.active) || sledders.find((w) => w.active)
     return playerEntity?.transform.x.toFixed(1)
   }
 
@@ -234,7 +223,7 @@ function Level(spec) {
 
     let time = runAsCutscene
       ? getCutsceneDistanceParameter()
-      : (Math.round(globalScope.t*10)/10).toString()
+      : (Math.round(globalScope.t * 10) / 10).toString()
 
     // LakeSunsetShader
     // VolcanoShader
@@ -244,7 +233,7 @@ function Level(spec) {
       time += '.0'
 
     // console.log('tracked entities', trackedEntities)
-    
+
     for (const walker of walkers) {
       checkTransition(walker)
     }
@@ -253,20 +242,20 @@ function Level(spec) {
     }
 
     // ui.timeString.innerHTML = 'T='+time
-    ui.runButtonString.innerHTML = 'T='+time
-    ui.stopButtonString.innerHTML = 'T='+time
+    ui.runButtonString.innerHTML = 'T=' + time
+    ui.stopButtonString.innerHTML = 'T=' + time
 
     assignPlayerPosition()
 
     if (isVolcano()) {
       let sunsetTime
       const x = sledders[0]?.transform.x
-      sunsetTime = x ? Math.exp(-(((x-205)/100)**2)) : 0
+      sunsetTime = x ? Math.exp(-(((x - 205) / 100) ** 2)) : 0
       globalScope.timescale = 1 - sunsetTime * 0.7
       camera.shake = sunsetTime > 0.1 ? sunsetTime * 0.3 : 0
       const vel = sledders[0]?.velocity ?? 20
-      const motionBlur = Math.min(vel/40 * 4, 10)
-      
+      const motionBlur = Math.min((vel / 40) * 4, 10)
+
       volcanoSunset.blur = motionBlur
       sky.blur = motionBlur
       graph.blur = motionBlur
@@ -275,9 +264,7 @@ function Level(spec) {
   }
 
   function draw() {
-    if (isConstantLake() &&
-        walkers[0] &&
-        walkers[0].transform.position) {
+    if (isConstantLake() && walkers[0] && walkers[0].transform.position) {
       const x = walkers[0].transform.position.x
 
       drawConstantLakeEditor(x)
@@ -289,8 +276,7 @@ function Level(spec) {
         walker.darkModeOpacity = walkerDarkenOpacity
 
         for (const w of walker.walkers) {
-          if (w.hasDarkMode)
-            w.darkModeOpacity = walkerDarkenOpacity
+          if (w.hasDarkMode) w.darkModeOpacity = walkerDarkenOpacity
         }
       }
     }
@@ -298,36 +284,35 @@ function Level(spec) {
     screen.ctx.save()
     screen.ctx.scale(1, screen.height)
     screen.ctx.fillStyle = skyGradient
-    
+
     datum.sky ? 0 : screen.ctx.fillRect(0, 0, screen.width, screen.height)
     screen.ctx.restore()
   }
 
   function assignPlayerPosition() {
-    const playerEntity = walkers.length > 0 ?
-      walkers[0] : sledders.length > 0 ?
-      sledders[0] : axes
+    const playerEntity =
+      walkers.length > 0 ? walkers[0] : sledders.length > 0 ? sledders[0] : axes
 
     globalScope.p.re = playerEntity.transform.position.x
     globalScope.p.im = playerEntity.transform.position.y
   }
 
-  function trackDescendants(entity, array=trackedEntities) {
-    _.each(entity.children, v => {
+  function trackDescendants(entity, array = trackedEntities) {
+    _.each(entity.children, (v) => {
       array.push(v)
       trackDescendants(v, array)
-    }) 
+    })
   }
 
   function addGoal(goalDatum) {
     const generator = {
-      'path': PathGoal,
-      'fixed': FixedGoal,
-      'dynamic': DynamicGoal,
+      path: PathGoal,
+      fixed: FixedGoal,
+      dynamic: DynamicGoal,
     }[goalDatum.type || 'fixed']
 
     const goal = generator({
-      name: 'Goal '+goals.length,
+      name: 'Goal ' + goals.length,
       parent: self,
       camera,
       graph,
@@ -339,7 +324,7 @@ function Level(spec) {
       goalFailed,
       getLowestOrder: () => lowestOrder,
       world,
-      ...goalDatum
+      ...goalDatum,
     })
 
     goals.push(goal)
@@ -347,9 +332,9 @@ function Level(spec) {
 
   function addDirector(directorDatum) {
     const generator = {
-      'tracking': TrackingDirector,
-      'waypoint': WaypointDirector,
-      'lerp': LerpDirector,
+      tracking: TrackingDirector,
+      waypoint: WaypointDirector,
+      lerp: LerpDirector,
       // 'drag': DragDirector,
     }[directorDatum.type || 'tracking']
 
@@ -359,23 +344,23 @@ function Level(spec) {
       graph,
       globalScope,
       trackedEntities,
-      ...directorDatum
+      ...directorDatum,
     })
 
     directors.push(director)
   }
-  
+
   function addTextBubbles(bubbleDatum) {
     bubbles.push(
       TextBubble({
-        parent:self,
+        parent: self,
         camera,
         graph,
         globalScope,
         visible: false,
         place: 'top-right',
-        ...bubbleDatum
-      })
+        ...bubbleDatum,
+      }),
     )
   }
 
@@ -388,7 +373,7 @@ function Level(spec) {
       globalScope,
       levelCompleted: () => {
         // for (sound of sounds)
-          // sound.howl.volume(0)
+        // sound.howl.volume(0)
 
         levelCompleted(true)
       },
@@ -396,7 +381,7 @@ function Level(spec) {
       speechScreen: screen,
       drawOrder: LAYERS.walkers,
       hasDarkMode: isConstantLake(),
-      ...walkerDatum
+      ...walkerDatum,
     })
 
     walkers.push(walker)
@@ -438,7 +423,7 @@ function Level(spec) {
 
   function addSprite(spriteDatum) {
     const sprite = Sprite({
-      name: 'Sprite '+sprites.length,
+      name: 'Sprite ' + sprites.length,
       parent: self,
       camera,
       graph,
@@ -455,7 +440,7 @@ function Level(spec) {
 
   function addText(textDatum) {
     const text = Text({
-      name: 'Text '+texts.length,
+      name: 'Text ' + texts.length,
       parent: self,
       camera,
       globalScope,
@@ -500,63 +485,62 @@ function Level(spec) {
       nick: datum.nick,
       savedLatex: currentLatex,
       goals: isEditor()
-        ? goals.map(g => {
-          s = {
-            type: g.type,
-            x: g.transform.x,
-            y: g.transform.y,
-            order: g.order,
-          }
-          return s
-        })
-        : null
+        ? goals.map((g) => {
+            s = {
+              type: g.type,
+              x: g.transform.x,
+              y: g.transform.y,
+              order: g.order,
+            }
+            return s
+          })
+        : null,
     }
   }
-
-
 
   function goalFailed(goal) {
     if (goal.order) {
       for (g of goals) {
-        if (g.order && !g.completed) g.fail();
+        if (g.order && !g.completed) g.fail()
       }
     }
-  
-    assets.sounds.goal_fail.play();
-    ui.tryAgain.style.display = "block";
-    ui.tryAgain.classList.add('slide-in');
+
+    assets.sounds.goal_fail.play()
+    ui.tryAgain.style.display = 'block'
+    ui.tryAgain.classList.add('slide-in')
   }
-  
-  ui.tryAgain.addEventListener("click", function () {
-    this.classList.add('slide-out');
-    reset();
+
+  ui.tryAgain.addEventListener('click', function () {
+    this.classList.add('slide-out')
+    reset()
     setTimeout(() => {
-      this.classList.remove('slide-in');
-      this.classList.remove('slide-out');
-      this.style.display = 'none';
-    }, 500);
-    ui.tryAgain.style.display = "none";
-    ui.tryAgain.removeEventListener("click", reset);
-  });
-  
+      this.classList.remove('slide-in')
+      this.classList.remove('slide-out')
+      this.style.display = 'none'
+    }, 500)
+    ui.tryAgain.style.display = 'none'
+    ui.tryAgain.removeEventListener('click', reset)
+  })
 
   function playOpenMusic() {
-    if (openMusic)
-      openMusic.play()
+    if (openMusic) openMusic.play()
   }
-  
 
   function reset() {
     stopRunning()
   }
 
-
   function restart() {
-    const expression = isConstantLake() ? defaultVectorExpression : defaultExpression
+    const expression = isConstantLake()
+      ? defaultVectorExpression
+      : defaultExpression
 
     ui.mathField.latex(expression)
 
-    self.sendEvent('setGraphExpression', [ mathquillToMathJS(expression), expression ])
+    self.sendEvent('setGraphExpression', [
+      mathquillToMathJS(expression),
+      expression,
+    ])
 
     refreshLowestOrder()
   }
@@ -578,8 +562,7 @@ function Level(spec) {
     ui.mathFieldStatic.latex(currentLatex)
 
     if (!hasBeenRun) {
-      if (runMusic)
-        runMusic.play()
+      if (runMusic) runMusic.play()
 
       hasBeenRun = true
     }
@@ -617,7 +600,7 @@ function Level(spec) {
       duration: 1700,
       easing: 'ease-out',
       fill: 'forwards',
-    }
+    },
   }
 
   const hideUIAnimation = {
@@ -628,7 +611,7 @@ function Level(spec) {
     options: {
       duration: 1700,
       easing: 'ease-out',
-    }
+    },
   }
 
   const VECTOR_FIELD_START_X = 13.5
@@ -642,17 +625,31 @@ function Level(spec) {
         ui.resetButton.setAttribute('hide', false)
         ui.expressionEnvelope.classList.remove('hidden')
 
-        ui.expressionEnvelope.animate(showUIAnimation.keyframes, showUIAnimation.options)
-        ui.resetButton.animate(showUIAnimation.keyframes, showUIAnimation.options)
+        ui.expressionEnvelope.animate(
+          showUIAnimation.keyframes,
+          showUIAnimation.options,
+        )
+        ui.resetButton.animate(
+          showUIAnimation.keyframes,
+          showUIAnimation.options,
+        )
       }
     } else if (walkerPositionX < VECTOR_FIELD_START_X && isVectorEditorActive) {
       isVectorEditorActive = false
 
-      const resetButtonAnimation = ui.resetButton.animate(hideUIAnimation.keyframes, hideUIAnimation.options)
-      const expressionEnvelopeAnimation = ui.expressionEnvelope.animate(hideUIAnimation.keyframes, hideUIAnimation.options)
+      const resetButtonAnimation = ui.resetButton.animate(
+        hideUIAnimation.keyframes,
+        hideUIAnimation.options,
+      )
+      const expressionEnvelopeAnimation = ui.expressionEnvelope.animate(
+        hideUIAnimation.keyframes,
+        hideUIAnimation.options,
+      )
 
-      resetButtonAnimation.onfinish = () => ui.resetButton.setAttribute('hide', true)
-      expressionEnvelopeAnimation.onfinish = () => ui.expressionEnvelope.classList.add('hidden')
+      resetButtonAnimation.onfinish = () =>
+        ui.resetButton.setAttribute('hide', true)
+      expressionEnvelopeAnimation.onfinish = () =>
+        ui.expressionEnvelope.classList.add('hidden')
     }
   }
 
@@ -669,8 +666,7 @@ function Level(spec) {
   }
 
   function loadDatum(datum) {
-    if (!isBubbleLevel)
-      _.each(datum.sounds, addSound)
+    if (!isBubbleLevel) _.each(datum.sounds, addSound)
     _.each(datum.sprites, addSprite)
     _.each(datum.sledders, addSledder)
     _.each(datum.walkers, addWalker)
@@ -678,7 +674,7 @@ function Level(spec) {
     _.each(datum.texts, addText)
     _.each(datum.directors || [{}], addDirector)
     isBubbleLevel || _.each(datum.textBubbles || [], addTextBubbles)
-      
+
     if (isBubbleLevel && datum.bubble) {
       datum = _.merge(_.cloneDeep(datum), datum.bubble)
     }
@@ -721,9 +717,9 @@ function Level(spec) {
       // sledders.forEach(s => s.drawOrder = 10000)
     }
 
-    if (datum.clouds) 
+    if (datum.clouds)
       CloudRow({
-        parent:self,
+        parent: self,
         camera,
         globalScope,
         velocity: datum.clouds.velocity,
@@ -778,9 +774,9 @@ function Level(spec) {
         ...datum.sky,
       })
     }
-    if (datum.snow) 
+    if (datum.snow)
       SnowFall({
-        parent:self,
+        parent: self,
         camera,
         globalScope,
         screen,
@@ -807,7 +803,7 @@ function Level(spec) {
 
     self.sortChildren()
   }
-  
+
   function save() {
     // Save to player storage and to URI
     // storage.setLevel(datum.nick, serialize())
@@ -854,9 +850,7 @@ function Level(spec) {
     graph.resize()
   }
 
-  function removeGoal(type) {
-
-  }
+  function removeGoal(type) {}
 
   // TODO: Refactor?
   let goalLookup = {}
@@ -870,14 +864,17 @@ function Level(spec) {
 
   // Takes in entity -- refactor?
   function goalDeleted(goal) {
-    goals.splice(goals.findIndex(g => g.id == goal.id), 1)
+    goals.splice(
+      goals.findIndex((g) => g.id == goal.id),
+      1,
+    )
   }
 
   return self.mix({
     awake,
     start,
     destroy,
-    
+
     tick,
     draw,
 
@@ -892,17 +889,21 @@ function Level(spec) {
 
     camera,
     graph,
-    
+
     restart,
     reset,
 
-    get cutsceneDistanceParameter() {return getCutsceneDistanceParameter()},
+    get cutsceneDistanceParameter() {
+      return getCutsceneDistanceParameter()
+    },
 
     playOpenMusic,
 
     mathFieldFocused,
 
-    get isRunningAsCutscene() {return runAsCutscene},
+    get isRunningAsCutscene() {
+      return runAsCutscene
+    },
 
     goalAdded,
     goalDeleted,
@@ -911,10 +912,16 @@ function Level(spec) {
 
     goals,
 
-    get currentLatex() {return currentLatex},
+    get currentLatex() {
+      return currentLatex
+    },
 
-    get datum() {return spec.datum},
-    get completed() {return completed},
+    get datum() {
+      return spec.datum
+    },
+    get completed() {
+      return completed
+    },
 
     isEditor,
     sledders,
@@ -923,6 +930,8 @@ function Level(spec) {
     // TODO: temp
     trackedEntities,
 
-    get firstWalkerX() {return walkers[0]?.transform.x}
+    get firstWalkerX() {
+      return walkers[0]?.transform.x
+    },
   })
 }
