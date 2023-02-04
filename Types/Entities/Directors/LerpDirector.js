@@ -10,19 +10,18 @@ function LerpDirector(spec) {
     start: baseStart,
   } = Director(spec, 'LerpDirector')
 
-  let {
-  } = spec
+  let {} = spec
 
   const state0 = CameraState(spec.state0 || {})
   const state1 = CameraState(spec.state1 || {})
 
-  const point0 = spec.point0 ?
-    Vector2(spec.point0) :
-    Vector2(bounds.min.x, bounds.center.y)
+  const point0 = spec.point0
+    ? Vector2(spec.point0)
+    : Vector2(bounds.min.x, bounds.center.y)
 
-  const point1 = spec.point1 ?
-    Vector2(spec.point1) :
-    Vector2(bounds.max.x, bounds.center.y)
+  const point1 = spec.point1
+    ? Vector2(spec.point1)
+    : Vector2(bounds.max.x, bounds.center.y)
 
   let progress = 0
 

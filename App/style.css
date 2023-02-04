@@ -19,7 +19,7 @@ body {
   margin: 0;
   padding: 0;
 
-  font-family: "Roboto Mono";
+  font-family: 'Roboto Mono';
 
   color: #333;
   background: #fff;
@@ -146,7 +146,7 @@ body > .bar {
   pointer-events: none;
 }
 
-*[hide="true"] {
+*[hide='true'] {
   display: none;
 }
 
@@ -161,7 +161,7 @@ body > .bar {
   border-top-right-radius: 0;
 }
 
-.menu[hide="true"] {
+.menu[hide='true'] {
   top: -60px;
 }
 
@@ -180,11 +180,11 @@ body > .bar {
   padding: 5px;
 }
 
-.victory[hide="true"] {
+.victory[hide='true'] {
   bottom: -80px;
 }
 
-.message[hide="true"] {
+.message[hide='true'] {
   display: none;
 }
 
@@ -194,20 +194,20 @@ body > .bar {
   bottom: 60px;
 }
 
-.navigator[hide="true"] {
+.navigator[hide='true'] {
   bottom: -60px;
   display: none;
 }
 
 input {
-  font-family: "Roboto Mono";
+  font-family: 'Roboto Mono';
 }
 
 input:placeholder-shown {
   font-style: italic;
 }
 
-input[valid="false"] {
+input[valid='false'] {
   border: 1px solid red;
 }
 
@@ -225,7 +225,7 @@ input[valid="false"] {
   /*box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);*/
 }
 
-#controls-bar[hide="true"] {
+#controls-bar[hide='true'] {
   bottom: -50vh;
 }
 
@@ -245,15 +245,15 @@ input[valid="false"] {
   background: #fff;
 }
 
-#math-field[valid="false"] {
+#math-field[valid='false'] {
   border: 1px solid red;
 }
 
-#expression-envelope[disabled="true"] > #math-field {
+#expression-envelope[disabled='true'] > #math-field {
   display: none;
 }
 
-#expression-envelope[disabled="false"] > #math-field-static {
+#expression-envelope[disabled='false'] > #math-field-static {
   display: none;
 }
 
@@ -261,11 +261,11 @@ input[valid="false"] {
   background: #ddd;
 }
 
-#expression-envelope[disabled="true"] {
+#expression-envelope[disabled='true'] {
   background: #ddd;
 }
 
-#expression-envelope[disabled="false"] {
+#expression-envelope[disabled='false'] {
   background: #fff;
 }
 
@@ -344,7 +344,7 @@ input[valid="false"] {
   transition: 0.5s;
 }
 
-#variables-bar[hide="true"] {
+#variables-bar[hide='true'] {
   top: -80px;
 }
 
@@ -390,7 +390,7 @@ input[valid="false"] {
   opacity: 1;
 }
 
-#top-bar[hide="true"] {
+#top-bar[hide='true'] {
   top: -80px;
 }
 
@@ -481,7 +481,7 @@ input[valid="false"] {
   }
 }
 
-.veil[hide="true"] {
+.veil[hide='true'] {
   opacity: 0;
   pointer-events: none;
 }
@@ -523,7 +523,7 @@ input[valid="false"] {
 }
 
 .helper-bubble:before {
-  content: "";
+  content: '';
   width: 0px;
   height: 0px;
   position: absolute;
@@ -609,7 +609,7 @@ input[valid="false"] {
     top: 20px;
   }
 
-  #expression-envelope-container[hide="true"] {
+  #expression-envelope-container[hide='true'] {
     top: -50vh;
   }
 
@@ -677,7 +677,7 @@ input[valid="false"] {
 
 .tooltip::after {
   --translate-y: calc(-1 * var(--arrow-size));
-  content: "";
+  content: '';
   border: var(--arrow-size) solid transparent;
   border-top-color: var(--tooltip-color);
 }
@@ -698,7 +698,7 @@ input[valid="false"] {
 
 #editor-inspector,
 #editor-spawner {
-  background: "#000";
+  background: '#000';
   display: flex;
   align-items: center;
   height: 2.5em;
@@ -733,12 +733,12 @@ input[valid="false"] {
   transition: 0.5s;
 }
 
-.editor-bar[hide="true"] {
+.editor-bar[hide='true'] {
   display: none !important;
   transform: translateY(calc(-100% - 73px / 2));
 }
 
-.editor-bar[hide="false"] {
+.editor-bar[hide='false'] {
   display: inherit;
   animation: show-editor-bar 0.5s;
 }
@@ -787,7 +787,7 @@ input[valid="false"] {
   cursor: pointer;
   transition: all 0.5s ease;
   margin-top: 150px;
-  font-family: "Roboto Mono";
+  font-family: 'Roboto Mono';
   animation-duration: 0.5s;
   animation: pulse 1s infinite;
 }

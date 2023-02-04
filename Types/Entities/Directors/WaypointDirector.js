@@ -1,16 +1,9 @@
 function WaypointDirector(spec) {
-  const {
-    self,
-    screen,
-    cameraState,
-  } = Director(spec, 'WaypointDirector')
+  const { self, screen, cameraState } = Director(spec, 'WaypointDirector')
 
-  const {
-    camera,
-  } = spec
+  const { camera } = spec
 
-  let {
-  } = spec
+  let {} = spec
 
   let fromPoint = null
   let toPoint = null
@@ -24,14 +17,11 @@ function WaypointDirector(spec) {
     if (transitProgress == 1 && !transitComplete) {
       transitComplete = true
 
-      if (callback)
-        callback()
+      if (callback) callback()
     }
 
-    if (transitDuration == 0)
-      transitProgress = 1
-    else if (toPoint)
-      transitProgress += camera.tickDelta/transitDuration
+    if (transitDuration == 0) transitProgress = 1
+    else if (toPoint) transitProgress += camera.tickDelta / transitDuration
 
     transitProgress = math.clamp01(transitProgress)
 
@@ -44,9 +34,8 @@ function WaypointDirector(spec) {
     return fromPoint && toPoint
   }
 
-  function lerpWaypoints(a, b, progress, output, smooth=true) {
-    if (smooth)
-      progress = math.smooth(progress)
+  function lerpWaypoints(a, b, progress, output, smooth = true) {
+    if (smooth) progress = math.smooth(progress)
 
     a.position.lerp(b.position, progress, output.position)
 
@@ -72,9 +61,7 @@ function WaypointDirector(spec) {
     toPoint = null
   }
 
-  function draw() {
-
-  }
+  function draw() {}
 
   return self.mix({
     tick,

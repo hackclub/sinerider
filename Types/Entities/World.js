@@ -126,7 +126,7 @@ function World(spec) {
 
   function assetsProgress(progress, total) {
     ui.loadingVeilString.innerHTML = `loading…<br>${Math.round(
-      (100 * progress) / total
+      (100 * progress) / total,
     )}%`
   }
 
@@ -287,8 +287,7 @@ function World(spec) {
     ui.runButton.setAttribute('hide', false)
     ui.stopButton.setAttribute('hide', true)
     ui.resetButton.setAttribute('hide', false)
-    document.getElementById("try-again").style.display = "none";
-
+    document.getElementById('try-again').style.display = 'none'
 
     if (!navigating) {
       // HACK: Timed to avoid bug in Safari (at least) that causes whole page to be permanently offset when off-screen text input is focused

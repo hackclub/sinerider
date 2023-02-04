@@ -7,7 +7,9 @@ function VolcanoSunsetQuad(defaultExpression, assets) {
 
   gl = local.getContext('webgl')
   if (!gl) {
-    return alert('Your browser does not support WebGL. Try switching or updating your browser!')
+    return alert(
+      'Your browser does not support WebGL. Try switching or updating your browser!',
+    )
   }
 
   gl.enable(gl.BLEND)
@@ -17,12 +19,12 @@ function VolcanoSunsetQuad(defaultExpression, assets) {
   const ext = utils.InstancingExtension()
 
   const line = utils.Vertices(gl.STATIC_DRAW, {
-    'vertexId': {
+    vertexId: {
       type: 'float',
-      data: [ 0, 1, 2, 3 ]
-    }
+      data: [0, 1, 2, 3],
+    },
   })
-  
+
   const shaders = assets.shaders
 
   const quad = utils.quad
@@ -58,7 +60,7 @@ function VolcanoSunsetQuad(defaultExpression, assets) {
     const c2 = Math.random() * 0.2 + 0.1
     const c3 = Math.random() * 0.1
     const scale = 1.0 // Math.pow(Math.random(), 2.0) * 0.8 + 0.2
-    return [ c1 * scale, c2 * scale, c3 * scale ]
+    return [c1 * scale, c2 * scale, c3 * scale]
   }
 
   function createParticleAt(index) {
@@ -67,7 +69,7 @@ function VolcanoSunsetQuad(defaultExpression, assets) {
 
     const x = Math.random()
     const y = Math.random()
-    
+
     oldParticlePositions[posIndex] = x
     oldParticlePositions[posIndex + 1] = y
 
@@ -81,7 +83,7 @@ function VolcanoSunsetQuad(defaultExpression, assets) {
     particleColors[colIndex + 2] = col[2]
 
     const lifetime = Math.random() * 4 + 4 // 5-10
-    
+
     lifetimes[index] = lifetime
     percentLifeLived[index] = 0
   }
@@ -90,8 +92,14 @@ function VolcanoSunsetQuad(defaultExpression, assets) {
     createParticleAt(i)
   }
 
-  const oldParticlePositionsBuffer = utils.Array(oldParticlePositions, gl.DYNAMIC_DRAW)
-  const newParticlePositionsBuffer = utils.Array(newParticlePositions, gl.DYNAMIC_DRAW)
+  const oldParticlePositionsBuffer = utils.Array(
+    oldParticlePositions,
+    gl.DYNAMIC_DRAW,
+  )
+  const newParticlePositionsBuffer = utils.Array(
+    newParticlePositions,
+    gl.DYNAMIC_DRAW,
+  )
   const percentLifeLivedBuffer = utils.Array(percentLifeLived, gl.DYNAMIC_DRAW)
   const particleColorBuffer = utils.Array(particleColors, gl.DYNAMIC_DRAW)
 
@@ -108,13 +116,17 @@ function VolcanoSunsetQuad(defaultExpression, assets) {
       const normY = newParticlePositions[index + 1]
 
       // If out of bounds of canvas or end of life then reset
-      if (percentLifeLived[i] > 1 || Math.abs(normX) > 1 || Math.abs(normY) > 1) {
+      if (
+        percentLifeLived[i] > 1 ||
+        Math.abs(normX) > 1 ||
+        Math.abs(normY) > 1
+      ) {
         createParticleAt(i)
         continue
       }
 
-      const x = (normX - .5) * 10
-      const y = (normY - .5) * 10
+      const x = (normX - 0.5) * 10
+      const y = (normY - 0.5) * 10
 
       const [dx, dy] = vectorField(x, y, t)
 
@@ -142,9 +154,9 @@ function VolcanoSunsetQuad(defaultExpression, assets) {
   */
 
   // TODO: Handle resizing
-  let current = utils.Texture([ local.width, local.height ], gl.RGBA)
-  let acc = utils.Texture([ local.width, local.height ], gl.RGBA)
-  let blend = utils.Texture([ local.width, local.height ], gl.RGBA)
+  let current = utils.Texture([local.width, local.height], gl.RGBA)
+  let acc = utils.Texture([local.width, local.height], gl.RGBA)
+  let blend = utils.Texture([local.width, local.height], gl.RGBA)
 
   const step = utils.Framebuffer()
 
@@ -173,14 +185,11 @@ function VolcanoSunsetQuad(defaultExpression, assets) {
 
   function vectorField(x, y, t) {
     const c = evaluator.evaluate({ x, y, t })
-    
+
     try {
       // Either real or complex
-      return typeof c === 'number'
-        ? [ c, 0 ]
-        : [ math.re(c), math.im(c) ]
-    }
-    catch (ex) {
+      return typeof c === 'number' ? [c, 0] : [math.re(c), math.im(c)]
+    } catch (ex) {
       return [0, 0]
     }
   }
@@ -201,7 +210,7 @@ function VolcanoSunsetQuad(defaultExpression, assets) {
 
     // sunsetTime = world.level.sledders[0].transform.x/221 * 12
     const x = world.level.sledders[0].transform.x
-    sunsetTime = 12*Math.exp(-(((x-221)/100)**2))
+    sunsetTime = 12 * Math.exp(-(((x - 221) / 100) ** 2))
   }
 
   // `START_STARS_FADE_IN` constant as defined in sunset.frag
@@ -219,19 +228,20 @@ function VolcanoSunsetQuad(defaultExpression, assets) {
     // Draw points
     step.bind()
     step.setColorAttachment(current)
-    pointsProgram.use()
+    pointsProgram
+      .use()
       .vertices(line)
       .instancedAttributes(ext, oldParticlePositionsBuffer, [
-        { type: 'vec2', name: 'oldParticlePos', perInstance: 1 }
+        { type: 'vec2', name: 'oldParticlePos', perInstance: 1 },
       ])
       .instancedAttributes(ext, newParticlePositionsBuffer, [
-        { type: 'vec2', name: 'newParticlePos', perInstance: 1 }
+        { type: 'vec2', name: 'newParticlePos', perInstance: 1 },
       ])
       .instancedAttributes(ext, particleColorBuffer, [
-        { type: 'vec3', name: 'particleColor', perInstance: 1 }
+        { type: 'vec3', name: 'particleColor', perInstance: 1 },
       ])
       .instancedAttributes(ext, percentLifeLivedBuffer, [
-        { type: 'float', name: 'percentLifeLived', perInstance: 1 }
+        { type: 'float', name: 'percentLifeLived', perInstance: 1 },
       ])
       .uniform('resolution', [local.width, local.height])
       .viewport(local.width, local.height)
@@ -242,10 +252,11 @@ function VolcanoSunsetQuad(defaultExpression, assets) {
     step.setColorAttachment(blend)
     current.bind(0)
     acc.bind(1)
-    blendProgram.use()
+    blendProgram
+      .use()
       .resetVerticesInstancing(ext, quad)
       .vertices(quad)
-      .uniform('resolution', [ local.width, local.height ])
+      .uniform('resolution', [local.width, local.height])
       .uniformi('current', 0)
       .uniformi('acc', 1)
       .viewport(local.width, local.height)
@@ -259,7 +270,8 @@ function VolcanoSunsetQuad(defaultExpression, assets) {
     // Draw acc
     utils.bindDisplay()
     acc.bind(0)
-    sunsetProgram.use()
+    sunsetProgram
+      .use()
       .vertices(quad)
       .uniform('resolution', [innerWidth, innerHeight])
       .uniform('time', sunsetTime)
@@ -275,6 +287,8 @@ function VolcanoSunsetQuad(defaultExpression, assets) {
     setVectorFieldExpression,
     resize,
 
-    get localCanvas() {return local},
+    get localCanvas() {
+      return local
+    },
   }
 }

@@ -1,8 +1,5 @@
 function Sound(spec) {
-  const {
-    self,
-    assets,
-  } = Entity(spec, 'Sound')
+  const { self, assets } = Entity(spec, 'Sound')
 
   const {
     asset,
@@ -35,7 +32,7 @@ function Sound(spec) {
   function tick() {
     if (domain) {
       const x = level?.cutsceneDistanceParameter
-      
+
       if (!x)
         throw `Expected level to not be null and return a valid distance parameter for Sound domain in tick()`
 
@@ -57,20 +54,23 @@ function Sound(spec) {
     }
 
     if (duration) {
-      const a = 1 - math.clamp01(math.unlerp(duration - fadeOut, duration, secondsPlayed * 1000))
+      const a =
+        1 -
+        math.clamp01(
+          math.unlerp(duration - fadeOut, duration, secondsPlayed * 1000),
+        )
       howl.volume(howl.volume() * a)
     }
 
-    if (howl.playing())
-      secondsPlayed += 1 / ticksPerSecond
+    if (howl.playing()) secondsPlayed += 1 / ticksPerSecond
   }
 
   function onLevelFadeOut(navigating, duration) {
-    howl.fade(volume, 0, duration*1000, soundId)
+    howl.fade(volume, 0, duration * 1000, soundId)
   }
 
   function onLevelFadeIn(navigating, duration) {
-    howl.fade(0, volume, duration*1000, soundId)
+    howl.fade(0, volume, duration * 1000, soundId)
   }
 
   function destroy() {

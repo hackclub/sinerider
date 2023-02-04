@@ -90,7 +90,7 @@ const Colors = {
       groundStroke: '#cfdee6',
       groundStrokeWidth: 12,
     },
-  }
+  },
 }
 
 /*

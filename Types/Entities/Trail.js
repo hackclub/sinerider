@@ -1,10 +1,5 @@
 function Trail(spec) {
-  const {
-    self,
-    camera,
-    screen,
-    ctx,
-  } = Entity(spec, 'Trail')
+  const { self, camera, screen, ctx } = Entity(spec, 'Trail')
 
   const transform = Transform(spec, self)
 
@@ -15,7 +10,7 @@ function Trail(spec) {
     lineWidth = 0.3,
   } = spec
 
-  let sampleCount = Math.ceil(maxTime/self.tickDelta)
+  let sampleCount = Math.ceil(maxTime / self.tickDelta)
   let sampleIndex = 0
 
   const pathPoint = Vector2()
@@ -36,7 +31,7 @@ function Trail(spec) {
 
   function tick() {
     // Move to next sample, wrapping at sampleCount
-    sampleIndex = (sampleIndex+1)%sampleCount
+    sampleIndex = (sampleIndex + 1) % sampleCount
 
     const worldPoint = worldPoints[sampleIndex]
     const worldPointUpper = worldPointsUpper[sampleIndex]
@@ -53,40 +48,38 @@ function Trail(spec) {
 
     for (let i = 0; i < sampleCount; i++) {
       // Count forwards from oldest point
-      const index = (sampleIndex+i+1)%sampleCount
+      const index = (sampleIndex + i + 1) % sampleCount
 
       const worldPoint = worldPoints[index]
       const worldPointUpper = worldPointsUpper[index]
 
-      let progress = i/(sampleCount-1)
+      let progress = i / (sampleCount - 1)
 
-      worldPoint.lerp(worldPointUpper, progress*lineWidth/2, pathPoint)
+      worldPoint.lerp(worldPointUpper, (progress * lineWidth) / 2, pathPoint)
 
       camera.worldToScreen(pathPoint)
 
-      if (i == 0)
-        ctx.moveTo(pathPoint.x, pathPoint.y)
-      else
-        ctx.lineTo(pathPoint.x, pathPoint.y)
+      if (i == 0) ctx.moveTo(pathPoint.x, pathPoint.y)
+      else ctx.lineTo(pathPoint.x, pathPoint.y)
     }
 
     // Traverse path in opposite direction, stopping just short of earliest point
-    for (let i = sampleCount-1; i >= 0; i--) {
-      const index = (sampleIndex+i+1)%sampleCount
+    for (let i = sampleCount - 1; i >= 0; i--) {
+      const index = (sampleIndex + i + 1) % sampleCount
 
       const worldPoint = worldPoints[index]
       const worldPointLower = worldPointsLower[index]
 
-      let progress = i/(sampleCount-1)
+      let progress = i / (sampleCount - 1)
 
-      worldPoint.lerp(worldPointLower, progress*lineWidth/2, pathPoint)
+      worldPoint.lerp(worldPointLower, (progress * lineWidth) / 2, pathPoint)
 
       camera.worldToScreen(pathPoint)
 
       ctx.lineTo(pathPoint.x, pathPoint.y)
     }
 
-    ctx.lineWidth = lineWidth*screenScalar
+    ctx.lineWidth = lineWidth * screenScalar
     ctx.fillStyle = strokeStyle
     ctx.lineJoin = 'round'
     ctx.lineCap = 'round'

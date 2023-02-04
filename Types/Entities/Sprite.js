@@ -1,10 +1,5 @@
 function Sprite(spec = {}) {
-  const {
-    self,
-    screen,
-    camera,
-    assets,
-  } = Entity(spec, 'Sprite')
+  const { self, screen, camera, assets } = Entity(spec, 'Sprite')
 
   const transform = Transform(spec, self)
 
@@ -26,18 +21,13 @@ function Sprite(spec = {}) {
 
   const origin = Vector2(spec)
 
-  if (spec.offset)
-    offset = Vector2(spec.offset)
-  
-  if (flipX == '*')
-    flipX = Math.random() < .5
-  if (flipY == '*')
-    flipY = Math.random() < .5
-  if (!spec.offset && anchored)
-    offset.y = 1
+  if (spec.offset) offset = Vector2(spec.offset)
 
-  if (!spec.offset && spec.y && anchored)
-    offset.y += spec.y
+  if (flipX == '*') flipX = Math.random() < 0.5
+  if (flipY == '*') flipY = Math.random() < 0.5
+  if (!spec.offset && anchored) offset.y = 1
+
+  if (!spec.offset && spec.y && anchored) offset.y += spec.y
 
   const ctx = screen.ctx
 
@@ -45,26 +35,30 @@ function Sprite(spec = {}) {
 
   if (asset) {
     if (asset.includes('*')) {
-      const assetSearch = new RegExp(`${asset.split('.')[1]?.split('*')[0]}_[0-9]+`)
-      let possibleSprites = Object.keys(assets.images).filter(v => assetSearch.test(v))
-      asset = 'images.' + possibleSprites[Math.floor(Math.random()*possibleSprites.length)]
+      const assetSearch = new RegExp(
+        `${asset.split('.')[1]?.split('*')[0]}_[0-9]+`,
+      )
+      let possibleSprites = Object.keys(assets.images).filter((v) =>
+        assetSearch.test(v),
+      )
+      asset =
+        'images.' +
+        possibleSprites[Math.floor(Math.random() * possibleSprites.length)]
     }
     image = _.get(assets, asset, $('#error-sprite'))
   }
 
   if (speech) {
-    if (!_.isArray(speech))
-      speech = [speech]
+    if (!_.isArray(speech)) speech = [speech]
 
     for (s of speech) {
-      if (_.isString(s))
-        s = {content: s}
+      if (_.isString(s)) s = { content: s }
 
       Speech({
         parent: self,
         globalScope,
-        x: size*offset.x,
-        y: size*offset.y,
+        x: size * offset.x,
+        y: size * offset.y,
         drawOrder: LAYERS.speech,
         screen: speechScreen,
         ...s,
@@ -91,7 +85,13 @@ function Sprite(spec = {}) {
   function drawLocal() {
     ctx.globalAlpha = opacity
     ctx.scale(flipX ? -1 : 1, flipY ? -1 : 1)
-    ctx.drawImage(image, -size/2+offset.x*size/2, -size/2-offset.y*size/2, size, size)
+    ctx.drawImage(
+      image,
+      -size / 2 + (offset.x * size) / 2,
+      -size / 2 - (offset.y * size) / 2,
+      size,
+      size,
+    )
     ctx.globalAlpha = 1
   }
 
@@ -102,19 +102,35 @@ function Sprite(spec = {}) {
   return self.mix({
     transform,
 
-    get opacity() {return opacity},
-    set opacity(o) {opacity = o},
+    get opacity() {
+      return opacity
+    },
+    set opacity(o) {
+      opacity = o
+    },
 
-    get size() {return size},
-    set size(v) {size = v},
+    get size() {
+      return size
+    },
+    set size(v) {
+      size = v
+    },
 
     tick,
     draw,
 
-    get flipX() {return flipX},
-    set flipX(v) {flipX = v},
+    get flipX() {
+      return flipX
+    },
+    set flipX(v) {
+      flipX = v
+    },
 
-    get flipY() {return flipY},
-    set flipY(v) {flipY = v},
+    get flipY() {
+      return flipY
+    },
+    set flipY(v) {
+      flipY = v
+    },
   })
 }

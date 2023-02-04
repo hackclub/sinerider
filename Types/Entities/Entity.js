@@ -27,23 +27,15 @@ function Entity(spec, defaultName = 'Entity') {
   if (parent) {
     parent.addChild(self)
     parent.root.addDescendant(self)
- 
-    if (!camera)
-      camera = parent.camera
-    if (!assets)
-      assets = parent.assets
-    if (!screen)
-      screen = parent.screen
-    if (!tickDelta)
-      tickDelta = parent.tickDelta
-    if (!getTime)
-      getTime = parent.getTime
-    if (!ui)
-      ui = parent.ui
-    if (!debugTree)
-      debugTree = parent.debugTree
-    if (_.isUndefined(spec.drawOrder))
-      drawOrder = parent.drawOrder
+
+    if (!camera) camera = parent.camera
+    if (!assets) assets = parent.assets
+    if (!screen) screen = parent.screen
+    if (!tickDelta) tickDelta = parent.tickDelta
+    if (!getTime) getTime = parent.getTime
+    if (!ui) ui = parent.ui
+    if (!debugTree) debugTree = parent.debugTree
+    if (_.isUndefined(spec.drawOrder)) drawOrder = parent.drawOrder
   }
 
   const ctx = screen ? screen.ctx : null
@@ -65,7 +57,7 @@ function Entity(spec, defaultName = 'Entity') {
   const children = []
   const drawArray = parent ? [] : [self]
   let activeDrawArray = []
-  
+
   const lifecycle = {
     awake: {
       entity: [],
@@ -81,8 +73,7 @@ function Entity(spec, defaultName = 'Entity') {
     },
   }
 
-  if (spec.components)
-    addComponents(spec.components)
+  if (spec.components) addComponents(spec.components)
 
   // Called when the entity is fully constructed
   function awake() {
@@ -114,40 +105,36 @@ function Entity(spec, defaultName = 'Entity') {
     _.invokeEach(children, 'sendLifecycleEvent', arguments)
   }
 
-  function sendEvent(path, args = [], latePath=null) {
+  function sendEvent(path, args = [], latePath = null) {
     if (!active) return
 
     // latePath is constructed on first call, and passed down for subsequent calls, to avoid memory pressure of creating the same new string for every object
     let argumentsArray = arguments
     if (latePath == null) {
-      latePath = path+'Late'
+      latePath = path + 'Late'
       argumentsArray = [...arguments]
       argumentsArray[2] = latePath
     }
 
     // Necessary to use _.get() so that 'parent.child' paths are supported. Do not change!
     let f = _.get(self, path)
-    if (_.isFunction(f))
-      f.apply(self, args)
+    if (_.isFunction(f)) f.apply(self, args)
 
     _.invokeEach(children, 'sendEvent', argumentsArray)
 
     f = _.get(self, latePath)
-    if (_.isFunction(f))
-      f.apply(self, args)
+    if (_.isFunction(f)) f.apply(self, args)
   }
 
   function mix(other) {
-    if (_.isFunction(other.awake))
-      lifecycle.awake.entity.push(other.awake)
+    if (_.isFunction(other.awake)) lifecycle.awake.entity.push(other.awake)
 
-    if (_.isFunction(other.start))
-      lifecycle.start.entity.push(other.start)
-      
+    if (_.isFunction(other.start)) lifecycle.start.entity.push(other.start)
+
     if (_.isFunction(other.destroy))
       lifecycle.destroy.entity.push(other.destroy)
-      
-    return _.mixIn(self, other, {start, awake, destroy})
+
+    return _.mixIn(self, other, { start, awake, destroy })
   }
 
   function hasChild(child) {
@@ -162,8 +149,7 @@ function Entity(spec, defaultName = 'Entity') {
 
   function findChild(childName) {
     for (child of children) {
-      if (child.name === childName)
-        return child
+      if (child.name === childName) return child
     }
 
     return null
@@ -171,13 +157,11 @@ function Entity(spec, defaultName = 'Entity') {
 
   function findDescendant(descendantName) {
     for (child of children) {
-      if (child.name === childName)
-        return child
+      if (child.name === childName) return child
 
       let descendant = child.findDescendant(descendantName)
 
-      if (descendant)
-        return descendant
+      if (descendant) return descendant
     }
 
     return null
@@ -190,12 +174,10 @@ function Entity(spec, defaultName = 'Entity') {
     screen.ctx.filter = `blur(${Math.floor(blur)}px)`
     if (motionBlur && camera && self.transform) {
       // camera.transform.invertPoint(self.transform.transformPoint(Vector2(0, 0)), currentFramePos)
-
       // const blur = lastFramePos.subtract(currentFramePos).magnitude * 300
       // screen.ctx.filter = `blur(${Math.floor(blur)}px)`
       // // TODO: Switch from blur based on sledder velocity to being based on camera velocity wrt object
       // console.log('blur', blur, lastFramePos.toString(), currentFramePos.toString(), screen.ctx.canvas.filter)
-
       // lastFramePos.set(currentFramePos)
     }
   }
@@ -207,7 +189,7 @@ function Entity(spec, defaultName = 'Entity') {
   function compareChildren(a, b) {
     a = _.isNumber(a.drawOrder) ? a.drawOrder : 0
     b = _.isNumber(b.drawOrder) ? b.drawOrder : 0
-    return a-b
+    return a - b
   }
 
   function removeChild(child) {
@@ -221,14 +203,13 @@ function Entity(spec, defaultName = 'Entity') {
   }
 
   function getLineage() {
-    return parent ? (parent.getLineage()+'.'+name) : name
+    return parent ? parent.getLineage() + '.' + name : name
   }
 
   function getFromAncestor(path) {
     let v = _.get(self, path, undefined)
     if (_.isUndefined(v)) {
-      if (parent)
-        return parent.getFromAncestor(path)
+      if (parent) return parent.getFromAncestor(path)
       return null
     }
     return v
@@ -246,27 +227,31 @@ function Entity(spec, defaultName = 'Entity') {
   function removeDescendant(descendant) {
     drawArray.splice(drawArray.indexOf(descendant), 1)
   }
-  
+
   function updateDrawArray() {
-    activeDrawArray = drawArray.filter(v => v.activeInHierarchy && v.draw)
+    activeDrawArray = drawArray.filter((v) => v.activeInHierarchy && v.draw)
   }
 
   function sortDrawArray() {
     drawArray.sort((a, b) => a.drawOrder - b.drawOrder)
     updateDrawArray()
   }
-  
+
   return _.mixIn(self, {
     awake,
     start,
-    
+
     destroy,
 
-    get name() {return name},
-    set name(v) {name = v},
+    get name() {
+      return name
+    },
+    set name(v) {
+      name = v
+    },
 
     lifecycle,
-    
+
     mix,
     sendEvent,
     sendLifecycleEvent,
@@ -281,54 +266,77 @@ function Entity(spec, defaultName = 'Entity') {
     predraw,
 
     drawArray,
-    get activeDrawArray() {return activeDrawArray},
+    get activeDrawArray() {
+      return activeDrawArray
+    },
     sortDrawArray,
     updateDrawArray,
-    
+
     findChild,
     findDescendant,
 
     getFromAncestor,
     getLineage,
 
-    get lineage() {return getLineage()},
+    get lineage() {
+      return getLineage()
+    },
 
     children,
     sortChildren,
 
     toString,
 
-    get parent() {return parent},
-    get root() {return parent ? parent.root : self},
+    get parent() {
+      return parent
+    },
+    get root() {
+      return parent ? parent.root : self
+    },
 
-    get active() {return active},
-    set active(v) {setActive(v)},
+    get active() {
+      return active
+    },
+    set active(v) {
+      setActive(v)
+    },
 
     get activeInHierarchy() {
-      if (!active)
-        return false
+      if (!active) return false
 
-      if (parent)
-        return parent.activeInHierarchy
+      if (parent) return parent.activeInHierarchy
 
       return true
     },
-    
-    get drawOrder() {return drawOrder},
+
+    get drawOrder() {
+      return drawOrder
+    },
     set drawOrder(v) {
-      if (drawOrder != v)
-        self.root.sortDrawArray()
-      
+      if (drawOrder != v) self.root.sortDrawArray()
+
       drawOrder = v
     },
 
-    get blur() {return blur},
-    set blur(v) {blur = v},
-    
-    get activeRange() {return activeRange},
-    get debug() {return debugSelf || debugTree},
+    get blur() {
+      return blur
+    },
+    set blur(v) {
+      blur = v
+    },
 
-    get motionBlur() {return motionBlur},
-    set motionBlur(v) {motionBlur = v},
+    get activeRange() {
+      return activeRange
+    },
+    get debug() {
+      return debugSelf || debugTree
+    },
+
+    get motionBlur() {
+      return motionBlur
+    },
+    set motionBlur(v) {
+      motionBlur = v
+    },
   })
 }

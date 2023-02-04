@@ -1,13 +1,7 @@
 function VolcanoShader(spec) {
-  const {
-    self,
-    screen,
-  } = Entity(spec, 'Shader')
+  const { self, screen } = Entity(spec, 'Shader')
 
-  const {
-    quad,
-    sledders,
-  } = spec
+  const { quad, sledders } = spec
 
   const ctx = screen.ctx
 

@@ -1,11 +1,5 @@
 function LevelBubble(spec) {
-  const {
-    ui,
-    self,
-    screen,
-    camera,
-    assets,
-  } = Entity(spec, 'LevelBubble')
+  const { ui, self, screen, camera, assets } = Entity(spec, 'LevelBubble')
 
   const {
     setLevel,
@@ -18,11 +12,7 @@ function LevelBubble(spec) {
     quad,
   } = spec
 
-  const {
-    nick,
-    requirements,
-    radius = 3,
-  } = levelDatum
+  const { nick, requirements, radius = 3 } = levelDatum
 
   const dependencies = []
 
@@ -53,12 +43,14 @@ function LevelBubble(spec) {
   let bubbletRunTime = 0
 
   const bubbletGlobalScope = {
-    get t() {return bubbletRunTime},
+    get t() {
+      return bubbletRunTime
+    },
     dt: tickDelta,
 
     get running() {
       return bubbletRunning
-    }
+    },
   }
 
   const bubbletCanvas = document.createElement('canvas')
@@ -70,11 +62,11 @@ function LevelBubble(spec) {
   ui.bubblets.appendChild(bubbletCanvas)
   const bubbletScreen = Screen({
     canvas: bubbletCanvas,
-    element: bubbletCanvas
+    element: bubbletCanvas,
   })
 
   const bubbletCamera = Camera({
-    screen: bubbletScreen
+    screen: bubbletScreen,
   })
 
   let bubbletLevel = Level({
@@ -83,7 +75,9 @@ function LevelBubble(spec) {
     camera: bubbletCamera,
     globalScope: bubbletGlobalScope,
     parent: self,
-    useDragCamera: false, isBubbleLevel: true, drawOrder: LAYERS.levelBubbles,
+    useDragCamera: false,
+    isBubbleLevel: true,
+    drawOrder: LAYERS.levelBubbles,
   })
 
   bubbletLevel.sendEvent('draw')
@@ -108,7 +102,7 @@ function LevelBubble(spec) {
     // Create an arrow to each dependency
     for (bubble of requirements) {
       let arrow = Arrow({
-        truncate: [radius+0.9, radius+0.9],
+        truncate: [radius + 0.9, radius + 0.9],
         point0: bubble.transform.position,
         point1: transform.position,
         drawOrde: LAYERS.arrows,
@@ -123,14 +117,12 @@ function LevelBubble(spec) {
     refreshPlayable()
   }
 
-  function startLate() {
-  }
+  function startLate() {}
 
-  function tick() {
-  }
+  function tick() {}
 
   function drawLocal() {
-    const opacity = visible ? playable ? 1 : 0.5 : 0
+    const opacity = visible ? (playable ? 1 : 0.5) : 0
     ctx.globalAlpha = opacity
 
     ctx.beginPath()
@@ -138,16 +130,13 @@ function LevelBubble(spec) {
     let strokeWidth = 0.2
 
     if (playable) {
-      if (hilighted)
-        strokeWidth = 0.4
-      else if (playable)
-        strokeWidth = 0.2
+      if (hilighted) strokeWidth = 0.4
+      else if (playable) strokeWidth = 0.2
 
-      if (clickable.hovering)
-        strokeWidth *= 2
+      if (clickable.hovering) strokeWidth *= 2
     }
 
-    ctx.arc(0, 0, radius, 0, Math.PI*2)
+    ctx.arc(0, 0, radius, 0, Math.PI * 2)
     ctx.lineWidth = strokeWidth
 
     ctx.fillStyle = '#fff'
@@ -157,7 +146,7 @@ function LevelBubble(spec) {
 
     ctx.fill()
     ctx.clip()
-    ctx.drawImage(bubbletCanvas, -radius, -radius, radius*2, radius*2)
+    ctx.drawImage(bubbletCanvas, -radius, -radius, radius * 2, radius * 2)
 
     ctx.fillStyle = '#333'
     ctx.textAlign = 'center'
@@ -171,7 +160,7 @@ function LevelBubble(spec) {
     // ctx.globalAlpha = 1
 
     ctx.beginPath()
-    ctx.arc(0, 0, radius+strokeWidth/2-0.02, 0, Math.PI*2)
+    ctx.arc(0, 0, radius + strokeWidth / 2 - 0.02, 0, Math.PI * 2)
 
     ctx.stroke()
   }
@@ -182,8 +171,7 @@ function LevelBubble(spec) {
     if (unlocked) {
       playable = true
       hilighted = !completed
-    }
-    else {
+    } else {
       playable = getShowAll()
       hilighted = false
     }
@@ -191,9 +179,9 @@ function LevelBubble(spec) {
     // visible = playable || _.some(requirements, v => v.playable)
     visible = true //TODO: implement gradient fade for invisible unmet requirements. Until then, inaccessible levels will always be shown.
 
-    const opacity = visible ? playable ? 1 : 0.5 : 0
+    const opacity = visible ? (playable ? 1 : 0.5) : 0
 
-    _.each(arrows, v => {
+    _.each(arrows, (v) => {
       v.opacity = opacity
       v.dashed = !v.toBubble.unlocked
     })
@@ -228,20 +216,24 @@ function LevelBubble(spec) {
 
     assets.sounds.enter_level.play()
     assets.sounds.map_zoom_in.play()
-    
+
     completeAllRequirements()
 
-    waypointDirector.moveTo(null, {
-      position: transform.position,
-      fov: radius*2,
-    }, 1, () => {
-      setLevel(levelDatum.nick)
-      ui.veil.setAttribute('hide', true)
-    })
+    waypointDirector.moveTo(
+      null,
+      {
+        position: transform.position,
+        fov: radius * 2,
+      },
+      1,
+      () => {
+        setLevel(levelDatum.nick)
+        ui.veil.setAttribute('hide', true)
+      },
+    )
   }
 
   function completeAllRequirements() {
-
     for (requirement of requirements) {
       requirement.complete()
       requirement.completeAllRequirements()
@@ -270,14 +262,26 @@ function LevelBubble(spec) {
 
     refreshPlayable,
 
-    get nick() {return nick},
+    get nick() {
+      return nick
+    },
 
-    get completed() {return completed},
-    get hilighted() {return hilighted},
+    get completed() {
+      return completed
+    },
+    get hilighted() {
+      return hilighted
+    },
 
-    get playable() {return playable},
-    get visible() {return visible},
-    get unlocked() {return unlocked},
+    get playable() {
+      return playable
+    },
+    get visible() {
+      return visible
+    },
+    get unlocked() {
+      return unlocked
+    },
 
     complete,
     completeAllRequirements,

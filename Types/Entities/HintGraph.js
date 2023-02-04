@@ -1,15 +1,7 @@
 function HintGraph(spec) {
-  const {
-    self,
-    camera,
-    ui,
-  } = Entity(spec, 'Hint Graph')
+  const { self, camera, ui } = Entity(spec, 'Hint Graph')
 
-  const {
-    slider,
-    globalScope,
-    drawOrder,
-  } = spec
+  const { slider, globalScope, drawOrder } = spec
 
   const { bounds, expression: expressionForm } = slider
 
@@ -43,13 +35,14 @@ function HintGraph(spec) {
     ui.dottedMathFieldStatic.latex(`Y=${text}`)
   }
 
-  ui.dottedSlider.oninput = e => {
-    let val = (ui.dottedSlider.value) / 100
+  ui.dottedSlider.oninput = (e) => {
+    let val = ui.dottedSlider.value / 100
     expression = createExpression(val * (bounds[1] - bounds[0]) + bounds[0])
     setSliderExpression(expression)
   }
 
-  ui.dottedSlider.value = 100 * ((bounds[2] - bounds[0]) / (bounds[1] - bounds[0]))
+  ui.dottedSlider.value =
+    100 * ((bounds[2] - bounds[0]) / (bounds[1] - bounds[0]))
 
   setSliderExpression(expression)
 

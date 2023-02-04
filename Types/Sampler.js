@@ -41,24 +41,17 @@ function Sampler(spec = {}) {
       v = e.evaluate(scope)
 
       if (!allowInfinity) {
-        if (v == PINF || v == NINF)
-          v = 0
+        if (v == PINF || v == NINF) v = 0
 
-        if (v.re == PINF || v.re == NINF)
-          v.re = 0
+        if (v.re == PINF || v.re == NINF) v.re = 0
 
-        if (v.im == PINF || v.im == NINF)
-          v.im = 0
+        if (v.im == PINF || v.im == NINF) v.im = 0
       }
 
-      if (_.isObject(v))
-        v = v.re || 0
-      else if (!_.isNumber(v))
-        v = 0
-      else if (_.isNaN(v))
-        v = 0
-    }
-    catch (err) {
+      if (_.isObject(v)) v = v.re || 0
+      else if (!_.isNumber(v)) v = 0
+      else if (_.isNaN(v)) v = 0
+    } catch (err) {
       v = 0
     }
 
@@ -72,7 +65,7 @@ function Sampler(spec = {}) {
     // Assign variable/value pairs
     if (arguments.length >= 2) {
       for (let i = 0; i < arguments.length; i += 2) {
-        scope[arguments[i]] = arguments[i+1]
+        scope[arguments[i]] = arguments[i + 1]
       }
     }
 
@@ -83,7 +76,7 @@ function Sampler(spec = {}) {
     // Assign variable/value pairs *except* first pair
     if (arguments.length >= 3) {
       for (let i = 2; i < arguments.length; i += 2) {
-        scope[arguments[i]] = arguments[i+1]
+        scope[arguments[i]] = arguments[i + 1]
       }
     }
 
@@ -92,30 +85,36 @@ function Sampler(spec = {}) {
     scope[variable] = value
     const sample0 = evaluate(scope)
 
-    scope[variable] = value+epsilon
+    scope[variable] = value + epsilon
     const sample1 = evaluate(scope)
 
-    return (sample1-sample0)/epsilon
+    return (sample1 - sample0) / epsilon
   }
 
-  function sampleRange(_scope, sampleArray, sampleCount, rangeVariable, range0, range1) {
+  function sampleRange(
+    _scope,
+    sampleArray,
+    sampleCount,
+    rangeVariable,
+    range0,
+    range1,
+  ) {
     _.assign(scope, _scope)
 
-    const span = range1-range0
-    const step = span/(sampleCount-1)
+    const span = range1 - range0
+    const step = span / (sampleCount - 1)
 
     scope[rangeVariable] = range0
 
     for (let i = 0; i < sampleCount; i++) {
-      let rangeValue = range0+step*i
+      let rangeValue = range0 + step * i
       scope[rangeVariable] = rangeValue
 
       sampleArray[i][0] = rangeValue
 
       try {
         sampleArray[i][1] = evaluate(scope)
-      }
-      catch (err) {
+      } catch (err) {
         sampleArray[i][1] = 0
       }
     }
@@ -131,8 +130,7 @@ function Sampler(spec = {}) {
       lastValidExpression = expression
       lastValidEvaluator = evaluator
       valid = true
-    }
-    catch (err) {
+    } catch (err) {
       evaluator = math.compile('0')
       valid = false
     }
@@ -153,12 +151,22 @@ function Sampler(spec = {}) {
 
     setExpression,
 
-    get expression() {return expression},
-    set expression(v) {setExpression(v)},
+    get expression() {
+      return expression
+    },
+    set expression(v) {
+      setExpression(v)
+    },
 
-    get max() {return max},
-    get min() {return min},
+    get max() {
+      return max
+    },
+    get min() {
+      return min
+    },
 
-    get valid() {return valid},
+    get valid() {
+      return valid
+    },
   }
 }

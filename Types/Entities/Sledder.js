@@ -1,9 +1,5 @@
 function Sledder(spec = {}) {
-  const {
-    self,
-    screen,
-    assets
-  } = Entity(spec, 'Sledder')
+  const { self, screen, assets } = Entity(spec, 'Sledder')
 
   const transform = Transform(spec, self)
   const rigidbody = Rigidbody({
@@ -63,7 +59,7 @@ function Sledder(spec = {}) {
     transform,
     width: size,
     height: size - 0.2,
-    center: Vector2(0, size/2 - 0.2),
+    center: Vector2(0, size / 2 - 0.2),
   })
 
   const clickable = Clickable({
@@ -80,13 +76,11 @@ function Sledder(spec = {}) {
   }
 
   function draw() {
-    if (clickable.selectedInEditor)
-      shape.draw(ctx, camera)
+    if (clickable.selectedInEditor) shape.draw(ctx, camera)
     // rigidbody.draw(ctx)
   }
 
-  function startRunning() {
-  }
+  function startRunning() {}
 
   function stopRunning() {
     rigidbody.resetVelocity()
@@ -171,14 +165,26 @@ function Sledder(spec = {}) {
     select,
     deselect,
 
-    get transition() {return transition},
-    set transition(v) {transition = v},
+    get transition() {
+      return transition
+    },
+    set transition(v) {
+      transition = v
+    },
 
-    get activeRange() {return activeRange},
-    get selectable() {return !globalScope.running},
+    get activeRange() {
+      return activeRange
+    },
+    get selectable() {
+      return !globalScope.running
+    },
 
-    get velocity() {return self.active ? rigidbody.velocity.magnitude : 0},
+    get velocity() {
+      return self.active ? rigidbody.velocity.magnitude : 0
+    },
 
-    get rigidbody() {return rigidbody},
+    get rigidbody() {
+      return rigidbody
+    },
   })
 }
