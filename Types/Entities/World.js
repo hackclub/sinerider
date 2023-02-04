@@ -287,6 +287,8 @@ function World(spec) {
     ui.runButton.setAttribute('hide', false)
     ui.stopButton.setAttribute('hide', true)
     ui.resetButton.setAttribute('hide', false)
+    document.getElementById("try-again").style.display = "none";
+
 
     if (!navigating) {
       // HACK: Timed to avoid bug in Safari (at least) that causes whole page to be permanently offset when off-screen text input is focused

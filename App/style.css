@@ -5,9 +5,8 @@
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-   user-select: none;
+  user-select: none;
 }
-
 
 body {
   position: absolute;
@@ -20,7 +19,7 @@ body {
   margin: 0;
   padding: 0;
 
-  font-family: 'Roboto Mono';
+  font-family: "Roboto Mono";
 
   color: #333;
   background: #fff;
@@ -85,7 +84,8 @@ body > .bar {
   overflow: visible;
 }
 
-.floating .button,.envelope {
+.floating .button,
+.envelope {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
 }
 
@@ -146,7 +146,7 @@ body > .bar {
   pointer-events: none;
 }
 
-*[hide=true] {
+*[hide="true"] {
   display: none;
 }
 
@@ -161,7 +161,7 @@ body > .bar {
   border-top-right-radius: 0;
 }
 
-.menu[hide=true] {
+.menu[hide="true"] {
   top: -60px;
 }
 
@@ -176,15 +176,15 @@ body > .bar {
 .victory .envelope {
   flex-basis: 300px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
-  background: #EEE;
+  background: #eee;
   padding: 5px;
 }
 
-.victory[hide=true] {
+.victory[hide="true"] {
   bottom: -80px;
 }
 
-.message[hide=true] {
+.message[hide="true"] {
   display: none;
 }
 
@@ -194,20 +194,20 @@ body > .bar {
   bottom: 60px;
 }
 
-.navigator[hide=true] {
+.navigator[hide="true"] {
   bottom: -60px;
   display: none;
 }
 
 input {
-  font-family: 'Roboto Mono';
+  font-family: "Roboto Mono";
 }
 
 input:placeholder-shown {
-   font-style: italic;
+  font-style: italic;
 }
 
-input[valid=false] {
+input[valid="false"] {
   border: 1px solid red;
 }
 
@@ -225,7 +225,7 @@ input[valid=false] {
   /*box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);*/
 }
 
-#controls-bar[hide=true] {
+#controls-bar[hide="true"] {
   bottom: -50vh;
 }
 
@@ -234,7 +234,8 @@ input[valid=false] {
   flex-grow: 1;
 }
 
-#math-field,#math-field-static {
+#math-field,
+#math-field-static {
   border: none;
   flex-grow: 0;
   padding: 4px 2px 2px 2px;
@@ -244,27 +245,27 @@ input[valid=false] {
   background: #fff;
 }
 
-#math-field[valid=false] {
+#math-field[valid="false"] {
   border: 1px solid red;
 }
 
-#expression-envelope[disabled=true] > #math-field {
- display: none; 
+#expression-envelope[disabled="true"] > #math-field {
+  display: none;
 }
 
-#expression-envelope[disabled=false] > #math-field-static {
- display: none; 
+#expression-envelope[disabled="false"] > #math-field-static {
+  display: none;
 }
 
 #math-field-static {
   background: #ddd;
 }
 
-#expression-envelope[disabled=true] {
+#expression-envelope[disabled="true"] {
   background: #ddd;
 }
 
-#expression-envelope[disabled=false] {
+#expression-envelope[disabled="false"] {
   background: #fff;
 }
 
@@ -343,7 +344,7 @@ input[valid=false] {
   transition: 0.5s;
 }
 
-#variables-bar[hide=true] {
+#variables-bar[hide="true"] {
   top: -80px;
 }
 
@@ -362,7 +363,8 @@ input[valid=false] {
   justify-content: space-between;
 }
 
-#fixed-goal-selector, #dynamic-goal-selector {
+#fixed-goal-selector,
+#dynamic-goal-selector {
   height: 70px;
   width: 70px;
   background: white;
@@ -371,12 +373,12 @@ input[valid=false] {
 
 #volume-slider-box {
   transition-duration: 1s;
-  border: 2px solid rgba(255,255,255,0);
+  border: 2px solid rgba(255, 255, 255, 0);
   padding: 10px;
   border-radius: 0 0 10px 0;
 }
 #volume-slider-box:hover {
-  border: 2px solid rgba(255,255,255,0.2);
+  border: 2px solid rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(9px);
 }
 
@@ -388,7 +390,7 @@ input[valid=false] {
   opacity: 1;
 }
 
-#top-bar[hide=true] {
+#top-bar[hide="true"] {
   top: -80px;
 }
 
@@ -479,7 +481,7 @@ input[valid=false] {
   }
 }
 
-.veil[hide=true] {
+.veil[hide="true"] {
   opacity: 0;
   pointer-events: none;
 }
@@ -498,26 +500,26 @@ input[valid=false] {
   text-align: center;
   border: 2px solid black;
   font-size: small;
-  background-color:white;
-  padding:5px;
+  background-color: white;
+  padding: 5px;
   color: black !important;
 }
 
 .top-left {
-  bottom:calc(80% + 20px);
-  right:90%;
+  bottom: calc(80% + 20px);
+  right: 90%;
 }
 .top-right {
-  bottom:calc(80% + 20px);
-  left:90%;
+  bottom: calc(80% + 20px);
+  left: 90%;
 }
 .bottom-left {
-  right:23% !important;
-  top:103% !important;
+  right: 23% !important;
+  top: 103% !important;
 }
 .bottom-right {
-  top:calc(80% + 20px);
-  left:90%;
+  top: calc(80% + 20px);
+  left: 90%;
 }
 
 .helper-bubble:before {
@@ -561,22 +563,22 @@ input[valid=false] {
 
 #dotted-math-container {
   position: fixed;
-  right:15px; 
-  top:25%; 
+  right: 15px;
+  top: 25%;
   /* display: flex;  */
   display: none; /* Disabled by default */
   border-width: 3px;
 }
 
 #dotted-math-field-static {
-  border: 2px solid rgba(255,255,255,0.2);
+  border: 2px solid rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(9px);
-  text-shadow: 0px 0px 8px rgba(0,0,0,0.75);
+  text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.75);
   margin-top: auto;
   margin-bottom: auto;
   font-weight: bold;
-  font-family:monospace;
-  color:rgb(0,255,0);
+  font-family: monospace;
+  color: rgb(0, 255, 0);
 }
 
 #dotted-slider {
@@ -585,7 +587,7 @@ input[valid=false] {
   width: 8px;
   height: 175px;
   padding: 0 5px;
-  accent-color: rgb(0,255,0);
+  accent-color: rgb(0, 255, 0);
 }
 
 .vstack {
@@ -607,7 +609,7 @@ input[valid=false] {
     top: 20px;
   }
 
-  #expression-envelope-container[hide=true] {
+  #expression-envelope-container[hide="true"] {
     top: -50vh;
   }
 
@@ -641,7 +643,6 @@ input[valid=false] {
   }
 }
 
-
 .tooltip::before,
 .tooltip::after {
   --scale: 0;
@@ -649,38 +650,36 @@ input[valid=false] {
   --tooltip-color: #68f;
 
   position: absolute;
-  top: -.25rem;
+  top: -0.25rem;
   left: 50%;
-  transform: translateX(-50%) translateY(var(--translate-y, 0)) scale(var(--scale))!important;
+  transform: translateX(-50%) translateY(var(--translate-y, 0))
+    scale(var(--scale)) !important;
   transition: 150ms transform;
   transform-origin: bottom center;
 }
-
 
 .tooltip::before {
   --translate-y: calc(-100% - var(--arrow-size));
 
   content: attr(data-tooltip);
   color: white;
-  padding: .5rem;
-  border-radius: .3rem;
+  padding: 0.5rem;
+  border-radius: 0.3rem;
   text-align: center;
- 
+
   background: var(--tooltip-color);
 }
 
 .tooltip:hover::before,
-.tooltip:hover::after{
+.tooltip:hover::after {
   --scale: 1;
 }
 
-
 .tooltip::after {
   --translate-y: calc(-1 * var(--arrow-size));
-  content: '';
+  content: "";
   border: var(--arrow-size) solid transparent;
   border-top-color: var(--tooltip-color);
-
 }
 
 .tooltip-e::before {
@@ -697,8 +696,9 @@ input[valid=false] {
   border-right-color: var(--tooltip-color);
 }
 
-#editor-inspector, #editor-spawner {
-  background: '#000';
+#editor-inspector,
+#editor-spawner {
+  background: "#000";
   display: flex;
   align-items: center;
   height: 2.5em;
@@ -712,7 +712,8 @@ input[valid=false] {
   text-align: center;
 }
 
-#editor-x-input, #editor-y-input {
+#editor-x-input,
+#editor-y-input {
   width: 5em;
 }
 
@@ -732,19 +733,45 @@ input[valid=false] {
   transition: 0.5s;
 }
 
-.editor-bar[hide=true] {
+.editor-bar[hide="true"] {
   display: none !important;
-  transform: translateY(calc(-100% - 73px/2));
+  transform: translateY(calc(-100% - 73px / 2));
 }
 
-.editor-bar[hide=false] {
+.editor-bar[hide="false"] {
   display: inherit;
   animation: show-editor-bar 0.5s;
 }
 
 @keyframes show-editor-bar {
-  from { transform: translateY(calc(-100% - 73px/2)); }
-  to { transform: translateY(0px); }
+  from {
+    transform: translateY(calc(-100% - 73px / 2));
+  }
+  to {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes slideInFromTop {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutToTop {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
 }
 
 #try-again {
@@ -759,50 +786,38 @@ input[valid=false] {
   border: none;
   cursor: pointer;
   transition: all 0.5s ease;
-  margin-top: 250px;
-  font-family: 'Roboto Mono';
-  animation: slideInOut 0.5s ease;
+  margin-top: 150px;
+  font-family: "Roboto Mono";
+  animation-duration: 0.5s;
+  animation: pulse 1s infinite;
 }
-
-@keyframes slideInOut {
-  0% {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
+#try-again:hover {
+  background: white;
 }
 
 #try-again.slide-out {
-  animation: slideOut 0.5s ease;
+  animation-name: slideOutToTop;
 }
 
-.slide-out {
-  animation: slide-out 0.5s ease forwards;
-}
-
-@keyframes slideOut {
+@keyframes pulse {
   0% {
-    transform: translateY(0);
-    opacity: 1;
+    background-color: #f46;
+  }
+  50% {
+    background-color: #fff;
   }
   100% {
-    transform: translateY(-100%);
-    opacity: 0;
+    background-color: #f46;
   }
 }
 
-
-
-.try-again-button{
+.try-again-button {
   align-items: center;
   justify-content: center;
   margin: auto;
 }
 #lvl-debug-info {
-  position:absolute;
+  position: absolute;
   left: 25px;
   top: 10px;
   font-size: 10px;
@@ -811,32 +826,32 @@ input[valid=false] {
 }
 
 #button-hide-level-info {
-  position:absolute;
-  width:25px;
-  height:25px;
-  right:50px;
-  min-width:25px;
-  min-height:25px;
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  right: 50px;
+  min-width: 25px;
+  min-height: 25px;
 }
 
 .debugtitle {
-  font-weight:bold;
-  text-align:right;
-  width:150px;
+  font-weight: bold;
+  text-align: right;
+  width: 150px;
 }
 
 .debuginfo {
-  width:150px;
-  text-align:left;
+  width: 150px;
+  text-align: left;
 }
 
 .grid {
-  position:absolute;
-  left:0px;
-  top:0px;
-  width:300px;
-  display:grid;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 300px;
+  display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: 12px;
-  padding:0px;
+  padding: 0px;
 }
