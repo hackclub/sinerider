@@ -45,9 +45,10 @@ const ui = {
   mathFieldStatic: $('#math-field-static'),
 
   dottedMathContainer: $('#dotted-math-container'),
-  dottedMathField: $('#dotted-math-field'),
   dottedMathFieldStatic: $('#dotted-math-field-static'),
+  dottedMathField: $('#dotted-math-field-static'),
   dottedSlider: $('#dotted-slider'),
+  dottedHintButton: $('#dotted-math-button'),
 
   volumeSlider: $('#volume-slider'),
 
@@ -240,6 +241,17 @@ function onSetVolume(event) {
 ui.volumeSlider.addEventListener('change', onSetVolume)
 ui.volumeSlider.addEventListener('mouseup', onSetVolume)
 ui.volumeSlider.addEventListener('input', onSetVolume)
+
+function onClickHint() {
+  ui.dottedHintButton.style.display = 'none'
+
+  ui.dottedSlider.hidden = false
+  ui.dottedMathField.style.display = 'block'
+
+  world.level.sendEvent('displayDottedGraph')
+}
+
+ui.dottedHintButton.addEventListener('click', onClickHint)
 
 // Initial page state
 {

@@ -18,15 +18,13 @@ function HintGraph(spec) {
     expression: createExpression(0),
     parent: self,
     strokeWidth: 0.1,
-    strokeColor: 'rgb(0,255,0)',
+    strokeColor: 'rgb(0,255,0,0)',
     dashed: true,
     scaleStroke: true,
     dashSettings: [0.5, 0.5],
     fill: false,
     drawOrder,
   })
-
-  ui.dottedSlider.hidden = false
 
   let expression = createExpression(bounds[2])
 
@@ -54,8 +52,17 @@ function HintGraph(spec) {
 
   setVisible(true)
 
+  function displayDottedGraph() {
+    dottedGraph.strokeColor = 'rgba(0,255,0)'
+  }
+
   function destroy() {
     setVisible(false)
+
+    dottedGraph.strokeColor = 'rgba(0,255,0,0)'
+    ui.dottedMathField.style.display = 'none'
+    ui.dottedSlider.hidden = true
+    ui.dottedHintButton.style.display = 'block'
   }
 
   function onToggleMap(mapEnabled) {
@@ -63,6 +70,7 @@ function HintGraph(spec) {
   }
 
   return self.mix({
+    displayDottedGraph,
     destroy,
     setVisible,
     onToggleMap,
