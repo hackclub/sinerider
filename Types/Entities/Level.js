@@ -507,6 +507,7 @@ function Level(spec) {
 
     assets.sounds.goal_fail.play()
     ui.stopButton.innerHTML = 'Try Again';
+    ui.stopButton.style.animation = "pulse 0.5s infinite";
   }
 
   ui.stopButton.addEventListener('click', function () {

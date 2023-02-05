@@ -281,8 +281,6 @@ input[valid='false'] {
 
   right: 0;
   bottom: 0;
-  animation-duration: 0.5s;
-  animation: pulse 1s infinite;
 }
 
 #run-button:not(:hover) {
