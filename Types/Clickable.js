@@ -218,8 +218,9 @@ function Clickable(spec) {
       if (!v && deselectMe && editor.active) {
         // console.log('calling deselectMe')
         deselectMe()
+
+        if (deselect) deselect()
       }
-      if (deselect) deselect()
       enabled = v
     },
 

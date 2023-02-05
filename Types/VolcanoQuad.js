@@ -80,7 +80,8 @@ function VolcanoQuad(spec) {
   function render() {
     time += 0.1
 
-    const sunsetTime = (world.level.sledders[0].transform.x / 150) * 12
+    const x = world.level.cutsceneDistanceParameter
+    const sunsetTime = (x/150)*12
 
     frame.image(canvas, gl.RGBA)
 
@@ -130,7 +131,6 @@ function VolcanoQuad(spec) {
     utils.bindDisplay()
     gaussianYBuffer.bind(0)
 
-    const x = world.level.sledders[0].transform.x
     const _sunsetTime = 12 * Math.exp(-(((x - 221) / 100) ** 2))
 
     outputProgram
