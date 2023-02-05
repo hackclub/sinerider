@@ -32,6 +32,8 @@ function LavaMonster(spec) {
     size: 2.5,
   })
 
+  let roarPlayed = false
+
   function draw() {}
 
   function tick() {
@@ -50,7 +52,10 @@ function LavaMonster(spec) {
 
       jaw.transform.y = -6.2 + 3 * t
 
-      if (x > 150 && !roar.playing()) roar.play()
+      if (x > 170 && !roarPlayed) {
+        roar.play()
+        roarPlayed = true
+      }
     }
   }
 
