@@ -55,7 +55,7 @@ void main(void) {
   // [1.0*s, 1.0*s]
   // [1.0-s]
 
-  float volcano_prox = smoothstep(0., 1., 1.-abs((15.-time)/10.));
+  float volcano_prox = smoothstep(0., 1., 1.-abs((16.-time)/5.));
 
   vec2 uv = gl_FragCoord.xy/resolution.xy;
   vec2 s = vec2(pNoise(vec2(time * 200., time * 100.), 20), pNoise(vec2(time * 400., time * 100.) + vec2(.12374), 20));
