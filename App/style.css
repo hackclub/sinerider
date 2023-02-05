@@ -583,19 +583,10 @@ input[valid='false'] {
 }
 
 #dotted-math-button {
-  border-radius: 10px;
-  font-size: 1.4;
   margin-top: auto;
   margin-bottom: auto;
   margin-left:auto;
   background-color: rgb(255, 174, 0);
-
-  font-family: monospace;
-}
-
-#dotted-math-button:hover {
-  background-color: rgb(246, 203, 110);
-  cursor: pointer;
 }
 
 #dotted-slider {

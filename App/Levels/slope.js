@@ -69,9 +69,9 @@ const SLOPE = [
         destroyOnClick: true,
       },
       {
-        content: 'slide me up',
-        domSelector: '#dotted-slider-box',
-        place: 'bottom-left',
+        content: 'Click me for some slider help',
+        domSelector: '#dotted-math-button',
+        place: 'top-left',
         destroyOnClick: true,
       },
     ],
