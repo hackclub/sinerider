@@ -48,7 +48,7 @@ const VOLCANO = (() => {
     walkers: [
       {
         //  x: 191,
-        x: SLEDDER_START - 5,
+        x: SLEDDER_START - 10,
         //  x: -34.5,
         asset: 'images.sam_float',
         name: 'WALKER_1',
@@ -65,8 +65,8 @@ const VOLCANO = (() => {
             color: '#808080',
             content: 'Look, the finish line!',
             direction: 'up-left',
-            deactivationThreshold: -33,
-            domain: [-34, -33],
+            // deactivationThreshold: -33,
+            domain: [-60, -40],
             distance: 1.5,
             repeatable: false,
           },
