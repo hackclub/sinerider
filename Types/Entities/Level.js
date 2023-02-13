@@ -506,23 +506,20 @@ function Level(spec) {
     }
 
     assets.sounds.goal_fail.play()
-    ui.stopButton.innerHTML = 'Try Again';
-    ui.stopButton.style.animation = "pulse 0.5s infinite";
+
+    ui.tryAgainButton.setAttribute('hide', false)
+    ui.stopButton.setAttribute('hide', true)
   }
 
-  ui.stopButton.addEventListener('click', function () {
-    ui.stopButtonString.innerHTML = 'T='
-    ui.stopButton.style.animation = ''
-    ui.stopButton.removeEventListener('click', reset)
-  })
+  // ui.stopButton.addEventListener('click', function () {
+  //   ui.stopButtonString.innerHTML = 'T='
+  //   ui.stopButton.style.animation = ''
+  //   ui.stopButton.removeEventListener('click', reset)
+  // })
 
-
-  
-  
   function playOpenMusic() {
     if (openMusic) openMusic.play()
   }
-  
 
   function reset() {
     stopRunning()

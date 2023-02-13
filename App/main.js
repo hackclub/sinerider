@@ -12,7 +12,7 @@ const ui = {
   levelButtonString: $('#level-button > .string'),
   resetButton: $('#reset-button'),
 
-  tryAgain: $('#try-again'),
+  tryAgainButton: $('#try-again-button'),
 
   veil: $('#veil'),
   loadingVeil: $('#loading-veil'),
@@ -101,7 +101,9 @@ const screen = Screen({
 let w = worldData[0]
 
 // const DEBUG_LEVEL = 'Level Editor'
-const DEBUG_LEVEL = 'Volcano'
+// const DEBUG_LEVEL = 'Volcano'
+// const DEBUG_LEVEL = 'logistic reorder'
+const DEBUG_LEVEL = ''
 
 if (DEBUG_LEVEL) {
   // make debug level first level for testing
@@ -275,6 +277,7 @@ function onClickRunButton(event) {
 // TODO: Encapsulate run/stop/victory button behavior (Entity?)
 ui.runButton.addEventListener('click', onClickRunButton)
 ui.stopButton.addEventListener('click', onClickRunButton)
+ui.tryAgainButton.addEventListener('click', onClickRunButton)
 ui.victoryStopButton.addEventListener('click', onClickRunButton)
 
 function onClickShowAllButton(event) {
@@ -294,8 +297,6 @@ function onClickResetButton(event) {
 }
 
 ui.resetButton.addEventListener('click', onClickResetButton)
-
-ui.tryAgain.addEventListener('click', world.onClickTryAgainButton)
 
 function onResizeWindow(event) {
   world.sendEvent('resize', [window.innerWidth, window.innerHeight])

@@ -276,7 +276,11 @@ input[valid='false'] {
   bottom: 0;
 }
 
-#stop-button {
+#try-again-button {
+  animation: pulse 0.5s infinite;
+}
+
+.reset-button {
   position: absolute;
 
   right: 0;
@@ -287,7 +291,7 @@ input[valid='false'] {
   background: #4f6;
 }
 
-#stop-button:not(:hover) {
+.reset-button:not(:hover) {
   background: #f46;
 }
 

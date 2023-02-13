@@ -66,7 +66,7 @@ const VOLCANO = (() => {
             content: 'Look, the finish line!',
             direction: 'up-left',
             // deactivationThreshold: -33,
-            domain: [-60, -40],
+            domain: [SLEDDER_START - 20, -40],
             distance: 1.5,
             repeatable: false,
           },

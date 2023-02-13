@@ -265,6 +265,7 @@ function World(spec) {
     ui.stopButton.setAttribute('hide', false)
     if (hideNavigator) ui.navigatorButton.setAttribute('hide', true)
     ui.resetButton.setAttribute('hide', true)
+    ui.tryAgainButton.setAttribute('hide', true)
 
     if (playSound) assets.sounds.start_running.play()
 
@@ -285,6 +286,7 @@ function World(spec) {
     ui.controlBar.setAttribute('hide', navigating)
     ui.navigatorButton.setAttribute('hide', false)
     ui.runButton.setAttribute('hide', false)
+    ui.tryAgainButton.setAttribute('hide', true)
     ui.stopButton.setAttribute('hide', true)
     ui.resetButton.setAttribute('hide', false)
 
@@ -363,7 +365,6 @@ function World(spec) {
     level.restart()
     assets.sounds.restart_button.play()
   }
-
 
   function onMathFieldFocus() {
     self.sendEvent('mathFieldFocused')
