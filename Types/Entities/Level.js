@@ -506,20 +506,17 @@ function Level(spec) {
     }
 
     assets.sounds.goal_fail.play()
-    ui.tryAgain.style.display = 'block'
-    ui.tryAgain.classList.add('slide-in')
+    ui.stopButton.innerHTML = 'Try Again';
+    ui.stopButton.style.animation = "pulse 0.5s infinite";
   }
 
-  ui.tryAgain.addEventListener('click', function () {
-    this.classList.add('slide-out')
+  ui.stopButton.addEventListener('click', function () {
     reset()
     setTimeout(() => {
-      this.classList.remove('slide-in')
-      this.classList.remove('slide-out')
       this.style.display = 'none'
     }, 500)
-    ui.tryAgain.style.display = 'none'
-    ui.tryAgain.removeEventListener('click', reset)
+    ui.stopButton.style.display = 'none'
+    ui.stopButton.removeEventListener('click', reset)
   })
 
   function playOpenMusic() {
