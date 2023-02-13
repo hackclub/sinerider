@@ -364,9 +364,6 @@ function World(spec) {
     assets.sounds.restart_button.play()
   }
 
-  function onClickTryAgainButton() {
-    stopRunning()
-  }
 
   function onMathFieldFocus() {
     self.sendEvent('mathFieldFocused')
@@ -396,7 +393,6 @@ function World(spec) {
     onClickMapButton,
     onClickResetButton,
     onClickNextButton,
-    onClickTryAgainButton,
 
     onMathFieldFocus,
     onMathFieldBlur,
