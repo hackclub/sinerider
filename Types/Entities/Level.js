@@ -511,17 +511,18 @@ function Level(spec) {
   }
 
   ui.stopButton.addEventListener('click', function () {
-    reset()
-    setTimeout(() => {
-      this.style.display = 'none'
-    }, 500)
-    ui.stopButton.style.display = 'none'
+    ui.stopButtonString.innerHTML = 'T='
+    ui.stopButton.style.animation = ''
     ui.stopButton.removeEventListener('click', reset)
   })
 
+
+  
+  
   function playOpenMusic() {
     if (openMusic) openMusic.play()
   }
+  
 
   function reset() {
     stopRunning()
