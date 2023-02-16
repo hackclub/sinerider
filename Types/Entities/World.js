@@ -265,6 +265,7 @@ function World(spec) {
     ui.stopButton.setAttribute('hide', false)
     if (hideNavigator) ui.navigatorButton.setAttribute('hide', true)
     ui.resetButton.setAttribute('hide', true)
+    ui.tryAgainButton.setAttribute('hide', true)
 
     if (playSound) assets.sounds.start_running.play()
 
@@ -285,9 +286,9 @@ function World(spec) {
     ui.controlBar.setAttribute('hide', navigating)
     ui.navigatorButton.setAttribute('hide', false)
     ui.runButton.setAttribute('hide', false)
+    ui.tryAgainButton.setAttribute('hide', true)
     ui.stopButton.setAttribute('hide', true)
     ui.resetButton.setAttribute('hide', false)
-    document.getElementById('try-again').style.display = 'none'
 
     if (!navigating) {
       // HACK: Timed to avoid bug in Safari (at least) that causes whole page to be permanently offset when off-screen text input is focused
@@ -365,11 +366,6 @@ function World(spec) {
     assets.sounds.restart_button.play()
   }
 
-  function onClickTryAgainButton() {
-    stopRunning()
-    ui.tryAgain.style.display = 'none'
-  }
-
   function onMathFieldFocus() {
     self.sendEvent('mathFieldFocused')
   }
@@ -398,7 +394,6 @@ function World(spec) {
     onClickMapButton,
     onClickResetButton,
     onClickNextButton,
-    onClickTryAgainButton,
 
     onMathFieldFocus,
     onMathFieldBlur,

@@ -276,7 +276,11 @@ input[valid='false'] {
   bottom: 0;
 }
 
-#stop-button {
+#try-again-button {
+  animation: pulse 0.5s infinite;
+}
+
+.reset-button {
   position: absolute;
 
   right: 0;
@@ -287,7 +291,7 @@ input[valid='false'] {
   background: #4f6;
 }
 
-#stop-button:not(:hover) {
+.reset-button:not(:hover) {
   background: #f46;
 }
 
@@ -776,28 +780,9 @@ input[valid='false'] {
 
 #try-again {
   display: none;
-  background-color: #f46;
-  color: black;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border-radius: 4px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.5s ease;
-  margin-top: 150px;
-  font-family: 'Roboto Mono';
-  animation-duration: 0.5s;
-  animation: pulse 1s infinite;
-}
-#try-again:hover {
-  background: white;
+ 
 }
 
-#try-again.slide-out {
-  animation-name: slideOutToTop;
-}
 
 @keyframes pulse {
   0% {
@@ -811,11 +796,6 @@ input[valid='false'] {
   }
 }
 
-.try-again-button {
-  align-items: center;
-  justify-content: center;
-  margin: auto;
-}
 #lvl-debug-info {
   position: absolute;
   left: 25px;
