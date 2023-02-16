@@ -101,7 +101,7 @@ const screen = Screen({
 let w = worldData[0]
 
 // const DEBUG_LEVEL = 'Level Editor'
-const DEBUG_LEVEL = 'Volcano'
+const DEBUG_LEVEL = ''
 
 if (DEBUG_LEVEL) {
   // make debug level first level for testing

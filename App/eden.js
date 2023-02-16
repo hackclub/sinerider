@@ -181,7 +181,7 @@ worldData.push({
             x: 0.3,
             content: 'snow!!',
             direction: Vector2(0.5, 1),
-            distance: 1.2,
+            distance: 1.6,
             color: '#fff',
           },
         },
@@ -200,7 +200,7 @@ worldData.push({
             {
               x: -0.3,
               y: 1,
-              content: 'I gotta work, hit the green button ⇲',
+              content: 'Now, hit the green button ⇲',
               direction: 'up-left',
               distance: 1.6,
               color: '#fff',
