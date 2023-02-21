@@ -14,7 +14,7 @@ function Speech(spec) {
     speakerX = 0,
     speakerY = 0,
     domain = [NINF, PINF],
-    drawIfRunning = false,
+    drawIfRunning = true,
     globalScope,
     deactivationThreshold = null,
     activationThreshold = null,
@@ -218,7 +218,7 @@ function Speech(spec) {
     )
       return
 
-    if (globalScope.running && !drawIfRunning) return
+    if (globalScope.running && !drawIfRunning && !isRunningAsCutscene) return
 
     const scalar = camera.worldToScreenScalar()
 

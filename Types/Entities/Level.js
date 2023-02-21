@@ -506,21 +506,16 @@ function Level(spec) {
     }
 
     assets.sounds.goal_fail.play()
-    ui.tryAgain.style.display = 'block'
-    ui.tryAgain.classList.add('slide-in')
+
+    ui.tryAgainButton.setAttribute('hide', false)
+    ui.stopButton.setAttribute('hide', true)
   }
 
-  ui.tryAgain.addEventListener('click', function () {
-    this.classList.add('slide-out')
-    reset()
-    setTimeout(() => {
-      this.classList.remove('slide-in')
-      this.classList.remove('slide-out')
-      this.style.display = 'none'
-    }, 500)
-    ui.tryAgain.style.display = 'none'
-    ui.tryAgain.removeEventListener('click', reset)
-  })
+  // ui.stopButton.addEventListener('click', function () {
+  //   ui.stopButtonString.innerHTML = 'T='
+  //   ui.stopButton.style.animation = ''
+  //   ui.stopButton.removeEventListener('click', reset)
+  // })
 
   function playOpenMusic() {
     if (openMusic) openMusic.play()

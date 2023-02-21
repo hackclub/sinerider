@@ -3,10 +3,14 @@ const LOGISTIC = [
     name: 'logistic',
     nick: 'LOGISTIC',
     colors: Colors.biomes.mojave,
-    x: -10,
-    y: -10,
-    requirements: ['SIN_TRANSLATE_X_Y'],
+    x: 0,
+    y: -30,
+    requirements: ['SIN_SCALE_X_Y'],
     defaultExpression: '\\frac{1}{1+x^2}',
+    slider: {
+      expression: '1/(1+(x-n)^2)', //'\\frac{1}{1+left(x-n\\right)^2}',
+      bounds: [-3, 1, -1],
+    },
     goals: [
       {
         order: 'C',

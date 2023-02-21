@@ -3,7 +3,7 @@ const CONSTANT_LAKE = {
   nick: 'CONSTANT_LAKE',
   colors: Colors.biomes.alps,
   axesEnabled: false,
-  x: 5,
+  x: 10,
   y: 10,
   camera: {
     x: 2,
