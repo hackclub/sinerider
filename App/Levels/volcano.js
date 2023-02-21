@@ -6,7 +6,7 @@ const VOLCANO = (() => {
     colors: Colors.biomes.volcano,
     axesEnabled: false,
     radius: 3,
-    x: -30,
+    x: -40,
     y: 0,
     camera: {
       x: 2,
