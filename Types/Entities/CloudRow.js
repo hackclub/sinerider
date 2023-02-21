@@ -2,9 +2,9 @@ function CloudRow(spec) {
   const { self, camera, screen, globalScope, ctx } = Entity(spec, 'CloudRow')
 
   const {
-    velocities = [0.1, 0.8],
-    heights = [8, 25],
-    sizes = [8, 16],
+    velocities = [0.2, 0.6],
+    heights = [8, 20],
+    sizes = [24, 32],
     graph,
   } = spec
 
@@ -19,6 +19,8 @@ function CloudRow(spec) {
     let cloudPos
     let cloudSize = math.lerp(sizes[0], sizes[1], Math.random())
     let velocity = math.lerp(velocities[0], velocities[1], Math.random())
+
+    if (Math.random() < 0.5) velocity *= -1
 
     if (start)
       cloudPos =
@@ -45,7 +47,7 @@ function CloudRow(spec) {
       globalScope,
       asset: `images.cloud_${Math.floor(Math.random() * 4.99999) + 1}`,
       size: cloudSize,
-      opacity: math.lerp(0.5, 0.9, Math.random()),
+      opacity: math.lerp(0.2, 0.5, Math.random()),
       x: cloudPos,
       y: math.lerp(heights[0], heights[1], Math.pow(Math.random(), 8)),
     })
@@ -55,12 +57,12 @@ function CloudRow(spec) {
     return cloud
   }
 
-  function draw() {
+  function tick() {
     deltaFOV = camera.fov - pastFOV
     pastFOV = camera.fov
     if (firstFrame > 0) {
       firstFrame--
-      for (i = 0; i < camera.fov && firstFrame == 0; i += 0.4) {
+      for (i = 0; i < camera.fov && firstFrame == 0; i += 0.8) {
         pushCloud(true)
       }
     }
@@ -88,6 +90,6 @@ function CloudRow(spec) {
   }
 
   return self.mix({
-    draw,
+    tick,
   })
 }
