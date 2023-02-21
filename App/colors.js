@@ -7,7 +7,7 @@ const Colors = {
       ],
       groundFill: '#371f40',
       groundPattern: '#1a0d1c',
-      groundStroke: '#ecdaf2',
+      groundStroke: '#534164',
       groundStrokeWidth: 8,
     },
     alps: {
