@@ -25,20 +25,20 @@ const SLOPE = [
     ],
     sledders: [
       {
-        speech: [
-          {
-            speakerX: -0.4,
-            content: 'Remember, follow the WHOLE path.',
-            direction: 'up-up-left',
-            distance: 1.5,
-          },
-          {
-            speakerX: 0.3,
-            content: 'I know how to do this, Ada!',
-            direction: 'right-up',
-            distance: 1,
-          },
-        ],
+        // speech: [
+        //   {
+        //     speakerX: -0.4,
+        //     content: 'Remember, follow the WHOLE path.',
+        //     direction: 'up-up-left',
+        //     distance: 1.5,
+        //   },
+        //   {
+        //     speakerX: 0.3,
+        //     content: 'I know how to do this, Ada!',
+        //     direction: 'right-up',
+        //     distance: 1,
+        //   },
+        // ],
       },
     ],
     texts: [
@@ -47,14 +47,14 @@ const SLOPE = [
         y: -2,
         size: 0.4,
         align: 'right',
-        content: 'This is your objective →',
+        content: 'Welcome to SineRider!',
       },
       {
         x: -3.1,
         y: -6.8,
         size: 0.4,
         align: 'center',
-        content: 'Edit this function to hit it!',
+        content: 'Your goal: write a function to sled through the squares.',
       },
     ],
     slider: {
@@ -63,17 +63,24 @@ const SLOPE = [
     },
     textBubbles: [
       {
-        content: 'Click here to edit your function',
+        content: 'Edit your function here',
         domSelector: '#expression-envelope',
         place: 'top-right',
         destroyOnClick: true,
       },
       {
-        content: 'Click me for some slider help',
-        domSelector: '#dotted-math-button',
+        content: 'Click here to sled',
+        domSelector: '#run-button',
         place: 'top-left',
         destroyOnClick: true,
+        style: { fontSize: '1.1rem' },
       },
+      // {
+      //   content: 'Click here ',
+      //   domSelector: '#dotted-math-button',
+      //   place: 'top-left',
+      //   destroyOnClick: true,
+      // },
     ],
     sky: {
       asset: 'images.western_slopes_background',
