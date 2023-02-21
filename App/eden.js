@@ -41,6 +41,7 @@ worldData.push({
       tree_home_2: '.webp',
       initial_bg: 'initial-bg.webp',
       logistic_dunes_background: '.webp',
+      hilbert_swamp_background: '.webp',
       western_slopes_background: '.webp',
       western_slopes_background_no_sky: '.webp',
       eternal_canyon_background: '.webp',
@@ -200,7 +201,7 @@ worldData.push({
             {
               x: -0.3,
               y: 1,
-              content: 'I gotta work, hit the green button ⇲',
+              content: 'now come, we have a race to win',
               direction: 'up-left',
               distance: 1.6,
               color: '#fff',
@@ -344,7 +345,7 @@ worldData.push({
       },
       clouds: {},
       snow: {
-        density: 0.4,
+        density: 0.1,
         maxHeight: 8,
         velocity: {
           x: 0.2,
@@ -353,7 +354,7 @@ worldData.push({
       },
       textBubbles: [
         {
-          content: 'this one!',
+          content: 'click here!',
           domSelector: '#run-button',
           place: 'top-left',
           destroyOnClick: true,
@@ -386,6 +387,8 @@ worldData.push({
     ...WAVE,
     ...LOGISTIC,
     ...TIME,
+    ...SWAMP,
+    VOLCANO,
   ],
 })
 

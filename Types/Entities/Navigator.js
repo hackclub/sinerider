@@ -20,8 +20,8 @@ function Navigator(spec) {
     camera,
     drawOrder: LAYERS.map,
     anchored: false,
-    size: 178,
-    x: 70,
+    size: 190,
+    x: 75,
     y: -5.5,
     asset: 'images.world_map',
   })
