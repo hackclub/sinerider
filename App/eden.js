@@ -163,7 +163,7 @@ worldData.push({
       runMusic: 'sounds.music.intro',
       flashRunButton: true,
       defaultExpression:
-        '\\frac{-2}{1+e^{-x+5}}+\\frac{-2}{1+\\left(x-28\\right)^2}',
+        '\\frac{-2}{1+e^{-x+5}}+\\frac{-2}{1+\\left(x-30\\right)^2}',
       hint: 'congratulations, you found the secret hint!',
       camera: {
         offset: {
@@ -315,7 +315,7 @@ worldData.push({
           asset: 'images.crow',
           flipX: '*',
           size: 1,
-          x: 31,
+          x: 32,
           y: 0,
           anchored: true,
         },
@@ -324,13 +324,13 @@ worldData.push({
           drawOrder: LAYERS.foreSprites,
           size: 20,
           x: 20,
-          y: 13,
+          y: 15,
           anchored: false,
         },
       ],
       texts: [
         {
-          x: 14,
+          x: 15,
           y: -5,
           size: 1.5,
           fill: '#c4acd4',
