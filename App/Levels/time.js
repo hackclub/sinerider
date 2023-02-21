@@ -3,8 +3,8 @@ const TIME = [
     name: 'Time',
     nick: 'TIME_CONSTANT',
     colors: Colors.biomes.gunnison,
-    x: 20,
-    y: -20,
+    x: 30,
+    y: 0,
     requirements: ['SLOPE_SCALE_TRANSLATE'],
     defaultExpression: '-t',
     goals: [
@@ -38,6 +38,7 @@ const TIME = [
         asset: 'images.lunchbox_sled',
         speech: [
           {
+            color: '#FFF',
             speakerX: 0.3,
             content: '…where did she get the other sled?',
             direction: 'right-right-up',
@@ -55,8 +56,8 @@ const TIME = [
     name: 'Time Translate',
     nick: 'TIME_COOL',
     colors: Colors.biomes.gunnison,
-    x: -20,
-    y: 0,
+    x: -10,
+    y: -10,
     requirements: null,
     defaultExpression: 't',
     goals: [
@@ -102,7 +103,7 @@ const TIME = [
     nick: 'TIME_PARABOLA_TRANSLATE_X',
     colors: Colors.biomes.gunnison,
     x: 10,
-    y: 10,
+    y: 0,
     requirements: ['TIME_CONSTANT', 'PARABOLA_TRANSLATE_X'],
     defaultExpression: '(x+t)^2',
     goals: [
@@ -144,7 +145,7 @@ const TIME = [
     nick: 'TIME_PARABOLA_TRANSLATE_X_Y',
     colors: Colors.biomes.gunnison,
     x: 10,
-    y: 10,
+    y: 0,
     requirements: [null],
     defaultExpression: '\\left(x-t\\right)^2',
     goals: [
@@ -188,7 +189,7 @@ const TIME = [
     nick: 'TIME_PARABOLA_TRANSLATE_X_Y_SCALE_Y',
     colors: Colors.biomes.gunnison,
     x: 10,
-    y: 0,
+    y: 10,
     requirements: [null],
     defaultExpression: '(x-t)^2',
     goals: [
@@ -223,9 +224,9 @@ const TIME = [
     name: 'sin time translate',
     nick: 'TIME_SIN_TRANSLATE_X',
     colors: Colors.biomes.gunnison,
-    x: 20,
-    y: 0,
-    requirements: ['TIME_PARABOLA_TRANSLATE_X', 'SIN_TRANSLATE_X'],
+    x: 10,
+    y: -10,
+    requirements: ['TIME_PARABOLA_TRANSLATE_X_Y', 'SIN_TRANSLATE_X_Y'],
     defaultExpression: '\\sin \\left(x-t\\right)',
     goals: [
       {
@@ -278,7 +279,7 @@ const TIME = [
     colors: Colors.biomes.gunnison,
     x: -10,
     y: -10,
-    requirements: [null, 'TIME_PARABOLA_TRANSLATE_X_Y'],
+    requirements: [null],
     defaultExpression: '\\sin \\left(\\frac{2x}{pi}-t\\right)',
     goals: [
       {
@@ -326,12 +327,47 @@ const TIME = [
     },
   },
   {
+    name: 'sin time escalate oscillate',
+    nick: 'TIME_SIN_ESCALATOR_OSCILLATOR',
+    colors: Colors.biomes.gunnison,
+    x: -20,
+    y: 0,
+    requirements: [null],
+    defaultExpression: '-2\\cos \\left(x-2\\sin \\left(t\\right)\\right)+x+1',
+    goals: [
+      {
+        type: 'path',
+        expression: 'x',
+        x: -2,
+        y: -2,
+        pathX: -4,
+      },
+      {
+        type: 'path',
+        expression: 'x',
+        x: 2,
+        y: 2,
+        pathX: 4,
+      },
+    ],
+    sledders: [
+      {
+        x: 0,
+        y: 0,
+      },
+    ],
+    sky: {
+      asset: 'images.eternal_canyon_background',
+      margin: 1,
+    },
+  },
+  {
     name: 'sin time oscillate expand',
     nick: 'TIME_SIN_EXPANDING_OSCILLATOR',
     colors: Colors.biomes.gunnison,
-    x: -10,
+    x: 0,
     y: -10,
-    requirements: [null],
+    requirements: ['TIME_SIN_ESCALATOR'],
     defaultExpression: '-\\cos \\left(x-\\sin \\left(t\\right)\\right)',
     goals: [
       {
@@ -482,12 +518,12 @@ const TIME = [
     goals: [
       {
         x: 4,
-        y: 0.5,
+        y: 0,
         order: 'A',
       },
       {
         x: 0,
-        y: 0.5,
+        y: 4,
         order: 'B',
       },
     ],

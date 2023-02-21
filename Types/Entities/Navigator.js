@@ -15,16 +15,16 @@ function Navigator(spec) {
     camera,
   })
 
-  const map = Sprite({
-    parent: self,
-    camera,
-    drawOrder: LAYERS.map,
-    anchored: false,
-    size: 178,
-    x: 70,
-    y: -5.5,
-    asset: 'images.world_map',
-  })
+  // const map = Sprite({
+  //   parent: self,
+  //   camera,
+  //   drawOrder: LAYERS.map,
+  //   anchored: false,
+  //   size: 178,
+  //   x: 70,
+  //   y: -5.5,
+  //   asset: 'images.world_map',
+  // })
 
   let showAll = false
   let showAllUsed = false

@@ -79,8 +79,7 @@ const SLOPE = [
       asset: 'images.western_slopes_background',
       margin: 1,
     },
-    sprites: [      
-    ],
+    sprites: [],
   },
   {
     name: 'Try facing forwards?',
@@ -128,14 +127,13 @@ const SLOPE = [
       asset: 'images.western_slopes_background',
       margin: 1,
     },
-    sprites: [      
-    ],
+    sprites: [],
   },
   {
     name: 'A real steep hill',
     nick: 'SLOPE_STEEPER',
     colors: Colors.biomes.alps,
-    x: 5,
+    x: 10,
     y: -10,
     camera: {
       x: 2,
@@ -184,8 +182,7 @@ const SLOPE = [
       asset: 'images.western_slopes_background',
       margin: 1,
     },
-    sprites: [      
-    ],
+    sprites: [],
   },
   {
     name: 'The bunny slope',
@@ -245,14 +242,13 @@ const SLOPE = [
       asset: 'images.western_slopes_background',
       margin: 1,
     },
-    sprites: [      
-    ],
+    sprites: [],
   },
   {
     name: 'Moving up in the world',
     nick: 'SLOPE_HIGHER',
     colors: Colors.biomes.alps,
-    x: 5,
+    x: 10,
     y: 10,
     camera: {
       x: 5,
@@ -298,8 +294,7 @@ const SLOPE = [
       asset: 'images.western_slopes_background',
       margin: 1,
     },
-    sprites: [
-    ],
+    sprites: [],
   },
   {
     name: 'About halfway down',
@@ -347,8 +342,7 @@ const SLOPE = [
       asset: 'images.western_slopes_background',
       margin: 1,
     },
-    sprites: [      
-    ],
+    sprites: [],
   },
   CONSTANT_LAKE,
   {
@@ -374,8 +368,7 @@ const SLOPE = [
         y: 0,
       },
     ],
-    sprites: [      
-    ],
+    sprites: [],
     sledders: [
       {
         asset: 'images.benny_sled',
@@ -400,5 +393,4 @@ const SLOPE = [
       margin: 1,
     },
   },
-  VOLCANO,
 ]

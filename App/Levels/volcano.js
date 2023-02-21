@@ -5,15 +5,15 @@ const VOLCANO = (() => {
     nick: 'VOLCANO',
     colors: Colors.biomes.volcano,
     axesEnabled: false,
-    radius: 2,
-    x: 0,
+    radius: 3,
+    x: -30,
     y: 0,
     camera: {
       x: 2,
       offset: [0, 0.4],
       fov: 30,
     },
-    requirements: ['TIME_COOL'],
+    requirements: ['TWO_BELOW'],
     defaultExpression:
       '\\frac{40}{1+\\left(\\frac{x-200}{80}\\right)^6}-\\frac{60}{1+\\left(\\frac{x-200}{30}\\right)^6}+\\frac{90}{1+e^{-\\frac{\\left(-x+60\\right)}{10}}}+\\left(\\frac{x-200}{60}\\right)^2',
     directors: [
