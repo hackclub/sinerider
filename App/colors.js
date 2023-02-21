@@ -90,6 +90,16 @@ const Colors = {
       groundStroke: '#cfdee6',
       groundStrokeWidth: 12,
     },
+    everglades: {
+      sky: [
+        [0, '#4488ff'],
+        [1, '#66ddff'],
+      ],
+      groundFill: '#566c78',
+      groundPattern: '#332d2f',
+      groundStroke: '#302727',
+      groundStrokeWidth: 12,
+    },
   },
 }
 

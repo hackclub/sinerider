@@ -3,8 +3,8 @@ const PARABOLA = [
     name: 'Way too steep for us.',
     nick: 'PARABOLA_NEGATE',
     colors: Colors.biomes.champlain,
-    x: 10,
-    y: 10,
+    x: 20,
+    y: 20,
     camera: {
       x: 0,
       y: 0,
@@ -42,8 +42,7 @@ const PARABOLA = [
       asset: 'images.valley_background',
       margin: 1,
     },
-    sprites: [
-    ],
+    sprites: [],
   },
   {
     name: 'Translate Y',
@@ -243,8 +242,8 @@ const PARABOLA = [
     name: 'Translate Scale XY',
     nick: 'PARABOLA_TRANSLATE_SCALE_X_Y',
     colors: Colors.biomes.champlain,
-    x: 0,
-    y: 10,
+    x: 10,
+    y: 0,
     requirements: null,
     defaultExpression: '\\left(\\frac{x+5}{4}\\right)^2',
     goals: [
@@ -260,64 +259,6 @@ const PARABOLA = [
       {
         asset: 'images.sam_sled',
         x: 2,
-        y: 0,
-      },
-    ],
-    sky: {
-      asset: 'images.valley_background',
-      margin: 1,
-    },
-  },
-  {
-    name: 'Parabola Reverse Order',
-    nick: 'PARABOLA_REVERSE_ORDER',
-    colors: Colors.biomes.champlain,
-    x: 0,
-    y: 10,
-    requirements: null,
-    defaultExpression: '\\left(\\frac{x}{8}\\right)^2',
-    goals: [
-      {
-        type: 'dynamic',
-        x: 12,
-        y: 0,
-        order: 'A',
-      },
-      {
-        type: 'dynamic',
-        x: 8,
-        y: 0,
-        order: 'B',
-      },
-      {
-        type: 'dynamic',
-        x: 4,
-        y: 0,
-        order: 'C',
-      },
-      {
-        type: 'dynamic',
-        x: -12,
-        y: 0,
-        order: 'A',
-      },
-      {
-        type: 'dynamic',
-        x: -8,
-        y: 0,
-        order: 'B',
-      },
-      {
-        type: 'dynamic',
-        x: -4,
-        y: 0,
-        order: 'C',
-      },
-    ],
-    sledders: [
-      {
-        asset: 'images.sam_sled',
-        x: 0,
         y: 0,
         speech: [
           {
