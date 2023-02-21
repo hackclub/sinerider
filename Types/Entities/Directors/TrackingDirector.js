@@ -5,7 +5,15 @@ function TrackingDirector(spec) {
 
   const { camera, globalScope, transitions = [] } = spec
 
-  let { minFov = 5, minFovMargin = 3, smoothing = 0.05 } = spec
+  let {
+    minFov = 5, //
+    minFovMargin = 3,
+    smoothing = 0.05,
+    percentFovBelowBottom = 1,
+  } = spec
+
+  minFov = 5
+  minFovMargin = 3
 
   const targetState = CameraState({
     fov: minFov,
@@ -62,9 +70,16 @@ function TrackingDirector(spec) {
 
     _.eachDeep(trackedEntities, trackEntity)
 
+    maxTrackPoint.y += 7
     minTrackPoint.add(maxTrackPoint, targetState.position)
 
     targetState.position.divide(2)
+
+    const ySpan = Math.abs(maxTrackPoint.y - minTrackPoint.y)
+    let span = Math.max(Math.abs(maxTrackPoint.x - minTrackPoint.x), ySpan)
+    span = Math.max(span + minFovMargin, minFov)
+
+    targetState.position.y += (0.5 * (span - ySpan)) / 2
 
     cameraState.position.lerp(targetState.position, smoothing)
 

@@ -1,5 +1,5 @@
 function Speech(spec) {
-  const { self, screen, camera } = Entity(spec, 'Speech')
+  const { self, screen, camera, world } = Entity(spec, 'Speech')
 
   let {
     content = 'WORDS WORDS WORDS',
@@ -14,7 +14,7 @@ function Speech(spec) {
     speakerX = 0,
     speakerY = 0,
     domain = [NINF, PINF],
-    drawIfRunning = true,
+    drawIfRunning = false,
     globalScope,
     deactivationThreshold = null,
     activationThreshold = null,
@@ -218,7 +218,13 @@ function Speech(spec) {
     )
       return
 
-    if (globalScope.running && !drawIfRunning && !isRunningAsCutscene) return
+    if (
+      globalScope.running &&
+      !drawIfRunning &&
+      !world.level.isRunningAsCutscene
+    ) {
+      return
+    }
 
     const scalar = camera.worldToScreenScalar()
 

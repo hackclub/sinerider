@@ -507,6 +507,7 @@ function Level(spec) {
 
     assets.sounds.goal_fail.play()
 
+    // Show try again button in place of reset button
     ui.tryAgainButton.setAttribute('hide', false)
     ui.stopButton.setAttribute('hide', true)
   }
@@ -769,20 +770,20 @@ function Level(spec) {
         ...datum.sky,
       })
     }
-    if (datum.snow)
-      SnowFall({
-        parent: self,
-        camera,
-        globalScope,
-        screen,
-        density: datum.snow.density,
-        velocityX: datum.snow.velocity.x,
-        velocityY: datum.snow.velocity.y,
-        maxHeight: datum.snow.maxHeight,
-        drawOrder: LAYERS.snow,
-        screen: darkBufferOrScreen,
-        ...datum.snow,
-      })
+    // if (datum.snow)
+    //   SnowFall({
+    //     parent: self,
+    //     camera,
+    //     globalScope,
+    //     screen,
+    //     density: datum.snow.density,
+    //     velocityX: datum.snow.velocity.x,
+    //     velocityY: datum.snow.velocity.y,
+    //     maxHeight: datum.snow.maxHeight,
+    //     drawOrder: LAYERS.snow,
+    //     screen: darkBufferOrScreen,
+    //     ...datum.snow,
+    //   })
 
     if (datum.slider && !isBubbleLevel) {
       HintGraph({

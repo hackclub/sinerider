@@ -1,9 +1,10 @@
 const VOLCANO = (() => {
-  const SLEDDER_START = 0
+  const SLEDDER_START = -45
   return {
     name: 'Volcano',
     nick: 'VOLCANO',
     colors: Colors.biomes.volcano,
+    runAsCutscene: true,
     axesEnabled: false,
     radius: 2,
     x: 0,

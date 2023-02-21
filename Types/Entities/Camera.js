@@ -11,7 +11,8 @@ function Camera(spec) {
 
   let shake = 0
 
-  const defaultOffset = Vector2(spec.offset || [0, 0])
+  // const defaultOffset = Vector2(spec.offset || [0, 0])
+  const defaultOffset = Vector2([0, 0])
   const offset = defaultOffset.clone()
   const scaledOffset = Vector2()
 

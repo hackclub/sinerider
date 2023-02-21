@@ -96,6 +96,10 @@ worldData.push({
           jump: '.mp3',
           middle_guitar: 'middle_guitar.mp3',
         },
+        desert: {
+          western_intro: '.mp3',
+          western_loop: '.mp3',
+        },
       },
       lava_monster_roar: '.mp3',
       map_button: 'map_button_compressed.mp3',
@@ -163,7 +167,8 @@ worldData.push({
       camera: {
         offset: {
           x: 0,
-          y: 0.53,
+          // y: 0.53,
+          y: 0.5,
         },
       },
       goals: [

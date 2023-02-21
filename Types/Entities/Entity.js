@@ -18,6 +18,7 @@ function Entity(spec, defaultName = 'Entity') {
     activeRange = [NINF, PINF],
     motionBlur = true,
     blur = 0,
+    world = null,
   } = spec
 
   // Because I constantly forget to use debugSelf instead of simply 'debug'.
@@ -28,6 +29,7 @@ function Entity(spec, defaultName = 'Entity') {
     parent.addChild(self)
     parent.root.addDescendant(self)
 
+    if (!world) world = parent.world
     if (!camera) camera = parent.camera
     if (!assets) assets = parent.assets
     if (!screen) screen = parent.screen
@@ -277,6 +279,8 @@ function Entity(spec, defaultName = 'Entity') {
 
     getFromAncestor,
     getLineage,
+
+    world,
 
     get lineage() {
       return getLineage()
