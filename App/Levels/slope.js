@@ -16,11 +16,16 @@ const SLOPE = [
     hint: 'hint: x makes a slope',
     goals: [
       {
-        type: 'path',
-        expression: 'x',
-        pathX: -4,
         x: -2,
-        y: 0,
+        y: -2,
+      },
+      {
+        x: -4,
+        y: -4,
+      },
+      {
+        x: -6,
+        y: -6,
       },
     ],
     sledders: [
@@ -43,18 +48,12 @@ const SLOPE = [
     ],
     texts: [
       {
-        x: -3,
-        y: -2,
-        size: 0.4,
+        x: -1.5,
+        y: 0.6,
+        size: 0.6,
         align: 'right',
-        content: 'Welcome to SineRider!',
-      },
-      {
-        x: -3.1,
-        y: -6.8,
-        size: 0.4,
-        align: 'center',
-        content: 'Your goal: write a function to sled through the squares.',
+        // fill: '#fff',
+        content: 'Edit the function to sled through the squares',
       },
     ],
     slider: {
@@ -63,7 +62,7 @@ const SLOPE = [
     },
     textBubbles: [
       {
-        content: 'Edit your function here',
+        content: 'Edit function here',
         domSelector: '#expression-envelope',
         place: 'top-right',
         destroyOnClick: true,
@@ -115,18 +114,30 @@ const SLOPE = [
       {
         speech: [
           {
-            speakerX: -0.4,
+            speakerX: -0.25,
+            speakerY: 0.6,
             content: '…forward this time? Please?',
-            direction: 'up',
-            distance: 1.5,
+            direction: 'up-up-left',
+            distance: 2,
           },
           {
-            speakerX: 0.3,
+            speakerX: 0.35,
+            speakerY: 0.6,
             content: 'Wuss.',
-            direction: 'up-right',
-            distance: 1,
+            direction: 'up-up-right',
+            distance: 1.2,
           },
         ],
+      },
+    ],
+    texts: [
+      {
+        x: 3,
+        y: 0.6,
+        size: 0.6,
+        align: 'left',
+        // fill: '#fff',
+        content: 'Well done! Now sled through this path',
       },
     ],
     slider: { expression: 'nx', bounds: [-1, 1, 1] },
