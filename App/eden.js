@@ -326,14 +326,7 @@ worldData.push({
       texts: [
         {
           x: 14,
-          y: -5.5,
-          size: 0.7,
-          fill: '#ffffff',
-          content: 'WIP Pre-Alpha. Don’t distribute yet!',
-        },
-        {
-          x: 14,
-          y: -4,
+          y: -5,
           size: 1.5,
           fill: '#c4acd4',
           content: 'A game about love and graphing.',
@@ -382,7 +375,7 @@ worldData.push({
     }],
   },*/,
     ...SLOPE,
-    ...EDITOR,
+    // ...EDITOR,
     ...PARABOLA,
     ...WAVE,
     ...LOGISTIC,
