@@ -770,20 +770,20 @@ function Level(spec) {
         ...datum.sky,
       })
     }
-    // if (datum.snow)
-    //   SnowFall({
-    //     parent: self,
-    //     camera,
-    //     globalScope,
-    //     screen,
-    //     density: datum.snow.density,
-    //     velocityX: datum.snow.velocity.x,
-    //     velocityY: datum.snow.velocity.y,
-    //     maxHeight: datum.snow.maxHeight,
-    //     drawOrder: LAYERS.snow,
-    //     screen: darkBufferOrScreen,
-    //     ...datum.snow,
-    //   })
+    if (datum.snow)
+      Snow({
+        parent: self,
+        camera,
+        globalScope,
+        screen,
+        density: datum.snow.density,
+        velocityX: datum.snow.velocity.x,
+        velocityY: datum.snow.velocity.y,
+        maxHeight: datum.snow.maxHeight,
+        drawOrder: LAYERS.snow,
+        screen: darkBufferOrScreen,
+        ...datum.snow,
+      })
 
     if (datum.slider && !isBubbleLevel) {
       HintGraph({
