@@ -1,9 +1,20 @@
 function Cloud(spec) {
-  const { ctx, camera, heightRange, speedRange, sizeRange, assets } = spec
+  const {
+    ctx,
+    camera,
+    heightRange,
+    speedRange,
+    sizeRange,
+    aspectRange,
+    assets,
+  } = spec
 
   let size
   let asset
   let speed
+  let flipX
+  let flipY
+  let aspect
   let opacity
   let distance
   let progress = 0
@@ -36,9 +47,14 @@ function Cloud(spec) {
 
     distance = deltaPosition.magnitude
 
+    aspect = math.lerp(aspectRange[0], aspectRange[1], Math.random())
+
     size = math.lerp(sizeRange[0], sizeRange[1], Math.random())
     speed = math.lerp(speedRange[0], speedRange[1], Math.random())
     asset = assets.images['cloud_' + (Math.floor(Math.random() * 4.9999) + 1)]
+
+    flipX = Math.random() < 0.5 ? 1 : 1
+    flipY = Math.random() < 0.5 ? 1 : 1
 
     progress = 0
 
@@ -74,10 +90,10 @@ function Cloud(spec) {
     ctx.globalAlpha = (0.6 * (1 - Math.cos(TAU * progress))) / 2
     ctx.drawImage(
       asset,
-      position.x - size / 2,
-      -position.y - size / 2,
-      size,
-      size,
+      position.x - (aspect * flipX * size) / 2,
+      -position.y - (flipY * size) / 2,
+      aspect * size * flipX,
+      size * flipY,
     )
   }
 
@@ -118,6 +134,7 @@ function Clouds(spec, name = 'Clouds') {
     sizeRange = [10, 30],
     heightRange = [8, 16],
     speedRange = [0.1, 0.6],
+    aspectRange = [1, 1.5],
     camera,
     ctx,
   } = Entity(spec, name)
@@ -137,6 +154,7 @@ function Clouds(spec, name = 'Clouds') {
         sizeRange,
         speedRange,
         heightRange,
+        aspectRange,
       }),
     )
 
