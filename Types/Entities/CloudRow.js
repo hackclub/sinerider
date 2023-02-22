@@ -49,7 +49,7 @@ function CloudRow(spec) {
       size: cloudSize,
       opacity: math.lerp(0.2, 0.5, Math.random()),
       x: cloudPos,
-      y: math.lerp(heights[0], heights[1], Math.pow(Math.random(), 8)),
+      y: math.lerp(heights[0], heights[1], Math.pow(Math.random(), 2)),
     })
     clouds.push(cloud)
     vels.push(velocity)
@@ -62,7 +62,7 @@ function CloudRow(spec) {
     pastFOV = camera.fov
     if (firstFrame > 0) {
       firstFrame--
-      for (i = 0; i < camera.fov && firstFrame == 0; i += 0.8) {
+      for (i = 0; i < camera.fov && firstFrame == 0; i += 1.8) {
         pushCloud(true)
       }
     }
@@ -84,7 +84,7 @@ function CloudRow(spec) {
     pos.filter((v) => v != null)
     vels.filter((v) => v != null)
 
-    if (Math.random() < 0.007 + deltaFOV * 3) {
+    if (Math.random() < 0.005 + deltaFOV * 3) {
       pushCloud()
     }
   }
