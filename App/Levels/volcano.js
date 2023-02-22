@@ -367,13 +367,14 @@ const VOLCANO = (() => {
     },
     sprites: [
       {
-        asset: 'images.rock_1',
+        asset: 'images.volcano_rock_1',
         flipX: true,
         drawOrder: LAYERS.foreSprites,
-        size: 3,
+        size: 12,
         x: SLEDDER_START,
-        offset: [0, 0.6],
+        offset: [0, 0.38],
         anchored: true,
+        sloped: true,
       },
       {
         asset: 'images.volcano_trees',
