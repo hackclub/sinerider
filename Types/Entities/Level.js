@@ -714,10 +714,11 @@ function Level(spec) {
     }
 
     if (datum.clouds)
-      CloudRow({
+      Clouds({
         parent: self,
         camera,
         globalScope,
+        assets,
         velocity: datum.clouds.velocity,
         heights: datum.clouds.heights,
         drawOrder: LAYERS.clouds,
