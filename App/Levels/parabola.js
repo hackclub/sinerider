@@ -13,6 +13,10 @@ const PARABOLA = [
     requirements: ['SLOPE_SCALE_TRANSLATE'],
     defaultExpression: '-x^2',
     hint: 'do as she says!',
+    slider: {
+      expression: 'n*x^2',
+      bounds: [-1, 1, -1],
+    },
     goals: [
       {
         type: 'path',
@@ -58,6 +62,10 @@ const PARABOLA = [
     requirements: ['PARABOLA_NEGATE'],
     defaultExpression: 'x^2-1',
     hint: 'hint: subtract from (everything)',
+    slider: {
+      expression: 'x^2+n',
+      bounds: [-1, 1, -1],
+    },
     goals: [
       {
         type: 'path',
@@ -93,6 +101,10 @@ const PARABOLA = [
     requirements: null,
     defaultExpression: '(x-2)^2',
     hint: 'hint: add to (x)',
+    slider: {
+      expression: '(x-n)^2',
+      bounds: [-1, 1, -1],
+    },
     goals: [
       {
         type: 'path',
