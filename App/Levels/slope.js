@@ -386,21 +386,36 @@ const SLOPE = [
         y: 0,
       },
     ],
-    sprites: [],
+    sprites: [
+      {
+        x: 3,
+        size: 2,
+        asset: 'images.sam_float',
+        speech: [
+          {
+            speakerX: 0.3,
+            speakerY: -0.4,
+            content: '…do whatever you want.',
+            direction: 'up-right',
+            distance: 1,
+          },
+        ],
+      },
+    ],
     sledders: [
       {
         asset: 'images.benny_sled',
         speech: [
           {
-            speakerX: 0.4,
-            y: 0.5,
-            content: 'I wanna see it. Could be a shortcut.',
+            speakerX: 0.2,
+            y: 0.7,
+            content: 'We never get to do my things.',
             direction: 'up-up-left',
-            distance: 1.5,
+            distance: 1,
             speech: {
-              content: 'Woah, see that canyon down there??',
+              content: 'I want to see this canyon.',
               direction: 'up',
-              distance: 1.5,
+              distance: 1,
             },
           },
         ],
