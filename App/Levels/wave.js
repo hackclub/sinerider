@@ -30,12 +30,12 @@ const WAVE = [
         y: 0,
         speech: [
           {
-            speakerX: 0.5,
-            speakerY: 0.4,
+            x: 0.3,
+            y: 0.65,
             content: 'Hey…',
             color: '#FFF',
             direction: 'up-up-right',
-            distance: 1.5,
+            distance: 1,
           },
         ],
       },
@@ -45,12 +45,12 @@ const WAVE = [
         y: 0,
         speech: [
           {
-            speakerX: 0.3,
-            speakerY: 0.4,
+            x: 0.3,
+            y: 0.7,
             content: 'Hi.',
             color: '#FFF',
             direction: 'up-up-left',
-            distance: 1.5,
+            distance: 1,
           },
         ],
       },
