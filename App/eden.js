@@ -185,7 +185,8 @@ worldData.push({
           x: 0,
           asset: 'images.benny_sled',
           speech: {
-            x: 0.3,
+            x: 0.4,
+            y: 0.6,
             content: 'snow!!',
             direction: Vector2(0.5, 1),
             distance: 1.2,
@@ -206,14 +207,14 @@ worldData.push({
           speech: [
             {
               x: -0.3,
-              y: 1,
+              y: 0.7,
               content: 'now come, we have a race to win',
               direction: 'up-left',
-              distance: 1.6,
+              distance: 1,
               color: '#fff',
               speech: [
                 {
-                  x: -1.5,
+                  x: -1,
                   content: 'yes, snow.',
                   direction: 'up-up-left',
                   distance: 0.8,
