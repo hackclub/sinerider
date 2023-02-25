@@ -1,11 +1,12 @@
 function Flake(spec) {
-  const { ctx, camera, spawnHeight } = spec
+  const { ctx, camera, spawnHeight, colorRange } = spec
 
   let growth
   let size
   let sizeCoefficient
   let spawned = false
   const position = Vector2()
+  const color = Color()
 
   function spawn() {
     position.x = math.lerp(
@@ -19,6 +20,10 @@ function Flake(spec) {
     sizeCoefficient = Math.random()
     size = math.lerp(0.03, 0.06, sizeCoefficient)
     growth = 0
+
+    // colorRange[0].lerp(colorRange[1], Math.random(), color)
+    color.set(Math.random() < 0.7 ? colorRange[0] : colorRange[1])
+
     spawned = true
   }
 
@@ -41,6 +46,8 @@ function Flake(spec) {
     if (!spawned) return
 
     ctx.beginPath()
+    ctx.fillStyle = color.hex
+    ctx.globalAlpha = 0.7
     ctx.arc(position.x, -position.y, size * growth, 0, TAU)
     ctx.fill()
   }
@@ -68,6 +75,7 @@ function Snow(spec, name = 'Snow') {
     density = 0.5,
     maxParticles = 100,
     spawnHeight = [8, 16],
+    colorRange = [Color('#b8bdda'), Color('#e1b0f0')],
     camera,
     ctx,
   } = Entity(spec, name)
@@ -82,6 +90,7 @@ function Snow(spec, name = 'Snow') {
         ctx,
         camera,
         spawnHeight,
+        colorRange,
       }),
     )
 
