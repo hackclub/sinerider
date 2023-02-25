@@ -15,6 +15,7 @@ function Cloud(spec) {
   let flipX
   let flipY
   let aspect
+  let assetAspect
   let opacity
   let distance
   let progress = 0
@@ -52,6 +53,7 @@ function Cloud(spec) {
     size = math.lerp(sizeRange[0], sizeRange[1], Math.random())
     speed = math.lerp(speedRange[0], speedRange[1], Math.random())
     asset = assets.images['cloud_' + (Math.floor(Math.random() * 4.9999) + 1)]
+    assetAspect = asset.width / asset.height
 
     flipX = Math.random() < 0.5 ? 1 : 1
     flipY = Math.random() < 0.5 ? 1 : 1
@@ -87,12 +89,12 @@ function Cloud(spec) {
     // ctx.lineWidth = camera.screenToWorldScalar()
     // ctx.stroke()
 
-    ctx.globalAlpha = (0.6 * (1 - Math.cos(TAU * progress))) / 2
+    ctx.globalAlpha = (0.5 * (1 - Math.cos(TAU * progress))) / 2
     ctx.drawImage(
       asset,
       position.x - (aspect * flipX * size) / 2,
       -position.y - (flipY * size) / 2,
-      aspect * size * flipX,
+      assetAspect * aspect * size * flipX,
       size * flipY,
     )
   }
@@ -131,10 +133,10 @@ function Clouds(spec, name = 'Clouds') {
     assets,
     density = 0.5,
     maxParticles = 10,
-    sizeRange = [10, 30],
+    sizeRange = [5, 10],
     heightRange = [8, 16],
-    speedRange = [0.1, 0.6],
-    aspectRange = [1, 1.5],
+    speedRange = [0.2, 0.6],
+    aspectRange = [1, 2],
     camera,
     ctx,
   } = Entity(spec, name)
