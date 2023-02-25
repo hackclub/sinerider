@@ -174,20 +174,22 @@ const SLOPE = [
       {
         speech: [
           {
-            speakerX: -0.4,
-            content: 'Wuss!',
+            x: -0.4,
+            y: 0.65,
+            content: 'Woah.',
             direction: 'up-up-left',
-            distance: 1.3,
+            distance: 1.2,
           },
           {
-            speakerX: 0.3,
-            content: '…shut up.',
+            x: 0.4,
+            y: 0.7,
+            content: 'Steep.',
             direction: 'up-right-right',
-            distance: 1,
-            speech: {
-              content: 'This seems dangerous.',
-              distance: 1,
-            },
+            distance: 0.6,
+            // speech: {
+            //   content: 'This seems dangerous.',
+            //   distance: 1,
+            // },
           },
         ],
       },
@@ -341,16 +343,18 @@ const SLOPE = [
       {
         speech: [
           {
-            speakerX: -0.4,
+            x: -0.3,
+            y: 0.65,
             content: 'I love you.',
             direction: 'up',
-            distance: 1.5,
+            distance: 1.2,
           },
           {
-            speakerX: 0.4,
-            content: 'I love you too, Sam.',
+            x: 0.5,
+            y: 0.7,
+            content: 'love you too, Ada.',
             direction: 'right-up',
-            distance: 0.75,
+            distance: 0.6,
           },
         ],
       },

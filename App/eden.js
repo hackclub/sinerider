@@ -189,7 +189,7 @@ worldData.push({
             y: 0.6,
             content: 'snow!!',
             direction: Vector2(0.5, 1),
-            distance: 1.2,
+            distance: 1,
             color: '#fff',
           },
         },
