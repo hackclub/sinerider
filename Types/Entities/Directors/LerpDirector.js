@@ -44,8 +44,16 @@ function LerpDirector(spec) {
     state0.lerp(state1, progress, cameraState)
   }
 
+  function canControl() {
+    const c = point1[0] > playerPosition.x
+    console.log(`Can control lerp director: ${c}`, state0, state1, progress)
+    return c
+  }
+
   return self.mix({
     start,
     tick,
+
+    canControl,
   })
 }
