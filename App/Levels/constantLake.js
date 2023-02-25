@@ -28,6 +28,16 @@ const CONSTANT_LAKE = {
       },
     },
   ],
+  texts: [
+    {
+      x: -6,
+      y: -0.8,
+      size: 0.6,
+      align: 'left',
+      // fill: '#fff',
+      content: 'Tap/click the screen to move',
+    },
+  ],
   goals: [],
   sledders: [],
   sky: {

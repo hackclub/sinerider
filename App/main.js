@@ -103,6 +103,7 @@ let w = worldData[0]
 
 // const DEBUG_LEVEL = 'Level Editor'
 // const DEBUG_LEVEL = 'Volcano'
+// const DEBUG_LEVEL = 'Constant Lake'
 const DEBUG_LEVEL = null
 
 if (DEBUG_LEVEL) {
