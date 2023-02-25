@@ -31,9 +31,11 @@ function Sledder(spec = {}) {
     Vector2(0, 0),
     Vector2(-0.5, 0),
     Vector2(-0.5, 0.5),
-    Vector2(0, 0.9),
-    Vector2(0.1, 1),
-    Vector2(0.3, 0.9),
+    Vector2(-0.3, 0.8),
+    Vector2(-0.1, 1.4),
+    Vector2(0.1, 1.5),
+    Vector2(0.3, 1.4),
+    Vector2(0.3, 0.7),
     Vector2(0.5, 0.5),
     Vector2(0.5, 0),
   ]
@@ -51,6 +53,7 @@ function Sledder(spec = {}) {
     globalScope,
     parent: self,
     speechScreen,
+    // opacity: 0,
     y: 1,
     flipX,
   })
@@ -75,9 +78,20 @@ function Sledder(spec = {}) {
     rigidbody.tick()
   }
 
+  function drawLocal() {
+    pointCloud.forEach((v) => {
+      ctx.beginPath()
+      ctx.fillStyle = 'red'
+      ctx.arc(v.x, -v.y, camera.screenToWorldScalar(4), 0, TAU)
+      ctx.fill()
+    })
+  }
+
   function draw() {
     if (clickable.selectedInEditor) shape.draw(ctx, camera)
+
     // rigidbody.draw(ctx)
+    // camera.drawThrough(ctx, drawLocal, transform)
   }
 
   function startRunning() {}
