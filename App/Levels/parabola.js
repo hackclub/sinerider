@@ -254,7 +254,7 @@ const PARABOLA = [
     name: 'Translate Scale XY',
     nick: 'PARABOLA_TRANSLATE_SCALE_X_Y',
     colors: Colors.biomes.champlain,
-    x: 10,
+    x: 20,
     y: 0,
     requirements: null,
     defaultExpression: '\\left(\\frac{x+5}{4}\\right)^2',

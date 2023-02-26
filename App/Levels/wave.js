@@ -3,9 +3,12 @@ const WAVE = [
     name: 'Sin',
     nick: 'SIN',
     colors: Colors.biomes.arches,
-    x: 30,
-    y: 0,
-    requirements: ['PARABOLA_TRANSLATE_SCALE_X_Y'],
+    x: 20,
+    y: -20,
+    requirements: [
+      'PARABOLA_TRANSLATE_SCALE_X_Y',
+      'TIME_PARABOLA_TRANSLATE_X_Y_SCALE_Y',
+    ],
     defaultExpression: '\\sin \\left(x\\right)',
     goals: [
       {
