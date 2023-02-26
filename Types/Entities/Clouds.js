@@ -38,21 +38,20 @@ function Cloud(spec) {
     startPosition.y = math.lerp(
       heightRange[0],
       heightRange[1],
-      Math.pow(Math.random(), 3),
+      Math.pow(Math.random(), 1.5),
     )
 
     endPosition.set(startPosition)
-    endPosition.x += Math.random() < 0.5 ? -16 : 16
+    distance = math.lerp(12, 24, Math.random())
+    endPosition.x += Math.random() < 0.5 ? -distance : distance
 
     endPosition.subtract(startPosition, deltaPosition)
-
-    distance = deltaPosition.magnitude
 
     aspect = math.lerp(aspectRange[0], aspectRange[1], Math.random())
 
     size = math.lerp(sizeRange[0], sizeRange[1], Math.random())
     speed = math.lerp(speedRange[0], speedRange[1], Math.random())
-    asset = assets.images['cloud_' + (Math.floor(Math.random() * 4.9999) + 1)]
+    asset = assets.images['cloud_' + (Math.floor(Math.random() * 9.9999) + 1)]
     assetAspect = asset.width / asset.height
 
     flipX = Math.random() < 0.5 ? 1 : 1
@@ -89,7 +88,7 @@ function Cloud(spec) {
     // ctx.lineWidth = camera.screenToWorldScalar()
     // ctx.stroke()
 
-    ctx.globalAlpha = (0.5 * (1 - Math.cos(TAU * progress))) / 2
+    ctx.globalAlpha = (0.5 * Math.pow(1 - Math.cos(TAU * progress), 1)) / 2
     ctx.drawImage(
       asset,
       position.x - (aspect * flipX * size) / 2,
@@ -132,11 +131,11 @@ function Clouds(spec, name = 'Clouds') {
     screen,
     assets,
     density = 0.5,
-    maxParticles = 10,
+    maxParticles = 8,
     sizeRange = [5, 10],
-    heightRange = [8, 16],
-    speedRange = [0.2, 0.6],
-    aspectRange = [1, 2],
+    heightRange = [7, 18],
+    speedRange = [0.2, 0.8],
+    aspectRange = [0.8, 1],
     camera,
     ctx,
   } = Entity(spec, name)
@@ -178,6 +177,7 @@ function Clouds(spec, name = 'Clouds') {
   function drawLocal() {
     ctx.fillStyle = 'white'
     ctx.strokeStyle = 'green'
+    // ctx.globalCompositeOperation = 'lighten'
 
     for (let i = 0; i < maxParticles; i++) {
       particles[i].draw()
