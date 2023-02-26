@@ -67,7 +67,7 @@ const Colors = {
       ],
       groundFill: '#fff8dd',
       groundPattern: '#eecc66',
-      groundStroke: '#ffcc33',
+      groundStroke: '#EFDB95',
       groundStrokeWidth: 12,
     },
     arches: {
