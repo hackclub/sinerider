@@ -133,7 +133,7 @@ function Clouds(spec, name = 'Clouds') {
     density = 0.5,
     maxParticles = 8,
     sizeRange = [5, 10],
-    heightRange = [7, 18],
+    heightRange = [8, 18],
     speedRange = [0.2, 0.8],
     aspectRange = [0.8, 1],
     camera,
