@@ -113,7 +113,7 @@ const TIME = [
     colors: Colors.biomes.gunnison,
     x: 10,
     y: 0,
-    requirements: ['TIME_CONSTANT', 'PARABOLA_TRANSLATE_X'],
+    requirements: ['TIME_CONSTANT'],
     defaultExpression: '(x+t)^2',
     goals: [
       {
