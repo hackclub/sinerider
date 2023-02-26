@@ -575,7 +575,7 @@ input[valid='false'] {
 }
 
 #dotted-math-field-static {
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(110, 70, 70, 0.2);
   backdrop-filter: blur(9px);
   text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.75);
   margin-top: auto;
@@ -583,6 +583,14 @@ input[valid='false'] {
   font-weight: bold;
   font-family: monospace;
   color: rgb(0, 255, 0);
+  display:none;
+}
+
+#dotted-math-button {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left:auto;
+  background-color: rgb(255, 174, 0);
 }
 
 #dotted-slider {

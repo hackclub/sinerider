@@ -181,7 +181,7 @@ worldData.push({
             x: 0.3,
             content: 'snow!!',
             direction: Vector2(0.5, 1),
-            distance: 1.6,
+            distance: 1,
             color: '#fff',
           },
         },
@@ -199,8 +199,8 @@ worldData.push({
           speech: [
             {
               x: -0.3,
-              y: 1,
-              content: 'Now, hit the green button ⇲',
+              y: 0.7,
+              content: 'now come, we have a race to win',
               direction: 'up-left',
               distance: 1.6,
               color: '#fff',

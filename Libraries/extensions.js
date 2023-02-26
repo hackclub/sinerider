@@ -136,7 +136,7 @@ math.unlerp = function (a, b, c) {
   return (c - a) / (b - a)
 }
 
-math.truncate = function (number, digits) {
+math.truncate = function (number, digits = 1) {
   const c = Math.pow(10, digits)
   return Math.floor(number * c) / c
 }

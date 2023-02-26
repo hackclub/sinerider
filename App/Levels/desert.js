@@ -3,14 +3,14 @@ const DESERT = {
   nick: 'DESERT',
   colors: Colors.biomes.arches,
   axesEnabled: false,
-  x: 5,
-  y: -20,
+  x: 10,
+  y: -10,
   camera: {
     x: 2,
     y: -2,
     fov: 7,
   },
-  requirements: ['SIN_SCALE_X_Y'],
+  requirements: ['SIN'],
   defaultExpression:
     '\\frac{1}{3}\\sin\\left(\\frac{x}{10}\\right)+\\frac{1}{4}\\sin\\left(\\frac{x}{20}+\\frac{\\pi}{3}\\right)+\\frac{1}{2}\\sin\\left(\\frac{x}{53}+3\\frac{\\pi}{6}\\right)',
   directors: [
@@ -242,5 +242,11 @@ const DESERT = {
     },
   ],
   sprites: [],
-  sounds: [],
+  sounds: [
+    {
+      asset: 'sounds.music.desert.western_loop',
+      volume: 0.4,
+      loop: true,
+    },
+  ],
 }

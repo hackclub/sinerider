@@ -7,7 +7,7 @@ const Colors = {
       ],
       groundFill: '#371f40',
       groundPattern: '#1a0d1c',
-      groundStroke: '#ecdaf2',
+      groundStroke: '#AD8CB7',
       groundStrokeWidth: 8,
     },
     alps: {
@@ -67,7 +67,7 @@ const Colors = {
       ],
       groundFill: '#fff8dd',
       groundPattern: '#eecc66',
-      groundStroke: '#ffcc33',
+      groundStroke: '#EFDB95',
       groundStrokeWidth: 12,
     },
     arches: {
@@ -88,6 +88,16 @@ const Colors = {
       groundFill: '#566c78',
       groundPattern: '#2d383e',
       groundStroke: '#cfdee6',
+      groundStrokeWidth: 12,
+    },
+    everglades: {
+      sky: [
+        [0, '#4488ff'],
+        [1, '#66ddff'],
+      ],
+      groundFill: '#566c78',
+      groundPattern: '#332d2f',
+      groundStroke: '#302727',
       groundStrokeWidth: 12,
     },
   },

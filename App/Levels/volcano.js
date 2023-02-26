@@ -1,19 +1,20 @@
 const VOLCANO = (() => {
-  const SLEDDER_START = 0
+  const SLEDDER_START = -45
   return {
     name: 'Volcano',
     nick: 'VOLCANO',
     colors: Colors.biomes.volcano,
+    runAsCutscene: true,
     axesEnabled: false,
-    radius: 2,
-    x: 0,
+    radius: 3,
+    x: -40,
     y: 0,
     camera: {
       x: 2,
       offset: [0, 0.4],
       fov: 30,
     },
-    requirements: ['TIME_COOL'],
+    requirements: ['TWO_BELOW'],
     defaultExpression:
       '\\frac{40}{1+\\left(\\frac{x-200}{80}\\right)^6}-\\frac{60}{1+\\left(\\frac{x-200}{30}\\right)^6}+\\frac{90}{1+e^{-\\frac{\\left(-x+60\\right)}{10}}}+\\left(\\frac{x-200}{60}\\right)^2',
     directors: [
@@ -365,13 +366,14 @@ const VOLCANO = (() => {
     },
     sprites: [
       {
-        asset: 'images.rock_1',
+        asset: 'images.volcano_rock_1',
         flipX: true,
         drawOrder: LAYERS.foreSprites,
-        size: 3,
+        size: 12,
         x: SLEDDER_START,
-        offset: [0, 0.6],
+        offset: [0, 0.38],
         anchored: true,
+        sloped: true,
       },
       {
         asset: 'images.volcano_trees',

@@ -99,11 +99,7 @@
         data-tooltip="Volume"
       >
         <div class="">🔊</div>
-        <input
-          id="volume-slider"
-          type="range"
-          orient="horizontal"
-        />
+        <input id="volume-slider" type="range" orient="horizontal" />
       </div>
       <!-- when i move this it doesn't allow me to click on puzzles -->
       <!-- <div class="try-again-button">
@@ -144,6 +140,9 @@
     </div>
 
     <div id="dotted-math-container">
+      <div class="button" id="dotted-math-button">
+        <div class="string">📝 Hint!</div>
+      </div>
       <div id="dotted-math-field-static"></div>
       <div id="dotted-slider-box">
         <input
@@ -341,9 +340,9 @@
     <script src="Types/Entities/LavaMonster.js"></script>
     <script src="Types/Entities/LevelBubble.js"></script>
     <script src="Types/Entities/TextBubble.js"></script>
-    <script src="Types/Entities/CloudRow.js"></script>
+    <script src="Types/Entities/Clouds.js"></script>
     <script src="Types/Entities/Sky.js"></script>
-    <script src="Types/Entities/SnowFall.js"></script>
+    <script src="Types/Entities/Snow.js"></script>
 
     <!-- Load World Data -->
     <script src="App/layers.js"></script>
@@ -356,6 +355,9 @@
     <script src="App/Levels/wave.js"></script>
     <script src="App/Levels/logistic.js"></script>
     <script src="App/Levels/time.js"></script>
+    <script src="App/Levels/ooo.js"></script>
+    <script src="App/Levels/convergence.js"></script>
+    <script src="App/Levels/swamp.js"></script>
     <script src="App/eden.js"></script>
 
     <!-- Start the Engine -->

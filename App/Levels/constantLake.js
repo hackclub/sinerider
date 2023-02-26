@@ -3,7 +3,7 @@ const CONSTANT_LAKE = {
   nick: 'CONSTANT_LAKE',
   colors: Colors.biomes.alps,
   axesEnabled: false,
-  x: 5,
+  x: 10,
   y: 10,
   camera: {
     x: 2,
@@ -26,6 +26,16 @@ const CONSTANT_LAKE = {
         position: [16, 10],
         fov: 12,
       },
+    },
+  ],
+  texts: [
+    {
+      x: -6,
+      y: -0.8,
+      size: 0.6,
+      align: 'left',
+      // fill: '#fff',
+      content: 'Tap/click the screen to move',
     },
   ],
   goals: [],

@@ -45,9 +45,10 @@ const ui = {
   mathFieldStatic: $('#math-field-static'),
 
   dottedMathContainer: $('#dotted-math-container'),
-  dottedMathField: $('#dotted-math-field'),
   dottedMathFieldStatic: $('#dotted-math-field-static'),
+  dottedMathField: $('#dotted-math-field-static'),
   dottedSlider: $('#dotted-slider'),
+  dottedHintButton: $('#dotted-math-button'),
 
   volumeSlider: $('#volume-slider'),
 
@@ -102,8 +103,8 @@ let w = worldData[0]
 
 // const DEBUG_LEVEL = 'Level Editor'
 // const DEBUG_LEVEL = 'Volcano'
-// const DEBUG_LEVEL = 'logistic reorder'
-const DEBUG_LEVEL = ''
+// const DEBUG_LEVEL = 'Constant Lake'
+const DEBUG_LEVEL = null
 
 if (DEBUG_LEVEL) {
   // make debug level first level for testing
@@ -242,6 +243,17 @@ function onSetVolume(event) {
 ui.volumeSlider.addEventListener('change', onSetVolume)
 ui.volumeSlider.addEventListener('mouseup', onSetVolume)
 ui.volumeSlider.addEventListener('input', onSetVolume)
+
+function onClickHint() {
+  ui.dottedHintButton.style.display = 'none'
+
+  ui.dottedSlider.hidden = false
+  ui.dottedMathField.style.display = 'block'
+
+  world.level.sendEvent('displayDottedGraph')
+}
+
+ui.dottedHintButton.addEventListener('click', onClickHint)
 
 // Initial page state
 {

@@ -17,6 +17,7 @@ function Sprite(spec = {}) {
     opacity = 1,
     speech,
     speechScreen,
+    world,
   } = spec
 
   const origin = Vector2(spec)

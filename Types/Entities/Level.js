@@ -507,6 +507,7 @@ function Level(spec) {
 
     assets.sounds.goal_fail.play()
 
+    // Show try again button in place of reset button
     ui.tryAgainButton.setAttribute('hide', false)
     ui.stopButton.setAttribute('hide', true)
   }
@@ -713,10 +714,11 @@ function Level(spec) {
     }
 
     if (datum.clouds)
-      CloudRow({
+      Clouds({
         parent: self,
         camera,
         globalScope,
+        assets,
         velocity: datum.clouds.velocity,
         heights: datum.clouds.heights,
         drawOrder: LAYERS.clouds,
@@ -770,7 +772,7 @@ function Level(spec) {
       })
     }
     if (datum.snow)
-      SnowFall({
+      Snow({
         parent: self,
         camera,
         globalScope,

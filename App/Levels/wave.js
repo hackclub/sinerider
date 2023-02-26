@@ -3,9 +3,12 @@ const WAVE = [
     name: 'Sin',
     nick: 'SIN',
     colors: Colors.biomes.arches,
-    x: 50,
-    y: 0,
-    requirements: ['PARABOLA_TRANSLATE_Y'],
+    x: 20,
+    y: -20,
+    requirements: [
+      'PARABOLA_TRANSLATE_SCALE_X_Y',
+      'TIME_PARABOLA_TRANSLATE_X_Y_SCALE_Y',
+    ],
     defaultExpression: '\\sin \\left(x\\right)',
     goals: [
       {
@@ -30,11 +33,12 @@ const WAVE = [
         y: 0,
         speech: [
           {
-            speakerX: 0.5,
-            speakerY: 0.4,
+            x: 0.3,
+            y: 0.65,
             content: 'Hey…',
+            color: '#FFF',
             direction: 'up-up-right',
-            distance: 1.5,
+            distance: 1,
           },
         ],
       },
@@ -44,11 +48,12 @@ const WAVE = [
         y: 0,
         speech: [
           {
-            speakerX: 0.3,
-            speakerY: 0.4,
+            x: 0.3,
+            y: 0.7,
             content: 'Hi.',
+            color: '#FFF',
             direction: 'up-up-left',
-            distance: 1.5,
+            distance: 1,
           },
         ],
       },
@@ -58,13 +63,14 @@ const WAVE = [
       margin: 1,
     },
   },
+  DESERT,
   {
     name: 'Cos',
     nick: 'COS',
     colors: Colors.biomes.arches,
-    x: 20,
-    y: 0,
-    requirements: ['SIN'],
+    x: 10,
+    y: 10,
+    requirements: ['DESERT'],
     defaultExpression: '\\cos \\left(x\\right)',
     goals: [
       {
@@ -87,36 +93,11 @@ const WAVE = [
         asset: 'images.lunchbox_sled',
         x: 0,
         y: 0,
-        speech: [
-          {
-            speakerX: 0.5,
-            speakerY: 0.4,
-            content: '…right, right.',
-            direction: 'up-up-right',
-            distance: 1.5,
-            speech: [
-              {
-                content: 'So did you see that canyon??',
-                direction: 'up',
-                distance: 1.5,
-              },
-            ],
-          },
-        ],
       },
       {
         asset: 'images.sam_sled',
         x: TAU,
         y: 0,
-        speech: [
-          {
-            speakerX: 0.2,
-            speakerY: 0.4,
-            content: 'I mean, obviously not.',
-            direction: 'up-up-left',
-            distance: 2,
-          },
-        ],
       },
     ],
     sky: {
@@ -130,7 +111,7 @@ const WAVE = [
     colors: Colors.biomes.arches,
     x: 0,
     y: -20,
-    requirements: [null, 'SIN_SCALE_X'],
+    requirements: ['DESERT'],
     defaultExpression: '\\sin \\left(x\\right)',
     goals: [
       {
@@ -169,9 +150,9 @@ const WAVE = [
     name: 'Sin Translate X',
     nick: 'SIN_TRANSLATE_X',
     colors: Colors.biomes.arches,
-    x: 0,
-    y: -20,
-    requirements: ['SIN'],
+    x: -10,
+    y: -10,
+    requirements: ['DESERT'],
     defaultExpression: '\\sin \\left(x+\\frac{pi}{3}\\right)',
     goals: [
       {
@@ -253,7 +234,7 @@ const WAVE = [
     colors: Colors.biomes.arches,
     x: 10,
     y: -10,
-    requirements: ['SIN'],
+    requirements: ['DESERT'],
     defaultExpression: '\\sin \\left(x\\right)',
     goals: [
       {
@@ -323,5 +304,4 @@ const WAVE = [
       margin: 1,
     },
   },
-  DESERT,
 ]

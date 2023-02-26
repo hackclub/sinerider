@@ -16,45 +16,44 @@ const SLOPE = [
     hint: 'hint: x makes a slope',
     goals: [
       {
-        type: 'path',
-        expression: 'x',
-        pathX: -4,
         x: -2,
-        y: 0,
+        y: -2,
+      },
+      {
+        x: -4,
+        y: -4,
+      },
+      {
+        x: -6,
+        y: -6,
       },
     ],
     sledders: [
       {
-        speech: [
-          {
-            speakerX: -0.4,
-            content: 'Remember, follow the WHOLE path.',
-            direction: 'up-up-left',
-            distance: 1.5,
-          },
-          {
-            speakerX: 0.3,
-            content: 'I know how to do this, Ada!',
-            direction: 'right-up',
-            distance: 1,
-          },
-        ],
+        // speech: [
+        //   {
+        //     speakerX: -0.4,
+        //     content: 'Remember, follow the WHOLE path.',
+        //     direction: 'up-up-left',
+        //     distance: 1.5,
+        //   },
+        //   {
+        //     speakerX: 0.3,
+        //     content: 'I know how to do this, Ada!',
+        //     direction: 'right-up',
+        //     distance: 1,
+        //   },
+        // ],
       },
     ],
     texts: [
       {
-        x: -3,
-        y: -2,
-        size: 0.4,
+        x: -1.5,
+        y: 0.6,
+        size: 0.6,
         align: 'right',
-        content: 'This is your objective →',
-      },
-      {
-        x: -3.1,
-        y: -6.8,
-        size: 0.4,
-        align: 'center',
-        content: 'Edit this function to hit it!',
+        // fill: '#fff',
+        content: 'Edit the function to sled through the squares',
       },
     ],
     slider: {
@@ -63,24 +62,30 @@ const SLOPE = [
     },
     textBubbles: [
       {
-        content: 'Click here to edit your function',
+        content: 'Edit function here',
         domSelector: '#expression-envelope',
         place: 'top-right',
         destroyOnClick: true,
       },
       {
-        content: 'slide me up',
-        domSelector: '#dotted-slider-box',
-        place: 'bottom-left',
+        content: 'Click here to sled',
+        domSelector: '#run-button',
+        place: 'top-left',
         destroyOnClick: true,
+        // style: { fontSize: '1.1rem' },
       },
+      // {
+      //   content: 'Click here ',
+      //   domSelector: '#dotted-math-button',
+      //   place: 'top-left',
+      //   destroyOnClick: true,
+      // },
     ],
     sky: {
       asset: 'images.western_slopes_background',
       margin: 1,
     },
-    sprites: [      
-    ],
+    sprites: [],
   },
   {
     name: 'Try facing forwards?',
@@ -109,18 +114,30 @@ const SLOPE = [
       {
         speech: [
           {
-            speakerX: -0.4,
+            speakerX: -0.25,
+            speakerY: 0.6,
             content: '…forward this time? Please?',
-            direction: 'up',
-            distance: 1.5,
+            direction: 'up-up-left',
+            distance: 2,
           },
           {
-            speakerX: 0.3,
+            speakerX: 0.35,
+            speakerY: 0.6,
             content: 'Wuss.',
-            direction: 'up-right',
-            distance: 1,
+            direction: 'up-up-right',
+            distance: 1.2,
           },
         ],
+      },
+    ],
+    texts: [
+      {
+        x: 3,
+        y: 0.6,
+        size: 0.6,
+        align: 'left',
+        // fill: '#fff',
+        content: 'Well done! Now sled through this path',
       },
     ],
     slider: { expression: 'nx', bounds: [-1, 1, 1] },
@@ -128,14 +145,13 @@ const SLOPE = [
       asset: 'images.western_slopes_background',
       margin: 1,
     },
-    sprites: [      
-    ],
+    sprites: [],
   },
   {
     name: 'A real steep hill',
     nick: 'SLOPE_STEEPER',
     colors: Colors.biomes.alps,
-    x: 5,
+    x: 10,
     y: -10,
     camera: {
       x: 2,
@@ -158,20 +174,22 @@ const SLOPE = [
       {
         speech: [
           {
-            speakerX: -0.4,
-            content: 'Wuss!',
+            x: -0.4,
+            y: 0.65,
+            content: 'Woah.',
             direction: 'up-up-left',
-            distance: 1.3,
+            distance: 1.2,
           },
           {
-            speakerX: 0.3,
-            content: '…shut up.',
+            x: 0.4,
+            y: 0.7,
+            content: 'Steep.',
             direction: 'up-right-right',
-            distance: 1,
-            speech: {
-              content: 'This seems dangerous.',
-              distance: 1,
-            },
+            distance: 0.6,
+            // speech: {
+            //   content: 'This seems dangerous.',
+            //   distance: 1,
+            // },
           },
         ],
       },
@@ -184,8 +202,7 @@ const SLOPE = [
       asset: 'images.western_slopes_background',
       margin: 1,
     },
-    sprites: [      
-    ],
+    sprites: [],
   },
   {
     name: 'The bunny slope',
@@ -245,14 +262,13 @@ const SLOPE = [
       asset: 'images.western_slopes_background',
       margin: 1,
     },
-    sprites: [      
-    ],
+    sprites: [],
   },
   {
     name: 'Moving up in the world',
     nick: 'SLOPE_HIGHER',
     colors: Colors.biomes.alps,
-    x: 5,
+    x: 10,
     y: 10,
     camera: {
       x: 5,
@@ -298,8 +314,7 @@ const SLOPE = [
       asset: 'images.western_slopes_background',
       margin: 1,
     },
-    sprites: [
-    ],
+    sprites: [],
   },
   {
     name: 'About halfway down',
@@ -328,16 +343,18 @@ const SLOPE = [
       {
         speech: [
           {
-            speakerX: -0.4,
+            x: -0.3,
+            y: 0.65,
             content: 'I love you.',
             direction: 'up',
-            distance: 1.5,
+            distance: 1.2,
           },
           {
-            speakerX: 0.4,
-            content: 'I love you too, Sam.',
+            x: 0.5,
+            y: 0.7,
+            content: 'love you too, Ada.',
             direction: 'right-up',
-            distance: 0.75,
+            distance: 0.6,
           },
         ],
       },
@@ -347,8 +364,7 @@ const SLOPE = [
       asset: 'images.western_slopes_background',
       margin: 1,
     },
-    sprites: [      
-    ],
+    sprites: [],
   },
   CONSTANT_LAKE,
   {
@@ -374,22 +390,36 @@ const SLOPE = [
         y: 0,
       },
     ],
-    sprites: [      
+    sprites: [
+      {
+        x: 3,
+        size: 2,
+        asset: 'images.sam_float',
+        speech: [
+          {
+            speakerX: 0.3,
+            speakerY: -0.4,
+            content: '…do whatever you want.',
+            direction: 'up-right',
+            distance: 1,
+          },
+        ],
+      },
     ],
     sledders: [
       {
         asset: 'images.benny_sled',
         speech: [
           {
-            speakerX: 0.4,
-            y: 0.5,
-            content: 'I wanna see it. Could be a shortcut.',
+            speakerX: 0.2,
+            y: 0.7,
+            content: 'We never get to do my things.',
             direction: 'up-up-left',
-            distance: 1.5,
+            distance: 1,
             speech: {
-              content: 'Woah, see that canyon down there??',
+              content: 'I want to see this canyon.',
               direction: 'up',
-              distance: 1.5,
+              distance: 1,
             },
           },
         ],
@@ -400,5 +430,4 @@ const SLOPE = [
       margin: 1,
     },
   },
-  VOLCANO,
 ]

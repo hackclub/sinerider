@@ -3,6 +3,9 @@ function Sky(spec) {
 
   let { asset, margin } = spec
 
+  // Ignore margin arg
+  margin = 0
+
   let initialBounding
   image = _.get(assets, asset, $('#error-sprite'))
   let pos = [0, 0]

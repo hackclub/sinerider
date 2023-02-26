@@ -179,7 +179,7 @@ function World(spec) {
 
     if (navigating) self.sendEvent('onToggleMap', [_navigating])
 
-    editor.active = !navigating
+    editor.active = level.isEditor() && !navigating
     level.active = !navigating
     navigator.active = navigating
 
