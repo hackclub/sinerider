@@ -12,11 +12,11 @@ const CONSTANT_LAKE = {
   },
   requirements: ['SLOPE_SHALLOWER', 'SLOPE_LOWER'],
   defaultExpression:
-    '\\frac{2}{1+\\frac{1}{e^{x-5}}}+\\frac{-8}{1+\\frac{1}{e^{x-30}}}',
+    '\\frac{3}{1+e^{-\\frac{x+2}{2}}}-\\frac{5}{1+e^{-\\frac{x-22}{4}}}+\\frac{8}{1+e^{-\\frac{x-42}{5}}}+\\frac{-8}{1+\\frac{1}{e^{x-60}}}',
   directors: [
     {
       type: 'lerp',
-      point0: [-1, 0],
+      point0: [0, 0],
       point1: [10, 0],
       state0: {
         position: [-2, 3.5],
@@ -27,6 +27,19 @@ const CONSTANT_LAKE = {
         fov: 12,
       },
     },
+    {
+      type: 'lerp',
+      point0: [15, 0],
+      point1: [30, 0],
+      state0: {
+        position: [16, 10],
+        fov: 12,
+      },
+      state1: {
+        position: [52, 20],
+        fov: 8,
+      },
+    },
   ],
   texts: [
     {
@@ -35,7 +48,7 @@ const CONSTANT_LAKE = {
       size: 0.6,
       align: 'left',
       // fill: '#fff',
-      content: 'Tap/click the screen to move',
+      content: 'Tap/click to move',
     },
   ],
   goals: [],
@@ -322,12 +335,9 @@ const CONSTANT_LAKE = {
     },
   ],
   water: {
-    x: 26,
-    y: 8,
+    x: 68,
+    y: 20,
     size: 18,
   },
-  // clouds: {
-  //   velocity: 0.1,
-  //   heights:[4,4.8]
-  // },
+  clouds: {},
 }
