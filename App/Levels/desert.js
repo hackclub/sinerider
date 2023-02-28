@@ -36,7 +36,7 @@ const DESERT = {
   walkers: [
     {
       x: -4,
-      victoryX: 42,
+      victoryX: 41,
       asset: 'images.benny_float',
       range: [NINF, 42],
       backflip: [32, 36],
