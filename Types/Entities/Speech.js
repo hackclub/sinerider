@@ -112,6 +112,7 @@ function Speech(spec) {
   const textOriginPerturbation = Vector2(textTangent).multiply(0) //Math.random()*distance/6)
 
   const worldPosition = Vector2()
+  const worldPositionScreen = Vector2()
 
   const speakerOrigin = Vector2(speakerX, speakerY)
   const speakerOriginWorld = Vector2()
@@ -187,6 +188,7 @@ function Speech(spec) {
     camera.worldToScreen(lineOriginWorld, lineOriginScreen)
     camera.worldToScreen(lineTerminusWorld, lineTerminusScreen)
     camera.worldToScreen(controlPointWorld, controlPointScreen)
+    camera.worldToScreen(worldPosition, worldPositionScreen)
   }
 
   let inDomain = false
@@ -236,6 +238,11 @@ function Speech(spec) {
     ctx.strokeStyle = color
     ctx.lineWidth = scalar / 15
     ctx.lineCap = 'round'
+
+    // ctx.beginPath()
+    // ctx.fillStyle = 'green'
+    // ctx.arc(worldPositionScreen.x, worldPositionScreen.y, 4, 0, TAU)
+    // ctx.fill()
 
     ctx.beginPath()
     ctx.moveTo(lineOriginScreen.x, lineOriginScreen.y)
