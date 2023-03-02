@@ -567,8 +567,9 @@ input[valid='false'] {
 
 #dotted-math-container {
   position: fixed;
-  right: 15px;
-  top: 25%;
+  right:40px;
+  top: 15%;
+  bottom: 20%;
   /* display: flex;  */
   display: none; /* Disabled by default */
   border-width: 3px;
@@ -587,8 +588,8 @@ input[valid='false'] {
 }
 
 #dotted-math-button {
-  margin-top: auto;
-  margin-bottom: auto;
+  margin-top: 40vh; 
+  margin-bottom: 40vh;
   margin-left:auto;
   background-color: rgb(255, 174, 0);
 }
@@ -597,8 +598,8 @@ input[valid='false'] {
   writing-mode: bt-lr; /* IE */
   -webkit-appearance: slider-vertical; /* Chromium */
   width: 8px;
-  height: 175px;
-  padding: 0 5px;
+  height: 70vh;
+  /*line-height: 100vh;*/
   accent-color: rgb(0, 255, 0);
 }
 
