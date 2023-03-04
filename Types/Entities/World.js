@@ -143,7 +143,14 @@ function World(spec) {
     if (urlData?.goals && urlData?.goals.length)
       levelDatum.goals = (levelDatum.goals ?? []).concat(urlData?.goals)
 
-    level = Level({
+    const generator =
+      {
+        VOLCANO: Volcano,
+        DESERT: Desert,
+        CONSTANT_LAKE: ConstantLake,
+      }[level.nick] ?? Level
+
+    level = generator({
       ui,
       screen,
       assets,

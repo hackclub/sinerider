@@ -1,3 +1,9 @@
+/**
+ * Base class representing a level scene with
+ * a graph, camera/director(s) and walkers/sledders/sprites/text.
+ * Can be started, stopped, reset, serialized and takes in a levelCompleted
+ * callback which is invoked whenever the level's completion condition is met.
+ */
 function Level(spec) {
   const { self, assets, screen, ui } = Entity(spec, 'Level')
 
@@ -189,6 +195,7 @@ function Level(spec) {
       // If X values met then make transition
       if (transition.xRequirements.length == 0) {
         const target = self.children.find((s) => s.name === transition.name)
+
         if (!target)
           throw Error(
             `Unable to find transition target from '${entity.name}' to '${transition.name}' (check the manifest!)`,

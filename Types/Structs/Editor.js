@@ -6,19 +6,19 @@ function Editor(ui) {
 
   let showing = true
 
-  addFixed.onclick = () => {
+  addFixed.addEventListener('click', () => {
     world.level.sendEvent('goalAdded', ['fixed'])
-  }
+  })
 
-  addDynamic.onclick = () => {
+  addDynamic.addEventListener('click', () => {
     world.level.sendEvent('goalAdded', ['dynamic'])
-  }
+  })
 
-  addPath.onclick = () => {
+  addPath.addEventListener('click', () => {
     ui.editorInspector.x.value = point.x.toFixed(2)
     ui.editorInspector.y.value = point.y.toFixed(2)
     world.level.sendEvent('goalAdded', ['path'])
-  }
+  })
 
   let editingPath = false
 
@@ -27,15 +27,16 @@ function Editor(ui) {
 
   let active = false
 
-  deleteSelection.onclick = () => {
+  deleteSelection.addEventListener('click', () => {
     if (
       selectionType == 'fixed' ||
       selectionType == 'path' ||
       selectionType == 'dynamic' ||
       selectionType == 'sledder'
-    )
+    ) {
       selection.remove()
-  }
+    }
+  })
 
   function select(_selection, _selectionType, attributes = null) {
     if (!active) return
@@ -90,7 +91,7 @@ function Editor(ui) {
     editorInspector.setAttribute('hide', true)
   }
 
-  order.oninput = (event) => {
+  order.addEventListener('input', (event) => {
     let data = event.data ? event.data.toUpperCase() : null
     if (!/[a-z]/i.test(data)) {
       event.preventDefault()
@@ -99,9 +100,9 @@ function Editor(ui) {
     }
     order.value = data
     if (selection?.setOrder) selection.setOrder(data)
-  }
+  })
 
-  timer.oninput = (event) => {
+  timer.addEventListener('input', (event) => {
     let value
     try {
       value = Number(timer.value)
@@ -109,9 +110,9 @@ function Editor(ui) {
       return
     }
     if (selection?.setTimer) selection.setTimer(value)
-  }
+  })
 
-  x.oninput = (event) => {
+  x.addEventListener('input', (event) => {
     let value
     try {
       value = Number(x.value)
@@ -119,9 +120,9 @@ function Editor(ui) {
       return
     }
     if (selection?.setX) selection.setX(value)
-  }
+  })
 
-  y.oninput = (event) => {
+  y.addEventListener('input', (event) => {
     let value
     try {
       value = Number(y.value)
@@ -129,7 +130,7 @@ function Editor(ui) {
       return
     }
     if (selection?.setY) selection?.setY(value)
-  }
+  })
 
   return {
     show,

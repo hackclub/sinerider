@@ -361,16 +361,7 @@ function PathGoal(spec) {
     hintGraph.resize()
   }
 
-  let moving = false
-
-  function mouseDown() {
-    // console.log('moved sledder')
-    if (editor.active) moving = true
-  }
-
-  function mouseMove(point) {
-    if (!moving) return
-
+  function dragMove(point) {
     transform.position = point
 
     // Reset pathStart/pathEnd
@@ -408,9 +399,7 @@ function PathGoal(spec) {
     ui.editorInspector.y.value = point.y.toFixed(2)
   }
 
-  function mouseUp() {
-    if (!moving) return
-    moving = false
+  function dragEnd() {
     reset()
   }
 
@@ -431,9 +420,8 @@ function PathGoal(spec) {
     setX,
     setY,
 
-    mouseDown,
-    mouseMove,
-    mouseUp,
+    dragMove,
+    dragEnd,
 
     reset,
     resize,
