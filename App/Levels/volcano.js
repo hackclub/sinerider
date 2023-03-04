@@ -238,7 +238,8 @@ const VOLCANO = (() => {
               color: '#808080',
               content: 'I have a crazy idea',
               direction: 'up-up-left',
-              domain: [-62, -58],
+              // domain: [-62, -58],
+              length: 4,
               distance: 1.5,
             },
             {

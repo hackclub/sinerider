@@ -18,7 +18,15 @@ function Speech(spec) {
     globalScope,
     deactivationThreshold = null,
     activationThreshold = null,
+    previous = null,
+    length = null,
+    gap = 1,
   } = spec
+
+  if (length && previous && previous.domain) {
+    start = previous.domain[1] + gap
+    domain = [start, start + length]
+  }
 
   const transform = Transform(spec, self)
 
@@ -261,6 +269,8 @@ function Speech(spec) {
 
   return self.mix({
     transform,
+
+    domain,
 
     awake,
     tick,

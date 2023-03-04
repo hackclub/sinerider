@@ -3,6 +3,7 @@ const CONSTANT_LAKE = {
   nick: 'CONSTANT_LAKE',
   colors: Colors.biomes.alps,
   axesEnabled: false,
+  runAsCutscene: true,
   x: 10,
   y: 10,
   camera: {
@@ -13,6 +14,7 @@ const CONSTANT_LAKE = {
   requirements: ['SLOPE_SHALLOWER', 'SLOPE_LOWER'],
   defaultExpression:
     '\\frac{2}{1+\\frac{1}{e^{x-5}}}+\\frac{-8}{1+\\frac{1}{e^{x-30}}}',
+
   directors: [
     {
       type: 'lerp',

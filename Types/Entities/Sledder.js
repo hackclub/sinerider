@@ -126,22 +126,14 @@ function Sledder(spec = {}) {
     editor.deselect()
   }
 
-  let moving = false
-
-  function mouseDown() {
-    moving = true
-  }
-
-  function mouseMove(point) {
-    if (!moving || !editor.active) return
+  function dragMove(point) {
+    if (!editor.active) return
     transform.position = point
     ui.editorInspector.x.value = point.x.toFixed(2)
     ui.editorInspector.y.value = point.y.toFixed(2)
   }
 
-  function mouseUp() {
-    if (!moving) return
-    moving = false
+  function dragEnd() {
     originX = transform.x
     reset()
   }
@@ -165,9 +157,8 @@ function Sledder(spec = {}) {
     setX,
     setY,
 
-    mouseDown,
-    mouseMove,
-    mouseUp,
+    dragEnd,
+    dragMove,
 
     startRunning,
     stopRunning,
