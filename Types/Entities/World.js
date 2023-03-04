@@ -356,7 +356,7 @@ function World(spec) {
       x: -10,
       y: 0,
       colors: biomes[_.random(0, biomes.length)],
-      defaultExpression: '0',
+      startingExpression: '0',
       hint: 'Soft eyes, grasshopper.',
       goals,
       sledders,

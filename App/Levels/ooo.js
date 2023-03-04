@@ -6,7 +6,7 @@ const OOO = [
     x: 10,
     y: -10,
     requirements: ['TWO_BESIDE'],
-    defaultExpression: '0',
+    startingExpression: '0',
     goals: [
       {
         x: 16,
@@ -32,7 +32,7 @@ const OOO = [
     x: 0,
     y: -20,
     requirements: null,
-    defaultExpression: '0',
+    startingExpression: '0',
     goals: [
       {
         x: 24,
@@ -63,7 +63,7 @@ const OOO = [
     x: 10,
     y: 0,
     requirements: null,
-    defaultExpression: '0',
+    startingExpression: '0',
     goals: [
       {
         x: 18,
@@ -99,7 +99,7 @@ const OOO = [
     x: -10,
     y: -10,
     requirements: ['OUT_OF_ORDER_2'],
-    defaultExpression: '0',
+    startingExpression: '0',
     goals: [
       {
         x: -8,
@@ -135,7 +135,7 @@ const OOO = [
     x: -10,
     y: 0,
     requirements: null,
-    defaultExpression: '0',
+    startingExpression: '0',
     goals: [
       {
         x: -12,
@@ -181,7 +181,7 @@ const OOO = [
     x: 10,
     y: -10,
     requirements: ['OUT_OF_ORDER_2'],
-    defaultExpression: '0',
+    startingExpression: '0',
     goals: [
       {
         x: -6,

@@ -6,7 +6,7 @@ const SWAMP = [
     x: -30,
     y: 0,
     requirements: ['TIME_SIN_ESCALATOR_OSCILLATOR'],
-    defaultExpression: '0',
+    startingExpression: '0',
     goals: [
       {
         x: 8,
@@ -30,7 +30,7 @@ const SWAMP = [
     x: -10,
     y: 0,
     requirements: null,
-    defaultExpression: '0',
+    startingExpression: '0',
     goals: [
       {
         x: 8,
@@ -54,7 +54,7 @@ const SWAMP = [
     x: -10,
     y: -10,
     requirements: null,
-    defaultExpression: '0',
+    startingExpression: '0',
     goals: [
       {
         x: 0,
@@ -86,7 +86,7 @@ const SWAMP = [
     x: -10,
     y: 0,
     requirements: null,
-    defaultExpression: '0',
+    startingExpression: '0',
     goals: [
       {
         x: 8,
@@ -117,7 +117,7 @@ const SWAMP = [
     x: -10,
     y: -10,
     requirements: null,
-    defaultExpression: '0',
+    startingExpression: '0',
     goals: [
       {
         x: 16,
@@ -148,7 +148,7 @@ const SWAMP = [
     x: 0,
     y: -10,
     requirements: ['FALSE_CUBIC'],
-    defaultExpression: '0',
+    startingExpression: '0',
     goals: [
       {
         x: 8,
@@ -172,7 +172,7 @@ const SWAMP = [
     x: -10,
     y: -10,
     requirements: null,
-    defaultExpression: '0',
+    startingExpression: '0',
     goals: [
       {
         x: 16,

@@ -4,7 +4,7 @@ function Level(spec, defaultName = 'Level') {
   const {
     globalScope,
     levelCompleted,
-    startingExpression,
+    defaultExpression,
     datum,
     world,
     requestDraw,
@@ -34,6 +34,12 @@ function Level(spec, defaultName = 'Level') {
     trackedEntities.unshift(entities)
   }
 
+  const camera = Camera({
+    globalScope,
+    parent: self,
+    ...cameraSpec,
+  })
+
   let axes = null
   if (!datum.hasOwnProperty('axesEnabled') || datum.axesEnabled)
     axes = Axes({
@@ -48,17 +54,11 @@ function Level(spec, defaultName = 'Level') {
   openMusic = _.get(assets, openMusic, null)
   runMusic = _.get(assets, runMusic, null)
 
-  const camera = Camera({
-    globalScope,
-    parent: self,
-    ...cameraSpec,
-  })
-
   const graph = Graph({
     camera,
     screen,
     globalScope,
-    expression: mathquillToMathJS(startingExpression),
+    expression: mathquillToMathJS(defaultExpression),
     parent: self,
     drawOrder: LAYERS.graph,
     colors,
@@ -370,11 +370,11 @@ function Level(spec, defaultName = 'Level') {
   }
 
   function restart() {
-    ui.mathField.latex(startingExpression)
+    ui.mathField.latex(defaultExpression)
 
     self.sendEvent('setGraphExpression', [
-      mathquillToMathJS(startingExpression),
-      startingExpression,
+      mathquillToMathJS(defaultExpression),
+      defaultExpression,
     ])
   }
 

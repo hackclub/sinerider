@@ -13,7 +13,7 @@ const EDITOR = [
         y: 0,
       },
     ],
-    defaultExpression: '-\\frac{2}{1+e^{-\\left(x-5\\right)}}',
+    startingExpression: '-\\frac{2}{1+e^{-\\left(x-5\\right)}}',
     camera: {
       x: 0,
       y: 0,

@@ -6,7 +6,7 @@ const TIME = [
     x: 30,
     y: 0,
     requirements: ['SLOPE_SCALE_TRANSLATE'],
-    defaultExpression: '-t',
+    startingExpression: '-t',
     goals: [
       {
         x: 0,
@@ -59,7 +59,7 @@ const TIME = [
     x: -10,
     y: -10,
     requirements: null,
-    defaultExpression: 't',
+    startingExpression: 't',
     goals: [
       {
         x: -4,
@@ -114,7 +114,7 @@ const TIME = [
     x: 10,
     y: 0,
     requirements: ['TIME_CONSTANT'],
-    defaultExpression: '(x+t)^2',
+    startingExpression: '(x+t)^2',
     goals: [
       {
         x: -2,
@@ -147,7 +147,7 @@ const TIME = [
     x: 10,
     y: 0,
     requirements: [null],
-    defaultExpression: '\\left(x-t\\right)^2',
+    startingExpression: '\\left(x-t\\right)^2',
     goals: [
       {
         type: 'path',
@@ -191,7 +191,7 @@ const TIME = [
     x: 10,
     y: 10,
     requirements: [null],
-    defaultExpression: '(x-t)^2',
+    startingExpression: '(x-t)^2',
     goals: [
       {
         type: 'path',
@@ -236,7 +236,7 @@ const TIME = [
     x: -10,
     y: 0,
     requirements: [null],
-    defaultExpression: `4\\cdot \\sin \\left(x-\\sin \\left(\\frac{t}{2}\\right)\\cdot 11\\right)\\cdot \\cos \\left(\\frac{t}{3}\\right)+8\\cdot \\sin \\left(\\frac{t+\\sin \\left(t\\cdot e\\right)}{2}\\right)`,
+    startingExpression: `4\\cdot \\sin \\left(x-\\sin \\left(\\frac{t}{2}\\right)\\cdot 11\\right)\\cdot \\cos \\left(\\frac{t}{3}\\right)+8\\cdot \\sin \\left(\\frac{t+\\sin \\left(t\\cdot e\\right)}{2}\\right)`,
     goals: [
       {
         type: 'dynamic',
@@ -308,7 +308,7 @@ const TIME = [
     x: 0,
     y: -20,
     requirements: ['TIME_PARABOLA_TRANSLATE_X_Y_SCALE_Y', 'SIN_TRANSLATE_X_Y'],
-    defaultExpression: '\\sin \\left(x-t\\right)',
+    startingExpression: '\\sin \\left(x-t\\right)',
     goals: [
       {
         x: -12,
@@ -361,7 +361,7 @@ const TIME = [
     x: -10,
     y: -10,
     requirements: [null],
-    defaultExpression: '\\sin \\left(\\frac{2x}{pi}-t\\right)',
+    startingExpression: '\\sin \\left(\\frac{2x}{pi}-t\\right)',
     goals: [
       {
         x: -12,
@@ -414,7 +414,7 @@ const TIME = [
     x: -20,
     y: 0,
     requirements: [null],
-    defaultExpression: '-2\\cos \\left(x-2\\sin \\left(t\\right)\\right)+x+1',
+    startingExpression: '-2\\cos \\left(x-2\\sin \\left(t\\right)\\right)+x+1',
     goals: [
       {
         type: 'path',
@@ -449,7 +449,7 @@ const TIME = [
     x: 0,
     y: -10,
     requirements: ['TIME_SIN_ESCALATOR'],
-    defaultExpression: '-\\cos \\left(x-\\sin \\left(t\\right)\\right)',
+    startingExpression: '-\\cos \\left(x-\\sin \\left(t\\right)\\right)',
     goals: [
       {
         x: -2,
@@ -501,7 +501,7 @@ const TIME = [
     x: -10,
     y: 0,
     requirements: [null],
-    defaultExpression: '\\left(\\frac{x}{4}-\\sin \\left(t\\right)\\right)^2',
+    startingExpression: '\\left(\\frac{x}{4}-\\sin \\left(t\\right)\\right)^2',
     goals: [
       {
         x: -6,
@@ -543,7 +543,7 @@ const TIME = [
     x: -10,
     y: 0,
     requirements: [null],
-    defaultExpression: '-\\left(\\frac{x}{4}\\right)^2',
+    startingExpression: '-\\left(\\frac{x}{4}\\right)^2',
     goals: [
       {
         x: -9,
@@ -595,7 +595,7 @@ const TIME = [
     x: 0,
     y: -10,
     requirements: ['TIME_SIN_PARABOLA_OSCILLATOR'],
-    defaultExpression: '\\left(\\frac{x}{4}\\right)^2',
+    startingExpression: '\\left(\\frac{x}{4}\\right)^2',
     goals: [
       {
         x: 4,

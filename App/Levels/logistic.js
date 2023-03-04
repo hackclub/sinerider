@@ -6,7 +6,7 @@ const LOGISTIC = [
     x: 0,
     y: -30,
     requirements: ['SIN_SCALE_X_Y'],
-    defaultExpression: '\\frac{1}{1+x^2}',
+    startingExpression: '\\frac{1}{1+x^2}',
     slider: {
       expression: '1/(1+(x-n)^2)', //'\\frac{1}{1+left(x-n\\right)^2}',
       bounds: [-3, 1, -1],
@@ -67,7 +67,7 @@ const LOGISTIC = [
     x: -10,
     y: -10,
     requirements: ['LOGISTIC'],
-    defaultExpression: '\\frac{1}{1+x^2}',
+    startingExpression: '\\frac{1}{1+x^2}',
     goals: [
       {
         order: 'C',
@@ -124,7 +124,7 @@ const LOGISTIC = [
     x: -20,
     y: 0,
     requirements: [null],
-    defaultExpression: '\\left(\\frac{x}{4}\\right)^2+\\frac{1}{(1+x^2)}',
+    startingExpression: '\\left(\\frac{x}{4}\\right)^2+\\frac{1}{(1+x^2)}',
     goals: [
       {
         type: 'path',
@@ -153,7 +153,7 @@ const LOGISTIC = [
     x: -10,
     y: 0,
     requirements: ['LOGISTIC'],
-    defaultExpression:
+    startingExpression:
       '\\frac{1}{1+\\left(x+8\\right)^2}+\\frac{1}{1+\\left(x+1\\right)^2}',
     goals: [
       {
@@ -191,7 +191,7 @@ const LOGISTIC = [
     x: -10,
     y: 0,
     requirements: [null],
-    defaultExpression:
+    startingExpression:
       '\\frac{1}{1+\\left(x+8\\right)^2}-\\frac{1}{1+x^2}+\\frac{1}{1+\\left(x-8\\right)^2}',
     goals: [
       {

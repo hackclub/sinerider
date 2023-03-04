@@ -168,7 +168,7 @@ worldData.push({
       requirements: [],
       runMusic: 'sounds.music.intro',
       flashRunButton: true,
-      defaultExpression:
+      startingExpression:
         '\\frac{-2}{1+e^{-x+5}}+\\frac{-2}{1+\\left(x-30\\right)^2}',
       hint: 'congratulations, you found the secret hint!',
       camera: {
@@ -364,7 +364,7 @@ worldData.push({
     x: 35,
     y: -25,
     requirements: [],
-    defaultExpression: '0',
+    startingExpression: '0',
     hint: 'Soft eyes, grasshopper.',
     goals: [
       {

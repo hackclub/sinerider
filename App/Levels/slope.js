@@ -12,7 +12,7 @@ const SLOPE = [
     },
     requirements: ['HELLO_WORLD'],
     flashMathField: true,
-    defaultExpression: '-x',
+    startingExpression: '-x',
     hint: 'hint: x makes a slope',
     goals: [
       {
@@ -99,7 +99,7 @@ const SLOPE = [
       fov: 7,
     },
     requirements: null,
-    defaultExpression: 'x',
+    startingExpression: 'x',
     hint: 'hint: go negative',
     goals: [
       {
@@ -159,7 +159,7 @@ const SLOPE = [
       fov: 11,
     },
     requirements: ['SLOPE_NEGATIVE'],
-    defaultExpression: '-x',
+    startingExpression: '-x',
     hint: 'hint: try multiplying',
     goals: [
       {
@@ -217,7 +217,7 @@ const SLOPE = [
     },
     requirements: null,
     hint: 'hint: what’s the opposite of multiplying?',
-    defaultExpression: '-x',
+    startingExpression: '-x',
     goals: [
       {
         type: 'path',
@@ -276,7 +276,7 @@ const SLOPE = [
       fov: 9,
     },
     requirements: ['SLOPE_NEGATIVE'],
-    defaultExpression: '-x-3',
+    startingExpression: '-x-3',
     hint: 'hint: add a constant',
     goals: [
       {
@@ -328,7 +328,7 @@ const SLOPE = [
       fov: 11,
     },
     requirements: null,
-    defaultExpression: '-x',
+    startingExpression: '-x',
     hint: 'hint: if adding makes it go up…',
     goals: [
       {
@@ -379,7 +379,7 @@ const SLOPE = [
       fov: 12,
     },
     requirements: ['CONSTANT_LAKE'],
-    defaultExpression: '-\\frac{x}{2}',
+    startingExpression: '-\\frac{x}{2}',
     hint: 'put it all together!',
     goals: [
       {

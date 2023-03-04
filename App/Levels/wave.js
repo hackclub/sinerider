@@ -9,7 +9,7 @@ const WAVE = [
       'PARABOLA_TRANSLATE_SCALE_X_Y',
       'TIME_PARABOLA_TRANSLATE_X_Y_SCALE_Y',
     ],
-    defaultExpression: '\\sin \\left(x\\right)',
+    startingExpression: '\\sin \\left(x\\right)',
     goals: [
       {
         type: 'path',
@@ -71,7 +71,7 @@ const WAVE = [
     x: 10,
     y: 10,
     requirements: ['DESERT'],
-    defaultExpression: '\\cos \\left(x\\right)',
+    startingExpression: '\\cos \\left(x\\right)',
     goals: [
       {
         type: 'path',
@@ -112,7 +112,7 @@ const WAVE = [
     x: 0,
     y: -20,
     requirements: ['DESERT'],
-    defaultExpression: '\\sin \\left(x\\right)',
+    startingExpression: '\\sin \\left(x\\right)',
     goals: [
       {
         type: 'path',
@@ -153,7 +153,7 @@ const WAVE = [
     x: -10,
     y: -10,
     requirements: ['DESERT'],
-    defaultExpression: '\\sin \\left(x+\\frac{pi}{3}\\right)',
+    startingExpression: '\\sin \\left(x+\\frac{pi}{3}\\right)',
     goals: [
       {
         type: 'path',
@@ -194,7 +194,7 @@ const WAVE = [
     x: 0,
     y: -20,
     requirements: [null],
-    defaultExpression: '\\cos \\left(x\\right)',
+    startingExpression: '\\cos \\left(x\\right)',
     goals: [
       {
         type: 'path',
@@ -235,7 +235,7 @@ const WAVE = [
     x: 10,
     y: -10,
     requirements: ['DESERT'],
-    defaultExpression: '\\sin \\left(x\\right)',
+    startingExpression: '\\sin \\left(x\\right)',
     goals: [
       {
         type: 'path',
@@ -276,7 +276,7 @@ const WAVE = [
     x: 0,
     y: -20,
     requirements: [null],
-    defaultExpression: '2\\sin \\left(x\\right)',
+    startingExpression: '2\\sin \\left(x\\right)',
     goals: [
       {
         type: 'path',

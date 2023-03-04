@@ -15,7 +15,7 @@ const VOLCANO = (() => {
       fov: 30,
     },
     requirements: ['TWO_BELOW'],
-    defaultExpression:
+    startingExpression:
       '\\frac{40}{1+\\left(\\frac{x-200}{80}\\right)^6}-\\frac{60}{1+\\left(\\frac{x-200}{30}\\right)^6}+\\frac{90}{1+e^{-\\frac{\\left(-x+60\\right)}{10}}}+\\left(\\frac{x-200}{60}\\right)^2',
     directors: [
       {

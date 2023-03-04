@@ -11,7 +11,7 @@ const PARABOLA = [
       fov: 8,
     },
     requirements: ['SLOPE_SCALE_TRANSLATE'],
-    defaultExpression: '-x^2',
+    startingExpression: '-x^2',
     hint: 'do as she says!',
     slider: {
       expression: 'n*x^2',
@@ -60,7 +60,7 @@ const PARABOLA = [
       fov: 8,
     },
     requirements: ['PARABOLA_NEGATE'],
-    defaultExpression: 'x^2-1',
+    startingExpression: 'x^2-1',
     hint: 'hint: subtract from (everything)',
     slider: {
       expression: 'x^2+n',
@@ -99,7 +99,7 @@ const PARABOLA = [
       fov: 8,
     },
     requirements: null,
-    defaultExpression: '(x-2)^2',
+    startingExpression: '(x-2)^2',
     hint: 'hint: add to (x)',
     slider: {
       expression: '(x-n)^2',
@@ -138,7 +138,7 @@ const PARABOLA = [
       fov: 8,
     },
     requirements: null,
-    defaultExpression: '(x-1)^2+2',
+    startingExpression: '(x-1)^2+2',
     hint: 'seeing a pattern yet?',
     goals: [
       {
@@ -168,7 +168,7 @@ const PARABOLA = [
     x: 0,
     y: 10,
     requirements: ['PARABOLA_NEGATE'],
-    defaultExpression: 'x^2',
+    startingExpression: 'x^2',
     goals: [
       {
         type: 'path',
@@ -197,7 +197,7 @@ const PARABOLA = [
     x: 10,
     y: 10,
     requirements: null,
-    defaultExpression: '\\left(\\frac{x}{4}\\right)^2',
+    startingExpression: '\\left(\\frac{x}{4}\\right)^2',
     hint: '(x/4)^2 = x^2/4^2 = x^2/16',
     goals: [
       {
@@ -227,7 +227,7 @@ const PARABOLA = [
     x: -10,
     y: 10,
     requirements: ['PARABOLA_TRANSLATE_X_Y', 'PARABOLA_SCALE_X'],
-    defaultExpression: '\\left(\\frac{x-5}{4}\\right)^2',
+    startingExpression: '\\left(\\frac{x-5}{4}\\right)^2',
     hint: '(x/4)^2 = x^2/4^2 = x^2/16',
     goals: [
       {
@@ -257,7 +257,7 @@ const PARABOLA = [
     x: 20,
     y: 0,
     requirements: null,
-    defaultExpression: '\\left(\\frac{x+5}{4}\\right)^2',
+    startingExpression: '\\left(\\frac{x+5}{4}\\right)^2',
     goals: [
       {
         type: 'path',

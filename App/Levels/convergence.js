@@ -6,7 +6,7 @@ const CONVERGENCE = [
     x: 0,
     y: -20,
     requirements: ['TWO_BELOW'],
-    defaultExpression: '0',
+    startingExpression: '0',
     goals: [
       {
         x: -9,
@@ -62,7 +62,7 @@ const CONVERGENCE = [
     x: -10,
     y: -10,
     requirements: [null],
-    defaultExpression: '0',
+    startingExpression: '0',
     goals: [
       {
         x: -9,
@@ -118,7 +118,7 @@ const CONVERGENCE = [
     x: 10,
     y: 0,
     requirements: ['CONVERGENCE_1'],
-    defaultExpression: '0',
+    startingExpression: '0',
     goals: [
       {
         x: -16,
@@ -162,7 +162,7 @@ const CONVERGENCE = [
     x: -10,
     y: -10,
     requirements: [null],
-    defaultExpression: '0',
+    startingExpression: '0',
     goals: [
       {
         x: -16,

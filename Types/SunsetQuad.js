@@ -1,7 +1,7 @@
 /**
  * Sunset shader class for Constant Lake scene
  */
-function SunsetQuad(defaultExpression, assets) {
+function SunsetQuad(startingExpression, assets) {
   let canvas = document.createElement('canvas')
 
   canvas.width = innerWidth
@@ -189,7 +189,7 @@ function SunsetQuad(defaultExpression, assets) {
 
   let last = null
 
-  let evaluator = math.compile(defaultExpression)
+  let evaluator = math.compile(startingExpression)
 
   function setVectorFieldExpression(text) {
     try {

@@ -11,7 +11,7 @@ const DESERT = {
     fov: 7,
   },
   requirements: ['SIN'],
-  defaultExpression:
+  startingExpression:
     '\\frac{1}{3}\\sin\\left(\\frac{x}{10}\\right)+\\frac{1}{4}\\sin\\left(\\frac{x}{20}+\\frac{\\pi}{3}\\right)+\\frac{1}{2}\\sin\\left(\\frac{x}{53}+3\\frac{\\pi}{6}\\right)',
   directors: [
     {
@@ -36,7 +36,7 @@ const DESERT = {
   walkers: [
     {
       x: -4,
-      victoryX: 41,
+      victoryX: 42,
       asset: 'images.benny_float',
       range: [NINF, 42],
       backflip: [32, 36],

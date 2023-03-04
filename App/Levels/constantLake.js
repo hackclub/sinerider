@@ -12,7 +12,7 @@ const CONSTANT_LAKE = {
     fov: 7,
   },
   requirements: ['SLOPE_SHALLOWER', 'SLOPE_LOWER'],
-  defaultExpression:
+  startingExpression:
     '\\frac{2}{1+\\frac{1}{e^{x-5}}}+\\frac{-8}{1+\\frac{1}{e^{x-30}}}',
 
   directors: [

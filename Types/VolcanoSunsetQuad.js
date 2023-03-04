@@ -1,5 +1,5 @@
 let sunsetTime = 0
-function VolcanoSunsetQuad(defaultExpression, assets) {
+function VolcanoSunsetQuad(startingExpression, assets) {
   let local = document.createElement('canvas')
 
   local.width = innerWidth
@@ -173,7 +173,7 @@ function VolcanoSunsetQuad(defaultExpression, assets) {
 
   let last = null
 
-  let evaluator = math.compile(defaultExpression)
+  let evaluator = math.compile(startingExpression)
 
   function setVectorFieldExpression(text) {
     try {
