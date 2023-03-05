@@ -248,6 +248,7 @@ function onClickHint() {
   ui.dottedHintButton.style.display = 'none'
 
   ui.dottedSlider.hidden = false
+  ui.dottedSlider.style.innerHeight = '200px'
   ui.dottedMathField.style.display = 'block'
 
   world.level.sendEvent('displayDottedGraph')

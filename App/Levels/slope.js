@@ -57,7 +57,7 @@ const SLOPE = [
       },
     ],
     slider: {
-      expression: 'nx',
+      expression: '$x',
       bounds: [-1, 1, -1],
     },
     textBubbles: [
@@ -140,7 +140,7 @@ const SLOPE = [
         content: 'Well done! Now sled through this path',
       },
     ],
-    slider: { expression: 'nx', bounds: [-1, 1, 1] },
+    slider: { expression: '$x', bounds: [-1, 1, 1] },
     sky: {
       asset: 'images.western_slopes_background',
       margin: 1,
@@ -257,7 +257,7 @@ const SLOPE = [
         ],
       },
     ],
-    slider: { expression: '\\frac{-x}{n}', bounds: [1, 1.5, 1] },
+    slider: { expression: '\\frac{-x}{$}', bounds: [1, 1.5, 1] },
     sky: {
       asset: 'images.western_slopes_background',
       margin: 1,
@@ -309,7 +309,7 @@ const SLOPE = [
         ],
       },
     ],
-    slider: { expression: '-x + n', bounds: [-3, 1, -3] },
+    slider: { expression: '-x + $', bounds: [-3, 1, -3] },
     sky: {
       asset: 'images.western_slopes_background',
       margin: 1,
@@ -359,7 +359,7 @@ const SLOPE = [
         ],
       },
     ],
-    slider: { expression: '-x + n', bounds: [-2, 0, 0] },
+    slider: { expression: '-x + $', bounds: [-2, 0, 0] },
     sky: {
       asset: 'images.western_slopes_background',
       margin: 1,
