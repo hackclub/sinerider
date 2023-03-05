@@ -3,3 +3,4 @@ todo.md
 todo.md
 **/*.DS_Store
 .vs
+node_modules
