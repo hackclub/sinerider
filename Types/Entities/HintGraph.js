@@ -7,7 +7,7 @@ function HintGraph(spec) {
 
   function createExpression(n) {
     return expressionForm
-      .replace('n', n.toFixed(2))
+      .replaceAll('$', n.toFixed(2))
       .replaceAll('+ -', '-')
       .replaceAll('- +', '-')
   }

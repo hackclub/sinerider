@@ -8,7 +8,7 @@ const LOGISTIC = [
     requirements: ['SIN_SCALE_X_Y'],
     defaultExpression: '\\frac{1}{1+x^2}',
     slider: {
-      expression: '1/(1+(x-n)^2)', //'\\frac{1}{1+left(x-n\\right)^2}',
+      expression: '\\frac{1}{1+left(x-$\\right)^2}',
       bounds: [-3, 1, -1],
     },
     goals: [

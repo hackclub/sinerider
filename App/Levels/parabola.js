@@ -14,7 +14,7 @@ const PARABOLA = [
     defaultExpression: '-x^2',
     hint: 'do as she says!',
     slider: {
-      expression: 'n*x^2',
+      expression: '$\\cdot x^2',
       bounds: [-1, 1, -1],
     },
     goals: [
@@ -63,7 +63,7 @@ const PARABOLA = [
     defaultExpression: 'x^2-1',
     hint: 'hint: subtract from (everything)',
     slider: {
-      expression: 'x^2+n',
+      expression: 'x^2 + $',
       bounds: [-1, 1, -1],
     },
     goals: [
@@ -102,7 +102,7 @@ const PARABOLA = [
     defaultExpression: '(x-2)^2',
     hint: 'hint: add to (x)',
     slider: {
-      expression: '(x-n)^2',
+      expression: '\\left(x-$\\right)^2',
       bounds: [-1, 1, -1],
     },
     goals: [
