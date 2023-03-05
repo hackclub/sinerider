@@ -5,7 +5,7 @@ const SWAMP = [
     colors: Colors.biomes.everglades,
     x: -30,
     y: 0,
-    requirements: ['TIME_SIN_ESCALATOR_OSCILLATOR'],
+    requirements: ['TIME_SIN_PARABOLA_OSCILLATOR'],
     defaultExpression: '0',
     goals: [
       {
