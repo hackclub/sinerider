@@ -385,6 +385,7 @@ worldData.push({
     ...TIME,
     ...SWAMP,
     VOLCANO,
+    CREDITS,
   ],
 })
 
