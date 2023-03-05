@@ -7,10 +7,10 @@ const LOGISTIC = [
     y: -30,
     requirements: ['SIN_SCALE_X_Y'],
     defaultExpression: '\\frac{1}{1+x^2}',
-    slider: {
-      expression: '\\frac{1}{1+left(x-$\\right)^2}',
-      bounds: [-3, 1, -1],
-    },
+    // slider: {
+    //   expression: '\\frac{1}{1+\\left(x+$\\right)^2}',
+    //   bounds: [-3, 1, -1],
+    // },
     goals: [
       {
         order: 'C',

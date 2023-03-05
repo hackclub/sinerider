@@ -29,15 +29,15 @@ const PARABOLA = [
     sledders: [
       {
         asset: 'images.sam_sled',
-        x: -2,
+        x: -2.5,
         y: 0,
         speech: [
           {
-            speakerX: 0.5,
-            speakerY: 0.5,
+            x: 0.5,
+            y: 0.6,
             content: 'Be positive.',
-            direction: 'up-right',
-            distance: 1.2,
+            direction: 'up-up-right',
+            distance: 1,
           },
         ],
       },
@@ -63,8 +63,8 @@ const PARABOLA = [
     defaultExpression: 'x^2-1',
     hint: 'hint: subtract from (everything)',
     slider: {
-      expression: 'x^2 + $',
-      bounds: [-1, 1, -1],
+      expression: 'x^2+$',
+      bounds: [-2, 2, -1],
     },
     goals: [
       {
@@ -102,8 +102,8 @@ const PARABOLA = [
     defaultExpression: '(x-2)^2',
     hint: 'hint: add to (x)',
     slider: {
-      expression: '\\left(x-$\\right)^2',
-      bounds: [-1, 1, -1],
+      expression: '\\left(x+$\\right)^2',
+      bounds: [-2, 2, 0],
     },
     goals: [
       {
@@ -168,20 +168,24 @@ const PARABOLA = [
     x: 0,
     y: 10,
     requirements: ['PARABOLA_NEGATE'],
-    defaultExpression: 'x^2',
+    defaultExpression: '\\left(\\frac{x}{4}\\right)^2',
+    slider: {
+      expression: '\\left(\\frac{x}{$}\\right)^2',
+      bounds: [1, 6, 4],
+    },
     goals: [
       {
         type: 'path',
-        expression: 'x^2/4',
-        x: -4,
+        expression: '(x/8)^2',
+        x: -8,
         y: 0,
-        pathX: 8,
+        pathX: 16,
       },
     ],
     sledders: [
       {
         asset: 'images.sam_sled',
-        x: -5,
+        x: -12,
         y: 0,
       },
     ],
@@ -197,7 +201,11 @@ const PARABOLA = [
     x: 10,
     y: 10,
     requirements: null,
-    defaultExpression: '\\left(\\frac{x}{4}\\right)^2',
+    slider: {
+      expression: '\\left(\\frac{x}{$}\\right)^2',
+      bounds: [3, 5, 4],
+    },
+    defaultExpression: 'x^2',
     hint: '(x/4)^2 = x^2/4^2 = x^2/16',
     goals: [
       {

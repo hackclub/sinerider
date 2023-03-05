@@ -10,6 +10,8 @@ function HintGraph(spec) {
       .replaceAll('$', n.toFixed(2))
       .replaceAll('+ -', '-')
       .replaceAll('- +', '-')
+      .replaceAll('+-', '-')
+      .replaceAll('-+', '-')
   }
 
   const dottedGraph = Graph({

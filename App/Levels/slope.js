@@ -153,18 +153,16 @@ const SLOPE = [
     colors: Colors.biomes.alps,
     x: 10,
     y: -10,
-    camera: {
-      x: 2,
-      y: -5.5,
-      fov: 11,
-    },
     requirements: ['SLOPE_NEGATIVE'],
     defaultExpression: '-x',
-    hint: 'hint: try multiplying',
+    slider: {
+      expression: '-x\\cdot $',
+      bounds: [0, 2, 1],
+    },
     goals: [
       {
         type: 'path',
-        expression: '-x*2',
+        expression: '-x*3',
         pathX: 6,
         x: 2,
         y: 0,
@@ -194,10 +192,6 @@ const SLOPE = [
         ],
       },
     ],
-    slider: {
-      expression: '$\\cdot x',
-      bounds: [-1.5, -1, -1],
-    },
     sky: {
       asset: 'images.western_slopes_background',
       margin: 1,
@@ -210,19 +204,17 @@ const SLOPE = [
     colors: Colors.biomes.alps,
     x: 10,
     y: 0,
-    camera: {
-      x: 2,
-      y: 0,
-      fov: 7,
-    },
     requirements: null,
-    hint: 'hint: what’s the opposite of multiplying?',
     defaultExpression: '-x',
+    slider: {
+      expression: '-\\frac{x}{$}',
+      bounds: [1, 2, 1],
+    },
     goals: [
       {
         type: 'path',
-        expression: '-x/2',
-        pathX: 6,
+        expression: '-x/3',
+        pathX: 8,
         x: 2,
         y: 0,
       },
@@ -257,7 +249,6 @@ const SLOPE = [
         ],
       },
     ],
-    slider: { expression: '\\frac{-x}{$}', bounds: [1, 1.5, 1] },
     sky: {
       asset: 'images.western_slopes_background',
       margin: 1,
@@ -277,6 +268,10 @@ const SLOPE = [
     },
     requirements: ['SLOPE_NEGATIVE'],
     defaultExpression: '-x-3',
+    slider: {
+      expression: '-x+$',
+      bounds: [-3, 3, -3],
+    },
     hint: 'hint: add a constant',
     goals: [
       {
@@ -309,7 +304,6 @@ const SLOPE = [
         ],
       },
     ],
-    slider: { expression: '-x + $', bounds: [-3, 1, -3] },
     sky: {
       asset: 'images.western_slopes_background',
       margin: 1,

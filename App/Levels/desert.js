@@ -3,14 +3,14 @@ const DESERT = {
   nick: 'DESERT',
   colors: Colors.biomes.arches,
   axesEnabled: false,
-  x: 10,
+  x: -10,
   y: -10,
   camera: {
     x: 2,
     y: -2,
     fov: 7,
   },
-  requirements: ['SIN'],
+  requirements: ['COS'],
   defaultExpression:
     '\\frac{1}{3}\\sin\\left(\\frac{x}{10}\\right)+\\frac{1}{4}\\sin\\left(\\frac{x}{20}+\\frac{\\pi}{3}\\right)+\\frac{1}{2}\\sin\\left(\\frac{x}{53}+3\\frac{\\pi}{6}\\right)',
   directors: [
