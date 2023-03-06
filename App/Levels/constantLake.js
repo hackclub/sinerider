@@ -79,6 +79,7 @@ const CONSTANT_LAKE = {
   ],
   walkers: [
     {
+      name: 'Jack',
       x: -4,
       victoryX: 26,
       asset: 'images.benny_float',
