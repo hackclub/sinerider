@@ -51,7 +51,7 @@ worldData.push({
       western_slopes_background: '.webp',
       western_slopes_background_no_sky: '.webp',
       eternal_canyon_background: '.webp',
-      valley_background: 'logistic_dunes_background.webp',
+      valley_parabola_background: 'valley_parabola_background.webp',
       volcano_background: '.webp',
       volcano_background_tall: '.webp',
       volcano_background_medium: '.webp',
