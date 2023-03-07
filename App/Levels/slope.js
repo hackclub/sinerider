@@ -156,8 +156,8 @@ const SLOPE = [
     requirements: ['SLOPE_NEGATIVE'],
     defaultExpression: '-x',
     slider: {
-      expression: '-x\\cdot $',
-      bounds: [0, 2, 1],
+      expression: '$\\cdot x',
+      bounds: [-2, 2, -1],
     },
     goals: [
       {
