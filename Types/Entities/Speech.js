@@ -150,6 +150,7 @@ function Speech(spec) {
       Speech({
         parent: self,
         domainTransform,
+        domain,
         globalScope,
         x: textOrigin.x + (s.x || 0),
         y: textOrigin.y + (s.y || 0) + size * 0.8,
