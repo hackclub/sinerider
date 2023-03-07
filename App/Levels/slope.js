@@ -182,8 +182,8 @@ const SLOPE = [
             x: 0.4,
             y: 0.7,
             content: 'Steep.',
-            direction: 'up-right-right',
-            distance: 0.6,
+            direction: 'up-right',
+            distance: 0.8,
             // speech: {
             //   content: 'This seems dangerous.',
             //   distance: 1,
@@ -276,7 +276,7 @@ const SLOPE = [
     goals: [
       {
         type: 'path',
-        expression: '-x+7',
+        expression: '-x+8',
         pathX: 6,
         x: 2,
         y: 0,
@@ -286,20 +286,24 @@ const SLOPE = [
       {
         speech: [
           {
+            y: 0.6,
             speakerX: -0.4,
-            content: '…sorry.',
+            // speakerY: 0.6,
+            content: '…ok.',
             direction: 'up-left',
             distance: 1,
             speech: {
-              content: 'Things seem better today!',
+              content: "Hey, I'm sorry about last night.",
               distance: 1,
             },
           },
           {
-            speakerX: 0.3,
+            y: 0.7,
+            speakerX: 0.5,
+            // speakerY: 0.7,
             content: 'Yeah. Can we not talk about it?',
             direction: 'right-up-up',
-            distance: 1.3,
+            distance: 1.25,
           },
         ],
       },
