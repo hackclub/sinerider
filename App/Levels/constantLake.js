@@ -25,20 +25,20 @@ const CONSTANT_LAKE = {
       },
       state1: {
         position: [2, 8],
-        fov: 12,
+        fov: 10,
       },
     },
     {
       type: 'lerp',
       point0: [6, 0],
-      point1: [25, 0],
+      point1: [30, 0],
       state0: {
         position: [2, 8],
-        fov: 12,
+        fov: 10,
       },
       state1: {
-        position: [30, 10],
-        fov: 10,
+        position: [34, 14],
+        fov: 12,
       },
     },
   ],
@@ -108,7 +108,7 @@ const CONSTANT_LAKE = {
       direction: 'up-up-left',
       speech: {
         speaker: 'Jack',
-        content: 'Can we take it easy?',
+        content: "Winning isn't everything!",
         direction: 'up',
         x: -0.6,
         y: 1.3,
@@ -127,7 +127,7 @@ const CONSTANT_LAKE = {
       content: 'Sweet but wrong.',
       direction: 'up-up-left',
       gap: 1,
-      length: 1.5,
+      length: 2,
     },
     {
       speaker: 'Ada',
@@ -157,10 +157,8 @@ const CONSTANT_LAKE = {
     {
       speaker: 'Jack',
       content: 'At a minimum.',
-      color: '#fff',
       direction: 'up-up-right',
       speech: {
-        color: '#fff',
         content: "Let's stop for the sunset.",
         direction: 'up',
         x: 0.6,
@@ -208,7 +206,7 @@ const CONSTANT_LAKE = {
       x: -22,
       victoryX: 35,
       asset: 'images.benny_float',
-      range: [-26, 37],
+      range: [-24, 37],
       walkers: {
         name: 'Ada',
         x: -24,
