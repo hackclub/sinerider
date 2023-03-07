@@ -151,43 +151,76 @@ function Level(spec) {
     // Expand `dialogue` array to individual speech objects
     const dialogue = datum.dialogue
     const walkers = datum.walkers ?? []
+    const allWalkers = [
+      ...walkers,
+      ..._.flatten(
+        walkers.map((v) =>
+          _.isArray(v.walkers)
+            ? v.walkers
+            : _.isObject(v.walkers)
+            ? [v.walkers]
+            : [],
+        ),
+      ),
+    ]
 
     if (dialogue) {
+      console.log(allWalkers)
       for (const line of dialogue) {
-        const speaker = walkers.find((walker) => walker.name == line.speaker)
+        if (!line.speaker) {
+          throw new Error(
+            `Line of dialogue '${line.content}' has no speaker specified in level '${datum.name}'`,
+          )
+        }
+        const speaker = allWalkers.find((walker) => walker.name == line.speaker)
         if (!speaker) {
           throw new Error(
             `Tried to add line of dialogue for unknown speaker '${line.speaker}' in level '${datum.name}'`,
           )
         }
 
+        // Add default length and gap values
+        if (_.isUndefined(line.domain)) {
+          if (_.isUndefined(line.length)) line.length = 3
+          if (_.isUndefined(line.gap)) line.gap = 2
+        }
+
+        // Add default positions
+        if (line.speaker == 'Ada') {
+          if (_.isUndefined(line.x)) line.x = 0
+          if (_.isUndefined(line.y)) line.y = 0.7
+        } else if (line.speaker == 'Jack') {
+          if (_.isUndefined(line.x)) line.x = 0
+          if (_.isUndefined(line.y)) line.y = 0.8
+        }
+
         if (!speaker.speech) speaker.speech = []
         speaker.speech.push(line)
       }
-    }
-
-    // then length/gap for each speaker
-    for (const walker of walkers) {
-      if (!walker.speech) continue
 
       let previous = null
 
-      for (const speech of walker.speech) {
-        if (speech.length) {
-          if (speech.domain) {
+      for (const line of dialogue) {
+        if (line.length) {
+          if (line.domain) {
             throw new Error(
-              `Tried to set length of line of dialogue in level '${datum.name}' for walker '${walker.name}' with existing domain`,
+              `Tried to set length of line of dialogue in level '${datum.name}' with existing domain`,
             )
           }
-          // By default start at 0
+
+          // Hard-coded assumption that the speaker we care about is the first one.
+          // We only support a single top-level walker anyway…
+          const speaker = walkers[0]
+
+          // By default start at speaker x
           const endOfLastLine =
-            (previous && previous.domain && previous.domain[1]) || 0
-          const start = endOfLastLine + speech.gap
-          const domain = [start, start + speech.length]
-          speech.domain = domain
+            (previous && previous.domain && previous.domain[1]) || speaker.x
+          const start = endOfLastLine + line.gap
+          const domain = [start, start + line.length]
+          line.domain = domain
         }
 
-        previous = speech
+        previous = line
       }
     }
 
@@ -367,7 +400,7 @@ function Level(spec) {
       const x = walkers[0].transform.position.x
 
       drawConstantLakeEditor(x)
-      darkenBufferOpacity = Math.min(0.9, Math.pow(x / 20, 2))
+      darkenBufferOpacity = Math.min(0.9, Math.pow(Math.max(0, x) / 20, 2))
 
       const walkerDarkenOpacity = Math.pow(darkenBufferOpacity, 5)
 
