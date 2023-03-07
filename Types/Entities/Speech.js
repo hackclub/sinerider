@@ -269,6 +269,8 @@ function Speech(spec) {
   return self.mix({
     transform,
 
+    domain,
+
     awake,
     tick,
     draw,

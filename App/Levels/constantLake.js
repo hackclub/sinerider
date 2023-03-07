@@ -3,6 +3,7 @@ const CONSTANT_LAKE = {
   nick: 'CONSTANT_LAKE',
   colors: Colors.biomes.alps,
   axesEnabled: false,
+  runAsCutscene: true,
   x: 10,
   y: 10,
   camera: {
@@ -90,6 +91,7 @@ const CONSTANT_LAKE = {
   ],
   walkers: [
     {
+      name: 'Jack',
       x: -4,
       victoryX: 26,
       asset: 'images.benny_float',

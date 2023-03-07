@@ -1,15 +1,23 @@
+/**
+ * Base class representing a level scene with
+ * a graph, camera/director(s) and walkers/sledders/sprites/text.
+ * Can be started, stopped, reset, serialized and takes in a levelCompleted
+ * callback which is invoked whenever the level's completion condition is met.
+ */
 function Level(spec) {
   const { self, assets, screen, ui } = Entity(spec, 'Level')
 
   const {
     globalScope,
     levelCompleted,
-    datum,
     isBubbleLevel,
+    datum,
     storage,
     savedLatex,
     world,
   } = spec
+
+  preprocessDatum(datum)
 
   let {
     colors = Colors.biomes.alps,
@@ -136,6 +144,96 @@ function Level(spec) {
     defaultVectorExpression = savedLatex
   }
 
+  function preprocessDatum(datum) {
+    // Reuse datum across levels/bubbles
+    if (datum._preprocessed) return
+    console.log('Preprocessing for level', datum.name)
+    // Expand `dialogue` array to individual speech objects
+    const dialogue = datum.dialogue
+    const walkers = datum.walkers ?? []
+
+    if (dialogue) {
+      for (const line of dialogue) {
+        const speaker = walkers.find((walker) => walker.name == line.speaker)
+        if (!speaker) {
+          throw new Error(
+            `Tried to add line of dialogue for unknown speaker '${line.speaker}' in level '${datum.name}'`,
+          )
+        }
+
+        if (!speaker.speech) speaker.speech = []
+        speaker.speech.push(line)
+      }
+    }
+
+    // then length/gap for each speaker
+    for (const walker of walkers) {
+      if (!walker.speech) continue
+
+      let previous = null
+
+      for (const speech of walker.speech) {
+        if (speech.length) {
+          if (speech.domain) {
+            throw new Error(
+              `Tried to set length of line of dialogue in level '${datum.name}' for walker '${walker.name}' with existing domain`,
+            )
+          }
+          // By default start at 0
+          const endOfLastLine =
+            (previous && previous.domain && previous.domain[1]) || 0
+          const start = endOfLastLine + speech.gap
+          const domain = [start, start + speech.length]
+          speech.domain = domain
+        }
+
+        previous = speech
+      }
+    }
+
+    // Also split up processed speech bubbles with \n
+    for (const walker of walkers) {
+      if (!walker.speech) continue
+
+      const newLines = []
+      const removeIndices = []
+
+      for (let i = 0; i < walker.speech.length; i++) {
+        const speech = walker.speech[i]
+        const content = speech.content
+        if (!content) continue
+        let lines = content.split('\n')
+        if (lines.length > 0) {
+          removeIndices.push(i)
+          let previous = null
+          for (let line of lines) {
+            const newSpeech = _.cloneDeep(speech)
+            newSpeech.content = line
+            newSpeech.distance =
+              ((previous && previous.distance) || lines.length * 0.4 + 1.1) -
+              0.4
+            if (!newSpeech.content)
+              console.log(
+                'adding new lines',
+                newLines.filter((line) => line.content == null),
+                newSpeech,
+              )
+            newLines.push(newSpeech)
+            previous = newSpeech
+          }
+        }
+      }
+
+      for (let i = removeIndices.length; i--; i >= 0) {
+        walker.speech.splice(removeIndices[i], 1)
+      }
+
+      walker.speech = walker.speech.concat(newLines)
+    }
+
+    datum._preprocessed = true
+  }
+
   function isEditor() {
     return datum.nick == 'LEVEL_EDITOR'
   }
@@ -189,6 +287,7 @@ function Level(spec) {
       // If X values met then make transition
       if (transition.xRequirements.length == 0) {
         const target = self.children.find((s) => s.name === transition.name)
+
         if (!target)
           throw Error(
             `Unable to find transition target from '${entity.name}' to '${transition.name}' (check the manifest!)`,
