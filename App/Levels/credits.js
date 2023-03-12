@@ -39,14 +39,14 @@ const CREDITS = {
     },
     {
       type: 'lerp',
-      point0: [-6, 0],
-      point1: [-2, 0],
+      point0: [-4, 0],
+      point1: [0, 0],
       state0: {
         position: [10, 6],
         fov: 18,
       },
       state1: {
-        position: [10, -8],
+        position: [10, -10],
         fov: 18,
       },
     },
@@ -278,8 +278,22 @@ const CREDITS = {
     asset: 'images.initial_bg',
     margin: 1,
   },
-  // snow: {},
-  sounds: [],
+  snow: {
+    density: 0.1,
+    maxHeight: 8,
+    velocity: {
+      x: 0.2,
+      y: 0.4,
+    },
+  },
+  sounds: [
+    {
+      asset: 'sounds.music.credits',
+      domain: [-6, -0],
+      // fadeOut: 800,
+      // duration: 20000,
+    },
+  ],
   walkers: [
     {
       name: 'Ada',

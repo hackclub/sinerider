@@ -80,6 +80,7 @@ worldData.push({
     sounds: {
       music: {
         intro: '.mp3',
+        credits: '.mp3',
         constant_lake: {
           base: 'base_compressed.mp3',
           pad_1_loopable: 'pad_1_loopable_compressed.mp3',
