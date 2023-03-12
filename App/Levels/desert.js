@@ -43,7 +43,7 @@ const DESERT = {
   ],
   goals: [],
   sky: {
-    asset: 'images.sinusoidaldesertbiome_2',
+    asset: 'images.sinusoidal_desert_background',
     margin: 1,
   },
   dialogue: [
