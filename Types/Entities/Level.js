@@ -10,12 +10,14 @@ function Level(spec) {
   const {
     globalScope,
     levelCompleted,
-    datum,
     isBubbleLevel,
+    datum,
     storage,
     savedLatex,
     world,
   } = spec
+
+  preprocessDatum(datum)
 
   let {
     colors = Colors.biomes.alps,
@@ -27,6 +29,7 @@ function Level(spec) {
     flashRunButton = false,
     runAsCutscene = false,
     camera: cameraSpec = {},
+    victoryX = null,
   } = datum
 
   const quads = globalScope.quads
@@ -142,6 +145,129 @@ function Level(spec) {
     defaultVectorExpression = savedLatex
   }
 
+  function preprocessDatum(datum) {
+    // Reuse datum across levels/bubbles
+    if (datum._preprocessed) return
+    console.log('Preprocessing for level', datum.name)
+    // Expand `dialogue` array to individual speech objects
+    const dialogue = datum.dialogue
+    const walkers = datum.walkers ?? []
+    const allWalkers = [
+      ...walkers,
+      ..._.flatten(
+        walkers.map((v) =>
+          _.isArray(v.walkers)
+            ? v.walkers
+            : _.isObject(v.walkers)
+            ? [v.walkers]
+            : [],
+        ),
+      ),
+    ]
+
+    if (dialogue) {
+      console.log(allWalkers)
+      for (const line of dialogue) {
+        if (!line.speaker) {
+          throw new Error(
+            `Line of dialogue '${line.content}' has no speaker specified in level '${datum.name}'`,
+          )
+        }
+        const speaker = allWalkers.find((walker) => walker.name == line.speaker)
+        if (!speaker) {
+          throw new Error(
+            `Tried to add line of dialogue for unknown speaker '${line.speaker}' in level '${datum.name}'`,
+          )
+        }
+
+        // Add default length and gap values
+        if (_.isUndefined(line.domain)) {
+          if (_.isUndefined(line.length)) line.length = 3
+          if (_.isUndefined(line.gap)) line.gap = 2
+        }
+
+        // Add default positions
+        if (line.speaker == 'Ada') {
+          if (_.isUndefined(line.x)) line.x = 0
+          if (_.isUndefined(line.y)) line.y = 0.7
+        } else if (line.speaker == 'Jack') {
+          if (_.isUndefined(line.x)) line.x = 0
+          if (_.isUndefined(line.y)) line.y = 0.8
+        }
+
+        if (!speaker.speech) speaker.speech = []
+        speaker.speech.push(line)
+      }
+
+      let previous = null
+
+      for (const line of dialogue) {
+        if (line.length) {
+          if (line.domain) {
+            throw new Error(
+              `Tried to set length of line of dialogue in level '${datum.name}' with existing domain`,
+            )
+          }
+
+          // Hard-coded assumption that the speaker we care about is the first one.
+          // We only support a single top-level walker anyway…
+          const speaker = walkers[0]
+
+          // By default start at speaker x
+          const endOfLastLine =
+            (previous && previous.domain && previous.domain[1]) || speaker.x
+          const start = endOfLastLine + line.gap
+          const domain = [start, start + line.length]
+          line.domain = domain
+        }
+
+        previous = line
+      }
+    }
+
+    // Also split up processed speech bubbles with \n
+    for (const walker of walkers) {
+      if (!walker.speech) continue
+
+      const newLines = []
+      const removeIndices = []
+
+      for (let i = 0; i < walker.speech.length; i++) {
+        const speech = walker.speech[i]
+        const content = speech.content
+        if (!content) continue
+        let lines = content.split('\n')
+        if (lines.length > 0) {
+          removeIndices.push(i)
+          let previous = null
+          for (let line of lines) {
+            const newSpeech = _.cloneDeep(speech)
+            newSpeech.content = line
+            newSpeech.distance =
+              ((previous && previous.distance) || lines.length * 0.4 + 1.1) -
+              0.4
+            if (!newSpeech.content)
+              console.log(
+                'adding new lines',
+                newLines.filter((line) => line.content == null),
+                newSpeech,
+              )
+            newLines.push(newSpeech)
+            previous = newSpeech
+          }
+        }
+      }
+
+      for (let i = removeIndices.length; i--; i >= 0) {
+        walker.speech.splice(removeIndices[i], 1)
+      }
+
+      walker.speech = walker.speech.concat(newLines)
+    }
+
+    datum._preprocessed = true
+  }
+
   function isEditor() {
     return datum.nick == 'LEVEL_EDITOR'
   }
@@ -222,6 +348,8 @@ function Level(spec) {
   function getCutsceneDistanceParameter() {
     let playerEntity =
       walkers.find((s) => s.active) || sledders.find((w) => w.active)
+    if (!playerEntity)
+      throw "Couldn't find a player entity for cutscene distance parameter"
     return playerEntity?.transform.x.toFixed(1)
   }
 
@@ -246,6 +374,13 @@ function Level(spec) {
     }
     for (const sledder of sledders) {
       checkTransition(sledder)
+    }
+
+    if (victoryX != null && !completed) {
+      if (getCutsceneDistanceParameter() > victoryX) {
+        completed = true
+        levelCompleted(true)
+      }
     }
 
     // ui.timeString.innerHTML = 'T='+time
@@ -275,7 +410,7 @@ function Level(spec) {
       const x = walkers[0].transform.position.x
 
       drawConstantLakeEditor(x)
-      darkenBufferOpacity = Math.min(0.9, Math.pow(x / 20, 2))
+      darkenBufferOpacity = Math.min(0.9, Math.pow(Math.max(0, x) / 20, 2))
 
       const walkerDarkenOpacity = Math.pow(darkenBufferOpacity, 5)
 

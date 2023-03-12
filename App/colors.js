@@ -35,9 +35,9 @@ const Colors = {
         [0, '#8048ff'],
         [1, '#55aaff'],
       ],
-      groundFill: '#115555',
-      groundPattern: '#113333',
-      groundStroke: '#ffffff',
+      groundFill: '#5c845e',
+      groundPattern: '#104642',
+      groundStroke: '#beb759',
       groundStrokeWidth: 12,
     },
     wetlands: {

@@ -33,9 +33,6 @@ function Sound(spec) {
     if (domain) {
       const x = level?.cutsceneDistanceParameter
 
-      if (!x)
-        throw `Expected level to not be null and return a valid distance parameter for Sound domain in tick()`
-
       // Sounds w/ domains only play once
       if (x > domain[0] && !howl.playing() && !played) {
         played = true
@@ -47,8 +44,13 @@ function Sound(spec) {
 
       let volume = math.clamp01(math.unlerp(domain[0], domain[1], x))
 
-      if (domain.length == 4)
+      if (domain.length == 4) {
+        if (self.debug)
+          console.log(
+            `${self.name} distance parameter: ${level.cutsceneDistanceParameter} volume: ${volume}`,
+          )
         volume *= math.clamp01(math.unlerp(domain[3], domain[2], x))
+      }
 
       howl.volume(volume)
     }

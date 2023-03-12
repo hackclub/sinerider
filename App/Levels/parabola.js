@@ -43,7 +43,7 @@ const PARABOLA = [
       },
     ],
     sky: {
-      asset: 'images.valley_background',
+      asset: 'images.valley_parabola_background',
       margin: 1,
     },
     sprites: [],
@@ -83,7 +83,7 @@ const PARABOLA = [
       },
     ],
     sky: {
-      asset: 'images.valley_background',
+      asset: 'images.valley_parabola_background',
       margin: 1,
     },
   },
@@ -122,7 +122,7 @@ const PARABOLA = [
       },
     ],
     sky: {
-      asset: 'images.valley_background',
+      asset: 'images.valley_parabola_background',
       margin: 1,
     },
   },
@@ -157,7 +157,7 @@ const PARABOLA = [
       },
     ],
     sky: {
-      asset: 'images.valley_background',
+      asset: 'images.valley_parabola_background',
       margin: 1,
     },
   },
@@ -190,7 +190,7 @@ const PARABOLA = [
       },
     ],
     sky: {
-      asset: 'images.valley_background',
+      asset: 'images.valley_parabola_background',
       margin: 1,
     },
   },
@@ -224,7 +224,7 @@ const PARABOLA = [
       },
     ],
     sky: {
-      asset: 'images.valley_background',
+      asset: 'images.valley_parabola_background',
       margin: 1,
     },
   },
@@ -254,7 +254,7 @@ const PARABOLA = [
       },
     ],
     sky: {
-      asset: 'images.valley_background',
+      asset: 'images.valley_parabola_background',
       margin: 1,
     },
   },
@@ -292,7 +292,7 @@ const PARABOLA = [
       },
     ],
     sky: {
-      asset: 'images.valley_background',
+      asset: 'images.valley_parabola_background',
       margin: 1,
     },
   },

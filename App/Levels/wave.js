@@ -63,7 +63,7 @@ const WAVE = [
       },
     ],
     sky: {
-      asset: 'images.sinusoidaldesertbiome_1',
+      asset: 'images.sinusoidal_desert_background',
       margin: 1,
     },
   },
@@ -133,7 +133,7 @@ const WAVE = [
       },
     ],
     sky: {
-      asset: 'images.sinusoidaldesertbiome_1',
+      asset: 'images.sinusoidal_desert_background',
       margin: 1,
     },
   },
@@ -175,7 +175,7 @@ const WAVE = [
       },
     ],
     sky: {
-      asset: 'images.sinusoidaldesertbiome_1',
+      asset: 'images.sinusoidal_desert_background',
       margin: 1,
     },
   },
@@ -220,7 +220,7 @@ const WAVE = [
       },
     ],
     sky: {
-      asset: 'images.sinusoidaldesertbiome_1',
+      asset: 'images.sinusoidal_desert_background',
       margin: 1,
     },
   },
@@ -261,7 +261,7 @@ const WAVE = [
       },
     ],
     sky: {
-      asset: 'images.sinusoidaldesertbiome_1',
+      asset: 'images.sinusoidal_desert_background',
       margin: 1,
     },
   },
@@ -306,7 +306,7 @@ const WAVE = [
       },
     ],
     sky: {
-      asset: 'images.sinusoidaldesertbiome_1',
+      asset: 'images.sinusoidal_desert_background',
       margin: 1,
     },
   },
@@ -345,7 +345,7 @@ const WAVE = [
       },
     ],
     sky: {
-      asset: 'images.sinusoidaldesertbiome_1',
+      asset: 'images.sinusoidal_desert_background',
       margin: 1,
     },
   },

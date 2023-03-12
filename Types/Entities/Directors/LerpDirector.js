@@ -46,7 +46,7 @@ function LerpDirector(spec) {
 
   function canControl() {
     const c = point1[0] > playerPosition.x
-    console.log(`Can control lerp director: ${c}`, state0, state1, progress)
+    // console.log(`Can control lerp director: ${c}`, state0, state1, progress)
     return c
   }
 

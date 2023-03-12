@@ -52,19 +52,16 @@ function Sprite(spec = {}) {
   if (speech) {
     if (!_.isArray(speech)) speech = [speech]
 
-    let previous = null
-
     for (s of speech) {
       if (_.isString(s)) s = { content: s }
 
-      previous = Speech({
+      Speech({
         parent: self,
         globalScope,
         x: size * offset.x,
         y: size * offset.y,
         drawOrder: LAYERS.speech,
         screen: speechScreen,
-        previous,
         ...s,
       })
     }
