@@ -29,6 +29,7 @@ function Level(spec) {
     flashRunButton = false,
     runAsCutscene = false,
     camera: cameraSpec = {},
+    victoryX = null,
   } = datum
 
   const quads = globalScope.quads
@@ -347,6 +348,8 @@ function Level(spec) {
   function getCutsceneDistanceParameter() {
     let playerEntity =
       walkers.find((s) => s.active) || sledders.find((w) => w.active)
+    if (!playerEntity)
+      throw "Couldn't find a player entity for cutscene distance parameter"
     return playerEntity?.transform.x.toFixed(1)
   }
 
@@ -371,6 +374,13 @@ function Level(spec) {
     }
     for (const sledder of sledders) {
       checkTransition(sledder)
+    }
+
+    if (victoryX != null && !completed) {
+      if (getCutsceneDistanceParameter() > victoryX) {
+        completed = true
+        levelCompleted(true)
+      }
     }
 
     // ui.timeString.innerHTML = 'T='+time
