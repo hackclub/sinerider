@@ -2,7 +2,7 @@ const PARABOLA = [
   {
     name: 'Way too steep for us.',
     nick: 'PARABOLA_NEGATE',
-    biome: 'valleyOfTheParabola',
+    biome: 'valleyParabola',
     x: 20,
     y: 20,
     requirements: ['SLOPE_SCALE_TRANSLATE'],
@@ -42,7 +42,7 @@ const PARABOLA = [
   {
     name: 'Translate Y',
     nick: 'PARABOLA_TRANSLATE_Y',
-    biome: 'valleyOfTheParabola',
+    biome: 'valleyParabola',
     x: 10,
     y: 0,
     requirements: ['PARABOLA_NEGATE'],
@@ -72,7 +72,7 @@ const PARABOLA = [
   {
     name: 'Translate X',
     nick: 'PARABOLA_TRANSLATE_X',
-    biome: 'valleyOfTheParabola',
+    biome: 'valleyParabola',
     x: 10,
     y: 10,
     camera: {
@@ -107,7 +107,7 @@ const PARABOLA = [
   {
     name: 'Translate XY',
     nick: 'PARABOLA_TRANSLATE_X_Y',
-    biome: 'valleyOfTheParabola',
+    biome: 'valleyParabola',
     x: 10,
     y: 10,
     camera: {
@@ -138,7 +138,7 @@ const PARABOLA = [
   {
     name: 'Way too steep for us.',
     nick: 'PARABOLA_SCALE_Y',
-    biome: 'valleyOfTheParabola',
+    biome: 'valleyParabola',
     x: 0,
     y: 10,
     requirements: ['PARABOLA_NEGATE'],
@@ -167,7 +167,7 @@ const PARABOLA = [
   {
     name: 'Scale X',
     nick: 'PARABOLA_SCALE_X',
-    biome: 'valleyOfTheParabola',
+    biome: 'valleyParabola',
     x: 10,
     y: 10,
     requirements: null,
@@ -197,7 +197,7 @@ const PARABOLA = [
   {
     name: 'Translate Scale X',
     nick: 'PARABOLA_TRANSLATE_SCALE_X',
-    biome: 'valleyOfTheParabola',
+    biome: 'valleyParabola',
     x: -10,
     y: 10,
     requirements: ['PARABOLA_TRANSLATE_X_Y', 'PARABOLA_SCALE_X'],
@@ -223,7 +223,7 @@ const PARABOLA = [
   {
     name: 'Translate Scale XY',
     nick: 'PARABOLA_TRANSLATE_SCALE_X_Y',
-    biome: 'valleyOfTheParabola',
+    biome: 'valleyParabola',
     x: 20,
     y: 0,
     requirements: null,

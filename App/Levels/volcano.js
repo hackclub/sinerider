@@ -451,14 +451,12 @@ const VOLCANO = (() => {
         x: -34.5,
       },
     ],
+    backgroundMusic: {
+      asset: 'sounds.music.volcano.start',
+      volume: 0.4,
+      domain: [-1001, -1000, -45, -40],
+    },
     sounds: [
-      {
-        asset: 'sounds.music.volcano.start',
-        loop: true,
-        volume: 0.4,
-        domain: [-1001, -1000, -45, -40],
-        debug: true,
-      },
       {
         asset: 'sounds.music.volcano.jump',
         loop: false,

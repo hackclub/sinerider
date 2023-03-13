@@ -59,12 +59,11 @@ const CONSTANT_LAKE = {
       margin: 1,
     },
   },
+  backgroundMusic: {
+    asset: 'sounds.music.constant_lake.base',
+    volume: 0.2,
+  },
   sounds: [
-    {
-      asset: 'sounds.music.constant_lake.base',
-      loop: true,
-      volume: 0.2,
-    },
     {
       asset: 'sounds.music.constant_lake.pad_1_loopable',
       loop: true,

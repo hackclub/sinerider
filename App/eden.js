@@ -81,6 +81,12 @@ worldData.push({
       music: {
         intro: '.mp3',
         credits: '.mp3',
+        map: '.mp3',
+        western_slopes_puzzle: '.mp3',
+        valley_parabola_puzzle: '.mp3',
+        eternal_canyon_puzzle: '.mp3',
+        sinusoidal_desert_puzzle: '.mp3',
+        logistic_dunes_puzzle: '.mp3',
         constant_lake: {
           base: 'base_compressed.mp3',
           pad_1_loopable: 'pad_1_loopable_compressed.mp3',

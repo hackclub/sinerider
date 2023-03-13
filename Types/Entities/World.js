@@ -59,6 +59,9 @@ function World(spec) {
     entity: self,
   })
 
+  let backgroundMusicAsset = null
+  let backgroundMusicSound = null
+
   let navigator
 
   let level
@@ -153,6 +156,7 @@ function World(spec) {
       globalScope,
       active: !navigating,
       levelCompleted,
+      playBackgroundMusic,
       tickDelta,
       isBubbleLevel: false,
       world: self,
@@ -354,6 +358,38 @@ function World(spec) {
       goals,
       sledders,
     }
+  }
+
+  function playBackgroundMusic(datum, level) {
+    let asset
+
+    if (!_.isObject(datum)) datum = { asset: datum }
+
+    asset = datum.asset
+
+    if (asset == backgroundMusicAsset) return
+
+    if (backgroundMusicSound != null) {
+      backgroundMusicSound.fadeDestroy()
+      backgroundMusicAsset = null
+      backgroundMusicSound = null
+    }
+
+    if (asset == null) return
+
+    backgroundMusicAsset = asset
+    backgroundMusicSound = Sound({
+      asset,
+      assets,
+      level,
+      name: 'Sound ' + asset,
+      parent: self,
+      loop: true,
+      fadeOnNavigating: false,
+      ...datum,
+    })
+
+    console.log(`Playing sound ${backgroundMusicAsset}`)
   }
 
   function onClickMapButton() {

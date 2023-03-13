@@ -15,6 +15,7 @@ function Level(spec) {
     storage,
     savedLatex,
     world,
+    playBackgroundMusic,
   } = spec
 
   preprocessDatum(datum)
@@ -169,7 +170,6 @@ function Level(spec) {
     ]
 
     if (dialogue) {
-      console.log(allWalkers)
       for (const line of dialogue) {
         if (!line.speaker) {
           throw new Error(
@@ -281,6 +281,8 @@ function Level(spec) {
     // Add a variable to globalScope for player position
     globalScope.p = math.complex()
     assignPlayerPosition()
+
+    playBackgroundMusic(datum.backgroundMusic, self)
 
     if (runAsCutscene) {
       // Don't play sound, keep navigator

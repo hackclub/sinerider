@@ -17,13 +17,15 @@ const BIOMES = {
   },
   westernSlopes: {
     colors: Colors.biomes.alps,
+    backgroundMusic: 'sounds.music.western_slopes_puzzle',
     sky: {
       asset: 'images.western_slopes_background',
       margin: 1,
     },
   },
-  valleyOfTheParabola: {
+  valleyParabola: {
     colors: Colors.biomes.champlain,
+    backgroundMusic: 'sounds.music.valley_parabola_puzzle',
     sky: {
       asset: 'images.valley_parabola_background',
       margin: 1,
@@ -31,6 +33,7 @@ const BIOMES = {
   },
   eternalCanyon: {
     colors: Colors.biomes.gunnison,
+    backgroundMusic: 'sounds.music.eternal_canyon_puzzle',
     sky: {
       asset: 'images.eternal_canyon_background',
       margin: 1,
@@ -38,6 +41,7 @@ const BIOMES = {
   },
   sinusoidalDesert: {
     colors: Colors.biomes.arches,
+    backgroundMusic: 'sounds.music.sinusoidal_desert_puzzle',
     sky: {
       asset: 'images.sinusoidal_desert_background',
       margin: 1,
@@ -45,6 +49,7 @@ const BIOMES = {
   },
   logisticDunes: {
     colors: Colors.biomes.mojave,
+    backgroundMusic: 'sounds.music.logistic_dunes_puzzle',
     sky: {
       asset: 'images.logistic_dunes_background',
       margin: 1,

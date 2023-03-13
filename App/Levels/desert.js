@@ -204,11 +204,8 @@ const DESERT = {
     },
   ],
   sprites: [],
-  sounds: [
-    {
-      asset: 'sounds.music.desert.western_loop',
-      volume: 0.4,
-      loop: true,
-    },
-  ],
+  backgroundMusic: {
+    asset: 'sounds.music.desert.western_loop',
+    volume: 0.4,
+  },
 }
