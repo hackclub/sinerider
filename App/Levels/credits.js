@@ -1,7 +1,7 @@
 const CREDITS = {
   name: 'Credits',
   nick: 'CREDITS',
-  colors: Colors.biomes.home,
+  biome: 'home',
   axesEnabled: false,
   runAsCutscene: true,
   x: -10,
@@ -274,18 +274,6 @@ const CREDITS = {
   ],
   goals: [],
   sledders: [],
-  sky: {
-    asset: 'images.initial_bg',
-    margin: 1,
-  },
-  snow: {
-    density: 0.1,
-    maxHeight: 8,
-    velocity: {
-      x: 0.2,
-      y: 0.4,
-    },
-  },
   sounds: [
     {
       asset: 'sounds.music.credits',

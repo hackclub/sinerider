@@ -2,7 +2,7 @@ const OOO = [
   {
     name: 'Out of Order 1',
     nick: 'OUT_OF_ORDER_1',
-    colors: Colors.biomes.everglades,
+    biome: 'hilbertDelta',
     x: 10,
     y: -10,
     requirements: ['TWO_BESIDE'],
@@ -20,15 +20,11 @@ const OOO = [
       },
     ],
     sledders: [{}],
-    sky: {
-      asset: 'images.hilbert_swamp_background',
-      margin: 1,
-    },
   },
   {
     name: 'Out of Order 2',
     nick: 'OUT_OF_ORDER_2',
-    colors: Colors.biomes.everglades,
+    biome: 'hilbertDelta',
     x: 0,
     y: -20,
     requirements: null,
@@ -51,15 +47,11 @@ const OOO = [
       },
     ],
     sledders: [{}],
-    sky: {
-      asset: 'images.hilbert_swamp_background',
-      margin: 1,
-    },
   },
   {
     name: 'Out of Order 3',
     nick: 'OUT_OF_ORDER_3',
-    colors: Colors.biomes.everglades,
+    biome: 'hilbertDelta',
     x: 10,
     y: 0,
     requirements: null,
@@ -87,15 +79,11 @@ const OOO = [
       },
     ],
     sledders: [{}],
-    sky: {
-      asset: 'images.hilbert_swamp_background',
-      margin: 1,
-    },
   },
   {
     name: 'Out of Order 4',
     nick: 'OUT_OF_ORDER_4',
-    colors: Colors.biomes.everglades,
+    biome: 'hilbertDelta',
     x: -10,
     y: -10,
     requirements: ['OUT_OF_ORDER_2'],
@@ -123,15 +111,11 @@ const OOO = [
       },
     ],
     sledders: [{}],
-    sky: {
-      asset: 'images.hilbert_swamp_background',
-      margin: 1,
-    },
   },
   {
     name: 'Out of Order 5',
     nick: 'OUT_OF_ORDER_5',
-    colors: Colors.biomes.everglades,
+    biome: 'hilbertDelta',
     x: -10,
     y: 0,
     requirements: null,
@@ -169,15 +153,11 @@ const OOO = [
       },
     ],
     sledders: [{}],
-    sky: {
-      asset: 'images.hilbert_swamp_background',
-      margin: 1,
-    },
   },
   {
     name: 'Out of Order 6',
     nick: 'OUT_OF_ORDER_6',
-    colors: Colors.biomes.everglades,
+    biome: 'hilbertDelta',
     x: 10,
     y: -10,
     requirements: ['OUT_OF_ORDER_2'],
@@ -213,9 +193,5 @@ const OOO = [
       { x: -12, y: 0, asset: 'images.sam_sled' },
       { x: 12, y: 0, asset: 'images.lunchbox_sled' },
     ],
-    sky: {
-      asset: 'images.hilbert_swamp_background',
-      margin: 1,
-    },
   },
 ]

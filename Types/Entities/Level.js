@@ -148,7 +148,10 @@ function Level(spec) {
   function preprocessDatum(datum) {
     // Reuse datum across levels/bubbles
     if (datum._preprocessed) return
-    console.log('Preprocessing for level', datum.name)
+
+    // Add biome defaults
+    if (datum.biome) _.defaults(datum, BIOMES[datum.biome])
+
     // Expand `dialogue` array to individual speech objects
     const dialogue = datum.dialogue
     const walkers = datum.walkers ?? []

@@ -2,7 +2,7 @@ const WAVE = [
   {
     name: 'Sin',
     nick: 'SIN',
-    colors: Colors.biomes.arches,
+    biome: 'sinusoidalDesert',
     x: 20,
     y: -20,
     requirements: [
@@ -62,15 +62,11 @@ const WAVE = [
         ],
       },
     ],
-    sky: {
-      asset: 'images.sinusoidal_desert_background',
-      margin: 1,
-    },
   },
   {
     name: 'Cos',
     nick: 'COS',
-    colors: Colors.biomes.arches,
+    biome: 'sinusoidalDesert',
     x: 20,
     y: 0,
     requirements: [null],
@@ -132,16 +128,12 @@ const WAVE = [
         ],
       },
     ],
-    sky: {
-      asset: 'images.sinusoidal_desert_background',
-      margin: 1,
-    },
   },
   DESERT,
   {
     name: 'Cos',
     nick: 'COS_SCALE_X_Y',
-    colors: Colors.biomes.arches,
+    biome: 'sinusoidalDesert',
     x: 0,
     y: -20,
     requirements: ['DESERT'],
@@ -174,15 +166,11 @@ const WAVE = [
         y: 0,
       },
     ],
-    sky: {
-      asset: 'images.sinusoidal_desert_background',
-      margin: 1,
-    },
   },
   {
     name: 'Sin Translate X',
     nick: 'SIN_TRANSLATE_X',
-    colors: Colors.biomes.arches,
+    biome: 'sinusoidalDesert',
     x: -10,
     y: -10,
     requirements: ['DESERT'],
@@ -219,15 +207,11 @@ const WAVE = [
         y: 0,
       },
     ],
-    sky: {
-      asset: 'images.sinusoidal_desert_background',
-      margin: 1,
-    },
   },
   {
     name: 'Sin Translate XY',
     nick: 'SIN_TRANSLATE_X_Y',
-    colors: Colors.biomes.arches,
+    biome: 'sinusoidalDesert',
     x: 0,
     y: -20,
     requirements: [null, 'SIN_SCALE_X_Y'],
@@ -260,15 +244,11 @@ const WAVE = [
         y: 0,
       },
     ],
-    sky: {
-      asset: 'images.sinusoidal_desert_background',
-      margin: 1,
-    },
   },
   {
     name: 'Sin Scale X',
     nick: 'SIN_SCALE_X',
-    colors: Colors.biomes.arches,
+    biome: 'sinusoidalDesert',
     x: 10,
     y: -10,
     requirements: ['DESERT'],
@@ -305,15 +285,11 @@ const WAVE = [
         y: 0,
       },
     ],
-    sky: {
-      asset: 'images.sinusoidal_desert_background',
-      margin: 1,
-    },
   },
   {
     name: 'Sin Scale XY',
     nick: 'SIN_SCALE_X_Y',
-    colors: Colors.biomes.arches,
+    biome: 'sinusoidalDesert',
     x: 0,
     y: -20,
     requirements: [null],
@@ -344,9 +320,5 @@ const WAVE = [
         y: 0,
       },
     ],
-    sky: {
-      asset: 'images.sinusoidal_desert_background',
-      margin: 1,
-    },
   },
 ]

@@ -1,7 +1,7 @@
 const DESERT = {
   name: 'Desert',
   nick: 'DESERT',
-  colors: Colors.biomes.arches,
+  biome: 'sinusoidalDesert',
   axesEnabled: false,
   x: -10,
   y: -10,

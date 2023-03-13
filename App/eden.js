@@ -15,7 +15,7 @@ worldData.push({
       lavamonster_jaw: '.webp',
       lavamonster_top_jaw: '.webp',
       lavamonster_bottom_jaw: '.webp',
-      sinusoidal_desert_background: 'sinusoidal_desert_background.webp',
+      sinusoidal_desert_background: '.webp',
       sam_sled: 'ada_sled.webp',
       sam_float: 'ada_float_right.webp',
       sam_float_dark: '.svg',
@@ -46,11 +46,11 @@ worldData.push({
       tree_home_3: '.webp',
       initial_bg: 'initial-bg.webp',
       logistic_dunes_background: '.webp',
-      hilbert_swamp_background: '.webp',
+      hilbert_delta_background: '.webp',
       western_slopes_background: '.webp',
       western_slopes_background_no_sky: '.webp',
       eternal_canyon_background: '.webp',
-      valley_parabola_background: 'valley_parabola_background.webp',
+      valley_parabola_background: '.webp',
       volcano_background: '.webp',
       volcano_background_tall: '.webp',
       volcano_background_medium: '.webp',
@@ -162,7 +162,7 @@ worldData.push({
     {
       name: 'Welcome',
       nick: 'HELLO_WORLD',
-      colors: Colors.biomes.home,
+      biome: 'home',
       x: 0,
       y: 0,
       requirements: [],
@@ -170,14 +170,6 @@ worldData.push({
       flashRunButton: true,
       defaultExpression:
         '\\frac{-2}{1+e^{-x+5}}+\\frac{-2}{1+\\left(x-30\\right)^2}',
-      hint: 'congratulations, you found the secret hint!',
-      camera: {
-        offset: {
-          x: 0,
-          // y: 0.53,
-          y: 0.5,
-        },
-      },
       goals: [
         {
           type: 'dynamic',
@@ -297,19 +289,6 @@ worldData.push({
           content: 'A game about love and graphing.',
         },
       ],
-      sky: {
-        asset: 'images.initial_bg',
-        margin: 1,
-      },
-      clouds: {},
-      snow: {
-        density: 0.1,
-        maxHeight: 8,
-        velocity: {
-          x: 0.2,
-          y: 0.4,
-        },
-      },
       textBubbles: [
         {
           content: 'click here!',

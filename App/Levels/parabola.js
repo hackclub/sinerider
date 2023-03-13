@@ -2,14 +2,9 @@ const PARABOLA = [
   {
     name: 'Way too steep for us.',
     nick: 'PARABOLA_NEGATE',
-    colors: Colors.biomes.champlain,
+    biome: 'valleyOfTheParabola',
     x: 20,
     y: 20,
-    camera: {
-      x: 0,
-      y: 0,
-      fov: 8,
-    },
     requirements: ['SLOPE_SCALE_TRANSLATE'],
     defaultExpression: '-x^2',
     hint: 'do as she says!',
@@ -42,23 +37,14 @@ const PARABOLA = [
         ],
       },
     ],
-    sky: {
-      asset: 'images.valley_parabola_background',
-      margin: 1,
-    },
     sprites: [],
   },
   {
     name: 'Translate Y',
     nick: 'PARABOLA_TRANSLATE_Y',
-    colors: Colors.biomes.champlain,
+    biome: 'valleyOfTheParabola',
     x: 10,
     y: 0,
-    camera: {
-      x: 0,
-      y: 0,
-      fov: 8,
-    },
     requirements: ['PARABOLA_NEGATE'],
     defaultExpression: 'x^2-1',
     hint: 'hint: subtract from (everything)',
@@ -82,15 +68,11 @@ const PARABOLA = [
         y: 0,
       },
     ],
-    sky: {
-      asset: 'images.valley_parabola_background',
-      margin: 1,
-    },
   },
   {
     name: 'Translate X',
     nick: 'PARABOLA_TRANSLATE_X',
-    colors: Colors.biomes.champlain,
+    biome: 'valleyOfTheParabola',
     x: 10,
     y: 10,
     camera: {
@@ -121,15 +103,11 @@ const PARABOLA = [
         y: 0,
       },
     ],
-    sky: {
-      asset: 'images.valley_parabola_background',
-      margin: 1,
-    },
   },
   {
     name: 'Translate XY',
     nick: 'PARABOLA_TRANSLATE_X_Y',
-    colors: Colors.biomes.champlain,
+    biome: 'valleyOfTheParabola',
     x: 10,
     y: 10,
     camera: {
@@ -156,15 +134,11 @@ const PARABOLA = [
         y: 0,
       },
     ],
-    sky: {
-      asset: 'images.valley_parabola_background',
-      margin: 1,
-    },
   },
   {
     name: 'Way too steep for us.',
     nick: 'PARABOLA_SCALE_Y',
-    colors: Colors.biomes.champlain,
+    biome: 'valleyOfTheParabola',
     x: 0,
     y: 10,
     requirements: ['PARABOLA_NEGATE'],
@@ -189,15 +163,11 @@ const PARABOLA = [
         y: 0,
       },
     ],
-    sky: {
-      asset: 'images.valley_parabola_background',
-      margin: 1,
-    },
   },
   {
     name: 'Scale X',
     nick: 'PARABOLA_SCALE_X',
-    colors: Colors.biomes.champlain,
+    biome: 'valleyOfTheParabola',
     x: 10,
     y: 10,
     requirements: null,
@@ -223,15 +193,11 @@ const PARABOLA = [
         y: 0,
       },
     ],
-    sky: {
-      asset: 'images.valley_parabola_background',
-      margin: 1,
-    },
   },
   {
     name: 'Translate Scale X',
     nick: 'PARABOLA_TRANSLATE_SCALE_X',
-    colors: Colors.biomes.champlain,
+    biome: 'valleyOfTheParabola',
     x: -10,
     y: 10,
     requirements: ['PARABOLA_TRANSLATE_X_Y', 'PARABOLA_SCALE_X'],
@@ -253,15 +219,11 @@ const PARABOLA = [
         y: 0,
       },
     ],
-    sky: {
-      asset: 'images.valley_parabola_background',
-      margin: 1,
-    },
   },
   {
     name: 'Translate Scale XY',
     nick: 'PARABOLA_TRANSLATE_SCALE_X_Y',
-    colors: Colors.biomes.champlain,
+    biome: 'valleyOfTheParabola',
     x: 20,
     y: 0,
     requirements: null,
@@ -291,9 +253,5 @@ const PARABOLA = [
         ],
       },
     ],
-    sky: {
-      asset: 'images.valley_parabola_background',
-      margin: 1,
-    },
   },
 ]

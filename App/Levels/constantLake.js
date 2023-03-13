@@ -1,16 +1,11 @@
 const CONSTANT_LAKE = {
   name: 'Constant Lake',
   nick: 'CONSTANT_LAKE',
-  colors: Colors.biomes.alps,
+  biome: 'westernSlopes',
   axesEnabled: false,
   runAsCutscene: true,
   x: 10,
   y: 10,
-  camera: {
-    x: 2,
-    y: -2,
-    fov: 7,
-  },
   requirements: ['SLOPE_SHALLOWER', 'SLOPE_LOWER'],
   defaultExpression:
     '\\frac{3}{1+e^{-\\frac{x+22}{2}}}-\\frac{5}{1+e^{-\\frac{x-2}{4}}}+\\frac{8}{1+e^{-\\frac{x-22}{5}}}+\\frac{-8}{1+\\frac{1}{e^{x-40}}}',
@@ -488,5 +483,4 @@ const CONSTANT_LAKE = {
     y: 17,
     size: 30,
   },
-  // clouds: {},
 }

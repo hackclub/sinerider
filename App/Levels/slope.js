@@ -2,18 +2,12 @@ const SLOPE = [
   {
     name: 'A Solid Slope',
     nick: 'SLOPE_POSITIVE',
-    colors: Colors.biomes.alps,
+    biome: 'westernSlopes',
     x: 10,
     y: 0,
-    camera: {
-      x: 0,
-      y: 0,
-      fov: 7,
-    },
     requirements: ['HELLO_WORLD'],
     flashMathField: true,
     defaultExpression: '-x',
-    hint: 'hint: x makes a slope',
     goals: [
       {
         x: -2,
@@ -81,23 +75,14 @@ const SLOPE = [
       //   destroyOnClick: true,
       // },
     ],
-    sky: {
-      asset: 'images.western_slopes_background',
-      margin: 1,
-    },
     sprites: [],
   },
   {
     name: 'Try facing forwards?',
     nick: 'SLOPE_NEGATIVE',
-    colors: Colors.biomes.alps,
+    biome: 'westernSlopes',
     x: 10,
     y: 0,
-    camera: {
-      x: 2,
-      y: -2,
-      fov: 7,
-    },
     requirements: null,
     defaultExpression: 'x',
     hint: 'hint: go negative',
@@ -141,16 +126,12 @@ const SLOPE = [
       },
     ],
     slider: { expression: '$\\cdot x', bounds: [-1, 1, 1] },
-    sky: {
-      asset: 'images.western_slopes_background',
-      margin: 1,
-    },
     sprites: [],
   },
   {
     name: 'A real steep hill',
     nick: 'SLOPE_STEEPER',
-    colors: Colors.biomes.alps,
+    biome: 'westernSlopes',
     x: 10,
     y: -10,
     requirements: ['SLOPE_NEGATIVE'],
@@ -192,16 +173,12 @@ const SLOPE = [
         ],
       },
     ],
-    sky: {
-      asset: 'images.western_slopes_background',
-      margin: 1,
-    },
     sprites: [],
   },
   {
     name: 'The bunny slope',
     nick: 'SLOPE_SHALLOWER',
-    colors: Colors.biomes.alps,
+    biome: 'westernSlopes',
     x: 10,
     y: 0,
     requirements: null,
@@ -249,16 +226,12 @@ const SLOPE = [
         ],
       },
     ],
-    sky: {
-      asset: 'images.western_slopes_background',
-      margin: 1,
-    },
     sprites: [],
   },
   {
     name: 'Moving up in the world',
     nick: 'SLOPE_HIGHER',
-    colors: Colors.biomes.alps,
+    biome: 'westernSlopes',
     x: 10,
     y: 10,
     camera: {
@@ -272,7 +245,6 @@ const SLOPE = [
       expression: '-x+$',
       bounds: [-3, 3, -3],
     },
-    hint: 'hint: add a constant',
     goals: [
       {
         type: 'path',
@@ -308,26 +280,16 @@ const SLOPE = [
         ],
       },
     ],
-    sky: {
-      asset: 'images.western_slopes_background',
-      margin: 1,
-    },
     sprites: [],
   },
   {
     name: 'About halfway down',
     nick: 'SLOPE_LOWER',
-    colors: Colors.biomes.alps,
+    biome: 'westernSlopes',
     x: 10,
     y: 0,
-    camera: {
-      x: 2,
-      y: -4,
-      fov: 11,
-    },
     requirements: null,
     defaultExpression: '-x',
-    hint: 'hint: if adding makes it go up…',
     goals: [
       {
         type: 'path',
@@ -358,24 +320,15 @@ const SLOPE = [
       },
     ],
     slider: { expression: '-x + $', bounds: [-2, 0, 0] },
-    sky: {
-      asset: 'images.western_slopes_background',
-      margin: 1,
-    },
     sprites: [],
   },
   CONSTANT_LAKE,
   {
     name: "We're at the bottom",
     nick: 'SLOPE_SCALE_TRANSLATE',
-    colors: Colors.biomes.alps,
+    biome: 'westernSlopes',
     x: 10,
     y: 0,
-    camera: {
-      x: 10,
-      y: -5,
-      fov: 12,
-    },
     requirements: ['CONSTANT_LAKE'],
     defaultExpression: '-\\frac{x}{2}',
     hint: 'put it all together!',
@@ -423,9 +376,5 @@ const SLOPE = [
         ],
       },
     ],
-    sky: {
-      asset: 'images.western_slopes_background',
-      margin: 1,
-    },
   },
 ]
