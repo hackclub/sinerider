@@ -284,7 +284,7 @@ const TIME = [
     x: -20,
     y: 0,
     requirements: ['SIN_TRANSLATE_X_Y'],
-    defaultExpression: '\\left(\\frac{x}{4}\\right)^2',
+    defaultExpression: '\\left(\\frac{x}{4}\\right)^2-t-1',
     goals: [
       {
         x: 4,
