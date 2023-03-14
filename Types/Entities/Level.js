@@ -163,8 +163,8 @@ function Level(spec) {
           _.isArray(v.walkers)
             ? v.walkers
             : _.isObject(v.walkers)
-            ? [v.walkers]
-            : [],
+              ? [v.walkers]
+              : [],
         ),
       ),
     ]
@@ -312,7 +312,7 @@ function Level(spec) {
     }
   }
 
-  function start() {}
+  function start() { }
 
   function startLate() {
     // self.sendEvent('levelFullyStarted')
@@ -633,14 +633,14 @@ function Level(spec) {
       savedLatex: currentLatex,
       goals: isEditor()
         ? goals.map((g) => {
-            s = {
-              type: g.type,
-              x: g.transform.x,
-              y: g.transform.y,
-              order: g.order,
-            }
-            return s
-          })
+          s = {
+            type: g.type,
+            x: g.transform.x,
+            y: g.transform.y,
+            order: g.order,
+          }
+          return s
+        })
         : null,
     }
   }
@@ -950,8 +950,8 @@ function Level(spec) {
 
   function save() {
     // Save to player storage and to URI
-    // storage.setLevel(datum.nick, serialize())
-    // history.pushState(null, null, '?' + LZString.compressToBase64(JSON.stringify(serialize())))
+    storage.setLevel(datum.nick, serialize())
+    history.pushState(null, null, '?' + LZString.compressToBase64(JSON.stringify(serialize())))
   }
 
   function setGraphExpression(text, latex) {
@@ -994,7 +994,7 @@ function Level(spec) {
     graph.resize()
   }
 
-  function removeGoal(type) {}
+  function removeGoal(type) { }
 
   // TODO: Refactor?
   let goalLookup = {}
