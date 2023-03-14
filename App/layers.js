@@ -5,6 +5,7 @@ const LAYERS = {
   background: -90,
   axes: -80,
   backSprites: -10,
+  signs: -5,
   walkers: 1,
   sledders: 2,
   foreSprites: 10,

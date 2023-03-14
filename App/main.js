@@ -39,6 +39,9 @@ const ui = {
   expressionText: $('#expression-text'),
   expressionEnvelope: $('#expression-envelope'),
 
+  sign: $('#sign'),
+  signContent: $('#sign-content'),
+
   mathFieldLabel: $('#variable-label > .string'),
   _mathField: $('#math-field'),
   mathField: $('#math-field'),

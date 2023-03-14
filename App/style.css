@@ -445,6 +445,24 @@ input[valid='false'] {
   display: none;
 }
 
+#sign {
+  position: absolute;
+
+  width: 50%;
+  height: 50%;
+  top: 25%;
+
+  transition: 1s;
+}
+
+#sign[hide='true'] {
+  top: -75%;
+}
+
+#sign-content {
+  margin: 10px;
+}
+
 .veil {
   position: absolute;
 
@@ -567,7 +585,7 @@ input[valid='false'] {
 
 #dotted-math-container {
   position: fixed;
-  right:40px;
+  right: 40px;
   top: 15%;
   bottom: 20%;
   /* display: flex;  */
@@ -584,13 +602,13 @@ input[valid='false'] {
   font-weight: bold;
   font-family: monospace;
   color: rgb(0, 255, 0);
-  display:none;
+  display: none;
 }
 
 #dotted-math-button {
-  margin-top: 40vh; 
+  margin-top: 40vh;
   margin-bottom: 40vh;
-  margin-left:auto;
+  margin-left: auto;
   background-color: rgb(255, 174, 0);
 }
 
@@ -789,9 +807,7 @@ input[valid='false'] {
 
 #try-again {
   display: none;
- 
 }
-
 
 @keyframes pulse {
   0% {

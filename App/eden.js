@@ -76,6 +76,7 @@ worldData.push({
       plant_clump_3: '.webp',
       plant_clump_4: '.webp',
       plant_clump_5: '.webp',
+      sign_post: 'danger_sign_1.png',
     },
     sounds: {
       music: {
@@ -179,6 +180,12 @@ worldData.push({
       flashRunButton: true,
       defaultExpression:
         '\\frac{-2}{1+e^{-x+5}}+\\frac{-2}{1+\\left(x-30\\right)^2}',
+      signs: [
+        {
+          x: 4,
+          content: 'This is a sign',
+        },
+      ],
       goals: [
         {
           type: 'dynamic',

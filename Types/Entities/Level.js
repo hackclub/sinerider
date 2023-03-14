@@ -44,6 +44,7 @@ function Level(spec) {
   const directors = []
   const bubbles = []
   const sounds = []
+  const signs = []
 
   let lowestOrder = 'A'
   let highestOrder = 'A'
@@ -555,6 +556,21 @@ function Level(spec) {
     // trackDescendants(sledder, speech)
   }
 
+  function addSign(signDatum) {
+    const sign = SignPost({
+      name: 'Sign ' + signs.length,
+      parent: self,
+      camera,
+      graph,
+      globalScope,
+      screen: darkBufferOrScreen,
+      drawOrder: LAYERS.signs,
+      ...signDatum,
+    })
+
+    signs.push(sign)
+  }
+
   function addSound(soundDatum) {
     const sound = Sound({
       name: 'Sound ' + soundDatum.asset,
@@ -815,6 +831,7 @@ function Level(spec) {
     _.each(datum.walkers, addWalker)
     _.each(datum.goals, addGoal)
     _.each(datum.texts, addText)
+    _.each(datum.signs, addSign)
     _.each(datum.directors || [{}], addDirector)
     isBubbleLevel || _.each(datum.textBubbles || [], addTextBubbles)
 
