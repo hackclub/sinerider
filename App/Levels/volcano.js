@@ -107,6 +107,8 @@ const VOLCANO = (() => {
         color: '#FFF',
         content: 'Stop stalling! Tell me your stupid idea already.',
         direction: 'up-up-left',
+        gap: 0.5,
+        length: 4,
       },
       {
         speaker: 'Jack',
@@ -131,12 +133,14 @@ const VOLCANO = (() => {
         color: '#FFF',
         content: 'We jump it.',
         direction: 'up-up-left',
+        gap: 1,
       },
       {
         speaker: 'Ada',
         color: '#FFF',
         content: 'That sounds dangerous',
         direction: 'up-up-left',
+        gap: 3,
       },
       {
         speaker: 'Jack',
