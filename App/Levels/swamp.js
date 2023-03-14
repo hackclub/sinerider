@@ -17,7 +17,39 @@ const SWAMP = [
         y: -8,
       },
     ],
-    sledders: [{}],
+    sledders: [
+      {
+        speech: [
+          {
+            distance: 2.2,
+            speakerX: 0.4,
+            speakerY: 0.75,
+            color: '#FFF',
+            content: "Well that's unsettling.",
+            direction: 'up-up-right',
+          },
+          {
+            distance: 1.5,
+            speakerX: -0.25,
+            speakerY: 0.65,
+            color: '#FFF',
+            content: "Yeah I don't like that.",
+            direction: 'left-up-up',
+            align: 'right',
+          },
+        ],
+      },
+    ],
+    sprites: [
+      {
+        asset: 'images.danger_sign_1',
+        x: 5,
+        size: 3,
+        anchored: true,
+        sloped: true,
+        offset: [0, 0.9],
+      },
+    ],
   },
   {
     name: 'Two Below',
@@ -37,7 +69,45 @@ const SWAMP = [
         y: -8,
       },
     ],
-    sledders: [{}],
+    sprites: [
+      {
+        asset: 'images.danger_sign_2',
+        x: -7,
+        size: 4,
+        anchored: true,
+        sloped: true,
+        offset: [0, 0.9],
+      },
+    ],
+    sledders: [
+      {
+        speech: [
+          {
+            distance: 1.5,
+            speakerX: 0.4,
+            speakerY: 0.75,
+            color: '#FFF',
+            direction: 'right-up-up',
+            content: '…ok good.',
+            speech: {
+              distance: 1,
+              color: '#FFF',
+              direction: 'up',
+              content: '…how far to the finish?',
+            },
+          },
+          {
+            distance: 2.2,
+            speakerX: -0.25,
+            speakerY: 0.65,
+            color: '#FFF',
+            content: 'Not far. Next stop.',
+            direction: 'left-up-up',
+            align: 'right',
+          },
+        ],
+      },
+    ],
   },
   {
     name: 'Four Around',
