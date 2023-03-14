@@ -57,6 +57,7 @@ const BIOMES = {
   },
   hilbertDelta: {
     colors: Colors.biomes.everglades,
+    backgroundMusic: 'sounds.music.sinusoidal_desert_puzzle',
     sky: {
       asset: 'images.hilbert_delta_background',
       margin: 1,

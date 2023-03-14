@@ -246,6 +246,7 @@ const PARABOLA = [
           {
             speakerX: 0.5,
             speakerY: 0.4,
+            color: '#fff',
             content: 'I do miss him.',
             direction: 'up-up-right',
             distance: 1.5,

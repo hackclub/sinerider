@@ -189,17 +189,17 @@ const DESERT = {
   ],
   walkers: [
     {
-      name: 'Jack',
+      name: 'Ada',
       x: -4,
       victoryX: 78,
-      asset: 'images.benny_float',
+      asset: 'images.sam_float',
       range: [-6, PINF],
-      backflip: [65, 69],
+      bobSpeed: 0.918218,
       walkers: {
-        name: 'Ada',
+        name: 'Jack',
         x: -6,
-        asset: 'images.sam_float',
-        bobSpeed: 0.918218,
+        backflip: [62, 66],
+        asset: 'images.benny_float',
       },
     },
   ],

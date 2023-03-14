@@ -177,7 +177,7 @@ const WAVE = [
     defaultExpression: '\\sin \\left(x\\right)',
     slider: {
       expression: '\\sin \\left(x+$\\right)',
-      bounds: [-2, 2, 0],
+      bounds: [-2, 1, 0],
     },
     goals: [
       {

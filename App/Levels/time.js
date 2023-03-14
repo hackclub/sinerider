@@ -55,7 +55,7 @@ const TIME = [
     x: -10,
     y: -10,
     requirements: null,
-    defaultExpression: 'x\\cdot \\left(t-1\\right)',
+    defaultExpression: '\\left(x+1\\right)\\cdot \\left(t-1\\right)',
     goals: [
       {
         x: -4,
@@ -106,7 +106,7 @@ const TIME = [
     x: 10,
     y: 0,
     requirements: ['TIME_CONSTANT'],
-    defaultExpression: '(x+t)^2',
+    defaultExpression: '(x-t+1)^2',
     goals: [
       {
         x: -2,
@@ -135,7 +135,7 @@ const TIME = [
     x: 10,
     y: 0,
     requirements: [null],
-    defaultExpression: '\\left(x-t\\right)^2',
+    defaultExpression: '\\left(x-t\\right)^2+1',
     goals: [
       {
         type: 'path',
@@ -175,7 +175,7 @@ const TIME = [
     x: 10,
     y: 10,
     requirements: [null],
-    defaultExpression: '(x-t)^2',
+    defaultExpression: '(x-t)^2+t',
     goals: [
       {
         type: 'path',
@@ -251,6 +251,16 @@ const TIME = [
         x: -12,
         y: -4,
         order: 'B',
+      },
+    ],
+
+    texts: [
+      {
+        x: 0,
+        y: 20,
+        size: 1,
+        fill: '#fff',
+        content: '(this level is impossible)',
       },
     ],
     sledders: [

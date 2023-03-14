@@ -196,16 +196,16 @@ const CONSTANT_LAKE = {
   ],
   walkers: [
     {
-      name: 'Jack',
+      name: 'Ada',
+      asset: 'images.sam_float',
+      bobSpeed: 0.918218,
       x: -22,
       victoryX: 35,
-      asset: 'images.benny_float',
       range: [-24, 37],
       walkers: {
-        name: 'Ada',
+        name: 'Jack',
+        asset: 'images.benny_float',
         x: -24,
-        asset: 'images.sam_float',
-        bobSpeed: 0.918218,
       },
     },
   ],

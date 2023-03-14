@@ -63,37 +63,37 @@ const LOGISTIC = [
     x: -10,
     y: -10,
     requirements: ['LOGISTIC'],
-    defaultExpression: '\\frac{1}{1+x^2}',
+    defaultExpression: '\\frac{1}{1+x^2}+\\left(\\frac{x}{2}\\right)^2',
     goals: [
       {
         order: 'C',
         x: -8,
-        y: 1,
+        y: 6,
       },
       {
         order: 'B',
         x: -6,
-        y: 1 / 4,
+        y: 4,
       },
       {
         order: 'A',
         x: -4,
-        y: 0,
+        y: 2,
       },
       {
         order: 'A',
         x: 4,
-        y: 0,
+        y: 2,
       },
       {
         order: 'B',
         x: 6,
-        y: 1 / 4,
+        y: 4,
       },
       {
         order: 'C',
         x: 8,
-        y: 1,
+        y: 6,
       },
     ],
     sledders: [
