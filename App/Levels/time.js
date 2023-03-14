@@ -49,7 +49,7 @@ const TIME = [
     ],
   },
   {
-    name: 'Time Translate',
+    name: 'Time Cool',
     nick: 'TIME_COOL',
     biome: 'eternalCanyon',
     x: -10,
@@ -106,7 +106,7 @@ const TIME = [
     x: 10,
     y: 0,
     requirements: ['TIME_CONSTANT'],
-    defaultExpression: '(x-t+1)^2',
+    defaultExpression: '(x+t+1)^2',
     goals: [
       {
         x: -2,
@@ -210,7 +210,7 @@ const TIME = [
     ],
   },
   {
-    name: 'Time Translate',
+    name: 'Time Hard',
     nick: 'TIME_HARD',
     biome: 'eternalCanyon',
     x: -10,
