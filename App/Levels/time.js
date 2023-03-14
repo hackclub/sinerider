@@ -55,7 +55,7 @@ const TIME = [
     x: -10,
     y: -10,
     requirements: null,
-    defaultExpression: 't',
+    defaultExpression: 'x\\cdot \\left(t-1\\right)',
     goals: [
       {
         x: -4,
@@ -312,7 +312,7 @@ const TIME = [
     x: -10,
     y: -10,
     requirements: [null],
-    defaultExpression: '-\\left(\\frac{x}{4}\\right)^2',
+    defaultExpression: '\\left(\\frac{x}{4}\\right)^2\\cdot \\left(t-1\\right)',
     goals: [
       {
         x: -9,
