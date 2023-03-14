@@ -118,7 +118,10 @@ worldData.push({
       map_button: 'map_button_compressed.mp3',
       next_button: 'next_button_compressed.mp3',
       enter_level: 'enter_level_compressed.mp3',
-      goal_fail: 'goal_fail_compressed.mp3',
+      goal_fail: {
+        src: 'goal_fail_compressed.mp3',
+        volume: 0.1,
+      },
       goal_success: 'goal_success_compressed.mp3',
       level_success: 'level_success_compressed.mp3',
       restart_button: 'restart_button_compressed.mp3',
