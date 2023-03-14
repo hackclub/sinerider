@@ -135,41 +135,58 @@ const SLOPE = [
     x: 10,
     y: -10,
     requirements: ['SLOPE_NEGATIVE'],
-    defaultExpression: '-x',
+    defaultExpression: '-5x',
     slider: {
-      expression: '$\\cdot x',
-      bounds: [-2, 2, -1],
+      expression: '$x',
+      bounds: [-6, -3, -5],
     },
+    texts: [
+      {
+        x: 2,
+        y: 4,
+        size: 1,
+        align: 'left',
+        content: 'ABC goals must be hit in order',
+      },
+    ],
     goals: [
       {
-        type: 'path',
-        expression: '-x*3',
-        pathX: 6,
+        order: 'A',
         x: 2,
-        y: 0,
+        y: -4,
+      },
+      {
+        order: 'B',
+        x: 4,
+        y: -8,
+      },
+      {
+        order: 'C',
+        x: 6,
+        y: -12,
       },
     ],
     sledders: [
       {
         speech: [
           {
-            x: -0.4,
-            y: 0.65,
-            content: 'Woah.',
+            x: -0.3,
+            y: 0.6,
+            content: 'Steep!',
             direction: 'up-up-left',
             distance: 1.2,
           },
-          {
-            x: 0.4,
-            y: 0.7,
-            content: 'Steep.',
-            direction: 'up-right',
-            distance: 0.8,
-            // speech: {
-            //   content: 'This seems dangerous.',
-            //   distance: 1,
-            // },
-          },
+          // {
+          //   speakerX: 0.4,
+          //   speakerY: 0.7,
+          //   content: 'Steep.',
+          //   direction: 'right-up',
+          //   distance: 1.4,
+          //   // speech: {
+          //   //   content: 'This seems dangerous.',
+          //   //   distance: 1,
+          //   // },
+          // },
         ],
       },
     ],
@@ -182,18 +199,24 @@ const SLOPE = [
     x: 10,
     y: 0,
     requirements: null,
-    defaultExpression: '-x',
+    defaultExpression: '\\frac{x}{2}',
     slider: {
       expression: '-\\frac{x}{$}',
       bounds: [1, 2, 1],
     },
     goals: [
       {
+        x: 4,
+        y: -1,
+        order: 'A',
+      },
+      {
         type: 'path',
-        expression: '-x/3',
-        pathX: 8,
-        x: 2,
+        expression: '-x/4',
+        pathX: 4,
+        x: 6,
         y: 0,
+        order: 'B',
       },
     ],
     sledders: [
@@ -249,8 +272,8 @@ const SLOPE = [
       {
         type: 'path',
         expression: '-x+8',
-        pathX: 6,
-        x: 2,
+        pathX: 4,
+        x: 3,
         y: 0,
       },
     ],
@@ -289,7 +312,7 @@ const SLOPE = [
     x: 10,
     y: 0,
     requirements: null,
-    defaultExpression: '-x',
+    defaultExpression: '-x+1',
     goals: [
       {
         type: 'path',
@@ -319,7 +342,7 @@ const SLOPE = [
         ],
       },
     ],
-    slider: { expression: '-x + $', bounds: [-2, 0, 0] },
+    slider: { expression: '-x+$', bounds: [-1, 2, 1] },
     sprites: [],
   },
   CONSTANT_LAKE,
