@@ -329,6 +329,7 @@ const SLOPE = [
     biome: 'westernSlopes',
     x: 10,
     y: 0,
+    backgroundMusic: 'sounds.music.birds',
     requirements: ['CONSTANT_LAKE'],
     defaultExpression: '-\\frac{x}{2}',
     hint: 'put it all together!',

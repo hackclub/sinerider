@@ -80,6 +80,7 @@ worldData.push({
     sounds: {
       music: {
         intro: '.mp3',
+        birds: '.mp3',
         credits: '.mp3',
         map: '.mp3',
         western_slopes_puzzle: '.mp3',

@@ -2,6 +2,7 @@ const BIOMES = {
   home: {
     colors: Colors.biomes.home,
     clouds: {},
+    backgroundMusic: 'sounds.music.birds',
     snow: {
       density: 0.1,
       maxHeight: 8,
