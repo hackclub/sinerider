@@ -10,7 +10,7 @@ const PARABOLA = [
     hint: 'do as she says!',
     slider: {
       expression: '$\\cdot x^2',
-      bounds: [-1, 1, -1],
+      bounds: [-1, 0, -1],
     },
     goals: [
       {
