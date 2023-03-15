@@ -39,8 +39,8 @@ const CONSTANT_LAKE = {
   ],
   texts: [
     {
-      x: -24,
-      y: 0,
+      x: -20,
+      y: -0.5,
       size: 0.6,
       align: 'left',
       // fill: '#fff',
@@ -183,6 +183,7 @@ const CONSTANT_LAKE = {
       content: "It's not good to anger the sun, Ada.",
       direction: 'up-right',
       length: 4,
+      gap: 1,
     },
     {
       speaker: 'Ada',
