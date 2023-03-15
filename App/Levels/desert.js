@@ -3,6 +3,7 @@ const DESERT = {
   nick: 'DESERT',
   biome: 'sinusoidalDesert',
   axesEnabled: false,
+  runAsCutscene: true,
   x: -10,
   y: -10,
   camera: {
