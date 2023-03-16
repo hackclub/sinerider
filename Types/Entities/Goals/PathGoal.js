@@ -115,8 +115,10 @@ function PathGoal(spec) {
   pathStartWorld.min(pathEndWorld, pathMinWorld)
   pathStartWorld.max(pathEndWorld, pathMaxWorld)
 
-  trackPoints.push(pathStartWorld)
-  trackPoints.push(pathEndWorld)
+  // trackPoints.push(pathStartWorld)
+  // trackPoints.push(pathEndWorld)
+  trackPoints.push(pathGraph.minSample)
+  trackPoints.push(pathGraph.maxSample)
 
   const boundsTransform = Transform(spec)
 
