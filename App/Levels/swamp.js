@@ -19,25 +19,25 @@ const SWAMP = [
     ],
     sledders: [
       {
-        speech: [
-          {
-            distance: 2.2,
-            speakerX: 0.4,
-            speakerY: 0.75,
-            color: '#FFF',
-            content: "Well that's unsettling.",
-            direction: 'up-up-right',
-          },
-          {
-            distance: 1.5,
-            speakerX: -0.25,
-            speakerY: 0.65,
-            color: '#FFF',
-            content: "Yeah I don't like that.",
-            direction: 'left-up-up',
-            align: 'right',
-          },
-        ],
+        // speech: [
+        //   {
+        //     distance: 2.2,
+        //     speakerX: 0.4,
+        //     speakerY: 0.75,
+        //     color: '#FFF',
+        //     content: "Well that's unsettling.",
+        //     direction: 'up-up-right',
+        //   },
+        //   {
+        //     distance: 1.5,
+        //     speakerX: -0.25,
+        //     speakerY: 0.65,
+        //     color: '#FFF',
+        //     content: "Yeah I don't like that.",
+        //     direction: 'left-up-up',
+        //     align: 'right',
+        //   },
+        // ],
       },
     ],
     sprites: [
@@ -81,31 +81,31 @@ const SWAMP = [
     ],
     sledders: [
       {
-        speech: [
-          {
-            distance: 1.5,
-            speakerX: 0.4,
-            speakerY: 0.75,
-            color: '#FFF',
-            direction: 'right-up-up',
-            content: '…ok good.',
-            speech: {
-              distance: 1,
-              color: '#FFF',
-              direction: 'up',
-              content: '…how far to the finish?',
-            },
-          },
-          {
-            distance: 2.2,
-            speakerX: -0.25,
-            speakerY: 0.65,
-            color: '#FFF',
-            content: 'Not far. Next stop.',
-            direction: 'left-up-up',
-            align: 'right',
-          },
-        ],
+        // speech: [
+        //   {
+        //     distance: 1.5,
+        //     speakerX: 0.4,
+        //     speakerY: 0.75,
+        //     color: '#FFF',
+        //     direction: 'right-up-up',
+        //     content: '…ok good.',
+        //     speech: {
+        //       distance: 1,
+        //       color: '#FFF',
+        //       direction: 'up',
+        //       content: '…how far to the finish?',
+        //     },
+        //   },
+        //   {
+        //     distance: 2.2,
+        //     speakerX: -0.25,
+        //     speakerY: 0.65,
+        //     color: '#FFF',
+        //     content: 'Not far. Next stop.',
+        //     direction: 'left-up-up',
+        //     align: 'right',
+        //   },
+        // ],
       },
     ],
   },
