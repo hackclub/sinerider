@@ -76,6 +76,9 @@ worldData.push({
       plant_clump_3: '.webp',
       plant_clump_4: '.webp',
       plant_clump_5: '.webp',
+      grass_2: '.webp',
+      tumbleweed: '.webp',
+      cactus: '.webp',
     },
     sounds: {
       music: {
