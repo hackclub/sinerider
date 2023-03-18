@@ -388,9 +388,9 @@ function Level(spec) {
       }
     }
 
-    // ui.timeString.innerHTML = 'T='+time
-    ui.runButtonString.innerHTML = 'T=' + time
-    ui.stopButtonString.innerHTML = 'T=' + time
+    // ui.timeString.innerHTML = 't='+time
+    ui.runButtonString.innerHTML = 't=' + time
+    ui.stopButtonString.innerHTML = 't=' + time
 
     assignPlayerPosition()
 
@@ -658,12 +658,6 @@ function Level(spec) {
     ui.tryAgainButton.setAttribute('hide', false)
     ui.stopButton.setAttribute('hide', true)
   }
-
-  // ui.stopButton.addEventListener('click', function () {
-  //   ui.stopButtonString.innerHTML = 'T='
-  //   ui.stopButton.style.animation = ''
-  //   ui.stopButton.removeEventListener('click', reset)
-  // })
 
   function playOpenMusic() {
     if (openMusic) openMusic.play()
