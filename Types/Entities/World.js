@@ -17,6 +17,10 @@ function World(spec) {
       return runTime
     },
 
+    get T() {
+      return runTime
+    },
+
     timescale: 1,
     get dt() {
       return tickDelta * globalScope.timescale
