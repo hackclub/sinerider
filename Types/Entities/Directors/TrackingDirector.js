@@ -10,6 +10,7 @@ function TrackingDirector(spec) {
     minFovMargin = 3,
     smoothing = 0.05,
     percentFovBelowBottom = 1,
+    compensate = true,
   } = spec
 
   minFov = 5
@@ -71,6 +72,8 @@ function TrackingDirector(spec) {
     _.eachDeep(trackedEntities, trackEntity)
 
     maxTrackPoint.y += 7
+    if (compensate) minTrackPoint.y -= 0.05 * cameraState.fov
+
     minTrackPoint.add(maxTrackPoint, targetState.position)
 
     targetState.position.divide(2)

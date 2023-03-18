@@ -176,6 +176,7 @@ worldData.push({
       x: 0,
       y: 0,
       requirements: [],
+      directors: [{ compensate: false }],
       runMusic: 'sounds.music.intro',
       flashRunButton: true,
       defaultExpression:
