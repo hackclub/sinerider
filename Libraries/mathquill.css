@@ -37,14 +37,6 @@
 .mq-math-mode .mq-editable-field {
   border: 1px solid gray;
 }
-.mq-editable-field.mq-focused,
-.mq-math-mode .mq-editable-field.mq-focused {
-  -webkit-box-shadow: #ffffff 0 0 0px 0px, inset #fcfcfc 0 0 0px 0;
-  -moz-box-shadow: #ffffff 0 0 0px 0px, inset #fff 0 0 0px 0;
-  box-shadow: #ffffff 0 0 0px 0px, inset #fff 0 0 0px 0;
-  border-color: #ffffff;
-  border-radius: 1px;
-}
 .mq-math-mode .mq-editable-field {
   margin: 1px;
 }
