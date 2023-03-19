@@ -482,6 +482,7 @@ function Level(spec) {
       tracking: TrackingDirector,
       waypoint: WaypointDirector,
       lerp: LerpDirector,
+      transition: TransitionDirector,
       // 'drag': DragDirector,
     }[directorDatum.type || 'tracking']
 
