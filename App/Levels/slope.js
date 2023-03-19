@@ -213,10 +213,15 @@ const SLOPE = [
       {
         type: 'path',
         expression: '-x/4',
-        pathX: 4,
+        pathX: 6,
         x: 6,
         y: 0,
         order: 'B',
+      },
+      {
+        x: 14,
+        y: -3.5,
+        order: 'C',
       },
     ],
     sledders: [
