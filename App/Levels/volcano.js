@@ -452,7 +452,7 @@ const VOLCANO = (() => {
       {
         name: 'SLEDDER_1',
         active: false,
-        x: -34.5,
+        x: -45,
       },
     ],
     backgroundMusic: {
