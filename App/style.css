@@ -289,7 +289,7 @@ input[valid='false'] {
 }
 
 #run-button:not(:hover) {
-  background: #4f6;
+  background: #808080;
 }
 
 .reset-button:not(:hover) {
