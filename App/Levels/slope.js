@@ -66,6 +66,7 @@ const SLOPE = [
         domSelector: '#run-button',
         place: 'top-left',
         destroyOnClick: true,
+        style:  {visibility: 'hidden' },
         // style: { fontSize: '1.1rem' },
       },
       // {
