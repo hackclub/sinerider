@@ -40,6 +40,12 @@ function TextBubble(spec) {
   function destroy() {
     helperBubble.remove()
     domElement.onmousedown = () => {}
+    
+    // Displays next helper bubble
+    elements= document.querySelectorAll('.helper-bubble');
+    if (elements.length > 0){
+      elements[0].setAttribute('style', 'visibilty:visible !important');
+        }
   }
 
   if (destroyOnClick)
