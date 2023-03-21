@@ -293,7 +293,7 @@ const SLOPE = [
             direction: 'up-left',
             distance: 1,
             speech: {
-              content: "Hey, I'm sorry about last night.",
+              content: "Hey, I'd like to apologize.",
               distance: 1,
             },
           },
