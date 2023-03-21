@@ -289,7 +289,7 @@ function onClickRunButton(event) {
 }
 
 // TODO: Encapsulate run/stop/victory button behavior (Entity?)
-ui.runButton.addEventListener('click', onClickRunButton)
+
 ui.stopButton.addEventListener('click', onClickRunButton)
 ui.tryAgainButton.addEventListener('click', onClickRunButton)
 ui.victoryStopButton.addEventListener('click', onClickRunButton)
