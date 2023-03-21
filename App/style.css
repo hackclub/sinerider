@@ -89,6 +89,11 @@ body > .bar {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
 }
 
+.hackclub-logo {
+  height: 5rem;
+  width: 10rem;
+}
+
 .string {
   user-select: none;
 }
@@ -255,6 +260,12 @@ input[valid='false'] {
 
 #expression-envelope[disabled='false'] > #math-field-static {
   display: none;
+}
+
+#flag {
+  left: 0;
+  position: absolute;
+  top: 0;
 }
 
 #math-field-static {
