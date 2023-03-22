@@ -9,7 +9,7 @@ function World(spec) {
 
   let running = false
   let runTime = 0
-  let completionTime = 0
+  let completionTime = null
 
   const quads = {}
 
