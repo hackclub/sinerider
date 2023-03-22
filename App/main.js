@@ -117,6 +117,10 @@ if (DEBUG_LEVEL) {
   w.levelData[debugLevelIndex] = tmp
 }
 
+// Don't show debug info in production
+if (window.location.hostname === 'sinerider.com')
+  ui.levelInfoDiv.setAttribute('hide', true)
+
 const world = World({
   ui,
   screen,
