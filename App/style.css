@@ -388,7 +388,6 @@ input[valid='false'] {
 }
 
 #volume-slider {
-  transform: translateY(-1em);
   opacity: 0.1;
   transition-duration: 1s;
 }
@@ -860,14 +859,4 @@ input[valid='false'] {
   grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: 12px;
   padding: 0px;
-}
-
-.textsized {
-  width: 2em;
-  height: 2em;
-}
-
-.textsizeds {
-  width: 1.5em;
-  height: 1.5em;
 }
