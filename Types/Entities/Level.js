@@ -42,7 +42,7 @@ function Level(spec) {
   const sprites = []
   const speech = []
   const directors = []
-  const bubbles = []
+  const tips = []
   const sounds = []
 
   let lowestOrder = 'A'
@@ -497,8 +497,8 @@ function Level(spec) {
     directors.push(director)
   }
 
-  function addTips(bubbleDatum) {
-    bubbles.push(
+  function addTips(tipDatum) {
+    tips.push(
       Tip({
         parent: self,
         camera,
@@ -506,7 +506,7 @@ function Level(spec) {
         globalScope,
         visible: false,
         place: 'top-right',
-        ...bubbleDatum,
+        ...tipDatum,
       }),
     )
   }
@@ -707,7 +707,7 @@ function Level(spec) {
 
   function stopRunning() {
     _.invokeEach(goals, 'reset')
-    _.invokeEach(bubbles, 'toggleVisible')
+    _.invokeEach(tips, 'toggleVisible')
     completed = false
     refreshLowestOrder()
   }
@@ -987,7 +987,7 @@ function Level(spec) {
     if (runAsCutscene && !isBubbleLevel) {
       world._stopRunning()
     }
-    _.invokeEach(bubbles, 'destroy')
+    _.invokeEach(tips, 'destroy')
   }
 
   function resize() {
