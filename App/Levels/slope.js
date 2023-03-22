@@ -54,7 +54,7 @@ const SLOPE = [
       expression: '$\\cdot x',
       bounds: [-1, 1, -1],
     },
-    textBubbles: [
+    tips: [
       {
         content: 'Edit function here',
         domSelector: '#expression-envelope',
@@ -66,7 +66,7 @@ const SLOPE = [
         domSelector: '#run-button',
         place: 'top-left',
         destroyOnClick: true,
-        style:  {visibility: 'hidden' },
+        style: { visibility: 'hidden' },
         // style: { fontSize: '1.1rem' },
       },
       // {

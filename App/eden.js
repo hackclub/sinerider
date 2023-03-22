@@ -302,7 +302,7 @@ worldData.push({
           content: 'A game about love and graphing.',
         },
       ],
-      textBubbles: [
+      tips: [
         {
           content: 'click here!',
           domSelector: '#run-button',

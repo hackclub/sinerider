@@ -6,8 +6,8 @@
  * @param {object} spec.style extra styles to be added like top/bottom/color
  * @returns
  */
-function TextBubble(spec) {
-  const { self } = Entity(spec, 'TextBubble')
+function Tip(spec) {
+  const { self } = Entity(spec, 'Tip')
 
   let {
     visible = true,
@@ -40,12 +40,12 @@ function TextBubble(spec) {
   function destroy() {
     helperBubble.remove()
     domElement.onmousedown = () => {}
-    
+
     // Displays next helper bubble
-    elements= document.querySelectorAll('.helper-bubble');
-    if (elements.length > 0){
-      elements[0].setAttribute('style', 'visibilty:visible !important');
-        }
+    elements = document.querySelectorAll('.helper-bubble')
+    if (elements.length > 0) {
+      elements[0].setAttribute('style', 'visibilty:visible !important')
+    }
   }
 
   if (destroyOnClick)

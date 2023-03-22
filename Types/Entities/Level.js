@@ -497,9 +497,9 @@ function Level(spec) {
     directors.push(director)
   }
 
-  function addTextBubbles(bubbleDatum) {
+  function addTips(bubbleDatum) {
     bubbles.push(
-      TextBubble({
+      Tip({
         parent: self,
         camera,
         graph,
@@ -810,7 +810,7 @@ function Level(spec) {
     _.each(datum.goals, addGoal)
     _.each(datum.texts, addText)
     _.each(datum.directors || [{}], addDirector)
-    isBubbleLevel || _.each(datum.textBubbles || [], addTextBubbles)
+    isBubbleLevel || _.each(datum.tips || [], addTips)
 
     if (isBubbleLevel && datum.bubble) {
       datum = _.merge(_.cloneDeep(datum), datum.bubble)
