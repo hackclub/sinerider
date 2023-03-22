@@ -91,8 +91,16 @@ const canvas = $('#canvas')
 
 let canvasIsDirty = true
 
-const ticksPerSecond = 30
-const tickDelta = 1 / ticksPerSecond
+// NOTE: 30 ticks per second is "normal", manipulating this value changes the simulation speed, but it maintains
+// deterministic results regardless
+const ticksPerSecond = 30 //* 100 // (run 100x faster than normal)
+
+// NOTE - this is very consciously decoupled from 'ticksPerSecond' so that we can get consistent results
+// when modifying the # of ticks per second to be faster than normal (for instance, when we're scoring)
+// This value is used by many internal tick handlers, mainly (as far as I can tell) to know how fast entities 
+// should move per tick, and probably should be renamed to something like 'tickMoveDistanceMultiplier' or 
+// something similar
+const tickDelta = 1.0 / 30.0
 
 const screen = Screen({
   canvas,
@@ -136,8 +144,6 @@ function tick() {
   world.start()
 
   world.sendEvent('tick')
-
-  requestDraw()
 }
 
 function draw() {
@@ -174,6 +180,9 @@ draw()
 if (!stepping) {
   setInterval(tick, 1000 / ticksPerSecond)
 }
+
+// Draw as fast as we possibly can
+setInterval(requestDraw, 0)
 
 // MathQuill
 
