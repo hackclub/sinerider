@@ -263,7 +263,7 @@ input[valid='false'] {
 }
 
 #flag {
-  left: 0;
+  left: 1rem;
   position: absolute;
   top: 0;
 }
