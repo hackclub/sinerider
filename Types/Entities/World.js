@@ -9,6 +9,7 @@ function World(spec) {
 
   let running = false
   let runTime = 0
+  let completionTime = null
 
   const quads = {}
 
@@ -38,6 +39,10 @@ function World(spec) {
     get quads() {
       return quads
     },
+
+    get completionTime() {
+      return completionTime
+    }
   }
 
   let navigating = false
@@ -210,6 +215,8 @@ function World(spec) {
   }
 
   function levelCompleted(soft = false) {
+    setCompletionTime(runTime)
+
     if (soft) {
       nextLevel(2.5)
     } else {
@@ -264,6 +271,7 @@ function World(spec) {
 
   function startRunning(playSound = true, hideNavigator = true) {
     running = true
+    setCompletionTime(null)
 
     ui.mathField.blur()
     ui.expressionEnvelope.setAttribute('disabled', true)
@@ -282,9 +290,15 @@ function World(spec) {
     requestDraw()
   }
 
+  function setCompletionTime(t) {
+    completionTime = t
+    ui.completionTime.innerHTML = t
+  }
+
   function stopRunning(playSound = true) {
     runTime = 0
     running = false
+    setCompletionTime(null)
 
     ui.mathField.blur()
     ui.expressionEnvelope.setAttribute('disabled', false)
