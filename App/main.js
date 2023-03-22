@@ -28,13 +28,13 @@ const ui = {
   victoryLabelString: $('#victory-label > .string'),
   victoryStopButton: $('#victory-stop-button'),
   nextButton: $('#next-button'),
-
+  
   messageBar: $('#message-bar'),
   messageBarString: $('#message-bar > .string'),
 
   variablesBar: $('#variables-bar'),
   timeString: $('#time-string'),
-
+  completionTime: $('#completion-time'),
   controlBar: $('#controls-bar'),
   expressionText: $('#expression-text'),
   expressionEnvelope: $('#expression-envelope'),
