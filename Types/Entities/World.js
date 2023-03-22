@@ -177,7 +177,11 @@ function World(spec) {
 
     ui.levelInfoNameStr.innerHTML = levelDatum.name
     ui.levelInfoNickStr.innerHTML = levelDatum.nick
-    ui.levelInfoDiv.setAttribute('hide', false)
+    // Only show the level info if we're not in debug
+    if (window.location.hostname === 'sinerider.com')
+      ui.levelInfoDiv.setAttribute('hide', true)
+    else
+      ui.levelInfoDiv.setAttribute('hide', false)
 
     setNavigating(false)
   }
