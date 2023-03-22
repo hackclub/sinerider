@@ -78,7 +78,11 @@ function World(spec) {
   let levelBubble
 
   function start() {
-    ui.hideLevelInfoButton.addEventListener('click', hideLevelInfoClicked)
+    // Only show the level info if we're not in debug
+    if (!window.location.hostname.endsWith('sinerider.com')) {
+      ui.levelInfoDiv.setAttribute('hide', false)
+      ui.hideLevelInfoButton.addEventListener('click', hideLevelInfoClicked)
+    }
   }
 
   function tick() {
@@ -182,7 +186,6 @@ function World(spec) {
 
     ui.levelInfoNameStr.innerHTML = levelDatum.name
     ui.levelInfoNickStr.innerHTML = levelDatum.nick
-    ui.levelInfoDiv.setAttribute('hide', false)
 
     setNavigating(false)
   }
