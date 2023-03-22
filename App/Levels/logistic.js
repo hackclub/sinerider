@@ -2,7 +2,7 @@ const LOGISTIC = [
   {
     name: 'logistic',
     nick: 'LOGISTIC',
-    colors: Colors.biomes.mojave,
+    biome: 'logisticDunes',
     x: 0,
     y: -30,
     requirements: ['SIN_SCALE_X_Y'],
@@ -55,49 +55,45 @@ const LOGISTIC = [
         y: 0,
       },
     ],
-    sky: {
-      asset: 'images.logistic_dunes_background',
-      margin: 1,
-    },
   },
   {
     name: 'logistic',
     nick: 'LOGISTIC_PARABOLA',
-    colors: Colors.biomes.mojave,
+    biome: 'logisticDunes',
     x: -10,
     y: -10,
     requirements: ['LOGISTIC'],
-    defaultExpression: '\\frac{1}{1+x^2}',
+    defaultExpression: '\\frac{1}{1+x^2}+\\left(\\frac{x}{2}\\right)^2',
     goals: [
       {
         order: 'C',
         x: -8,
-        y: 1,
+        y: 6,
       },
       {
         order: 'B',
         x: -6,
-        y: 1 / 4,
+        y: 4,
       },
       {
         order: 'A',
         x: -4,
-        y: 0,
+        y: 2,
       },
       {
         order: 'A',
         x: 4,
-        y: 0,
+        y: 2,
       },
       {
         order: 'B',
         x: 6,
-        y: 1 / 4,
+        y: 4,
       },
       {
         order: 'C',
         x: 8,
-        y: 1,
+        y: 6,
       },
     ],
     sledders: [
@@ -112,15 +108,11 @@ const LOGISTIC = [
         y: 0,
       },
     ],
-    sky: {
-      asset: 'images.logistic_dunes_background',
-      margin: 1,
-    },
   },
   {
     name: 'logistic',
     nick: 'LOGISTIC_TRAJECTORY',
-    colors: Colors.biomes.mojave,
+    biome: 'logisticDunes',
     x: -20,
     y: 0,
     requirements: [null],
@@ -141,15 +133,11 @@ const LOGISTIC = [
         y: 0,
       },
     ],
-    sky: {
-      asset: 'images.logistic_dunes_background',
-      margin: 1,
-    },
   },
   {
     name: 'logistic reorder',
     nick: 'LOGISTIC_REORDER',
-    colors: Colors.biomes.mojave,
+    biome: 'logisticDunes',
     x: -10,
     y: 0,
     requirements: ['LOGISTIC'],
@@ -179,15 +167,11 @@ const LOGISTIC = [
         y: 0,
       },
     ],
-    sky: {
-      asset: 'images.logistic_dunes_background',
-      margin: 1,
-    },
   },
   {
     name: 'logistic jump',
     nick: 'LOGISTIC_JUMP',
-    colors: Colors.biomes.mojave,
+    biome: 'logisticDunes',
     x: -10,
     y: 0,
     requirements: [null],
@@ -216,9 +200,5 @@ const LOGISTIC = [
         y: 0,
       },
     ],
-    sky: {
-      asset: 'images.logistic_dunes_background',
-      margin: 1,
-    },
   },
 ]

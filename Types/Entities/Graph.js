@@ -42,6 +42,9 @@ function Graph(spec) {
   const minWorldPoint = Vector2()
   const maxWorldPoint = Vector2()
 
+  const minSample = Vector2()
+  const maxSample = Vector2()
+
   const terrainLayers = 15
   const terrainParameters = []
   for (let i = 0; i < terrainLayers; i++) {
@@ -171,6 +174,9 @@ function Graph(spec) {
 
     sampler.resetExtrema()
     sampler.sampleRange(scope, samples, sampleCount, 'x', minX, maxX)
+
+    minSample.set(minX, sampler.min)
+    maxSample.set(maxX, sampler.max)
   }
 
   function resize() {
@@ -197,6 +203,14 @@ function Graph(spec) {
 
     startRunning,
     stopRunning,
+
+    get minSample() {
+      return minSample
+    },
+
+    get maxSample() {
+      return maxSample
+    },
 
     get samples() {
       return samples

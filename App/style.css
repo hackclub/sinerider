@@ -263,6 +263,7 @@ input[valid='false'] {
 
 #expression-envelope[disabled='true'] {
   background: #ddd;
+  opacity: 0.4;
 }
 
 #expression-envelope[disabled='false'] {
@@ -497,16 +498,33 @@ input[valid='false'] {
 .envelope {
   position: relative;
 }
+.envelope:focus-within {
+  -webkit-box-shadow: #8bd 0 0 1px 2px, inset #6ae 0 0 2px 0;
+  -moz-box-shadow: #8bd 0 0 1px 2px, inset #6ae 0 0 2px 0;
+  box-shadow: #8bd 0 0 1px 2px, inset #ffffff 0 0 2px 0;
+  border-color: #ffffff;
+}
 
 .helper-bubble {
-  position: absolute;
   width: 150px;
   text-align: center;
   border: 2px solid black;
   font-size: small;
+  position: absolute;
   background-color: white;
   padding: 5px;
   color: black !important;
+  animation-name: wiggle;
+  animation-duration: 4500ms;
+  animation-iteration-count: infinite;
+}
+@keyframes wiggle {
+  0% {transform: rotate(0deg);}
+  80% {transform: rotate(0deg);}
+  85% {transform: rotate(-10deg);}
+  90% {transform: rotate(20deg);}
+  95% {transform: rotate(-5deg);}
+  100% {transform: rotate(0deg);}
 }
 
 .top-left {
@@ -567,7 +585,7 @@ input[valid='false'] {
 
 #dotted-math-container {
   position: fixed;
-  right:40px;
+  right: 40px;
   top: 15%;
   bottom: 20%;
   /* display: flex;  */
@@ -584,13 +602,13 @@ input[valid='false'] {
   font-weight: bold;
   font-family: monospace;
   color: rgb(0, 255, 0);
-  display:none;
+  display: none;
 }
 
 #dotted-math-button {
-  margin-top: 40vh; 
+  margin-top: 40vh;
   margin-bottom: 40vh;
-  margin-left:auto;
+  margin-left: auto;
   background-color: rgb(255, 174, 0);
 }
 
@@ -789,9 +807,7 @@ input[valid='false'] {
 
 #try-again {
   display: none;
- 
 }
-
 
 @keyframes pulse {
   0% {

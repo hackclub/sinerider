@@ -15,6 +15,7 @@ function Level(spec) {
     storage,
     savedLatex,
     world,
+    playBackgroundMusic,
   } = spec
 
   preprocessDatum(datum)
@@ -29,6 +30,7 @@ function Level(spec) {
     flashRunButton = false,
     runAsCutscene = false,
     camera: cameraSpec = {},
+    victoryX = null,
   } = datum
 
   const quads = globalScope.quads
@@ -147,7 +149,10 @@ function Level(spec) {
   function preprocessDatum(datum) {
     // Reuse datum across levels/bubbles
     if (datum._preprocessed) return
-    console.log('Preprocessing for level', datum.name)
+
+    // Add biome defaults
+    if (datum.biome) _.defaults(datum, BIOMES[datum.biome])
+
     // Expand `dialogue` array to individual speech objects
     const dialogue = datum.dialogue
     const walkers = datum.walkers ?? []
@@ -165,7 +170,6 @@ function Level(spec) {
     ]
 
     if (dialogue) {
-      console.log(allWalkers)
       for (const line of dialogue) {
         if (!line.speaker) {
           throw new Error(
@@ -278,6 +282,8 @@ function Level(spec) {
     globalScope.p = math.complex()
     assignPlayerPosition()
 
+    playBackgroundMusic(datum.backgroundMusic, self)
+
     if (runAsCutscene) {
       // Don't play sound, keep navigator
       world._startRunning(false, false)
@@ -347,6 +353,8 @@ function Level(spec) {
   function getCutsceneDistanceParameter() {
     let playerEntity =
       walkers.find((s) => s.active) || sledders.find((w) => w.active)
+    if (!playerEntity)
+      throw "Couldn't find a player entity for cutscene distance parameter"
     return playerEntity?.transform.x.toFixed(1)
   }
 
@@ -373,9 +381,16 @@ function Level(spec) {
       checkTransition(sledder)
     }
 
-    // ui.timeString.innerHTML = 'T='+time
-    ui.runButtonString.innerHTML = 'T=' + time
-    ui.stopButtonString.innerHTML = 'T=' + time
+    if (victoryX != null && !completed) {
+      if (getCutsceneDistanceParameter() > victoryX) {
+        completed = true
+        levelCompleted(true)
+      }
+    }
+
+    // ui.timeString.innerHTML = 't='+time
+    ui.runButtonString.innerHTML = 't=' + time
+    ui.stopButtonString.innerHTML = 't=' + time
 
     assignPlayerPosition()
 
@@ -643,12 +658,6 @@ function Level(spec) {
     ui.tryAgainButton.setAttribute('hide', false)
     ui.stopButton.setAttribute('hide', true)
   }
-
-  // ui.stopButton.addEventListener('click', function () {
-  //   ui.stopButtonString.innerHTML = 'T='
-  //   ui.stopButton.style.animation = ''
-  //   ui.stopButton.removeEventListener('click', reset)
-  // })
 
   function playOpenMusic() {
     if (openMusic) openMusic.play()
@@ -934,9 +943,16 @@ function Level(spec) {
   }
 
   function save() {
+    // Do not write to URL if debug level is set
+    if (DEBUG_LEVEL) return
+
     // Save to player storage and to URI
-    // storage.setLevel(datum.nick, serialize())
-    // history.pushState(null, null, '?' + LZString.compressToBase64(JSON.stringify(serialize())))
+    storage.setLevel(datum.nick, serialize())
+    history.pushState(
+      null,
+      null,
+      '?' + LZString.compressToBase64(JSON.stringify(serialize())),
+    )
   }
 
   function setGraphExpression(text, latex) {

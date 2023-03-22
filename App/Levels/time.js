@@ -2,7 +2,7 @@ const TIME = [
   {
     name: 'Time',
     nick: 'TIME_CONSTANT',
-    colors: Colors.biomes.gunnison,
+    biome: 'eternalCanyon',
     x: 30,
     y: 0,
     requirements: ['SLOPE_SCALE_TRANSLATE'],
@@ -47,19 +47,15 @@ const TIME = [
         ],
       },
     ],
-    sky: {
-      asset: 'images.eternal_canyon_background',
-      margin: 1,
-    },
   },
   {
-    name: 'Time Translate',
+    name: 'Time Cool',
     nick: 'TIME_COOL',
-    colors: Colors.biomes.gunnison,
+    biome: 'eternalCanyon',
     x: -10,
     y: -10,
     requirements: null,
-    defaultExpression: 't',
+    defaultExpression: '\\left(x+1\\right)\\cdot \\left(t-1\\right)',
     goals: [
       {
         x: -4,
@@ -102,19 +98,15 @@ const TIME = [
         ],
       },
     ],
-    sky: {
-      asset: 'images.eternal_canyon_background',
-      margin: 1,
-    },
   },
   {
     name: 'Time Translate X',
     nick: 'TIME_PARABOLA_TRANSLATE_X',
-    colors: Colors.biomes.gunnison,
+    biome: 'eternalCanyon',
     x: 10,
     y: 0,
     requirements: ['TIME_CONSTANT'],
-    defaultExpression: '(x+t)^2',
+    defaultExpression: '(x+t+1)^2',
     goals: [
       {
         x: -2,
@@ -135,19 +127,15 @@ const TIME = [
         asset: 'images.lunchbox_sled',
       },
     ],
-    sky: {
-      asset: 'images.eternal_canyon_background',
-      margin: 1,
-    },
   },
   {
     name: 'Time Translate XY',
     nick: 'TIME_PARABOLA_TRANSLATE_X_Y',
-    colors: Colors.biomes.gunnison,
+    biome: 'eternalCanyon',
     x: 10,
     y: 0,
     requirements: [null],
-    defaultExpression: '\\left(x-t\\right)^2',
+    defaultExpression: '\\left(x-t\\right)^2+1',
     goals: [
       {
         type: 'path',
@@ -179,19 +167,15 @@ const TIME = [
         // ],
       },
     ],
-    sky: {
-      asset: 'images.eternal_canyon_background',
-      margin: 1,
-    },
   },
   {
     name: 'Time Translate',
     nick: 'TIME_PARABOLA_TRANSLATE_X_Y_SCALE_Y',
-    colors: Colors.biomes.gunnison,
+    biome: 'eternalCanyon',
     x: 10,
     y: 10,
     requirements: [null],
-    defaultExpression: '(x-t)^2',
+    defaultExpression: '(x-t)^2+t',
     goals: [
       {
         type: 'path',
@@ -224,15 +208,11 @@ const TIME = [
         // },
       },
     ],
-    sky: {
-      asset: 'images.eternal_canyon_background',
-      margin: 1,
-    },
   },
   {
-    name: 'Time Translate',
+    name: 'Time Hard',
     nick: 'TIME_HARD',
-    colors: Colors.biomes.gunnison,
+    biome: 'eternalCanyon',
     x: -10,
     y: 0,
     requirements: [null],
@@ -273,6 +253,16 @@ const TIME = [
         order: 'B',
       },
     ],
+
+    texts: [
+      {
+        x: 0,
+        y: 20,
+        size: 1,
+        fill: '#fff',
+        content: '(this level is impossible)',
+      },
+    ],
     sledders: [
       {
         x: 0,
@@ -296,19 +286,15 @@ const TIME = [
         // },
       },
     ],
-    sky: {
-      asset: 'images.eternal_canyon_background',
-      margin: 1,
-    },
   },
   {
     name: 'time parabola vertical oscillator',
     nick: 'TIME_PARABOLA_RISER',
-    colors: Colors.biomes.gunnison,
+    biome: 'eternalCanyon',
     x: -20,
     y: 0,
     requirements: ['SIN_TRANSLATE_X_Y'],
-    defaultExpression: '\\left(\\frac{x}{4}\\right)^2',
+    defaultExpression: '\\left(\\frac{x}{4}\\right)^2-t-1',
     goals: [
       {
         x: 4,
@@ -328,19 +314,15 @@ const TIME = [
         asset: 'images.sam_sled',
       },
     ],
-    sky: {
-      asset: 'images.eternal_canyon_background',
-      margin: 1,
-    },
   },
   {
     name: 'time parabola negator',
     nick: 'TIME_PARABOLA_NEGATOR',
-    colors: Colors.biomes.gunnison,
+    biome: 'eternalCanyon',
     x: -10,
     y: -10,
     requirements: [null],
-    defaultExpression: '-\\left(\\frac{x}{4}\\right)^2',
+    defaultExpression: '\\left(\\frac{x}{4}\\right)^2\\cdot \\left(t-1\\right)',
     goals: [
       {
         x: -9,
@@ -380,15 +362,11 @@ const TIME = [
         asset: 'images.sam_sled',
       },
     ],
-    sky: {
-      asset: 'images.eternal_canyon_background',
-      margin: 1,
-    },
   },
   {
     name: 'sin time oscillate parabola',
     nick: 'TIME_SIN_PARABOLA_OSCILLATOR',
-    colors: Colors.biomes.gunnison,
+    biome: 'eternalCanyon',
     x: -20,
     y: 0,
     requirements: [null],
@@ -422,15 +400,11 @@ const TIME = [
         asset: 'images.lunchbox_sled',
       },
     ],
-    sky: {
-      asset: 'images.eternal_canyon_background',
-      margin: 1,
-    },
   },
   {
     name: 'sin time translate',
     nick: 'TIME_SIN_TRANSLATE_X',
-    colors: Colors.biomes.gunnison,
+    biome: 'eternalCanyon',
     x: 0,
     y: -10,
     requirements: ['TIME_PARABOLA_RISER'],
@@ -475,15 +449,11 @@ const TIME = [
         asset: 'images.lunchbox_sled',
       },
     ],
-    sky: {
-      asset: 'images.eternal_canyon_background',
-      margin: 1,
-    },
   },
   {
     name: 'sin time escalate',
     nick: 'TIME_SIN_ESCALATOR',
-    colors: Colors.biomes.gunnison,
+    biome: 'eternalCanyon',
     x: -10,
     y: -10,
     requirements: [null],
@@ -528,15 +498,11 @@ const TIME = [
         asset: 'images.sam_sled',
       },
     ],
-    sky: {
-      asset: 'images.eternal_canyon_background',
-      margin: 1,
-    },
   },
   {
     name: 'sin time escalate oscillate',
     nick: 'TIME_SIN_ESCALATOR_OSCILLATOR',
-    colors: Colors.biomes.gunnison,
+    biome: 'eternalCanyon',
     x: -20,
     y: 0,
     requirements: [null],
@@ -563,15 +529,11 @@ const TIME = [
         y: 0,
       },
     ],
-    sky: {
-      asset: 'images.eternal_canyon_background',
-      margin: 1,
-    },
   },
   {
     name: 'sin time oscillate expand',
     nick: 'TIME_SIN_EXPANDING_OSCILLATOR',
-    colors: Colors.biomes.gunnison,
+    biome: 'eternalCanyon',
     x: -10,
     y: -10,
     requirements: ['TIME_SIN_ESCALATOR'],
@@ -615,9 +577,5 @@ const TIME = [
         asset: 'images.lunchbox_sled',
       },
     ],
-    sky: {
-      asset: 'images.eternal_canyon_background',
-      margin: 1,
-    },
   },
 ]

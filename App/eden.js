@@ -15,8 +15,7 @@ worldData.push({
       lavamonster_jaw: '.webp',
       lavamonster_top_jaw: '.webp',
       lavamonster_bottom_jaw: '.webp',
-      sinusoidaldesertbiome_1: 'sinusoidaldesertbiome_1.webp',
-      sinusoidaldesertbiome_2: 'sinusoidaldesertbiome_2.webp',
+      sinusoidal_desert_background: '.webp',
       sam_sled: 'ada_sled.webp',
       sam_float: 'ada_float_right.webp',
       sam_float_dark: '.svg',
@@ -47,11 +46,11 @@ worldData.push({
       tree_home_3: '.webp',
       initial_bg: 'initial-bg.webp',
       logistic_dunes_background: '.webp',
-      hilbert_swamp_background: '.webp',
+      hilbert_delta_background: '.webp',
       western_slopes_background: '.webp',
       western_slopes_background_no_sky: '.webp',
       eternal_canyon_background: '.webp',
-      valley_parabola_background: 'valley_parabola_background.webp',
+      valley_parabola_background: '.webp',
       volcano_background: '.webp',
       volcano_background_tall: '.webp',
       volcano_background_medium: '.webp',
@@ -77,10 +76,21 @@ worldData.push({
       plant_clump_3: '.webp',
       plant_clump_4: '.webp',
       plant_clump_5: '.webp',
+      grass_2: '.webp',
+      tumbleweed: '.webp',
+      cactus: '.webp',
     },
     sounds: {
       music: {
         intro: '.mp3',
+        birds: '.mp3',
+        credits: '.mp3',
+        map: '.mp3',
+        western_slopes_puzzle: '.mp3',
+        valley_parabola_puzzle: '.mp3',
+        eternal_canyon_puzzle: '.mp3',
+        sinusoidal_desert_puzzle: '.mp3',
+        logistic_dunes_puzzle: '.mp3',
         constant_lake: {
           base: 'base_compressed.mp3',
           pad_1_loopable: 'pad_1_loopable_compressed.mp3',
@@ -112,7 +122,10 @@ worldData.push({
       map_button: 'map_button_compressed.mp3',
       next_button: 'next_button_compressed.mp3',
       enter_level: 'enter_level_compressed.mp3',
-      goal_fail: 'goal_fail_compressed.mp3',
+      goal_fail: {
+        src: 'goal_fail_compressed.mp3',
+        volume: 0.1,
+      },
       goal_success: 'goal_success_compressed.mp3',
       level_success: 'level_success_compressed.mp3',
       restart_button: 'restart_button_compressed.mp3',
@@ -162,7 +175,7 @@ worldData.push({
     {
       name: 'Welcome',
       nick: 'HELLO_WORLD',
-      colors: Colors.biomes.home,
+      biome: 'home',
       x: 0,
       y: 0,
       requirements: [],
@@ -170,14 +183,6 @@ worldData.push({
       flashRunButton: true,
       defaultExpression:
         '\\frac{-2}{1+e^{-x+5}}+\\frac{-2}{1+\\left(x-30\\right)^2}',
-      hint: 'congratulations, you found the secret hint!',
-      camera: {
-        offset: {
-          x: 0,
-          // y: 0.53,
-          y: 0.5,
-        },
-      },
       goals: [
         {
           type: 'dynamic',
@@ -271,44 +276,6 @@ worldData.push({
           offset: Vector2(0, 0.5),
           anchored: true,
         },
-        // {
-        //   asset: 'images.tree_home_1',
-        //   drawOrder: LAYERS.foreSprites,
-        //   flipX: '*',
-        //   size: 5.2,
-        //   x: 21,
-        //   y: 0,
-        //   offset: Vector2(0, 0.8),
-        //   anchored: true
-        // },
-        // {
-        //   asset: 'images.tree_home_1',
-        //   flipX: '*',
-        //   size: 5.9,
-        //   x: 10,
-        //   y: 0,
-        //   offset: Vector2(0, 0.8),
-        //   anchored: true
-        // },
-        // {
-        //   asset: 'images.tree_home_1',
-        //   drawOrder: LAYERS.foreSprites,
-        //   flipX: '*',
-        //   size: 7.1,
-        //   x: 34.2,
-        //   y: 0,
-        //   offset: Vector2(0, 0.7),
-        //   anchored: true
-        // },
-        // {
-        //   asset: 'images.tree_home_1',
-        //   flipX: '*',
-        //   size: 5.6,
-        //   x: 36.3,
-        //   y: 0,
-        //   offset: Vector2(0, 0.8),
-        //   anchored:true
-        // },
         {
           asset: 'images.crow',
           flipX: '*',
@@ -335,19 +302,6 @@ worldData.push({
           content: 'A game about love and graphing.',
         },
       ],
-      sky: {
-        asset: 'images.initial_bg',
-        margin: 1,
-      },
-      clouds: {},
-      snow: {
-        density: 0.1,
-        maxHeight: 8,
-        velocity: {
-          x: 0.2,
-          y: 0.4,
-        },
-      },
       textBubbles: [
         {
           content: 'click here!',
@@ -385,6 +339,7 @@ worldData.push({
     ...TIME,
     ...SWAMP,
     VOLCANO,
+    CREDITS,
   ],
 })
 

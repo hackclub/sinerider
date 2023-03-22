@@ -2,7 +2,7 @@ const CONVERGENCE = [
   {
     name: 'Convergence 1',
     nick: 'CONVERGENCE_1',
-    colors: Colors.biomes.everglades,
+    biome: 'hilbertDelta',
     x: 0,
     y: -20,
     requirements: ['TWO_BELOW'],
@@ -50,15 +50,11 @@ const CONVERGENCE = [
       // { x: -12, y: 0, asset: 'images.sam_sled' },
       // { x: 12, y: 0, asset: 'images.lunchbox_sled' },
     ],
-    sky: {
-      asset: 'images.hilbert_swamp_background',
-      margin: 1,
-    },
   },
   {
     name: 'Convergence 2',
     nick: 'CONVERGENCE_2',
-    colors: Colors.biomes.everglades,
+    biome: 'hilbertDelta',
     x: -10,
     y: -10,
     requirements: [null],
@@ -106,15 +102,11 @@ const CONVERGENCE = [
       // { x: -12, y: 0, asset: 'images.sam_sled' },
       // { x: 12, y: 0, asset: 'images.lunchbox_sled' },
     ],
-    sky: {
-      asset: 'images.hilbert_swamp_background',
-      margin: 1,
-    },
   },
   {
     name: 'Convergence 3',
     nick: 'CONVERGENCE_3',
-    colors: Colors.biomes.everglades,
+    biome: 'hilbertDelta',
     x: 10,
     y: 0,
     requirements: ['CONVERGENCE_1'],
@@ -150,15 +142,11 @@ const CONVERGENCE = [
       // { x: -12, y: 0, asset: 'images.sam_sled' },
       // { x: 12, y: 0, asset: 'images.lunchbox_sled' },
     ],
-    sky: {
-      asset: 'images.hilbert_swamp_background',
-      margin: 1,
-    },
   },
   {
     name: 'Convergence 4',
     nick: 'CONVERGENCE_4',
-    colors: Colors.biomes.everglades,
+    biome: 'hilbertDelta',
     x: -10,
     y: -10,
     requirements: [null],
@@ -206,9 +194,5 @@ const CONVERGENCE = [
       // { x: -12, y: 0, asset: 'images.sam_sled' },
       // { x: 12, y: 0, asset: 'images.lunchbox_sled' },
     ],
-    sky: {
-      asset: 'images.hilbert_swamp_background',
-      margin: 1,
-    },
   },
 ]
