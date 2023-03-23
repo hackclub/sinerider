@@ -14,7 +14,7 @@ function Tip(spec) {
     content = 'Hello',
     domSelector,
     place,
-    destroyOnClick = false,
+    destroyOnClick = true,
     style = {},
   } = spec
 

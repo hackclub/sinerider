@@ -59,13 +59,11 @@ const SLOPE = [
         content: 'Edit function here',
         domSelector: '#expression-envelope',
         place: 'top-right',
-        destroyOnClick: true,
       },
       {
         content: 'Click here to sled',
         domSelector: '#run-button',
         place: 'top-left',
-        destroyOnClick: true,
         style: { visibility: 'hidden' },
         // style: { fontSize: '1.1rem' },
       },
