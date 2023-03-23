@@ -28,13 +28,13 @@ const ui = {
   victoryLabelString: $('#victory-label > .string'),
   victoryStopButton: $('#victory-stop-button'),
   nextButton: $('#next-button'),
-
+  
   messageBar: $('#message-bar'),
   messageBarString: $('#message-bar > .string'),
 
   variablesBar: $('#variables-bar'),
   timeString: $('#time-string'),
-
+  completionTime: $('#completion-time'),
   controlBar: $('#controls-bar'),
   expressionText: $('#expression-text'),
   expressionEnvelope: $('#expression-envelope'),
@@ -116,6 +116,10 @@ if (DEBUG_LEVEL) {
   w.levelData[0] = w.levelData[debugLevelIndex]
   w.levelData[debugLevelIndex] = tmp
 }
+
+// Don't show debug info in production
+if (window.location.hostname === 'sinerider.com')
+  ui.levelInfoDiv.setAttribute('hide', true)
 
 const world = World({
   ui,
