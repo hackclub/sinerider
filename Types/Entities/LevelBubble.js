@@ -136,7 +136,18 @@ function LevelBubble(spec) {
       if (clickable.hovering) strokeWidth *= 2
     }
 
-    ctx.arc(0, 0, radius, 0, Math.PI * 2)
+    if (bubbletLevel.datum.runAsCutscene) {
+      ctx.rotate((45 * Math.PI) / 180)
+      ctx.rect(
+        -radius / 2,
+        -radius / 2,
+        radius + strokeWidth,
+        radius + strokeWidth,
+      )
+    } else {
+      ctx.arc(0, 0, radius, 0, Math.PI * 2)
+    }
+
     ctx.lineWidth = strokeWidth
 
     ctx.fillStyle = '#fff'
@@ -146,7 +157,18 @@ function LevelBubble(spec) {
 
     ctx.fill()
     ctx.clip()
-    ctx.drawImage(bubbletCanvas, -radius, -radius, radius * 2, radius * 2)
+    if (bubbletLevel.datum.runAsCutscene) {
+      ctx.rotate((-45 * Math.PI) / 180)
+      ctx.drawImage(
+        bubbletCanvas,
+        -radius * 2,
+        -radius * 2,
+        radius * 4,
+        radius * 4,
+      )
+    } else {
+      ctx.drawImage(bubbletCanvas, -radius, -radius, radius * 2, radius * 2)
+    }
 
     ctx.fillStyle = '#333'
     ctx.textAlign = 'center'
@@ -160,7 +182,17 @@ function LevelBubble(spec) {
     // ctx.globalAlpha = 1
 
     ctx.beginPath()
-    ctx.arc(0, 0, radius + strokeWidth / 2 - 0.02, 0, Math.PI * 2)
+    if (bubbletLevel.datum.runAsCutscene) {
+      console.log(strokeWidth)
+      ctx.rect(
+        -radius / 2 - 0.1,
+        -radius / 2 - 0.1,
+        radius + strokeWidth,
+        radius + strokeWidth,
+      )
+    } else {
+      ctx.arc(0, 0, radius + strokeWidth / 2 - 0.02, 0, Math.PI * 2)
+    }
 
     ctx.stroke()
   }
