@@ -92,7 +92,9 @@ function World(spec) {
     )
       screen.resize()
 
-    if (running) runTime += tickDelta
+    if (running) {
+      runTime += tickDelta
+    }
   }
 
   function draw() {}
