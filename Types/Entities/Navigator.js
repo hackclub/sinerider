@@ -49,7 +49,7 @@ function Navigator(spec) {
       tickDelta,
       getBubbleByNick,
       parent: self,
-      getShowAll: () => showAll,
+      showAllUsed: () => showAll,
       drawOrder: LAYERS.levelBubbles,
     })
 

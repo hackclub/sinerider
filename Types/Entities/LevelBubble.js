@@ -8,7 +8,7 @@ function LevelBubble(spec) {
     getEditing,
     tickDelta,
     getBubbleByNick,
-    getShowAll,
+    showAllUsed,
     quad,
   } = spec
 
@@ -105,7 +105,7 @@ function LevelBubble(spec) {
         truncate: [radius + 0.9, radius + 0.9],
         point0: bubble.transform.position,
         point1: transform.position,
-        drawOrde: LAYERS.arrows,
+        drawOrder: LAYERS.arrows,
         parent: self,
       })
 
@@ -172,12 +172,12 @@ function LevelBubble(spec) {
       playable = true
       hilighted = !completed
     } else {
-      playable = getShowAll()
+      playable = showAllUsed()
       hilighted = false
     }
 
     // visible = playable || _.some(requirements, v => v.playable)
-    visible = true //TODO: implement gradient fade for invisible unmet requirements. Until then, inaccessible levels will always be shown.
+    visible = playable //TODO: implement gradient fade for invisible unmet requirements. Until then, inaccessible levels will always be shown.
 
     const opacity = visible ? (playable ? 1 : 0.5) : 0
 
