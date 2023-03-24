@@ -275,6 +275,7 @@ function World(spec) {
   }
 
   function startRunning(playSound = true, hideNavigator = true) {
+    console.log("World::startRunning")
     running = true
     setCompletionTime(null)
 
@@ -301,6 +302,7 @@ function World(spec) {
   }
 
   function stopRunning(playSound = true) {
+    console.log("World::stopRunning")
     runTime = 0
     running = false
     setCompletionTime(null)
@@ -331,8 +333,11 @@ function World(spec) {
   }
 
   function toggleRunning() {
-    if (running) stopRunning()
-    else startRunning()
+    if (running) {
+      stopRunning()
+    } else {
+      startRunning()
+    }
   }
 
   function generateRandomLevel() {

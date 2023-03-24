@@ -7,6 +7,7 @@ function Engine(ticksPerSecond = 60, tickDelta = 1.0 / 30.0, debugStepping = fal
   this.canvasIsDirty = true
   this.canvas = ui.canvas
   this.screen = Screen({ canvas: ui.canvas, })
+  this.world = null  
   this.injectDebugLevelIfNeeded()
 }
 
@@ -21,6 +22,7 @@ Engine.prototype.start = function () {
     screen: me.screen,
     requestDraw: me.requestDraw.bind(me),
     tickDelta: me.tickDelta,
+    drawOrder: NINF,
     ...worldData[0]
   })
 
@@ -31,7 +33,7 @@ Engine.prototype.start = function () {
     setInterval(this.tick.bind(this), 1000 / ticksPerSecond)
   }
 
-  this.initUserInterface()
+  this.initUserInterface(ui.canvas, this.world)
 
   // Draw as fast as we possibly can
   setInterval(this.requestDraw.bind(this), 0)
@@ -41,9 +43,9 @@ Engine.prototype.start = function () {
  * Main world tick handler.  Dispatches tick events to all subentities
  */
 Engine.prototype.tick = function () {
-  this.world.awake.bind(this.world)
-  this.world.start.bind(this.world)
-  this.world.tick.bind(this.world)
+  this.world.awake()
+  this.world.start()
+  this.world.tick()
 }
 
 /**
@@ -84,7 +86,7 @@ Engine.prototype.requestDraw = function () {
 /**
  * Initialize the formula input field with MathQuill helpers
  */
-Engine.prototype.initInputField = function () {
+Engine.prototype.initInputField = function (world) {
   let me = this
   // MathQuill
   ui.mathFieldStatic = MQ.StaticMath(ui.mathFieldStatic)
@@ -95,7 +97,7 @@ Engine.prototype.initInputField = function () {
         edit: function () {
           const text = field.getPlainExpression()
           const latex = field.latex()
-          me.world.level.sendEvent(eventNameOnEdit, [text, latex])
+          world.level.sendEvent(eventNameOnEdit, [text, latex])
         },
       },
     })
@@ -114,13 +116,13 @@ Engine.prototype.initInputField = function () {
   ui.dottedMathFieldStatic = MQ.StaticMath(ui.dottedMathFieldStatic)
 
   function onMathFieldFocus(event) {
-    me.world.onMathFieldFocus()
+    world.onMathFieldFocus()
   }
 
   ui.expressionEnvelope.addEventListener('focusin', onMathFieldFocus)
 
   function onMathFieldBlur(event) {
-    me.world.onMathFieldBlur()
+    world.onMathFieldBlur()
   }
 
   ui.expressionEnvelope.addEventListener('blurout', onMathFieldBlur)
@@ -129,26 +131,28 @@ Engine.prototype.initInputField = function () {
 /**
  * Initialize the user interface, adding key handlers and the like
  */
-Engine.prototype.initUserInterface = function () {
+Engine.prototype.initUserInterface = function (canvas, world) {
   let me = this
-  me.initInputField()
+  this.initInputField(world)
 
   // HTML events
   function onKeyUp(event) {
     if (event.keyCode === 13) {
-      if (!me.world.navigating) me.world.toggleRunning()
+      if (!world.navigating) {
+        world.toggleRunning()
+      }
     }
   }
 
   window.addEventListener('keydown', (event) => {
     if (ui.mathField.focused()) return
-    me.world.level.sendEvent('keydown', [event.key])
+    world.level.sendEvent('keydown', [event.key])
   })
 
   window.addEventListener('keyup', onKeyUp)
 
   function onExpressionTextChanged(event) {
-    me.world.level.sendEvent('setGraphExpression', [ui.expressionText.value])
+    world.level.sendEvent('setGraphExpression', [ui.expressionText.value])
   }
 
   function setGlobalVolumeLevel(i) {
@@ -188,7 +192,7 @@ Engine.prototype.initUserInterface = function () {
   setGlobalVolumeLevel(ui.volumeSlider.value / 100)
 
   function onClickMapButton(event) {
-    me.world.onClickMapButton()
+    world.onClickMapButton()
     me.requestDraw()
   }
 
@@ -196,14 +200,14 @@ Engine.prototype.initUserInterface = function () {
   ui.navigatorButton.addEventListener('click', onClickMapButton)
 
   function onClickNextButton(event) {
-    me.world.onClickNextButton()
+    world.onClickNextButton()
   }
 
   ui.nextButton.addEventListener('click', onClickNextButton)
 
   function onClickRunButton(event) {
     if (!me.world.level?.isRunningAsCutscene && !world.navigating)
-    me.world.toggleRunning()
+    world.toggleRunning()
 
     return true
   }
@@ -215,25 +219,25 @@ Engine.prototype.initUserInterface = function () {
   ui.victoryStopButton.addEventListener('click', onClickRunButton)
 
   function onClickShowAllButton(event) {
-    me.world.navigator.showAll = !me.world.navigator.showAll
+    world.navigator.showAll = !world.navigator.showAll
   }
 
   ui.showAllButton.addEventListener('click', onClickShowAllButton)
 
   function onClickEditButton(event) {
-    me.world.editing = !me.world.editing
+    world.editing = !world.editing
   }
 
   ui.editButton.addEventListener('click', onClickEditButton)
 
   function onClickResetButton(event) {
-    me.world.onClickResetButton()
+    world.onClickResetButton()
   }
 
   ui.resetButton.addEventListener('click', onClickResetButton)
 
   function onResizeWindow(event) {
-    me.world.sendEvent('resize', [window.innerWidth, window.innerHeight])
+    world.sendEvent('resize', [window.innerWidth, window.innerHeight])
     me.screen.resize()
     me.requestDraw()
   }
@@ -246,19 +250,19 @@ Engine.prototype.initUserInterface = function () {
     }
   }
 
-  me.canvas.addEventListener('click', onClickCanvas)
+  canvas.addEventListener('click', onClickCanvas)
   ui.veil.addEventListener('click', onClickCanvas)
 
   function onMouseMoveCanvas(event) {
-    me.world.clickableContext.processEvent(event, 'mouseMove')
+    world.clickableContext.processEvent(event, 'mouseMove')
     event.preventDefault()
   }
 
-  me.canvas.addEventListener('mousemove', onMouseMoveCanvas)
-  me.canvas.addEventListener('pointermove', onMouseMoveCanvas)
+  canvas.addEventListener('mousemove', onMouseMoveCanvas)
+  canvas.addEventListener('pointermove', onMouseMoveCanvas)
 
   function onMouseDownCanvas(event) {
-    me.world.clickableContext.processEvent(event, 'mouseDown')
+    world.clickableContext.processEvent(event, 'mouseDown')
     event.preventDefault()
     ui.mathField.blur()
   }
@@ -267,7 +271,7 @@ Engine.prototype.initUserInterface = function () {
   canvas.addEventListener('pointerdown', onMouseDownCanvas)
 
   function onMouseUpCanvas(event) {
-    me.world.clickableContext.processEvent(event, 'mouseUp')
+    world.clickableContext.processEvent(event, 'mouseUp')
     event.preventDefault()
   }
 
