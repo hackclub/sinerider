@@ -105,7 +105,7 @@ function LevelBubble(spec) {
         truncate: [radius + 0.9, radius + 0.9],
         point0: bubble.transform.position,
         point1: transform.position,
-        drawOrde: LAYERS.arrows,
+        drawOrder: LAYERS.arrows,
         parent: self,
       })
 
@@ -216,18 +216,27 @@ function LevelBubble(spec) {
       hilighted = false
     }
 
-    // visible = playable || _.some(requirements, v => v.playable)
-    visible = true //TODO: implement gradient fade for invisible unmet requirements. Until then, inaccessible levels will always be shown.
+    visible = playable || _.some(requirements, (v) => v.playable)
+  }
 
-    const opacity = visible ? (playable ? 1 : 0.5) : 0
-
+  function refreshArrows() {
     _.each(arrows, (v) => {
-      v.opacity = opacity
+      v.opacity = visible
+        ? playable
+          ? 1
+          : 0.5
+        : v.fromBubble.visible
+        ? 0.5
+        : 0
       v.dashed = !v.toBubble.unlocked
+      v.fadeIn = visible && !v.fromBubble.visible
+      v.fadeOut = !visible && v.fromBubble.visible
     })
   }
 
   function draw() {
+    if (!visible) return
+
     camera.drawThrough(ctx, drawLocal, transform)
     ctx.globalAlpha = 1
   }
@@ -301,6 +310,7 @@ function LevelBubble(spec) {
     linkRequirements,
 
     refreshPlayable,
+    refreshArrows,
 
     get nick() {
       return nick

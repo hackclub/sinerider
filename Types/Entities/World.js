@@ -9,6 +9,7 @@ function World(spec) {
 
   let running = false
   let runTime = 0
+  let completionTime = null
 
   const quads = {}
 
@@ -37,6 +38,10 @@ function World(spec) {
 
     get quads() {
       return quads
+    },
+
+    get completionTime() {
+      return completionTime
     },
   }
 
@@ -73,7 +78,11 @@ function World(spec) {
   let levelBubble
 
   function start() {
-    ui.hideLevelInfoButton.addEventListener('click', hideLevelInfoClicked)
+    // Only show the level info if we're not in debug
+    if (!window.location.hostname.endsWith('sinerider.com')) {
+      ui.levelInfoDiv.setAttribute('hide', false)
+      ui.hideLevelInfoButton.addEventListener('click', hideLevelInfoClicked)
+    }
   }
 
   function tick() {
@@ -177,7 +186,6 @@ function World(spec) {
 
     ui.levelInfoNameStr.innerHTML = levelDatum.name
     ui.levelInfoNickStr.innerHTML = levelDatum.nick
-    ui.levelInfoDiv.setAttribute('hide', false)
 
     setNavigating(false)
   }
@@ -210,11 +218,13 @@ function World(spec) {
   }
 
   function levelCompleted(soft = false) {
+    setCompletionTime(runTime)
+
     if (soft) {
       nextLevel(2.5)
     } else {
       ui.victoryBar.setAttribute('hide', false)
-      ui.controlBar.setAttribute('hide', true)
+      ui.expressionEnvelope.setAttribute('hide', true)
       ui.showAllButton.setAttribute('hide', true)
     }
 
@@ -264,6 +274,7 @@ function World(spec) {
 
   function startRunning(playSound = true, hideNavigator = true) {
     running = true
+    setCompletionTime(null)
 
     ui.mathField.blur()
     ui.expressionEnvelope.setAttribute('disabled', true)
@@ -282,9 +293,15 @@ function World(spec) {
     requestDraw()
   }
 
+  function setCompletionTime(t) {
+    completionTime = t
+    ui.completionTime.innerHTML = t
+  }
+
   function stopRunning(playSound = true) {
     runTime = 0
     running = false
+    setCompletionTime(null)
 
     ui.mathField.blur()
     ui.expressionEnvelope.setAttribute('disabled', false)
@@ -293,6 +310,7 @@ function World(spec) {
 
     ui.controlBar.setAttribute('hide', navigating)
     ui.navigatorButton.setAttribute('hide', false)
+    ui.expressionEnvelope.setAttribute('hide', false)
     ui.runButton.setAttribute('hide', false)
     ui.tryAgainButton.setAttribute('hide', true)
     ui.stopButton.setAttribute('hide', true)
