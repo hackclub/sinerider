@@ -136,14 +136,19 @@ function LevelBubble(spec) {
       if (clickable.hovering) strokeWidth *= 2
     }
 
+    const cutsceneFrameSides = 8
+
     if (bubbletLevel.datum.runAsCutscene) {
-      ctx.rotate((45 * Math.PI) / 180)
-      ctx.rect(
-        -radius / 2,
-        -radius / 2,
-        radius + strokeWidth,
-        radius + strokeWidth,
-      )
+      ctx.rotate(((180 / cutsceneFrameSides) * Math.PI) / 180)
+      ctx.beginPath()
+      ctx.moveTo(radius, radius * Math.sin(0))
+
+      for (var i = 1; i <= cutsceneFrameSides; i += 1) {
+        ctx.lineTo(
+          radius * Math.cos((i * 2 * Math.PI) / cutsceneFrameSides),
+          radius * Math.sin((i * 2 * Math.PI) / cutsceneFrameSides),
+        )
+      }
     } else {
       ctx.arc(0, 0, radius, 0, Math.PI * 2)
     }
@@ -158,14 +163,8 @@ function LevelBubble(spec) {
     ctx.fill()
     ctx.clip()
     if (bubbletLevel.datum.runAsCutscene) {
-      ctx.rotate((-45 * Math.PI) / 180)
-      ctx.drawImage(
-        bubbletCanvas,
-        -radius * 2,
-        -radius * 2,
-        radius * 4,
-        radius * 4,
-      )
+      ctx.rotate((-(180 / cutsceneFrameSides) * Math.PI) / 180)
+      ctx.drawImage(bubbletCanvas, -radius, -radius, radius * 2, radius * 2)
     } else {
       ctx.drawImage(bubbletCanvas, -radius, -radius, radius * 2, radius * 2)
     }
@@ -181,15 +180,24 @@ function LevelBubble(spec) {
 
     // ctx.globalAlpha = 1
 
+    ctx.lineCap = 'butt'
+    ctx.miterLimit = 20
+    ctx.lineJoin = 'miter'
+
     ctx.beginPath()
     if (bubbletLevel.datum.runAsCutscene) {
-      console.log(strokeWidth)
-      ctx.rect(
-        -radius / 2 - 0.1,
-        -radius / 2 - 0.1,
-        radius + strokeWidth,
-        radius + strokeWidth,
-      )
+      ctx.beginPath()
+      ctx.moveTo(radius, radius * Math.sin(0))
+
+      for (var i = 1; i <= cutsceneFrameSides; i += 1) {
+        ctx.lineTo(
+          (radius + strokeWidth / 2 - 0.02) *
+            Math.cos((i * 2 * Math.PI) / cutsceneFrameSides),
+          (radius + strokeWidth / 2 - 0.02) *
+            Math.sin((i * 2 * Math.PI) / cutsceneFrameSides),
+        )
+      }
+      ctx.closePath()
     } else {
       ctx.arc(0, 0, radius + strokeWidth / 2 - 0.02, 0, Math.PI * 2)
     }
