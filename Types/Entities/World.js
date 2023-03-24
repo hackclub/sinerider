@@ -42,7 +42,7 @@ function World(spec) {
 
     get completionTime() {
       return completionTime
-    }
+    },
   }
 
   let navigating = false
@@ -224,7 +224,7 @@ function World(spec) {
       nextLevel(2.5)
     } else {
       ui.victoryBar.setAttribute('hide', false)
-      ui.controlBar.setAttribute('hide', true)
+      ui.expressionEnvelope.setAttribute('hide', true)
       ui.showAllButton.setAttribute('hide', true)
     }
 
@@ -310,6 +310,7 @@ function World(spec) {
 
     ui.controlBar.setAttribute('hide', navigating)
     ui.navigatorButton.setAttribute('hide', false)
+    ui.expressionEnvelope.setAttribute('hide', false)
     ui.runButton.setAttribute('hide', false)
     ui.tryAgainButton.setAttribute('hide', true)
     ui.stopButton.setAttribute('hide', true)

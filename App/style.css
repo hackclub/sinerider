@@ -176,6 +176,8 @@ body > .bar {
 
   background: transparent;
   bottom: 20px;
+
+  pointer-events: none;
 }
 
 .victory .envelope {
@@ -183,6 +185,7 @@ body > .bar {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
   background: #eee;
   padding: 5px;
+  pointer-events: all;
 }
 
 .victory[hide='true'] {
@@ -254,6 +257,10 @@ input[valid='false'] {
   border: 1px solid red;
 }
 
+#expression-envelope {
+  transition: transform 1s, opacity 0.2s;
+}
+
 #expression-envelope[disabled='true'] > #math-field {
   display: none;
 }
@@ -279,6 +286,11 @@ input[valid='false'] {
 
 #expression-envelope[disabled='false'] {
   background: #fff;
+}
+
+#expression-envelope[hide='true'] {
+  transform: translate(0, 200%);
+  opacity: 0;
 }
 
 #run-button {
@@ -530,12 +542,24 @@ input[valid='false'] {
   animation-iteration-count: infinite;
 }
 @keyframes wiggle {
-  0% {transform: rotate(0deg);}
-  80% {transform: rotate(0deg);}
-  85% {transform: rotate(-10deg);}
-  90% {transform: rotate(20deg);}
-  95% {transform: rotate(-5deg);}
-  100% {transform: rotate(0deg);}
+  0% {
+    transform: rotate(0deg);
+  }
+  80% {
+    transform: rotate(0deg);
+  }
+  85% {
+    transform: rotate(-10deg);
+  }
+  90% {
+    transform: rotate(20deg);
+  }
+  95% {
+    transform: rotate(-5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 .top-left {

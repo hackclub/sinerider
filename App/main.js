@@ -26,9 +26,8 @@ const ui = {
   victoryBar: $('#victory-bar'),
   victoryLabel: $('#victory-label'),
   victoryLabelString: $('#victory-label > .string'),
-  victoryStopButton: $('#victory-stop-button'),
   nextButton: $('#next-button'),
-  
+
   messageBar: $('#message-bar'),
   messageBarString: $('#message-bar > .string'),
 
@@ -296,7 +295,6 @@ function onClickRunButton(event) {
 ui.runButton.addEventListener('click', onClickRunButton)
 ui.stopButton.addEventListener('click', onClickRunButton)
 ui.tryAgainButton.addEventListener('click', onClickRunButton)
-ui.victoryStopButton.addEventListener('click', onClickRunButton)
 
 function onClickShowAllButton(event) {
   world.navigator.showAll = !world.navigator.showAll
