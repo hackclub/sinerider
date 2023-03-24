@@ -141,7 +141,7 @@ function LevelBubble(spec) {
     if (bubbletLevel.datum.runAsCutscene) {
       ctx.rotate(((180 / cutsceneFrameSides) * Math.PI) / 180)
       ctx.beginPath()
-      ctx.moveTo(radius, radius * Math.sin(0))
+      ctx.moveTo(radius, 0)
 
       for (var i = 1; i <= cutsceneFrameSides; i += 1) {
         ctx.lineTo(
@@ -187,9 +187,9 @@ function LevelBubble(spec) {
     ctx.beginPath()
     if (bubbletLevel.datum.runAsCutscene) {
       ctx.beginPath()
-      ctx.moveTo(radius, radius * Math.sin(0))
+      ctx.moveTo(radius + strokeWidth / 2 - 0.02, 0)
 
-      for (var i = 1; i <= cutsceneFrameSides; i += 1) {
+      for (var i = 1; i < cutsceneFrameSides; i += 1) {
         ctx.lineTo(
           (radius + strokeWidth / 2 - 0.02) *
             Math.cos((i * 2 * Math.PI) / cutsceneFrameSides),
