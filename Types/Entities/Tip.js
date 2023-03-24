@@ -11,6 +11,8 @@ function Tip(spec) {
 
   let {
     visible = true,
+    index=10,
+    tipCompleted,
     content = 'Hello',
     domSelector,
     place,
@@ -42,10 +44,7 @@ function Tip(spec) {
     domElement.onmousedown = () => {}
 
     // Displays next helper bubble
-    elements = document.querySelectorAll('.helper-bubble')
-    if (elements.length > 0) {
-      elements[0].setAttribute('style', 'visibilty:visible !important')
-    }
+    tipCompleted()
   }
 
   if (destroyOnClick)
