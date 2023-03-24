@@ -176,8 +176,8 @@ function LevelBubble(spec) {
       hilighted = false
     }
 
-    // visible = playable || _.some(requirements, v => v.playable)
-    visible = true //TODO: implement gradient fade for invisible unmet requirements. Until then, inaccessible levels will always be shown.
+    visible = playable || _.some(requirements, (v) => v.playable)
+    // visible = true //TODO: implement gradient fade for invisible unmet requirements. Until then, inaccessible levels will always be shown.
 
     const opacity = visible ? (playable ? 1 : 0.5) : 0
 
