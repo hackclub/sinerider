@@ -52,7 +52,7 @@ Engine.prototype.start = function () {
     setInterval(this.tick.bind(this), 1000 / ticksPerSecond)
   }
 
-  this.initUserInterface(ui.canvas, this.world)
+  this.initUserInterface(this.canvas, this.world)
 
   // Do not schedule draw timer if in headless mode, or relying on frame drawing every tick
   if (this.renderMode !== EngineRenderMode.HEADLESS && this.renderMode !== EngineRenderMode.FRAME_EVERY_TICK) {
@@ -267,7 +267,9 @@ Engine.prototype.initUserInterface = function (canvas, world) {
   ui.runButton.addEventListener('click', onClickRunButton)
   ui.stopButton.addEventListener('click', onClickRunButton)
   ui.tryAgainButton.addEventListener('click', onClickRunButton)
-  ui.victoryStopButton.addEventListener('click', onClickRunButton)
+
+  if (ui.victoryStopButton)
+    ui.victoryStopButton.addEventListener('click', onClickRunButton)
 
   function onClickShowAllButton(event) {
     world.navigator.showAll = !world.navigator.showAll
