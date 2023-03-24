@@ -7,7 +7,7 @@ const editor = Editor(ui)
 
 // NOTE: 30 ticks per second is "normal", manipulating this value changes the simulation speed, but it maintains
 // deterministic results regardless
-const ticksPerSecond = 30 * 100 // (run 100x faster than normal)
+const ticksPerSecond = 30 //* 100 // (run 100x faster than normal)
 
 // NOTE - this is very consciously decoupled from 'ticksPerSecond' so that we can get consistent results
 // when modifying the # of ticks per second to be faster than normal (for instance, when we're scoring)
@@ -20,10 +20,13 @@ const tickDelta = 1.0 / 30.0
 const debugLevel = null; // 'Level Editor', 'Volcano', 'Constant Lake', 'Two Below'
 
 // Enable to report current FPS via console.log every 100 ticks
-const fpsLogging = true
+const fpsLogging = false
+
+// Enable to report tick times via console.log
+const tickTimeLogging = false
 
 // Create the engine
-const engine = new Engine(ticksPerSecond, tickDelta, debugStepping, debugLevel, EngineRenderMode.FRAME_EVERY_TICK, fpsLogging)
+const engine = new Engine(ticksPerSecond, tickDelta, debugStepping, debugLevel, EngineRenderMode.FRAME_EVERY_TICK, fpsLogging, tickTimeLogging)
 
 // Let's goooooooo!
 engine.start()

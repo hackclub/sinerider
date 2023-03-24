@@ -5,13 +5,17 @@ const EngineRenderMode = Object.freeze({
   // Render one frame per tick, and only that
   FRAME_EVERY_TICK: 'FRAME_EVERY_TICK',
 
-  // Uncapped performance, splits tick rate from render rate completely
+  // Uncapped performance, splits tick rate from render rate completely.  NOTE: I have tested this in Chrome and observed
+  // that it does result in higher FPS, but is limited to the refresh rate of your display due to use of requestAnimationFrame
+  // Note that turning this on has no real effect right now
   HIGH_PERFORMANCE: 'HIGH_PERFORMANCE',
 })
 
-function Engine(ticksPerSecond = 60, tickDelta = 1.0 / 30.0, debugStepping = false, debugLevel = null, renderMode = EngineRenderMode.HIGH_PERFORMANCE, fpsLogging = false) {
+// The game engine!  Behold its awesome glory
+function Engine(ticksPerSecond = 60, tickDelta = 1.0 / 30.0, debugStepping = false, debugLevel = null, renderMode = EngineRenderMode.HIGH_PERFORMANCE, fpsLogging = false, tickTimeLogging = false) {
   this.fpsLogging = fpsLogging
   this.ticksPerSecond = ticksPerSecond
+  this.tickTimeLogging = tickTimeLogging
   this.tickDelta = tickDelta
   this.debugStepping = debugStepping
   this.debugLevel = debugLevel
@@ -61,19 +65,33 @@ Engine.prototype.start = function () {
  * Main world tick handler.  Dispatches tick events to all subentities
  */
 Engine.prototype.tick = function () {
-  this.tickCount++
-  this.world.awake()
-  this.world.start()
-  this.world.sendEvent('tick')
+  const me = this
 
-  // Draw every tick if the render mode suggests to do so
-  if (this.renderMode === EngineRenderMode.FRAME_EVERY_TICK) {
-    this.requestDraw()
-  }
+  // Performs an actual tick.  Returns elapsed time spent ticking in milliseconds
+  function tickInternal() {
+    const startTime = Date.now()
+    me.tickCount++
+    me.world.awake()
+    me.world.start()
+    me.world.sendEvent('tick')
   
-  if (this.fpsLogging && (this.tickCount % 100 == 0)) {
-    this.logFps()
-    this.resetFpsCounter()
+    // Draw every tick if the render mode suggests to do so
+    if (me.renderMode === EngineRenderMode.FRAME_EVERY_TICK) {
+      me.requestDraw()
+    }
+  
+    if (me.fpsLogging && (me.tickCount % 100 == 0)) {
+      me.logFps()
+      me.resetFpsCounter()
+    }
+    return Date.now() - startTime
+  }
+
+  // Do the tick
+  const tickTimeMs = tickInternal();
+
+  if (this.tickTimeLogging) {
+    console.log(`tick took ${tickTimeMs} ms`)
   }
 }
 
@@ -102,7 +120,7 @@ Engine.prototype.draw = function () {
   }
 
   if (this.fpsLogging) {
-    this.resetFpsCounter
+    this.fpsStats.frameCount++
   }
 }
 
@@ -312,12 +330,10 @@ Engine.prototype.initUserInterface = function (canvas, world) {
   canvas.addEventListener('pointerup', onMouseUpCanvas)
 
   ui.levelInfoDiv.addEventListener('mouseover', function () {
-    console.log('mouseover')
     ui.hideLevelInfoButton.setAttribute('hide', false)
   })
 
   ui.levelInfoDiv.addEventListener('mouseleave', function () {
-    console.log('mouseleave')
     ui.hideLevelInfoButton.setAttribute('hide', true)
   })
 
@@ -351,9 +367,10 @@ Engine.prototype.getWorld = function() {
 }
 
 Engine.prototype.resetFpsCounter = function() {
-  this.fpsStats = { frameCount: 0, lastResetTime: Date.now }
+  this.fpsStats = { frameCount: 0, lastResetTime: Date.now() }
 }
 
 Engine.prototype.logFps = function() {
-  console.log("Should log fps")
+  const elapsedTimeSeconds = (Date.now() - this.fpsStats.lastResetTime) / 1000.0
+  console.log("FPS: " + this.fpsStats.frameCount / elapsedTimeSeconds)
 }
