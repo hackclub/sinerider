@@ -16,15 +16,18 @@ const ticksPerSecond = 30 * 100 // (run 100x faster than normal)
 // something similar
 const tickDelta = 1.0 / 30.0
 
+// Set this to automatically load a level for debugging purposes (DO NOT CHECK IN)
 const debugLevel = null; // 'Level Editor', 'Volcano', 'Constant Lake', 'Two Below'
 
-const canvas = ui.canvas
+// Enable to report current FPS via console.log every 100 ticks
+const fpsLogging = true
 
 // Create the engine
-const engine = new Engine(ticksPerSecond, tickDelta, debugStepping, debugLevel)
+const engine = new Engine(ticksPerSecond, tickDelta, debugStepping, debugLevel, EngineRenderMode.FRAME_EVERY_TICK, fpsLogging)
 
 // Let's goooooooo!
 engine.start()
 
-// NOTE - this global is actually relied upon :/
+// NOTE - these seem to be globally relied upon
+const canvas = ui.canvas
 const world = engine.getWorld()

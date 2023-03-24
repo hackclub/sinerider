@@ -1,13 +1,28 @@
-function Engine(ticksPerSecond = 60, tickDelta = 1.0 / 30.0, debugStepping = false, debugLevel = null) {
-  var me = this
+const EngineRenderMode = Object.freeze({
+  // Do our best to run the game without UI/canvas, never perform actual draw calls
+  HEADLESS: 'HEADLESS',
+
+  // Render one frame per tick, and only that
+  FRAME_EVERY_TICK: 'FRAME_EVERY_TICK',
+
+  // Uncapped performance, splits tick rate from render rate completely
+  HIGH_PERFORMANCE: 'HIGH_PERFORMANCE',
+})
+
+function Engine(ticksPerSecond = 60, tickDelta = 1.0 / 30.0, debugStepping = false, debugLevel = null, renderMode = EngineRenderMode.HIGH_PERFORMANCE, fpsLogging = false) {
+  this.fpsLogging = fpsLogging
   this.ticksPerSecond = ticksPerSecond
   this.tickDelta = tickDelta
   this.debugStepping = debugStepping
   this.debugLevel = debugLevel
+  this.renderMode = renderMode
+  this.tickCount = 0
   this.canvasIsDirty = true
   this.canvas = ui.canvas
   this.screen = Screen({ canvas: ui.canvas, })
   this.world = null  
+
+  this.resetFpsCounter()
   this.injectDebugLevelIfNeeded()
 }
 
@@ -35,17 +50,31 @@ Engine.prototype.start = function () {
 
   this.initUserInterface(ui.canvas, this.world)
 
-  // Draw as fast as we possibly can
-  setInterval(this.requestDraw.bind(this), 0)
+  // Do not schedule draw timer if in headless mode, or relying on frame drawing every tick
+  if (this.renderMode !== EngineRenderMode.HEADLESS && this.renderMode !== EngineRenderMode.FRAME_EVERY_TICK) {
+    // Draw as fast as we possibly can
+    setInterval(this.requestDraw.bind(this), 0)
+  }
 }
 
 /**
  * Main world tick handler.  Dispatches tick events to all subentities
  */
 Engine.prototype.tick = function () {
+  this.tickCount++
   this.world.awake()
   this.world.start()
-  this.world.tick()
+  this.world.sendEvent('tick')
+
+  // Draw every tick if the render mode suggests to do so
+  if (this.renderMode === EngineRenderMode.FRAME_EVERY_TICK) {
+    this.requestDraw()
+  }
+  
+  if (this.fpsLogging && (this.tickCount % 100 == 0)) {
+    this.logFps()
+    this.resetFpsCounter()
+  }
 }
 
 /**
@@ -53,7 +82,7 @@ Engine.prototype.tick = function () {
  * by layer and calls their draw methods back-to-front
  */
 Engine.prototype.draw = function () {
-  if (!this.canvasIsDirty) return
+  if (!this.canvasIsDirty || this.renderMode === EngineRenderMode.HEADLESS) return
   this.canvasIsDirty = false
 
   // Draw order bug where Shader entity isn't actually
@@ -71,13 +100,17 @@ Engine.prototype.draw = function () {
       this.screen.ctx.restore()
     }
   }
+
+  if (this.fpsLogging) {
+    this.resetFpsCounter
+  }
 }
 
 /**
- * Forces the drawing of a frame by setting the canvas to dirty.
+ * Forces the drawing of a frame by setting the canvas to dirty, and scheduling a draw
  */
 Engine.prototype.requestDraw = function () {
-  if (!this.canvasIsDirty) {
+  if (!this.canvasIsDirty && this.renderMode !== EngineRenderMode.HEADLESS) {
     this.canvasIsDirty = true
     requestAnimationFrame(this.draw.bind(this))
   }
@@ -315,4 +348,12 @@ Engine.prototype.injectDebugLevelIfNeeded = function () {
 
 Engine.prototype.getWorld = function() {
   return this.world
+}
+
+Engine.prototype.resetFpsCounter = function() {
+  this.fpsStats = { frameCount: 0, lastResetTime: Date.now }
+}
+
+Engine.prototype.logFps = function() {
+  console.log("Should log fps")
 }
