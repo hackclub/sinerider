@@ -3,7 +3,7 @@ let assets
 function World(spec) {
   const self = Entity(spec, 'World')
 
-  const { ui, screen, levelData, requestDraw, tickDelta, version } = spec
+  const { ui, screen, levelData, requestDraw, tickDelta } = spec
 
   const storage = PlayerStorage()
 

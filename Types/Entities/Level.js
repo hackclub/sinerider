@@ -944,7 +944,7 @@ function Level(spec) {
 
   function save() {
     // Do not write to URL if debug level is set
-    if (DEBUG_LEVEL) return
+    if (debugLevel) return
 
     // Save to player storage and to URI
     storage.setLevel(datum.nick, serialize())
