@@ -105,7 +105,7 @@ function LevelBubble(spec) {
         truncate: [radius + 0.9, radius + 0.9],
         point0: bubble.transform.position,
         point1: transform.position,
-        drawOrde: LAYERS.arrows,
+        drawOrder: LAYERS.arrows,
         parent: self,
       })
 
