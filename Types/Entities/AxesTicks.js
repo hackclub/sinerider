@@ -7,9 +7,6 @@ function AxesTicks(spec) {
   
     const ctx = screen.ctx
   
-    const origin = Vector2()
-    const screenOrigin = Vector2()
-
     function tick() {}
     function drawLocal(){
       const xTicks = Math.ceil(camera.upperRight.x-camera.lowerLeft.x)+1

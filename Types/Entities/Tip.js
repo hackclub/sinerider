@@ -11,7 +11,7 @@ function Tip(spec) {
 
   let {
     visible = true,
-    index=10,
+    index=0,
     tipCompleted,
     content = 'Hello',
     domSelector,
@@ -41,7 +41,6 @@ function Tip(spec) {
 
   function complete(){
     refreshDOM()
-    console.log(helperBubble)
     tipCompleted()
   }
 
@@ -53,10 +52,9 @@ function Tip(spec) {
     else{
       style= {visibility: 'hidden'}
     }
-    helperBubble.className = `helper-bubble ${place}`
     helperBubble.innerHTML = content
 
-    helperBubble.style.display = visible ? 'block' : 'none'
+    style.display = visible ? 'block' : 'none'
     Object.assign(helperBubble.style, style)
     
   }
