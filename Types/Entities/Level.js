@@ -141,6 +141,37 @@ function Level(spec) {
 
   let defaultVectorExpression =
     '\\frac{(\\sin(x) - (y - 2) \\cdot i) \\cdot i}{2}'
+
+  let isVectorEditorActive = false
+
+  const showUIAnimation = {
+    keyframes: [
+      { transform: 'translateY(calc(100% + 20px))', opacity: '0' },
+      { transform: 'translateY(0px)', opacity: '1' },
+      // { opacity: '0' },
+      // { opacity: '1' },
+    ],
+    options: {
+      duration: 1700,
+      easing: 'ease-out',
+      fill: 'forwards',
+    },
+  }
+
+  const hideUIAnimation = {
+    keyframes: [
+      { transform: 'translateY(0px)', opacity: '1' },
+      { transform: 'translateY(calc(100% + 20px))', opacity: '0' },
+    ],
+    options: {
+      duration: 1700,
+      easing: 'ease-out',
+    },
+  }
+
+  const VECTOR_FIELD_START_X = 13.5
+  const VECTOR_FIELD_END_X = 17.5
+
   if (isConstantLakeAndNotBubble() && savedLatex) {
     walkerPositionX = VECTOR_FIELD_END_X
     defaultVectorExpression = savedLatex
@@ -723,36 +754,6 @@ function Level(spec) {
   function isConstantLakeAndNotBubble() {
     return isConstantLake() && !isBubbleLevel
   }
-
-  let isVectorEditorActive = false
-
-  const showUIAnimation = {
-    keyframes: [
-      { transform: 'translateY(calc(100% + 20px))', opacity: '0' },
-      { transform: 'translateY(0px)', opacity: '1' },
-      // { opacity: '0' },
-      // { opacity: '1' },
-    ],
-    options: {
-      duration: 1700,
-      easing: 'ease-out',
-      fill: 'forwards',
-    },
-  }
-
-  const hideUIAnimation = {
-    keyframes: [
-      { transform: 'translateY(0px)', opacity: '1' },
-      { transform: 'translateY(calc(100% + 20px))', opacity: '0' },
-    ],
-    options: {
-      duration: 1700,
-      easing: 'ease-out',
-    },
-  }
-
-  const VECTOR_FIELD_START_X = 13.5
-  const VECTOR_FIELD_END_X = 17.5
 
   function drawConstantLakeEditor(walkerPositionX) {
     if (walkerPositionX > VECTOR_FIELD_END_X) {
