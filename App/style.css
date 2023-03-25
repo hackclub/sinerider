@@ -328,7 +328,7 @@ input[valid='false'] {
 }
 
 #reset-button:not(:hover) {
-  background: #68f;
+  background: rgb(255, 102, 102);
 }
 
 #reset-button {
@@ -713,7 +713,7 @@ input[valid='false'] {
 .tooltip::after {
   --scale: 0;
   --arrow-size: 10px;
-  --tooltip-color: #68f;
+  --tooltip-color: rgb(255, 102, 102);
 
   position: absolute;
   top: -0.25rem;
