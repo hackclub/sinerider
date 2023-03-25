@@ -33,14 +33,23 @@ const SWAMP = [
         //     speakerX: -0.25,
         //     speakerY: 0.65,
         //     color: '#FFF',
-        //     content: "Yeah I don't like that.",
+        //     content: "Yah I don't like that.",
         //     direction: 'left-up-up',
         //     align: 'right',
         //   },
         // ],
       },
     ],
-    sprites: [],
+    sprites: [
+      {
+        asset: 'images.danger_sign_1',
+        x: 5,
+        size: 3,
+        anchored: true,
+        sloped: true,
+        offset: [0, 0.9],
+      },
+    ],
   },
   {
     name: 'Two Below',
@@ -60,7 +69,16 @@ const SWAMP = [
         y: -8,
       },
     ],
-    sprites: [],
+    sprites: [
+      {
+        asset: 'images.danger_sign_2',
+        x: -7,
+        size: 4,
+        anchored: true,
+        sloped: true,
+        offset: [0, 0.9],
+      },
+    ],
     sledders: [
       {
         // speech: [
