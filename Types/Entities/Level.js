@@ -502,22 +502,7 @@ function Level(spec) {
     // Movves index of all tips down by one
     for (i = 0; i < tips.length; i++) {
       datum.tips[i].index -= 1
-
-      // New index 0, we make it visible
-      if (datum.tips[i].index == 0) {
-        tips[i]=
-          Tip({
-            parent: self,
-            camera,
-            graph,
-            tipCompleted,
-            globalScope,
-            visible: false,
-            place: 'top-right',
-            ...datum.tips[i],
-            style: {visibility: 'visible !important'},
-          })
-      }
+      tips[i].refreshDOM()
     }
   }
 
@@ -1013,7 +998,7 @@ function Level(spec) {
     if (runAsCutscene && !isBubbleLevel) {
       world._stopRunning()
     }
-    _.invokeEach(tips, 'destroy')
+    _.invokeEach(tips, 'complete')
   }
 
   function resize() {
