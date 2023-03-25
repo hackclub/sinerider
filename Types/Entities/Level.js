@@ -317,7 +317,7 @@ function Level(spec) {
 
     if (runAsCutscene) {
       // Don't play sound, keep navigator
-      world._startRunning(false, false)
+      world._startRunning(false, false, !isConstantLakeAndNotBubble()) // Keep editor enabled for Constant Lake
 
       // Hide math field by default
       ui.expressionEnvelope.classList.add('hidden')

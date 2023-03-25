@@ -38,6 +38,13 @@ function SunsetQuad(defaultExpression, assets) {
     },
   })
 
+  const quadNoUV = utils.Vertices(gl.STATIC_DRAW, {
+    aCoords: {
+      type: 'vec2',
+      data: [-1, -1, -1, 1, 1, -1, 1, 1],
+    },
+  })
+
   const shaders = assets.shaders
 
   const quadProgram = utils.Program({
@@ -56,7 +63,7 @@ function SunsetQuad(defaultExpression, assets) {
   })
 
   const sunsetProgram = utils.Program({
-    vert: shaders.quad_vert,
+    vert: shaders.sunset_vert,
     frag: shaders.sunset_frag,
   })
 
@@ -285,7 +292,7 @@ function SunsetQuad(defaultExpression, assets) {
     acc.bind(0)
     sunsetProgram
       .use()
-      .vertices(quad)
+      .vertices(quadNoUV)
       .uniform('resolution', [canvas.width, canvas.height])
       .uniform('time', iTime)
       .uniformi('texture', 0)
