@@ -6,7 +6,7 @@ const TIME = [
     x: 30,
     y: 0,
     requirements: ['SLOPE_SCALE_TRANSLATE'],
-    defaultExpression: '-t',
+    defaultExpression: '1-t',
     goals: [
       {
         x: 0,
