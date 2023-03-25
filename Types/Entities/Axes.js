@@ -24,7 +24,7 @@ function Axes(spec) {
     ctx.lineTo(screenOrigin.x, screen.height)
 
     ctx.strokeStyle = '#aaa'
-    ctx.lineWidth = 1
+    ctx.lineWidth = 2
 
     ctx.stroke()
   }

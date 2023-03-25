@@ -83,6 +83,15 @@ function Level(spec) {
       parent: self,
     })
 
+  let axesticks = null
+  if (!datum.hasOwnProperty('axesEnabled') || datum.axesEnabled)
+    axesticks = AxesTicks({
+      drawOrder: LAYERS.axesticks,
+      camera,
+      globalScope,
+      parent: self,
+      })
+
   if (axes) trackedEntities.unshift(axes)
 
   let darkBufferOrScreen = screen
