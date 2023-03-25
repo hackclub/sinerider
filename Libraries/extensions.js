@@ -132,8 +132,13 @@ math.modLerp = function (a, b, t, mod = TAU, smooth = false) {
   return c
 }
 
-math.unlerp = function (a, b, c) {
-  return (c - a) / (b - a)
+math.unlerp = function (a, b, t) {
+  return (t - a) / (b - a)
+}
+
+math.remap = function (a, b, c, d, t, clamp = false) {
+  if (clamp) t = math.clamp(a, b, t)
+  return math.lerp(c, d, math.unlerp(a, b, t))
 }
 
 math.truncate = function (number, digits = 1) {

@@ -143,6 +143,7 @@ function Navigator(spec) {
 
   function refreshBubbles() {
     _.invokeEach(bubbles, 'refreshPlayable')
+    _.invokeEach(bubbles, 'refreshArrows')
   }
 
   return self.mix({
