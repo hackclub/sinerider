@@ -175,21 +175,34 @@ body > .bar {
   display: flex;
 
   background: transparent;
-  bottom: 20px;
-
+  bottom: 40%;
   pointer-events: none;
 }
 
 .victory .envelope {
-  flex-basis: 300px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 300px;
+
+  box-shadow: 0 0 0 max(100vh, 100vw) rgba(0, 0, 0, .3);
   background: #eee;
-  padding: 5px;
+  padding: 10px;
   pointer-events: all;
 }
 
+.victory .envelope > div {
+  margin: 10px 0;
+}
+
+.victory .envelope .button {
+  margin-top: 20px;
+  padding: 0 20px;
+}
+
 .victory[hide='true'] {
-  bottom: -80px;
+  display: none;
 }
 
 .message[hide='true'] {
@@ -346,6 +359,11 @@ input[valid='false'] {
   padding-bottom: 4px;
 }
 
+#next-button > .string {
+  font-size: 18px;
+  font-weight: bold;
+}
+
 #level-text {
   text-align: center;
 }
@@ -356,6 +374,11 @@ input[valid='false'] {
 
 #victory-label {
   flex-grow: 1;
+}
+
+#victory-label > .string {
+  font-size: 24px;
+  font-weight: bold;
 }
 
 #variables-bar {
