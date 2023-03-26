@@ -299,7 +299,7 @@ function World(spec) {
     // t is a decimal number of seconds, and we want to format it as ss.ms
     const ms = Math.floor((t % 1) * 100)
     const ss = Math.floor(t)
-    return `${ss}:${ms < 10 ? '0' : ''}${ms} seconds`
+    return ss == 1 ? '1 second' : `${ss}.${ms} seconds`
   }
 
   function setCompletionTime(t) {
@@ -312,7 +312,7 @@ function World(spec) {
   }
 
   function setCharacterCount() {
-    ui.characterCount.innerHTML = getCharacterCount() + ' characters'
+    ui.characterCount.innerHTML = `${getCharacterCount()} character${getCharacterCount() == 1 ? '' : 's'}`
   }
 
   function stopRunning(playSound = true) {
