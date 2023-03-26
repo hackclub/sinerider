@@ -42,6 +42,7 @@ const ui = {
   _mathField: $('#math-field'),
   mathField: $('#math-field'),
   mathFieldStatic: $('#math-field-static'),
+  characterCount: $('#character-count'),
 
   dottedMathContainer: $('#dotted-math-container'),
   dottedMathFieldStatic: $('#dotted-math-field-static'),

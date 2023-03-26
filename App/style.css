@@ -182,11 +182,12 @@ body > .bar {
 .victory .envelope {
   display: flex;
   flex-direction: column;
+  text-align: center;
   align-items: center;
   justify-content: center;
   min-width: 300px;
 
-  box-shadow: 0 0 0 max(100vh, 100vw) rgba(0, 0, 0, .3);
+  box-shadow: 0 0 0 max(100vh, 100vw) rgba(0, 0, 0, .8);
   background: #eee;
   padding: 10px;
   pointer-events: all;
@@ -196,8 +197,11 @@ body > .bar {
   margin: 10px 0;
 }
 
+.victory .envelope .stats > div {
+  margin: 20px 0;
+}
+
 .victory .envelope .button {
-  margin-top: 20px;
   padding: 0 20px;
 }
 

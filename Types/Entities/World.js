@@ -219,6 +219,8 @@ function World(spec) {
 
   function levelCompleted(soft = false) {
     setCompletionTime(runTime)
+    setCharacterCount()
+    ui.stopButton.setAttribute('hide', true)
 
     if (soft) {
       nextLevel(2.5)
@@ -293,9 +295,24 @@ function World(spec) {
     requestDraw()
   }
 
+  function formatTime(t) {
+    // t is a decimal number of seconds, and we want to format it as ss.ms
+    const ms = Math.floor((t % 1) * 100)
+    const ss = Math.floor(t)
+    return `${ss}:${ms < 10 ? '0' : ''}${ms} seconds`
+  }
+
   function setCompletionTime(t) {
     completionTime = t
-    ui.completionTime.innerHTML = t
+    ui.completionTime.innerHTML = formatTime(completionTime)
+  }
+
+  function getCharacterCount() {
+    return ui.mathField.latex().length
+  }
+
+  function setCharacterCount() {
+    ui.characterCount.innerHTML = getCharacterCount() + ' characters'
   }
 
   function stopRunning(playSound = true) {
