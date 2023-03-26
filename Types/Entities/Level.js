@@ -976,6 +976,12 @@ function Level(spec) {
     graph.expression = text
     ui.expressionEnvelope.setAttribute('valid', graph.valid)
 
+    if (!graph.valid) {
+      ui.expressionEnvelope.classList.add('invalid-exp')
+    } else {
+      ui.expressionEnvelope.classList.remove('invalid-exp')
+    }
+
     _.invokeEach(sledders, 'reset')
     _.invokeEach(goals, 'reset')
   }
