@@ -11,7 +11,13 @@ function Arrow(spec) {
     truncate = [0, 0],
   } = spec
 
-  let { dashed = false, dashSettings = [0.5, 0.5], dashOffset = 0 } = spec
+  let {
+    dashed = false,
+    dashSettings = [0.5, 0.5],
+    dashOffset = 0,
+    fadeIn = false,
+    fadeOut = false,
+  } = spec
 
   const transform = Transform({
     position: point0,
@@ -29,6 +35,9 @@ function Arrow(spec) {
 
   const undashedSettings = []
 
+  let fadeOutGradient
+  let fadeInGradient
+
   let opacity = 1
 
   recomputeValues()
@@ -41,7 +50,11 @@ function Arrow(spec) {
     ctx.lineTo(0, direction.magnitude - truncate[1] - headSize)
 
     ctx.globalAlpha = opacity
-    ctx.strokeStyle = color
+    ctx.strokeStyle = fadeIn
+      ? fadeInGradient
+      : fadeOut
+      ? fadeOutGradient
+      : color
     ctx.lineWidth = lineWidth
     ctx.setLineDash(dashed ? dashSettings : undashedSettings)
     ctx.dashOffset = dashOffset
@@ -65,8 +78,10 @@ function Arrow(spec) {
   }
 
   function draw() {
+    if (opacity == 0) return
+
     camera.drawThrough(ctx, drawLocalShaft, transform)
-    camera.drawThrough(ctx, drawLocalPoint, endTransform)
+    if (!fadeOut) camera.drawThrough(ctx, drawLocalPoint, endTransform)
     ctx.globalAlpha = 1
   }
 
@@ -76,9 +91,30 @@ function Arrow(spec) {
     let angle = Math.atan2(direction.x, -direction.y)
 
     transform.rotation = angle
-
     endTransform.rotation = angle
     endTransform.position.set(point1)
+
+    fadeOutGradient = ctx.createLinearGradient(
+      0,
+      truncate[0],
+      0,
+      direction.magnitude - truncate[1] - headSize,
+    )
+    fadeInGradient = ctx.createLinearGradient(
+      0,
+      truncate[0],
+      0,
+      direction.magnitude - truncate[1] - headSize,
+    )
+
+    // Makes a higher proportion of short arrows visible
+    const shortyOffset = math.remap(10, 30, 0.6, 0, direction.magnitude, true)
+
+    fadeOutGradient.addColorStop(0 + shortyOffset, color)
+    fadeOutGradient.addColorStop(0.4 + shortyOffset, 'rgba(255, 255, 255, 0)')
+
+    fadeInGradient.addColorStop(0.6 - shortyOffset, 'rgba(255, 255, 255, 0)')
+    fadeInGradient.addColorStop(1 - shortyOffset, color)
   }
 
   return self.mix({
@@ -117,6 +153,20 @@ function Arrow(spec) {
     },
     set dashed(v) {
       dashed = v
+    },
+
+    get fadeIn() {
+      return fadeIn
+    },
+    set fadeIn(v) {
+      fadeIn = v
+    },
+
+    get fadeOut() {
+      return fadeOut
+    },
+    set fadeOut(v) {
+      fadeOut = v
     },
   })
 }

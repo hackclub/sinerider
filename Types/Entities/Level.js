@@ -141,6 +141,37 @@ function Level(spec) {
 
   let defaultVectorExpression =
     '\\frac{(\\sin(x) - (y - 2) \\cdot i) \\cdot i}{2}'
+
+  let isVectorEditorActive = false
+
+  const showUIAnimation = {
+    keyframes: [
+      { transform: 'translateY(calc(100% + 20px))', opacity: '0' },
+      { transform: 'translateY(0px)', opacity: '1' },
+      // { opacity: '0' },
+      // { opacity: '1' },
+    ],
+    options: {
+      duration: 1700,
+      easing: 'ease-out',
+      fill: 'forwards',
+    },
+  }
+
+  const hideUIAnimation = {
+    keyframes: [
+      { transform: 'translateY(0px)', opacity: '1' },
+      { transform: 'translateY(calc(100% + 20px))', opacity: '0' },
+    ],
+    options: {
+      duration: 1700,
+      easing: 'ease-out',
+    },
+  }
+
+  const VECTOR_FIELD_START_X = 13.5
+  const VECTOR_FIELD_END_X = 17.5
+
   if (isConstantLakeAndNotBubble() && savedLatex) {
     walkerPositionX = VECTOR_FIELD_END_X
     defaultVectorExpression = savedLatex
@@ -286,7 +317,7 @@ function Level(spec) {
 
     if (runAsCutscene) {
       // Don't play sound, keep navigator
-      world._startRunning(false, false)
+      world._startRunning(false, false, !isConstantLakeAndNotBubble()) // Keep editor enabled for Constant Lake
 
       // Hide math field by default
       ui.expressionEnvelope.classList.add('hidden')
@@ -297,12 +328,11 @@ function Level(spec) {
     // For constant lake, change math field to vector
     // field editor for later in the scene
     if (isConstantLakeAndNotBubble()) {
-      ui.expressionEnvelope.classList.add('hidden')
       ui.mathFieldLabel.innerText = 'V='
 
       ui.mathField.latex(defaultVectorExpression)
       ui.mathFieldStatic.latex(defaultVectorExpression)
-    } else {
+    } else if (!runAsCutscene) {
       // Otherwise display editor normally as graph editor
       ui.expressionEnvelope.classList.remove('hidden')
       ui.mathFieldLabel.innerText = 'Y='
@@ -355,14 +385,14 @@ function Level(spec) {
       walkers.find((s) => s.active) || sledders.find((w) => w.active)
     if (!playerEntity)
       throw "Couldn't find a player entity for cutscene distance parameter"
-    return playerEntity?.transform.x.toFixed(1)
+    return playerEntity?.transform.x
   }
 
   function tick() {
     // screen.ctx.filter = `blur(${Math.floor(world.level.sledders[0].rigidbody.velocity/40 * 4)}px)`
 
     let time = runAsCutscene
-      ? getCutsceneDistanceParameter()
+      ? getCutsceneDistanceParameter().toFixed(1)
       : (Math.round(globalScope.t * 10) / 10).toString()
 
     // LakeSunsetShader
@@ -724,36 +754,6 @@ function Level(spec) {
     return isConstantLake() && !isBubbleLevel
   }
 
-  let isVectorEditorActive = false
-
-  const showUIAnimation = {
-    keyframes: [
-      { transform: 'translateY(calc(100% + 20px))', opacity: '0' },
-      { transform: 'translateY(0px)', opacity: '1' },
-      // { opacity: '0' },
-      // { opacity: '1' },
-    ],
-    options: {
-      duration: 1700,
-      easing: 'ease-out',
-      fill: 'forwards',
-    },
-  }
-
-  const hideUIAnimation = {
-    keyframes: [
-      { transform: 'translateY(0px)', opacity: '1' },
-      { transform: 'translateY(calc(100% + 20px))', opacity: '0' },
-    ],
-    options: {
-      duration: 1700,
-      easing: 'ease-out',
-    },
-  }
-
-  const VECTOR_FIELD_START_X = 13.5
-  const VECTOR_FIELD_END_X = 17.5
-
   function drawConstantLakeEditor(walkerPositionX) {
     if (walkerPositionX > VECTOR_FIELD_END_X) {
       if (!isVectorEditorActive) {
@@ -974,6 +974,12 @@ function Level(spec) {
 
     graph.expression = text
     ui.expressionEnvelope.setAttribute('valid', graph.valid)
+
+    if (!graph.valid) {
+      ui.expressionEnvelope.classList.add('invalid-exp')
+    } else {
+      ui.expressionEnvelope.classList.remove('invalid-exp')
+    }
 
     _.invokeEach(sledders, 'reset')
     _.invokeEach(goals, 'reset')

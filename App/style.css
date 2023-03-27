@@ -176,6 +176,8 @@ body > .bar {
 
   background: transparent;
   bottom: 20px;
+
+  pointer-events: none;
 }
 
 .victory .envelope {
@@ -183,6 +185,7 @@ body > .bar {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
   background: #eee;
   padding: 5px;
+  pointer-events: all;
 }
 
 .victory[hide='true'] {
@@ -254,6 +257,10 @@ input[valid='false'] {
   border: 1px solid red;
 }
 
+#expression-envelope {
+  transition: transform 1s, opacity 0.2s;
+}
+
 #expression-envelope[disabled='true'] > #math-field {
   display: none;
 }
@@ -279,6 +286,11 @@ input[valid='false'] {
 
 #expression-envelope[disabled='false'] {
   background: #fff;
+}
+
+#expression-envelope[hide='true'] {
+  transform: translate(0, 200%);
+  opacity: 0;
 }
 
 #run-button {
@@ -316,7 +328,7 @@ input[valid='false'] {
 }
 
 #reset-button:not(:hover) {
-  background: #68f;
+  background: rgb(255, 102, 102);
 }
 
 #reset-button {
@@ -516,6 +528,13 @@ input[valid='false'] {
   border-color: #ffffff;
 }
 
+.invalid-exp {
+  -webkit-box-shadow: #f00 0 0 1px 2px, inset #6ae 0 0 2px 0 !important;
+  -moz-box-shadow: #f00 0 0 1px 2px, inset #6ae 0 0 2px 0 !important;
+  box-shadow: #f00 0 0 1px 3px, inset #ffffff 0 0 3px 0 !important;
+  border-color: #ffffff !important;
+}
+
 .helper-bubble {
   width: 150px;
   text-align: center;
@@ -530,12 +549,24 @@ input[valid='false'] {
   animation-iteration-count: infinite;
 }
 @keyframes wiggle {
-  0% {transform: rotate(0deg);}
-  80% {transform: rotate(0deg);}
-  85% {transform: rotate(-10deg);}
-  90% {transform: rotate(20deg);}
-  95% {transform: rotate(-5deg);}
-  100% {transform: rotate(0deg);}
+  0% {
+    transform: rotate(0deg);
+  }
+  80% {
+    transform: rotate(0deg);
+  }
+  85% {
+    transform: rotate(-10deg);
+  }
+  90% {
+    transform: rotate(20deg);
+  }
+  95% {
+    transform: rotate(-5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 .top-left {
@@ -689,7 +720,7 @@ input[valid='false'] {
 .tooltip::after {
   --scale: 0;
   --arrow-size: 10px;
-  --tooltip-color: #68f;
+  --tooltip-color: rgb(255, 102, 102);
 
   position: absolute;
   top: -0.25rem;

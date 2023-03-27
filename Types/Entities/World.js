@@ -42,7 +42,7 @@ function World(spec) {
 
     get completionTime() {
       return completionTime
-    }
+    },
   }
 
   let navigating = false
@@ -224,7 +224,7 @@ function World(spec) {
       nextLevel(2.5)
     } else {
       ui.victoryBar.setAttribute('hide', false)
-      ui.controlBar.setAttribute('hide', true)
+      ui.expressionEnvelope.setAttribute('hide', true)
       ui.showAllButton.setAttribute('hide', true)
     }
 
@@ -272,12 +272,12 @@ function World(spec) {
     editing = _editing
   }
 
-  function startRunning(playSound = true, hideNavigator = true) {
+  function startRunning(playSound = true, hideNavigator = true, disableExpressionEditing = true) {
     running = true
     setCompletionTime(null)
 
     ui.mathField.blur()
-    ui.expressionEnvelope.setAttribute('disabled', true)
+    ui.expressionEnvelope.setAttribute('disabled', disableExpressionEditing)
     ui.menuBar.setAttribute('hide', true)
 
     ui.runButton.setAttribute('hide', true)
@@ -310,6 +310,7 @@ function World(spec) {
 
     ui.controlBar.setAttribute('hide', navigating)
     ui.navigatorButton.setAttribute('hide', false)
+    ui.expressionEnvelope.setAttribute('hide', false)
     ui.runButton.setAttribute('hide', false)
     ui.tryAgainButton.setAttribute('hide', true)
     ui.stopButton.setAttribute('hide', true)
