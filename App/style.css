@@ -720,7 +720,8 @@ input[valid='false'] {
 .tooltip::after {
   --scale: 0;
   --arrow-size: 10px;
-  --tooltip-color: rgb(255, 102, 102);
+  --reset-tooltip-color: rgb(255 102 102);
+  --volume-tooltip-color: rgb(34, 136, 238);
 
   position: absolute;
   top: -0.25rem;
@@ -740,7 +741,7 @@ input[valid='false'] {
   border-radius: 0.3rem;
   text-align: center;
 
-  background: var(--tooltip-color);
+  background: var(--reset-tooltip-color);
 }
 
 .tooltip:hover::before,
@@ -752,12 +753,13 @@ input[valid='false'] {
   --translate-y: calc(-1 * var(--arrow-size));
   content: '';
   border: var(--arrow-size) solid transparent;
-  border-top-color: var(--tooltip-color);
+  border-top-color: var(--reset-tooltip-color);
 }
 
 .tooltip-e::before {
   top: 90%;
   left: calc(100% + 50px);
+  background: var(--volume-tooltip-color);
 }
 
 .tooltip-e::after {
@@ -766,7 +768,7 @@ input[valid='false'] {
   transform: translateY(-50%);
   border-left-width: 0;
   border-top-color: transparent !important;
-  border-right-color: var(--tooltip-color);
+  border-right-color: var(--volume-tooltip-color);
 }
 
 #editor-inspector,
