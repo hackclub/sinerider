@@ -43,9 +43,16 @@ function Tip(spec) {
     refreshDOM()
     tipCompleted()
   }
+  function destroy() {
+    helperBubble.remove()
+    domElement.onmousedown = () => {}
+    tipCompleted()
 
+  }
   function refreshDOM(){
     index-=1
+    style.visibility = visible ? 'visible' : 'hidden'
+
     if (index == 0){
       style= {visibility: 'visible'}
     }
@@ -54,7 +61,6 @@ function Tip(spec) {
     }
     helperBubble.innerHTML = content
 
-    style.display = visible ? 'block' : 'none'
     Object.assign(helperBubble.style, style)
     
   }
@@ -74,6 +80,7 @@ function Tip(spec) {
     onToggleMap,
     refreshDOM,
     complete,
+    destroy,
 
     awake,
   })

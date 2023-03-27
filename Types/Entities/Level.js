@@ -83,15 +83,6 @@ function Level(spec) {
       parent: self,
     })
 
-  let axesticks = null
-  if (!datum.hasOwnProperty('axesEnabled') || datum.axesEnabled)
-    axesticks = AxesTicks({
-      drawOrder: LAYERS.axesticks,
-      camera,
-      globalScope,
-      parent: self,
-      })
-
   if (axes) trackedEntities.unshift(axes)
 
   let darkBufferOrScreen = screen
@@ -1013,7 +1004,7 @@ function Level(spec) {
     if (runAsCutscene && !isBubbleLevel) {
       world._stopRunning()
     }
-    _.invokeEach(tips, 'complete')
+    _.invokeEach(tips, 'destroy')
   }
 
   function resize() {

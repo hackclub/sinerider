@@ -4,7 +4,6 @@ const LAYERS = {
   sky: -100,
   background: -90,
   axes: -80,
-  axesticks:-81,
   backSprites: -10,
   walkers: 1,
   sledders: 2,
