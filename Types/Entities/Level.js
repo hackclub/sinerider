@@ -326,7 +326,7 @@ function Level(spec) {
 
     if (runAsCutscene) {
       // Don't play sound, keep navigator
-      world._startRunning(false, false)
+      world._startRunning(false, false, !isConstantLakeAndNotBubble()) // Keep editor enabled for Constant Lake
 
       // Hide math field by default
       ui.expressionEnvelope.classList.add('hidden')
@@ -337,12 +337,11 @@ function Level(spec) {
     // For constant lake, change math field to vector
     // field editor for later in the scene
     if (isConstantLakeAndNotBubble()) {
-      ui.expressionEnvelope.classList.add('hidden')
       ui.mathFieldLabel.innerText = 'V='
 
       ui.mathField.latex(defaultVectorExpression)
       ui.mathFieldStatic.latex(defaultVectorExpression)
-    } else {
+    } else if (!runAsCutscene) {
       // Otherwise display editor normally as graph editor
       ui.expressionEnvelope.classList.remove('hidden')
       ui.mathFieldLabel.innerText = 'Y='
@@ -395,14 +394,14 @@ function Level(spec) {
       walkers.find((s) => s.active) || sledders.find((w) => w.active)
     if (!playerEntity)
       throw "Couldn't find a player entity for cutscene distance parameter"
-    return playerEntity?.transform.x.toFixed(1)
+    return playerEntity?.transform.x
   }
 
   function tick() {
     // screen.ctx.filter = `blur(${Math.floor(world.level.sledders[0].rigidbody.velocity/40 * 4)}px)`
 
     let time = runAsCutscene
-      ? getCutsceneDistanceParameter()
+      ? getCutsceneDistanceParameter().toFixed(1)
       : (Math.round(globalScope.t * 10) / 10).toString()
 
     // LakeSunsetShader
@@ -995,6 +994,12 @@ function Level(spec) {
 
     graph.expression = text
     ui.expressionEnvelope.setAttribute('valid', graph.valid)
+
+    if (!graph.valid) {
+      ui.expressionEnvelope.classList.add('invalid-exp')
+    } else {
+      ui.expressionEnvelope.classList.remove('invalid-exp')
+    }
 
     _.invokeEach(sledders, 'reset')
     _.invokeEach(goals, 'reset')

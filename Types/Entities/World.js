@@ -272,12 +272,12 @@ function World(spec) {
     editing = _editing
   }
 
-  function startRunning(playSound = true, hideNavigator = true) {
+  function startRunning(playSound = true, hideNavigator = true, disableExpressionEditing = true) {
     running = true
     setCompletionTime(null)
 
     ui.mathField.blur()
-    ui.expressionEnvelope.setAttribute('disabled', true)
+    ui.expressionEnvelope.setAttribute('disabled', disableExpressionEditing)
     ui.menuBar.setAttribute('hide', true)
 
     ui.runButton.setAttribute('hide', true)

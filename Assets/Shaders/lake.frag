@@ -1,6 +1,6 @@
 precision mediump float;
 
-varying vec2 TexCoords;
+varying vec2 uv;
 
 uniform float time;
 
@@ -9,7 +9,7 @@ void main(void) {
 
     float height = 0.55;
     
-    float waterHeight = TexCoords.y + sin((TexCoords.x + time) * 4.) * 0.015;
+    float waterHeight = uv.y + sin((uv.x + time) * 4.) * 0.015;
 
     float b = 0.005;
 
