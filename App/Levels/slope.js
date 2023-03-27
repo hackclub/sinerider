@@ -54,18 +54,21 @@ const SLOPE = [
       expression: '$\\cdot x',
       bounds: [-1, 1, -1],
     },
-    textBubbles: [
+    tips: [
       {
         content: 'Edit function here',
         domSelector: '#expression-envelope',
         place: 'top-right',
         destroyOnClick: true,
+        index: 0,
       },
       {
         content: 'Click here to sled',
         domSelector: '#run-button',
         place: 'top-left',
         destroyOnClick: true,
+        index: 1,
+        style: { visibility: 'hidden' },
         // style: { fontSize: '1.1rem' },
       },
       // {

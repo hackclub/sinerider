@@ -42,7 +42,7 @@ function Level(spec) {
   const sprites = []
   const speech = []
   const directors = []
-  const bubbles = []
+  const tips = []
   const sounds = []
 
   let lowestOrder = 'A'
@@ -527,16 +527,27 @@ function Level(spec) {
     directors.push(director)
   }
 
-  function addTextBubbles(bubbleDatum) {
-    bubbles.push(
-      TextBubble({
+  function tipCompleted() {
+
+    // Movves index of all tips down by one
+    for (i = 0; i < tips.length; i++) {
+      datum.tips[i].index -= 1
+      tips[i].refreshDOM()
+    }
+  }
+
+
+  function addTip(tipDatum) {
+    tips.push(
+      Tip({
         parent: self,
         camera,
         graph,
+        tipCompleted,
         globalScope,
         visible: false,
         place: 'top-right',
-        ...bubbleDatum,
+        ...tipDatum,
       }),
     )
   }
@@ -737,7 +748,7 @@ function Level(spec) {
 
   function stopRunning() {
     _.invokeEach(goals, 'reset')
-    _.invokeEach(bubbles, 'toggleVisible')
+    _.invokeEach(tips, 'toggleVisible')
     completed = false
     refreshLowestOrder()
   }
@@ -810,7 +821,7 @@ function Level(spec) {
     _.each(datum.goals, addGoal)
     _.each(datum.texts, addText)
     _.each(datum.directors || [{}], addDirector)
-    isBubbleLevel || _.each(datum.textBubbles || [], addTextBubbles)
+    isBubbleLevel || _.each(datum.tips || [], addTip)
 
     if (isBubbleLevel && datum.bubble) {
       datum = _.merge(_.cloneDeep(datum), datum.bubble)
@@ -993,7 +1004,7 @@ function Level(spec) {
     if (runAsCutscene && !isBubbleLevel) {
       world._stopRunning()
     }
-    _.invokeEach(bubbles, 'destroy')
+    _.invokeEach(tips, 'destroy')
   }
 
   function resize() {
