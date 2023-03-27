@@ -33,7 +33,7 @@ const SWAMP = [
         //     speakerX: -0.25,
         //     speakerY: 0.65,
         //     color: '#FFF',
-        //     content: "Yeah I don't like that.",
+        //     content: "Yah I don't like that.",
         //     direction: 'left-up-up',
         //     align: 'right',
         //   },

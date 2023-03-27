@@ -158,6 +158,7 @@ worldData.push({
       quad_frag: 'quad.frag',
       quad_vert: 'quad.vert',
       sunset_frag: 'sunset.frag',
+      sunset_vert: 'sunset.vert',
       volcano: {
         gaussian_x: '.frag',
         gaussian_y: '.frag',
