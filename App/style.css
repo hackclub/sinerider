@@ -528,6 +528,13 @@ input[valid='false'] {
   border-color: #ffffff;
 }
 
+.invalid-exp {
+  -webkit-box-shadow: #f00 0 0 1px 2px, inset #6ae 0 0 2px 0 !important;
+  -moz-box-shadow: #f00 0 0 1px 2px, inset #6ae 0 0 2px 0 !important;
+  box-shadow: #f00 0 0 1px 3px, inset #ffffff 0 0 3px 0 !important;
+  border-color: #ffffff !important;
+}
+
 .helper-bubble {
   width: 150px;
   text-align: center;
@@ -713,8 +720,7 @@ input[valid='false'] {
 .tooltip::after {
   --scale: 0;
   --arrow-size: 10px;
-  --reset-tooltip-color: rgb(255 102 102);
-  --volume-tooltip-color: rgb(34, 136, 238);
+  --tooltip-color: rgb(255, 102, 102);
 
   position: absolute;
   top: -0.25rem;
@@ -734,7 +740,7 @@ input[valid='false'] {
   border-radius: 0.3rem;
   text-align: center;
 
-  background: var(--reset-tooltip-color);
+  background: var(--tooltip-color);
 }
 
 .tooltip:hover::before,
@@ -746,13 +752,12 @@ input[valid='false'] {
   --translate-y: calc(-1 * var(--arrow-size));
   content: '';
   border: var(--arrow-size) solid transparent;
-  border-top-color: var(--reset-tooltip-color);
+  border-top-color: var(--tooltip-color);
 }
 
 .tooltip-e::before {
   top: 90%;
   left: calc(100% + 50px);
-  background: var(--volume-tooltip-color);
 }
 
 .tooltip-e::after {
@@ -761,7 +766,7 @@ input[valid='false'] {
   transform: translateY(-50%);
   border-left-width: 0;
   border-top-color: transparent !important;
-  border-right-color: var(--volume-tooltip-color);
+  border-right-color: var(--tooltip-color);
 }
 
 #editor-inspector,
