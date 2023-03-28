@@ -160,7 +160,7 @@ function PathGoal(spec) {
 
     ui.mathFieldLabel.innerText = 'P='
 
-    ui.mathField.latex(pathExpression)
+    ui.mathField.setValue(pathExpression)
     ui.mathFieldStatic.latex(pathExpression)
 
     oldExpression = world.level.currentLatex
@@ -173,7 +173,7 @@ function PathGoal(spec) {
 
     ui.mathFieldLabel.innerText = 'Y='
 
-    ui.mathField.latex(oldExpression)
+    ui.mathField.setValue(oldExpression)
     ui.mathFieldStatic.latex(oldExpression)
 
     editor.deselect()
