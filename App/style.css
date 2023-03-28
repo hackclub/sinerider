@@ -267,6 +267,23 @@ input[valid='false'] {
   border: 1px solid red;
 }
 
+#envelope-with-keyboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media not (pointer: coarse) {
+  math-field::part(virtual-keyboard-toggle) {
+    display: none;
+  }
+}
+
+.ML__keyboard {
+  min-height: var(--keyboard-height);
+  width: 100vw;
+}
+
 #expression-envelope {
   width: fit-content;
   transition: transform 1s, opacity 0.2s;
