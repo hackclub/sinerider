@@ -374,14 +374,14 @@ function Level(spec) {
     if (isConstantLakeAndNotBubble()) {
       ui.mathFieldLabel.innerText = 'V='
 
-      ui.mathField.latex(defaultVectorExpression)
+      ui.mathField.setValue(defaultVectorExpression)
       ui.mathFieldStatic.latex(defaultVectorExpression)
     } else if (!runAsCutscene && !isBubbleLevel) {
       // Otherwise display editor normally as graph editor
       ui.expressionEnvelope.classList.remove('hidden')
       ui.mathFieldLabel.innerText = 'Y='
 
-      ui.mathField.latex(startingExpression)
+      ui.mathField.setValue(startingExpression)
       ui.mathFieldStatic.latex(startingExpression)
     }
   }
@@ -763,7 +763,7 @@ function Level(spec) {
       ? defaultVectorExpression
       : defaultExpression
 
-    ui.mathField.latex(expression)
+    ui.mathField.setValue(expression)
 
     self.sendEvent('setGraphExpression', [
       mathquillToMathJS(expression),

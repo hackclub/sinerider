@@ -238,26 +238,11 @@ ui.tSlider.addEventListener('input', () => {
 
 ui.mathFieldStatic = MQ.StaticMath(ui.mathFieldStatic)
 
-function createMathField(field, eventNameOnEdit) {
-  field = MQ.MathField(field, {
-    handlers: {
-      edit: function () {
-        const text = field.getPlainExpression()
-        const latex = field.latex()
-        world.level.sendEvent(eventNameOnEdit, [text, latex])
-      },
-    },
-  })
-
-  field.getPlainExpression = function () {
-    var tex = field.latex()
-    return mathquillToMathJS(tex)
-  }
-
-  return field
-}
-
-ui.mathField = createMathField(ui.mathField, 'setGraphExpression')
+ui.mathField.addEventListener('input',(ev) => {
+  const latex = ev.target.getValue('latex');
+  const text = mathquillToMathJS(latex)
+  world.level.sendEvent('setGraphExpression', [text, latex])
+});
 ui.mathField.focused = () => ui._mathField.classList.contains('mq-focused')
 
 ui.dottedMathFieldStatic = MQ.StaticMath(ui.dottedMathFieldStatic)
