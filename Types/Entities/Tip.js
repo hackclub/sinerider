@@ -6,15 +6,17 @@
  * @param {object} spec.style extra styles to be added like top/bottom/color
  * @returns
  */
-function TextBubble(spec) {
-  const { self } = Entity(spec, 'TextBubble')
+function Tip(spec) {
+  const { self } = Entity(spec, 'Tip')
 
   let {
     visible = true,
+    index=0,
+    tipCompleted,
     content = 'Hello',
     domSelector,
     place,
-    destroyOnClick = false,
+    destroyOnClick = true,
     style = {},
   } = spec
 
@@ -37,14 +39,35 @@ function TextBubble(spec) {
     toggleVisible(true)
   }
 
+  function complete(){
+    refreshDOM()
+    tipCompleted()
+  }
   function destroy() {
     helperBubble.remove()
     domElement.onmousedown = () => {}
+    tipCompleted()
+
+  }
+  function refreshDOM(){
+    index-=1
+    style.visibility = visible ? 'visible' : 'hidden'
+
+    if (index == 0){
+      style= {visibility: 'visible'}
+    }
+    else{
+      style= {visibility: 'hidden'}
+    }
+    helperBubble.innerHTML = content
+
+    Object.assign(helperBubble.style, style)
+    
   }
 
   if (destroyOnClick)
     domElement.onmousedown = () => {
-      self.destroy()
+      self.complete()
     }
 
   function onToggleMap(navigating) {
@@ -55,8 +78,10 @@ function TextBubble(spec) {
     toggleVisible,
     helperBubble,
     onToggleMap,
+    refreshDOM,
+    complete,
+    destroy,
 
     awake,
-    destroy,
   })
 }
