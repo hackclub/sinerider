@@ -237,6 +237,16 @@ ui.mathField.addEventListener('input',(ev) => {
   const text = mathquillToMathJS(latex)
   world.level.sendEvent('setGraphExpression', [text, latex])
 });
+
+ui.mathField.addEventListener('input', (event) => {
+  // input event with insertLineBreak handles enter keypress from
+  // both physical and virtual keyboard
+  if (event.data == "insertLineBreak") {
+    if (!world.navigating && !world.level?.isRunningAsCutscene)
+      world.toggleRunning()
+  }
+});
+
 ui.mathField.focused = () => ui._mathField.classList.contains('mq-focused')
 
 ui.dottedMathFieldStatic = MQ.StaticMath(ui.dottedMathFieldStatic)
@@ -266,19 +276,10 @@ ui.expressionEnvelope.addEventListener('blurout', onMathFieldBlur)
 
 // HTML events
 
-function onKeyUp(event) {
-  if (event.keyCode === 13) {
-    if (!world.navigating && !world.level?.isRunningAsCutscene)
-      world.toggleRunning()
-  }
-}
-
 window.addEventListener('keydown', (event) => {
   if (ui.mathField.focused()) return
   world.level?.sendEvent('keydown', [event.key])
 })
-
-window.addEventListener('keyup', onKeyUp)
 
 function onExpressionTextChanged(event) {
   world.level.sendEvent('setGraphExpression', [ui.expressionText.value])
