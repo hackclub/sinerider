@@ -142,7 +142,7 @@ function Level(spec) {
   loadDatum(spec.datum)
 
   let defaultVectorExpression =
-    '\\frac{(\\sin(x) - (y - 2) \\cdot i) \\cdot i}{2}'
+    '\\frac{(\\sin (x)-(y-2)\\cdot i)\\cdot i}{2}+\\frac{x}{4}+\\frac{y\\cdot i}{5}'
 
   let isVectorEditorActive = false
 
