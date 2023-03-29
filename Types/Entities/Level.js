@@ -50,11 +50,13 @@ function Level(spec) {
 
   let lava, volcanoSunset, sky
 
-  if (flashMathField) ui.expressionEnvelope.classList.add('flash-shadow')
-  else ui.expressionEnvelope.classList.remove('flash-shadow')
+  if (!isBubbleLevel) {
+    if (flashMathField) ui.expressionEnvelope.classList.add('flash-shadow')
+    else ui.expressionEnvelope.classList.remove('flash-shadow')
 
-  if (flashRunButton) ui.runButton.classList.add('flash-shadow')
-  else ui.runButton.classList.remove('flash-shadow')
+    if (flashRunButton) ui.runButton.classList.add('flash-shadow')
+    else ui.runButton.classList.remove('flash-shadow')
+  }
 
   let currentLatex
 
@@ -313,9 +315,9 @@ function Level(spec) {
     globalScope.p = math.complex()
     assignPlayerPosition()
 
-    playBackgroundMusic(datum.backgroundMusic, self)
+    if (playBackgroundMusic) playBackgroundMusic(datum.backgroundMusic, self)
 
-    if (runAsCutscene) {
+    if (runAsCutscene && !isBubbleLevel) {
       // Don't play sound, keep navigator
       world._startRunning(false, false, !isConstantLakeAndNotBubble()) // Keep editor enabled for Constant Lake
 
@@ -332,7 +334,7 @@ function Level(spec) {
 
       ui.mathField.latex(defaultVectorExpression)
       ui.mathFieldStatic.latex(defaultVectorExpression)
-    } else if (!runAsCutscene) {
+    } else if (!runAsCutscene && !isBubbleLevel) {
       // Otherwise display editor normally as graph editor
       ui.expressionEnvelope.classList.remove('hidden')
       ui.mathFieldLabel.innerText = 'Y='
@@ -528,14 +530,12 @@ function Level(spec) {
   }
 
   function tipCompleted() {
-
     // Movves index of all tips down by one
     for (i = 0; i < tips.length; i++) {
       datum.tips[i].index -= 1
       tips[i].refreshDOM()
     }
   }
-
 
   function addTip(tipDatum) {
     tips.push(
