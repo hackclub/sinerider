@@ -236,6 +236,12 @@ function World(spec) {
 
     ui.controlBar.setAttribute('hide', navigating)
     ui.navigatorFloatingBar.setAttribute('hide', !navigating)
+    if (navigating) {
+      mathVirtualKeyboard.hide()
+    } else {
+      mathVirtualKeyboard.show()
+    }
+
     // ui.topBar.setAttribute('hide', navigating)
 
     if (navigating) {
