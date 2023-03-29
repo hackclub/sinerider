@@ -426,7 +426,7 @@ function Level(spec) {
 
     assignPlayerPosition()
 
-    if (isVolcano()) {
+    if (isVolcano() && !isBubbleLevel) {
       let sunsetTime
       const x = sledders[0]?.transform.x
       sunsetTime = x ? Math.exp(-(((x - 205) / 100) ** 2)) : 0
