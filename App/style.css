@@ -273,6 +273,10 @@ input[valid='false'] {
   math-field::part(virtual-keyboard-toggle) {
     display: none;
   }
+
+  .ML__keyboard {
+    display: none;
+  }
 }
 
 .ML__keyboard {
