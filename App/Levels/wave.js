@@ -197,14 +197,32 @@ const WAVE = [
     ],
     sledders: [
       {
-        asset: 'images.sam_sled',
+        asset: 'images.lunchbox_sled',
         x: 0,
         y: 0,
+        speech: [
+          {
+            x: 0.4,
+            y: 0.70,
+            content: 'Oh wow it\'s toasty here',
+            direction: 'up',
+            distance: 1.2,
+          },
+        ],
       },
       {
-        asset: 'images.lunchbox_sled',
+        asset: 'images.sam_sled',
         x: TAU,
         y: 0,
+        speech: [
+          {
+            x: 0.8,
+            y: 0.9,
+            content: 'Why are you cold?',
+            direction: 'right-up',
+            distance: 0.6,
+          },
+        ],
       },
     ],
   },
@@ -237,6 +255,15 @@ const WAVE = [
         asset: 'images.sam_sled',
         x: 1,
         y: 0,
+        speech: [
+          {
+            x: -0.3,
+            y: -0.2,
+            content: 'I didn\'t expect the desert to be so... wavy',
+            direction: 'up',
+            distance: 1.2,
+          },
+        ],
       },
       {
         asset: 'images.lunchbox_sled',
