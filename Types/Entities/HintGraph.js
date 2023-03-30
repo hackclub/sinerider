@@ -55,13 +55,13 @@ function HintGraph(spec) {
   setVisible(true)
 
   function displayDottedGraph() {
-    dottedGraph.strokeColor = 'rgba(0,255,0)'
+    dottedGraph.strokeColor = 'rgba(255,174,0)'
   }
 
   function destroy() {
     setVisible(false)
 
-    dottedGraph.strokeColor = 'rgba(0,255,0,0)'
+    dottedGraph.strokeColor = 'rgba(255,174,0,0)'
     ui.dottedMathField.style.display = 'none'
     ui.dottedSlider.hidden = true
     ui.dottedHintButton.style.display = 'block'

@@ -643,7 +643,7 @@ input[valid='false'] {
   margin-bottom: auto;
   font-weight: bold;
   font-family: monospace;
-  color: rgb(0, 255, 0);
+  color: rgb(255, 174, 0);
   display: none;
 }
 
@@ -660,7 +660,7 @@ input[valid='false'] {
   width: 8px;
   height: 70vh;
   /*line-height: 100vh;*/
-  accent-color: rgb(0, 255, 0);
+  accent-color: rgb(255, 174, 0);
 }
 
 .vstack {
