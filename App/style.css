@@ -411,7 +411,7 @@ input[valid='false'] {
 }
 
 #volume-slider {
-  opacity: 0.1;
+  opacity: 0;
   transition-duration: 1s;
 }
 #volume-slider-box:hover > #volume-slider {

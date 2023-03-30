@@ -21,6 +21,7 @@ function TrackingDirector(spec) {
 
   const minTrackPoint = Vector2()
   const maxTrackPoint = Vector2()
+  const trackSpan = Vector2()
 
   let trackedEntityCount = 0
 
@@ -70,13 +71,22 @@ function TrackingDirector(spec) {
 
     _.eachDeep(trackedEntities, trackEntity)
 
+    maxTrackPoint.subtract(minTrackPoint, trackSpan)
+
+    // Bias for showing more background. Maybe should be configurable?
     maxTrackPoint.y += 7
+
+    // Correct for space occupied by equation bar
+    const equationRatio = ui.expressionEnvelope.clientHeight / screen.height
+    minTrackPoint.y -= 4 * trackSpan.y * equationRatio
+
     minTrackPoint.add(maxTrackPoint, targetState.position)
 
     targetState.position.divide(2)
 
     const ySpan = Math.abs(maxTrackPoint.y - minTrackPoint.y)
-    let span = Math.max(Math.abs(maxTrackPoint.x - minTrackPoint.x), ySpan)
+    const xSpan = Math.abs(maxTrackPoint.x - minTrackPoint.x)
+    let span = Math.max(xSpan, ySpan)
     span = Math.max(span + minFovMargin, minFov)
 
     targetState.position.y += (0.5 * (span - ySpan)) / 2
