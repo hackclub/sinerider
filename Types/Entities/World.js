@@ -14,8 +14,10 @@ function World(spec) {
   const quads = {}
 
   const globalScope = {
+    customT: 0,
+
     get t() {
-      return runTime
+      return running ? runTime : globalScope.customT
     },
 
     get T() {
@@ -272,7 +274,11 @@ function World(spec) {
     editing = _editing
   }
 
-  function startRunning(playSound = true, hideNavigator = true, disableExpressionEditing = true) {
+  function startRunning(
+    playSound = true,
+    hideNavigator = true,
+    disableExpressionEditing = true,
+  ) {
     running = true
     setCompletionTime(null)
 
@@ -436,6 +442,8 @@ function World(spec) {
     start,
     tick,
     draw,
+
+    globalScope,
 
     _startRunning: startRunning,
     _stopRunning: stopRunning,

@@ -151,6 +151,11 @@ body > .bar {
   pointer-events: none;
 }
 
+#math-editor-container {
+  display: grid;
+  justify-items: center;
+}
+
 *[hide='true'] {
   display: none;
 }
@@ -258,6 +263,7 @@ input[valid='false'] {
 }
 
 #expression-envelope {
+  width: fit-content;
   transition: transform 1s, opacity 0.2s;
 }
 
@@ -567,6 +573,20 @@ input[valid='false'] {
   100% {
     transform: rotate(0deg);
   }
+}
+
+/* TODO: Make decent looking */
+#t-variable-container {
+  display: flex;
+}
+
+#t-variable-container[hide='true'] {
+  display: none;
+}
+
+#t-variable-label {
+  box-sizing: border-box;
+  padding-bottom: 3.5px;
 }
 
 .top-left {

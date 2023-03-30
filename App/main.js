@@ -31,6 +31,9 @@ const ui = {
   messageBar: $('#message-bar'),
   messageBarString: $('#message-bar > .string'),
 
+  tSliderContainer: $('#t-variable-container'),
+  tSlider: $('#t-variable-slider'),
+
   variablesBar: $('#variables-bar'),
   timeString: $('#time-string'),
   completionTime: $('#completion-time'),
@@ -96,7 +99,9 @@ const urlParams = new URLSearchParams(window.location.search)
 const ticksPerSecondOverridden = urlParams.has('ticksPerSecond')
 
 // 30 ticks per second default, but overridable via query param
-const ticksPerSecond = ticksPerSecondOverridden ? urlParams.get('ticksPerSecond') : 30
+const ticksPerSecond = ticksPerSecondOverridden
+  ? urlParams.get('ticksPerSecond')
+  : 30
 
 // This is deliberately decoupled from 'ticksPerSecond' such that we can keep consistent
 // predictable results while replaying the game simulation at higher-than-realtime speeds.
@@ -147,7 +152,7 @@ var numTicks = 0
 
 // Core methods
 function tick() {
-  tickInternal();
+  tickInternal()
 
   // setTimeout imposes a minimum overhead as the delay approaches 0, and thus it becomes very likely
   // that our timer loop will fall behind our desired tick rate at ticks/sec > 250
@@ -207,6 +212,15 @@ draw()
 if (!stepping) {
   setInterval(tick, 1000 / ticksPerSecond)
 }
+
+// T Parameter Slider
+ui.tSlider.addEventListener('input', () => {
+  if (world.globalScope) {
+    const newT = math.remap(0, 100, 0, 10, Number(ui.tSlider.value))
+
+    world.level.sendEvent('tVariableChanged', [newT])
+  }
+})
 
 // MathQuill
 

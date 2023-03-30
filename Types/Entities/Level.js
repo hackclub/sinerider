@@ -50,6 +50,8 @@ function Level(spec) {
 
   let lava, volcanoSunset, sky
 
+  let usingTInExpression = false
+
   if (!isBubbleLevel) {
     if (flashMathField) ui.expressionEnvelope.classList.add('flash-shadow')
     else ui.expressionEnvelope.classList.remove('flash-shadow')
@@ -392,7 +394,6 @@ function Level(spec) {
 
   function tick() {
     // screen.ctx.filter = `blur(${Math.floor(world.level.sledders[0].rigidbody.velocity/40 * 4)}px)`
-
     let time = runAsCutscene
       ? getCutsceneDistanceParameter().toFixed(1)
       : (Math.round(globalScope.t * 10) / 10).toString()
@@ -739,6 +740,14 @@ function Level(spec) {
 
     ui.mathFieldStatic.latex(currentLatex)
 
+    ui.tSliderContainer.setAttribute('hide', true)
+
+    if (usingTInExpression) {
+      if (graph.resample) graph.resample()
+      _.invokeEach(goals, 'reset')
+      _.invokeEach(sledders, 'reset')
+    }
+
     if (!hasBeenRun) {
       if (runMusic) runMusic.play()
 
@@ -749,6 +758,7 @@ function Level(spec) {
   function stopRunning() {
     _.invokeEach(goals, 'reset')
     _.invokeEach(tips, 'toggleVisible')
+    if (usingTInExpression) ui.tSliderContainer.setAttribute('hide', false)
     completed = false
     refreshLowestOrder()
   }
@@ -966,6 +976,13 @@ function Level(spec) {
     )
   }
 
+  function tVariableChanged(newT) {
+    globalScope.customT = newT
+    if (graph.resample) graph.resample()
+    _.invokeEach(goals, 'reset')
+    _.invokeEach(sledders, 'reset')
+  }
+
   function setGraphExpression(text, latex) {
     if (editor.editingPath) {
       // console.log('returning')
@@ -982,6 +999,18 @@ function Level(spec) {
       quads.sunset.setVectorFieldExpression(text)
       return
     }
+
+    usingTInExpression = false
+    try {
+      math.parse(text).traverse((node) => {
+        if (node.name == 't' || node.args?.some((arg) => arg.name == 't')) {
+          usingTInExpression = true
+          throw '' // Throw exception for janky early return
+        }
+      })
+    } catch {}
+
+    ui.tSliderContainer.setAttribute('hide', !usingTInExpression)
 
     graph.expression = text
     ui.expressionEnvelope.setAttribute('valid', graph.valid)
@@ -1095,5 +1124,7 @@ function Level(spec) {
     get firstWalkerX() {
       return walkers[0]?.transform.x
     },
+
+    tVariableChanged,
   })
 }
