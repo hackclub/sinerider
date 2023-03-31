@@ -1,6 +1,6 @@
 precision mediump float;
 
-varying vec2 TexCoords;
+varying vec2 uv;
 
 uniform float t;
 uniform float progress;
@@ -16,7 +16,7 @@ vec2 random2( vec2 p ) {
 }
 
 float noise(vec2 p, float freq) {
-  float unit = TexCoords.x/freq;
+  float unit = uv.x/freq;
   vec2 ij = floor(p/unit);
   vec2 xy = mod(p,unit)/unit;
   //xy = 3.*xy*xy-2.*xy*xy*xy;
@@ -103,7 +103,7 @@ vec4 lava(vec2 uv, vec2 s) {
 }
 
 void main(void) {
-    vec2 uv = TexCoords;
+    vec2 uv = uv;
 
     vec4 col = lava(uv, uv * vec2(1., 3.));
 

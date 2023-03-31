@@ -138,7 +138,7 @@
         <div class="string">🏔</div>
       </div>
     </div>
-
+    <div id="completion-time" hide="true"></div>
     <div id="dotted-math-container">
       <div class="button" id="dotted-math-button">
         <div class="string">📝 Hint!</div>
@@ -175,15 +175,27 @@
         <div class="string">↺</div>
       </div>
 
-      <div class="envelope" id="expression-envelope" disabled="false">
-        <div class="label" id="variable-label">
-          <div class="string">Y=</div>
+      <div id="math-editor-container">
+        <div id="t-variable-container" hide="true">
+          <div class="label" id="t-variable-label">
+            <div class="string">t=</div>
+          </div>
+          <input
+            type="range"
+            id="t-variable-slider"
+          />
         </div>
+        <div class="envelope" id="expression-envelope" disabled="false">
+          <div class="label" id="variable-label">
+            <div class="string">Y=</div>
+          </div>
 
-        <div id="math-field"></div>
+          <div id="math-field"></div>
 
-        <div id="math-field-static"></div>
+          <div id="math-field-static"></div>
+        </div>
       </div>
+
 
       <input class="text" id="expression-text" type="text" hide="true" />
 
@@ -206,10 +218,6 @@
 
     <div class="bar victory floating" id="victory-bar" hide="true">
       <div class="envelope" id="victory-envelope">
-        <div class="button" id="victory-stop-button">
-          <div class="string">STOP</div>
-        </div>
-
         <div class="label" id="victory-label">
           <div class="string">Victory!</div>
         </div>
@@ -228,16 +236,6 @@
 
     <div class="veil" id="veil" hide="true"></div>
 
-    <div class="loading veil" id="loading-veil" hide="false">
-      <div class="string" id="loading-remarks">
-        <p>
-          To load a level from a previous session click the ⛰️ button and then
-          SHOW ALL.
-        </p>
-      </div>
-      <div class="string" id="loading-string"></div>
-    </div>
-
     <div id="lvl-debug-info" hide="true">
       <div class="grid">
         <div class="string debugtitle">Level name:</div>
@@ -248,6 +246,21 @@
       <div class="button" id="button-hide-level-info" hide="true">
         <div class="string">X</div>
       </div>
+    </div>
+
+    <div class="loading veil" id="loading-veil" hide="false">
+      <div class="string" id="loading-remarks">
+        <p>
+          To load a level from a previous session click the ⛰️ button and then
+          SHOW ALL.
+        </p>
+      </div>
+      <div id="flag">
+        <a href="https://github.com/hackclub">
+          <img class="hackclub-logo" src="Assets/Images/hc_logo.png" />
+        </a>
+      </div>
+      <div class="string" id="loading-string"></div>
     </div>
 
     <!-- Load External Libraries -->
@@ -339,7 +352,7 @@
     <script src="Types/Entities/Walker.js"></script>
     <script src="Types/Entities/LavaMonster.js"></script>
     <script src="Types/Entities/LevelBubble.js"></script>
-    <script src="Types/Entities/TextBubble.js"></script>
+    <script src="Types/Entities/Tip.js"></script>
     <script src="Types/Entities/Clouds.js"></script>
     <script src="Types/Entities/Sky.js"></script>
     <script src="Types/Entities/Snow.js"></script>

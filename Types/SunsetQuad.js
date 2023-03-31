@@ -38,6 +38,13 @@ function SunsetQuad(defaultExpression, assets) {
     },
   })
 
+  const quadNoUV = utils.Vertices(gl.STATIC_DRAW, {
+    aCoords: {
+      type: 'vec2',
+      data: [-1, -1, -1, 1, 1, -1, 1, 1],
+    },
+  })
+
   const shaders = assets.shaders
 
   const quadProgram = utils.Program({
@@ -56,7 +63,7 @@ function SunsetQuad(defaultExpression, assets) {
   })
 
   const sunsetProgram = utils.Program({
-    vert: shaders.quad_vert,
+    vert: shaders.sunset_vert,
     frag: shaders.sunset_frag,
   })
 
@@ -144,7 +151,7 @@ function SunsetQuad(defaultExpression, assets) {
       const x = (normX - 0.5) * 10
       const y = (normY - 0.5) * 10
 
-      const [dx, dy] = vectorField(x, y, t)
+      const [dx, dy] = vectorField(x, y, world.level.cutsceneDistanceParameter)
 
       const newX = eta * dx + normX
       const newY = eta * dy + normY
@@ -181,20 +188,23 @@ function SunsetQuad(defaultExpression, assets) {
     canvas.height = height
 
     current.destroy()
-    current = utils.Texture([width, height], gl.RGBA)
-    acc = acc.resize(width, height, gl.RGBA)
+    current = utils.Texture([canvas.width, canvas.height], gl.RGBA)
+
+    acc.destroy()
+    acc = utils.Texture([canvas.width, canvas.height], gl.RGBA)
+
     blend.destroy()
-    blend = utils.Texture([width, height], gl.RGBA)
+    blend = utils.Texture([canvas.width, canvas.height], gl.RGBA)
   }
 
   let last = null
 
   let evaluator = math.compile(defaultExpression)
 
-  function setVectorFieldExpression(text) {
+  function setVectorFieldExpression() {
     try {
       const e = math.compile(text)
-      e.evaluate({ x: 0, y: 0 }) // Make sure can evaluate properly
+      e.evaluate({ x: 0, y: 0, t: 0 }) // Make sure can evaluate properly
       evaluator = e
     } catch (err) {}
   }
@@ -285,7 +295,7 @@ function SunsetQuad(defaultExpression, assets) {
     acc.bind(0)
     sunsetProgram
       .use()
-      .vertices(quad)
+      .vertices(quadNoUV)
       .uniform('resolution', [canvas.width, canvas.height])
       .uniform('time', iTime)
       .uniformi('texture', 0)

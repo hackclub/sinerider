@@ -105,7 +105,7 @@ function LevelBubble(spec) {
         truncate: [radius + 0.9, radius + 0.9],
         point0: bubble.transform.position,
         point1: transform.position,
-        drawOrde: LAYERS.arrows,
+        drawOrder: LAYERS.arrows,
         parent: self,
       })
 
@@ -136,7 +136,23 @@ function LevelBubble(spec) {
       if (clickable.hovering) strokeWidth *= 2
     }
 
-    ctx.arc(0, 0, radius, 0, Math.PI * 2)
+    const cutsceneFrameSides = 8
+
+    if (levelDatum.runAsCutscene) {
+      ctx.rotate(((180 / cutsceneFrameSides) * Math.PI) / 180)
+      ctx.beginPath()
+      ctx.moveTo(radius, 0)
+
+      for (var i = 1; i <= cutsceneFrameSides; i += 1) {
+        ctx.lineTo(
+          radius * Math.cos((i * 2 * Math.PI) / cutsceneFrameSides),
+          radius * Math.sin((i * 2 * Math.PI) / cutsceneFrameSides),
+        )
+      }
+    } else {
+      ctx.arc(0, 0, radius, 0, Math.PI * 2)
+    }
+
     ctx.lineWidth = strokeWidth
 
     ctx.fillStyle = '#fff'
@@ -146,7 +162,12 @@ function LevelBubble(spec) {
 
     ctx.fill()
     ctx.clip()
-    ctx.drawImage(bubbletCanvas, -radius, -radius, radius * 2, radius * 2)
+    if (levelDatum.runAsCutscene) {
+      ctx.rotate((-(180 / cutsceneFrameSides) * Math.PI) / 180)
+      ctx.drawImage(bubbletCanvas, -radius, -radius, radius * 2, radius * 2)
+    } else {
+      ctx.drawImage(bubbletCanvas, -radius, -radius, radius * 2, radius * 2)
+    }
 
     ctx.fillStyle = '#333'
     ctx.textAlign = 'center'
@@ -159,8 +180,27 @@ function LevelBubble(spec) {
 
     // ctx.globalAlpha = 1
 
+    ctx.lineCap = 'butt'
+    ctx.miterLimit = 20
+    ctx.lineJoin = 'miter'
+
     ctx.beginPath()
-    ctx.arc(0, 0, radius + strokeWidth / 2 - 0.02, 0, Math.PI * 2)
+    if (levelDatum.runAsCutscene) {
+      ctx.beginPath()
+      ctx.moveTo(radius + strokeWidth / 2 - 0.02, 0)
+
+      for (var i = 1; i < cutsceneFrameSides; i += 1) {
+        ctx.lineTo(
+          (radius + strokeWidth / 2 - 0.02) *
+            Math.cos((i * 2 * Math.PI) / cutsceneFrameSides),
+          (radius + strokeWidth / 2 - 0.02) *
+            Math.sin((i * 2 * Math.PI) / cutsceneFrameSides),
+        )
+      }
+      ctx.closePath()
+    } else {
+      ctx.arc(0, 0, radius + strokeWidth / 2 - 0.02, 0, Math.PI * 2)
+    }
 
     ctx.stroke()
   }
@@ -176,18 +216,27 @@ function LevelBubble(spec) {
       hilighted = false
     }
 
-    // visible = playable || _.some(requirements, v => v.playable)
-    visible = true //TODO: implement gradient fade for invisible unmet requirements. Until then, inaccessible levels will always be shown.
+    visible = playable || _.some(requirements, (v) => v.playable)
+  }
 
-    const opacity = visible ? (playable ? 1 : 0.5) : 0
-
+  function refreshArrows() {
     _.each(arrows, (v) => {
-      v.opacity = opacity
+      v.opacity = visible
+        ? playable
+          ? 1
+          : 0.5
+        : v.fromBubble.visible
+        ? 0.5
+        : 0
       v.dashed = !v.toBubble.unlocked
+      v.fadeIn = visible && !v.fromBubble.visible
+      v.fadeOut = !visible && v.fromBubble.visible
     })
   }
 
   function draw() {
+    if (!visible) return
+
     camera.drawThrough(ctx, drawLocal, transform)
     ctx.globalAlpha = 1
   }
@@ -261,6 +310,7 @@ function LevelBubble(spec) {
     linkRequirements,
 
     refreshPlayable,
+    refreshArrows,
 
     get nick() {
       return nick

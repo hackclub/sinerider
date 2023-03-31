@@ -6,7 +6,7 @@ const TIME = [
     x: 30,
     y: 0,
     requirements: ['SLOPE_SCALE_TRANSLATE'],
-    defaultExpression: '-t',
+    defaultExpression: '-1-t',
     goals: [
       {
         x: 0,
@@ -106,7 +106,7 @@ const TIME = [
     x: 10,
     y: 0,
     requirements: ['TIME_CONSTANT'],
-    defaultExpression: '(x+t+1)^2',
+    defaultExpression: '\\left(x+t+1\\right)^2',
     goals: [
       {
         x: -2,
@@ -175,7 +175,7 @@ const TIME = [
     x: 10,
     y: 10,
     requirements: [null],
-    defaultExpression: '(x-t)^2+t',
+    defaultExpression: '\\left(x-t\\right)^2+t',
     goals: [
       {
         type: 'path',

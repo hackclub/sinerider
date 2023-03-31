@@ -54,18 +54,21 @@ const SLOPE = [
       expression: '$\\cdot x',
       bounds: [-1, 1, -1],
     },
-    textBubbles: [
+    tips: [
       {
         content: 'Edit function here',
         domSelector: '#expression-envelope',
         place: 'top-right',
         destroyOnClick: true,
+        index: 0,
       },
       {
         content: 'Click here to sled',
         domSelector: '#run-button',
         place: 'top-left',
         destroyOnClick: true,
+        index: 1,
+        style: { visibility: 'hidden' },
         // style: { fontSize: '1.1rem' },
       },
       // {
@@ -213,10 +216,15 @@ const SLOPE = [
       {
         type: 'path',
         expression: '-x/4',
-        pathX: 4,
+        pathX: 6,
         x: 6,
         y: 0,
         order: 'B',
+      },
+      {
+        x: 14,
+        y: -3.5,
+        order: 'C',
       },
     ],
     sledders: [
@@ -288,7 +296,7 @@ const SLOPE = [
             direction: 'up-left',
             distance: 1,
             speech: {
-              content: "Hey, I'm sorry about last night.",
+              content: "Hey, I'd like to apologize.",
               distance: 1,
             },
           },

@@ -42,7 +42,7 @@ function Level(spec) {
   const sprites = []
   const speech = []
   const directors = []
-  const bubbles = []
+  const tips = []
   const sounds = []
 
   let lowestOrder = 'A'
@@ -50,11 +50,15 @@ function Level(spec) {
 
   let lava, volcanoSunset, sky
 
-  if (flashMathField) ui.expressionEnvelope.classList.add('flash-shadow')
-  else ui.expressionEnvelope.classList.remove('flash-shadow')
+  let usingTInExpression = false
 
-  if (flashRunButton) ui.runButton.classList.add('flash-shadow')
-  else ui.runButton.classList.remove('flash-shadow')
+  if (!isBubbleLevel) {
+    if (flashMathField) ui.expressionEnvelope.classList.add('flash-shadow')
+    else ui.expressionEnvelope.classList.remove('flash-shadow')
+
+    if (flashRunButton) ui.runButton.classList.add('flash-shadow')
+    else ui.runButton.classList.remove('flash-shadow')
+  }
 
   let currentLatex
 
@@ -140,7 +144,38 @@ function Level(spec) {
   loadDatum(spec.datum)
 
   let defaultVectorExpression =
-    '\\frac{(\\sin(x) - (y - 2) \\cdot i) \\cdot i}{2}'
+    '\\frac{(\\sin (x)-(y-2)\\cdot i)\\cdot i}{2}+\\frac{x}{4}+\\frac{y\\cdot i}{5}'
+
+  let isVectorEditorActive = false
+
+  const showUIAnimation = {
+    keyframes: [
+      { transform: 'translateY(calc(100% + 20px))', opacity: '0' },
+      { transform: 'translateY(0px)', opacity: '1' },
+      // { opacity: '0' },
+      // { opacity: '1' },
+    ],
+    options: {
+      duration: 1700,
+      easing: 'ease-out',
+      fill: 'forwards',
+    },
+  }
+
+  const hideUIAnimation = {
+    keyframes: [
+      { transform: 'translateY(0px)', opacity: '1' },
+      { transform: 'translateY(calc(100% + 20px))', opacity: '0' },
+    ],
+    options: {
+      duration: 1700,
+      easing: 'ease-out',
+    },
+  }
+
+  const VECTOR_FIELD_START_X = 13.5
+  const VECTOR_FIELD_END_X = 17.5
+
   if (isConstantLakeAndNotBubble() && savedLatex) {
     walkerPositionX = VECTOR_FIELD_END_X
     defaultVectorExpression = savedLatex
@@ -282,11 +317,11 @@ function Level(spec) {
     globalScope.p = math.complex()
     assignPlayerPosition()
 
-    playBackgroundMusic(datum.backgroundMusic, self)
+    if (playBackgroundMusic) playBackgroundMusic(datum.backgroundMusic, self)
 
-    if (runAsCutscene) {
+    if (runAsCutscene && !isBubbleLevel) {
       // Don't play sound, keep navigator
-      world._startRunning(false, false)
+      world._startRunning(false, false, !isConstantLakeAndNotBubble()) // Keep editor enabled for Constant Lake
 
       // Hide math field by default
       ui.expressionEnvelope.classList.add('hidden')
@@ -297,12 +332,11 @@ function Level(spec) {
     // For constant lake, change math field to vector
     // field editor for later in the scene
     if (isConstantLakeAndNotBubble()) {
-      ui.expressionEnvelope.classList.add('hidden')
       ui.mathFieldLabel.innerText = 'V='
 
       ui.mathField.latex(defaultVectorExpression)
       ui.mathFieldStatic.latex(defaultVectorExpression)
-    } else {
+    } else if (!runAsCutscene && !isBubbleLevel) {
       // Otherwise display editor normally as graph editor
       ui.expressionEnvelope.classList.remove('hidden')
       ui.mathFieldLabel.innerText = 'Y='
@@ -355,14 +389,13 @@ function Level(spec) {
       walkers.find((s) => s.active) || sledders.find((w) => w.active)
     if (!playerEntity)
       throw "Couldn't find a player entity for cutscene distance parameter"
-    return playerEntity?.transform.x.toFixed(1)
+    return playerEntity?.transform.x
   }
 
   function tick() {
     // screen.ctx.filter = `blur(${Math.floor(world.level.sledders[0].rigidbody.velocity/40 * 4)}px)`
-
     let time = runAsCutscene
-      ? getCutsceneDistanceParameter()
+      ? getCutsceneDistanceParameter().toFixed(1)
       : (Math.round(globalScope.t * 10) / 10).toString()
 
     // LakeSunsetShader
@@ -394,7 +427,7 @@ function Level(spec) {
 
     assignPlayerPosition()
 
-    if (isVolcano()) {
+    if (isVolcano() && !isBubbleLevel) {
       let sunsetTime
       const x = sledders[0]?.transform.x
       sunsetTime = x ? Math.exp(-(((x - 205) / 100) ** 2)) : 0
@@ -497,16 +530,25 @@ function Level(spec) {
     directors.push(director)
   }
 
-  function addTextBubbles(bubbleDatum) {
-    bubbles.push(
-      TextBubble({
+  function tipCompleted() {
+    // Movves index of all tips down by one
+    for (i = 0; i < tips.length; i++) {
+      datum.tips[i].index -= 1
+      tips[i].refreshDOM()
+    }
+  }
+
+  function addTip(tipDatum) {
+    tips.push(
+      Tip({
         parent: self,
         camera,
         graph,
+        tipCompleted,
         globalScope,
         visible: false,
         place: 'top-right',
-        ...bubbleDatum,
+        ...tipDatum,
       }),
     )
   }
@@ -698,6 +740,14 @@ function Level(spec) {
 
     ui.mathFieldStatic.latex(currentLatex)
 
+    ui.tSliderContainer.setAttribute('hide', true)
+
+    if (usingTInExpression) {
+      if (graph.resample) graph.resample()
+      _.invokeEach(goals, 'reset')
+      _.invokeEach(sledders, 'reset')
+    }
+
     if (!hasBeenRun) {
       if (runMusic) runMusic.play()
 
@@ -707,7 +757,8 @@ function Level(spec) {
 
   function stopRunning() {
     _.invokeEach(goals, 'reset')
-    _.invokeEach(bubbles, 'toggleVisible')
+    _.invokeEach(tips, 'toggleVisible')
+    if (usingTInExpression) ui.tSliderContainer.setAttribute('hide', false)
     completed = false
     refreshLowestOrder()
   }
@@ -723,36 +774,6 @@ function Level(spec) {
   function isConstantLakeAndNotBubble() {
     return isConstantLake() && !isBubbleLevel
   }
-
-  let isVectorEditorActive = false
-
-  const showUIAnimation = {
-    keyframes: [
-      { transform: 'translateY(calc(100% + 20px))', opacity: '0' },
-      { transform: 'translateY(0px)', opacity: '1' },
-      // { opacity: '0' },
-      // { opacity: '1' },
-    ],
-    options: {
-      duration: 1700,
-      easing: 'ease-out',
-      fill: 'forwards',
-    },
-  }
-
-  const hideUIAnimation = {
-    keyframes: [
-      { transform: 'translateY(0px)', opacity: '1' },
-      { transform: 'translateY(calc(100% + 20px))', opacity: '0' },
-    ],
-    options: {
-      duration: 1700,
-      easing: 'ease-out',
-    },
-  }
-
-  const VECTOR_FIELD_START_X = 13.5
-  const VECTOR_FIELD_END_X = 17.5
 
   function drawConstantLakeEditor(walkerPositionX) {
     if (walkerPositionX > VECTOR_FIELD_END_X) {
@@ -810,7 +831,7 @@ function Level(spec) {
     _.each(datum.goals, addGoal)
     _.each(datum.texts, addText)
     _.each(datum.directors || [{}], addDirector)
-    isBubbleLevel || _.each(datum.textBubbles || [], addTextBubbles)
+    isBubbleLevel || _.each(datum.tips || [], addTip)
 
     if (isBubbleLevel && datum.bubble) {
       datum = _.merge(_.cloneDeep(datum), datum.bubble)
@@ -955,6 +976,13 @@ function Level(spec) {
     )
   }
 
+  function tVariableChanged(newT) {
+    globalScope.customT = newT
+    if (graph.resample) graph.resample()
+    _.invokeEach(goals, 'reset')
+    _.invokeEach(sledders, 'reset')
+  }
+
   function setGraphExpression(text, latex) {
     if (editor.editingPath) {
       // console.log('returning')
@@ -972,8 +1000,26 @@ function Level(spec) {
       return
     }
 
+    usingTInExpression = false
+    try {
+      math.parse(text).traverse((node) => {
+        if (node.name == 't' || node.args?.some((arg) => arg.name == 't')) {
+          usingTInExpression = true
+          throw '' // Throw exception for janky early return
+        }
+      })
+    } catch {}
+
+    ui.tSliderContainer.setAttribute('hide', !usingTInExpression)
+
     graph.expression = text
     ui.expressionEnvelope.setAttribute('valid', graph.valid)
+
+    if (!graph.valid) {
+      ui.expressionEnvelope.classList.add('invalid-exp')
+    } else {
+      ui.expressionEnvelope.classList.remove('invalid-exp')
+    }
 
     _.invokeEach(sledders, 'reset')
     _.invokeEach(goals, 'reset')
@@ -987,7 +1033,7 @@ function Level(spec) {
     if (runAsCutscene && !isBubbleLevel) {
       world._stopRunning()
     }
-    _.invokeEach(bubbles, 'destroy')
+    _.invokeEach(tips, 'destroy')
   }
 
   function resize() {
@@ -1078,5 +1124,7 @@ function Level(spec) {
     get firstWalkerX() {
       return walkers[0]?.transform.x
     },
+
+    tVariableChanged,
   })
 }

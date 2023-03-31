@@ -65,6 +65,7 @@ worldData.push({
       rock_1: '.webp',
       rock_2: '.webp',
       rock_3: '.webp',
+      big_rock: '.webp',
       bush_1: '.webp',
       bush_2: '.webp',
       grass_1: '.webp',
@@ -160,6 +161,7 @@ worldData.push({
       quad_frag: 'quad.frag',
       quad_vert: 'quad.vert',
       sunset_frag: 'sunset.frag',
+      sunset_vert: 'sunset.vert',
       volcano: {
         gaussian_x: '.frag',
         gaussian_y: '.frag',
@@ -304,12 +306,11 @@ worldData.push({
           content: 'A game about love and graphing.',
         },
       ],
-      textBubbles: [
+      tips: [
         {
           content: 'click here!',
           domSelector: '#run-button',
           place: 'top-left',
-          destroyOnClick: true,
           style: { fontSize: '1.1rem' },
         },
       ],

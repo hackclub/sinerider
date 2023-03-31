@@ -26,15 +26,17 @@ const ui = {
   victoryBar: $('#victory-bar'),
   victoryLabel: $('#victory-label'),
   victoryLabelString: $('#victory-label > .string'),
-  victoryStopButton: $('#victory-stop-button'),
   nextButton: $('#next-button'),
 
   messageBar: $('#message-bar'),
   messageBarString: $('#message-bar > .string'),
 
+  tSliderContainer: $('#t-variable-container'),
+  tSlider: $('#t-variable-slider'),
+
   variablesBar: $('#variables-bar'),
   timeString: $('#time-string'),
-
+  completionTime: $('#completion-time'),
   controlBar: $('#controls-bar'),
   expressionText: $('#expression-text'),
   expressionEnvelope: $('#expression-envelope'),
@@ -92,8 +94,24 @@ const canvas = $('#canvas')
 
 let canvasIsDirty = true
 
-const ticksPerSecond = 30
-const tickDelta = 1 / ticksPerSecond
+const urlParams = new URLSearchParams(window.location.search)
+
+const ticksPerSecondOverridden = urlParams.has('ticksPerSecond')
+
+// 30 ticks per second default, but overridable via query param
+const ticksPerSecond = ticksPerSecondOverridden
+  ? urlParams.get('ticksPerSecond')
+  : 30
+
+// This is deliberately decoupled from 'ticksPerSecond' such that we can keep consistent
+// predictable results while replaying the game simulation at higher-than-realtime speeds.
+const tickDelta = 1.0 / 30.0
+
+const startTime = Date.now()
+
+// A positive integer that modifies how much the game draws.  A setting of 1 would result
+// in all frames rendered, 2 would draw every other, etc...
+const drawModulo = urlParams.has('drawModulo') ? urlParams.get('drawModulo') : 1
 
 const screen = Screen({
   canvas,
@@ -117,6 +135,10 @@ if (DEBUG_LEVEL) {
   w.levelData[debugLevelIndex] = tmp
 }
 
+// Don't show debug info in production
+if (window.location.hostname === 'sinerider.com')
+  ui.levelInfoDiv.setAttribute('hide', true)
+
 const world = World({
   ui,
   screen,
@@ -126,15 +148,34 @@ const world = World({
   ...worldData[0],
 })
 
-// Core methods
+var numTicks = 0
 
+// Core methods
 function tick() {
+  tickInternal()
+
+  // setTimeout imposes a minimum overhead as the delay approaches 0, and thus it becomes very likely
+  // that our timer loop will fall behind our desired tick rate at ticks/sec > 250
+  // we will check that here and tick repeatedly until we catch up
+  if (ticksPerSecond >= 250) {
+    const elapsedMs = Date.now() - startTime
+    const expectedTicks = (elapsedMs / 1000.0) * ticksPerSecond
+    while (numTicks < expectedTicks) {
+      tickInternal()
+    }
+  }
+}
+
+function tickInternal() {
+  numTicks++
   world.awake()
   world.start()
 
   world.sendEvent('tick')
 
-  requestDraw()
+  if (numTicks % drawModulo == 0) {
+    requestDraw()
+  }
 }
 
 function draw() {
@@ -171,6 +212,15 @@ draw()
 if (!stepping) {
   setInterval(tick, 1000 / ticksPerSecond)
 }
+
+// T Parameter Slider
+ui.tSlider.addEventListener('input', () => {
+  if (world.globalScope) {
+    const newT = math.remap(0, 100, 0, 10, Number(ui.tSlider.value))
+
+    world.level.sendEvent('tVariableChanged', [newT])
+  }
+})
 
 // MathQuill
 
@@ -292,7 +342,6 @@ function onClickRunButton(event) {
 ui.runButton.addEventListener('click', onClickRunButton)
 ui.stopButton.addEventListener('click', onClickRunButton)
 ui.tryAgainButton.addEventListener('click', onClickRunButton)
-ui.victoryStopButton.addEventListener('click', onClickRunButton)
 
 function onClickShowAllButton(event) {
   world.navigator.showAll = !world.navigator.showAll
