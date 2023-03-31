@@ -63,6 +63,7 @@ worldData.push({
       rock_1: '.webp',
       rock_2: '.webp',
       rock_3: '.webp',
+      big_rock: '.webp',
       bush_1: '.webp',
       bush_2: '.webp',
       grass_1: '.webp',
