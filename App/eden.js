@@ -59,6 +59,8 @@ worldData.push({
       volcano_rock_2: '.webp',
       volcano_rock_4: '.webp',
       volcano_trees: '.webp',
+      volcano_tree_1: '.webp',
+      volcano_tree_2: '.webp',
       logo_text: '.webp',
       rock_1: '.webp',
       rock_2: '.webp',
