@@ -201,7 +201,7 @@ function SunsetQuad(defaultExpression, assets) {
 
   let evaluator = math.compile(defaultExpression)
 
-  function setVectorFieldExpression() {
+  function setVectorFieldExpression(text) {
     try {
       const e = math.compile(text)
       e.evaluate({ x: 0, y: 0, t: 0 }) // Make sure can evaluate properly
