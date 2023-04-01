@@ -82,6 +82,8 @@ worldData.push({
       grass_2: '.webp',
       tumbleweed: '.webp',
       cactus: '.webp',
+      blooming_joshua_tree: '.webp',
+      desert_tree: '.webp',
     },
     sounds: {
       music: {
