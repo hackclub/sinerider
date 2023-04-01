@@ -24,6 +24,10 @@ function World(spec) {
       return runTime
     },
 
+    set runTime(_runTime) {
+      runTime = _runTime
+    },
+
     timescale: 1,
     get dt() {
       return tickDelta * globalScope.timescale
@@ -178,6 +182,7 @@ function World(spec) {
 
       storage,
       savedLatex,
+      urlData,
     })
 
     level.playOpenMusic()
