@@ -28,13 +28,22 @@ function Graph(spec) {
     sampleCount = Math.ceil(sampleDensity * span)
   }
 
+  let minX, maxX
+
   const undashedSettings = []
   const dashSettingsScreen = [0, 0]
 
   // Scope is global scope
   const scope = globalScope
 
-  const sampler = Sampler(spec)
+  const sampler = Sampler({
+    ...spec,
+    scope,
+  })
+
+  let samplesA = BufferSampler(sampler, sampleCount)
+  let samplesB = BufferSampler(sampler, sampleCount)
+
   const samples = sampler.generateSampleArray(sampleCount)
 
   const screenSpaceSample = Vector2()
@@ -58,10 +67,40 @@ function Graph(spec) {
     ])
   }
 
-  resample()
+  let refreshPeriodTicks = 3
+  let ticksSinceRefresh = refreshPeriodTicks
+
+  function tVariableChanged() {
+    updateAAndB()
+    resample()
+  }
+
+  function updateAAndB() {
+    if (globalScope.running) {
+      samplesA.refreshSamples(minX - 10, maxX + 10, 't', globalScope.t)
+      samplesB.refreshSamples(
+        minX - 10,
+        maxX + 10,
+        't',
+        globalScope.t + globalScope.dt * refreshPeriodTicks,
+      )
+    } else {
+      samplesA.refreshSamples(minX - 10, maxX + 10, 't', globalScope.t)
+      samplesB.refreshSamples(minX - 10, maxX + 10, 't', globalScope.t)
+    }
+  }
 
   function tick() {
-    if (!freeze) resample()
+    if (!freeze) {
+      if (ticksSinceRefresh >= refreshPeriodTicks) {
+        ticksSinceRefresh = 0
+
+        updateAAndB()
+      } else {
+        ticksSinceRefresh++
+      }
+      resample()
+    }
   }
 
   function draw() {
@@ -156,13 +195,9 @@ function Graph(spec) {
     ctx.globalAlpha = 1
   }
 
-  function resample() {
-    // // console.log('resampling graph', screen.minFramePoint.toString(), screen.maxFramePoint.toString(), screen)
+  function updateXBounds() {
     camera.frameToWorld(screen.minFramePoint, minWorldPoint)
     camera.frameToWorld(screen.maxFramePoint, maxWorldPoint)
-
-    let minX
-    let maxX
 
     if (bounds) {
       minX = bounds[0]
@@ -171,25 +206,51 @@ function Graph(spec) {
       minX = minWorldPoint[0]
       maxX = maxWorldPoint[0]
     }
+  }
 
-    sampler.resetExtrema()
-    sampler.sampleRange(scope, samples, sampleCount, 'x', minX, maxX)
+  function resample() {
+    // // console.log('resampling graph', screen.minFramePoint.toString(), screen.maxFramePoint.toString(), screen)
 
-    minSample.set(minX, sampler.min)
-    maxSample.set(maxX, sampler.max)
+    updateXBounds()
+
+    let min = Infinity,
+      max = -Infinity
+
+    const sampleWidth = (maxX - minX) / (sampleCount - 1)
+
+    for (let i = 0; i < sampleCount; i++) {
+      let x = minX + i * sampleWidth
+      let a = samplesA.sample(x)
+      let b = samplesB.sample(x)
+      let y = a + ((b - a) / refreshPeriodTicks) * ticksSinceRefresh
+      if (y < min) min = y
+      if (y > max) max = y
+      samples[i].set(x, y)
+    }
+
+    minSample.set(minX, min)
+    maxSample.set(maxX, max)
+  }
+
+  function refresh() {
+    updateXBounds()
+    updateAAndB()
+    resample()
   }
 
   function resize() {
-    resample()
+    refresh()
   }
 
   function startRunning() {}
 
   function stopRunning() {
-    resample()
+    refresh()
 
     _.invokeEach(sledders, 'reset')
   }
+
+  refresh()
 
   self.mix(sampler)
 
@@ -197,6 +258,8 @@ function Graph(spec) {
     tick,
     draw,
     resize,
+
+    tVariableChanged,
 
     resample,
     bounds,
@@ -221,6 +284,7 @@ function Graph(spec) {
     },
     set expression(v) {
       sampler.expression = v
+      updateAAndB()
     },
 
     get strokeWidth() {

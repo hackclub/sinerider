@@ -188,9 +188,9 @@ function draw() {
   // world.sortDrawArray()
 
   let entity
-  for (let i = 0; i < world.activeDrawArray.length; i++) {
-    entity = world.activeDrawArray[i]
-    if (entity.draw) {
+  for (let i = 0; i < world.drawArray.length; i++) {
+    entity = world.drawArray[i]
+    if (entity.activeInHierarchy && entity.draw) {
       screen.ctx.save()
       if (entity.predraw) entity.predraw()
       entity.draw()
@@ -272,7 +272,7 @@ function onKeyUp(event) {
 
 window.addEventListener('keydown', (event) => {
   if (ui.mathField.focused()) return
-  world.level.sendEvent('keydown', [event.key])
+  world.level?.sendEvent('keydown', [event.key])
 })
 
 window.addEventListener('keyup', onKeyUp)

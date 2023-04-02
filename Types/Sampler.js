@@ -22,12 +22,6 @@ function Sampler(spec = {}) {
 
   setExpression(spec.expression || '0')
 
-  // let buckets = new Float32Array(5000)
-
-  // function getBucket(x) {
-  //   return buckets[parseInt(x/5)]
-  // }
-
   function decomment(expression) {
     return expression.split('//')[0]
   }
@@ -68,6 +62,8 @@ function Sampler(spec = {}) {
   }
 
   function sample() {
+    let scope = {}
+    _.assign(scope, globalScope)
     // Assign variable/value pairs
     if (arguments.length >= 2) {
       for (let i = 0; i < arguments.length; i += 2) {

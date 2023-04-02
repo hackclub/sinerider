@@ -1,4 +1,4 @@
-let assets
+let assets, globalScope
 
 function World(spec) {
   const self = Entity(spec, 'World')
@@ -13,7 +13,7 @@ function World(spec) {
 
   const quads = {}
 
-  const globalScope = {
+  globalScope = {
     customT: 0,
 
     get t() {
