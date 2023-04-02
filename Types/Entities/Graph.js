@@ -15,6 +15,8 @@ function Graph(spec) {
     dashOffset = 0,
     dashSettings = [0.5, 0.5],
     sledders = [],
+    useInterpolation = true,
+    refreshPeriodT = 0.3,
   } = spec
 
   let {
@@ -36,15 +38,17 @@ function Graph(spec) {
   // Scope is global scope
   const scope = globalScope
 
-  const sampler = Sampler({
-    ...spec,
-    scope,
-  })
-
-  let samplesA = BufferSampler(sampler, sampleCount)
-  let samplesB = BufferSampler(sampler, sampleCount)
-
+  const sampler = new Sampler(spec)
   const samples = sampler.generateSampleArray(sampleCount)
+
+  let interpolationSampler = null
+  if (useInterpolation) {
+    interpolationSampler = new InterFrameSampler({
+      sampler,
+      sampleCount,
+      refreshPeriodT,
+    })
+  }
 
   const screenSpaceSample = Vector2()
 
@@ -67,40 +71,28 @@ function Graph(spec) {
     ])
   }
 
-  let refreshPeriodTicks = 3
-  let ticksSinceRefresh = refreshPeriodTicks
-
-  function tVariableChanged() {
-    updateAAndB()
-    resample()
+  function resample(refresh = false) {
+    updateXBounds()
+    if (useInterpolation) {
+      if (refresh) interpolationSampler.refresh(minX, maxX, scope.t, scope.dt)
+      interpolationSampler.resetExtrema()
+      interpolationSampler.sampleRange(scope, samples, sampleCount, minX, maxX)
+      minSample.set(minX, interpolationSampler.min)
+      maxSample.set(maxX, interpolationSampler.max)
+    } else {
+      sampler.resetExtrema()
+      sampler.sampleRange(scope, samples, sampleCount, 'x', minX, maxX)
+      minSample.set(minX, sampler.min)
+      maxSample.set(maxX, sampler.max)
+    }
   }
 
-  function updateAAndB() {
-    if (globalScope.running) {
-      samplesA.refreshSamples(minX - 10, maxX + 10, 't', globalScope.t)
-      samplesB.refreshSamples(
-        minX - 10,
-        maxX + 10,
-        't',
-        globalScope.t + globalScope.dt * refreshPeriodTicks,
-      )
-    } else {
-      samplesA.refreshSamples(minX - 10, maxX + 10, 't', globalScope.t)
-      samplesB.refreshSamples(minX - 10, maxX + 10, 't', globalScope.t)
-    }
+  function tVariableChanged() {
+    resample(true)
   }
 
   function tick() {
-    if (!freeze) {
-      if (ticksSinceRefresh >= refreshPeriodTicks) {
-        ticksSinceRefresh = 0
-
-        updateAAndB()
-      } else {
-        ticksSinceRefresh++
-      }
-      resample()
-    }
+    if (!freeze) resample()
   }
 
   function draw() {
@@ -208,49 +200,21 @@ function Graph(spec) {
     }
   }
 
-  function resample() {
-    // // console.log('resampling graph', screen.minFramePoint.toString(), screen.maxFramePoint.toString(), screen)
-
-    updateXBounds()
-
-    let min = Infinity,
-      max = -Infinity
-
-    const sampleWidth = (maxX - minX) / (sampleCount - 1)
-
-    for (let i = 0; i < sampleCount; i++) {
-      let x = minX + i * sampleWidth
-      let a = samplesA.sample(x)
-      let b = samplesB.sample(x)
-      let y = a + ((b - a) / refreshPeriodTicks) * ticksSinceRefresh
-      if (y < min) min = y
-      if (y > max) max = y
-      samples[i].set(x, y)
-    }
-
-    minSample.set(minX, min)
-    maxSample.set(maxX, max)
-  }
-
-  function refresh() {
-    updateXBounds()
-    updateAAndB()
-    resample()
-  }
-
   function resize() {
-    refresh()
+    resample(true)
   }
 
-  function startRunning() {}
+  function startRunning() {
+    resample(true)
+  }
 
   function stopRunning() {
-    refresh()
+    resample(true)
 
     _.invokeEach(sledders, 'reset')
   }
 
-  refresh()
+  resample(true)
 
   self.mix(sampler)
 
@@ -284,7 +248,7 @@ function Graph(spec) {
     },
     set expression(v) {
       sampler.expression = v
-      updateAAndB()
+      resample(true)
     },
 
     get strokeWidth() {

@@ -19,7 +19,13 @@ function BufferSampler(sampler, sampleCount) {
 
     for (let i = 0; i < sampleCount; i++) {
       const x = minX + sampleWidth * i
-      const y = sampler.sample('x', x, ...params)
+
+      let y
+      try {
+        y = sampler.sample('x', x, ...params)
+      } catch (err) {
+        y = 0
+      }
 
       if (y < min) min = y
       if (y > max) max = y
