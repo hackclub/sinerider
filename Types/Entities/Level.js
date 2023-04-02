@@ -88,6 +88,9 @@ function Level(spec) {
     Point = Vector2(x, y)
     NewPoint = Vector2()
     camera.screenToWorld(Point, NewPoint)
+    if (gridlines.getactive()){
+      gridlines.setActiveTrue(NewPoint.x, NewPoint.y)
+    }
     CoordinateBox1.refreshDOM(NewPoint.x, NewPoint.y)
   }
   if (axes) trackedEntities.unshift(axes)
@@ -1033,7 +1036,7 @@ function Level(spec) {
 
   }
   function enableGridlines(){
-    gridlines.setActiveTrue()
+    gridlines.setActiveTrue(CoordinateBox1.getx(), CoordinateBox1.gety())
     CoordinateBox1.visibletrue()
   }
 

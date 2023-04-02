@@ -59,6 +59,12 @@ function CoordinateBox(spec) {
   function destroy() {
     helperBubble.remove()
   }
+  function getx(){
+    return x
+  }
+  function gety(){
+    return y
+  }
 
   return self.mix({
     helperBubble,
@@ -66,6 +72,8 @@ function CoordinateBox(spec) {
     destroy,
     visiblefalse,
     visibletrue,
+    getx, 
+    gety,
 
   })
 }

@@ -8,6 +8,8 @@ function Gridlines(spec) {
   const ctx = screen.ctx
 
   let active = false
+  let x = 0
+  let y = 0
 
   function tick() {}
   function drawLocal(){
@@ -28,17 +30,26 @@ function Gridlines(spec) {
       ctx.moveTo(camera.lowerLeft.x,i)
       ctx.lineTo(camera.upperRight.x, i)
     }
-
+    ctx.moveTo(camera.lowerLeft.x, -y)
+    ctx.lineTo(camera.upperRight.x, -y)
+    ctx.moveTo(x, -camera.lowerLeft.y)
+    ctx.lineTo(x, -camera.upperRight.y)
     ctx.strokeStyle = '#aaa'
     ctx.lineWidth = camera.screenToWorldScalar(0.7)
 
     ctx.stroke()
   }
+  function getactive(){
+    return active
+  }
   function draw() {
     if (active){
-    camera.drawThrough(ctx, drawLocal, transform)}
+      camera.drawThrough(ctx, drawLocal, transform)
+    }
   }
-  function setActiveTrue(){
+  function setActiveTrue(newx=x, newy=y){
+    x = newx
+    y = newy
     active = true
   }
   function setActiveFalse(){
@@ -52,5 +63,6 @@ function Gridlines(spec) {
     draw,
     setActiveTrue,
     setActiveFalse,
+    getactive,
   })
 }
