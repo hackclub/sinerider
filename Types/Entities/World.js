@@ -432,6 +432,17 @@ function World(spec) {
     self.sendEvent('mathFieldBlurred')
   }
 
+  function onGridlinesDeactive() {
+    self.sendEvent('disableGridlines')
+  }
+  function onGridlinesActive() {
+    self.sendEvent('enableGridlines')
+  }
+  function onCoordinate(x, y){
+    self.sendEvent('setCoordinates', [x,y])
+  }
+
+
   return self.mix({
     start,
     tick,
@@ -455,6 +466,10 @@ function World(spec) {
 
     onMathFieldFocus,
     onMathFieldBlur,
+
+    onGridlinesActive,
+    onGridlinesDeactive,
+    onCoordinate,
 
     get navigator() {
       return navigator

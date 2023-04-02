@@ -49,6 +49,7 @@ function Level(spec) {
   let highestOrder = 'A'
 
   let lava, volcanoSunset, sky
+  let CoordinateBox1 = null
 
   if (flashMathField) ui.expressionEnvelope.classList.add('flash-shadow')
   else ui.expressionEnvelope.classList.remove('flash-shadow')
@@ -82,8 +83,34 @@ function Level(spec) {
       globalScope,
       parent: self,
     })
-
+  
+  function setCoordinates(x, y) {
+    Point = Vector2(x, y)
+    NewPoint = Vector2()
+    camera.screenToWorld(Point, NewPoint)
+    CoordinateBox1.refreshDOM(NewPoint.x, NewPoint.y)
+  }
   if (axes) trackedEntities.unshift(axes)
+  
+  let gridlines = null
+  if (!datum.hasOwnProperty('axesEnabled') || datum.axesEnabled)
+    gridlines = Gridlines({
+      drawOrder: LAYERS.gridlines,
+      camera,
+      globalScope,
+      parent: self,
+    })
+    CoordinateBox1 = CoordinateBox({
+      drawOrder: LAYERS.gridlines,
+      camera,
+      globalScope,
+      parent: self,
+      content: ('0, 0'),
+      domSelector: '#reset-button',
+      place: 'top-right',
+      style: {...self.style, visibility: 'hidden'},
+    })
+
 
   let darkBufferOrScreen = screen
   let darkenBufferOpacity = 0.0
@@ -1000,6 +1027,16 @@ function Level(spec) {
     ui.expressionEnvelope.classList.remove('flash-shadow')
   }
 
+  function disableGridlines(){
+    gridlines.setActiveFalse()
+    CoordinateBox1.visiblefalse()
+
+  }
+  function enableGridlines(){
+    gridlines.setActiveTrue()
+    CoordinateBox1.visibletrue()
+  }
+
   function destroy() {
     if (runAsCutscene && !isBubbleLevel) {
       world._stopRunning()
@@ -1049,6 +1086,8 @@ function Level(spec) {
 
     setGraphExpression,
 
+    setCoordinates,
+
     camera,
     graph,
 
@@ -1062,6 +1101,9 @@ function Level(spec) {
     playOpenMusic,
 
     mathFieldFocused,
+
+    enableGridlines,
+    disableGridlines,
 
     get isRunningAsCutscene() {
       return runAsCutscene

@@ -240,6 +240,17 @@ function onMathFieldFocus(event) {
   world.onMathFieldFocus()
 }
 
+function onGridlinesDeactive(event) {
+  world.onGridlinesDeactive()
+}
+function onGridlinesActive(event) {
+  world.onGridlinesActive()
+}
+
+function onCoordinate(event, x, y){
+  world.onCoordinate(x, y)
+}
+
 ui.expressionEnvelope.addEventListener('focusin', onMathFieldFocus)
 
 function onMathFieldBlur(event) {
@@ -368,6 +379,7 @@ ui.veil.addEventListener('click', onClickCanvas)
 function onMouseMoveCanvas(event) {
   world.clickableContext.processEvent(event, 'mouseMove')
   event.preventDefault()
+  onCoordinate(event, event.clientX, event.clientY)
 }
 
 canvas.addEventListener('mousemove', onMouseMoveCanvas)
@@ -376,6 +388,7 @@ canvas.addEventListener('pointermove', onMouseMoveCanvas)
 function onMouseDownCanvas(event) {
   world.clickableContext.processEvent(event, 'mouseDown')
   event.preventDefault()
+  onGridlinesActive()
   ui.mathField.blur()
 }
 
@@ -385,6 +398,7 @@ canvas.addEventListener('pointerdown', onMouseDownCanvas)
 function onMouseUpCanvas(event) {
   world.clickableContext.processEvent(event, 'mouseUp')
   event.preventDefault()
+  onGridlinesDeactive()
 }
 
 canvas.addEventListener('mouseup', onMouseUpCanvas)

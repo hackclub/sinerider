@@ -548,6 +548,16 @@ input[valid='false'] {
   animation-duration: 4500ms;
   animation-iteration-count: infinite;
 }
+.coordinate {
+  width: 125px;
+  text-align: center;
+  border: 2px solid black;
+  font-size: small;
+  position: absolute;
+  background-color: white;
+  padding: 5px;
+  color: black !important;
+}
 @keyframes wiggle {
   0% {
     transform: rotate(0deg);
