@@ -151,6 +151,11 @@ body > .bar {
   pointer-events: none;
 }
 
+#math-editor-container {
+  display: grid;
+  justify-items: center;
+}
+
 *[hide='true'] {
   display: none;
 }
@@ -258,6 +263,7 @@ input[valid='false'] {
 }
 
 #expression-envelope {
+  width: fit-content;
   transition: transform 1s, opacity 0.2s;
 }
 
@@ -328,7 +334,7 @@ input[valid='false'] {
 }
 
 #reset-button:not(:hover) {
-  background: rgb(255, 102, 102);
+  background: #68f;
 }
 
 #reset-button {
@@ -411,7 +417,7 @@ input[valid='false'] {
 }
 
 #volume-slider {
-  opacity: 0.1;
+  opacity: 0;
   transition-duration: 1s;
 }
 #volume-slider-box:hover > #volume-slider {
@@ -579,6 +585,20 @@ input[valid='false'] {
   }
 }
 
+/* TODO: Make decent looking */
+#t-variable-container {
+  display: flex;
+}
+
+#t-variable-container[hide='true'] {
+  display: none;
+}
+
+#t-variable-label {
+  box-sizing: border-box;
+  padding-bottom: 3.5px;
+}
+
 .top-left {
   bottom: calc(80% + 20px);
   right: 90%;
@@ -730,7 +750,7 @@ input[valid='false'] {
 .tooltip::after {
   --scale: 0;
   --arrow-size: 10px;
-  --reset-tooltip-color: rgb(255 102 102);
+  --reset-tooltip-color: #68f;
   --volume-tooltip-color: rgb(34, 136, 238);
 
   position: absolute;
@@ -882,6 +902,7 @@ input[valid='false'] {
   font-size: 10px;
   width: 350px;
   height: 25px;
+  user-select: all;
 }
 
 #button-hide-level-info {
@@ -891,17 +912,21 @@ input[valid='false'] {
   right: 50px;
   min-width: 25px;
   min-height: 25px;
+  display: none;
 }
 
 .debugtitle {
   font-weight: bold;
   text-align: right;
   width: 150px;
+  user-select: all;
+  display: none;
 }
 
 .debuginfo {
   width: 150px;
   text-align: left;
+  user-select: all;
 }
 
 .grid {

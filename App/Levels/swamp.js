@@ -40,16 +40,7 @@ const SWAMP = [
         // ],
       },
     ],
-    sprites: [
-      {
-        asset: 'images.danger_sign_1',
-        x: 5,
-        size: 3,
-        anchored: true,
-        sloped: true,
-        offset: [0, 0.9],
-      },
-    ],
+    sprites: [],
   },
   {
     name: 'Two Below',

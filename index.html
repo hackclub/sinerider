@@ -175,15 +175,27 @@
         <div class="string">↺</div>
       </div>
 
-      <div class="envelope" id="expression-envelope" disabled="false">
-        <div class="label" id="variable-label">
-          <div class="string">Y=</div>
+      <div id="math-editor-container">
+        <div id="t-variable-container" hide="true">
+          <div class="label" id="t-variable-label">
+            <div class="string">t=</div>
+          </div>
+          <input
+            type="range"
+            id="t-variable-slider"
+          />
         </div>
+        <div class="envelope" id="expression-envelope" disabled="false">
+          <div class="label" id="variable-label">
+            <div class="string">Y=</div>
+          </div>
 
-        <div id="math-field"></div>
+          <div id="math-field"></div>
 
-        <div id="math-field-static"></div>
+          <div id="math-field-static"></div>
+        </div>
       </div>
+
 
       <input class="text" id="expression-text" type="text" hide="true" />
 
