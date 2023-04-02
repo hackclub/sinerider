@@ -13,6 +13,7 @@ function Level(spec) {
     isBubbleLevel,
     datum,
     storage,
+    urlData,
     savedLatex,
     world,
     playBackgroundMusic,
@@ -51,11 +52,15 @@ function Level(spec) {
   let lava, volcanoSunset, sky
   let CoordinateBox1 = null
 
-  if (flashMathField) ui.expressionEnvelope.classList.add('flash-shadow')
-  else ui.expressionEnvelope.classList.remove('flash-shadow')
+  let usingTInExpression = false
 
-  if (flashRunButton) ui.runButton.classList.add('flash-shadow')
-  else ui.runButton.classList.remove('flash-shadow')
+  if (!isBubbleLevel) {
+    if (flashMathField) ui.expressionEnvelope.classList.add('flash-shadow')
+    else ui.expressionEnvelope.classList.remove('flash-shadow')
+
+    if (flashRunButton) ui.runButton.classList.add('flash-shadow')
+    else ui.runButton.classList.remove('flash-shadow')
+  }
 
   let currentLatex
 
@@ -170,7 +175,8 @@ function Level(spec) {
   loadDatum(spec.datum)
 
   let defaultVectorExpression =
-    '\\frac{(\\sin(x) - (y - 2) \\cdot i) \\cdot i}{2}'
+    '\\frac{(\\sin (x)-(y-2)\\cdot i)\\cdot i}{2}+\\frac{x}{4}+\\frac{y\\cdot i}{5}'
+  let vectorExpression = defaultVectorExpression
 
   let isVectorEditorActive = false
 
@@ -343,9 +349,9 @@ function Level(spec) {
     globalScope.p = math.complex()
     assignPlayerPosition()
 
-    playBackgroundMusic(datum.backgroundMusic, self)
+    if (playBackgroundMusic) playBackgroundMusic(datum.backgroundMusic, self)
 
-    if (runAsCutscene) {
+    if (runAsCutscene && !isBubbleLevel) {
       // Don't play sound, keep navigator
       world._startRunning(false, false, !isConstantLakeAndNotBubble()) // Keep editor enabled for Constant Lake
 
@@ -362,7 +368,7 @@ function Level(spec) {
 
       ui.mathField.latex(defaultVectorExpression)
       ui.mathFieldStatic.latex(defaultVectorExpression)
-    } else if (!runAsCutscene) {
+    } else if (!runAsCutscene && !isBubbleLevel) {
       // Otherwise display editor normally as graph editor
       ui.expressionEnvelope.classList.remove('hidden')
       ui.mathFieldLabel.innerText = 'Y='
@@ -420,7 +426,6 @@ function Level(spec) {
 
   function tick() {
     // screen.ctx.filter = `blur(${Math.floor(world.level.sledders[0].rigidbody.velocity/40 * 4)}px)`
-
     let time = runAsCutscene
       ? getCutsceneDistanceParameter().toFixed(1)
       : (Math.round(globalScope.t * 10) / 10).toString()
@@ -454,7 +459,7 @@ function Level(spec) {
 
     assignPlayerPosition()
 
-    if (isVolcano()) {
+    if (isVolcano() && !isBubbleLevel) {
       let sunsetTime
       const x = sledders[0]?.transform.x
       sunsetTime = x ? Math.exp(-(((x - 205) / 100) ** 2)) : 0
@@ -558,14 +563,12 @@ function Level(spec) {
   }
 
   function tipCompleted() {
-
     // Movves index of all tips down by one
     for (i = 0; i < tips.length; i++) {
       datum.tips[i].index -= 1
       tips[i].refreshDOM()
     }
   }
-
 
   function addTip(tipDatum) {
     tips.push(
@@ -698,10 +701,10 @@ function Level(spec) {
   //  3. Share custom levels
 
   function serialize() {
-    return {
+    const json = {
       v: 0.1, // TODO: change version handling to World?
       nick: datum.nick,
-      savedLatex: currentLatex,
+      savedLatex: isConstantLakeAndNotBubble() ? vectorExpression : savedLatex,
       goals: isEditor()
         ? goals.map((g) => {
             s = {
@@ -714,6 +717,10 @@ function Level(spec) {
           })
         : null,
     }
+    if (isConstantLakeAndNotBubble()) {
+      json.t = globalScope.t
+    }
+    return json
   }
 
   function goalFailed(goal) {
@@ -769,6 +776,14 @@ function Level(spec) {
 
     ui.mathFieldStatic.latex(currentLatex)
 
+    ui.tSliderContainer.setAttribute('hide', true)
+
+    if (usingTInExpression) {
+      if (graph.resample) graph.resample()
+      _.invokeEach(goals, 'reset')
+      _.invokeEach(sledders, 'reset')
+    }
+
     if (!hasBeenRun) {
       if (runMusic) runMusic.play()
 
@@ -779,6 +794,7 @@ function Level(spec) {
   function stopRunning() {
     _.invokeEach(goals, 'reset')
     _.invokeEach(tips, 'toggleVisible')
+    if (usingTInExpression) ui.tSliderContainer.setAttribute('hide', false)
     completed = false
     refreshLowestOrder()
   }
@@ -852,6 +868,10 @@ function Level(spec) {
     _.each(datum.texts, addText)
     _.each(datum.directors || [{}], addDirector)
     isBubbleLevel || _.each(datum.tips || [], addTip)
+
+    if (urlData && urlData.t) {
+      globalScope.runTime = urlData.t
+    }
 
     if (isBubbleLevel && datum.bubble) {
       datum = _.merge(_.cloneDeep(datum), datum.bubble)
@@ -996,6 +1016,13 @@ function Level(spec) {
     )
   }
 
+  function tVariableChanged(newT) {
+    globalScope.customT = newT
+    if (graph.resample) graph.resample()
+    _.invokeEach(goals, 'reset')
+    _.invokeEach(sledders, 'reset')
+  }
+
   function setGraphExpression(text, latex) {
     if (editor.editingPath) {
       // console.log('returning')
@@ -1009,9 +1036,22 @@ function Level(spec) {
     save()
 
     if (isConstantLakeAndNotBubble()) {
+      vectorExpression = latex
       quads.sunset.setVectorFieldExpression(text)
       return
     }
+
+    usingTInExpression = false
+    try {
+      math.parse(text).traverse((node) => {
+        if (node.name == 't' || node.args?.some((arg) => arg.name == 't')) {
+          usingTInExpression = true
+          throw '' // Throw exception for janky early return
+        }
+      })
+    } catch {}
+
+    ui.tSliderContainer.setAttribute('hide', !usingTInExpression)
 
     graph.expression = text
     ui.expressionEnvelope.setAttribute('valid', graph.valid)
@@ -1140,5 +1180,7 @@ function Level(spec) {
     get firstWalkerX() {
       return walkers[0]?.transform.x
     },
+
+    tVariableChanged,
   })
 }

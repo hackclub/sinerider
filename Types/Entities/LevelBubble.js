@@ -138,7 +138,7 @@ function LevelBubble(spec) {
 
     const cutsceneFrameSides = 8
 
-    if (bubbletLevel.datum.runAsCutscene) {
+    if (levelDatum.runAsCutscene) {
       ctx.rotate(((180 / cutsceneFrameSides) * Math.PI) / 180)
       ctx.beginPath()
       ctx.moveTo(radius, 0)
@@ -162,7 +162,7 @@ function LevelBubble(spec) {
 
     ctx.fill()
     ctx.clip()
-    if (bubbletLevel.datum.runAsCutscene) {
+    if (levelDatum.runAsCutscene) {
       ctx.rotate((-(180 / cutsceneFrameSides) * Math.PI) / 180)
       ctx.drawImage(bubbletCanvas, -radius, -radius, radius * 2, radius * 2)
     } else {
@@ -185,7 +185,7 @@ function LevelBubble(spec) {
     ctx.lineJoin = 'miter'
 
     ctx.beginPath()
-    if (bubbletLevel.datum.runAsCutscene) {
+    if (levelDatum.runAsCutscene) {
       ctx.beginPath()
       ctx.moveTo(radius + strokeWidth / 2 - 0.02, 0)
 
