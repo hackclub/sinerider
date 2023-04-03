@@ -5,7 +5,13 @@
 function InterFrameSampler(spec) {
   const self = {}
 
-  const { sampler, sampleCount, refreshPeriodT = 10, samplePadding = 10 } = spec
+  const {
+    sampler,
+    sampleCount,
+    refreshPeriodT = 10,
+    samplePadding = 10,
+    useQuadraticInterpolation = true,
+  } = spec
 
   let sampleTimeA
   const samplesA = BufferSampler(sampler, sampleCount)
@@ -13,9 +19,32 @@ function InterFrameSampler(spec) {
   let sampleTimeB
   const samplesB = BufferSampler(sampler, sampleCount)
 
+  let sampleTimeC, samplesC
+
+  if (useQuadraticInterpolation) {
+    samplesC = BufferSampler(sampler, sampleCount)
+  }
+
   let min = Infinity,
     max = -Infinity
   let minX, maxX
+
+  // TODO: Clean up and optimize
+  function secondOrderInterp(x0, x1, x2, y0, y1, y2, x) {
+    const a0 =
+      ((x1 * x2) / ((x2 - x0) * (x1 - x0))) * y0 +
+      ((-x0 * x2) / ((x1 - x0) * (x2 - x1))) * y1 +
+      ((x0 * x1) / ((x2 - x0) * (x2 - x1))) * y2
+    const a1 =
+      (-(x2 + x1) / ((x2 - x0) * (x1 - x0))) * y0 +
+      ((x2 + x0) / ((x1 - x0) * (x2 - x1))) * y1 +
+      (-(x1 + x0) / ((x2 - x0) * (x2 - x1))) * y2
+    const a2 =
+      (1 / ((x2 - x0) * (x1 - x0))) * y0 +
+      (-1 / ((x1 - x0) * (x2 - x1))) * y1 +
+      (1 / ((x2 - x0) * (x2 - x1))) * y2
+    return a2 * x ** 2 + a1 * x + a0
+  }
 
   function sampleRange(_scope, sampleArray, sampleCount, _minX, _maxX) {
     if (!_.has(_scope, 't')) {
@@ -39,9 +68,17 @@ function InterFrameSampler(spec) {
 
     for (let i = 0; i < sampleCount; i++) {
       let x = _minX + step * i
-      let a = samplesA.sample(x)
-      let b = samplesB.sample(x)
-      let y = a + ((b - a) / (sampleTimeB - sampleTimeA)) * deltaT
+      let y
+      if (useQuadraticInterpolation) {
+        let a = samplesA.sample(x)
+        let b = samplesB.sample(x)
+        let c = samplesC.sample(x)
+        y = secondOrderInterp(0, 0.5, 1, a, b, c, deltaT / refreshPeriodT)
+      } else {
+        let a = samplesA.sample(x)
+        let b = samplesB.sample(x)
+        y = a + ((b - a) / (sampleTimeB - sampleTimeA)) * deltaT
+      }
       if (y < min) min = y
       if (y > max) max = y
       sampleArray[i].set(x, y)
@@ -52,16 +89,34 @@ function InterFrameSampler(spec) {
     minX = _minX
     maxX = _maxX
 
-    sampleTimeA = currentT
-    samplesA.refreshSamples(
-      minX - samplePadding,
-      maxX + samplePadding,
-      't',
-      sampleTimeA,
-    )
+    let nextT = currentT + refreshPeriodT
 
-    sampleTimeB = currentT + refreshPeriodT
-    samplesB.refreshSamples(minX - 10, maxX + 10, 't', sampleTimeB)
+    if (useQuadraticInterpolation) {
+      sampleTimeA = currentT
+      samplesA.refreshSamples(
+        minX - samplePadding,
+        maxX + samplePadding,
+        't',
+        sampleTimeA,
+      )
+
+      sampleTimeC = nextT
+      samplesC.refreshSamples(minX - 10, maxX + 10, 't', sampleTimeC)
+
+      sampleTimeB = sampleTimeA + (nextT - currentT) / 2
+      samplesB.refreshSamples(minX - 10, maxX + 10, 't', sampleTimeB)
+    } else {
+      sampleTimeA = currentT
+      samplesA.refreshSamples(
+        minX - samplePadding,
+        maxX + samplePadding,
+        't',
+        sampleTimeA,
+      )
+
+      sampleTimeB = nextT
+      samplesB.refreshSamples(minX - 10, maxX + 10, 't', sampleTimeB)
+    }
   }
 
   function resetExtrema() {
