@@ -11,18 +11,26 @@ function BufferSampler(sampler, sampleCount) {
   let min = Infinity,
     max = -Infinity
 
+  let scope = {}
+
   function refreshSamples(_minX, _maxX, ...params) {
     minX = _minX
     maxX = _maxX
 
     sampleWidth = (maxX - minX) / (sampleCount - 1)
 
+    // Assign extra parameters, if given
+    for (let i = 0; i < params.length; i += 2) {
+      scope[params[i]] = params[i + 1]
+    }
+
     for (let i = 0; i < sampleCount; i++) {
       const x = minX + sampleWidth * i
 
       let y
       try {
-        y = sampler.sample('x', x, ...params)
+        scope['x'] = x
+        y = sampler._evaluate(scope)
       } catch (err) {
         y = 0
       }

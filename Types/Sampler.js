@@ -151,6 +151,8 @@ function Sampler(spec = {}) {
     sampleRange,
     sampleSlope,
 
+    _evaluate: evaluate,
+
     generateSampleArray,
 
     resetExtrema,
