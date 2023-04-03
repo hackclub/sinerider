@@ -1,3 +1,5 @@
+const { running } = require("fontawesome")
+
 /**
  * Base class representing a level scene with
  * a graph, camera/director(s) and walkers/sledders/sprites/text.
@@ -105,26 +107,23 @@ function Level(spec) {
   if (axes) trackedEntities.unshift(axes)
   
   let gridlines = null
-  if (!datum.hasOwnProperty('axesEnabled') || datum.axesEnabled)
-    gridlines = Gridlines({
-      drawOrder: LAYERS.gridlines,
-      camera,
-      globalScope,
-      parent: self,
-      domSelector:'#body'
-    })
-    CoordinateBox1 = CoordinateBox({
-      drawOrder: LAYERS.gridlines,
-      camera,
-      globalScope,
-      parent: self,
-      content: ('0, 0'),
-      domSelector: '#reset-button',
-      place: 'top-right',
-      style: {...self.style, visibility: 'hidden'},
-    })
-
-
+  gridlines = Gridlines({
+    drawOrder: LAYERS.gridlines,
+    camera,
+    globalScope,
+    parent: self,
+    domSelector:'#body'
+  })
+  CoordinateBox1 = CoordinateBox({
+    drawOrder: LAYERS.gridlines,
+    camera,
+    globalScope,
+    parent: self,
+    content: ('0, 0'),
+    domSelector: '#reset-button',
+    place: 'top-right',
+    style: {...self.style, visibility: 'hidden'},
+  })
   let darkBufferOrScreen = screen
   let darkenBufferOpacity = 0.0
   let darkenBuffer, darkenBufferScreen
@@ -1081,8 +1080,9 @@ function Level(spec) {
 
   }
   function enableGridlines(){
+    if (!world.running){
     gridlines.setActiveTrue(CoordinateBox1.getx(), CoordinateBox1.gety())
-    CoordinateBox1.visibletrue()
+    CoordinateBox1.visibletrue()}
   }
 
   function destroy() {
