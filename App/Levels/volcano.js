@@ -9,11 +9,7 @@ const VOLCANO = (() => {
     radius: 3,
     x: -40,
     y: 0,
-    camera: {
-      x: 2,
-      offset: [0, 0.4],
-      fov: 30,
-    },
+    camera: {},
     victoryX: 400,
     requirements: ['TWO_BELOW'],
     defaultExpression:
@@ -21,15 +17,13 @@ const VOLCANO = (() => {
     directors: [
       {
         type: 'tracking',
-        smoothing: 0.08,
         minFov: 8,
         minFovMargin: 7,
         transitions: [
           {
             domain: [135, 250],
             properties: {
-              minFov: 50,
-              offset: [0, -0.3],
+              minFov: 45,
             },
           },
         ],
