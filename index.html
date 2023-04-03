@@ -170,23 +170,23 @@
       <!--</div>-->
     </div>
 
-    <div class="bar floating controls" id="controls-bar">
-      <div class="button tooltip" id="reset-button" data-tooltip="Reset">
-        <div class="string">↺</div>
-      </div>
-
-      <div id="math-editor-container">
-        <div id="t-variable-container" hide="true">
-          <div class="label" id="t-variable-label">
-            <div class="string">t=</div>
-          </div>
-          <input
-            value="0"
-            type="range"
-            id="t-variable-slider"
-          />
+    <div class="floating" id="controls-bar-with-keyboard">
+      <div class="bar floating controls" id="controls-bar">
+        <div class="button tooltip" id="reset-button" data-tooltip="Reset">
+          <div class="string">↺</div>
         </div>
-        <div id="envelope-with-keyboard">
+
+        <div id="math-editor-container">
+          <div id="t-variable-container" hide="true">
+            <div class="label" id="t-variable-label">
+              <div class="string">t=</div>
+            </div>
+            <input
+              value="0"
+              type="range"
+              id="t-variable-slider"
+            />
+          </div>
           <div class="envelope" id="expression-envelope" disabled="false">
             <div class="label" id="variable-label">
               <div class="string">Y=</div>
@@ -197,20 +197,22 @@
             <div id="math-field-static"></div>
           </div>
         </div>
+
+        <input class="text" id="expression-text" type="text" hide="true" />
+
+        <div class="button" id="run-button" hide="false">
+          <div class="string">GO</div>
+        </div>
+
+        <div class="button reset-button" id="stop-button" hide="true">
+          <div class="string">STOP</div>
+        </div>
+
+        <div class="button reset-button" id="try-again-button" hide="true">
+          <div class="string">Try Again</div>
+        </div>
       </div>
-
-      <input class="text" id="expression-text" type="text" hide="true" />
-
-      <div class="button" id="run-button" hide="false">
-        <div class="string">GO</div>
-      </div>
-
-      <div class="button reset-button" id="stop-button" hide="true">
-        <div class="string">STOP</div>
-      </div>
-
-      <div class="button reset-button" id="try-again-button" hide="true">
-        <div class="string">Try Again</div>
+      <div id="keyboard-bar">
       </div>
     </div>
 
