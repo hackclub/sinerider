@@ -10,8 +10,44 @@ function Gridlines(spec) {
   let active = false
   let x = 0
   let y = 0
+  const origin = Vector2()
+  const screenOrigin = Vector2()
 
   function tick() {}
+
+  // Draw Axis Ticks When Active
+  function drawLocalAxesTicks(){
+    const xTicks = Math.ceil(camera.upperRight.x-camera.lowerLeft.x)+1
+    const yTicks = Math.ceil(camera.upperRight.y-camera.lowerLeft.y)+1
+    ctx.beginPath()
+
+    // Draw right x ticks
+    for (let i=0; i<xTicks; i++){
+      ctx.moveTo(i, 0)
+      ctx.lineTo(i, -0.2)
+    }
+    // Draw left x ticks
+    for (let i=0; i>-xTicks; i--){
+      ctx.moveTo(i, 0)
+      ctx.lineTo(i, 0.2)
+    }
+    // Draw top y ticks
+    for (let i=0; i<yTicks; i++){
+      ctx.moveTo(0, -i)
+      ctx.lineTo(0.2, -i)
+    }
+    // Draw bottom y ticks
+    for (let i=0; i>-yTicks; i--){
+      ctx.moveTo(0, -i)
+      ctx.lineTo(-0.2, -i)
+    }
+    ctx.strokeStyle = '#DDD'
+    ctx.lineWidth = camera.screenToWorldScalar(1.4)
+
+    ctx.stroke()
+  }
+
+  // Draw Gridlines When Active
   function drawLocal(){
     const xTicks = Math.ceil(camera.upperRight.x-camera.lowerLeft.x)+1
     const yTicks = Math.ceil(camera.upperRight.y-camera.lowerLeft.y)+1
@@ -49,6 +85,19 @@ function Gridlines(spec) {
   function draw() {
     if (active){
       camera.drawThrough(ctx, drawLocal, transform)
+
+      // Draw Axis Lines When Active
+      camera.worldToScreen(origin, screenOrigin)
+      ctx.beginPath()
+      ctx.moveTo(0, screenOrigin.y)
+      ctx.lineTo(screen.width, screenOrigin.y)
+      ctx.moveTo(screenOrigin.x, 0)
+      ctx.lineTo(screenOrigin.x, screen.height)
+      ctx.strokeStyle = '#DDD'
+      ctx.lineWidth = 2.8
+      ctx.stroke()
+
+      camera.drawThrough(ctx, drawLocalAxesTicks, transform)
     }
   }
   function setActiveTrue(newx=x, newy=y){
