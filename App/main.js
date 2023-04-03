@@ -268,7 +268,7 @@ ui.mathField.addEventListener('input',(ev) => {
   const text = mathquillToMathJS(latex)
   world.level.sendEvent('setGraphExpression', [text, latex])
 });
-ui.mathField.focused = () => ui._mathField.classList.contains('mq-focused')
+ui.mathField.focused = () => document.activeElement == ui.mathField
 
 ui.dottedMathFieldStatic = MQ.StaticMath(ui.dottedMathFieldStatic)
 
