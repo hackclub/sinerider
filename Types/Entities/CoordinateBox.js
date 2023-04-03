@@ -1,12 +1,3 @@
-
-/**
- * Create a text bubble which can be appended to a DOM Element
- * @param {string} spec.content text in the bubble
- * @param {string} spec.domSelector parent dom query selector
- * @param {string} spec.place either top-right top-left bottom-right bottom-left
- * @param {object} spec.style extra styles to be added like top/bottom/color
- * @returns
- */
 function CoordinateBox(spec) {
   const { self } = Entity(spec, 'CoordinateBox')
 
