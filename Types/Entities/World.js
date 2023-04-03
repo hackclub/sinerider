@@ -487,6 +487,9 @@ function World(spec) {
     get navigator() {
       return navigator
     },
+    get running() {
+      return running
+    },
 
     get editing() {
       return editing

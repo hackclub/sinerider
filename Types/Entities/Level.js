@@ -1,3 +1,5 @@
+const { running } = require("fontawesome")
+
 /**
  * Base class representing a level scene with
  * a graph, camera/director(s) and walkers/sledders/sprites/text.
@@ -1081,8 +1083,9 @@ function Level(spec) {
 
   }
   function enableGridlines(){
+    if (!world.running){
     gridlines.setActiveTrue(CoordinateBox1.getx(), CoordinateBox1.gety())
-    CoordinateBox1.visibletrue()
+    CoordinateBox1.visibletrue()}
   }
 
   function destroy() {
