@@ -256,7 +256,7 @@ ui.mathField.addEventListener('input', (event) => {
   }
 });
 
-ui.mathField.focused = () => ui._mathField.classList.contains('mq-focused')
+ui.mathField.focused = () => document.activeElement == ui.mathField
 
 ui.dottedMathFieldStatic = MQ.StaticMath(ui.dottedMathFieldStatic)
 
