@@ -38,7 +38,10 @@ function Graph(spec) {
   // Scope is global scope
   const scope = globalScope
 
-  const sampler = new Sampler(spec)
+  const sampler = new Sampler({
+    ...spec,
+    scope,
+  })
   const samples = sampler.generateSampleArray(sampleCount)
 
   let interpolationSampler = null
