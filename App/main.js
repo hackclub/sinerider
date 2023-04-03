@@ -42,7 +42,7 @@ const ui = {
   controlBar: $('#controls-bar'),
   expressionText: $('#expression-text'),
   expressionEnvelope: $('#expression-envelope'),
-  envelopeWithKeyboard: $('#envelope-with-keyboard'),
+  keyboardBar: $('#keyboard-bar'),
 
   mathFieldLabel: $('#variable-label > .string'),
   _mathField: $('#math-field'),
@@ -228,7 +228,7 @@ ui.tSlider.addEventListener('input', () => {
 
 // MathQuill
 
-mathVirtualKeyboard.container = ui.envelopeWithKeyboard
+mathVirtualKeyboard.container = ui.keyboardBar
 
 ui.mathFieldStatic = MQ.StaticMath(ui.mathFieldStatic)
 
