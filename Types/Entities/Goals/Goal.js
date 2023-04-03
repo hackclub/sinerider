@@ -67,6 +67,10 @@ function Goal(spec) {
     self.reset()
   }
 
+  function tVariableChanged() {
+    self.reset()
+  }
+
   function tick() {
     if (globalScope.running) {
       self.refreshTriggered()
@@ -287,6 +291,7 @@ function Goal(spec) {
   }
 
   return self.mix({
+    tVariableChanged,
     transform,
 
     awake,
