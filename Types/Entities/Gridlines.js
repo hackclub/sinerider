@@ -30,13 +30,17 @@ function Gridlines(spec) {
       ctx.moveTo(camera.lowerLeft.x,i)
       ctx.lineTo(camera.upperRight.x, i)
     }
+    ctx.strokeStyle = 'rgba(170, 170, 170, 0.5)'
+    ctx.lineWidth = camera.screenToWorldScalar(1)
+
+    ctx.stroke()
+    ctx.beginPath()
     ctx.moveTo(camera.lowerLeft.x, -y)
     ctx.lineTo(camera.upperRight.x, -y)
     ctx.moveTo(x, -camera.lowerLeft.y)
     ctx.lineTo(x, -camera.upperRight.y)
-    ctx.strokeStyle = '#aaa'
-    ctx.lineWidth = camera.screenToWorldScalar(0.7)
-
+    ctx.strokeStyle = 'rgba(136, 187, 221, 1)'
+    ctx.lineWidth = camera.screenToWorldScalar(1)
     ctx.stroke()
   }
   function getactive(){

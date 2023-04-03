@@ -19,9 +19,10 @@ function CoordinateBox(spec) {
     y,
     style = {},
   } = spec
-
+  let camerax = 100
+  let cameray = 0
+  let domElement = $(domSelector)
   style = {left: '50px', ...style}
-  const domElement = $(domSelector)
   let helperBubble = document.createElement('div')
   helperBubble.className = `coordinate`
   helperBubble.innerHTML = content
@@ -29,32 +30,36 @@ function CoordinateBox(spec) {
 
   domElement.appendChild(helperBubble)
 
-  function refreshDOM(newx=x, newy=y){
+  function refreshDOM(newx=x, newy=y, oldx, oldy){
+    x = parseFloat(newx).toFixed(2)
+    y = parseFloat(newy).toFixed(2)
+
     helperBubble.remove()
     helperBubble = document.createElement('div')
     helperBubble.className = `coordinate`
     helperBubble.innerHTML = content
+    domElement.appendChild(helperBubble)
+    
+    content = `(${x}, ${y})`
 
     if (visible == false){
-      style= { ...style, visibility: 'hidden'}
+      style= { ...style, visibility: 'hidden', left: `${oldx}px`, bottom: `${screen.height-oldy}px`}
     }
     if (visible == true){
-      style= {...style, visibility: 'visible'}
+      style= {...style,left: `${oldx}px`, bottom: `${screen.height-oldy}px`,  visibility: 'visible', }
     }
     Object.assign(helperBubble.style, style)
 
-    domElement.appendChild(helperBubble)
-    x = parseFloat(newx).toFixed(2)
-    y = parseFloat(newy).toFixed(2)
-    content = `(${x}, ${y})`
+    
   }
   function visiblefalse(){
     visible = false
-    refreshDOM()
+    refreshDOM(x, y, x, y)
   }
   function visibletrue(){
+    refreshDOM(x, y, x, y)
     visible = true
-    refreshDOM()
+    refreshDOM(x, y, x, y)
   }
   function destroy() {
     helperBubble.remove()

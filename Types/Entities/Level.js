@@ -91,12 +91,16 @@ function Level(spec) {
   
   function setCoordinates(x, y) {
     Point = Vector2(x, y)
-    NewPoint = Vector2()
-    camera.screenToWorld(Point, NewPoint)
+    NewPoint = Vector2(x, y)
+    camera.screenToWorld(NewPoint)
+    
     if (gridlines.getactive()){
+
       gridlines.setActiveTrue(NewPoint.x, NewPoint.y)
+      CoordinateBox1.visibletrue()
     }
-    CoordinateBox1.refreshDOM(NewPoint.x, NewPoint.y)
+    CoordinateBox1.refreshDOM(NewPoint.x, NewPoint.y,Point.x, Point.y )
+    
   }
   if (axes) trackedEntities.unshift(axes)
   
@@ -107,6 +111,7 @@ function Level(spec) {
       camera,
       globalScope,
       parent: self,
+      domSelector:'#body'
     })
     CoordinateBox1 = CoordinateBox({
       drawOrder: LAYERS.gridlines,

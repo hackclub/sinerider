@@ -261,7 +261,7 @@ function onGridlinesActive(event) {
   world.onGridlinesActive()
 }
 
-function onCoordinate(event, x, y){
+function onCoordinate(x, y){
   world.onCoordinate(x, y)
 }
 
@@ -393,21 +393,21 @@ ui.veil.addEventListener('click', onClickCanvas)
 function onMouseMoveCanvas(event) {
   world.clickableContext.processEvent(event, 'mouseMove')
   event.preventDefault()
-  onCoordinate(event, event.clientX, event.clientY)
-}
+  onCoordinate(event.clientX, event.clientY)}
 
-canvas.addEventListener('mousemove', onMouseMoveCanvas)
-canvas.addEventListener('pointermove', onMouseMoveCanvas)
+window.addEventListener('mousemove', onMouseMoveCanvas)
+window.addEventListener('pointermove', onMouseMoveCanvas)
 
 function onMouseDownCanvas(event) {
   world.clickableContext.processEvent(event, 'mouseDown')
   event.preventDefault()
   onGridlinesActive()
+  onCoordinate(event.clientX, event.clientY)
   ui.mathField.blur()
 }
 
-canvas.addEventListener('mousedown', onMouseDownCanvas)
 canvas.addEventListener('pointerdown', onMouseDownCanvas)
+canvas.addEventListener('mousedown', onMouseDownCanvas)
 
 function onMouseUpCanvas(event) {
   world.clickableContext.processEvent(event, 'mouseUp')
@@ -415,8 +415,8 @@ function onMouseUpCanvas(event) {
   onGridlinesDeactive()
 }
 
-canvas.addEventListener('mouseup', onMouseUpCanvas)
-canvas.addEventListener('pointerup', onMouseUpCanvas)
+window.addEventListener('mouseup', onMouseUpCanvas)
+window.addEventListener('pointerup', onMouseUpCanvas)
 
 ui.levelInfoDiv.addEventListener('mouseover', function () {
   console.log('mouseover')
