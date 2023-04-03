@@ -240,6 +240,7 @@ function World(spec) {
       mathVirtualKeyboard.hide()
     } else {
       mathVirtualKeyboard.show()
+      ui.mathField.focus()
     }
 
     // ui.topBar.setAttribute('hide', navigating)
