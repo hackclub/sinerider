@@ -1,5 +1,3 @@
-const { running } = require("fontawesome")
-
 /**
  * Base class representing a level scene with
  * a graph, camera/director(s) and walkers/sledders/sprites/text.
