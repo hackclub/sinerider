@@ -80,7 +80,7 @@ function LevelBubble(spec) {
     drawOrder: LAYERS.levelBubbles,
   })
 
-  bubbletLevel.sendEvent('draw')
+  //bubbletLevel.sendEvent('draw')
   bubbletLevel.active = false
 
   bubbletLevel.destroy()

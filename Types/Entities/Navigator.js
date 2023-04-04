@@ -31,7 +31,7 @@ function Navigator(spec) {
 
   let initialBubble = null
 
-  const bubbles = _.map(levelData, createBubble)
+  const bubbles = _.map(levelData.slice(0,30), createBubble)
 
   function start() {
     if (initialBubble) initialBubble.completeAllRequirements()
