@@ -219,9 +219,14 @@
     <div class="bar victory floating" id="victory-bar" hide="true">
       <div class="envelope" id="victory-envelope">
         <div class="label" id="victory-label">
-          <div class="string">Victory!</div>
+          <div class="string">
+            <!-- critical issue with plurality -->
+            <h3 id="victory-text">Victory!</h3>
+            <span id="time-taken"></span> seconds, <div id="hovertext" data-hover="The shorter the expression, the higher you score!"><span
+              id="character-count"></span> characters</div>
+          </div>
         </div>
-
+      
         <div class="button" id="next-button">
           <div class="string">NEXT</div>
         </div>
@@ -340,6 +345,7 @@
     <script src="Types/Entities/Navigator.js"></script>
     <script src="Types/Entities/Camera.js"></script>
     <script src="Types/Entities/Axes.js"></script>
+    <script src="Types/Entities/Gridlines.js"></script>
     <script src="Types/Entities/Sprite.js"></script>
     <script src="Types/Entities/Goals/Goal.js"></script>
     <script src="Types/Entities/Goals/PathGoal.js"></script>
@@ -355,6 +361,7 @@
     <script src="Types/Entities/LavaMonster.js"></script>
     <script src="Types/Entities/LevelBubble.js"></script>
     <script src="Types/Entities/Tip.js"></script>
+    <script src="Types/Entities/CoordinateBox.js"></script>
     <script src="Types/Entities/Clouds.js"></script>
     <script src="Types/Entities/Sky.js"></script>
     <script src="Types/Entities/Snow.js"></script>

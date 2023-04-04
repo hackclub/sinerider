@@ -199,6 +199,13 @@ function Vector2() {
     return output
   }
 
+  function distance(other) {
+    const dx = other.x - x
+    const dy = other.y - y
+
+    return Math.sqrt(dx * dx + dy * dy)
+  }
+
   function getMagnitude() {
     if (magnitudeDirty) {
       magnitude = Math.sqrt(x * x + y * y)
@@ -317,6 +324,7 @@ function Vector2() {
     lerp,
     rotate,
     perturb,
+    distance,
     randomize,
 
     normalize,
