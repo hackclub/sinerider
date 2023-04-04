@@ -194,7 +194,7 @@ body > .bar {
 
   transition: 0.5s;
   pointer-events: none;
-  z-index: 2;
+  z-index: 500;
 }
 
 .victory .envelope {
