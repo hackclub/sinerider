@@ -1,11 +1,48 @@
 const TIME = [
   {
     name: 'Time',
-    nick: 'TIME_CONSTANT',
+    nick: 'TIME_NEGATE',
     biome: 'eternalCanyon',
-    x: 30,
+    x: 20,
     y: 0,
     requirements: ['SLOPE_SCALE_TRANSLATE'],
+    defaultExpression: '-t',
+    goals: [
+      {
+        x: 0,
+        y: 4,
+      },
+      {
+        x: 0,
+        y: 5,
+      },
+      {
+        x: 0,
+        y: 6,
+      },
+    ],
+    sledders: [
+      {
+        asset: 'images.lunchbox_sled',
+        speech: [
+          {
+            x: 0.3,
+            y: 0.7,
+            content: '"Do whatever you want."',
+            direction: 'up-up-right',
+            distance: 0.8,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: 'Time Constant',
+    nick: 'TIME_CONSTANT',
+    biome: 'eternalCanyon',
+    x: 10,
+    y: 0,
+    requirements: null,
     defaultExpression: '-1-t',
     goals: [
       {
@@ -40,7 +77,7 @@ const TIME = [
           {
             x: 0.3,
             y: 0.7,
-            content: '"Do whatever you want."',
+            content: 'Well, this is what I want.',
             direction: 'up-up-right',
             distance: 0.8,
           },
@@ -100,12 +137,64 @@ const TIME = [
     ],
   },
   {
+    name: 'Time Constant',
+    nick: 'TIME_PARABOLA_TRANSLATE_UP',
+    biome: 'eternalCanyon',
+    x: 10,
+    y: 0,
+    requirements: ['TIME_CONSTANT'],
+    defaultExpression: '\\left(\\frac{x}{4}\\right)^2+t',
+    goals: [
+      {
+        type: 'dynamic',
+        x: 8,
+        y: 0,
+        order: 'A',
+      },
+      {
+        type: 'dynamic',
+        x: -8,
+        y: 0,
+        order: 'A',
+      },
+      {
+        x: 0,
+        y: 4,
+        order: 'C',
+      },
+      {
+        x: 0,
+        y: 6,
+        order: 'B',
+      },
+      {
+        x: 0,
+        y: 8,
+        order: 'A',
+      },
+    ],
+    sledders: [
+      {
+        asset: 'images.lunchbox_sled',
+        speech: [
+          {
+            x: 0.3,
+            y: 0.7,
+            content: 'I think I want it, anyway.',
+            direction: 'up-up-right',
+            distance: 0.8,
+          },
+        ],
+      },
+    ],
+  },
+  {
     name: 'Time Translate X',
     nick: 'TIME_PARABOLA_TRANSLATE_X',
     biome: 'eternalCanyon',
     x: 10,
     y: 0,
-    requirements: ['TIME_CONSTANT'],
+    requirements: null,
     defaultExpression: '\\left(x+t+1\\right)^2',
     goals: [
       {
@@ -132,8 +221,8 @@ const TIME = [
     name: 'Time Translate XY',
     nick: 'TIME_PARABOLA_TRANSLATE_X_Y',
     biome: 'eternalCanyon',
-    x: 10,
-    y: 0,
+    x: 0,
+    y: 10,
     requirements: [null],
     defaultExpression: '\\left(x-t\\right)^2+1',
     goals: [
@@ -173,7 +262,7 @@ const TIME = [
     nick: 'TIME_PARABOLA_TRANSLATE_X_Y_SCALE_Y',
     biome: 'eternalCanyon',
     x: 10,
-    y: 10,
+    y: 0,
     requirements: [null],
     defaultExpression: '\\left(x-t\\right)^2+t',
     goals: [
@@ -213,8 +302,8 @@ const TIME = [
     name: 'Time Hard',
     nick: 'TIME_HARD',
     biome: 'eternalCanyon',
-    x: -10,
-    y: 0,
+    x: 0,
+    y: 10,
     requirements: [null],
     defaultExpression: `4\\cdot \\sin \\left(x-\\sin \\left(\\frac{t}{2}\\right)\\cdot 11\\right)\\cdot \\cos \\left(\\frac{t}{3}\\right)+8\\cdot \\sin \\left(\\frac{t+\\sin \\left(t\\cdot e\\right)}{2}\\right)`,
     goals: [
