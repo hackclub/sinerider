@@ -188,6 +188,8 @@ body > .bar {
 
   transition: 0.5s;
   pointer-events: none;
+
+  z-index: 500;
 }
 
 .victory .envelope {
