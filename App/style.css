@@ -363,6 +363,13 @@ input[valid='false'] {
 
 #victory-label {
   flex-grow: 1;
+  font-size: 14px;
+}
+
+#victory-text {
+  margin: 0;
+  text-align: center;
+  font-size: 21px;
 }
 
 #hovertext {
@@ -387,7 +394,7 @@ input[valid='false'] {
   z-index: 1;
   left: 50%;
   transform: translateX(-55%);
-  top: -200%;
+  bottom: 60px;
 }
 
 #hovertext:hover:before {
