@@ -225,6 +225,7 @@ function World(spec) {
     } else {
       mathVirtualKeyboard.show()
       ui.mathField.focus()
+      screen.resize()
     }
 
     // ui.topBar.setAttribute('hide', navigating)
