@@ -227,6 +227,9 @@ function World(spec) {
   function levelCompleted(soft = false) {
     setCompletionTime(runTime)
 
+    ui.timeTaken.innerHTML = (Math.round(runTime * 100) / 100) == 1 ? '1 second' : `${Math.round(runTime * 100) / 100} seconds`
+    ui.charCount.innerHTML = (ui.mathFieldStatic.latex().length) == 1 ? '1 character' : `${ui.mathFieldStatic.latex().length} characters`
+
     if (soft) {
       nextLevel(2.5)
     } else {

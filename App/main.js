@@ -26,6 +26,8 @@ const ui = {
   victoryBar: $('#victory-bar'),
   victoryLabel: $('#victory-label'),
   victoryLabelString: $('#victory-label > .string'),
+  timeTaken: $('#time-taken'),
+  charCount: $('#character-count'),
   nextButton: $('#next-button'),
 
   messageBar: $('#message-bar'),
