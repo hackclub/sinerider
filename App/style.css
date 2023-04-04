@@ -182,11 +182,12 @@ body > .bar {
   background: transparent;
   bottom: 20px;
 
+  transition: 0.5s;
   pointer-events: none;
 }
 
 .victory .envelope {
-  flex-basis: 300px;
+  flex-basis: 400px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
   background: #eee;
   padding: 5px;
@@ -362,6 +363,36 @@ input[valid='false'] {
 
 #victory-label {
   flex-grow: 1;
+}
+
+#hovertext {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+#hovertext:before {
+  content: attr(data-hover);
+  visibility: hidden;
+  opacity: 0;
+  width: max-content;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px 5px;
+  transition: opacity 1s ease-in-out;
+
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  transform: translateX(-55%);
+  top: -200%;
+}
+
+#hovertext:hover:before {
+  opacity: 0.5;
+  visibility: visible;
 }
 
 #variables-bar {
