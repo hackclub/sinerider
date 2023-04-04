@@ -58,7 +58,7 @@ function World(spec) {
     quads.water = WaterQuad(assets)
     quads.sunset = SunsetQuad('(sin(x)-(y-2)*i)*i/2', assets)
     quads.volcano = VolcanoQuad(assets)
-    quads.volcanoSunset = VolcanoSunsetQuad('(sin(x)-(y-2)*i)*i/2', assets)
+    quads.volcanoSunset = VolcanoSunsetQuad('((sin(x)*i)/2)+(x/4)+((y*i)/5)', assets)
     quads.lava = LavaQuad(assets)
   }
 
