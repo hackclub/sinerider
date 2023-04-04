@@ -60,16 +60,7 @@ const SWAMP = [
         y: -8,
       },
     ],
-    sprites: [
-      {
-        asset: 'images.danger_sign_2',
-        x: -7,
-        size: 4,
-        anchored: true,
-        sloped: true,
-        offset: [0, 0.9],
-      },
-    ],
+    sprites: [],
     sledders: [
       {
         // speech: [
