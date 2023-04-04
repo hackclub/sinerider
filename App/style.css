@@ -382,23 +382,24 @@ input[valid='false'] {
   content: attr(data-hover);
   visibility: hidden;
   opacity: 0;
-  width: max-content;
+  width: 400px;
+  font-size: 13px;
   background-color: black;
   color: #fff;
   text-align: center;
   border-radius: 5px;
   padding: 5px 5px;
   transition: opacity 1s ease-in-out;
-
-  position: absolute;
   z-index: 1;
-  left: 50%;
-  transform: translateX(-55%);
-  bottom: 60px;
+  
+  position: absolute;
+  bottom: 300%;
+  left: 20%;
+  margin-left: -205px;
 }
 
 #hovertext:hover:before {
-  opacity: 0.5;
+  opacity: 1;
   visibility: visible;
 }
 
