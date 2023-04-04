@@ -35,7 +35,7 @@ function Screen(spec = {}) {
   const maxFramePoint = Vector2()
 
   function isMobile() {
-    return window.matchMedia('pointer: coarse').matches
+    return /Mobi/i.test(window.navigator.userAgent)
   }
 
   function resize() {
