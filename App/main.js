@@ -261,6 +261,10 @@ ui.timeSlider.addEventListener('change', () => {
 
 mathVirtualKeyboard.container = ui.keyboardBar
 
+window.mathVirtualKeyboard.addEventListener('geometrychange', (ev) => {
+  screen.resize()
+});
+
 ui.mathFieldStatic = MQ.StaticMath(ui.mathFieldStatic)
 
 ui.mathField.addEventListener('input',(ev) => {
