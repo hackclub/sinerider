@@ -248,7 +248,7 @@ input[valid='false'] {
 #time-slider-container{
   bottom: 10px;
   left: 200px;
-  width: calc(100% - 400px);
+  width: calc(1200px - 100%);
   position: absolute;
 }
 #controls-bar[hide='true'] {
@@ -793,6 +793,9 @@ input[valid='false'] {
 }
 
 @media only screen and (max-width: 600px) {
+  #time-slider-container{
+    width: calc(700 px - 100%);
+  }
   #expression-envelope-container {
     position: fixed;
     top: 20px;

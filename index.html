@@ -169,10 +169,11 @@
     </div>
     
     <div class="bar floating controls" id="controls-bar"> 
-      <div id="time-slider-container" class="tooltip controls" data-tooltip="Time Slider">
-        <input type="range" id="time-slider" value="0" min="0" max="100" step="1"  orient="horizontal">
-      </div>
+      
       <div class="bar floating controls" id="expression-envelope" disabled="false">
+        <div id="time-slider-container" class="tooltip controls" data-tooltip="Time Slider">
+          <input type="range" id="time-slider" value="0" min="0" max="100" step="1"  orient="horizontal">
+        </div>
         <div id="junction" class="controls"></div>
         <div class="label" id="variable-label">
           <div class="string">Y=</div>
@@ -220,7 +221,7 @@
             <h3 id="victory-text">Victory!</h3>
             <span id="time-taken"></span> seconds, <div id="hovertext" data-hover="The shorter the expression, the higher you score!"><span
               id="character-count"></span> characters</div>
-          </div>
+          </div> 
         </div>
       
         <div class="button" id="next-button">
