@@ -7,7 +7,7 @@ const WAVE = [
     y: -20,
     requirements: [
       'PARABOLA_TRANSLATE_SCALE_X_Y',
-      'TIME_PARABOLA_TRANSLATE_X_Y_SCALE_Y',
+      'TIME_PARABOLA_TRANSLATE_X_Y',
     ],
     defaultExpression: '\\sin \\left(x\\right)',
     slider: {

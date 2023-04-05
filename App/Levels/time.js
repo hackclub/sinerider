@@ -11,14 +11,17 @@ const TIME = [
       {
         x: 0,
         y: 4,
-      },
-      {
-        x: 0,
-        y: 5,
+        order: 'A',
       },
       {
         x: 0,
         y: 6,
+        order: 'B',
+      },
+      {
+        x: 0,
+        y: 8,
+        order: 'C',
       },
     ],
     sledders: [
@@ -43,31 +46,27 @@ const TIME = [
     x: 10,
     y: 0,
     requirements: null,
-    defaultExpression: '-1-t',
+    defaultExpression: 't-1',
     goals: [
       {
         x: 0,
-        y: -5,
-      },
-      {
-        x: 0,
-        y: -4,
-      },
-      {
-        x: 0,
-        y: -3,
+        y: 6,
+        order: 'A',
       },
       {
         x: 0,
         y: 4,
+        order: 'B',
       },
       {
         x: 0,
-        y: 5,
+        y: -4,
+        order: 'C',
       },
       {
         x: 0,
-        y: 6,
+        y: -6,
+        order: 'D',
       },
     ],
     sledders: [
@@ -138,39 +137,19 @@ const TIME = [
   },
   {
     name: 'Time Constant',
-    nick: 'TIME_PARABOLA_TRANSLATE_UP',
+    nick: 'TIME_SLOPE_UP',
     biome: 'eternalCanyon',
     x: 10,
     y: 0,
     requirements: ['TIME_CONSTANT'],
-    defaultExpression: '\\left(\\frac{x}{4}\\right)^2+t',
+    defaultExpression: '-\\frac{x}{3}+t',
     goals: [
       {
-        type: 'dynamic',
-        x: 8,
-        y: 0,
-        order: 'A',
-      },
-      {
-        type: 'dynamic',
-        x: -8,
-        y: 0,
-        order: 'A',
-      },
-      {
-        x: 0,
-        y: 4,
-        order: 'C',
-      },
-      {
-        x: 0,
-        y: 6,
-        order: 'B',
-      },
-      {
-        x: 0,
-        y: 8,
-        order: 'A',
+        type: 'path',
+        expression: 'x/2',
+        x: 2,
+        y: 0.5,
+        pathX: 8,
       },
     ],
     sledders: [
@@ -189,24 +168,61 @@ const TIME = [
     ],
   },
   {
-    name: 'Time Translate X',
-    nick: 'TIME_PARABOLA_TRANSLATE_X',
+    name: 'Time Translate Y',
+    nick: 'TIME_PARABOLA_TRANSLATE_Y',
     biome: 'eternalCanyon',
     x: 10,
     y: 0,
     requirements: null,
-    defaultExpression: '\\left(x+t+1\\right)^2',
+    defaultExpression: '\\left(x-1\\right)^2+t-1',
     goals: [
       {
-        x: -2,
-        y: 0.5,
+        x: 3,
+        y: 3,
+        order: 'C',
       },
       {
-        type: 'path',
-        expression: '0.5',
-        x: 2,
+        x: 3,
+        y: 0,
+        order: 'B',
+      },
+      {
+        x: 3,
+        y: -3,
+        order: 'A',
+      },
+    ],
+    sledders: [
+      {
+        x: 0,
+        y: 0,
+        asset: 'images.lunchbox_sled',
+      },
+    ],
+  },
+  {
+    name: 'Time Translate X',
+    nick: 'TIME_PARABOLA_TRANSLATE_X',
+    biome: 'eternalCanyon',
+    x: 0,
+    y: 10,
+    requirements: null,
+    defaultExpression: '\\left(x-3-\\frac{t}{2}\\right)^2',
+    goals: [
+      {
+        x: 1.5,
         y: 0.5,
-        pathX: 8,
+        order: 'C',
+      },
+      {
+        x: 2.5,
+        y: 0.5,
+        order: 'B',
+      },
+      {
+        x: 3.5,
+        y: 0.5,
+        order: 'A',
       },
     ],
     sledders: [
@@ -221,64 +237,40 @@ const TIME = [
     name: 'Time Translate XY',
     nick: 'TIME_PARABOLA_TRANSLATE_X_Y',
     biome: 'eternalCanyon',
-    x: 0,
-    y: 10,
-    requirements: [null],
-    defaultExpression: '\\left(x-t\\right)^2+1',
-    goals: [
-      {
-        type: 'path',
-        expression: 'x',
-        x: 2,
-        y: 2,
-        pathX: 6,
-      },
-    ],
-    sledders: [
-      {
-        x: 0,
-        y: 0,
-        asset: 'images.lunchbox_sled',
-        // speech: [
-        //   {
-        //     speakerX: 0.3,
-        //     speakerY: 0.8,
-        //     content: 'I find myself thinking that a lot.',
-        //     direction: 'up',
-        //     distance: 2.2,
-        //     speech: {
-        //       speakerX: 0.3,
-        //       content: "I wish she didn't seem so mad.",
-        //       direction: 'up',
-        //       distance: 1,
-        //     },
-        //   },
-        // ],
-      },
-    ],
-  },
-  {
-    name: 'Time Translate',
-    nick: 'TIME_PARABOLA_TRANSLATE_X_Y_SCALE_Y',
-    biome: 'eternalCanyon',
     x: 10,
     y: 0,
     requirements: [null],
-    defaultExpression: '\\left(x-t\\right)^2+t',
+    defaultExpression: '\\left(x-t-2\\right)^2+t',
     goals: [
       {
-        type: 'path',
-        expression: 'x/2',
-        x: 2,
-        y: 1,
-        pathX: 6,
+        x: -3,
+        y: -6,
+        order: 'C',
       },
+      {
+        x: 0,
+        y: -3,
+        order: 'B',
+      },
+      {
+        x: 3,
+        y: 0,
+        order: 'A',
+      },
+      // {
+      //   type: 'path',
+      //   expression: 'x',
+      //   x: 2,
+      //   y: 2,
+      //   pathX: 6,
+      // },
     ],
     sledders: [
       {
         x: 0,
         y: 0,
         asset: 'images.lunchbox_sled',
+
         speech: [
           {
             x: 0.25,
@@ -288,13 +280,6 @@ const TIME = [
             distance: 1.5,
           },
         ],
-        // speech: {
-        //   speakerX: 0.3,
-        //   speakerY: 0.8,
-        //   content: "I don't want to be a constant disappointment.",
-        //   direction: 'up',
-        //   distance: 2,
-        // },
       },
     ],
   },
@@ -377,12 +362,103 @@ const TIME = [
     ],
   },
   {
-    name: 'time parabola vertical oscillator',
-    nick: 'TIME_PARABOLA_RISER',
+    name: 'time vertical oscillator',
+    nick: 'TIME_SIN',
     biome: 'eternalCanyon',
     x: -20,
     y: 0,
     requirements: ['SIN_TRANSLATE_X_Y'],
+    defaultExpression: '\\sin \\left(t\\right)',
+    goals: [
+      {
+        x: 0,
+        y: -4,
+        order: 'A',
+      },
+      {
+        x: 0,
+        y: 4,
+        order: 'B',
+      },
+    ],
+    sledders: [
+      {
+        x: 0,
+        y: 0,
+      },
+    ],
+  },
+  {
+    name: 'time parabola vertical oscillator',
+    nick: 'TIME_PARABOLA_HORIZONTAL_OSCILLATOR',
+    biome: 'eternalCanyon',
+    x: -10,
+    y: -10,
+    requirements: null,
+    defaultExpression: '\\left(x-2\\sin \\left(t\\right)\\right)^2',
+    goals: [
+      {
+        x: -5,
+        y: 0,
+        order: 'A',
+      },
+      {
+        x: 5,
+        y: 0,
+        order: 'B',
+      },
+    ],
+    sledders: [
+      {
+        x: 0,
+        y: 0,
+      },
+    ],
+  },
+  {
+    name: 'time parabola vertical oscillator',
+    nick: 'TIME_PARABOLA_CIRCLE',
+    biome: 'eternalCanyon',
+    x: -20,
+    y: 0,
+    requirements: null,
+    defaultExpression: '\\left(x-2\\sin \\left(t\\right)\\right)^2',
+    goals: [
+      {
+        x: 0,
+        y: 4,
+        order: 'A',
+      },
+      {
+        x: 4,
+        y: 0,
+        order: 'B',
+      },
+      {
+        x: 0,
+        y: -4,
+        order: 'C',
+      },
+      {
+        x: -4,
+        y: 0,
+        order: 'D',
+      },
+    ],
+    sledders: [
+      {
+        x: 0,
+        y: 0,
+      },
+    ],
+  },
+  {
+    name: 'time parabola vertical oscillator',
+    nick: 'TIME_PARABOLA_RISER',
+    biome: 'eternalCanyon',
+    x: 0,
+    y: -10,
+    requirements: ['TIME_SIN'],
     defaultExpression: '\\left(\\frac{x}{4}\\right)^2-t-1',
     goals: [
       {
