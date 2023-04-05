@@ -284,13 +284,6 @@ function World(spec) {
     editing = _editing
   }
 
-  ui.timeSlider.addEventListener('input', function() {
-    runTime = ui.timeSlider.value / 10;
-  });
-  ui.timeSlider.addEventListener('change', function() {
-    runTime = 0;
-    ui.timeSlider.value = 0;
-  });
 
   function startRunning(playSound = true, hideNavigator = true, disableExpressionEditing = true) {
     running = true

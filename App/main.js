@@ -35,8 +35,6 @@ const ui = {
   messageBar: $('#message-bar'),
   messageBarString: $('#message-bar > .string'),
 
-  tSliderContainer: $('#t-variable-container'),
-  tSlider: $('#t-variable-slider'),
 
   variablesBar: $('#variables-bar'),
   timeString: $('#time-string'),
@@ -220,14 +218,20 @@ if (!stepping) {
 }
 
 // T Parameter Slider
-ui.tSlider.addEventListener('input', () => {
+ui.timeSlider.addEventListener('input', () => {
   if (world.globalScope) {
-    const newT = math.remap(0, 100, 0, 10, Number(ui.tSlider.value))
+    const newT = math.remap(0, 100, 0, 10, Number(ui.timeSlider.value))
 
     world.level.sendEvent('tVariableChanged', [newT])
   }
 })
-
+ui.timeSlider.addEventListener('change', () => {
+  if (world.globalScope) {
+    const newT = 0
+    ui.timeSlider.value = 0
+    world.level.sendEvent('tVariableChanged', [newT])
+  }
+})
 // MathQuill
 
 ui.mathFieldStatic = MQ.StaticMath(ui.mathFieldStatic)

@@ -791,7 +791,7 @@ function Level(spec) {
 
     ui.mathFieldStatic.latex(currentLatex)
 
-    ui.tSliderContainer.setAttribute('hide', true)
+    ui.timeSliderContainer.setAttribute('hide', true)
 
     if (usingTInExpression) {
       if (graph.resample) graph.resample()
@@ -1068,7 +1068,7 @@ function Level(spec) {
       })
     } catch {}
 
-    ui.tSliderContainer.setAttribute('hide', !usingTInExpression)
+    ui.timeSliderContainer.setAttribute('hide', !usingTInExpression)
 
     graph.expression = text
     ui.expressionEnvelope.setAttribute('valid', graph.valid)

@@ -185,10 +185,10 @@ function PathGoal(spec) {
     pathExpression = text
 
     pathGraph.expression = text
-    pathGraph.refresh()
+    //pathGraph.refresh()
 
     hintGraph.expression = text
-    hintGraph.refresh()
+    //hintGraph.refresh()
 
     ui.mathFieldStatic.latex(latex)
 
