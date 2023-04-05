@@ -684,7 +684,6 @@ function Level(spec) {
     junction.style.backgroundImage = `radial-gradient(circle at ${radius}px 0px, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) ${radius}px, white ${radius}px)`
   }
   function updateTimeSliderWidth(){
-    console.log(200+ui.expressionEnvelope.offsetWidth, ui.expressionEnvelope.style.fontSize)
     ui.timeSliderContainer.style.left = `${130+ui.expressionEnvelope.offsetWidth}px`
   }
   function goalCompleted(goal) {
