@@ -117,16 +117,20 @@ function GLUtils(gl) {
       array.bind()
 
       for ({ name, length, stride = null, offset = null } of layout) {
-        const location = getAttribute(name)
-        gl.enableVertexAttribArray(location)
-        gl.vertexAttribPointer(
-          location,
-          length,
-          gl.FLOAT,
-          false,
-          (stride || 0) * FLOAT_SIZE,
-          (offset || 0) * FLOAT_SIZE,
-        )
+        try {
+          const location = getAttribute(name)
+          gl.enableVertexAttribArray(location)
+          gl.vertexAttribPointer(
+            location,
+            length,
+            gl.FLOAT,
+            false,
+            (stride || 0) * FLOAT_SIZE,
+            (offset || 0) * FLOAT_SIZE,
+          )
+        } catch (e) {
+          console.log('Failing silently:', e)
+        }
       }
 
       return self
@@ -502,6 +506,13 @@ function GLUtils(gl) {
     }
   }
 
+  const quadNoUV = Vertices(gl.STATIC_DRAW, {
+    aCoords: {
+      type: 'vec2',
+      data: [-1, -1, -1, 1, 1, -1, 1, 1],
+    },
+  })
+
   const quad = Vertices(gl.STATIC_DRAW, {
     aCoords: {
       type: 'vec2',
@@ -544,6 +555,10 @@ gl_FragColor = vec4(col, 1.0);
     bindDisplay,
     imageTexture,
     createReadBuffer,
+
+    get quadNoUV() {
+      return quadNoUV
+    },
 
     get quad() {
       return quad

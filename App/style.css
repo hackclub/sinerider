@@ -182,11 +182,12 @@ body > .bar {
   background: transparent;
   bottom: 20px;
 
+  transition: 0.5s;
   pointer-events: none;
 }
 
 .victory .envelope {
-  flex-basis: 300px;
+  flex-basis: 400px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
   background: #eee;
   padding: 5px;
@@ -362,6 +363,44 @@ input[valid='false'] {
 
 #victory-label {
   flex-grow: 1;
+  font-size: 14px;
+}
+
+#victory-text {
+  margin: 0;
+  text-align: center;
+  font-size: 21px;
+}
+
+#hovertext {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+#hovertext:before {
+  content: attr(data-hover);
+  visibility: hidden;
+  opacity: 0;
+  width: 400px;
+  font-size: 13px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px 5px;
+  transition: opacity 1s ease-in-out;
+  z-index: 1;
+  
+  position: absolute;
+  bottom: 300%;
+  left: 20%;
+  margin-left: -205px;
+}
+
+#hovertext:hover:before {
+  opacity: 1;
+  visibility: visible;
 }
 
 #variables-bar {
@@ -553,6 +592,16 @@ input[valid='false'] {
   animation-name: wiggle;
   animation-duration: 4500ms;
   animation-iteration-count: infinite;
+}
+.coordinate {
+  width: 125px;
+  text-align: center;
+  border: 2px solid black;
+  font-size: small;
+  position: absolute;
+  background-color: white;
+  padding: 5px;
+  color: black !important;
 }
 @keyframes wiggle {
   0% {

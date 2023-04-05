@@ -1,4 +1,4 @@
-let assets
+let assets, globalScope
 
 function World(spec) {
   const self = Entity(spec, 'World')
@@ -13,7 +13,7 @@ function World(spec) {
 
   const quads = {}
 
-  const globalScope = {
+  globalScope = {
     customT: 0,
 
     get t() {
@@ -58,7 +58,10 @@ function World(spec) {
     quads.water = WaterQuad(assets)
     quads.sunset = SunsetQuad('(sin(x)-(y-2)*i)*i/2', assets)
     quads.volcano = VolcanoQuad(assets)
-    quads.volcanoSunset = VolcanoSunsetQuad('(sin(x)-(y-2)*i)*i/2', assets)
+    quads.volcanoSunset = VolcanoSunsetQuad(
+      '((sin(x)*i)/2)+(x/4)+((y*i)/5)',
+      assets,
+    )
     quads.lava = LavaQuad(assets)
   }
 
@@ -226,6 +229,9 @@ function World(spec) {
 
   function levelCompleted(soft = false) {
     setCompletionTime(runTime)
+
+    ui.timeTaken.innerHTML = Math.round(runTime * 100) / 100
+    ui.charCount.innerHTML = ui.mathFieldStatic.latex().length
 
     if (soft) {
       nextLevel(2.5)
@@ -443,6 +449,16 @@ function World(spec) {
     self.sendEvent('mathFieldBlurred')
   }
 
+  function onGridlinesDeactive() {
+    self.sendEvent('disableGridlines')
+  }
+  function onGridlinesActive() {
+    self.sendEvent('enableGridlines')
+  }
+  function onCoordinate(x, y) {
+    self.sendEvent('setCoordinates', [x, y])
+  }
+
   return self.mix({
     start,
     tick,
@@ -469,8 +485,15 @@ function World(spec) {
     onMathFieldFocus,
     onMathFieldBlur,
 
+    onGridlinesActive,
+    onGridlinesDeactive,
+    onCoordinate,
+
     get navigator() {
       return navigator
+    },
+    get running() {
+      return running
     },
 
     get editing() {

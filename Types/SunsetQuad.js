@@ -38,12 +38,7 @@ function SunsetQuad(defaultExpression, assets) {
     },
   })
 
-  const quadNoUV = utils.Vertices(gl.STATIC_DRAW, {
-    aCoords: {
-      type: 'vec2',
-      data: [-1, -1, -1, 1, 1, -1, 1, 1],
-    },
-  })
+  const quadNoUV = utils.quadNoUV
 
   const shaders = assets.shaders
 

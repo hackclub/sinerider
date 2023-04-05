@@ -5,15 +5,7 @@ function TrackingDirector(spec) {
 
   const { camera, globalScope, transitions = [] } = spec
 
-  let {
-    minFov = 5, //
-    minFovMargin = 3,
-    smoothing = 0.05,
-    percentFovBelowBottom = 1,
-  } = spec
-
-  minFov = 5
-  minFovMargin = 3
+  let { minFov = 5, minFovMargin = 3, smoothing = 0.05 } = spec
 
   const targetState = CameraState({
     fov: minFov,
@@ -28,6 +20,7 @@ function TrackingDirector(spec) {
   const difference = Vector2()
 
   let transitionActive = false
+  let lastTransition = null
 
   cameraState.set(targetState)
 
@@ -40,25 +33,48 @@ function TrackingDirector(spec) {
   function tick() {
     trackEntities()
 
-    let _transitionActive = false
+    transitionActive = false
     for (const transition of transitions) {
       if (_.inRange(targetState.position.x, ...transition.domain)) {
-        minFov = transition.properties.minFov ?? minFov
-        minFovMargin = transition.properties.minFovMargin ?? minFovMargin
-        smoothing = transition.properties.smoothing ?? smoothing
-        _transitionActive = true
-        camera.offset = transition.properties.offset ?? camera.offset
+        lastTransition = transition
+        transitionActive = true
+
+        const transitionSmoothing =
+          transition.properties.transitionSmoothing ?? 0.05
+
+        minFov = math.lerp(
+          minFov,
+          transition.properties.minFov ?? minFov,
+          transitionSmoothing,
+        )
+        minFovMargin = math.lerp(
+          minFovMargin,
+          transition.properties.minFovMargin ?? minFovMargin,
+          transitionSmoothing,
+        )
+        smoothing = math.lerp(
+          smoothing,
+          transition.properties.smoothing ?? smoothing,
+          transitionSmoothing,
+        )
       }
     }
 
-    if (!_transitionActive && transitionActive) {
-      minFov = spec.minFov
-      minFovMargin = spec.minFovMargin
-      smoothing = spec.smoothing
-      camera.offset = originalCameraOffset
+    if (lastTransition && !transitionActive) {
+      const transitionSmoothing =
+        lastTransition.properties.transitionSmoothing ?? 0.05
+      minFov = math.lerp(minFov, spec.minFov ?? 5, transitionSmoothing)
+      minFovMargin = math.lerp(
+        minFovMargin,
+        spec.minFovMargin ?? 3,
+        transitionSmoothing,
+      )
+      smoothing = math.lerp(
+        smoothing,
+        spec.smoothing ?? 0.05,
+        transitionSmoothing,
+      )
     }
-
-    transitionActive = _transitionActive
   }
 
   function trackEntities() {
@@ -91,7 +107,16 @@ function TrackingDirector(spec) {
 
     targetState.position.y += (0.5 * (span - ySpan)) / 2
 
-    cameraState.position.lerp(targetState.position, smoothing)
+    const positionSmoothing = math.remap(
+      0,
+      2,
+      smoothing,
+      1,
+      targetState.position.distance(cameraState.position),
+      true,
+    )
+
+    cameraState.position.lerp(targetState.position, positionSmoothing)
 
     targetState.fov = Math.max(
       Math.abs(maxTrackPoint.x - cameraState.position.x),
@@ -100,7 +125,16 @@ function TrackingDirector(spec) {
 
     targetState.fov = Math.max(targetState.fov + minFovMargin, minFov)
 
-    cameraState.fov = math.lerp(cameraState.fov, targetState.fov, smoothing)
+    const fovSmoothing = math.remap(
+      0.5,
+      5,
+      smoothing,
+      1,
+      Math.abs(cameraState.fov - targetState.fov),
+      true,
+    )
+
+    cameraState.fov = math.lerp(cameraState.fov, targetState.fov, fovSmoothing)
   }
 
   function trackEntity(entity) {

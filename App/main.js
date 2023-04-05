@@ -26,6 +26,8 @@ const ui = {
   victoryBar: $('#victory-bar'),
   victoryLabel: $('#victory-label'),
   victoryLabelString: $('#victory-label > .string'),
+  timeTaken: $('#time-taken'),
+  charCount: $('#character-count'),
   nextButton: $('#next-button'),
 
   messageBar: $('#message-bar'),
@@ -188,9 +190,9 @@ function draw() {
   // world.sortDrawArray()
 
   let entity
-  for (let i = 0; i < world.activeDrawArray.length; i++) {
-    entity = world.activeDrawArray[i]
-    if (entity.draw) {
+  for (let i = 0; i < world.drawArray.length; i++) {
+    entity = world.drawArray[i]
+    if (entity.activeInHierarchy && entity.draw) {
       screen.ctx.save()
       if (entity.predraw) entity.predraw()
       entity.draw()
@@ -254,6 +256,17 @@ function onMathFieldFocus(event) {
   world.onMathFieldFocus()
 }
 
+function onGridlinesDeactive(event) {
+  world.onGridlinesDeactive()
+}
+function onGridlinesActive(event) {
+  world.onGridlinesActive()
+}
+
+function onCoordinate(x, y){
+  world.onCoordinate(x, y)
+}
+
 ui.expressionEnvelope.addEventListener('focusin', onMathFieldFocus)
 
 function onMathFieldBlur(event) {
@@ -272,7 +285,7 @@ function onKeyUp(event) {
 
 window.addEventListener('keydown', (event) => {
   if (ui.mathField.focused()) return
-  world.level.sendEvent('keydown', [event.key])
+  world.level?.sendEvent('keydown', [event.key])
 })
 
 window.addEventListener('keyup', onKeyUp)
@@ -384,25 +397,38 @@ function onMouseMoveCanvas(event) {
   event.preventDefault()
 }
 
+function onMouseMoveWindow(event) {
+  onCoordinate(event.clientX, event.clientY)
+}
+
 canvas.addEventListener('mousemove', onMouseMoveCanvas)
 canvas.addEventListener('pointermove', onMouseMoveCanvas)
+
+window.addEventListener('mousemove', onMouseMoveWindow)
+window.addEventListener('pointermove', onMouseMoveWindow)
 
 function onMouseDownCanvas(event) {
   world.clickableContext.processEvent(event, 'mouseDown')
   event.preventDefault()
+  onGridlinesActive()
+  onCoordinate(event.clientX, event.clientY)
   ui.mathField.blur()
 }
 
 canvas.addEventListener('mousedown', onMouseDownCanvas)
 canvas.addEventListener('pointerdown', onMouseDownCanvas)
 
+
 function onMouseUpCanvas(event) {
   world.clickableContext.processEvent(event, 'mouseUp')
   event.preventDefault()
+  onGridlinesDeactive()
 }
 
 canvas.addEventListener('mouseup', onMouseUpCanvas)
 canvas.addEventListener('pointerup', onMouseUpCanvas)
+window.addEventListener('mouseup', onMouseUpCanvas)
+window.addEventListener('pointerup', onMouseUpCanvas)
 
 ui.levelInfoDiv.addEventListener('mouseover', function () {
   console.log('mouseover')
