@@ -2,7 +2,6 @@ let assets
 
 function World(spec) {
   const self = Entity(spec, 'World')
-
   const { ui, screen, levelData, requestDraw, tickDelta, version } = spec
 
   const storage = PlayerStorage()
@@ -272,19 +271,32 @@ function World(spec) {
     editing = _editing
   }
 
+  ui.timeSlider.addEventListener('input', function() {
+    runTime = ui.timeSlider.value / 10;
+  });
+  ui.timeSlider.addEventListener('change', function() {
+    runTime = 0;
+    ui.timeSlider.value = 0;
+  });
+
   function startRunning(playSound = true, hideNavigator = true, disableExpressionEditing = true) {
+    //runTime = 0
     running = true
+    setControlBarOpacity(false)
     setCompletionTime(null)
 
     ui.mathField.blur()
     ui.expressionEnvelope.setAttribute('disabled', disableExpressionEditing)
     ui.menuBar.setAttribute('hide', true)
-
+    
+    ui.junction.setAttribute('hide', true)
+    ui.timeSlider.setAttribute('hide', true)
     ui.runButton.setAttribute('hide', true)
     ui.stopButton.setAttribute('hide', false)
     if (hideNavigator) ui.navigatorButton.setAttribute('hide', true)
     ui.resetButton.setAttribute('hide', true)
     ui.tryAgainButton.setAttribute('hide', true)
+    ui.dottedMathContainer.setAttribute('hide', true)
 
     if (playSound) assets.sounds.start_running.play()
 
@@ -302,12 +314,15 @@ function World(spec) {
     runTime = 0
     running = false
     setCompletionTime(null)
+    setControlBarOpacity(true)
 
+    ui.timeSlider.setAttribute('hide', false)
     ui.mathField.blur()
     ui.expressionEnvelope.setAttribute('disabled', false)
     ui.menuBar.setAttribute('hide', false)
     ui.victoryBar.setAttribute('hide', true)
 
+    ui.junction.setAttribute('hide', false)
     ui.controlBar.setAttribute('hide', navigating)
     ui.navigatorButton.setAttribute('hide', false)
     ui.expressionEnvelope.setAttribute('hide', false)
@@ -332,7 +347,13 @@ function World(spec) {
     if (running) stopRunning()
     else startRunning()
   }
-
+  function setControlBarOpacity(visible){
+    if(visible){
+      ui.controlBar.setAttribute('style', 'background: white;')
+    }else{
+      ui.controlBar.setAttribute('style', 'background: rgba(0,0,0,0);')
+    }
+  }
   function generateRandomLevel() {
     const goalCount = _.random(2, 5)
     const goals = []

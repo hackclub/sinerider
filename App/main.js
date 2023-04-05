@@ -13,6 +13,8 @@ const ui = {
   resetButton: $('#reset-button'),
 
   tryAgainButton: $('#try-again-button'),
+  timeSlider: $('#time-slider'),
+  timeSliderContainer: $('#time-slider-container'),
 
   veil: $('#veil'),
   loadingVeil: $('#loading-veil'),
@@ -80,6 +82,8 @@ const ui = {
   levelInfoNameStr: $('#lvl_name_str'),
   levelInfoNickStr: $('#lvl_nick_str'),
   hideLevelInfoButton: $('#button-hide-level-info'),
+
+  junction: $('#junction'),
 }
 
 const editor = Editor(ui)
@@ -283,7 +287,7 @@ ui.volumeSlider.addEventListener('input', onSetVolume)
 
 function onClickHint() {
   ui.dottedHintButton.style.display = 'none'
-
+  ui.dottedMathContainer.style.background = "#ffffff63"
   ui.dottedSlider.hidden = false
   ui.dottedSlider.style.innerHeight = '200px'
   ui.dottedMathField.style.display = 'block'
@@ -304,6 +308,7 @@ ui.dottedHintButton.addEventListener('click', onClickHint)
 setGlobalVolumeLevel(ui.volumeSlider.value / 100)
 
 function onClickMapButton(event) {
+  ui.dottedMathContainer.style.background = "rgba(0,0,0,0)"
   world.onClickMapButton()
   requestDraw()
 }
@@ -312,6 +317,7 @@ ui.levelButton.addEventListener('click', onClickMapButton)
 ui.navigatorButton.addEventListener('click', onClickMapButton)
 
 function onClickNextButton(event) {
+  ui.dottedMathContainer.style.background = "rgba(0,0,0,0)"
   world.onClickNextButton()
 }
 
