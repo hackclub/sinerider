@@ -4,10 +4,12 @@
 
 function Sampler(spec = {}) {
   let {
-    scope = {},
+    scope: referenceScope = {},
     defaultToLastValidExpression = true,
     allowInfinity = false,
   } = spec
+
+  let scope = {}
 
   let expression
   let lastValidExpression = '0'
@@ -62,6 +64,8 @@ function Sampler(spec = {}) {
   }
 
   function sample() {
+    _.assign(scope, referenceScope)
+
     // Assign variable/value pairs
     if (arguments.length >= 2) {
       for (let i = 0; i < arguments.length; i += 2) {
@@ -73,6 +77,8 @@ function Sampler(spec = {}) {
   }
 
   function sampleSlope(variable, value) {
+    _.assign(scope, referenceScope)
+
     // Assign variable/value pairs *except* first pair
     if (arguments.length >= 3) {
       for (let i = 2; i < arguments.length; i += 2) {
@@ -99,7 +105,7 @@ function Sampler(spec = {}) {
     range0,
     range1,
   ) {
-    _.assign(scope, _scope)
+    _.assign(scope, referenceScope)
 
     const span = range1 - range0
     const step = span / (sampleCount - 1)
@@ -144,6 +150,8 @@ function Sampler(spec = {}) {
     sample,
     sampleRange,
     sampleSlope,
+
+    _evaluate: evaluate,
 
     generateSampleArray,
 

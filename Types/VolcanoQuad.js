@@ -32,6 +32,8 @@ function VolcanoQuad(spec) {
     },
   })
 
+  const quadNoUV = utils.quadNoUV
+
   const shaders = assets.shaders
 
   const sourceProgram = utils.Program({
@@ -81,7 +83,7 @@ function VolcanoQuad(spec) {
     time += 0.1
 
     const x = world.level.cutsceneDistanceParameter
-    const sunsetTime = (x/150)*12
+    const sunsetTime = (x / 150) * 12
 
     frame.image(canvas, gl.RGBA)
 
@@ -135,7 +137,7 @@ function VolcanoQuad(spec) {
 
     outputProgram
       .use()
-      .vertices(quad)
+      .vertices(quadNoUV)
       .uniform('resolution', [local.width, local.height])
       .uniform('time', time)
       .uniform('progress', _sunsetTime)

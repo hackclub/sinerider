@@ -13,6 +13,7 @@ function Level(spec) {
     isBubbleLevel,
     datum,
     storage,
+    urlData,
     savedLatex,
     world,
     playBackgroundMusic,
@@ -49,12 +50,17 @@ function Level(spec) {
   let highestOrder = 'A'
 
   let lava, volcanoSunset, sky
+  let CoordinateBox1 = null
 
-  if (flashMathField) ui.expressionEnvelope.classList.add('flash-shadow')
-  else ui.expressionEnvelope.classList.remove('flash-shadow')
+  let usingTInExpression = false
 
-  if (flashRunButton) ui.runButton.classList.add('flash-shadow')
-  else ui.runButton.classList.remove('flash-shadow')
+  if (!isBubbleLevel) {
+    if (flashMathField) ui.expressionEnvelope.classList.add('flash-shadow')
+    else ui.expressionEnvelope.classList.remove('flash-shadow')
+
+    if (flashRunButton) ui.runButton.classList.add('flash-shadow')
+    else ui.runButton.classList.remove('flash-shadow')
+  }
 
   let currentLatex
 
@@ -82,9 +88,40 @@ function Level(spec) {
       globalScope,
       parent: self,
     })
+  
+  function setCoordinates(x, y) {
+    Point = Vector2(x, y)
+    NewPoint = Vector2(x, y)
+    camera.screenToWorld(NewPoint)
+    
+    if (gridlines.getactive()){
 
+      gridlines.setActiveTrue(NewPoint.x, NewPoint.y)
+      CoordinateBox1.visibletrue()
+    }
+    CoordinateBox1.refreshDOM(NewPoint.x, NewPoint.y,Point.x, Point.y )
+    
+  }
   if (axes) trackedEntities.unshift(axes)
-
+  
+  let gridlines = null
+  gridlines = Gridlines({
+    drawOrder: LAYERS.gridlines,
+    camera,
+    globalScope,
+    parent: self,
+    domSelector:'#body'
+  })
+  CoordinateBox1 = CoordinateBox({
+    drawOrder: LAYERS.gridlines,
+    camera,
+    globalScope,
+    parent: self,
+    content: ('0, 0'),
+    domSelector: '#reset-button',
+    place: 'top-right',
+    style: {...self.style, visibility: 'hidden'},
+  })
   let darkBufferOrScreen = screen
   let darkenBufferOpacity = 0.0
   let darkenBuffer, darkenBufferScreen
@@ -140,7 +177,8 @@ function Level(spec) {
   loadDatum(spec.datum)
 
   let defaultVectorExpression =
-    '\\frac{(\\sin(x) - (y - 2) \\cdot i) \\cdot i}{2}'
+    '\\frac{(\\sin (x)-(y-2)\\cdot i)\\cdot i}{2}+\\frac{x}{4}+\\frac{y\\cdot i}{5}'
+  let vectorExpression = defaultVectorExpression
 
   let isVectorEditorActive = false
 
@@ -313,9 +351,9 @@ function Level(spec) {
     globalScope.p = math.complex()
     assignPlayerPosition()
 
-    playBackgroundMusic(datum.backgroundMusic, self)
+    if (playBackgroundMusic) playBackgroundMusic(datum.backgroundMusic, self)
 
-    if (runAsCutscene) {
+    if (runAsCutscene && !isBubbleLevel) {
       // Don't play sound, keep navigator
       world._startRunning(false, false, !isConstantLakeAndNotBubble()) // Keep editor enabled for Constant Lake
 
@@ -332,7 +370,7 @@ function Level(spec) {
 
       ui.mathField.latex(defaultVectorExpression)
       ui.mathFieldStatic.latex(defaultVectorExpression)
-    } else if (!runAsCutscene) {
+    } else if (!runAsCutscene && !isBubbleLevel) {
       // Otherwise display editor normally as graph editor
       ui.expressionEnvelope.classList.remove('hidden')
       ui.mathFieldLabel.innerText = 'Y='
@@ -390,7 +428,6 @@ function Level(spec) {
 
   function tick() {
     // screen.ctx.filter = `blur(${Math.floor(world.level.sledders[0].rigidbody.velocity/40 * 4)}px)`
-
     let time = runAsCutscene
       ? getCutsceneDistanceParameter().toFixed(1)
       : (Math.round(globalScope.t * 10) / 10).toString()
@@ -424,7 +461,7 @@ function Level(spec) {
 
     assignPlayerPosition()
 
-    if (isVolcano()) {
+    if (isVolcano() && !isBubbleLevel) {
       let sunsetTime
       const x = sledders[0]?.transform.x
       sunsetTime = x ? Math.exp(-(((x - 205) / 100) ** 2)) : 0
@@ -528,14 +565,12 @@ function Level(spec) {
   }
 
   function tipCompleted() {
-
     // Movves index of all tips down by one
     for (i = 0; i < tips.length; i++) {
       datum.tips[i].index -= 1
       tips[i].refreshDOM()
     }
   }
-
 
   function addTip(tipDatum) {
     tips.push(
@@ -681,10 +716,10 @@ function Level(spec) {
   //  3. Share custom levels
 
   function serialize() {
-    return {
+    const json = {
       v: 0.1, // TODO: change version handling to World?
       nick: datum.nick,
-      savedLatex: currentLatex,
+      savedLatex: isConstantLakeAndNotBubble() ? vectorExpression : savedLatex,
       goals: isEditor()
         ? goals.map((g) => {
             s = {
@@ -697,6 +732,10 @@ function Level(spec) {
           })
         : null,
     }
+    if (isConstantLakeAndNotBubble()) {
+      json.t = globalScope.t
+    }
+    return json
   }
 
   function goalFailed(goal) {
@@ -752,6 +791,14 @@ function Level(spec) {
 
     ui.mathFieldStatic.latex(currentLatex)
 
+    ui.tSliderContainer.setAttribute('hide', true)
+
+    if (usingTInExpression) {
+      if (graph.resample) graph.resample()
+      _.invokeEach(goals, 'reset')
+      _.invokeEach(sledders, 'reset')
+    }
+
     if (!hasBeenRun) {
       if (runMusic) runMusic.play()
 
@@ -762,6 +809,7 @@ function Level(spec) {
   function stopRunning() {
     _.invokeEach(goals, 'reset')
     _.invokeEach(tips, 'toggleVisible')
+    if (usingTInExpression) ui.tSliderContainer.setAttribute('hide', false)
     completed = false
     refreshLowestOrder()
   }
@@ -835,6 +883,10 @@ function Level(spec) {
     _.each(datum.texts, addText)
     _.each(datum.directors || [{}], addDirector)
     isBubbleLevel || _.each(datum.tips || [], addTip)
+
+    if (urlData && urlData.t) {
+      globalScope.runTime = urlData.t
+    }
 
     if (isBubbleLevel && datum.bubble) {
       datum = _.merge(_.cloneDeep(datum), datum.bubble)
@@ -979,6 +1031,13 @@ function Level(spec) {
     )
   }
 
+  function tVariableChanged(newT) {
+    globalScope.customT = newT
+    if (graph.resample) graph.resample()
+    _.invokeEach(goals, 'reset')
+    _.invokeEach(sledders, 'reset')
+  }
+
   function setGraphExpression(text, latex) {
     refreshMathFieldRadius()
     updateTimeSliderWidth()
@@ -994,9 +1053,22 @@ function Level(spec) {
     save()
 
     if (isConstantLakeAndNotBubble()) {
+      vectorExpression = latex
       quads.sunset.setVectorFieldExpression(text)
       return
     }
+
+    usingTInExpression = false
+    try {
+      math.parse(text).traverse((node) => {
+        if (node.name == 't' || node.args?.some((arg) => arg.name == 't')) {
+          usingTInExpression = true
+          throw '' // Throw exception for janky early return
+        }
+      })
+    } catch {}
+
+    ui.tSliderContainer.setAttribute('hide', !usingTInExpression)
 
     graph.expression = text
     ui.expressionEnvelope.setAttribute('valid', graph.valid)
@@ -1013,6 +1085,17 @@ function Level(spec) {
 
   function mathFieldFocused() {
     ui.expressionEnvelope.classList.remove('flash-shadow')
+  }
+
+  function disableGridlines(){
+    gridlines.setActiveFalse()
+    CoordinateBox1.visiblefalse()
+
+  }
+  function enableGridlines(){
+    if (!world.running){
+    gridlines.setActiveTrue(CoordinateBox1.getx(), CoordinateBox1.gety())
+    CoordinateBox1.visibletrue()}
   }
 
   function destroy() {
@@ -1064,6 +1147,8 @@ function Level(spec) {
 
     setGraphExpression,
 
+    setCoordinates,
+
     camera,
     graph,
 
@@ -1077,6 +1162,9 @@ function Level(spec) {
     playOpenMusic,
 
     mathFieldFocused,
+
+    enableGridlines,
+    disableGridlines,
 
     get isRunningAsCutscene() {
       return runAsCutscene
@@ -1110,5 +1198,7 @@ function Level(spec) {
     get firstWalkerX() {
       return walkers[0]?.transform.x
     },
+
+    tVariableChanged,
   })
 }

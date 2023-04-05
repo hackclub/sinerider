@@ -72,6 +72,7 @@ function PathGoal(spec) {
     strokeColor: '#888',
     dashed: true,
     dashSettings: [0.5, 0.5],
+    useInterpolation: false,
   })
 
   const hintGraph = Graph({
@@ -184,10 +185,10 @@ function PathGoal(spec) {
     pathExpression = text
 
     pathGraph.expression = text
-    pathGraph.resample()
+    pathGraph.refresh()
 
     hintGraph.expression = text
-    hintGraph.resample()
+    hintGraph.refresh()
 
     ui.mathFieldStatic.latex(latex)
 
@@ -390,7 +391,7 @@ function PathGoal(spec) {
     // Update graph
     pathGraph.bounds[0] = pathStartWorld.x
     pathGraph.bounds[1] = pathEndWorld.x
-    pathGraph.resample()
+    pathGraph.refresh()
 
     boundsTransform.x = point.x
     updateBounds()

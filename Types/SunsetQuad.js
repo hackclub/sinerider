@@ -1,5 +1,3 @@
-let evaluator, setVectorFieldExpression
-
 /**
  * Sunset shader class for Constant Lake scene
  */
@@ -40,12 +38,7 @@ function SunsetQuad(defaultExpression, assets) {
     },
   })
 
-  const quadNoUV = utils.Vertices(gl.STATIC_DRAW, {
-    aCoords: {
-      type: 'vec2',
-      data: [-1, -1, -1, 1, 1, -1, 1, 1],
-    },
-  })
+  const quadNoUV = utils.quadNoUV
 
   const shaders = assets.shaders
 
@@ -201,9 +194,9 @@ function SunsetQuad(defaultExpression, assets) {
 
   let last = null
 
-  evaluator = math.compile(defaultExpression)
+  let evaluator = math.compile(defaultExpression)
 
-  setVectorFieldExpression = (text) => {
+  function setVectorFieldExpression(text) {
     try {
       const e = math.compile(text)
       e.evaluate({ x: 0, y: 0, t: 0 }) // Make sure can evaluate properly

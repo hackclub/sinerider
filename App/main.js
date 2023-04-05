@@ -28,10 +28,15 @@ const ui = {
   victoryBar: $('#victory-bar'),
   victoryLabel: $('#victory-label'),
   victoryLabelString: $('#victory-label > .string'),
+  timeTaken: $('#time-taken'),
+  charCount: $('#character-count'),
   nextButton: $('#next-button'),
 
   messageBar: $('#message-bar'),
   messageBarString: $('#message-bar > .string'),
+
+  tSliderContainer: $('#t-variable-container'),
+  tSlider: $('#t-variable-slider'),
 
   variablesBar: $('#variables-bar'),
   timeString: $('#time-string'),
@@ -100,7 +105,9 @@ const urlParams = new URLSearchParams(window.location.search)
 const ticksPerSecondOverridden = urlParams.has('ticksPerSecond')
 
 // 30 ticks per second default, but overridable via query param
-const ticksPerSecond = ticksPerSecondOverridden ? urlParams.get('ticksPerSecond') : 30
+const ticksPerSecond = ticksPerSecondOverridden
+  ? urlParams.get('ticksPerSecond')
+  : 30
 
 // This is deliberately decoupled from 'ticksPerSecond' such that we can keep consistent
 // predictable results while replaying the game simulation at higher-than-realtime speeds.
@@ -151,7 +158,7 @@ var numTicks = 0
 
 // Core methods
 function tick() {
-  tickInternal();
+  tickInternal()
 
   // setTimeout imposes a minimum overhead as the delay approaches 0, and thus it becomes very likely
   // that our timer loop will fall behind our desired tick rate at ticks/sec > 250
@@ -184,12 +191,12 @@ function draw() {
   // Draw order bug where Shader entity isn't actually
   // sorted in World draw array and needs another sort call
   // in order to work? Temp fix (TODO: Fix this)
-  world.sortDrawArray()
+  // world.sortDrawArray()
 
   let entity
-  for (let i = 0; i < world.activeDrawArray.length; i++) {
-    entity = world.activeDrawArray[i]
-    if (entity.draw) {
+  for (let i = 0; i < world.drawArray.length; i++) {
+    entity = world.drawArray[i]
+    if (entity.activeInHierarchy && entity.draw) {
       screen.ctx.save()
       if (entity.predraw) entity.predraw()
       entity.draw()
@@ -211,6 +218,15 @@ draw()
 if (!stepping) {
   setInterval(tick, 1000 / ticksPerSecond)
 }
+
+// T Parameter Slider
+ui.tSlider.addEventListener('input', () => {
+  if (world.globalScope) {
+    const newT = math.remap(0, 100, 0, 10, Number(ui.tSlider.value))
+
+    world.level.sendEvent('tVariableChanged', [newT])
+  }
+})
 
 // MathQuill
 
@@ -244,6 +260,17 @@ function onMathFieldFocus(event) {
   world.onMathFieldFocus()
 }
 
+function onGridlinesDeactive(event) {
+  world.onGridlinesDeactive()
+}
+function onGridlinesActive(event) {
+  world.onGridlinesActive()
+}
+
+function onCoordinate(x, y){
+  world.onCoordinate(x, y)
+}
+
 ui.expressionEnvelope.addEventListener('focusin', onMathFieldFocus)
 
 function onMathFieldBlur(event) {
@@ -262,7 +289,7 @@ function onKeyUp(event) {
 
 window.addEventListener('keydown', (event) => {
   if (ui.mathField.focused()) return
-  world.level.sendEvent('keydown', [event.key])
+  world.level?.sendEvent('keydown', [event.key])
 })
 
 window.addEventListener('keyup', onKeyUp)
@@ -376,25 +403,38 @@ function onMouseMoveCanvas(event) {
   event.preventDefault()
 }
 
+function onMouseMoveWindow(event) {
+  onCoordinate(event.clientX, event.clientY)
+}
+
 canvas.addEventListener('mousemove', onMouseMoveCanvas)
 canvas.addEventListener('pointermove', onMouseMoveCanvas)
+
+window.addEventListener('mousemove', onMouseMoveWindow)
+window.addEventListener('pointermove', onMouseMoveWindow)
 
 function onMouseDownCanvas(event) {
   world.clickableContext.processEvent(event, 'mouseDown')
   event.preventDefault()
+  onGridlinesActive()
+  onCoordinate(event.clientX, event.clientY)
   ui.mathField.blur()
 }
 
 canvas.addEventListener('mousedown', onMouseDownCanvas)
 canvas.addEventListener('pointerdown', onMouseDownCanvas)
 
+
 function onMouseUpCanvas(event) {
   world.clickableContext.processEvent(event, 'mouseUp')
   event.preventDefault()
+  onGridlinesDeactive()
 }
 
 canvas.addEventListener('mouseup', onMouseUpCanvas)
 canvas.addEventListener('pointerup', onMouseUpCanvas)
+window.addEventListener('mouseup', onMouseUpCanvas)
+window.addEventListener('pointerup', onMouseUpCanvas)
 
 ui.levelInfoDiv.addEventListener('mouseover', function () {
   console.log('mouseover')

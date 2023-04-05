@@ -203,14 +203,7 @@
         <div class="string">STOP</div>
       </div>
   
-      
-        
-  
-        
-  
         <input class="text" id="expression-text" type="text" hide="true" />
-  
-        
       </div>
     </div>
     
@@ -222,9 +215,14 @@
     <div class="bar victory floating" id="victory-bar" hide="true">
       <div class="envelope" id="victory-envelope">
         <div class="label" id="victory-label">
-          <div class="string">Victory!</div>
+          <div class="string">
+            <!-- critical issue with plurality -->
+            <h3 id="victory-text">Victory!</h3>
+            <span id="time-taken"></span> seconds, <div id="hovertext" data-hover="The shorter the expression, the higher you score!"><span
+              id="character-count"></span> characters</div>
+          </div>
         </div>
-
+      
         <div class="button" id="next-button">
           <div class="string">NEXT</div>
         </div>
@@ -307,6 +305,8 @@
     <script src="Types/Assets.js"></script>
     <script src="Types/Engine.js"></script>
     <script src="Types/Sampler.js"></script>
+    <script src="Types/InterFrameSampler.js"></script>
+    <script src="Types/BufferSampler.js"></script>
     <script src="Types/Transform.js"></script>
     <script src="Types/Screen.js"></script>
     <script src="Types/Rigidbody.js"></script>
@@ -330,7 +330,6 @@
     <script src="Types/Entities/Sound.js"></script>
     <script src="Types/Entities/ScreenBuffer.js"></script>
     <script src="Types/Entities/Water.js"></script>
-    <script src="Types/Entities/SunsetShader.js"></script>
     <script src="Types/Entities/ConstantLakeShader.js"></script>
     <script src="Types/Entities/VolcanoShader.js"></script>
     <script src="Types/Entities/PostProcessing.js"></script>
@@ -341,6 +340,7 @@
     <script src="Types/Entities/Navigator.js"></script>
     <script src="Types/Entities/Camera.js"></script>
     <script src="Types/Entities/Axes.js"></script>
+    <script src="Types/Entities/Gridlines.js"></script>
     <script src="Types/Entities/Sprite.js"></script>
     <script src="Types/Entities/Goals/Goal.js"></script>
     <script src="Types/Entities/Goals/PathGoal.js"></script>
@@ -356,6 +356,7 @@
     <script src="Types/Entities/LavaMonster.js"></script>
     <script src="Types/Entities/LevelBubble.js"></script>
     <script src="Types/Entities/Tip.js"></script>
+    <script src="Types/Entities/CoordinateBox.js"></script>
     <script src="Types/Entities/Clouds.js"></script>
     <script src="Types/Entities/Sky.js"></script>
     <script src="Types/Entities/Snow.js"></script>
