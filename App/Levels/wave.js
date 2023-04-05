@@ -204,7 +204,7 @@ const WAVE = [
           {
             x: 0.4,
             y: 0.70,
-            content: 'Oh wow it\'s toasty here',
+            content: "Wow, it's toasty here!",
             direction: 'up',
             distance: 1.2,
           },
@@ -218,7 +218,7 @@ const WAVE = [
           {
             x: 0.8,
             y: 0.9,
-            content: 'Why are you cold?',
+            content: 'Take your scarf off, Jack',
             direction: 'right-up',
             distance: 0.6,
           },
