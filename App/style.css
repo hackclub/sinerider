@@ -248,7 +248,7 @@ input[valid='false'] {
 #time-slider-container{
   bottom: 10px;
   left: 200px;
-  width: calc(100% - 470px);
+  width: calc(100% - 350px);
   position: absolute;
 }
 #controls-bar[hide='true'] {
