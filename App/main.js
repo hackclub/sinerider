@@ -263,7 +263,7 @@ function onGridlinesActive(event) {
   world.onGridlinesActive()
 }
 
-function onCoordinate(x, y){
+function onCoordinate(x, y) {
   world.onCoordinate(x, y)
 }
 
@@ -417,7 +417,6 @@ function onMouseDownCanvas(event) {
 
 canvas.addEventListener('mousedown', onMouseDownCanvas)
 canvas.addEventListener('pointerdown', onMouseDownCanvas)
-
 
 function onMouseUpCanvas(event) {
   world.clickableContext.processEvent(event, 'mouseUp')

@@ -2,6 +2,8 @@
 //
 // Samplers are basically a wrapper around a compiled math.js expression. Samplers allow you to do extra things that are not built into math.js (For example: sampling a function over a range of values for a given variable)
 
+let mathParser = MathParser()
+
 function Sampler(spec = {}) {
   let {
     scope: referenceScope = {},
@@ -15,7 +17,8 @@ function Sampler(spec = {}) {
   let lastValidExpression = '0'
 
   let evaluator
-  let lastValidEvaluator = math.compile(lastValidExpression)
+  // let lastValidEvaluator = math.compile(lastValidExpression)
+  let lastValidEvaluator = mathParser.compile(lastValidExpression)
 
   let min = PINF
   let max = NINF
@@ -40,7 +43,8 @@ function Sampler(spec = {}) {
     let v = 0
 
     try {
-      v = e.evaluate(scope)
+      // v = e.evaluate(scope)
+      v = e(scope.x, scope.t ?? 0)
 
       if (!allowInfinity) {
         if (v == PINF || v == NINF) v = 0
@@ -132,7 +136,8 @@ function Sampler(spec = {}) {
     expression = _expression
 
     try {
-      evaluator = math.compile(decomment(expression))
+      // evaluator = math.compile(decomment(expression))
+      evaluator = mathParser.compile(decomment(expression))
       lastValidExpression = expression
       lastValidEvaluator = evaluator
       valid = true

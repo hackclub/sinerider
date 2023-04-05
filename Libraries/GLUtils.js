@@ -295,7 +295,12 @@ function GLUtils(gl) {
       )
     }
 
+    function destroy() {
+      gl.deleteFramebuffer(framebuffer)
+    }
+
     return {
+      destroy,
       bind,
       setColorAttachment,
       readTo,
