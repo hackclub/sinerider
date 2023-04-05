@@ -314,11 +314,29 @@ const WAVE = [
         asset: 'images.sam_sled',
         x: 0,
         y: 0,
+        speech: [
+          {
+            x: -0.3,
+            y: -0.2,
+            content: "I'm still upset with you",
+            direction: 'up-up-left',
+            distance: 1.5,
+          }
+        ]
       },
       {
         asset: 'images.lunchbox_sled',
         x: TAU,
         y: 0,
+        speech: [
+          {
+            x: -0.3,
+            y: -0.2,
+            content: 'I know.',
+            direction: 'up-up-left',
+            distance: 1.6,
+          }
+        ]
       },
     ],
   },
