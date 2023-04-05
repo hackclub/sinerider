@@ -13,6 +13,7 @@ function Level(spec) {
     isBubbleLevel,
     datum,
     storage,
+    urlData,
     savedLatex,
     world,
     playBackgroundMusic,
@@ -145,6 +146,7 @@ function Level(spec) {
 
   let defaultVectorExpression =
     '\\frac{(\\sin (x)-(y-2)\\cdot i)\\cdot i}{2}+\\frac{x}{4}+\\frac{y\\cdot i}{5}'
+  let vectorExpression = defaultVectorExpression
 
   let isVectorEditorActive = false
 
@@ -669,10 +671,10 @@ function Level(spec) {
   //  3. Share custom levels
 
   function serialize() {
-    return {
+    const json = {
       v: 0.1, // TODO: change version handling to World?
       nick: datum.nick,
-      savedLatex: currentLatex,
+      savedLatex: isConstantLakeAndNotBubble() ? vectorExpression : savedLatex,
       goals: isEditor()
         ? goals.map((g) => {
             s = {
@@ -685,6 +687,10 @@ function Level(spec) {
           })
         : null,
     }
+    if (isConstantLakeAndNotBubble()) {
+      json.t = globalScope.t
+    }
+    return json
   }
 
   function goalFailed(goal) {
@@ -832,6 +838,10 @@ function Level(spec) {
     _.each(datum.texts, addText)
     _.each(datum.directors || [{}], addDirector)
     isBubbleLevel || _.each(datum.tips || [], addTip)
+
+    if (urlData && urlData.t) {
+      globalScope.runTime = urlData.t
+    }
 
     if (isBubbleLevel && datum.bubble) {
       datum = _.merge(_.cloneDeep(datum), datum.bubble)
@@ -996,6 +1006,7 @@ function Level(spec) {
     save()
 
     if (isConstantLakeAndNotBubble()) {
+      vectorExpression = latex
       quads.sunset.setVectorFieldExpression(text)
       return
     }

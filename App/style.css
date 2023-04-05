@@ -892,6 +892,7 @@ input[valid='false'] {
   font-size: 10px;
   width: 350px;
   height: 25px;
+  user-select: all;
 }
 
 #button-hide-level-info {
@@ -901,17 +902,21 @@ input[valid='false'] {
   right: 50px;
   min-width: 25px;
   min-height: 25px;
+  display: none;
 }
 
 .debugtitle {
   font-weight: bold;
   text-align: right;
   width: 150px;
+  user-select: all;
+  display: none;
 }
 
 .debuginfo {
   width: 150px;
   text-align: left;
+  user-select: all;
 }
 
 .grid {

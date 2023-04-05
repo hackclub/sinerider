@@ -185,7 +185,7 @@ function draw() {
   // Draw order bug where Shader entity isn't actually
   // sorted in World draw array and needs another sort call
   // in order to work? Temp fix (TODO: Fix this)
-  world.sortDrawArray()
+  // world.sortDrawArray()
 
   let entity
   for (let i = 0; i < world.activeDrawArray.length; i++) {
