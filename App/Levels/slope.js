@@ -71,7 +71,6 @@ const SLOPE = [
         destroyOnClick: true,
         index: 1,
         style: { visibility: 'hidden' },
-        
         // style: { fontSize: '1.1rem' },
       },
       */
