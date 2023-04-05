@@ -220,7 +220,7 @@ const WAVE = [
             y: 0.9,
             content: 'Take your scarf off, Jack',
             direction: 'right-up',
-            distance: 0.6,
+            distance: 1.1,
           },
         ],
       },
@@ -259,7 +259,7 @@ const WAVE = [
           {
             x: -0.3,
             y: -0.2,
-            content: 'I didn\'t expect the desert to be so... wavy',
+            content: 'The desert is...wavier than expected',
             direction: 'up',
             distance: 1.2,
           },
@@ -269,6 +269,15 @@ const WAVE = [
         asset: 'images.lunchbox_sled',
         x: TAU + 1,
         y: 0,
+        speech: [
+          {
+            x: -0.3,
+            y: -0.2,
+            content: 'Hmmm.',
+            direction: 'up-up-right',
+            distance: 1.2,
+          }
+        ]
       },
     ],
   },
