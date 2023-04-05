@@ -60,25 +60,18 @@ const SLOPE = [
         domSelector: '#expression-envelope',
         place: 'top-right',
         destroyOnClick: true,
-<<<<<<< Updated upstream
         index: 0,
       },
-=======
-      }
       /*
->>>>>>> Stashed changes
       {
         
         content: 'Click here to sled',
         domSelector: '#run-button',
         place: 'top-right',
         destroyOnClick: true,
-<<<<<<< Updated upstream
         index: 1,
         style: { visibility: 'hidden' },
-=======
         
->>>>>>> Stashed changes
         // style: { fontSize: '1.1rem' },
       },
       */
