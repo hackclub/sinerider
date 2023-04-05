@@ -248,7 +248,7 @@ input[valid='false'] {
 #time-slider-container{
   bottom: 10px;
   left: 200px;
-  width: calc(100% - 350px);
+  width: calc(100% - 400px);
   position: absolute;
 }
 #controls-bar[hide='true'] {
@@ -300,8 +300,8 @@ input[valid='false'] {
   position: absolute;
   max-width: min-content;
   height: min-content;
-  border-radius: 0px 20px 0px 0px;
-  padding: 20px 20px 20px 2px;
+  border-radius: 0px 10px 0px 0px;
+  padding: 14px 10px 13px 10px;
   z-index: 1;
 }
 
