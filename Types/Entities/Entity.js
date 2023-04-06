@@ -77,6 +77,10 @@ function Entity(spec, defaultName = 'Entity') {
 
   if (spec.components) addComponents(spec.components)
 
+  let activeInHierarchy = true
+
+  refreshActiveInHierarchy()
+
   // Called when the entity is fully constructed
   function awake() {
     sendLifecycleEvent('awake')
@@ -202,6 +206,7 @@ function Entity(spec, defaultName = 'Entity') {
     active = _active
     sendEvent('onSetActive', [_active])
     self.root.updateDrawArray()
+    refreshActiveInHierarchy()
   }
 
   function getLineage() {
@@ -237,6 +242,13 @@ function Entity(spec, defaultName = 'Entity') {
   function sortDrawArray() {
     drawArray.sort((a, b) => a.drawOrder - b.drawOrder)
     updateDrawArray()
+  }
+
+  function refreshActiveInHierarchy() {
+    activeInHierarchy = active && (!parent || parent.activeInHierarchy)
+    for (const child of children) {
+      child.refreshActiveInHierarchy()
+    }
   }
 
   return _.mixIn(self, {
@@ -306,12 +318,9 @@ function Entity(spec, defaultName = 'Entity') {
     },
 
     get activeInHierarchy() {
-      if (!active) return false
-
-      if (parent) return parent.activeInHierarchy
-
-      return true
+      return activeInHierarchy
     },
+    refreshActiveInHierarchy,
 
     get drawOrder() {
       return drawOrder
