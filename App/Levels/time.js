@@ -422,27 +422,60 @@ const TIME = [
     x: -20,
     y: 0,
     requirements: null,
-    defaultExpression: '\\left(x-2\\sin \\left(t\\right)\\right)^2',
+    defaultExpression:
+      '\\left(x-2\\sin \\left(t\\right)\\right)^2-2\\cos \\left(t\\right)',
     goals: [
       {
         x: 0,
-        y: 4,
+        y: 6,
         order: 'A',
       },
       {
-        x: 4,
+        x: 6,
         y: 0,
         order: 'B',
       },
       {
         x: 0,
-        y: -4,
+        y: -6,
         order: 'C',
       },
       {
-        x: -4,
+        x: -6,
         y: 0,
         order: 'D',
+      },
+    ],
+    sledders: [
+      {
+        x: 0,
+        y: 0,
+      },
+    ],
+  },
+  {
+    name: 'time parabola vertical oscillator',
+    nick: 'TIME_PARABOLA_WAVE',
+    biome: 'eternalCanyon',
+    x: 0,
+    y: -10,
+    requirements: null,
+    defaultExpression:
+      '-\\cos \\left(2x-2t\\right)+\\left(\\frac{x}{3}\\right)^2',
+    goals: [
+      {
+        x: 3,
+        y: 6,
+        type: 'dynamic',
+        order: 'B',
+      },
+      {
+        type: 'path',
+        expression: 'x',
+        order: 'A',
+        x: 6,
+        y: 0,
+        pathX: 4,
       },
     ],
     sledders: [
@@ -457,7 +490,7 @@ const TIME = [
     nick: 'TIME_PARABOLA_RISER',
     biome: 'eternalCanyon',
     x: 0,
-    y: -10,
+    y: -20,
     requirements: ['TIME_SIN'],
     defaultExpression: '\\left(\\frac{x}{4}\\right)^2-t-1',
     goals: [
@@ -532,9 +565,9 @@ const TIME = [
     name: 'sin time oscillate parabola',
     nick: 'TIME_SIN_PARABOLA_OSCILLATOR',
     biome: 'eternalCanyon',
-    x: -20,
-    y: 0,
-    requirements: [null],
+    x: -10,
+    y: -10,
+    requirements: ['TIME_PARABOLA_HORIZONTAL_OSCILLATOR'],
     defaultExpression: '\\left(\\frac{x}{4}-\\sin \\left(t\\right)\\right)^2',
     goals: [
       {
@@ -567,142 +600,13 @@ const TIME = [
     ],
   },
   {
-    name: 'sin time translate',
-    nick: 'TIME_SIN_TRANSLATE_X',
-    biome: 'eternalCanyon',
-    x: 0,
-    y: -10,
-    requirements: ['TIME_PARABOLA_RISER'],
-    defaultExpression: '\\sin \\left(x-t\\right)',
-    goals: [
-      {
-        x: -12,
-        y: 0,
-        order: 'A',
-      },
-      {
-        type: 'path',
-        expression: '0',
-        x: -8,
-        y: 0,
-        pathX: 4,
-        order: 'B',
-      },
-      {
-        x: -2,
-        y: 0,
-        order: 'A',
-      },
-      {
-        type: 'path',
-        expression: '0',
-        x: 2,
-        y: 0,
-        pathX: 4,
-        order: 'B',
-      },
-    ],
-    sledders: [
-      {
-        x: 0,
-        y: 0,
-        asset: 'images.sam_sled',
-      },
-      {
-        x: -10,
-        y: 0,
-        asset: 'images.lunchbox_sled',
-      },
-    ],
-  },
-  {
-    name: 'sin time escalate',
-    nick: 'TIME_SIN_ESCALATOR',
-    biome: 'eternalCanyon',
-    x: -10,
-    y: -10,
-    requirements: [null],
-    defaultExpression: '\\sin \\left(\\frac{2x}{pi}-t\\right)',
-    goals: [
-      {
-        x: -12,
-        y: -12,
-        order: 'A',
-      },
-      {
-        type: 'path',
-        expression: 'x',
-        x: -8,
-        y: 0,
-        pathX: 4,
-        order: 'B',
-      },
-      {
-        x: -2,
-        y: -2,
-        order: 'A',
-      },
-      {
-        type: 'path',
-        expression: 'x',
-        x: 2,
-        y: 0,
-        pathX: 4,
-        order: 'B',
-      },
-    ],
-    sledders: [
-      {
-        x: -10,
-        y: 0,
-        asset: 'images.lunchbox_sled',
-      },
-      {
-        x: 0,
-        y: 0,
-        asset: 'images.sam_sled',
-      },
-    ],
-  },
-  {
-    name: 'sin time escalate oscillate',
-    nick: 'TIME_SIN_ESCALATOR_OSCILLATOR',
-    biome: 'eternalCanyon',
-    x: -20,
-    y: 0,
-    requirements: [null],
-    defaultExpression: '-2\\cos \\left(x-2\\sin \\left(t\\right)\\right)+x+1',
-    goals: [
-      {
-        type: 'path',
-        expression: 'x',
-        x: -2,
-        y: -2,
-        pathX: -4,
-      },
-      {
-        type: 'path',
-        expression: 'x',
-        x: 2,
-        y: 2,
-        pathX: 4,
-      },
-    ],
-    sledders: [
-      {
-        x: 0,
-        y: 0,
-      },
-    ],
-  },
-  {
     name: 'sin time oscillate expand',
     nick: 'TIME_SIN_EXPANDING_OSCILLATOR',
     biome: 'eternalCanyon',
-    x: -10,
+    x: 0,
     y: -10,
-    requirements: ['TIME_SIN_ESCALATOR'],
-    defaultExpression: '-\\cos \\left(x-\\sin \\left(t\\right)\\right)',
+    requirements: [null],
+    defaultExpression: '\\left(x-\\sin \\left(t\\right)\\right)^2',
     goals: [
       {
         x: -2,
