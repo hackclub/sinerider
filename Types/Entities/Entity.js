@@ -77,6 +77,14 @@ function Entity(spec, defaultName = 'Entity') {
 
   if (spec.components) addComponents(spec.components)
 
+  let entitiesToAwaken = null
+
+  let activeInHierarchy = true
+
+  let drawArrayIsUnsorted = true
+
+  refreshActiveInHierarchy()
+
   // Called when the entity is fully constructed
   function awake() {
     sendLifecycleEvent('awake')
@@ -201,7 +209,8 @@ function Entity(spec, defaultName = 'Entity') {
   function setActive(_active) {
     active = _active
     sendEvent('onSetActive', [_active])
-    self.root.updateDrawArray()
+    drawArrayIsUnsorted = false
+    refreshActiveInHierarchy()
   }
 
   function getLineage() {
@@ -223,20 +232,23 @@ function Entity(spec, defaultName = 'Entity') {
 
   function addDescendant(descendant) {
     drawArray.push(descendant)
-    sortDrawArray()
+    drawArrayIsUnsorted = false
   }
 
   function removeDescendant(descendant) {
     drawArray.splice(drawArray.indexOf(descendant), 1)
   }
 
-  function updateDrawArray() {
-    activeDrawArray = drawArray.filter((v) => v.activeInHierarchy && v.draw)
-  }
-
   function sortDrawArray() {
     drawArray.sort((a, b) => a.drawOrder - b.drawOrder)
-    updateDrawArray()
+    drawArrayIsUnsorted = true
+  }
+
+  function refreshActiveInHierarchy() {
+    activeInHierarchy = active && (!parent || parent.activeInHierarchy)
+    for (const child of children) {
+      child.refreshActiveInHierarchy()
+    }
   }
 
   return _.mixIn(self, {
@@ -272,7 +284,6 @@ function Entity(spec, defaultName = 'Entity') {
       return activeDrawArray
     },
     sortDrawArray,
-    updateDrawArray,
 
     findChild,
     findDescendant,
@@ -306,12 +317,9 @@ function Entity(spec, defaultName = 'Entity') {
     },
 
     get activeInHierarchy() {
-      if (!active) return false
-
-      if (parent) return parent.activeInHierarchy
-
-      return true
+      return activeInHierarchy
     },
+    refreshActiveInHierarchy,
 
     get drawOrder() {
       return drawOrder
@@ -320,6 +328,9 @@ function Entity(spec, defaultName = 'Entity') {
       if (drawOrder != v) self.root.sortDrawArray()
 
       drawOrder = v
+    },
+    get drawArrayIsUnsorted() {
+      return drawArrayIsUnsorted
     },
 
     get blur() {

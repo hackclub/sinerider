@@ -42,6 +42,9 @@ function Assets(spec) {
 
     let asset
 
+    // TODO: Add fault tolerance for assets which fail to resolve
+    // (maybe add a timeout (w/ a max number of attempts?) for each asset type?)
+
     if (isImage) {
       asset = new Image()
       asset.loading = 'eager'

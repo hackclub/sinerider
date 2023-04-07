@@ -7,7 +7,7 @@ const WAVE = [
     y: -20,
     requirements: [
       'PARABOLA_TRANSLATE_SCALE_X_Y',
-      'TIME_PARABOLA_TRANSLATE_X_Y_SCALE_Y',
+      'TIME_PARABOLA_TRANSLATE_X_Y',
     ],
     defaultExpression: '\\sin \\left(x\\right)',
     slider: {
@@ -214,7 +214,7 @@ const WAVE = [
     biome: 'sinusoidalDesert',
     x: 0,
     y: -20,
-    requirements: [null, 'SIN_SCALE_X_Y'],
+    requirements: [null],
     defaultExpression: '\\cos \\left(x\\right)',
     goals: [
       {
@@ -293,6 +293,41 @@ const WAVE = [
     x: 0,
     y: -20,
     requirements: [null],
+    defaultExpression: '\\sin \\left(\\frac{x}{2}\\right)',
+    slider: {
+      expression: '$\\cdot \\sin \\left(\\frac{x}{2}\\right)',
+      bounds: [-2, 2, 1],
+    },
+    goals: [
+      {
+        type: 'path',
+        expression: '-sin(x/3)*3',
+        x: TAU - 1,
+        y: 0,
+        pathX: -5,
+      },
+      {
+        type: 'path',
+        expression: '-sin(x/3)*3',
+        x: TAU + 1,
+        y: 0,
+        pathX: 5,
+      },
+    ],
+    sledders: [
+      {
+        x: (-TAU * 2) / 3,
+        y: 0,
+      },
+    ],
+  },
+  {
+    name: 'Sin Translate Scale XY',
+    nick: 'SIN_TRANSLATE_SCALE_X_Y',
+    biome: 'sinusoidalDesert',
+    x: -10,
+    y: -10,
+    requirements: [null, 'COS_SCALE_X_Y', 'SIN_TRANSLATE_X_Y'],
     defaultExpression: '\\sin \\left(\\frac{x}{2}\\right)',
     slider: {
       expression: '$\\cdot \\sin \\left(\\frac{x}{2}\\right)',
