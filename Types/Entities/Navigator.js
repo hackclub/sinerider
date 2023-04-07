@@ -26,6 +26,11 @@ function Navigator(spec) {
     asset: 'images.world_map',
   })
 
+  const clickable = Clickable({
+    entity: self,
+    camera,
+  })
+
   let showAll = false
   let showAllUsed = false
 
@@ -146,11 +151,26 @@ function Navigator(spec) {
     _.invokeEach(bubbles, 'refreshArrows')
   }
 
+  function panCamera(point) {
+    waypointDirector.moveTo(
+      null,
+      {
+        position: point,
+      },
+      1,
+    )
+  }
+
   return self.mix({
     tick,
     draw,
 
     moveToLevel,
+
+    clickable,
+
+    dragStart: panCamera,
+    mouseDown: panCamera,
 
     refreshBubbles,
     revealHighlightedLevels,

@@ -158,10 +158,16 @@ function LevelBubble(spec) {
     ctx.fillStyle = '#fff'
     ctx.strokeStyle = hilighted ? '#f88' : '#444'
 
+    ctx.shadowOffsetX = 40
+    ctx.shadowOffsetY = 40
+    ctx.shadowColor = 'black'
+    ctx.shadowBlur = 60
+
     ctx.save()
 
     ctx.fill()
     ctx.clip()
+
     if (levelDatum.runAsCutscene) {
       ctx.rotate((-(180 / cutsceneFrameSides) * Math.PI) / 180)
       ctx.drawImage(bubbletCanvas, -radius, -radius, radius * 2, radius * 2)
@@ -221,24 +227,60 @@ function LevelBubble(spec) {
 
   function refreshArrows() {
     _.each(arrows, (v) => {
-      v.opacity = visible
-        ? playable
-          ? 1
-          : 0.5
-        : v.fromBubble.visible
-        ? 0.5
-        : 0
+      v.opacity = 1
+      // v.opacity = visible
+      //   ? playable
+      //     ? 1
+      //     : 0.5
+      //   : v.fromBubble.visible
+      //   ? 0.5
+      //   : 0
       v.dashed = !v.toBubble.unlocked
       v.fadeIn = visible && !v.fromBubble.visible
       v.fadeOut = !visible && v.fromBubble.visible
     })
   }
 
+  function intersectsScreen() {
+    let center = transform.invertPoint(Vector2())
+
+    let screenRightX = camera.upperRight.x
+    let screenTopY = camera.upperRight.y
+
+    let screenLeftX = camera.lowerLeft.x
+    let screenBottomY = camera.lowerLeft.y
+
+    if (
+      _.inRange(center.x, screenLeftX, screenRightX) ||
+      _.inRange(center.y, screenTopY, screenBottomY)
+    ) {
+      return true
+    }
+
+    let dx = Math.min(
+      Math.abs(center.x - screenLeftX),
+      Math.abs(center.x - screenRightX),
+    )
+
+    let dy = Math.min(
+      Math.abs(center.y - screenTopY),
+      Math.abs(center.y - screenBottomY),
+    )
+
+    if (Math.hypot(dx, dy) < radius) {
+      return true
+    }
+
+    return false
+  }
+
   function draw() {
     if (!visible) return
 
-    camera.drawThrough(ctx, drawLocal, transform)
-    ctx.globalAlpha = 1
+    if (intersectsScreen()) {
+      camera.drawThrough(ctx, drawLocal, transform)
+      ctx.globalAlpha = 1
+    }
   }
 
   function complete() {
@@ -260,6 +302,7 @@ function LevelBubble(spec) {
 
   function click(point) {
     if (!playable) return
+    return
 
     ui.veil.setAttribute('hide', false)
 

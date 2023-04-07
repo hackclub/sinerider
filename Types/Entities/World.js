@@ -219,8 +219,10 @@ function World(spec) {
     if (navigating) {
       navigator.revealHighlightedLevels(levelDatum.nick)
       navigator.refreshBubbles()
+      canvas.classList.add('map')
     } else {
       // ui.variablesBar.setAttribute('hide', true)
+      canvas.classList.remove('map')
 
       navigator.showAll = false
       // if (navigator.showAllUsed)

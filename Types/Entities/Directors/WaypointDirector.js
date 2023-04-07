@@ -71,5 +71,9 @@ function WaypointDirector(spec) {
 
     moveTo,
     release,
+
+    get toPoint() {
+      return toPoint
+    },
   })
 }
