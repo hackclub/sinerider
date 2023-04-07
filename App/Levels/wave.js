@@ -328,30 +328,19 @@ const WAVE = [
     x: -10,
     y: -10,
     requirements: [null, 'COS_SCALE_X_Y', 'SIN_TRANSLATE_X_Y'],
-    defaultExpression: '\\sin \\left(\\frac{x}{2}\\right)',
-    slider: {
-      expression: '$\\cdot \\sin \\left(\\frac{x}{2}\\right)',
-      bounds: [-2, 2, 1],
-    },
+    defaultExpression: '3\\cos \\left(\\frac{x+3}{2}\\right)-1',
     goals: [
       {
         type: 'path',
-        expression: '-sin(x/3)*3',
-        x: TAU - 1,
+        expression: 'cos((x+4)/3)*2-4',
+        x: -2,
         y: 0,
-        pathX: -5,
-      },
-      {
-        type: 'path',
-        expression: '-sin(x/3)*3',
-        x: TAU + 1,
-        y: 0,
-        pathX: 5,
+        pathX: 15,
       },
     ],
     sledders: [
       {
-        x: (-TAU * 2) / 3,
+        x: -4,
         y: 0,
       },
     ],
