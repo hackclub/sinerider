@@ -7,7 +7,7 @@ const WAVE = [
     y: -20,
     requirements: [
       'PARABOLA_TRANSLATE_SCALE_X_Y',
-      'TIME_PARABOLA_TRANSLATE_X_Y_SCALE_Y',
+      'TIME_PARABOLA_TRANSLATE_X_Y',
     ],
     defaultExpression: '\\sin \\left(x\\right)',
     slider: {
@@ -214,7 +214,7 @@ const WAVE = [
     biome: 'sinusoidalDesert',
     x: 0,
     y: -20,
-    requirements: [null, 'SIN_SCALE_X_Y'],
+    requirements: [null],
     defaultExpression: '\\cos \\left(x\\right)',
     goals: [
       {
@@ -317,6 +317,30 @@ const WAVE = [
     sledders: [
       {
         x: (-TAU * 2) / 3,
+        y: 0,
+      },
+    ],
+  },
+  {
+    name: 'Sin Translate Scale XY',
+    nick: 'SIN_TRANSLATE_SCALE_X_Y',
+    biome: 'sinusoidalDesert',
+    x: -10,
+    y: -10,
+    requirements: [null, 'COS_SCALE_X_Y', 'SIN_TRANSLATE_X_Y'],
+    defaultExpression: '3\\cos \\left(\\frac{x+3}{2}\\right)-1',
+    goals: [
+      {
+        type: 'path',
+        expression: 'cos((x+4)/3)*2-4',
+        x: -2,
+        y: 0,
+        pathX: 15,
+      },
+    ],
+    sledders: [
+      {
+        x: -4,
         y: 0,
       },
     ],

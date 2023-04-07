@@ -194,6 +194,7 @@ function draw() {
   let entity
   for (let i = 0; i < world.drawArray.length; i++) {
     entity = world.drawArray[i]
+
     if (entity.activeInHierarchy && entity.draw) {
       screen.ctx.save()
       if (entity.predraw) entity.predraw()
@@ -271,7 +272,7 @@ function onGridlinesActive(event) {
   world.onGridlinesActive()
 }
 
-function onCoordinate(x, y){
+function onCoordinate(x, y) {
   world.onCoordinate(x, y)
 }
 
@@ -427,7 +428,6 @@ function onMouseDownCanvas(event) {
 
 canvas.addEventListener('mousedown', onMouseDownCanvas)
 canvas.addEventListener('pointerdown', onMouseDownCanvas)
-
 
 function onMouseUpCanvas(event) {
   world.clickableContext.processEvent(event, 'mouseUp')
