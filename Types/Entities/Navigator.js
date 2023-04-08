@@ -15,6 +15,12 @@ function Navigator(spec) {
     camera,
   })
 
+  // Maybe switch to PanDirector?
+  // const panDirector = PanDirector({
+  //   parent: self,
+  //   camera,
+  // })
+
   const map = Sprite({
     parent: self,
     camera,
@@ -31,6 +37,10 @@ function Navigator(spec) {
     camera,
   })
 
+  let rect = Rect({
+    parent: self,
+  })
+
   let showAll = false
   let showAllUsed = false
 
@@ -41,6 +51,16 @@ function Navigator(spec) {
   function draw() {
     screen.ctx.fillStyle = '#fff'
     screen.ctx.fillRect(0, 0, screen.width, screen.height)
+
+    let left = camera.lowerLeft.x + 5
+    let right = camera.upperRight.x - 5
+    let top = camera.upperRight.y
+    let bottom = camera.lowerLeft.y
+    rect.center.set((left + right) / 2, (top + bottom) / 2)
+    rect.width = right - left
+    rect.height = top - bottom
+
+    rect.draw(screen.ctx, camera)
   }
 
   function createBubble(levelDatum) {
@@ -53,6 +73,7 @@ function Navigator(spec) {
       getEditing,
       tickDelta,
       getBubbleByNick,
+      panCamera,
       parent: self,
       getShowAll: () => showAll,
       drawOrder: LAYERS.levelBubbles,
@@ -119,15 +140,15 @@ function Navigator(spec) {
 
     const fov = Math.max(delta.x, delta.y) / 2 + padding
 
-    waypointDirector.moveTo(
-      null,
-      {
-        position,
-        fov,
-      },
-      duration,
-      cb,
-    )
+    // waypointDirector.moveTo(
+    //   null,
+    //   {
+    //     position,
+    //     fov,
+    //   },
+    //   duration,
+    //   cb,
+    // )
   }
 
   function setShowAll(_showAll) {
@@ -155,6 +176,7 @@ function Navigator(spec) {
     waypointDirector.moveTo(
       null,
       {
+        fov: 30,
         position: point,
       },
       1,
