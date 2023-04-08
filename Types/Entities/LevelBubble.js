@@ -1,3 +1,4 @@
+let levelBubblesDrawn = 0
 function LevelBubble(spec) {
   const { ui, self, screen, camera, assets } = Entity(spec, 'LevelBubble')
 
@@ -10,6 +11,7 @@ function LevelBubble(spec) {
     getBubbleByNick,
     getShowAll,
     quad,
+    panCamera,
   } = spec
 
   const { nick, requirements, radius = 3 } = levelDatum
@@ -70,7 +72,10 @@ function LevelBubble(spec) {
   })
 
   let bubbletLevel = Level({
-    datum: levelDatum,
+    datum: {
+      ...levelDatum,
+      axesEnabled: false,
+    },
     screen: bubbletScreen,
     camera: bubbletCamera,
     globalScope: bubbletGlobalScope,
@@ -158,10 +163,10 @@ function LevelBubble(spec) {
     ctx.fillStyle = '#fff'
     ctx.strokeStyle = hilighted ? '#f88' : '#444'
 
-    ctx.shadowOffsetX = 40
-    ctx.shadowOffsetY = 40
+    ctx.shadowOffsetX = 8
+    ctx.shadowOffsetY = 8
     ctx.shadowColor = 'black'
-    ctx.shadowBlur = 60
+    ctx.shadowBlur = 13
 
     ctx.save()
 
@@ -227,14 +232,13 @@ function LevelBubble(spec) {
 
   function refreshArrows() {
     _.each(arrows, (v) => {
-      v.opacity = 1
-      // v.opacity = visible
-      //   ? playable
-      //     ? 1
-      //     : 0.5
-      //   : v.fromBubble.visible
-      //   ? 0.5
-      //   : 0
+      v.opacity = visible
+        ? playable
+          ? 1
+          : 0.5
+        : v.fromBubble.visible
+        ? 0.5
+        : 0
       v.dashed = !v.toBubble.unlocked
       v.fadeIn = visible && !v.fromBubble.visible
       v.fadeOut = !visible && v.fromBubble.visible
@@ -244,35 +248,28 @@ function LevelBubble(spec) {
   let centerScreen = Vector2()
 
   function intersectsScreen() {
-    camera.worldToScreen(transform.position, centerScreen)
-    let radiusScreen = camera.worldToScreenScalar(radius)
+    let center = transform.position
 
-    let screenRightX = screen.width
-    let screenTopY = screen.height
-
-    let screenLeftX = 0
-    let screenBottomY = 0
+    let left = camera.lowerLeft.x + 5
+    let right = camera.upperRight.x - 5
+    let top = camera.upperRight.y
+    let bottom = camera.lowerLeft.y
 
     if (
-      _.inRange(centerScreen.x, screenLeftX, screenRightX) ||
-      _.inRange(centerScreen.y, screenBottomY, screenTopY)
+      center.x > left &&
+      center.x < right &&
+      center.y > bottom &&
+      center.y < top
     ) {
       return true
     }
 
-    let dx = Math.min(
-      Math.abs(centerScreen.x - screenLeftX),
-      Math.abs(centerScreen.x - screenRightX),
-    )
+    // let dx = Math.min(Math.abs(center.x - left), Math.abs(center.x - right))
+    // let dy = Math.min(Math.abs(center.y - top), Math.abs(center.y - bottom))
 
-    let dy = Math.min(
-      Math.abs(centerScreen.y - screenTopY),
-      Math.abs(centerScreen.y - screenBottomY),
-    )
-
-    if (Math.hypot(dx, dy) < radiusScreen) {
-      return true
-    }
+    // if (Math.hypot(dx, dy) < radius) {
+    //   return true
+    // }
 
     return false
   }
@@ -280,11 +277,11 @@ function LevelBubble(spec) {
   function draw() {
     if (!visible) return
 
-    if (!intersectsScreen()) return
-
-    bubblesDrawn++
-    camera.drawThrough(ctx, drawLocal, transform)
-    ctx.globalAlpha = 1
+    if (intersectsScreen()) {
+      levelBubblesDrawn++
+      camera.drawThrough(ctx, drawLocal, transform)
+      ctx.globalAlpha = 1
+    }
   }
 
   function complete() {
@@ -305,7 +302,12 @@ function LevelBubble(spec) {
   }
 
   function click(point) {
-    if (!playable) return
+    if (!playable) {
+      // If not playable, then use as clickable point
+      panCamera(point)
+      return
+    }
+
     return
 
     ui.veil.setAttribute('hide', false)
