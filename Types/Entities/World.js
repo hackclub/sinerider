@@ -95,6 +95,7 @@ function World(spec) {
   }
 
   function tick() {
+    if (!self.drawArrayIsUnsorted) self.sortDrawArray()
     if (
       window.innerHeight != screen.height ||
       window.innerWidth != screen.width
@@ -230,8 +231,13 @@ function World(spec) {
   function levelCompleted(soft = false) {
     setCompletionTime(runTime)
 
-    ui.timeTaken.innerHTML = Math.round(runTime * 100) / 100
-    ui.charCount.innerHTML = ui.mathFieldStatic.latex().length
+    const timeTaken = Math.round(runTime * 100) / 100
+    const charCount = ui.mathFieldStatic.latex().length
+
+    ui.timeTaken.innerHTML =
+      timeTaken + ' second' + (timeTaken === 1 ? '' : 's')
+    ui.charCount.innerHTML =
+      charCount + ' character' + (charCount === 1 ? '' : 's')
 
     if (soft) {
       nextLevel(2.5)
