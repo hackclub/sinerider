@@ -195,8 +195,11 @@
         
       </div>
 
-      
-      <div class="button bar floating controls" id="run-button" hide="false">
+
+      <input class="text" id="expression-text" type="text" hide="true" />
+
+      <div class="button" id="run-button" hide="false">
+
         <div class="string">GO</div>
       </div>
   
@@ -217,13 +220,18 @@
       <div class="envelope" id="victory-envelope">
         <div class="label" id="victory-label">
           <div class="string">
-            <!-- critical issue with plurality -->
             <h3 id="victory-text">Victory!</h3>
-            <span id="time-taken"></span> seconds, <div id="hovertext" data-hover="The shorter the expression, the higher you score!"><span
-              id="character-count"></span> characters</div>
-          </div> 
+
+            <span id="time-taken"></span>,
+            <div
+              id="hovertext"
+              data-hover="The shorter the expression, the higher you score!"
+            >
+              <span id="character-count"></span>
+            </div>
+          </div>
         </div>
-      
+
         <div class="button" id="next-button">
           <div class="string">NEXT</div>
         </div>

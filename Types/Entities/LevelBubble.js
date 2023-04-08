@@ -55,7 +55,7 @@ function LevelBubble(spec) {
 
   const bubbletCanvas = document.createElement('canvas')
 
-  let bubbletPixels = 512
+  let bubbletPixels = 128
   bubbletCanvas.width = bubbletPixels
   bubbletCanvas.height = bubbletPixels
 
