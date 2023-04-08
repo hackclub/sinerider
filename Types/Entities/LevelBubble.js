@@ -241,33 +241,36 @@ function LevelBubble(spec) {
     })
   }
 
+  let centerScreen = Vector2()
+
   function intersectsScreen() {
-    let center = transform.invertPoint(Vector2())
+    camera.worldToScreen(transform.position, centerScreen)
+    let radiusScreen = camera.worldToScreenScalar(radius)
 
-    let screenRightX = camera.upperRight.x
-    let screenTopY = camera.upperRight.y
+    let screenRightX = screen.width
+    let screenTopY = screen.height
 
-    let screenLeftX = camera.lowerLeft.x
-    let screenBottomY = camera.lowerLeft.y
+    let screenLeftX = 0
+    let screenBottomY = 0
 
     if (
-      _.inRange(center.x, screenLeftX, screenRightX) ||
-      _.inRange(center.y, screenTopY, screenBottomY)
+      _.inRange(centerScreen.x, screenLeftX, screenRightX) ||
+      _.inRange(centerScreen.y, screenBottomY, screenTopY)
     ) {
       return true
     }
 
     let dx = Math.min(
-      Math.abs(center.x - screenLeftX),
-      Math.abs(center.x - screenRightX),
+      Math.abs(centerScreen.x - screenLeftX),
+      Math.abs(centerScreen.x - screenRightX),
     )
 
     let dy = Math.min(
-      Math.abs(center.y - screenTopY),
-      Math.abs(center.y - screenBottomY),
+      Math.abs(centerScreen.y - screenTopY),
+      Math.abs(centerScreen.y - screenBottomY),
     )
 
-    if (Math.hypot(dx, dy) < radius) {
+    if (Math.hypot(dx, dy) < radiusScreen) {
       return true
     }
 
@@ -277,10 +280,11 @@ function LevelBubble(spec) {
   function draw() {
     if (!visible) return
 
-    if (intersectsScreen()) {
-      camera.drawThrough(ctx, drawLocal, transform)
-      ctx.globalAlpha = 1
-    }
+    if (!intersectsScreen()) return
+
+    bubblesDrawn++
+    camera.drawThrough(ctx, drawLocal, transform)
+    ctx.globalAlpha = 1
   }
 
   function complete() {
