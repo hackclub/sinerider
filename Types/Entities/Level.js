@@ -5,6 +5,8 @@
  * callback which is invoked whenever the level's completion condition is met.
  */
 function Level(spec) {
+  let running = false
+
   const { self, assets, screen, ui } = Entity(spec, 'Level')
 
   const {
@@ -674,17 +676,39 @@ function Level(spec) {
     texts.push(text)
   }
   function refreshMathFieldRadius(){
-    let controlsBar = document.getElementById("controls-bar")
-    let exprEnvelope = document.getElementById("expression-envelope")
-    let junction = document.getElementById("junction")
-    let exprHeight = exprEnvelope.offsetHeight
-    let radius = (exprHeight-controlsBar.offsetHeight)/2
-    junction.style.height = `${radius}px`
-    junction.style.width = `${radius}px`
-    junction.style.backgroundImage = `radial-gradient(circle at ${radius}px 0px, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) ${radius}px, white ${radius}px)`
+    let radius = (ui.expressionEnvelope.offsetHeight - ui.controlBar.offsetHeight)/2
+    ui.junction.style.height = `${radius}px`
+    ui.junction.style.width = `${radius}px`
+    ui.junction.style.backgroundImage = `radial-gradient(circle at ${radius}px  0px, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) ${radius}px, white ${radius}px)`
   }
-  function updateTimeSliderWidth(){
-    ui.timeSliderContainer.style.left = `${130+ui.expressionEnvelope.offsetWidth}px`
+  function updateTimeSliderPosition(){
+    ui.timeSliderContainer.style.left = `${50 + ui.controlBar.offsetWidth}px`
+    ui.timeSliderContainer.style.width = `${window.innerWidth - ui.controlBar.offsetWidth - 100}px`
+  }
+  function updateHintEquationHeight(){
+    ui.dottedMathField.style.bottom = `${ui.expressionEnvelope.offsetHeight + 50}px`
+  } 
+  function updateControlBarWidth(){
+    console.log(ui.controlBar.style.width)
+    ui.controlBar.style.width = `${ui.expressionEnvelope.offsetWidth + 250}px`
+  }
+  function updateRunButtonPosition(){
+    if(!running){
+      ui.runButton.style.left = `${ui.controlBar.offsetWidth-100}px`
+      ui.stopButton.style.left = `${ui.controlBar.offsetWidth-100}px`
+    }
+    else{
+      ui.runButton.style.left = "calc(100% - 100px)"
+      ui.stopButton.style.left = "calc(100% - 100px)"
+    }
+    
+  }
+  function updateUI(){
+    refreshMathFieldRadius()
+    updateHintEquationHeight()
+    updateControlBarWidth()
+    updateTimeSliderPosition()
+    updateRunButtonPosition()
   }
   function goalCompleted(goal) {
     if (!completed) {
@@ -786,11 +810,15 @@ function Level(spec) {
   }
 
   function startRunning() {
+    running = true
+
     ui.runButton.classList.remove('flash-shadow')
 
     ui.mathFieldStatic.latex(currentLatex)
 
     ui.timeSliderContainer.setAttribute('hide', true)
+
+    updateUI()
 
     if (usingTInExpression) {
       if (graph.resample) graph.resample()
@@ -806,9 +834,11 @@ function Level(spec) {
   }
 
   function stopRunning() {
+    running = false
+    updateUI()
     _.invokeEach(goals, 'reset')
     _.invokeEach(tips, 'toggleVisible')
-    if (usingTInExpression) ui.tSliderContainer.setAttribute('hide', false)
+    if (usingTInExpression) ui.timeSliderContainer.setAttribute('hide', false)
     completed = false
     refreshLowestOrder()
   }
@@ -1038,8 +1068,7 @@ function Level(spec) {
   }
 
   function setGraphExpression(text, latex) {
-    refreshMathFieldRadius()
-    updateTimeSliderWidth()
+    updateUI()
     if (editor.editingPath) {
       // console.log('returning')
       return

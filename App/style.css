@@ -226,6 +226,9 @@ input[valid='false'] {
 }
 
 #controls-bar {
+  transition: none;
+  transition-delay: 0s;
+
   position: absolute;
   align-self: center;
 
@@ -235,8 +238,7 @@ input[valid='false'] {
   bottom: 0px;
   left: 0px;
   height: 50px;
-  width: 100%;
-  border-radius: 0px 0px 0px 0px;
+  border-radius: 0px 5px 0px 0px;
 }
 #time-slider{
   writing-mode: lr-tb; /* IE */
@@ -283,6 +285,8 @@ input[valid='false'] {
   transition: transform 1s, opacity 0.2s;
 }
 #junction{
+  transition: none;
+  transition-delay: 0s;
   left: 100%;
   width: 50px;
   height: 50px;
@@ -339,7 +343,8 @@ input[valid='false'] {
 }
 #stop-button,
 #run-button {
-  position: absolute;
+  transition: none;
+  position: fixed;
   left: calc(100% - 100px);
   bottom: 10px;
   width: min-content;
@@ -734,29 +739,27 @@ input[valid='false'] {
 }
 
 #dotted-math-container {
-  position: fixed;
-  right: 200px;
-  top: 0px;
+  position: fixed;  
+  left: 0px;
   /* display: flex;  */
   display: none; /* Disabled by default */
   border-width: 3px;
-  width: 500px;
+  width: calc(100% - 100px);
   height: 25px;
   border-radius: 0px 0px 0px 5px;
 }
 
 #dotted-math-field-static {
-  background: #ffffff63;
-  border-radius: 0px 5px 5px 5px;
-  text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.75);
+  background: #ffffff;
+  border-radius: 5px;
   margin-top: auto;
   margin-bottom: auto;
-  font-weight: bold;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
   font-family: monospace;
-  color: rgb(0 255 0);
+  color: rgb(0, 0, 0);
   display: none;
   position: absolute;
-  right: -160.5px;
+  left: 10px;
   font-size: 1.5rem;
   padding: 5px;
 }
@@ -770,10 +773,10 @@ input[valid='false'] {
 
 #dotted-slider {
   writing-mode: lr-tb; /* IE */
-  -webkit-appearance: slider-horizontal; /* Chromium */
-  width: 60vh;
-  right: 7px;
-  top: 2px;
+  -webkit-appearance: slider-vertical; /* Chromium */
+  height: 60vh;
+  bottom: 200px;
+  left: 100%;
   line-height: 100vh;
   accent-color: rgb(0, 255, 0);
   position:absolute;
