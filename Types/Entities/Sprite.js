@@ -121,14 +121,12 @@ function Sprite(spec = {}) {
         sizer.set(screen.height/sky.height, screen.height/sky.height)
       }
 
-      // Also it needs to be rotated differently also
-      if (rotatingSpeed !=0){
+      // Also it needs to be rotated differently
       ctx.save()
       ctx.translate(pos.x+factorSize*sizer[0]/2, pos.y+factorSize*sizer[0]/2)
       ctx.rotate(transform.rotation)
       screen.ctx.drawImage(image, -factorSize*sizer[0]/2, -factorSize*sizer[1]/2, factorSize*sizer[0], factorSize*sizer[1])
       ctx.restore()
-      }
     }
     else{
     camera.drawThrough(ctx, drawLocal, transform)}
