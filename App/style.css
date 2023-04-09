@@ -184,6 +184,7 @@ body > .bar {
 
   transition: 0.5s;
   pointer-events: none;
+  z-index: 2;
 }
 
 .victory .envelope {
@@ -248,16 +249,16 @@ input[valid='false'] {
   align-items: center;
   position: absolute;
   height: 0px;
-  margin: auto;
-  left: 20px;
-  width: 10px;
+  margin:auto;
+  left: 30px;
+  width: 1px;
   bottom: 30px;
 }
 
 #time-slider-ticks {
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  width: 90%;
   margin-bottom: 20px;
 }
 
@@ -276,7 +277,7 @@ input[valid='false'] {
 }
 
 #time-slider {
-  width: 100%;
+  width: 90%;
   -webkit-appearance: none;
   background-color: black;
   height: 3px;
@@ -286,11 +287,14 @@ input[valid='false'] {
 
 #time-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 10px;
-  height: 10px;
-  background-color: black;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   cursor: pointer;
+  border: rgb(150, 0, 0);
+  background-color: red;
+  border-width: 2px;
+  border-style: solid;
 }
 
 
@@ -391,6 +395,7 @@ input[valid='false'] {
   bottom: 10px;
   width: min-content;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.4);
+  z-index: 2;
 }
 
 #try-again-button{
@@ -808,9 +813,9 @@ input[valid='false'] {
 }
 
 #dotted-math-button {
-  margin-top: 0vh;
+  box-shadow: 0px 2px 4px rgb(0 0 0 / 40%);
   margin-bottom: 40vh;
-  margin-left: auto;
+  margin-left: 10px;
   background-color: rgb(0 255 0);
 }
 
