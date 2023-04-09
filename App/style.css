@@ -84,7 +84,7 @@ body > .bar {
   overflow: visible;
 }
 
-.floating .button,
+.floating
 .envelope {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
 }
@@ -130,8 +130,6 @@ body > .bar {
   padding: 0 8px;
 
   background: #fff;
-
-  border-radius: 5px;
 
   display: flex;
   align-items: center;
@@ -258,7 +256,7 @@ input[valid='false'] {
 #time-slider-ticks {
   display: flex;
   justify-content: space-between;
-  width: 90%;
+  width: 110%;
   margin-bottom: 20px;
 }
 
@@ -277,7 +275,7 @@ input[valid='false'] {
 }
 
 #time-slider {
-  width: 90%;
+  width: 110%;
   -webkit-appearance: none;
   background-color: black;
   height: 3px;
@@ -396,6 +394,7 @@ input[valid='false'] {
   width: min-content;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.4);
   z-index: 2;
+  border-radius: 5px;
 }
 
 #try-again-button{
@@ -564,11 +563,8 @@ input[valid='false'] {
   bottom: 10px;
   height: min-content;
   font-size: 1.4rem;
-  width: 40px;
+  width: min-content;
   left: calc(100% + 30px);
-  padding: 0px;
-  border-radius: 5px;
-  margin: 0px;
 }
 
 #navigator-button > .string {
@@ -814,9 +810,11 @@ input[valid='false'] {
 
 #dotted-math-button {
   box-shadow: 0px 2px 4px rgb(0 0 0 / 40%);
-  margin-bottom: 40vh;
+  position: absolute;
   margin-left: 10px;
   background-color: rgb(0 255 0);
+  border-radius: 5px;
+  transition: bottom 0ms;
 }
 
 #dotted-slider {

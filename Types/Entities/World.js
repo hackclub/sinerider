@@ -302,7 +302,7 @@ function World(spec) {
 
     //ui.mathField.blur()
     ui.expressionEnvelope.setAttribute('disabled', disableExpressionEditing)
-    ui.resetButton.setAttribute('disabled', true)
+    ui.resetButton.disabled = true
     ui.timeSlider.disabled = true
     //ui.menuBar.setAttribute('hide', true)
     //ui.soundButton.setAttribute('hide', true)
@@ -339,7 +339,7 @@ function World(spec) {
     //ui.timeSlider.setAttribute('hide', false)
     ui.mathField.blur()
     ui.expressionEnvelope.setAttribute('disabled', false)
-    ui.resetButton.setAttribute('disabled', false)
+    ui.resetButton.disabled = false
     //ui.menuBar.setAttribute('hide', false)
     ui.victoryBar.setAttribute('hide', true)
     ui.timeSlider.disabled = false
@@ -465,8 +465,10 @@ function World(spec) {
   }
 
   function onClickResetButton() {
-    level.restart()
-    assets.sounds.restart_button.play()
+    if(!running){
+      level.restart()
+      assets.sounds.restart_button.play()
+    }
   }
 
   function onMathFieldFocus() {

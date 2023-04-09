@@ -380,6 +380,7 @@ function onClickEditButton(event) {
 ui.editButton.addEventListener('click', onClickEditButton)
 
 function onClickResetButton(event) {
+
   world.onClickResetButton()
 }
 

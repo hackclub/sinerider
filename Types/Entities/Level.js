@@ -694,28 +694,23 @@ function Level(spec) {
     ui.junction.style.height = `${radius}px`
     ui.junction.style.width = `${radius}px`
     ui.junction.style.backgroundImage = `radial-gradient(circle at ${radius}px  0px, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) ${radius}px, white ${radius}px)`
+    ui.expressionEnvelope.style.opacity = "1";
   }
   function updateTimeSliderPosition(){
-    ui.timeSliderContainer.style.left = `${80 + ui.controlBar.offsetWidth}px`
+    ui.timeSliderContainer.style.left = `${150 + ui.controlBar.offsetWidth}px`
     ui.timeSliderContainer.style.width = `${window.innerWidth - ui.controlBar.offsetWidth - 100}px`
   }
   function updateHintEquationHeight(){
     ui.dottedMathField.style.bottom = `${ui.expressionEnvelope.offsetHeight + 50}px`
+    ui.dottedHintButton.style.bottom = `${ui.expressionEnvelope.offsetHeight - 75}px`
   } 
   function updateControlBarWidth(){
     ui.controlBar.style.width = `${ui.expressionEnvelope.offsetWidth + 175}px`
   }
   function updateRunButtonPosition(){
-    if(!running){
-      ui.runButton.style.transition = "left 0ms"
+    ui.runButton.style.transition = "left 0ms"
       ui.runButton.style.left = `${ui.controlBar.offsetWidth + 10}px`
       ui.stopButton.style.left = `${ui.controlBar.offsetWidth + 10}px`
-
-    }
-    else{
-      ui.runButton.style.left = "calc(100% - 100px)"
-      ui.stopButton.style.left = "calc(100% - 100px)"
-    }
     
   }
   window.addEventListener("resize", updateUI);
@@ -826,6 +821,7 @@ function Level(spec) {
   }
 
   function startRunning() {
+    updateUI()
     running = true
 
     ui.runButton.classList.remove('flash-shadow')
