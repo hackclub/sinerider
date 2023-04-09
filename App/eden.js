@@ -56,7 +56,6 @@ worldData.push({
       volcano_background_medium: '.webp',
       volcano_rock_1: '.webp',
       volcano_rock_2: '.webp',
-      volcano_rock_2: '.webp',
       volcano_rock_4: '.webp',
       volcano_trees: '.webp',
       volcano_tree_1: '.webp',
@@ -84,6 +83,7 @@ worldData.push({
       cactus: '.webp',
       blooming_joshua_tree: '.webp',
       desert_tree: '.webp',
+      dante: '.webp',
     },
     sounds: {
       music: {
