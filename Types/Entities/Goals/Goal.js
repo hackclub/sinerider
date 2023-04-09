@@ -63,6 +63,10 @@ function Goal(spec) {
 
   let flashProgress = 0
 
+  const isSafari =
+    navigator.userAgent.toLowerCase().indexOf('safari/') > -1 &&
+    navigator.userAgent.toLowerCase().indexOf('chrome/') == -1
+
   function awake() {
     self.reset()
   }
@@ -153,11 +157,12 @@ function Goal(spec) {
       ctx.textAlign = 'center'
       ctx.textBaseline = 'middle'
       ctx.font = '1px Roboto Mono'
-      ctx.scale(0.7, 0.7)
-      ctx.translate(0, -0.15)
+      const rescale = 0.7
+      ctx.scale(rescale, rescale)
+      ctx.translate(0, isSafari ? 0.325 : 0)
 
       let center = self.shape.center
-      ctx.fillText(order, center.x, center.y + 0.25)
+      ctx.fillText(order, center.x / rescale, -center.y / rescale)
       ctx.restore()
     }
   }
