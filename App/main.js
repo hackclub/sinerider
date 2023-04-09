@@ -280,7 +280,8 @@ ui.expressionEnvelope.addEventListener('blurout', onMathFieldBlur)
 
 function onKeyUp(event) {
   if (event.keyCode === 13) {
-    if (!world.navigating) world.toggleRunning()
+    if (!world.navigating && !world.level?.isRunningAsCutscene)
+      world.toggleRunning()
   }
 }
 
