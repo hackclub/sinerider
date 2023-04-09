@@ -25,5 +25,12 @@ function Sky(spec) {
   return self.mix({
     draw,
     asset,
+
+    get width() {
+      return image.width
+    },
+    get height() {
+      return image.height
+    },
   })
 }
