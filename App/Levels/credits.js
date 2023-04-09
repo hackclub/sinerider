@@ -20,7 +20,7 @@ const CREDITS = {
         fov: 6,
       },
       state1: {
-        position: [-14, 6],
+        position: [-9, 6],
         fov: 8,
       },
     },
@@ -29,7 +29,7 @@ const CREDITS = {
       point0: [-18, 0],
       point1: [-10, 0],
       state0: {
-        position: [-14, 6],
+        position: [-9, 6],
         fov: 8,
       },
       state1: {
@@ -277,7 +277,7 @@ const CREDITS = {
   sounds: [
     {
       asset: 'sounds.music.credits',
-      domain: [-6, -0],
+      domain: [-12, -0],
       // fadeOut: 800,
       // duration: 20000,
     },

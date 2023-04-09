@@ -45,11 +45,8 @@ function Flake(spec) {
   function draw() {
     if (!spawned) return
 
-    ctx.beginPath()
-    ctx.fillStyle = color.hex
-    ctx.globalAlpha = 0.7
+    ctx.moveTo(position.x, -position.y)
     ctx.arc(position.x, -position.y, size * growth, 0, TAU)
-    ctx.fill()
   }
 
   function log() {
@@ -108,11 +105,13 @@ function Snow(spec, name = 'Snow') {
   }
 
   function drawLocal() {
-    ctx.fillStyle = 'white'
-
+    ctx.beginPath()
     for (let i = 0; i < maxParticles; i++) {
       particles[i].draw()
     }
+    ctx.fillStyle = colorRange[0].hex
+    ctx.globalAlpha = 0.7
+    ctx.fill()
   }
 
   function draw() {
