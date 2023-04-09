@@ -2,6 +2,13 @@
 
 const stepping = false
 
+function removeAllUi() {
+  document.getElementById('top-bar').remove();
+  document.getElementById('lvl-debug-info').remove();
+  document.getElementById('controls-bar').remove();
+  document.getElementById('dotted-math-container').remove();
+}
+
 // Core constants
 
 const ui = {
