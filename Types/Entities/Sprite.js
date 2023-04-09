@@ -7,7 +7,6 @@ function Sprite(spec = {}) {
     asset,
     image,
     graph,
-    size = 1,
     flipX = false,
     flipY = false,
     globalScope,
@@ -18,9 +17,7 @@ function Sprite(spec = {}) {
     speech,
     fixed = false,
     speechScreen,
-    factorX,
-    factorY,
-    factorSize,
+    size,
     world,
     sky = null,
     rotatingSpeed = 0,
@@ -113,19 +110,19 @@ function Sprite(spec = {}) {
     if (fixed) {
       if (sky.height / sky.width >= screen.height / screen.width) {
         let adjustmentY = (screen.width * sky.height) / sky.width
-        pos.set(factorX*screen.width, factorY*(adjustmentY) + (screen.height - adjustmentY)/2)
+        pos.set(spec.x*screen.width, spec.y*(adjustmentY) + (screen.height - adjustmentY)/2)
         sizer.set(screen.width/sky.width, screen.width/sky.width)
       } else {
         let adjustmentX = (screen.height * sky.width) / sky.height
-        pos.set(factorX*(adjustmentX)+(screen.width-adjustmentX)/2, factorY*screen.height)
+        pos.set(spec.x*(adjustmentX)+(screen.width-adjustmentX)/2, spec.y*screen.height)
         sizer.set(screen.height/sky.height, screen.height/sky.height)
       }
 
       // Also it needs to be rotated differently
       ctx.save()
-      ctx.translate(pos.x+factorSize*sizer[0]/2, pos.y+factorSize*sizer[0]/2)
+      ctx.translate(pos.x+size*sizer[0]/2, pos.y+size*sizer[0]/2)
       ctx.rotate(transform.rotation)
-      screen.ctx.drawImage(image, -factorSize*sizer[0]/2, -factorSize*sizer[1]/2, factorSize*sizer[0], factorSize*sizer[1])
+      screen.ctx.drawImage(image, -size*sizer[0]/2, -size*sizer[1]/2, size*sizer[0], size*sizer[1])
       ctx.restore()
     }
     else{
