@@ -84,6 +84,7 @@ worldData.push({
       blooming_joshua_tree: '.webp',
       desert_tree: '.webp',
       dante: '.webp',
+      windmill: '.png',
     },
     sounds: {
       music: {
@@ -296,11 +297,21 @@ worldData.push({
           y: 15,
           anchored: false,
         },
+        {
+          asset: 'images.windmill',
+          drawOrder: LAYERS.background + 1,
+          anchored: false,
+          fixed: true,
+          y: 0.204,
+          x: 0.1215,
+          size: 400,
+          rotatingSpeed: 0.2,
+        },
       ],
       texts: [
         {
           x: 15,
-          y: -5,
+          y: -6,
           size: 1.5,
           fill: '#c4acd4',
           content: 'A game about love and graphing.',
