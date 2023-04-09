@@ -23,6 +23,9 @@ function Sound(spec) {
   let fadeDestroyProgress = 0
   let fadeDestroyDuration = 0
 
+  let mapFadeProgress = 0
+  let mapFade = false
+
   function awake() {
     if (!domain) {
       soundId = howl.play()
@@ -76,6 +79,11 @@ function Sound(spec) {
       if (fadeDestroyProgress >= 1) self.destroy()
     }
 
+    if (mapFade) mapFadeProgress += tickDelta
+    else mapFadeProgress -= tickDelta
+    mapFadeProgress = math.clamp01(mapFadeProgress)
+    vol *= 1 - mapFadeProgress
+
     howl.volume(vol)
   }
 
@@ -84,11 +92,11 @@ function Sound(spec) {
   }
 
   function onLevelFadeOut(navigating, duration) {
-    if (fadeOnNavigating) howl.fade(volume, 0, duration * 1000, soundId)
+    if (fadeOnNavigating) mapFade = true
   }
 
   function onLevelFadeIn(navigating, duration) {
-    if (fadeOnNavigating) howl.fade(0, volume, duration * 1000, soundId)
+    if (fadeOnNavigating) mapFade = false
   }
 
   function destroy() {
