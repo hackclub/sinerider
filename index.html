@@ -93,14 +93,6 @@
     </div>
 
     <div class="bar floating top" id="top-bar" hide="false">
-      <div
-        id="volume-slider-box"
-        class="tooltip-e tooltip"
-        data-tooltip="Volume"
-      >
-        <div class="">🔊</div>
-        <input id="volume-slider" type="range" orient="horizontal" />
-      </div>
       <!-- when i move this it doesn't allow me to click on puzzles -->
       <!-- <div class="try-again-button">
         <button id="try-again" type="button">Try Again</button>
@@ -170,9 +162,26 @@
     
     <div class="bar floating controls" id="controls-bar"> 
       
+      <div class="button reset-button" id="try-again-button" hide="true">
+        <div class="string">Try Again</div>
+      </div>
       <div class="bar floating controls" id="expression-envelope" disabled="false">
-        <div id="time-slider-container" class="tooltip controls" data-tooltip="Time Slider">
+        <div id="time-slider-container" class="controls">
+          <div id="time-slider-ticks">
+            <div class="slider-tick"><div class="slider-tick-label">0s</div></div>
+            <div class="slider-tick"><div class="slider-tick-label">1</div></div>
+            <div class="slider-tick"><div class="slider-tick-label">2</div></div>
+            <div class="slider-tick"><div class="slider-tick-label">3</div></div>
+            <div class="slider-tick"><div class="slider-tick-label">4</div></div>
+            <div class="slider-tick"><div class="slider-tick-label">5</div></div>
+            <div class="slider-tick"><div class="slider-tick-label">6</div></div>
+            <div class="slider-tick"><div class="slider-tick-label">7</div></div>
+            <div class="slider-tick"><div class="slider-tick-label">8</div></div>
+            <div class="slider-tick"><div class="slider-tick-label">9</div></div>
+            <div class="slider-tick"><div class="slider-tick-label">10s</div></div>
+          </div>
           <input type="range" id="time-slider" value="0" min="0" max="100" step="1"  orient="horizontal">
+          
         </div>
         <div id="junction" class="controls"></div>
         <div class="label" id="variable-label">
@@ -183,16 +192,15 @@
   
         <div id="math-field-static"></div>
 
-        <div class="button reset-button" id="try-again-button" hide="true">
-          <div class="string">Try Again</div>
-        </div>
+        
         <div class="button tooltip" id="reset-button" data-tooltip="Reset">
           <div class="string">↺</div>
         </div>
         <div class="button" id="navigator-button">
           <div class="string">🌎</div>
         </div>
-        
+        <input id="volume-slider" type="range" orient="horizontal" />
+        <div class="button" id="sound-button">🔊</div>
       </div>
 
 

@@ -675,6 +675,20 @@ function Level(spec) {
 
     texts.push(text)
   }
+  var soundShowing = false
+  ui.soundButton.addEventListener("click", toggleSoundBar);
+  function toggleSoundBar(){
+    if(soundShowing){
+      ui.volumeSlider.style.opacity = "0"
+      ui.volumeSlider.disabled = true
+      soundShowing = false
+    }
+    else{
+      ui.volumeSlider.style.opacity = "1"
+      ui.volumeSlider.disabled = false
+      soundShowing = true
+    }
+  }
   function refreshMathFieldRadius(){
     let radius = (ui.expressionEnvelope.offsetHeight - ui.controlBar.offsetHeight)/2
     ui.junction.style.height = `${radius}px`
@@ -682,20 +696,21 @@ function Level(spec) {
     ui.junction.style.backgroundImage = `radial-gradient(circle at ${radius}px  0px, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) ${radius}px, white ${radius}px)`
   }
   function updateTimeSliderPosition(){
-    ui.timeSliderContainer.style.left = `${50 + ui.controlBar.offsetWidth}px`
+    ui.timeSliderContainer.style.left = `${80 + ui.controlBar.offsetWidth}px`
     ui.timeSliderContainer.style.width = `${window.innerWidth - ui.controlBar.offsetWidth - 100}px`
   }
   function updateHintEquationHeight(){
     ui.dottedMathField.style.bottom = `${ui.expressionEnvelope.offsetHeight + 50}px`
   } 
   function updateControlBarWidth(){
-    console.log(ui.controlBar.style.width)
-    ui.controlBar.style.width = `${ui.expressionEnvelope.offsetWidth + 250}px`
+    ui.controlBar.style.width = `${ui.expressionEnvelope.offsetWidth + 175}px`
   }
   function updateRunButtonPosition(){
     if(!running){
-      ui.runButton.style.left = `${ui.controlBar.offsetWidth-100}px`
-      ui.stopButton.style.left = `${ui.controlBar.offsetWidth-100}px`
+      ui.runButton.style.transition = "left 0ms"
+      ui.runButton.style.left = `${ui.controlBar.offsetWidth + 10}px`
+      ui.stopButton.style.left = `${ui.controlBar.offsetWidth + 10}px`
+
     }
     else{
       ui.runButton.style.left = "calc(100% - 100px)"
@@ -703,6 +718,7 @@ function Level(spec) {
     }
     
   }
+  window.addEventListener("resize", updateUI);
   function updateUI(){
     refreshMathFieldRadius()
     updateHintEquationHeight()
@@ -817,7 +833,6 @@ function Level(spec) {
     ui.mathFieldStatic.latex(currentLatex)
 
     ui.timeSliderContainer.setAttribute('hide', true)
-
     updateUI()
 
     if (usingTInExpression) {
@@ -841,6 +856,8 @@ function Level(spec) {
     if (usingTInExpression) ui.timeSliderContainer.setAttribute('hide', false)
     completed = false
     refreshLowestOrder()
+
+
   }
 
   function isVolcano() {

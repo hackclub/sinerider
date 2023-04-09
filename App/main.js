@@ -87,6 +87,7 @@ const ui = {
   hideLevelInfoButton: $('#button-hide-level-info'),
 
   junction: $('#junction'),
+  soundButton: $('#sound-button')
 }
 
 const editor = Editor(ui)
@@ -319,7 +320,6 @@ ui.volumeSlider.addEventListener('input', onSetVolume)
 
 function onClickHint() {
   ui.dottedHintButton.style.display = 'none'
-  ui.dottedMathContainer.style.background = "#ffffff63"
   ui.dottedSlider.hidden = false
   ui.dottedSlider.style.innerHeight = '200px'
   ui.dottedMathField.style.display = 'block'

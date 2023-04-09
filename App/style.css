@@ -240,19 +240,60 @@ input[valid='false'] {
   height: 50px;
   border-radius: 0px 5px 0px 0px;
 }
-#time-slider{
-  writing-mode: lr-tb; /* IE */
-  -webkit-appearance: slider-horizontal; /* Chromium */
-  width: 100%;
-  line-height: 100vh;
-  accent-color: rgb(255 0 0);
+/* time slider */
+#time-slider-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  height: 0px;
+  margin: auto;
+  left: 20px;
+  width: 10px;
+  bottom: 30px;
 }
-#time-slider-container{
+
+#time-slider-ticks {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.slider-tick {
+  height: 10px;
+  width: 2px;
+  background-color: black;
+  position: relative;
+}
+
+.slider-tick-label {
+  position: absolute;
+  top: 15px;
+  transform: translateX(-50%);
+  font-size: 12px;
+}
+
+#time-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  background-color: black;
+  height: 3px;
   bottom: 10px;
-  left: 200px;
-  width: calc(1200px - 100%);
   position: absolute;
 }
+
+#time-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  background-color: black;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+
 #controls-bar[hide='true'] {
   bottom: -50vh;
 }
@@ -342,8 +383,9 @@ input[valid='false'] {
   opacity: 0;
 }
 #stop-button,
+#try-again-button,
 #run-button {
-  transition: none;
+  transition: left 250ms;
   position: fixed;
   left: calc(100% - 100px);
   bottom: 10px;
@@ -351,8 +393,11 @@ input[valid='false'] {
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.4);
 }
 
-#try-again-button {
+#try-again-button{
+  left: calc(100% - 150px);
   animation: pulse 0.5s infinite;
+  width: 100px;
+  bottom: 10px;
 }
 
 .reset-button {
@@ -391,7 +436,12 @@ input[valid='false'] {
 
   padding: 0;
 }
-
+#sound-button{
+  position: absolute;
+  left: calc(100% + 120px);
+  bottom: 10px;
+  width: min-content;
+}
 #reset-button > .string {
   font-size: 24px;
   line-height: 14px;
@@ -488,24 +538,17 @@ input[valid='false'] {
   transition: 0.05s;
 }
 
-#volume-slider-box {
-  transition-duration: 1s;
-  border: 2px solid rgba(255, 255, 255, 0);
-  padding: 10px;
-  border-radius: 0 0 10px 0;
-}
-#volume-slider-box:hover {
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(9px);
-}
 
 #volume-slider {
-  opacity: 0;
+  position: absolute;
   transition-duration: 1s;
+  bottom: 60px;
+  left: calc(100% + 77px);
+  writing-mode: lr-tb; /* IE */
+  -webkit-appearance: slider-vertical; /* Chromium */
+  opacity: 0;
 }
-#volume-slider-box:hover > #volume-slider {
-  opacity: 1;
-}
+
 
 #top-bar[hide='true'] {
   top: -80px;
@@ -738,7 +781,7 @@ input[valid='false'] {
 }
 
 #dotted-math-container {
-  position: fixed;  
+  position: absolute;  
   left: 0px;
   /* display: flex;  */
   display: none; /* Disabled by default */
@@ -746,21 +789,22 @@ input[valid='false'] {
   width: calc(100% - 100px);
   height: 25px;
   border-radius: 0px 0px 0px 5px;
+  bottom: 100px;
 }
 
 #dotted-math-field-static {
-  background: #ffffff;
-  border-radius: 5px;
-  margin-top: auto;
-  margin-bottom: auto;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+  background: #5f5f5f;
+  border-radius: 0px 5px 5px 0px;
+  box-shadow: 0px 2px 4px rgb(0 0 0 / 40%);
   font-family: monospace;
-  color: rgb(0, 0, 0);
+  color: rgb(0,255,0);
+  text-shadow: rgb(0, 0, 0) 1px 0 10px;
   display: none;
   position: absolute;
-  left: 10px;
   font-size: 1.5rem;
   padding: 5px;
+  height: min-content;
+  font-weight: bold;
 }
 
 #dotted-math-button {
@@ -773,8 +817,8 @@ input[valid='false'] {
 #dotted-slider {
   writing-mode: lr-tb; /* IE */
   -webkit-appearance: slider-vertical; /* Chromium */
-  height: 60vh;
-  bottom: 200px;
+  height: 75vh;
+  bottom: 0px;
   left: 100%;
   line-height: 100vh;
   accent-color: rgb(0, 255, 0);
@@ -795,9 +839,9 @@ input[valid='false'] {
 }
 
 @media only screen and (max-width: 600px) {
-  #time-slider-container{
+  /*#time-slider-container{
     width: calc(700 px - 100%);
-  }
+  }*/
   #expression-envelope-container {
     position: fixed;
     top: 20px;

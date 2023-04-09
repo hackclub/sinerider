@@ -299,7 +299,7 @@ function World(spec) {
     ui.mathField.blur()
     ui.expressionEnvelope.setAttribute('disabled', disableExpressionEditing)
     ui.menuBar.setAttribute('hide', true)
-    
+    ui.soundButton.setAttribute('hide', true)
     ui.junction.setAttribute('hide', true)
     ui.timeSlider.setAttribute('hide', true)
     ui.runButton.setAttribute('hide', true)
@@ -341,7 +341,7 @@ function World(spec) {
     ui.tryAgainButton.setAttribute('hide', true)
     ui.stopButton.setAttribute('hide', true)
     ui.resetButton.setAttribute('hide', false)
-
+    ui.soundButton.setAttribute('hide', false)
     if (!navigating) {
       // HACK: Timed to avoid bug in Safari (at least) that causes whole page to be permanently offset when off-screen text input is focused
       setTimeout(() => ui.expressionText.focus(), 250)
