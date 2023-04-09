@@ -18,6 +18,7 @@ function Sprite(spec = {}) {
     speech,
     speechScreen,
     world,
+    sky = null,
   } = spec
 
   const origin = Vector2(spec)
