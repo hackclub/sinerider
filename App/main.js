@@ -7,6 +7,7 @@ function removeAllUi() {
   document.getElementById('lvl-debug-info').remove();
   document.getElementById('controls-bar').remove();
   document.getElementById('dotted-math-container').remove();
+  document.getElementById('victory-bar').remove();
 }
 
 // Core constants
