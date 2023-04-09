@@ -84,6 +84,7 @@ worldData.push({
       blooming_joshua_tree: '.webp',
       desert_tree: '.webp',
       dante: '.webp',
+      windmill: '.png',
     },
     sounds: {
       music: {
@@ -296,6 +297,19 @@ worldData.push({
           y: 15,
           anchored: false,
         },
+        {
+          asset: 'images.windmill',
+          drawOrder: LAYERS.background+1,
+          size: 1,
+          x: 500,
+          y: 160,
+          anchored: false,
+          fixed: true,
+          factorY: .204,
+          factorX: .1215,
+          factorSize: 400,
+          rotatingSpeed: 0.2,
+        }
       ],
       texts: [
         {

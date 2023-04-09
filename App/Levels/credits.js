@@ -354,5 +354,17 @@ const CREDITS = {
       y: 15,
       anchored: false,
     },
+  {
+      asset: 'images.windmill',
+      drawOrder: LAYERS.background+1,
+      size: 1,
+      x: 500,
+      y: 160,
+      fixed: true,
+      factorY: .204,
+      factorX: .1215,
+      factorSize: 400,
+      rotatingSpeed: 0.1,
+    }
   ],
 }

@@ -16,12 +16,20 @@ function Sprite(spec = {}) {
     offset = Vector2(),
     opacity = 1,
     speech,
+    fixed = false,
     speechScreen,
+    factorX,
+    factorY,
+    factorSize,
     world,
     sky = null,
+    rotatingSpeed = 0,
   } = spec
 
   const origin = Vector2(spec)
+
+  const pos = Vector2()
+  const sizer = Vector2()
 
   if (spec.offset) offset = Vector2(spec.offset)
 
@@ -49,7 +57,6 @@ function Sprite(spec = {}) {
     }
     image = _.get(assets, asset, $('#error-sprite'))
   }
-
   if (speech) {
     if (!_.isArray(speech)) speech = [speech]
 
@@ -81,6 +88,10 @@ function Sprite(spec = {}) {
 
       let angle = Math.asin(slopeTangent.y)
       transform.rotation = angle
+      
+    }
+    if (rotatingSpeed !=0){
+      transform.rotation += tickDelta*rotatingSpeed
     }
   }
 
@@ -98,7 +109,29 @@ function Sprite(spec = {}) {
   }
 
   function draw() {
-    camera.drawThrough(ctx, drawLocal, transform)
+    // If it is part of the background, it is transformed
+    if (fixed) {
+      if (sky.height / sky.width >= screen.height / screen.width) {
+        let adjustmentY = (screen.width * sky.height) / sky.width
+        pos.set(factorX*screen.width, factorY*(adjustmentY) + (screen.height - adjustmentY)/2)
+        sizer.set(screen.width/sky.width, screen.width/sky.width)
+      } else {
+        let adjustmentX = (screen.height * sky.width) / sky.height
+        pos.set(factorX*(adjustmentX)+(screen.width-adjustmentX)/2, factorY*screen.height)
+        sizer.set(screen.height/sky.height, screen.height/sky.height)
+      }
+
+      // Also it needs to be rotated differently also
+      if (rotatingSpeed !=0){
+      ctx.save()
+      ctx.translate(pos.x+factorSize*sizer[0]/2, pos.y+factorSize*sizer[0]/2)
+      ctx.rotate(transform.rotation)
+      screen.ctx.drawImage(image, -factorSize*sizer[0]/2, -factorSize*sizer[1]/2, factorSize*sizer[0], factorSize*sizer[1])
+      ctx.restore()
+      }
+    }
+    else{
+    camera.drawThrough(ctx, drawLocal, transform)}
   }
 
   return self.mix({
