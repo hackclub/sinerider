@@ -299,19 +299,19 @@ worldData.push({
         },
         {
           asset: 'images.windmill',
-          drawOrder: LAYERS.background+1,
+          drawOrder: LAYERS.background + 1,
           anchored: false,
           fixed: true,
-          y: .204,
-          x: .1215,
+          y: 0.204,
+          x: 0.1215,
           size: 400,
           rotatingSpeed: 0.2,
-        }
+        },
       ],
       texts: [
         {
           x: 15,
-          y: -5,
+          y: -6,
           size: 1.5,
           fill: '#c4acd4',
           content: 'A game about love and graphing.',
