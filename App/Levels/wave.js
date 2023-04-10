@@ -202,8 +202,8 @@ const WAVE = [
         y: 0,
         speech: [
           {
-            x: 0.4,
-            y: 0.70,
+            x: 0.5,
+            y: 0.4,
             content: "Goodness it's hot here",
             direction: 'up',
             distance: 1,
@@ -216,10 +216,10 @@ const WAVE = [
         y: 0,
         speech: [
           {
-            x: 0.8,
-            y: 0.9,
+            x: 0.6,
+            y: 0.3,
             content: 'Take your scarf off, Jack.',
-            direction: 'up-left',
+            direction: 'up-right',
             distance: 1,
           },
         ],
@@ -257,10 +257,10 @@ const WAVE = [
         y: 0,
         speech: [
           {
-            x: -0.3,
-            y: -0.2,
+            x: 0.8,
+            y: 0.25,
             content: 'The desert is...wavier than expected',
-            direction: 'up',
+            direction: 'up-up-right',
             distance: 1.2,
           },
         ],
@@ -271,10 +271,10 @@ const WAVE = [
         y: 0,
         speech: [
           {
-            x: -0.3,
-            y: -0.2,
+            x: 0.8,
+            y: 0.2,
             content: 'Hmmm.',
-            direction: 'up-up-right',
+            direction: 'up-right',
             distance: 1.2,
           }
         ]
@@ -316,10 +316,10 @@ const WAVE = [
         y: 0,
         speech: [
           {
-            x: -0.3,
-            y: -0.2,
+            x: 0.6,
+            y: 0.2,
             content: "I'm still upset with you",
-            direction: 'up-up-left',
+            direction: 'up-up-right',
             distance: 1.5,
           }
         ]
@@ -330,10 +330,10 @@ const WAVE = [
         y: 0,
         speech: [
           {
-            x: -0.3,
-            y: -0.2,
+            x: 0.48,
+            y: 0.2,
             content: 'I know.',
-            direction: 'up-up-left',
+            direction: 'up-up-right',
             distance: 1.6,
           }
         ]
