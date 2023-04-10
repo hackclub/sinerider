@@ -650,6 +650,7 @@ function Level(spec) {
       parent: self,
       camera,
       graph,
+      sky,
       globalScope,
       drawOrder: LAYERS.backSprites,
       anchored: true,
@@ -862,6 +863,20 @@ function Level(spec) {
   }
 
   function loadDatum(datum) {
+    if (datum.sky) {
+      sky = Sky({
+        parent: self,
+        camera,
+        globalScope,
+        asset: datum.sky.asset,
+        margin: datum.sky.margin,
+        screen: darkBufferOrScreen,
+        drawOrder: LAYERS.background,
+        motionBlur: false,
+        ...datum.sky,
+      })
+    }
+
     if (!isBubbleLevel) _.each(datum.sounds, addSound)
     _.each(datum.sprites, addSprite)
     _.each(datum.sledders, addSledder)
@@ -960,19 +975,6 @@ function Level(spec) {
         globalScope,
         drawOrder: LAYERS.backSprites,
         ...datum.lava,
-      })
-    }
-    if (datum.sky) {
-      sky = Sky({
-        parent: self,
-        camera,
-        globalScope,
-        asset: datum.sky.asset,
-        margin: datum.sky.margin,
-        screen: darkBufferOrScreen,
-        drawOrder: LAYERS.background,
-        motionBlur: false,
-        ...datum.sky,
       })
     }
     if (datum.snow)

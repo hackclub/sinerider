@@ -132,8 +132,14 @@ function World(spec) {
       try {
         urlData = JSON.parse(LZString.decompressFromBase64(url.search.slice(1)))
         setLevel(urlData.nick, urlData)
+
+        // Very stupid, maybe Navigator should just be instantiated after this block?
+        const bubble = navigator.getBubbleByNick(urlData.nick)
+        if (bubble) navigator.initialBubble = bubble
+
         return
       } catch (err) {
+        console.error('Error loading url:', err)
         // TODO: Maybe switch to modal
         alert('Sorry, this URL is malformed :(')
       }
