@@ -29,9 +29,13 @@ function Navigator(spec) {
   let showAll = false
   let showAllUsed = false
 
+  let initialBubble = null
+
   const bubbles = _.map(levelData, createBubble)
 
-  function tick() {}
+  function start() {
+    if (initialBubble) initialBubble.completeAllRequirements()
+  }
 
   function draw() {
     screen.ctx.fillStyle = '#fff'
@@ -147,7 +151,7 @@ function Navigator(spec) {
   }
 
   return self.mix({
-    tick,
+    start,
     draw,
 
     moveToLevel,
@@ -169,6 +173,13 @@ function Navigator(spec) {
     },
     set showAllUsed(v) {
       showAllUsed = v
+    },
+
+    get initialBubble() {
+      return initialBubble
+    },
+    set initialBubble(v) {
+      initialBubble = v
     },
   })
 }
