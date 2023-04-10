@@ -40,6 +40,7 @@ const ui = {
   timeString: $('#time-string'),
   completionTime: $('#completion-time'),
   controlBar: $('#controls-bar'),
+  controlBarGFX: document.getElementById("controls-bar-gfx"),
   expressionText: $('#expression-text'),
   expressionEnvelope: $('#expression-envelope'),
 

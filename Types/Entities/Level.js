@@ -429,6 +429,7 @@ function Level(spec) {
   }
 
   function tick() {
+    updateUI()
     // screen.ctx.filter = `blur(${Math.floor(world.level.sledders[0].rigidbody.velocity/40 * 4)}px)`
     let time = runAsCutscene
       ? getCutsceneDistanceParameter().toFixed(1)
@@ -690,15 +691,23 @@ function Level(spec) {
       soundShowing = true
     }
   }
+  var juncColor = "white"
   function refreshMathFieldRadius(){
     let radius = (ui.expressionEnvelope.offsetHeight - ui.controlBar.offsetHeight)/2
     ui.junction.style.height = `${radius}px`
     ui.junction.style.width = `${radius}px`
-    ui.junction.style.backgroundImage = `radial-gradient(circle at ${radius}px  0px, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) ${radius}px, white ${radius}px)`
+    if(running) juncColor = "rgb(220,220,220)"; if(!running) juncColor = "white"
+    ui.junction.style.backgroundImage = `radial-gradient(circle at ${radius}px  0px, rgba(0,0,0,0) 0, rgba(0, 0, 0, 0) ${radius}px, ${juncColor} ${radius}px)`
     ui.expressionEnvelope.style.opacity = "1";
   }
   function updateTimeSliderPosition(){
-    ui.timeSliderContainer.style.left = `${150 + ui.controlBar.offsetWidth}px`
+    if(running){
+
+    ui.timeSliderContainer.style.left = `${100 + ui.controlBar.offsetWidth + ui.stopButton.offsetWidth}px`
+    }
+    else{
+      ui.timeSliderContainer.style.left = `${100 + ui.controlBar.offsetWidth + ui.runButton.offsetWidth}px`
+    }
     ui.timeSliderContainer.style.width = `${window.innerWidth - ui.controlBar.offsetWidth - 100}px`
   }
   function updateHintEquationHeight(){
@@ -710,8 +719,8 @@ function Level(spec) {
   }
   function updateRunButtonPosition(){
     ui.runButton.style.transition = "left 0ms"
-      ui.runButton.style.left = `${ui.controlBar.offsetWidth + 10}px`
-      ui.stopButton.style.left = `${ui.controlBar.offsetWidth + 10}px`
+    ui.runButton.style.left = `${ui.controlBar.offsetWidth + 10}px`
+    ui.stopButton.style.left = `${ui.controlBar.offsetWidth + 10}px`
     
   }
   window.addEventListener("resize", updateUI);
@@ -848,6 +857,7 @@ function Level(spec) {
   function stopRunning() {
     running = false
     updateUI()
+    
     _.invokeEach(goals, 'reset')
     _.invokeEach(tips, 'toggleVisible')
     if (usingTInExpression) ui.timeSliderContainer.setAttribute('hide', false)
@@ -902,6 +912,7 @@ function Level(spec) {
         ui.resetButton.setAttribute('hide', true)
       expressionEnvelopeAnimation.onfinish = () =>
         ui.expressionEnvelope.classList.add('hidden')
+        ui.controlBar.setAttribute('hide', true)
     }
   }
 

@@ -304,17 +304,17 @@ function World(spec) {
     ui.expressionEnvelope.setAttribute('disabled', disableExpressionEditing)
     ui.resetButton.disabled = true
     ui.timeSlider.disabled = true
+    ui.controlBarGFX.style.background = "rgb(220,220,220)"
     //ui.menuBar.setAttribute('hide', true)
     //ui.soundButton.setAttribute('hide', true)
     //ui.junction.setAttribute('hide', true)
     //ui.timeSlider.setAttribute('hide', true)
-    
     ui.runButton.setAttribute('hide', true)
     
     ui.stopButton.setAttribute('hide', false)
     //if (hideNavigator) ui.navigatorButton.setAttribute('hide', true)
     //ui.resetButton.setAttribute('hide', true)
-    //ui.tryAgainButton.setAttribute('hide', true)
+    ui.tryAgainButton.setAttribute('hide', true)
     //ui.dottedMathContainer.setAttribute('hide', true)
     
 
@@ -337,6 +337,7 @@ function World(spec) {
     //setControlBarOpacity(true)
 
     //ui.timeSlider.setAttribute('hide', false)
+    ui.controlBarGFX.style.background = "white"
     ui.mathField.blur()
     ui.expressionEnvelope.setAttribute('disabled', false)
     ui.resetButton.disabled = false
@@ -348,7 +349,7 @@ function World(spec) {
     //ui.navigatorButton.setAttribute('hide', false)
     //ui.expressionEnvelope.setAttribute('hide', false)
     ui.runButton.setAttribute('hide', false)
-    //ui.tryAgainButton.setAttribute('hide', true)
+    ui.tryAgainButton.setAttribute('hide', true)
     
     ui.stopButton.setAttribute('hide', true)
     
@@ -370,13 +371,6 @@ function World(spec) {
   function toggleRunning() {
     if (running) stopRunning()
     else startRunning()
-  }
-  function setControlBarOpacity(visible){
-    if(visible){
-      ui.controlBar.setAttribute('style', 'background: white;')
-    }else{
-      ui.controlBar.setAttribute('style', 'background: rgba(0,0,0,0);')
-    }
   }
   function generateRandomLevel() {
     const goalCount = _.random(2, 5)
