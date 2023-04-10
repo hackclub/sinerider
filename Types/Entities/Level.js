@@ -699,6 +699,8 @@ function Level(spec) {
     if(running) juncColor = "rgb(220,220,220)"; if(!running) juncColor = "white"
     ui.junction.style.backgroundImage = `radial-gradient(circle at ${radius}px  0px, rgba(0,0,0,0) 0, rgba(0, 0, 0, 0) ${radius}px, ${juncColor} ${radius}px)`
     ui.expressionEnvelope.style.opacity = "1";
+    let borderRadius = radius/2
+    ui.expressionEnvelope.style.borderRadius = `0px ${borderRadius}px 0px 0px`
   }
   function updateTimeSliderPosition(){
     if(running){

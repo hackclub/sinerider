@@ -35,7 +35,6 @@ const ui = {
   messageBar: $('#message-bar'),
   messageBarString: $('#message-bar > .string'),
 
-
   variablesBar: $('#variables-bar'),
   timeString: $('#time-string'),
   completionTime: $('#completion-time'),

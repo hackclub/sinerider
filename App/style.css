@@ -284,6 +284,8 @@ input[valid='false'] {
   top: 15px;
   transform: translateX(-50%);
   font-size: 12px;
+  text-shadow: 0 0 3px #ffffff, 0 0 5px #ffffff;
+  color: black;
 }
 
 #time-slider {
