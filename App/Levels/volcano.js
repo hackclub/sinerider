@@ -255,7 +255,7 @@ const VOLCANO = (() => {
     ],
     lava: {
       x: 155,
-      y: 60,
+      y: 55,
       size: 90,
     },
     sprites: [
