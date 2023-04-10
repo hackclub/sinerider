@@ -205,6 +205,7 @@ const WAVE = [
             x: 0.5,
             y: 0.4,
             content: "Goodness it's hot here",
+            color: '#fff',
             direction: 'up',
             distance: 1,
           },
@@ -219,6 +220,7 @@ const WAVE = [
             x: 0.6,
             y: 0.3,
             content: 'Take your scarf off, Jack.',
+            color: '#fff',
             direction: 'up-right',
             distance: 1,
           },
@@ -260,6 +262,7 @@ const WAVE = [
             x: 0.8,
             y: 0.25,
             content: 'The desert is...wavier than expected',
+            color: '#fff',
             direction: 'up-up-right',
             distance: 1.2,
           },
@@ -273,6 +276,7 @@ const WAVE = [
           {
             x: 0.8,
             y: 0.2,
+            color: '#fff',
             content: 'Hmmm.',
             direction: 'up-right',
             distance: 1.2,
@@ -319,6 +323,7 @@ const WAVE = [
             x: 0.6,
             y: 0.2,
             content: "I'm still upset with you",
+            color: '#fff',
             direction: 'up-up-right',
             distance: 1.5,
           }
@@ -333,6 +338,7 @@ const WAVE = [
             x: 0.48,
             y: 0.2,
             content: 'I know.',
+            color: '#fff',
             direction: 'up-up-right',
             distance: 1.6,
           }
