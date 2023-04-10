@@ -313,7 +313,7 @@ function World(spec) {
     running = true
     setCompletionTime(null)
 
-    //ui.mathField.blur()
+    ui.mathField.blur()
     ui.expressionEnvelope.setAttribute('disabled', disableExpressionEditing)
     ui.menuBar.setAttribute('hide', true)
 
@@ -340,7 +340,7 @@ function World(spec) {
     running = false
     setCompletionTime(null)
 
-    //ui.mathField.blur()
+    ui.mathField.blur()
     ui.expressionEnvelope.setAttribute('disabled', false)
     ui.menuBar.setAttribute('hide', false)
     ui.victoryBar.setAttribute('hide', true)

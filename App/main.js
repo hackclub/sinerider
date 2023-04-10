@@ -403,7 +403,7 @@ function onMouseDownCanvas(event) {
   event.preventDefault()
   onGridlinesActive()
   onCoordinate(event.clientX, event.clientY)
-  //ui.mathField.blur()
+  ui.mathField.blur()
 }
 
 canvas.addEventListener('mousedown', onMouseDownCanvas)
