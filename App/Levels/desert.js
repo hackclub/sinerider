@@ -138,7 +138,7 @@ const DESERT = {
     {
       speaker: 'Ada',
       color: '#FFF',
-      content: 'A little, yeah!',
+      content: 'Yes, absolutely!',
       direction: 'up-up-left',
       gap: 1,
     },
