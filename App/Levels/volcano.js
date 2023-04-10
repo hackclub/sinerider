@@ -563,14 +563,14 @@ const VOLCANO = (() => {
     backgroundMusic: {
       asset: 'sounds.music.volcano.start',
       volume: 0.4,
-      domain: [-1001, -1000, -45, -40],
+      domain: [-1001, -1000, SLEDDER_START, SLEDDER_START + 100],
     },
     sounds: [
       {
         asset: 'sounds.music.volcano.jump',
         loop: false,
         volume: 0.4,
-        domain: [SLEDDER_START, -15, 200, 240],
+        domain: [SLEDDER_START, SLEDDER_START + 100, 200, 240],
         track: 'sledders',
       },
       // {
