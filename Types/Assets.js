@@ -8,7 +8,7 @@ function Assets(spec) {
   let loaded = false
 
   const imageExtensions = ['svg', 'png', 'jpg', 'jpeg', 'webp']
-  const soundExtensions = ['m4a', 'ogg', 'wav']
+  const soundExtensions = ['m4a', 'mp3', 'ogg', 'wav']
   const shaderExtensions = ['glsl', 'frag', 'vert']
 
   load(self)
