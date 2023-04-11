@@ -88,39 +88,37 @@ function Level(spec) {
       globalScope,
       parent: self,
     })
-  
+
   function setCoordinates(x, y) {
     Point = Vector2(x, y)
     NewPoint = Vector2(x, y)
     camera.screenToWorld(NewPoint)
-    
-    if (gridlines.getactive()){
 
+    if (gridlines.getactive()) {
       gridlines.setActiveTrue(NewPoint.x, NewPoint.y)
       CoordinateBox1.visibletrue()
     }
-    CoordinateBox1.refreshDOM(NewPoint.x, NewPoint.y,Point.x, Point.y )
-    
+    CoordinateBox1.refreshDOM(NewPoint.x, NewPoint.y, Point.x, Point.y)
   }
   if (axes) trackedEntities.unshift(axes)
-  
+
   let gridlines = null
   gridlines = Gridlines({
     drawOrder: LAYERS.gridlines,
     camera,
     globalScope,
     parent: self,
-    domSelector:'#body'
+    domSelector: '#body',
   })
   CoordinateBox1 = CoordinateBox({
     drawOrder: LAYERS.gridlines,
     camera,
     globalScope,
     parent: self,
-    content: ('0, 0'),
+    content: '0, 0',
     domSelector: '#reset-button',
     place: 'top-right',
-    style: {...self.style, visibility: 'hidden'},
+    style: { ...self.style, visibility: 'hidden' },
   })
   let darkBufferOrScreen = screen
   let darkenBufferOpacity = 0.0
@@ -707,7 +705,9 @@ function Level(spec) {
     const json = {
       v: 0.1, // TODO: change version handling to World?
       nick: datum.nick,
-      savedLatex: isConstantLakeAndNotBubble() ? vectorExpression : savedLatex,
+      savedLatex: isConstantLakeAndNotBubble()
+        ? vectorExpression
+        : currentLatex,
       goals: isEditor()
         ? goals.map((g) => {
             s = {
@@ -1074,15 +1074,15 @@ function Level(spec) {
     ui.expressionEnvelope.classList.remove('flash-shadow')
   }
 
-  function disableGridlines(){
+  function disableGridlines() {
     gridlines.setActiveFalse()
     CoordinateBox1.visiblefalse()
-
   }
-  function enableGridlines(){
-    if (!world.running){
-    gridlines.setActiveTrue(CoordinateBox1.getx(), CoordinateBox1.gety())
-    CoordinateBox1.visibletrue()}
+  function enableGridlines() {
+    if (!world.running) {
+      gridlines.setActiveTrue(CoordinateBox1.getx(), CoordinateBox1.gety())
+      CoordinateBox1.visibletrue()
+    }
   }
 
   function destroy() {
