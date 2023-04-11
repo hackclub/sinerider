@@ -29,7 +29,7 @@ function LavaMonster(spec) {
     screen,
     x: 2,
     y: -3.2,
-    size: 2.5,
+    size: 4,
   })
 
   let roarPlayed = false
