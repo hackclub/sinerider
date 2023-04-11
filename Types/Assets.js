@@ -8,7 +8,7 @@ function Assets(spec) {
   let loaded = false
 
   const imageExtensions = ['svg', 'png', 'jpg', 'jpeg', 'webp']
-  const soundExtensions = ['m4a', 'mp3', 'ogg', 'wav']
+  const soundExtensions = ['m4a', 'ogg', 'wav']
   const shaderExtensions = ['glsl', 'frag', 'vert']
 
   load(self)
@@ -51,7 +51,7 @@ function Assets(spec) {
       asset.src = path
       asset.onload = () => assetLoaded(path)
     } else if (isSound) {
-      ;(assetSpec.src = path),
+      ; (assetSpec.src = path),
         (asset = new Howl({
           ...assetSpec,
           onload: () => assetLoaded(path),
