@@ -235,7 +235,6 @@ function World(spec) {
       })
 
       ui.mathField.focus()
-      screen.resize()
     }
 
     // ui.topBar.setAttribute('hide', navigating)
