@@ -44,7 +44,7 @@ const CONSTANT_LAKE = {
       size: 0.6,
       align: 'left',
       // fill: '#fff',
-      content: 'Click to move left/right',
+      content: 'Click or use arrow keys to move left/right',
     },
   ],
   goals: [],
