@@ -1,10 +1,12 @@
 let levelBubblesDrawn = 0
 function LevelBubble(spec) {
-  const { ui, self, screen, camera, assets } = Entity(spec, 'LevelBubble')
+  const { ui, self, parent, screen, camera, assets } = Entity(
+    spec,
+    'LevelBubble',
+  )
 
   const {
     setLevel,
-    waypointDirector,
     levelDatum,
     getEditing,
     tickDelta,
@@ -57,7 +59,7 @@ function LevelBubble(spec) {
 
   const bubbletCanvas = document.createElement('canvas')
 
-  let bubbletPixels = 512
+  let bubbletPixels = 128
   bubbletCanvas.width = bubbletPixels
   bubbletCanvas.height = bubbletPixels
 
@@ -126,7 +128,7 @@ function LevelBubble(spec) {
 
   function tick() {}
 
-  function drawLocal() {
+  function drawLocal(shouldDrawImage = true) {
     const opacity = visible ? (playable ? 1 : 0.5) : 0
     ctx.globalAlpha = opacity
 
@@ -163,21 +165,18 @@ function LevelBubble(spec) {
     ctx.fillStyle = '#fff'
     ctx.strokeStyle = hilighted ? '#f88' : '#444'
 
-    ctx.shadowOffsetX = 8
-    ctx.shadowOffsetY = 8
-    ctx.shadowColor = 'black'
-    ctx.shadowBlur = 13
-
     ctx.save()
 
     ctx.fill()
     ctx.clip()
 
-    if (levelDatum.runAsCutscene) {
-      ctx.rotate((-(180 / cutsceneFrameSides) * Math.PI) / 180)
-      ctx.drawImage(bubbletCanvas, -radius, -radius, radius * 2, radius * 2)
-    } else {
-      ctx.drawImage(bubbletCanvas, -radius, -radius, radius * 2, radius * 2)
+    if (shouldDrawImage) {
+      if (levelDatum.runAsCutscene) {
+        ctx.rotate((-(180 / cutsceneFrameSides) * Math.PI) / 180)
+        ctx.drawImage(bubbletCanvas, -radius, -radius, radius * 2, radius * 2)
+      } else {
+        ctx.drawImage(bubbletCanvas, -radius, -radius, radius * 2, radius * 2)
+      }
     }
 
     ctx.fillStyle = '#333'
@@ -250,10 +249,10 @@ function LevelBubble(spec) {
   function intersectsScreen() {
     let center = transform.position
 
-    let left = camera.lowerLeft.x + 5
-    let right = camera.upperRight.x - 5
-    let top = camera.upperRight.y
-    let bottom = camera.lowerLeft.y
+    let left = camera.lowerLeft.x - 3
+    let right = camera.upperRight.x + 3
+    let top = camera.upperRight.y + 3
+    let bottom = camera.lowerLeft.y - 3
 
     if (
       center.x > left &&
@@ -277,11 +276,23 @@ function LevelBubble(spec) {
   function draw() {
     if (!visible) return
 
-    if (intersectsScreen()) {
-      levelBubblesDrawn++
-      camera.drawThrough(ctx, drawLocal, transform)
-      ctx.globalAlpha = 1
-    }
+    if (!intersectsScreen()) return
+
+    levelBubblesDrawn++
+
+    ctx.save()
+
+    ctx.shadowOffsetX = 8
+    ctx.shadowOffsetY = 8
+    ctx.shadowColor = 'black'
+    ctx.shadowBlur = 13
+
+    camera.drawThrough(ctx, drawLocal.bind(this, false), transform)
+
+    ctx.restore()
+
+    camera.drawThrough(ctx, drawLocal, transform)
+    ctx.globalAlpha = 1
   }
 
   function complete() {
@@ -301,14 +312,15 @@ function LevelBubble(spec) {
     }
   }
 
-  function click(point) {
-    if (!playable) {
-      // If not playable, then use as clickable point
-      panCamera(point)
-      return
-    }
+  function mouseDown(point) {
+    // If not playable, then delegate to parent
+    if (!playable && parent.mouseDown) parent.mouseDown(point)
+  }
 
-    return
+  function click(point) {
+    if (!playable) return
+
+    console.log('LevelBubble for ' + levelDatum.name + ' clicked')
 
     ui.veil.setAttribute('hide', false)
 
@@ -317,18 +329,10 @@ function LevelBubble(spec) {
 
     completeAllRequirements()
 
-    waypointDirector.moveTo(
-      null,
-      {
-        position: transform.position,
-        fov: radius * 2,
-      },
-      1,
-      () => {
-        setLevel(levelDatum.nick)
-        ui.veil.setAttribute('hide', true)
-      },
-    )
+    panCamera(transform.position, () => {
+      setLevel(levelDatum.nick)
+      ui.veil.setAttribute('hide', true)
+    })
   }
 
   function completeAllRequirements() {
@@ -350,6 +354,8 @@ function LevelBubble(spec) {
 
     tick,
     draw,
+
+    mouseDown,
 
     click,
 

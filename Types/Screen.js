@@ -22,12 +22,6 @@ function Screen(spec = {}) {
   let { canvas, element = window } = spec
 
   const ctx = canvas.getContext('2d')
-  const drawImage = ctx.drawImage.bind(ctx)
-  ctx.drawImage = (img, ...coords) => {
-    // HACK: make all drawImage calls use floored coordinates
-    // instead to avoid performance hit from anti-aliasing
-    drawImage(img, ...coords.map(Math.floor))
-  }
 
   let width
   let height

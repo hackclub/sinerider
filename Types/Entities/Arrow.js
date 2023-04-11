@@ -1,4 +1,4 @@
-let arrowsDisabled = true
+let arrowsDisabled = false
 function Arrow(spec) {
   const { self, screen, camera, ctx } = Entity(spec, 'Arrow')
 

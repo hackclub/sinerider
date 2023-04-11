@@ -105,7 +105,9 @@ function World(spec) {
     if (running) runTime += tickDelta
   }
 
-  function draw() {}
+  function draw() {
+    levelBubblesDrawn = 0
+  }
 
   function hideLevelInfoClicked() {
     ui.levelInfoDiv.setAttribute('hide', true)
