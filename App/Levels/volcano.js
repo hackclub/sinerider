@@ -515,7 +515,7 @@ const VOLCANO = (() => {
       {
         asset: 'sounds.music.volcano.middle_guitar',
         volume: 0.4,
-        domain: [240, 320],
+        domain: [250, 270],
         track: 'sledders',
       },
     ],
