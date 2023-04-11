@@ -5,7 +5,7 @@ const SWAMP = [
     biome: 'hilbertDelta',
     x: -30,
     y: 0,
-    requirements: ['TIME_SIN_PARABOLA_OSCILLATOR'],
+    requirements: ['TIME_PARABOLA_CIRCLE'],
     defaultExpression: '0',
     goals: [
       {

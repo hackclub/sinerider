@@ -32,7 +32,7 @@ const CONSTANT_LAKE = {
         fov: 10,
       },
       state1: {
-        position: [34, 13],
+        position: [34, 12],
         fov: 12,
       },
     },

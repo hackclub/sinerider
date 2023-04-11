@@ -236,7 +236,7 @@ function PathGoal(spec) {
 
       pathPositionWorld.y = pathGraph.sample('x', pathPositionWorld.x)
       transform.invertPoint(pathPositionWorld, pathPosition)
-      shape.center = pathPosition
+      shape.center.set(pathPosition)
 
       if (self.triggered && pathProgress != 0 && pathProgressZero) {
         assets.sounds.path_goal_start.play()

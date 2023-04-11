@@ -382,7 +382,7 @@ input[valid='false'] {
   content: attr(data-hover);
   visibility: hidden;
   opacity: 0;
-  width: 400px;
+  width: max-content;
   font-size: 13px;
   background-color: black;
   color: #fff;
@@ -393,9 +393,8 @@ input[valid='false'] {
   z-index: 1;
   
   position: absolute;
-  bottom: 300%;
-  left: 20%;
-  margin-left: -205px;
+  bottom: 100%;
+  left: -150%;
 }
 
 #hovertext:hover:before {
