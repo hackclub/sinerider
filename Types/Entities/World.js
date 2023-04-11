@@ -240,6 +240,16 @@ function World(spec) {
       mathVirtualKeyboard.hide()
     } else {
       mathVirtualKeyboard.show()
+      // very hacky way to attach a listener to the enter key on each layer of the virtual keyboard
+      // Currently, the mathVirtualKeyboard DOM elements get destroyed/recreated every time on hide/show,
+      // so we don't have to worry about cleaning up these listeners
+      document.querySelectorAll(".MLK__plate > div").forEach((keyboardLayer) => {
+        keyboardLayer.querySelector(".MLK__rows").lastChild.lastChild.addEventListener("click", (event) => {
+          if (!world.navigating && !world.level?.isRunningAsCutscene)
+            world.toggleRunning()
+        });
+      })
+
       ui.mathField.focus()
       screen.resize()
     }
@@ -377,7 +387,8 @@ function World(spec) {
     running = false
     setCompletionTime(null)
 
-    ui.mathField.blur()
+    ui.mathField.focus()
+
     ui.expressionEnvelope.setAttribute('disabled', false)
     ui.menuBar.setAttribute('hide', false)
     ui.victoryBar.setAttribute('hide', true)

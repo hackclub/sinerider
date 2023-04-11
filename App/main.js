@@ -235,7 +235,7 @@ ui.tSlider.addEventListener('input', () => {
   }
 })
 
-// MathQuill
+// MathLive/MathQuill
 
 mathVirtualKeyboard.container = ui.keyboardBar
 
