@@ -260,6 +260,7 @@ ui.timeSlider.addEventListener('change', () => {
 // MathLive/MathQuill
 
 mathVirtualKeyboard.container = ui.keyboardBar
+mathVirtualKeyboard.actionKeycap = "Go/Stop" // Replace Enter key sigil
 
 window.mathVirtualKeyboard.addEventListener('geometrychange', (ev) => {
   screen.resize()
