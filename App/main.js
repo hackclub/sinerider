@@ -240,6 +240,10 @@ ui.tSlider.addEventListener('input', () => {
 mathVirtualKeyboard.container = ui.keyboardBar
 mathVirtualKeyboard.actionKeycap = "Go/Stop" // Replace Enter key sigil
 
+window.mathVirtualKeyboard.addEventListener('geometrychange', (ev) => {
+  screen.resize()
+});
+
 ui.mathFieldStatic = MQ.StaticMath(ui.mathFieldStatic)
 
 ui.mathField.addEventListener('input',(ev) => {
