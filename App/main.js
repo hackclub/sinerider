@@ -107,11 +107,11 @@ const ticksPerSecondOverridden = urlParams.has('ticksPerSecond')
 // 30 ticks per second default, but overridable via query param
 const ticksPerSecond = ticksPerSecondOverridden
   ? urlParams.get('ticksPerSecond')
-  : 30
+  : 60
 
 // This is deliberately decoupled from 'ticksPerSecond' such that we can keep consistent
 // predictable results while replaying the game simulation at higher-than-realtime speeds.
-const tickDelta = 1.0 / 30.0
+const tickDelta = 1.0 / 60.0
 
 const startTime = Date.now()
 
