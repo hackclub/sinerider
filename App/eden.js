@@ -86,6 +86,11 @@ worldData.push({
       dante: '.webp',
       windmill: '.png',
       lsys_red_joshua_tree: '.webp',
+      nicky_sledders: '.webp',
+      pi_dance_kick: '.webp',
+      pi_confused: '.webp',
+      xkcd_sledders: '.webp',
+      benny_sam_sled: '.svg',
     },
     sounds: {
       music: {
