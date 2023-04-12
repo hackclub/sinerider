@@ -21,8 +21,10 @@ function Sprite(spec = {}) {
     world,
     sky = null,
     rotatingSpeed = 0,
+    angularVelocity = 0,
   } = spec
 
+  const velocity = spec.velocity ? Vector2(spec.velocity): Vector2()
   const origin = Vector2(spec)
 
   const pos = Vector2()
@@ -73,6 +75,9 @@ function Sprite(spec = {}) {
   }
 
   function tick() {
+    origin.x += velocity.x * tickDelta
+    origin.y += velocity.y * tickDelta
+    transform.rotation += angularVelocity * tickDelta
     if (anchored) {
       transform.x = origin.x
       transform.y = graph.sample('x', transform.x)
@@ -163,4 +168,7 @@ function Sprite(spec = {}) {
       flipY = v
     },
   })
+
+
+
 }
