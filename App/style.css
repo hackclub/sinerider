@@ -39,7 +39,7 @@ canvas {
 }
 
 .map {
-  transform: scale(1.42) rotateX(40deg) rotateY(-4deg);
+  /* transform: scale(1.42) rotateX(40deg) rotateY(-4deg); */
 }
 
 .bar {

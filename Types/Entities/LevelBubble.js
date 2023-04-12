@@ -282,10 +282,10 @@ function LevelBubble(spec) {
 
     ctx.save()
 
-    ctx.shadowOffsetX = 8
-    ctx.shadowOffsetY = 8
-    ctx.shadowColor = 'black'
-    ctx.shadowBlur = 13
+    // ctx.shadowOffsetX = 8
+    // ctx.shadowOffsetY = 8
+    // ctx.shadowColor = 'black'
+    // ctx.shadowBlur = 13
 
     camera.drawThrough(ctx, drawLocal.bind(this, false), transform)
 
