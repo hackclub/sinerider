@@ -452,7 +452,7 @@ function World(spec) {
     assets.sounds.map_button.play()
   }
 
-  function onClickResetButton() {
+  function onResetConfirm() {
     level.restart()
     assets.sounds.restart_button.play()
   }
@@ -495,7 +495,7 @@ function World(spec) {
     transitionNavigating,
 
     onClickMapButton,
-    onClickResetButton,
+    onResetConfirm,
     onClickNextButton,
 
     onMathFieldFocus,

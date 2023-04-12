@@ -212,6 +212,21 @@
       </div>
     </div>
 
+    <dialog id="reset-confirmation-dialog">
+      <div class="string">
+        Reset your equation?
+        <strong>&nbsp;This cannot be undone.</strong>
+      </div>
+      <div>
+        <div class="button" id="reset-confirmation-no">
+          <div class="string">Cancel</div>
+        </div>
+        <div class="button" id="reset-confirmation-yes">
+          <div class="string">Reset</div>
+        </div>
+      </div>
+    </dialog>
+
     <div class="bar message" id="message-bar" hide="true">
       <div class="string">MESSAGE</div>
     </div>
@@ -225,7 +240,7 @@
               id="hovertext"
               data-hover="How quickly your solution runs (faster = better)"
             >
-            <span id="time-taken"></span>,
+              <span id="time-taken"></span>,
             </div>
             <div
               id="hovertext"

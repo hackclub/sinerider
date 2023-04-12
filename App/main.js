@@ -12,6 +12,10 @@ const ui = {
   levelButtonString: $('#level-button > .string'),
   resetButton: $('#reset-button'),
 
+  resetConfirmationDialog: $('#reset-confirmation-dialog'),
+  resetConfirmButton: $('#reset-confirmation-yes'),
+  resetCancelButton: $('#reset-confirmation-no'),
+
   tryAgainButton: $('#try-again-button'),
 
   veil: $('#veil'),
@@ -373,10 +377,23 @@ function onClickEditButton(event) {
 ui.editButton.addEventListener('click', onClickEditButton)
 
 function onClickResetButton(event) {
-  world.onClickResetButton()
+  ui.resetConfirmationDialog.showModal()
 }
 
 ui.resetButton.addEventListener('click', onClickResetButton)
+
+function onResetConfirm() {
+  world.onResetConfirm()
+  ui.resetConfirmationDialog.close()
+}
+
+ui.resetConfirmButton.addEventListener('click', onResetConfirm)
+
+function onResetCancel() {
+  ui.resetConfirmationDialog.close()
+}
+
+ui.resetCancelButton.addEventListener('click', onResetCancel)
 
 function onResizeWindow(event) {
   world.sendEvent('resize', [window.innerWidth, window.innerHeight])

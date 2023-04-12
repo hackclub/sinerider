@@ -105,11 +105,11 @@ const CREDITS = {
       content: 'Thank you for playing',
     },
     {
-      x: 16.5,
+      x: 16,
       y: 12,
       size: 1,
       fill: '#222',
-      content: 'A game built with love by students at Hack Club.',
+      content: 'A game built with love by teenagers at Hack Club.',
     },
     {
       x: -6,
@@ -356,13 +356,13 @@ const CREDITS = {
     },
     {
       asset: 'images.windmill',
-      drawOrder: LAYERS.background+1,
+      drawOrder: LAYERS.background + 1,
       anchored: false,
       fixed: true,
-      y: .204,
-      x: .1215,
+      y: 0.204,
+      x: 0.1215,
       size: 400,
       rotatingSpeed: 0.2,
-    }
+    },
   ],
 }
