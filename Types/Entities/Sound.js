@@ -26,6 +26,8 @@ function Sound(spec) {
   let mapFadeProgress = 0
   let mapFade = false
 
+  let lastVol
+
   function awake() {
     if (!domain) {
       soundId = howl.play()
@@ -84,7 +86,10 @@ function Sound(spec) {
     mapFadeProgress = math.clamp01(mapFadeProgress)
     vol *= 1 - mapFadeProgress
 
-    howl.volume(vol)
+    if (vol != lastVol) {
+      howl.volume(vol)
+      lastVol = vol
+    }
   }
 
   function fadeDestroy(duration = 1) {

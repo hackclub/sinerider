@@ -3,14 +3,17 @@ function Navigator(spec) {
 
   const { screen, levelData, tickDelta, getEditing, setLevel, assets } = spec
 
+  let mapFov = 15
+
   const camera = Camera({
     screen,
-    fov: 20,
+    fov: mapFov,
     parent: self,
     offset: [0, 0],
   })
 
-  const waypointDirector = WaypointDirector({
+  // Alternative between lerping to waypoints and panning
+  const panDirector = PanDirector({
     parent: self,
     camera,
   })
@@ -24,6 +27,15 @@ function Navigator(spec) {
     x: 75,
     y: -5.5,
     asset: 'images.world_map',
+  })
+
+  const clickable = Clickable({
+    entity: self,
+    camera,
+  })
+
+  let rect = Rect({
+    parent: self,
   })
 
   let showAll = false
@@ -40,6 +52,16 @@ function Navigator(spec) {
   function draw() {
     screen.ctx.fillStyle = '#fff'
     screen.ctx.fillRect(0, 0, screen.width, screen.height)
+
+    // let left = camera.lowerLeft.x + 5
+    // let right = camera.upperRight.x - 5
+    // let top = camera.upperRight.y
+    // let bottom = camera.lowerLeft.y
+    // rect.center.set((left + right) / 2, (top + bottom) / 2)
+    // rect.width = right - left
+    // rect.height = top - bottom
+
+    // rect.draw(screen.ctx, camera)
   }
 
   function createBubble(levelDatum) {
@@ -47,11 +69,11 @@ function Navigator(spec) {
       levelDatum,
       setLevel,
       assets,
-      waypointDirector,
       camera,
       getEditing,
       tickDelta,
       getBubbleByNick,
+      panCamera,
       parent: self,
       getShowAll: () => showAll,
       drawOrder: LAYERS.levelBubbles,
@@ -116,13 +138,13 @@ function Navigator(spec) {
 
     const delta = Vector2(maxPosition).subtract(minPosition)
 
-    const fov = Math.max(delta.x, delta.y) / 2 + padding
+    // const fov = Math.max(delta.x, delta.y) / 2 + padding
 
-    waypointDirector.moveTo(
+    panDirector.moveTo(
       null,
       {
         position,
-        fov,
+        fov: mapFov,
       },
       duration,
       cb,
@@ -134,7 +156,6 @@ function Navigator(spec) {
       showAll = _showAll
 
       if (showAll) {
-        moveToLevel([], 1)
         ui.showAllButton.setAttribute('hide', true)
         assets.sounds.map_zoom_show_all.play()
         showAllUsed = true
@@ -150,11 +171,32 @@ function Navigator(spec) {
     _.invokeEach(bubbles, 'refreshArrows')
   }
 
+  function panCamera(point, cb = null) {
+    panDirector.moveTo(
+      null,
+      {
+        fov: mapFov,
+        position: point,
+      },
+      1,
+      cb,
+    )
+  }
+
+  function click() {
+    return false // Don't let propagate to child LevelBubbles
+  }
+
   return self.mix({
     start,
     draw,
 
     moveToLevel,
+
+    clickable,
+    updatePanVelocity: panDirector.updateVelocity,
+
+    click,
 
     refreshBubbles,
     revealHighlightedLevels,

@@ -107,7 +107,9 @@ function World(spec) {
     } 
   }
 
-  function draw() {}
+  function draw() {
+    levelBubblesDrawn = 0
+  }
 
   function hideLevelInfoClicked() {
     ui.levelInfoDiv.setAttribute('hide', true)
@@ -227,8 +229,10 @@ function World(spec) {
     if (navigating) {
       navigator.revealHighlightedLevels(levelDatum.nick)
       navigator.refreshBubbles()
+      canvas.classList.add('map')
     } else {
       // ui.variablesBar.setAttribute('hide', true)
+      canvas.classList.remove('map')
 
       navigator.showAll = false
       // if (navigator.showAllUsed)
@@ -464,11 +468,9 @@ function World(spec) {
     assets.sounds.map_button.play()
   }
 
-  function onClickResetButton() {
-    if(!running){
-      level.restart()
-      assets.sounds.restart_button.play()
-    }
+  function onResetConfirm() {
+    level.restart()
+    assets.sounds.restart_button.play()
   }
 
   function onMathFieldFocus() {
@@ -509,7 +511,7 @@ function World(spec) {
     transitionNavigating,
 
     onClickMapButton,
-    onClickResetButton,
+    onResetConfirm,
     onClickNextButton,
 
     onMathFieldFocus,
