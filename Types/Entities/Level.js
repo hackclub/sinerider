@@ -914,7 +914,6 @@ function Level(spec) {
         ui.resetButton.setAttribute('hide', true)
       expressionEnvelopeAnimation.onfinish = () =>
         ui.expressionEnvelope.classList.add('hidden')
-        ui.controlBar.setAttribute('hide', true)
     }
   }
 

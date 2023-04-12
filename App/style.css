@@ -275,7 +275,10 @@ input[valid='false'] {
 .slider-tick {
   height: 10px;
   width: 2px;
-  background-color: black;
+  background-color: rgb(255, 255, 255);
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
   position: relative;
 }
 
@@ -283,19 +286,24 @@ input[valid='false'] {
   position: absolute;
   top: 15px;
   transform: translateX(-50%);
-  font-size: 12px;
-  text-shadow: 0 0 3px #ffffff, 0 0 5px #ffffff;
+  font-size: 1.3rem;
+  -webkit-text-stroke-width: 0.3px;
+  -webkit-text-stroke-color: white;
   color: black;
+  font-weight: bold;
 }
 
 #time-slider {
   transition: left 100ms;
   width: 110%;
   -webkit-appearance: none;
-  background-color: black;
+  background-color: rgb(255, 255, 255);
   height: 3px;
   bottom: 10px;
   position: absolute;
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
 }
 
 #time-slider::-webkit-slider-thumb {
@@ -329,6 +337,9 @@ input[valid='false'] {
   border-radius: 0 5px 5px 0;
   margin: 0;
   background: #fff;
+}
+#math-field{
+  border-radius: 80px;
 }
 
 #math-field[valid='false'] {
