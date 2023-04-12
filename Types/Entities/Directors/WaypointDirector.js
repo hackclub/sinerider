@@ -31,7 +31,7 @@ function WaypointDirector(spec) {
   }
 
   function canControl() {
-    return fromPoint && toPoint
+    return !transitComplete
   }
 
   function lerpWaypoints(a, b, progress, output, smooth = true) {
@@ -71,5 +71,9 @@ function WaypointDirector(spec) {
 
     moveTo,
     release,
+
+    get toPoint() {
+      return toPoint
+    },
   })
 }

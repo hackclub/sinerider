@@ -128,12 +128,24 @@ function Entity(spec, defaultName = 'Entity') {
 
     // Necessary to use _.get() so that 'parent.child' paths are supported. Do not change!
     let f = _.get(self, path)
-    if (_.isFunction(f)) f.apply(self, args)
+    if (_.isFunction(f)) {
+      const continuePropagating = f.apply(self, args)
+
+      // Only if function explicitly returns false
+      if (continuePropagating == false) {
+        return
+      }
+    }
 
     _.invokeEach(children, 'sendEvent', argumentsArray)
 
     f = _.get(self, latePath)
-    if (_.isFunction(f)) f.apply(self, args)
+    if (_.isFunction(f)) {
+      const continuePropagating = f.apply(self, args)
+      if (!continuePropagating) {
+        return
+      }
+    }
   }
 
   function mix(other) {

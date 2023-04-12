@@ -1,3 +1,4 @@
+let arrowsDisabled = false
 function Arrow(spec) {
   const { self, screen, camera, ctx } = Entity(spec, 'Arrow')
 
@@ -78,6 +79,7 @@ function Arrow(spec) {
   }
 
   function draw() {
+    if (arrowsDisabled) return
     if (opacity == 0) return
 
     camera.drawThrough(ctx, drawLocalShaft, transform)

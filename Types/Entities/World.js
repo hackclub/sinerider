@@ -105,7 +105,9 @@ function World(spec) {
     if (running) runTime += tickDelta
   }
 
-  function draw() {}
+  function draw() {
+    levelBubblesDrawn = 0
+  }
 
   function hideLevelInfoClicked() {
     ui.levelInfoDiv.setAttribute('hide', true)
@@ -132,8 +134,14 @@ function World(spec) {
       try {
         urlData = JSON.parse(LZString.decompressFromBase64(url.search.slice(1)))
         setLevel(urlData.nick, urlData)
+
+        // Very stupid, maybe Navigator should just be instantiated after this block?
+        const bubble = navigator.getBubbleByNick(urlData.nick)
+        if (bubble) navigator.initialBubble = bubble
+
         return
       } catch (err) {
+        console.error('Error loading url:', err)
         // TODO: Maybe switch to modal
         alert('Sorry, this URL is malformed :(')
       }
@@ -219,8 +227,10 @@ function World(spec) {
     if (navigating) {
       navigator.revealHighlightedLevels(levelDatum.nick)
       navigator.refreshBubbles()
+      canvas.classList.add('map')
     } else {
       // ui.variablesBar.setAttribute('hide', true)
+      canvas.classList.remove('map')
 
       navigator.showAll = false
       // if (navigator.showAllUsed)
@@ -442,7 +452,7 @@ function World(spec) {
     assets.sounds.map_button.play()
   }
 
-  function onClickResetButton() {
+  function onResetConfirm() {
     level.restart()
     assets.sounds.restart_button.play()
   }
@@ -485,7 +495,7 @@ function World(spec) {
     transitionNavigating,
 
     onClickMapButton,
-    onClickResetButton,
+    onResetConfirm,
     onClickNextButton,
 
     onMathFieldFocus,

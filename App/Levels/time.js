@@ -354,10 +354,10 @@ const TIME = [
     texts: [
       {
         x: 0,
-        y: 20,
+        y: 16,
         size: 1,
         fill: '#fff',
-        content: '(this level is impossible)',
+        content: "(this level is impossible, don't bother trying)",
       },
     ],
     sledders: [

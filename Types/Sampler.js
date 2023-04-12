@@ -7,6 +7,7 @@ function Sampler(spec = {}) {
     scope: referenceScope = {},
     defaultToLastValidExpression = true,
     allowInfinity = false,
+    cap = 1000,
   } = spec
 
   let scope = {}
@@ -50,12 +51,14 @@ function Sampler(spec = {}) {
         if (v.im == PINF || v.im == NINF) v.im = 0
       }
 
-      if (_.isObject(v)) v = v.re || 0
+      if (_.isObject(v)) v = v.re ?? 0
       else if (!_.isNumber(v)) v = 0
       else if (_.isNaN(v)) v = 0
     } catch (err) {
       v = 0
     }
+
+    if (cap) v = math.clamp(-cap, cap, v)
 
     if (v < min) min = v
     if (v > max) max = v
