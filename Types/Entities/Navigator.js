@@ -34,10 +34,6 @@ function Navigator(spec) {
     camera,
   })
 
-  let rect = Rect({
-    parent: self,
-  })
-
   let showAll = false
   let showAllUsed = false
 

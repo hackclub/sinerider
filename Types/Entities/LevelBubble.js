@@ -94,6 +94,18 @@ function LevelBubble(spec) {
 
   const ctx = screen.ctx
 
+  // TODO: Use ImageBitmap instead of scaling
+  let scaledPreviewBuffer = null
+
+  let screenRadius = camera.worldToScreenScalar(radius)
+
+  createImageBitmap(bubbletCanvas, {
+    resizeWidth: screenRadius * 2,
+    resizeHeight: screenRadius * 2,
+  }).then((_scaledPreviewBuffer) => {
+    scaledPreviewBuffer = _scaledPreviewBuffer
+  })
+
   function awake() {
     linkRequirements()
 
@@ -173,9 +185,13 @@ function LevelBubble(spec) {
     if (shouldDrawImage) {
       if (levelDatum.runAsCutscene) {
         ctx.rotate((-(180 / cutsceneFrameSides) * Math.PI) / 180)
-        ctx.drawImage(bubbletCanvas, -radius, -radius, radius * 2, radius * 2)
+        // ctx.drawImage(bubbletCanvas, -radius, -radius, radius * 2, radius * 2)
+        if (scaledPreviewBuffer)
+          ctx.drawImage(scaledPreviewBuffer, -radius, -radius)
       } else {
-        ctx.drawImage(bubbletCanvas, -radius, -radius, radius * 2, radius * 2)
+        if (scaledPreviewBuffer)
+          ctx.drawImage(scaledPreviewBuffer, -radius, -radius)
+        // ctx.drawImage(bubbletCanvas, -radius, -radius, radius * 2, radius * 2)
       }
     }
 
