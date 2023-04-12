@@ -3,7 +3,7 @@ function Navigator(spec) {
 
   const { screen, levelData, tickDelta, getEditing, setLevel, assets } = spec
 
-  let mapFov = 20
+  let mapFov = 15
 
   const camera = Camera({
     screen,
