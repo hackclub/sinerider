@@ -151,8 +151,8 @@ const VOLCANO = (() => {
     ],
     walkers: [
       {
-        x: -115,
-        // x: -52,
+        // x: -115,
+        x: -52,
         asset: 'images.sam_float',
         name: 'Ada',
         transition: {
@@ -478,6 +478,52 @@ const VOLCANO = (() => {
         offset: [0, 0.9],
         anchored: true,
       },
+      {
+        asset: 'images.pi_dance_kick',
+        drawOrder: LAYERS.foreSprites,
+        size: 2,
+        x: 460,
+        offset: [0, 1],
+        anchored: true,
+        sloped: true,
+      },
+      {
+        asset: 'images.pi_confused',
+        flipX: true,
+        drawOrder: LAYERS.foreSprites,
+        size: 2,
+        x: 462,
+        offset: [0, 1],
+        anchored: true,
+        sloped: true,
+      },
+      {
+        asset: 'images.benny_sam_sled',
+        drawOrder: LAYERS.foreSprites,
+        size: 3,
+        x: 540,
+        offset: [0, 1],
+        anchored: true,
+        sloped: true,
+      },
+      {
+        asset: 'images.nicky_sledders',
+        drawOrder: LAYERS.foreSprites,
+        size: 1.7,
+        x: 620,
+        offset: [0, 1],
+        anchored: true,
+        sloped: true,
+      },
+      {
+        asset: 'images.xkcd_sledders',
+        drawOrder: LAYERS.foreSprites,
+        size: 2,
+        x: 700,
+        offset: [0, 1],
+        anchored: true,
+        sloped: true,
+      },
     ],
     sledders: [
       {
@@ -515,7 +561,7 @@ const VOLCANO = (() => {
       {
         asset: 'sounds.music.volcano.middle_guitar',
         volume: 0.4,
-        domain: [240, 320],
+        domain: [250, 270],
         track: 'sledders',
       },
     ],

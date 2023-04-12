@@ -11,7 +11,7 @@ worldData.push({
       benny_float: 'jack_float_right.webp',
       benny_float_dark: '.svg',
       benny_float_left: '.svg',
-      lavamonster: 'lavamonster_transparent.webp',
+      lavamonster: '.webp',
       lavamonster_jaw: '.webp',
       lavamonster_top_jaw: '.webp',
       lavamonster_bottom_jaw: '.webp',
@@ -85,6 +85,12 @@ worldData.push({
       desert_tree: '.webp',
       dante: '.webp',
       windmill: '.png',
+      lsys_red_joshua_tree: '.webp',
+      nicky_sledders: '.webp',
+      pi_dance_kick: '.webp',
+      pi_confused: '.webp',
+      xkcd_sledders: '.webp',
+      benny_sam_sled: '.svg',
     },
     sounds: {
       music: {
