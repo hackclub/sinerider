@@ -21,7 +21,7 @@ function Screen(spec = {}) {
 
   let { canvas, element = window } = spec
 
-  const ctx = canvas.getContext('2d')
+  const ctx = canvas.getContext('2d', { alpha: false })
 
   let width
   let height
