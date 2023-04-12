@@ -73,11 +73,11 @@ function LevelBubble(spec) {
     screen: bubbletScreen,
   })
 
+  levelDatum.axesEnabled = false
+
   let bubbletLevel = Level({
-    datum: {
-      ...levelDatum,
-      axesEnabled: false,
-    },
+    datum: levelDatum,
+    axesEnabled: false,
     screen: bubbletScreen,
     camera: bubbletCamera,
     globalScope: bubbletGlobalScope,
