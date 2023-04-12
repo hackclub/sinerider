@@ -249,28 +249,14 @@ function LevelBubble(spec) {
   function intersectsScreen() {
     let center = transform.position
 
-    let left = camera.lowerLeft.x - 3
-    let right = camera.upperRight.x + 3
-    let top = camera.upperRight.y + 3
-    let bottom = camera.lowerLeft.y - 3
+    let left = camera.lowerLeft.x - radius
+    let right = camera.upperRight.x + radius
+    let top = camera.upperRight.y + radius
+    let bottom = camera.lowerLeft.y - radius
 
-    if (
-      center.x > left &&
-      center.x < right &&
-      center.y > bottom &&
-      center.y < top
-    ) {
-      return true
-    }
-
-    // let dx = Math.min(Math.abs(center.x - left), Math.abs(center.x - right))
-    // let dy = Math.min(Math.abs(center.y - top), Math.abs(center.y - bottom))
-
-    // if (Math.hypot(dx, dy) < radius) {
-    //   return true
-    // }
-
-    return false
+    return (
+      center.x > left && center.x < right && center.y > bottom && center.y < top
+    )
   }
 
   function draw() {
