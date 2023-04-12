@@ -27,7 +27,7 @@ function PanDirector(spec) {
   let transitProgress = 0
   let transitComplete = false
 
-  let panSpeed = 0.5
+  let panSpeed = 0.3
 
   let clickable = Clickable({
     entity: self,
