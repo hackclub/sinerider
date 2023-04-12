@@ -704,6 +704,9 @@ function Level(spec) {
   //  3. Share custom levels
 
   function serialize() {
+    if (urlData?.isPuzzle) {
+      return serializePuzzle()
+    }
     const json = {
       v: 0.1, // TODO: change version handling to World?
       nick: datum.nick,
@@ -724,6 +727,12 @@ function Level(spec) {
       json.t = globalScope.t
     }
     return json
+  }
+
+    // Puzzles are completely serializable using the url data 
+  function serializePuzzle() {
+    urlData.expressionOverride = currentLatex
+    return urlData
   }
 
   function goalFailed(goal) {
