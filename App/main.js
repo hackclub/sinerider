@@ -129,7 +129,7 @@ let w = worldData[0]
 // const DEBUG_LEVEL = 'Volcano'
 // const DEBUG_LEVEL = 'Constant Lake'
 // const DEBUG_LEVEL = 'Two Below'
-const DEBUG_LEVEL = 'Time Hard'
+const DEBUG_LEVEL = null
 
 if (DEBUG_LEVEL) {
   // make debug level first level for testing
