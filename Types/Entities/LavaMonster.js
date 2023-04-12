@@ -27,9 +27,9 @@ function LavaMonster(spec) {
     camera,
     assets,
     screen,
-    x: 2,
-    y: -3.2,
-    size: 2.5,
+    x: 3.5,
+    y: 0,
+    size: 6,
   })
 
   let roarPlayed = false
@@ -48,9 +48,9 @@ function LavaMonster(spec) {
       transform.position.y = 40 - ((x - 200) / 6) ** 2
       transform.position.x = (x - 5) * 1.01
 
-      const t = 1 / (1 + Math.exp(-2 * (x - 190)))
+      const t = 1 / (1 + Math.exp(-0.3 * (x - 195)))
 
-      jaw.transform.y = -6.2 + 3 * t
+      jaw.transform.y = -4 + 4 * t
 
       if (x > 170 && !roarPlayed) {
         roar.play()

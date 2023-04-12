@@ -61,16 +61,16 @@ function Graph(spec) {
   const minSample = Vector2()
   const maxSample = Vector2()
 
-  const terrainLayers = 15
+  const terrainLayers = 6
   const terrainParameters = []
   for (let i = 0; i < terrainLayers; i++) {
     scalar = math.lerp(1, 3, Math.random())
     terrainParameters.push([
-      math.lerp(0, 2 * PI, Math.random()),
-      math.lerp(0.3, 2, Math.random()),
-      math.lerp(2, 4, Math.random()) * scalar,
-      math.lerp(1, 2, Math.random()) * scalar,
-      math.lerp(0.05, 0.15, Math.random()),
+      math.lerp(0, TAU, Math.random()),
+      math.lerp(0.3, 3, Math.random()),
+      math.lerp(3, 5, Math.random()) * scalar,
+      math.lerp(1, 3, Math.random()) * scalar,
+      math.lerp(0.05, 0.25, Math.random()),
     ])
   }
 
@@ -175,7 +175,7 @@ function Graph(spec) {
       camera.worldToScreen(samples[i], screenSpaceSample)
       const y =
         screenSpaceSample.y +
-        (Math.sin((x + xOffset) / xScale) + 1) *
+        (Math.sin(x / xScale - xOffset) + 1) *
           camera.worldToScreenScalar(1) *
           yScale +
         yOffset * camera.worldToScreenScalar(1)
