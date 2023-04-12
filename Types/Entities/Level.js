@@ -158,6 +158,7 @@ function Level(spec) {
     drawOrder: LAYERS.graph,
     colors,
     sledders,
+    useInterpolation: false,
   })
 
   let shader = null // Only loaded for Constant Lake

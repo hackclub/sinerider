@@ -105,7 +105,9 @@ function World(spec) {
     if (running) runTime += tickDelta
   }
 
-  function draw() {}
+  function draw() {
+    levelBubblesDrawn = 0
+  }
 
   function hideLevelInfoClicked() {
     ui.levelInfoDiv.setAttribute('hide', true)
@@ -225,8 +227,10 @@ function World(spec) {
     if (navigating) {
       navigator.revealHighlightedLevels(levelDatum.nick)
       navigator.refreshBubbles()
+      canvas.classList.add('map')
     } else {
       // ui.variablesBar.setAttribute('hide', true)
+      canvas.classList.remove('map')
 
       navigator.showAll = false
       // if (navigator.showAllUsed)

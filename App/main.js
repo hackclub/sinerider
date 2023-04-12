@@ -125,7 +125,7 @@ let w = worldData[0]
 // const DEBUG_LEVEL = 'Volcano'
 // const DEBUG_LEVEL = 'Constant Lake'
 // const DEBUG_LEVEL = 'Two Below'
-const DEBUG_LEVEL = null
+const DEBUG_LEVEL = 'Time Hard'
 
 if (DEBUG_LEVEL) {
   // make debug level first level for testing
@@ -283,11 +283,13 @@ function onKeyUp(event) {
     if (!world.navigating && !world.level?.isRunningAsCutscene)
       world.toggleRunning()
   }
+  world.sendEvent('keyup', [event.key])
 }
 
 window.addEventListener('keydown', (event) => {
   if (ui.mathField.focused()) return
-  world.level?.sendEvent('keydown', [event.key])
+  // world.level?.sendEvent('keydown', [event.key])
+  world.sendEvent('keydown', [event.key])
 })
 
 window.addEventListener('keyup', onKeyUp)

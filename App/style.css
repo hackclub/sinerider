@@ -38,6 +38,10 @@ canvas {
   user-select: none;
 }
 
+.map {
+  transform: scale(1.42) rotateX(40deg) rotateY(-4deg);
+}
+
 .bar {
   margin: 0;
   padding: 4px;
