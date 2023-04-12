@@ -85,6 +85,7 @@ worldData.push({
       desert_tree: '.webp',
       dante: '.webp',
       windmill: '.png',
+      lsys_red_joshua_tree: '.webp',
     },
     sounds: {
       music: {
