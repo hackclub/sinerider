@@ -64,6 +64,15 @@ const PARABOLA = [
     sledders: [
       {
         asset: 'images.sam_sled',
+        speech: [
+          {
+            x: 0.5,
+            y: 0.6,
+            content: 'Easier to move with only one!',
+            direction: 'up-up-right',
+            distance: 1,
+          },
+        ],
         x: -2,
         y: 0,
       },
@@ -99,6 +108,15 @@ const PARABOLA = [
     sledders: [
       {
         asset: 'images.sam_sled',
+        speech: [
+          {
+            x: 0.5,
+            y: 0.6,
+            content: 'Although I guess ghosts don\'t weigh much...',
+            direction: 'up-up-right',
+            distance: 1.5,
+          },
+        ],
         x: -1,
         y: 0,
       },
@@ -130,6 +148,15 @@ const PARABOLA = [
     sledders: [
       {
         asset: 'images.sam_sled',
+        speech: [
+          {
+            x: 0.5,
+            y: 0.6,
+            content: 'If he hadn\'t stopped every 20 ft, every level would be this easy!',
+            direction: 'up-up-right',
+            distance: 1.75,
+          },
+        ],
         x: -1,
         y: 0,
       },
@@ -159,6 +186,15 @@ const PARABOLA = [
     sledders: [
       {
         asset: 'images.sam_sled',
+        // speech: [
+        //   {
+        //     x: 0.5,
+        //     y: 0.6,
+        //     content: 'I hope he didn\'t fall.',
+        //     direction: 'up',
+        //     distance: 1,
+        //   },
+        // ],
         x: -12,
         y: 0,
       },
@@ -189,6 +225,29 @@ const PARABOLA = [
     sledders: [
       {
         asset: 'images.sam_sled',
+        // speech: [
+        //   {
+        //     x: 0.5,
+        //     y: 0.6,
+        //     content: 'Jack would go and check...',
+        //     direction: 'up',
+        //     distance: 1,
+        //     speech: {
+        //       content: 'Ok also why are the islands floating?',
+        //       distance: 1,
+        //       direction: 'up',
+        //     },
+        //   },
+        // ],
+        speech: [
+          {
+            x: 0.5,
+            y: 0.6,
+            content: 'I hope he doesn\'t fall.',
+            direction: 'up-up-right',
+            distance: 1.5,
+          },
+        ],
         x: -5,
         y: 0,
       },
@@ -215,6 +274,15 @@ const PARABOLA = [
     sledders: [
       {
         asset: 'images.sam_sled',
+        speech: [
+          {
+            x: 0.5,
+            y: 0.6,
+            content: 'At least it wasn\'t so quiet when he was here.',
+            direction: 'up-up-right',
+            distance: 1,
+          },
+        ],
         x: 3,
         y: 0,
       },
