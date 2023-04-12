@@ -12,12 +12,7 @@ function Navigator(spec) {
     offset: [0, 0],
   })
 
-  // const waypointDirector = WaypointDirector({
-  //   parent: self,
-  //   camera,
-  // })
-
-  // Maybe switch to PanDirector?
+  // Alternative between lerping to waypoints and panning
   const panDirector = PanDirector({
     parent: self,
     camera,
@@ -139,19 +134,17 @@ function Navigator(spec) {
 
     const delta = Vector2(maxPosition).subtract(minPosition)
 
-    const fov = Math.max(delta.x, delta.y) / 2 + padding
+    // const fov = Math.max(delta.x, delta.y) / 2 + padding
 
-    panCamera(position)
-
-    // waypointDirector.moveTo(
-    //   null,
-    //   {
-    //     position,
-    //     fov,
-    //   },
-    //   duration,
-    //   cb,
-    // )
+    panDirector.moveTo(
+      null,
+      {
+        position,
+        fov: mapFov,
+      },
+      duration,
+      cb,
+    )
   }
 
   function setShowAll(_showAll) {
@@ -175,20 +168,15 @@ function Navigator(spec) {
   }
 
   function panCamera(point, cb = null) {
-    panDirector.moveTo(point, cb)
-    // waypointDirector.moveTo(
-    //   null,
-    //   {
-    //     fov: mapFov,
-    //     position: point,
-    //   },
-    //   1,
-    //   cb,
-    // )
-  }
-
-  function mouseDown(point) {
-    panCamera(point)
+    panDirector.moveTo(
+      null,
+      {
+        fov: mapFov,
+        position: point,
+      },
+      1,
+      cb,
+    )
   }
 
   function click() {
@@ -202,8 +190,8 @@ function Navigator(spec) {
     moveToLevel,
 
     clickable,
+    updatePanVelocity: panDirector.updateVelocity,
 
-    mouseDown,
     click,
 
     refreshBubbles,

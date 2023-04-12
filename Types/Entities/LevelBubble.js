@@ -314,7 +314,16 @@ function LevelBubble(spec) {
 
   function mouseDown(point) {
     // If not playable, then delegate to parent
-    if (!playable && parent.mouseDown) parent.mouseDown(point)
+    if (!playable) {
+      parent.updatePanVelocity(point, clickable.holding)
+    }
+  }
+
+  function hoverMove(point) {
+    // If not playable, then delegate to parent
+    if (!playable) {
+      parent.updatePanVelocity(point, clickable.holding)
+    }
   }
 
   function click(point) {
@@ -356,6 +365,7 @@ function LevelBubble(spec) {
     draw,
 
     mouseDown,
+    hoverMove,
 
     click,
 

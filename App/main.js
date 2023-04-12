@@ -282,6 +282,7 @@ function onKeyUp(event) {
   if (event.keyCode === 13) {
     if (!world.navigating) world.toggleRunning()
   }
+  world.sendEvent('keyup', [event.key])
 }
 
 window.addEventListener('keydown', (event) => {
