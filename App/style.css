@@ -522,6 +522,11 @@ input[valid='false'] {
   text-align: center;
 }
 
+#loading-mobile {
+  text-align: left;
+  max-width: 80vmin;
+}
+
 #loading-string {
   text-decoration: underline;
   cursor: pointer;
