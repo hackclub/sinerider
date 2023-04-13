@@ -73,7 +73,7 @@ function LevelBubble(spec) {
     screen: bubbletScreen,
   })
 
-  levelDatum.axesEnabled = false
+  // levelDatum.axesEnabled = false
 
   let bubbletLevel = Level({
     datum: levelDatum,

@@ -82,11 +82,13 @@ function Level(spec) {
 
   // axesEnabled can be specified in datum or overridden in spec (LevelBubbles)
   let axes = null
-  if (
-    !(spec.hasOwnProperty('axesEnabled') && !spec.axesEnabled) ||
-    !datum.hasOwnProperty('axesEnabled') ||
-    datum.axesEnabled
-  )
+  let axesEnabled = spec.hasOwnProperty('axesEnabled')
+    ? spec.axesEnabled
+    : datum.hasOwnProperty('axesEnabled')
+    ? datum.axesEnabled
+    : true
+
+  if (axesEnabled)
     axes = Axes({
       drawOrder: LAYERS.axes,
       camera,
