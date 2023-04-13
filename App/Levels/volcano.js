@@ -151,8 +151,8 @@ const VOLCANO = (() => {
     ],
     walkers: [
       {
-        // x: -115,
-        x: -52,
+        x: -115,
+        // x: -52,
         asset: 'images.sam_float',
         name: 'Ada',
         transition: {
