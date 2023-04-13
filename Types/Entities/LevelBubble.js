@@ -244,8 +244,6 @@ function LevelBubble(spec) {
     })
   }
 
-  let centerScreen = Vector2()
-
   function intersectsScreen() {
     let center = transform.position
 
