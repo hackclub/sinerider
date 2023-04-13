@@ -83,7 +83,7 @@ function Level(spec) {
   // axesEnabled can be specified in datum or overridden in spec (LevelBubbles)
   let axes = null
   if (
-    !(spec.hasOwnProperty('axesEnabled') && !spec.axesEnabled) ||
+    spec.axesEnabled === true ||
     !datum.hasOwnProperty('axesEnabled') ||
     datum.axesEnabled
   )
@@ -93,6 +93,8 @@ function Level(spec) {
       globalScope,
       parent: self,
     })
+
+  if (axes) trackedEntities.unshift(axes)
 
   function setCoordinates(x, y) {
     Point = Vector2(x, y)
@@ -105,7 +107,6 @@ function Level(spec) {
     }
     CoordinateBox1.refreshDOM(NewPoint.x, NewPoint.y, Point.x, Point.y)
   }
-  if (axes) trackedEntities.unshift(axes)
 
   let gridlines = null
   gridlines = Gridlines({
