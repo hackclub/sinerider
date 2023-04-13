@@ -73,7 +73,7 @@ function LevelBubble(spec) {
     screen: bubbletScreen,
   })
 
-  levelDatum.axesEnabled = false
+  // levelDatum.axesEnabled = false
 
   let bubbletLevel = Level({
     datum: levelDatum,
@@ -243,8 +243,6 @@ function LevelBubble(spec) {
       v.fadeOut = !visible && v.fromBubble.visible
     })
   }
-
-  let centerScreen = Vector2()
 
   function intersectsScreen() {
     let center = transform.position

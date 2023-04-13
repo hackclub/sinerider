@@ -12,7 +12,6 @@ function Navigator(spec) {
     offset: [0, 0],
   })
 
-  // Alternative between lerping to waypoints and panning
   const panDirector = PanDirector({
     parent: self,
     camera,
