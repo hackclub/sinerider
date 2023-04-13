@@ -104,9 +104,9 @@ function Navigator(spec) {
           if (nicks.length > 0 && nicks[0] != nick)
             assets.sounds.map_zoom_highlighted.play()
 
-          setTimeout(() => {
-            moveToLevel(nicks, 1)
-          }, 0)
+          // setTimeout(() => {
+          //   moveToLevel(nicks, 1)
+          // }, 0)
         })
       },
       8,
