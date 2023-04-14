@@ -5,7 +5,7 @@ function TrackingDirector(spec) {
 
   const { camera, globalScope, transitions = [] } = spec
 
-  let { minFov = 5, minFovMargin = 3, smoothing = 0.05 } = spec
+  let { minFov = 5, minFovMargin = 3, smoothing = 0.02 } = spec
 
   const targetState = CameraState({
     fov: minFov,
