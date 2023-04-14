@@ -43,6 +43,10 @@ const ui = {
   variablesBar: $('#variables-bar'),
   timeString: $('#time-string'),
   completionTime: $('#completion-time'),
+
+  submitTwitterScoreDiv: $('#submit_twitter_score_div'),
+  submitTwitterScoreLink: $('#submit_twitter_score_link'),
+
   controlBar: $('#controls-bar'),
   expressionText: $('#expression-text'),
   expressionEnvelope: $('#expression-envelope'),
