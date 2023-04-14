@@ -19,25 +19,36 @@ const SWAMP = [
     ],
     sledders: [
       {
-        // speech: [
-        //   {
-        //     distance: 2.2,
-        //     speakerX: 0.4,
-        //     speakerY: 0.75,
-        //     color: '#FFF',
-        //     content: "Well that's unsettling.",
-        //     direction: 'up-up-right',
-        //   },
-        //   {
-        //     distance: 1.5,
-        //     speakerX: -0.25,
-        //     speakerY: 0.65,
-        //     color: '#FFF',
-        //     content: "Yah I don't like that.",
-        //     direction: 'left-up-up',
-        //     align: 'right',
-        //   },
-        // ],
+        speech: [
+          {
+            speakerX: -0.4,
+            speakerY: 0.7,
+            content: 'Well maybe a little.',
+            direction: 'up-up-left',
+            distance: 1.4,
+            color: "#FFF",
+            speech: {
+              content: 'I\'m not going to sulk about it.',
+              direction: 'up-left',
+              color: "#FFF",
+              distance: 0.8,
+            },
+          },
+          {
+            speakerX: 0.7,
+            speakerY: 0.7,
+            content: 'Ok...',
+            color: "#FFF",
+            direction: 'right-up',
+            distance: 2.2,
+            speech: {
+              content: 'So you\'re sure you\'re ok with losing?',
+              direction: 'up-right-right',
+              color: "#FFF",
+              distance: 2.2,
+            },
+          },
+        ],
       },
     ],
     sprites: [],
@@ -63,31 +74,31 @@ const SWAMP = [
     sprites: [],
     sledders: [
       {
-        // speech: [
-        //   {
-        //     distance: 1.5,
-        //     speakerX: 0.4,
-        //     speakerY: 0.75,
-        //     color: '#FFF',
-        //     direction: 'right-up-up',
-        //     content: '…ok good.',
-        //     speech: {
-        //       distance: 1,
-        //       color: '#FFF',
-        //       direction: 'up',
-        //       content: '…how far to the finish?',
-        //     },
-        //   },
-        //   {
-        //     distance: 2.2,
-        //     speakerX: -0.25,
-        //     speakerY: 0.65,
-        //     color: '#FFF',
-        //     content: 'Not far. Next stop.',
-        //     direction: 'left-up-up',
-        //     align: 'right',
-        //   },
-        // ],
+        speech: [
+          {
+            distance: 1.5,
+            speakerX: 0.4,
+            speakerY: 0.75,
+            color: '#FFF',
+            direction: 'right-up-up',
+            content: 'Yeah but you\'re ADA! You already rule.',
+            speech: {
+              distance: 1.5,
+              color: '#FFF',
+              direction: 'up-right',
+              content: 'I still don\'t get why it\'s so important for you.',
+            },
+          },
+          {
+            distance: 2.2,
+            speakerX: -0.25,
+            speakerY: 0.65,
+            color: '#FFF',
+            content: 'It\'s different for you. Nobody thinks a girl can ride the sine waves.',
+            direction: 'left-up-up',
+            align: 'right',
+          },
+        ],
       },
     ],
   },
