@@ -446,8 +446,6 @@ function onMouseUpCanvas(event) {
 }
 
 canvas.addEventListener('mouseup', onMouseUpCanvas)
-canvas.addEventListener('pointerup', onMouseUpCanvas)
-window.addEventListener('mouseup', onMouseUpCanvas)
 window.addEventListener('pointerup', onMouseUpCanvas)
 
 ui.levelInfoDiv.addEventListener('mouseover', function () {
