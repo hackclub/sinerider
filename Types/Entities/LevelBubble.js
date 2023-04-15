@@ -87,10 +87,12 @@ function LevelBubble(spec) {
     drawOrder: LAYERS.levelBubbles,
   })
 
+  bubbletLevel.sendLifecycleEvent('awake')
+  bubbletLevel.sendLifecycleEvent('start')
+  bubbletLevel.sendEvent('tick')
   bubbletLevel.sendEvent('draw')
-  bubbletLevel.active = false
-
   bubbletLevel.destroy()
+  bubbletLevel = null
 
   const ctx = screen.ctx
 

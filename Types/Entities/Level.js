@@ -5,7 +5,7 @@
  * callback which is invoked whenever the level's completion condition is met.
  */
 function Level(spec) {
-  const { self, assets, screen, ui } = Entity(spec, 'Level')
+  const { self, assets, screen, ui, world } = Entity(spec, spec.datum.nick)
 
   const {
     globalScope,
@@ -15,7 +15,6 @@ function Level(spec) {
     storage,
     urlData,
     savedLatex,
-    world,
     playBackgroundMusic,
   } = spec
 
@@ -501,13 +500,6 @@ function Level(spec) {
         }
       }
     }
-
-    screen.ctx.save()
-    screen.ctx.scale(1, screen.height)
-    screen.ctx.fillStyle = skyGradient
-
-    datum.sky ? 0 : screen.ctx.fillRect(0, 0, screen.width, screen.height)
-    screen.ctx.restore()
   }
 
   function assignPlayerPosition() {
@@ -738,7 +730,7 @@ function Level(spec) {
     return json
   }
 
-    // Puzzles are completely serializable using the url data 
+  // Puzzles are completely serializable using the url data
   function serializePuzzle() {
     urlData.expressionOverride = currentLatex
     return urlData
