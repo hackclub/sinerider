@@ -171,19 +171,20 @@ function World(spec) {
     isPuzzle = urlData?.isPuzzle ?? false
     var savedLatex
     if (isPuzzle) {
-        levelDatum = generatePuzzleLevel(urlData)
-        savedLatex = levelDatum.expressionOverride ? levelDatum.expressionOverride : levelDatum.defaultExpression
+      levelDatum = generatePuzzleLevel(urlData)
+      savedLatex = levelDatum.expressionOverride
+        ? levelDatum.expressionOverride
+        : levelDatum.defaultExpression
     } else {
       if (nick == 'RANDOM') {
         levelDatum = generateRandomLevel()
-      }
-      else { 
+      } else {
         levelDatum = _.find(levelData, (v) => v.nick == nick)
       }
       savedLatex = urlData?.savedLatex ?? storage.getLevel(nick)?.savedLatex
 
       if (urlData?.goals && urlData?.goals.length)
-        levelDatum.goals = (levelDatum.goals ?? []).concat(urlData?.goals)    
+        levelDatum.goals = (levelDatum.goals ?? []).concat(urlData?.goals)
     }
 
     level = Level({
@@ -248,7 +249,15 @@ function World(spec) {
   }
 
   function makeTwitterSubmissionUrl() {
-    return "https://twitter.com/intent/tweet?text=" + encodeURIComponent("#sinerider " + levelDatum.nick + " " + level.currentLatex.replace(/\s/g, ''))
+    return (
+      'https://twitter.com/intent/tweet?text=' +
+      encodeURIComponent(
+        '#sinerider ' +
+          levelDatum.nick +
+          ' ' +
+          level.currentLatex.replace(/\s/g, ''),
+      )
+    )
   }
 
   function levelCompleted(soft = false) {
@@ -271,7 +280,7 @@ function World(spec) {
     }
 
     const isPuzzle = true
-    if ("isPuzzle" in levelDatum && levelDatum["isPuzzle"]) {
+    if ('isPuzzle' in levelDatum && levelDatum['isPuzzle']) {
       ui.submitTwitterScoreDiv.setAttribute('hide', false)
       ui.submitTwitterScoreLink.setAttribute('href', makeTwitterSubmissionUrl())
     } else {
@@ -441,7 +450,7 @@ function World(spec) {
       name: urlData.name,
       nick: urlData.nick,
       drawOrder: LAYERS.level,
-      slider:urlData.slider,
+      slider: urlData.slider,
       x: urlData.x,
       y: urlData.y,
       biome: urlData.biome,
@@ -451,7 +460,7 @@ function World(spec) {
       hint: urlData.hint,
       goals: urlData.goals,
       sledders: urlData.sledders,
-      sprites: urlData.sprites
+      sprites: urlData.sprites,
     }
   }
 
@@ -483,8 +492,6 @@ function World(spec) {
       fadeOnNavigating: false,
       ...datum,
     })
-
-    console.log(`Playing sound ${backgroundMusicAsset}`)
   }
 
   function onClickMapButton() {

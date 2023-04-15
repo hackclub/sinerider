@@ -7,7 +7,7 @@ function LerpDirector(spec) {
     cameraState,
     playerPosition,
     tick: baseTick,
-    start: baseStart,
+    awake: baseAwake,
   } = Director(spec, 'LerpDirector')
 
   let {} = spec
@@ -25,8 +25,8 @@ function LerpDirector(spec) {
 
   let progress = 0
 
-  function start() {
-    baseStart()
+  function awake() {
+    baseAwake()
     computeState()
   }
 
@@ -45,13 +45,13 @@ function LerpDirector(spec) {
   }
 
   function canControl() {
-    const c = point1[0] > playerPosition.x
+    const c = point1.x > playerPosition.x
     // console.log(`Can control lerp director: ${c}`, state0, state1, progress)
     return c
   }
 
   return self.mix({
-    start,
+    awake,
     tick,
 
     canControl,
