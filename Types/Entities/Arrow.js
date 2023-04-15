@@ -1,4 +1,5 @@
 let arrowsDisabled = false
+
 function Arrow(spec) {
   const { self, screen, camera, ctx } = Entity(spec, 'Arrow')
 
@@ -78,9 +79,30 @@ function Arrow(spec) {
     ctx.fill()
   }
 
+  function intersectsScreen() {
+    let left = camera.lowerLeft.x
+    let right = camera.upperRight.x
+    let top = camera.upperRight.y
+    let bottom = camera.lowerLeft.y
+
+    return (
+      (point0.x > left &&
+        point0.x < right &&
+        point0.y > bottom &&
+        point0.y < top) ||
+      (point1.x > left &&
+        point1.x < right &&
+        point1.y > bottom &&
+        point1.y < top)
+    )
+  }
+
   function draw() {
     if (arrowsDisabled) return
     if (opacity == 0) return
+    if (!intersectsScreen()) return
+
+    arrowsDrawn++
 
     camera.drawThrough(ctx, drawLocalShaft, transform)
     if (!fadeOut) camera.drawThrough(ctx, drawLocalPoint, endTransform)
