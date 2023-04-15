@@ -74,10 +74,8 @@ function LevelBubble(spec) {
   })
 
   let bubbletLevel = Level({
-    datum: {
-      ...levelDatum,
-      axesEnabled: false,
-    },
+    datum: levelDatum,
+    axesEnabled: false,
     screen: bubbletScreen,
     camera: bubbletCamera,
     globalScope: bubbletGlobalScope,
@@ -92,19 +90,17 @@ function LevelBubble(spec) {
 
   bubbletLevel.destroy()
 
-  const ctx = screen.ctx
-
-  // TODO: Use ImageBitmap instead of scaling
-  let scaledPreviewBuffer = null
-
-  let screenRadius = camera.worldToScreenScalar(radius)
+  let size = Math.round(camera.worldToScreenScalar(radius * 2))
+  let bitmap = null
 
   createImageBitmap(bubbletCanvas, {
-    resizeWidth: screenRadius * 2,
-    resizeHeight: screenRadius * 2,
-  }).then((_scaledPreviewBuffer) => {
-    scaledPreviewBuffer = _scaledPreviewBuffer
+    resizeWidth: size,
+    resizeHeight: size,
+  }).then((_bitmap) => {
+    bitmap = _bitmap
   })
+
+  const ctx = screen.ctx
 
   function awake() {
     linkRequirements()
@@ -140,7 +136,16 @@ function LevelBubble(spec) {
 
   function tick() {}
 
-  function drawLocal(shouldDrawImage = true) {
+  let tmp = Vector2()
+
+  function localToScreen(localX, localY) {
+    tmp.set(localX, localY)
+    camera.worldToScreen(tmp, tmp, transform)
+    return [tmp.x, tmp.y]
+  }
+
+  function drawLocal() {
+    // camera.drawThrough(ctx, drawLocal.bind(this, false), transform)
     const opacity = visible ? (playable ? 1 : 0.5) : 0
     ctx.globalAlpha = opacity
 
@@ -158,21 +163,24 @@ function LevelBubble(spec) {
     const cutsceneFrameSides = 8
 
     if (levelDatum.runAsCutscene) {
-      ctx.rotate(((180 / cutsceneFrameSides) * Math.PI) / 180)
-      ctx.beginPath()
-      ctx.moveTo(radius, 0)
+      // ctx.rotate(((180 / cutsceneFrameSides) * Math.PI) / 180)
+      let [x, y] = localToScreen(radius, 0)
+      ctx.moveTo(x, y)
 
       for (var i = 1; i <= cutsceneFrameSides; i += 1) {
-        ctx.lineTo(
+        let [x, y] = localToScreen(
           radius * Math.cos((i * 2 * Math.PI) / cutsceneFrameSides),
           radius * Math.sin((i * 2 * Math.PI) / cutsceneFrameSides),
         )
+        ctx.lineTo(x, y)
       }
     } else {
-      ctx.arc(0, 0, radius, 0, Math.PI * 2)
+      let screenRadius = camera.worldToScreenScalar(radius)
+      let [x, y] = localToScreen(0, 0)
+      ctx.arc(x, y, screenRadius, 0, Math.PI * 2)
     }
 
-    ctx.lineWidth = strokeWidth
+    ctx.lineWidth = camera.worldToScreenScalar(strokeWidth)
 
     ctx.fillStyle = '#fff'
     ctx.strokeStyle = hilighted ? '#f88' : '#444'
@@ -182,29 +190,17 @@ function LevelBubble(spec) {
     ctx.fill()
     ctx.clip()
 
-    if (shouldDrawImage) {
-      if (levelDatum.runAsCutscene) {
-        ctx.rotate((-(180 / cutsceneFrameSides) * Math.PI) / 180)
-        // ctx.drawImage(bubbletCanvas, -radius, -radius, radius * 2, radius * 2)
-        if (scaledPreviewBuffer)
-          ctx.drawImage(scaledPreviewBuffer, -radius, -radius)
-      } else {
-        if (scaledPreviewBuffer)
-          ctx.drawImage(scaledPreviewBuffer, -radius, -radius)
-        // ctx.drawImage(bubbletCanvas, -radius, -radius, radius * 2, radius * 2)
-      }
+    let [x, y] = localToScreen(-radius, radius)
+
+    x = Math.round(x)
+    y = Math.round(y)
+
+    if (bitmap) {
+      // ctx.drawImage(bubbletCanvas, x, y, size, size)
+      ctx.drawImage(bitmap, x, y)
     }
 
-    ctx.fillStyle = '#333'
-    ctx.textAlign = 'center'
-    ctx.textBaseline = 'hanging'
-    ctx.font = '1px Roboto Mono'
-    ctx.scale(0.8, 0.8)
-    // ctx.fillText(levelDatum.name, 0, radius)
-
     ctx.restore()
-
-    // ctx.globalAlpha = 1
 
     ctx.lineCap = 'butt'
     ctx.miterLimit = 20
@@ -213,19 +209,26 @@ function LevelBubble(spec) {
     ctx.beginPath()
     if (levelDatum.runAsCutscene) {
       ctx.beginPath()
-      ctx.moveTo(radius + strokeWidth / 2 - 0.02, 0)
+      let [x, y] = localToScreen(radius + strokeWidth / 2 - 0.02, 0)
+      ctx.moveTo(x, y)
 
       for (var i = 1; i < cutsceneFrameSides; i += 1) {
-        ctx.lineTo(
+        let [x, y] = localToScreen(
           (radius + strokeWidth / 2 - 0.02) *
             Math.cos((i * 2 * Math.PI) / cutsceneFrameSides),
           (radius + strokeWidth / 2 - 0.02) *
             Math.sin((i * 2 * Math.PI) / cutsceneFrameSides),
         )
+
+        ctx.lineTo(x, y)
       }
       ctx.closePath()
     } else {
-      ctx.arc(0, 0, radius + strokeWidth / 2 - 0.02, 0, Math.PI * 2)
+      let outlineScreenRadius = camera.worldToScreenScalar(
+        radius + strokeWidth / 2,
+      )
+      let [x, y] = localToScreen(0, 0)
+      ctx.arc(x, y, outlineScreenRadius, 0, Math.PI * 2)
     }
 
     ctx.stroke()
@@ -260,33 +263,17 @@ function LevelBubble(spec) {
     })
   }
 
-  let centerScreen = Vector2()
-
   function intersectsScreen() {
     let center = transform.position
 
-    let left = camera.lowerLeft.x - 3
-    let right = camera.upperRight.x + 3
-    let top = camera.upperRight.y + 3
-    let bottom = camera.lowerLeft.y - 3
+    let left = camera.lowerLeft.x - radius
+    let right = camera.upperRight.x + radius
+    let top = camera.upperRight.y + radius
+    let bottom = camera.lowerLeft.y - radius
 
-    if (
-      center.x > left &&
-      center.x < right &&
-      center.y > bottom &&
-      center.y < top
-    ) {
-      return true
-    }
-
-    // let dx = Math.min(Math.abs(center.x - left), Math.abs(center.x - right))
-    // let dy = Math.min(Math.abs(center.y - top), Math.abs(center.y - bottom))
-
-    // if (Math.hypot(dx, dy) < radius) {
-    //   return true
-    // }
-
-    return false
+    return (
+      center.x > left && center.x < right && center.y > bottom && center.y < top
+    )
   }
 
   function draw() {
@@ -298,17 +285,11 @@ function LevelBubble(spec) {
 
     ctx.save()
 
-    ctx.shadowOffsetX = 8
-    ctx.shadowOffsetY = 8
-    ctx.shadowColor = 'black'
-    ctx.shadowBlur = 13
-
-    camera.drawThrough(ctx, drawLocal.bind(this, false), transform)
+    // Use drawLocal directly instead of passing
+    // to camera to use rounded image coordinates
+    drawLocal()
 
     ctx.restore()
-
-    camera.drawThrough(ctx, drawLocal, transform)
-    ctx.globalAlpha = 1
   }
 
   function complete() {
@@ -335,9 +316,10 @@ function LevelBubble(spec) {
     }
   }
 
+  // TODO: Doesn't work if mouse is held on LevelBubble
   function hoverMove(point) {
     // If not playable, then delegate to parent
-    if (!playable) {
+    if (!playable && clickable.holding) {
       parent.updatePanVelocity(point, clickable.holding)
     }
   }
