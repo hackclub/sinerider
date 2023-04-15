@@ -90,15 +90,27 @@ function LevelBubble(spec) {
 
   bubbletLevel.destroy()
 
-  let size = Math.round(camera.worldToScreenScalar(radius * 2))
   let bitmap = null
 
-  createImageBitmap(bubbletCanvas, {
-    resizeWidth: size,
-    resizeHeight: size,
-  }).then((_bitmap) => {
-    bitmap = _bitmap
-  })
+  function resizeBitmap() {
+    let size = Math.round(camera.worldToScreenScalar(radius * 2))
+    if (bitmap) {
+      bitmap.close()
+      bitmap = null
+    }
+    createImageBitmap(bubbletCanvas, {
+      resizeWidth: size,
+      resizeHeight: size,
+    }).then((_bitmap) => {
+      bitmap = _bitmap
+    })
+  }
+
+  resizeBitmap()
+
+  function resize() {
+    resizeBitmap()
+  }
 
   const ctx = screen.ctx
 
@@ -196,8 +208,10 @@ function LevelBubble(spec) {
     y = Math.round(y)
 
     if (bitmap) {
-      // ctx.drawImage(bubbletCanvas, x, y, size, size)
       ctx.drawImage(bitmap, x, y)
+    } else {
+      let size = Math.round(camera.worldToScreenScalar(radius * 2))
+      ctx.drawImage(bubbletCanvas, x, y, size, size)
     }
 
     ctx.restore()
@@ -358,6 +372,8 @@ function LevelBubble(spec) {
     start,
     startLate,
     awake,
+
+    resize,
 
     tick,
     draw,
