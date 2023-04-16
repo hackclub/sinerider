@@ -224,11 +224,11 @@ function SunsetQuad(defaultExpression, assets) {
 
     // // console.log(vectorField)
 
-    updateParticlePositions(vectorField)
-    oldParticlePositionsBuffer.data(oldParticlePositions)
-    newParticlePositionsBuffer.data(newParticlePositions)
-    percentLifeLivedBuffer.data(percentLifeLived)
-    particleColorBuffer.data(particleColors)
+    // updateParticlePositions(vectorField)
+    // oldParticlePositionsBuffer.data(oldParticlePositions)
+    // newParticlePositionsBuffer.data(newParticlePositions)
+    // percentLifeLivedBuffer.data(percentLifeLived)
+    // particleColorBuffer.data(particleColors)
   }
 
   // `START_STARS_FADE_IN` constant as defined in sunset.frag

@@ -116,7 +116,7 @@ const ticksPerSecond = ticksPerSecondOverridden
 
 // This is deliberately decoupled from 'ticksPerSecond' such that we can keep consistent
 // predictable results while replaying the game simulation at higher-than-realtime speeds.
-const tickDelta = 1.0 / 60.0
+const tickDelta = 1.0 / 20.0
 
 const startTime = Date.now()
 
