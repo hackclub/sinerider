@@ -418,6 +418,8 @@ input[valid='false'] {
 #stop-button,
 #try-again-button,
 #run-button {
+--stopbuttonbg: #f46;
+
   transition: left 250ms;
   position: fixed;
   left: calc(100% - 100px);
@@ -475,7 +477,8 @@ input[valid='false'] {
 
 
 .reset-button:not(:hover) {
-  background: #f46;
+  
+  background: var(--stopbuttonbg);
 }
 
 #next-button:not(:hover) {
@@ -934,7 +937,10 @@ input[valid='false'] {
     border-radius: 0px 10px 0px 0px;
   }
 }
-
+.tooltip-e,
+.tooltip{
+  z-index: -10;
+}
 .tooltip::before,
 .tooltip::after {
   --scale: 0;
@@ -1130,6 +1136,7 @@ input[valid='false'] {
 }
 #loading-veil{
   z-index: 5;
+}
 .modal {
   position: fixed;
 }

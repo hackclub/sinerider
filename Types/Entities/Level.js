@@ -365,6 +365,8 @@ function Level(spec) {
 
       // Hide math field by default
       ui.expressionEnvelope.classList.add('hidden')
+      ui.stopButton.style.setProperty('--stopbuttonbg', 'rgb(150,150,150)')
+      console.log('is cutscene')
     }
 
     editor.active = isEditor()
@@ -377,12 +379,17 @@ function Level(spec) {
       ui.mathField.latex(defaultVectorExpression)
       ui.mathFieldStatic.latex(defaultVectorExpression)
     } else if (!runAsCutscene && !isBubbleLevel) {
+      ui.stopButton.style.setProperty('--stopbuttonbg', '#f46')
+
       // Otherwise display editor normally as graph editor
       ui.expressionEnvelope.classList.remove('hidden')
       ui.mathFieldLabel.innerText = 'Y='
 
       ui.mathField.latex(startingExpression)
       ui.mathFieldStatic.latex(startingExpression)
+    }
+    if(runAsCutscene){
+      ui.stopButton.style.background = 'background: rgb(150,150,150);'
     }
   }
 
