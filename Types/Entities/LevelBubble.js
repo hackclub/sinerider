@@ -156,7 +156,6 @@ function LevelBubble(spec) {
     bubbletLevel.sendLifecycleEvent('start')
     bubbletLevel.sendEvent('tick')
     bubbletLevel.sendEvent('draw')
-    bubbletLevel.active = false
     bubbletLevel.destroy()
     rendered = true
     resizeBitmap()
