@@ -296,6 +296,8 @@ function Camera(spec) {
 
     addDirector,
 
+    computeCorners,
+
     get fov() {
       return fov
     },

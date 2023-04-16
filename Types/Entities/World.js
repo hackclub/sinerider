@@ -1,4 +1,6 @@
 let assets, globalScope
+let arrowsDrawn = 0,
+  _arrowsDrawn
 
 function World(spec) {
   const self = Entity(spec, 'World')
@@ -107,6 +109,8 @@ function World(spec) {
 
   function draw() {
     levelBubblesDrawn = 0
+    _arrowsDrawn = arrowsDrawn
+    arrowsDrawn = 0
   }
 
   function hideLevelInfoClicked() {
