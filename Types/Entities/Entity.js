@@ -261,7 +261,10 @@ function Entity(spec, defaultName = 'Entity') {
 
   function sortDrawArray() {
     drawArray.sort((a, b) => a.drawOrder - b.drawOrder)
-    _.remove(drawArray, (v) => !v.draw)
+    _.remove(
+      drawArray,
+      (v) => !v.draw || !v.isDescendantOf(self) || v.destroyed,
+    )
     drawArrayIsUnsorted = false
   }
 
