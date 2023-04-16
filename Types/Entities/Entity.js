@@ -34,7 +34,6 @@ function Entity(spec, defaultName = 'Entity') {
     if (!assets) assets = parent.assets
     if (!screen) screen = parent.screen
     if (!tickDelta) tickDelta = parent.tickDelta
-    if (!getTime) getTime = parent.getTime
     if (!ui) ui = parent.ui
     if (!debugTree) debugTree = parent.debugTree
     if (_.isUndefined(spec.drawOrder)) drawOrder = parent.drawOrder
@@ -51,9 +50,6 @@ function Entity(spec, defaultName = 'Entity') {
     ctx,
     ui,
     tickDelta,
-    get time() {
-      return getTime()
-    },
   })
 
   const children = []
@@ -70,7 +66,7 @@ function Entity(spec, defaultName = 'Entity') {
       component: [],
     },
     destroy: {
-      entity: [],
+      entity: [destroy],
       component: [],
     },
   }

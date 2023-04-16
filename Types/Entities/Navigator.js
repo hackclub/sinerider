@@ -39,9 +39,19 @@ function Navigator(spec) {
   let initialBubble = null
 
   const bubbles = _.map(levelData, createBubble)
+  const bubbleRenderQueue = []
+  const bubbleRenderCap = 10
 
   function start() {
     if (initialBubble) initialBubble.completeAllRequirements()
+  }
+
+  function tick() {
+    if (bubbleRenderQueue.length > 0) {
+      let b = 0
+      while (b++ <= bubbleRenderCap && bubbleRenderQueue.length > 0)
+        bubbleRenderQueue.pop().render()
+    }
   }
 
   function draw() {
@@ -99,9 +109,9 @@ function Navigator(spec) {
           if (nicks.length > 0 && nicks[0] != nick)
             assets.sounds.map_zoom_highlighted.play()
 
-          setTimeout(() => {
-            moveToLevel(nicks, 1)
-          }, 0)
+          // setTimeout(() => {
+          //   moveToLevel(nicks, 1)
+          // }, 0)
         })
       },
       8,
@@ -164,6 +174,14 @@ function Navigator(spec) {
   function refreshBubbles() {
     _.invokeEach(bubbles, 'refreshPlayable')
     _.invokeEach(bubbles, 'refreshArrows')
+    let b = 0
+    for (bubble of bubbles) {
+      if (bubble.visible && !bubble.rendered) {
+        // We cap the number of bubbles rendered synchronously to prevent crashing on some iphones
+        if (b++ < bubbleRenderCap) bubble.render()
+        else bubbleRenderQueue.push(bubble)
+      }
+    }
   }
 
   function panCamera(point, cb = null) {
@@ -184,6 +202,7 @@ function Navigator(spec) {
 
   return self.mix({
     start,
+    tick,
     draw,
 
     moveToLevel,

@@ -3,7 +3,7 @@ function Sky(spec) {
 
   let { asset } = spec
 
-  image = _.get(assets, asset, $('#error-sprite'))
+  const image = _.get(assets, asset, $('#error-sprite'))
   const pos = Vector2()
   const size = Vector2()
 

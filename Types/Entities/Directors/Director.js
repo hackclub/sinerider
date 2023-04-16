@@ -10,12 +10,14 @@ function Director(spec, defaultName = 'Director') {
 
   const playerPosition = Vector2()
 
-  function start() {
-    playerPosition.set(globalScope.p.re, globalScope.p.im)
+  function awake() {
+    if (globalScope && globalScope.p)
+      playerPosition.set(globalScope.p.re, globalScope.p.im)
   }
 
   function tick() {
-    playerPosition.set(globalScope.p.re, globalScope.p.im)
+    if (globalScope && globalScope.p)
+      playerPosition.set(globalScope.p.re, globalScope.p.im)
   }
 
   function canControl() {
@@ -32,6 +34,7 @@ function Director(spec, defaultName = 'Director') {
   }
 
   return self.mix({
+    awake,
     tick,
 
     bounds,

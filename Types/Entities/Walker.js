@@ -103,6 +103,10 @@ function Walker(spec) {
 
   let completed = false
 
+  function awake() {
+    alignToGround()
+  }
+
   function tick() {
     if (followFlip && walking && !following) {
       camera.frameToWorld(mousePointFrame, mousePoint)
@@ -143,6 +147,19 @@ function Walker(spec) {
 
     while (sprite.transform.rotation < -PI) sprite.transform.rotation += TAU
 
+    alignToGround()
+
+    if (victoryX != null && !completed) {
+      if (Math.sign(victoryX - spec.x) == Math.sign(transform.x - victoryX)) {
+        completed = true
+        levelCompleted()
+      }
+    }
+  }
+
+  function draw() {}
+
+  function alignToGround() {
     sprite.transform.y = math.lerp(size / 2, size / 2 + 1, jumpProgress)
 
     const groundHeight = graph.sample('x', transform.position.x)
@@ -155,16 +172,7 @@ function Walker(spec) {
 
     transform.position.y =
       groundHeight + floatBob * floatBobHeight + floatOffset
-
-    if (victoryX != null && !completed) {
-      if (Math.sign(victoryX - spec.x) == Math.sign(transform.x - victoryX)) {
-        completed = true
-        levelCompleted()
-      }
-    }
   }
-
-  function draw() {}
 
   function mouseDown(point) {
     oldWalkSign = walkSign
@@ -232,6 +240,7 @@ function Walker(spec) {
     sprite,
     speech,
 
+    awake,
     tick,
     draw,
   })
