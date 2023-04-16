@@ -76,23 +76,6 @@ function LevelBubble(spec) {
 
   // levelDatum.axesEnabled = false
 
-  let bubbletLevel = Level({
-    datum: levelDatum,
-    axesEnabled: false,
-    screen: bubbletScreen,
-    camera: bubbletCamera,
-    globalScope: bubbletGlobalScope,
-    parent: self,
-    useDragCamera: false,
-    isBubbleLevel: true,
-    drawOrder: LAYERS.levelBubbles,
-  })
-
-  bubbletLevel.sendEvent('draw')
-  bubbletLevel.active = false
-
-  bubbletLevel.destroy()
-
   let bitmap = null
 
   function resizeBitmap() {
@@ -179,7 +162,7 @@ function LevelBubble(spec) {
     rendered = true
   }
 
-  function drawLocal(shouldDrawImage = true) {
+  function drawLocal() {
     const opacity = visible ? (playable ? 1 : 0.5) : 0
     ctx.globalAlpha = opacity
 
@@ -226,7 +209,6 @@ function LevelBubble(spec) {
 
     let [x, y] = localToScreen(-radius, radius)
 
-    // TODO: Add back coordinate rounding but fix wobble
     // x = Math.round(x)
     // y = Math.round(y)
 
