@@ -280,11 +280,11 @@ input[valid='false'] {
   align-items: center;
 }
 
-@media not (pointer: coarse) {
-  math-field::part(virtual-keyboard-toggle) {
-    display: none;
-  }
+math-field::part(virtual-keyboard-toggle) {
+  display: none;
+}
 
+@media not (pointer: coarse) {
   .ML__keyboard {
     display: none;
   }
