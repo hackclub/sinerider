@@ -56,6 +56,8 @@ function Entity(spec, defaultName = 'Entity') {
   const drawArray = parent ? [] : [self]
   let activeDrawArray = []
 
+  let destroyed = false
+
   const lifecycle = {
     awake: {
       entity: [],
@@ -93,6 +95,7 @@ function Entity(spec, defaultName = 'Entity') {
 
   // Called when the object is to be fully removed from memory
   function destroy() {
+    destroyed = true
     if (parent) {
       self.root.removeDescendant(self)
       parent.removeChild(self)
@@ -250,6 +253,12 @@ function Entity(spec, defaultName = 'Entity') {
     drawArray.splice(drawArray.indexOf(descendant), 1)
   }
 
+  function isDescendantOf(other) {
+    if (parent == null) return false
+    if (parent == other) return true
+    return parent.isDescendantOf(other)
+  }
+
   function sortDrawArray() {
     drawArray.sort((a, b) => a.drawOrder - b.drawOrder)
     _.remove(drawArray, (v) => !v.draw)
@@ -268,6 +277,10 @@ function Entity(spec, defaultName = 'Entity') {
     start,
 
     destroy,
+
+    get destroyed() {
+      return destroyed
+    },
 
     get name() {
       return name
@@ -288,6 +301,7 @@ function Entity(spec, defaultName = 'Entity') {
 
     addDescendant,
     removeDescendant,
+    isDescendantOf,
 
     predraw,
 
