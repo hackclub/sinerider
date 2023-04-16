@@ -61,7 +61,7 @@ float pNoise(vec2 p, int res) {
 	float f = 4.;
 	float amp = 1.;
 	int iCount = 0;
-	for (int i = 0; i<50; i++){
+	for (int i = 0; i<4; i++){
 		n+=amp*noise(p, f);
 		f*=2.;
 		normK+=amp;
