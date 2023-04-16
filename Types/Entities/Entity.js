@@ -66,7 +66,7 @@ function Entity(spec, defaultName = 'Entity') {
       component: [],
     },
     destroy: {
-      entity: [destroy],
+      entity: [],
       component: [],
     },
   }
