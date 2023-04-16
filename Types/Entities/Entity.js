@@ -98,7 +98,10 @@ function Entity(spec, defaultName = 'Entity') {
       parent.removeChild(self)
     }
 
-    sendLifecycleEvent('destroy')
+    const e = lifecycle.destroy.entity
+    while (e.length > 0) e.shift()()
+
+    while (children.length > 0) children[0].destroy()
   }
 
   function sendLifecycleEvent(path) {
