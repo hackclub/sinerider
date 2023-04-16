@@ -41,8 +41,8 @@ function Vector2() {
         x = o[0]
         y = o[1]
       } else if (_.isObject(o)) {
-        x = o.x
-        y = o.y
+        x = o.x ?? 0
+        y = o.y ?? 0
       } else if (_.isNumber(o)) {
         x = Math.cos(o)
         y = Math.sin(o)
@@ -50,6 +50,15 @@ function Vector2() {
     } else {
       x = arguments[0]
       y = arguments[1]
+    }
+
+    if (_.isNaN(x)) {
+      throw 'Setting x to NaN'
+      console.trace()
+    }
+    if (_.isNaN(y)) {
+      throw 'Setting y to NaN'
+      console.trace()
     }
 
     magnitudeDirty = true
@@ -350,6 +359,10 @@ function Vector2() {
       return x
     },
     set x(v) {
+      if (_.isNaN(v)) {
+        throw 'Setting x to NaN'
+        console.trace()
+      }
       setX(v)
     },
 
@@ -357,6 +370,10 @@ function Vector2() {
       return y
     },
     set y(v) {
+      if (_.isNaN(v)) {
+        throw 'Setting y to NaN'
+        console.trace()
+      }
       setY(v)
     },
 

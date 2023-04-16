@@ -34,7 +34,6 @@ function Entity(spec, defaultName = 'Entity') {
     if (!assets) assets = parent.assets
     if (!screen) screen = parent.screen
     if (!tickDelta) tickDelta = parent.tickDelta
-    if (!getTime) getTime = parent.getTime
     if (!ui) ui = parent.ui
     if (!debugTree) debugTree = parent.debugTree
     if (_.isUndefined(spec.drawOrder)) drawOrder = parent.drawOrder
@@ -51,14 +50,13 @@ function Entity(spec, defaultName = 'Entity') {
     ctx,
     ui,
     tickDelta,
-    get time() {
-      return getTime()
-    },
   })
 
   const children = []
   const drawArray = parent ? [] : [self]
   let activeDrawArray = []
+
+  let destroyed = false
 
   const lifecycle = {
     awake: {
@@ -97,12 +95,16 @@ function Entity(spec, defaultName = 'Entity') {
 
   // Called when the object is to be fully removed from memory
   function destroy() {
+    destroyed = true
     if (parent) {
       self.root.removeDescendant(self)
       parent.removeChild(self)
     }
 
-    sendLifecycleEvent('destroy')
+    const e = lifecycle.destroy.entity
+    while (e.length > 0) e.shift()()
+
+    while (children.length > 0) children[0].destroy()
   }
 
   function sendLifecycleEvent(path) {
@@ -244,16 +246,26 @@ function Entity(spec, defaultName = 'Entity') {
 
   function addDescendant(descendant) {
     drawArray.push(descendant)
-    drawArrayIsUnsorted = false
+    drawArrayIsUnsorted = true
   }
 
   function removeDescendant(descendant) {
     drawArray.splice(drawArray.indexOf(descendant), 1)
   }
 
+  function isDescendantOf(other) {
+    if (parent == null) return false
+    if (parent == other) return true
+    return parent.isDescendantOf(other)
+  }
+
   function sortDrawArray() {
     drawArray.sort((a, b) => a.drawOrder - b.drawOrder)
-    drawArrayIsUnsorted = true
+    _.remove(
+      drawArray,
+      (v) => !v.draw || !v.isDescendantOf(self) || v.destroyed,
+    )
+    drawArrayIsUnsorted = false
   }
 
   function refreshActiveInHierarchy() {
@@ -268,6 +280,10 @@ function Entity(spec, defaultName = 'Entity') {
     start,
 
     destroy,
+
+    get destroyed() {
+      return destroyed
+    },
 
     get name() {
       return name
@@ -288,6 +304,7 @@ function Entity(spec, defaultName = 'Entity') {
 
     addDescendant,
     removeDescendant,
+    isDescendantOf,
 
     predraw,
 
