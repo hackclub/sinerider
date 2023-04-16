@@ -11,11 +11,13 @@ function Director(spec, defaultName = 'Director') {
   const playerPosition = Vector2()
 
   function awake() {
-    if (globalScope) playerPosition.set(globalScope.p.re, globalScope.p.im)
+    if (globalScope && globalScope.p)
+      playerPosition.set(globalScope.p.re, globalScope.p.im)
   }
 
   function tick() {
-    if (globalScope) playerPosition.set(globalScope.p.re, globalScope.p.im)
+    if (globalScope && globalScope.p)
+      playerPosition.set(globalScope.p.re, globalScope.p.im)
   }
 
   function canControl() {

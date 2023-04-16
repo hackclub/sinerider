@@ -36,6 +36,7 @@ function LevelBubble(spec) {
 
   const arrows = []
 
+  let rendered = false
   let completed = false
   let hilighted = false
   let playable = false
@@ -59,7 +60,7 @@ function LevelBubble(spec) {
 
   const bubbletCanvas = document.createElement('canvas')
 
-  let bubbletPixels = 128
+  let bubbletPixels = 512
   bubbletCanvas.width = bubbletPixels
   bubbletCanvas.height = bubbletPixels
 
@@ -74,25 +75,6 @@ function LevelBubble(spec) {
   })
 
   // levelDatum.axesEnabled = false
-
-  let bubbletLevel = Level({
-    datum: levelDatum,
-    axesEnabled: false,
-    screen: bubbletScreen,
-    camera: bubbletCamera,
-    globalScope: bubbletGlobalScope,
-    parent: self,
-    useDragCamera: false,
-    isBubbleLevel: true,
-    drawOrder: LAYERS.levelBubbles,
-  })
-
-  bubbletLevel.sendLifecycleEvent('awake')
-  bubbletLevel.sendLifecycleEvent('start')
-  bubbletLevel.sendEvent('tick')
-  bubbletLevel.sendEvent('draw')
-  bubbletLevel.destroy()
-  bubbletLevel = null
 
   const ctx = screen.ctx
 
@@ -129,6 +111,26 @@ function LevelBubble(spec) {
   function startLate() {}
 
   function tick() {}
+
+  function render() {
+    const bubbletLevel = Level({
+      datum: levelDatum,
+      axesEnabled: false,
+      screen: bubbletScreen,
+      camera: bubbletCamera,
+      globalScope: bubbletGlobalScope,
+      parent: self,
+      useDragCamera: false,
+      isBubbleLevel: true,
+      drawOrder: LAYERS.levelBubbles,
+    })
+    bubbletLevel.sendLifecycleEvent('awake')
+    bubbletLevel.sendLifecycleEvent('start')
+    bubbletLevel.sendEvent('tick')
+    bubbletLevel.sendEvent('draw')
+    bubbletLevel.destroy()
+    rendered = true
+  }
 
   function drawLocal(shouldDrawImage = true) {
     const opacity = visible ? (playable ? 1 : 0.5) : 0
@@ -315,8 +317,6 @@ function LevelBubble(spec) {
   function click(point) {
     if (!playable) return
 
-    console.log('LevelBubble for ' + levelDatum.name + ' clicked')
-
     ui.veil.setAttribute('hide', false)
 
     assets.sounds.enter_level.play()
@@ -350,12 +350,12 @@ function LevelBubble(spec) {
     tick,
     draw,
 
+    render,
+
     mouseDown,
     hoverMove,
 
     click,
-
-    level: bubbletLevel,
 
     dependencies,
     linkRequirements,
@@ -365,6 +365,10 @@ function LevelBubble(spec) {
 
     get nick() {
       return nick
+    },
+
+    get rendered() {
+      return rendered
     },
 
     get completed() {

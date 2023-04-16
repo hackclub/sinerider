@@ -168,6 +168,9 @@ function Navigator(spec) {
   function refreshBubbles() {
     _.invokeEach(bubbles, 'refreshPlayable')
     _.invokeEach(bubbles, 'refreshArrows')
+    for (bubble of bubbles) {
+      if (bubble.visible && !bubble.rendered) bubble.render()
+    }
   }
 
   function panCamera(point, cb = null) {

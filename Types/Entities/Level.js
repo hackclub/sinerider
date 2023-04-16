@@ -901,7 +901,11 @@ function Level(spec) {
     }
 
     if (isBubbleLevel && datum.bubble) {
-      datum = _.merge(_.cloneDeep(datum), datum.bubble)
+      // console.log(datum)
+      datum = {
+        ...datum,
+        ...datum.bubble,
+      }
     }
 
     if (!isBubbleLevel && isVolcano()) {
