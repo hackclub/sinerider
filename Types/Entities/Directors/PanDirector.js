@@ -90,8 +90,8 @@ function PanDirector(spec) {
     }
     justUpdatedVelocity = false
 
-    cameraState.position.x = Math.floor(cameraState.position.x / 0.1) * 0.1
-    cameraState.position.y = Math.floor(cameraState.position.y / 0.1) * 0.1
+    // cameraState.position.x = Math.floor(cameraState.position.x / 0.1) * 0.1
+    // cameraState.position.y = Math.floor(cameraState.position.y / 0.1) * 0.1
 
     snapCameraToNearestPixel()
   }

@@ -79,13 +79,36 @@ function Arrow(spec) {
     ctx.fill()
   }
 
+  function linesIntersect(a, b, c, d, p, q, r, s) {
+    const det = (a - c) * (q - s) - (b - d) * (p - r)
+    if (det == 0) {
+      return false
+    } else {
+      const lambda = (-q * r + b * (r - p) + a * (q - s) + p * s) / det
+      return 0 <= lambda && lambda <= 1
+    }
+  }
+
+  function intersectsLine(x0, y0, x1, y1) {
+    return linesIntersect(
+      point0.x,
+      point0.y,
+      point1.x,
+      point1.y,
+      x0,
+      y0,
+      x1,
+      y1,
+    )
+  }
+
   function intersectsScreen() {
     let left = camera.lowerLeft.x
     let right = camera.upperRight.x
     let top = camera.upperRight.y
     let bottom = camera.lowerLeft.y
 
-    return (
+    if (
       (point0.x > left &&
         point0.x < right &&
         point0.y > bottom &&
@@ -94,6 +117,15 @@ function Arrow(spec) {
         point1.x < right &&
         point1.y > bottom &&
         point1.y < top)
+    ) {
+      return true
+    }
+
+    return (
+      intersectsLine(left, top, right, top) ||
+      intersectsLine(right, top, bottom, right) ||
+      intersectsLine(right, bottom, left, bottom) ||
+      intersectsLine(left, bottom, top, left)
     )
   }
 
