@@ -240,7 +240,7 @@ function Entity(spec, defaultName = 'Entity') {
 
   function addDescendant(descendant) {
     drawArray.push(descendant)
-    drawArrayIsUnsorted = false
+    drawArrayIsUnsorted = true
   }
 
   function removeDescendant(descendant) {
@@ -249,7 +249,7 @@ function Entity(spec, defaultName = 'Entity') {
 
   function sortDrawArray() {
     drawArray.sort((a, b) => a.drawOrder - b.drawOrder)
-    drawArrayIsUnsorted = true
+    drawArrayIsUnsorted = false
   }
 
   function refreshActiveInHierarchy() {

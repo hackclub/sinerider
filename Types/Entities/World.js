@@ -97,7 +97,7 @@ function World(spec) {
   }
 
   function tick() {
-    if (!self.drawArrayIsUnsorted) self.sortDrawArray()
+    if (self.drawArrayIsUnsorted) self.sortDrawArray()
     if (
       window.innerHeight != screen.height ||
       window.innerWidth != screen.width
