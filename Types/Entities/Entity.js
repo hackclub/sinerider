@@ -249,6 +249,7 @@ function Entity(spec, defaultName = 'Entity') {
 
   function sortDrawArray() {
     drawArray.sort((a, b) => a.drawOrder - b.drawOrder)
+    _.remove(drawArray, (v) => !v.draw)
     drawArrayIsUnsorted = false
   }
 
