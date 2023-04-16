@@ -364,11 +364,11 @@ input[valid='false'] {
   border: 1px solid red;
 }
 
-@media not (pointer: coarse) {
-  math-field::part(virtual-keyboard-toggle) {
-    display: none;
-  }
+math-field::part(virtual-keyboard-toggle) {
+  display: none;
+}
 
+@media not (pointer: coarse) {
   .ML__keyboard {
     display: none;
   }
