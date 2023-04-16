@@ -44,7 +44,7 @@ const CONSTANT_LAKE = {
       size: 0.6,
       align: 'left',
       // fill: '#fff',
-      content: 'Click to move left/right',
+      content: 'Click/arrows to move left+right',
     },
   ],
   goals: [],
@@ -97,11 +97,11 @@ const CONSTANT_LAKE = {
   dialogue: [
     {
       speaker: 'Ada',
-      content: "We'll never win at this pace",
+      content: "We can't win at this pace.",
       direction: 'up-up-left',
       distance: 1.2,
       speech: {
-        content: 'We should hurry.',
+        content: 'Let\'s speed up.',
         direction: 'up',
         x: -0.5,
         y: 1.3,
@@ -109,11 +109,11 @@ const CONSTANT_LAKE = {
     },
     {
       speaker: 'Jack',
-      content: "I'm just here for the views.",
+      content: "I'm happy just to get the views.",
       direction: 'up-up-left',
       speech: {
         speaker: 'Jack',
-        content: "Winning isn't everything!",
+        content: "It wouldn't be the end of the world.",
         direction: 'up',
         x: -0.6,
         y: 1.3,
@@ -136,7 +136,7 @@ const CONSTANT_LAKE = {
     },
     {
       speaker: 'Ada',
-      content: 'The point of a race is to win.',
+      content: 'When you race, you race to win.',
       direction: 'up-up-right',
       gap: 1,
       // length: 2,
@@ -145,8 +145,9 @@ const CONSTANT_LAKE = {
       speaker: 'Jack',
       content: "I've always wanted to see the north rim.",
       direction: 'up-up-left',
+      gap: 1,
       speech: {
-        content: 'Eternal Canyon is coming up…',
+        content: 'Well there are other things to do too. Eternal Canyon is coming up…',
         direction: 'up',
         x: -0.6,
         y: 1.3,
@@ -155,16 +156,16 @@ const CONSTANT_LAKE = {
     },
     {
       speaker: 'Ada',
-      content: "That's not on the route, Jack.",
+      content: "We'll come back someday. It's not on the route.",
       direction: 'up-up-left',
       gap: 0,
     },
     {
       speaker: 'Jack',
-      content: 'At a minimum.',
+      content: 'It would be a crime not to.',
       direction: 'up-up-right',
       speech: {
-        content: "Let's stop for the sunset.",
+        content: "We both know we're not coming back. Can we at least stop for the sunset?",
         direction: 'up',
         x: 0.6,
         y: 1.3,
@@ -174,16 +175,24 @@ const CONSTANT_LAKE = {
     {
       speaker: 'Ada',
       color: '#fff',
-      content: 'Very nice. I can see.',
+      content: 'It\'s very nice and I\'m glad you see the beauty here. We can watch while we trek.',
       direction: 'up-up-left',
     },
     {
       speaker: 'Jack',
       color: '#fff',
-      content: "It's not good to anger the sun, Ada.",
+      content: "O great cheeto ball, we mean no disrespect!",
       direction: 'up-right',
       length: 4,
-      gap: 1,
+      gap: 2,
+      speech: {
+        content: "You know it's not good to anger the sun, Ada.",
+        direction: 'up-right',
+        length: 4,
+        gap: 1,
+        color: '#fff',
+      },
+
     },
     {
       speaker: 'Ada',
@@ -201,12 +210,18 @@ const CONSTANT_LAKE = {
       gap: 0,
     },
     {
-      speaker: 'Ada',
+      speaker: 'Jack',
       color: '#fff',
-      content: 'I do love you, though.',
-      direction: 'up-up-left',
-      gap: 5,
-    },
+      content: "Me? Never.",
+      gap: 1,
+    }
+    // {
+    //   speaker: 'Ada',
+    //   color: '#fff',
+    //   content: 'I do love you, though.',
+    //   direction: 'up-up-left',
+    //   gap: 5,
+    // },
   ],
   walkers: [
     {

@@ -1,4 +1,6 @@
 let assets, globalScope
+let arrowsDrawn = 0,
+  _arrowsDrawn
 
 function World(spec) {
   const self = Entity(spec, 'World')
@@ -109,6 +111,8 @@ function World(spec) {
 
   function draw() {
     levelBubblesDrawn = 0
+    _arrowsDrawn = arrowsDrawn
+    arrowsDrawn = 0
   }
 
   function hideLevelInfoClicked() {
@@ -170,14 +174,24 @@ function World(spec) {
     if (level) level.destroy()
 
     levelBubble = navigator.getBubbleByNick(nick)
+    isPuzzle = urlData?.isPuzzle ?? false
+    var savedLatex
+    if (isPuzzle) {
+      levelDatum = generatePuzzleLevel(urlData)
+      savedLatex = levelDatum.expressionOverride
+        ? levelDatum.expressionOverride
+        : levelDatum.defaultExpression
+    } else {
+      if (nick == 'RANDOM') {
+        levelDatum = generateRandomLevel()
+      } else {
+        levelDatum = _.find(levelData, (v) => v.nick == nick)
+      }
+      savedLatex = urlData?.savedLatex ?? storage.getLevel(nick)?.savedLatex
 
-    if (nick == 'RANDOM') levelDatum = generateRandomLevel()
-    else levelDatum = _.find(levelData, (v) => v.nick == nick)
-
-    const savedLatex = urlData?.savedLatex ?? storage.getLevel(nick)?.savedLatex
-
-    if (urlData?.goals && urlData?.goals.length)
-      levelDatum.goals = (levelDatum.goals ?? []).concat(urlData?.goals)
+      if (urlData?.goals && urlData?.goals.length)
+        levelDatum.goals = (levelDatum.goals ?? []).concat(urlData?.goals)
+    }
 
     level = Level({
       ui,
@@ -240,6 +254,18 @@ function World(spec) {
     }
   }
 
+  function makeTwitterSubmissionUrl() {
+    return (
+      'https://twitter.com/intent/tweet?text=' +
+      encodeURIComponent(
+        '#sinerider ' +
+          levelDatum.nick +
+          ' ' +
+          level.currentLatex.replace(/\s/g, ''),
+      )
+    )
+  }
+
   function levelCompleted(soft = false) {
     setCompletionTime(runTime)
 
@@ -260,7 +286,14 @@ function World(spec) {
       ui.showAllButton.setAttribute('hide', true)
     }
 
-    levelBubble.complete()
+    const isPuzzle = true
+    if ('isPuzzle' in levelDatum && levelDatum['isPuzzle']) {
+      ui.submitTwitterScoreDiv.setAttribute('hide', false)
+      ui.submitTwitterScoreLink.setAttribute('href', makeTwitterSubmissionUrl())
+    } else {
+      ui.submitTwitterScoreDiv.setAttribute('hide', true)
+    }
+    levelBubble?.complete()
   }
 
   function transitionNavigating(_navigating, duration = 1, cb) {
@@ -431,6 +464,26 @@ function World(spec) {
     }
   }
 
+  function generatePuzzleLevel(urlData) {
+    return {
+      isPuzzle: true,
+      name: urlData.name,
+      nick: urlData.nick,
+      drawOrder: LAYERS.level,
+      slider: urlData.slider,
+      x: urlData.x,
+      y: urlData.y,
+      biome: urlData.biome,
+      colors: urlData.colors,
+      defaultExpression: urlData.defaultExpression,
+      expressionOverride: urlData.expressionOverride,
+      hint: urlData.hint,
+      goals: urlData.goals,
+      sledders: urlData.sledders,
+      sprites: urlData.sprites,
+    }
+  }
+
   function playBackgroundMusic(datum, level) {
     let asset
 
@@ -459,8 +512,6 @@ function World(spec) {
       fadeOnNavigating: false,
       ...datum,
     })
-
-    console.log(`Playing sound ${backgroundMusicAsset}`)
   }
 
   function onClickMapButton() {

@@ -54,7 +54,7 @@ const WAVE = [
           {
             x: 0.3,
             y: 0.7,
-            content: 'Hi.',
+            content: 'You\'re late.',
             color: '#FFF',
             direction: 'up-up-left',
             distance: 1,
@@ -111,17 +111,17 @@ const WAVE = [
           {
             x: 0.2,
             y: 0.5,
-            content: '…and I apologize.',
+            content: 'I\'m sorry I held you up.',
             color: '#FFF',
-            direction: 'left-left-up',
+            direction: 'up',
             distance: 0.6,
             speech: [
               {
-                x: -1,
-                content: 'I know.',
+                // x
+                content: 'Thanks for staying.',
                 color: '#FFF',
-                direction: 'up',
-                distance: 0.6,
+                direction: 'up-right',
+                distance: 1,
               },
             ],
           },
@@ -200,9 +200,35 @@ const WAVE = [
         asset: 'images.sam_sled',
         x: 0,
         y: 0,
+        speech: [
+          {
+            x: 0.3,
+            y: 0.65,
+            content: 'That\'s NOT how this works.',
+            color: '#FFF',
+            direction: 'up-right',
+            distance: 1.5,
+            speech : {
+              direction: 'up-right',
+              content: 'I guess we can explore more now since we can\'t win.',
+              distance: 1.5,
+              color: '#FFF',
+            },
+          },
+        ],
       },
       {
         asset: 'images.lunchbox_sled',
+        speech: [
+          {
+            x: 0.3,
+            y: 0.65,
+            content: 'Yay! I was right all along!',
+            color: '#FFF',
+            direction: 'up-up-right',
+            distance: 1.75,
+          },
+        ],
         x: TAU,
         y: 0,
       },
@@ -237,9 +263,35 @@ const WAVE = [
         asset: 'images.sam_sled',
         x: 1,
         y: 0,
+        // speech: [
+        //   {
+        //     x: 0.3,
+        //     y: 0.65,
+        //     content: 'Stop it Jack, it\'s still your fault I\'m upset.',
+        //     color: '#FFF',
+        //     direction: 'up-left',
+        //     distance: 2.5,
+        //   },
+        // ],
       },
       {
         asset: 'images.lunchbox_sled',
+        // speech: [
+        //   {
+        //     x: 0.3,
+        //     y: 0.65,
+        //     content: 'Ok ok sorry. Besides cacti have pretty flowers. Is it cactuses?',
+        //     color: '#FFF',
+        //     direction: 'up-up-right',
+        //     distance: 1,
+        //     speech: {
+        //       content: 'Has anyone ever compared you to a cactus?',
+        //       distance: 1.5,
+        //       color: '#FFF',
+        //       direction: 'up-right'
+        //     }
+        //   },
+        // ],
         x: TAU + 1,
         y: 0,
       },
@@ -276,11 +328,31 @@ const WAVE = [
     sledders: [
       {
         asset: 'images.sam_sled',
+        speech: [
+          {
+            x: 0.3,
+            y: 0.65,
+            content: 'Hey Jack... it takes more effort to do two sleds... do you want to...',
+            color: '#FFF',
+            direction: 'up-left',
+            distance: 2.5,
+          },
+        ],
         x: 0,
         y: 0,
       },
       {
         asset: 'images.lunchbox_sled',
+        speech: [
+          {
+            x: 0.3,
+            y: 0.65,
+            content: 'Yes. Yes, I do.',
+            color: '#FFF',
+            direction: 'up-up-right',
+            distance: 1,
+          },
+        ],
         x: TAU,
         y: 0,
       },
@@ -318,6 +390,16 @@ const WAVE = [
       {
         x: (-TAU * 2) / 3,
         y: 0,
+        speech: [
+          {
+            x: 0.3,
+            y: 0.65,
+            content: 'This is cozy.',
+            color: '#FFF',
+            direction: 'up-up-right',
+            distance: 1,
+          },
+        ],
       },
     ],
   },

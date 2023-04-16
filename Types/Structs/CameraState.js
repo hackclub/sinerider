@@ -8,7 +8,7 @@ function CameraState(spec = {}) {
   function set(state) {
     position.x = state.position ? state.position.x : state.x || 0
     position.y = state.position ? state.position.y : state.y || 0
-    roation = state.rotation || 0
+    rotation = state.rotation || 0
     fov = state.fov || 10
   }
 

@@ -42,6 +42,10 @@ const ui = {
   variablesBar: $('#variables-bar'),
   timeString: $('#time-string'),
   completionTime: $('#completion-time'),
+
+  submitTwitterScoreDiv: $('#submit_twitter_score_div'),
+  submitTwitterScoreLink: $('#submit_twitter_score_link'),
+
   controlBar: $('#controls-bar'),
   controlBarGFX: document.getElementById("controls-bar-gfx"),
   expressionText: $('#expression-text'),
@@ -132,6 +136,7 @@ let w = worldData[0]
 // const DEBUG_LEVEL = 'Volcano'
 // const DEBUG_LEVEL = 'Constant Lake'
 // const DEBUG_LEVEL = 'Two Below'
+// const DEBUG_LEVEL = 'Time Hard'
 const DEBUG_LEVEL = null
 
 if (DEBUG_LEVEL) {
@@ -456,8 +461,6 @@ function onMouseUpCanvas(event) {
 }
 
 canvas.addEventListener('mouseup', onMouseUpCanvas)
-canvas.addEventListener('pointerup', onMouseUpCanvas)
-window.addEventListener('mouseup', onMouseUpCanvas)
 window.addEventListener('pointerup', onMouseUpCanvas)
 
 ui.levelInfoDiv.addEventListener('mouseover', function () {
