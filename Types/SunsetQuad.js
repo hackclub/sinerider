@@ -62,7 +62,7 @@ function SunsetQuad(defaultExpression, assets) {
     frag: shaders.sunset_frag,
   })
 
-  const particleCount = 100
+  const particleCount = 1000
 
   // [ x, y ]
   const oldParticlePositions = new Float32Array(particleCount * 2)

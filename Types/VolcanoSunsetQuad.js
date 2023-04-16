@@ -44,7 +44,7 @@ function VolcanoSunsetQuad(defaultExpression, assets) {
     frag: shaders.volcano.volcano_sunset,
   })
 
-  const particleCount = 100
+  const particleCount = 1000
 
   // [ x, y ]
   const oldParticlePositions = new Float32Array(particleCount * 2)
