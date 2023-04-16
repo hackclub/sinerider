@@ -12,7 +12,6 @@ function Navigator(spec) {
     offset: [0, 0],
   })
 
-  // Alternative between lerping to waypoints and panning
   const panDirector = PanDirector({
     parent: self,
     camera,
@@ -104,9 +103,9 @@ function Navigator(spec) {
           if (nicks.length > 0 && nicks[0] != nick)
             assets.sounds.map_zoom_highlighted.play()
 
-          setTimeout(() => {
-            moveToLevel(nicks, 1)
-          }, 0)
+          // setTimeout(() => {
+          //   moveToLevel(nicks, 1)
+          // }, 0)
         })
       },
       8,
@@ -169,6 +168,9 @@ function Navigator(spec) {
   function refreshBubbles() {
     _.invokeEach(bubbles, 'refreshPlayable')
     _.invokeEach(bubbles, 'refreshArrows')
+    for (bubble of bubbles) {
+      if (bubble.visible && !bubble.rendered) bubble.render()
+    }
   }
 
   function panCamera(point, cb = null) {
