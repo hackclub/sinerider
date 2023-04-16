@@ -33,19 +33,25 @@ function Navigator(spec) {
     camera,
   })
 
-  let rect = Rect({
-    parent: self,
-  })
-
   let showAll = false
   let showAllUsed = false
 
   let initialBubble = null
 
   const bubbles = _.map(levelData, createBubble)
+  const bubbleRenderQueue = []
+  const bubbleRenderCap = 10
 
   function start() {
     if (initialBubble) initialBubble.completeAllRequirements()
+  }
+
+  function tick() {
+    if (bubbleRenderQueue.length > 0) {
+      let b = 0
+      while (b++ <= bubbleRenderCap && bubbleRenderQueue.length > 0)
+        bubbleRenderQueue.pop().render()
+    }
   }
 
   function draw() {
@@ -168,8 +174,13 @@ function Navigator(spec) {
   function refreshBubbles() {
     _.invokeEach(bubbles, 'refreshPlayable')
     _.invokeEach(bubbles, 'refreshArrows')
+    let b = 0
     for (bubble of bubbles) {
-      if (bubble.visible && !bubble.rendered) bubble.render()
+      if (bubble.visible && !bubble.rendered) {
+        // We cap the number of bubbles rendered synchronously to prevent crashing on some iphones
+        if (b++ < bubbleRenderCap) bubble.render()
+        else bubbleRenderQueue.push(bubble)
+      }
     }
   }
 
@@ -191,6 +202,7 @@ function Navigator(spec) {
 
   return self.mix({
     start,
+    tick,
     draw,
 
     moveToLevel,

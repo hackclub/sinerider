@@ -286,7 +286,7 @@ function Camera(spec) {
     screenToWorldCanvas,
 
     tick,
-    draw,
+    // draw,
     start,
 
     startRunning,
@@ -295,6 +295,8 @@ function Camera(spec) {
     drawThrough,
 
     addDirector,
+
+    computeCorners,
 
     get fov() {
       return fov

@@ -76,7 +76,7 @@ function Level(spec) {
 
   let hasBeenRun = false
 
-  camera = Camera({
+  let camera = Camera({
     globalScope,
     parent: self,
     ...cameraSpec,
