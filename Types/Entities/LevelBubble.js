@@ -92,8 +92,6 @@ function LevelBubble(spec) {
     })
   }
 
-  resizeBitmap()
-
   function resize() {
     resizeBitmap()
   }
@@ -160,6 +158,7 @@ function LevelBubble(spec) {
     bubbletLevel.sendEvent('draw')
     bubbletLevel.destroy()
     rendered = true
+    resizeBitmap()
   }
 
   function drawLocal() {
