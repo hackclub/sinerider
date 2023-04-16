@@ -204,8 +204,9 @@ function LevelBubble(spec) {
 
     let [x, y] = localToScreen(-radius, radius)
 
-    x = Math.round(x)
-    y = Math.round(y)
+    // TODO: Add back coordinate rounding but fix wobble
+    // x = Math.round(x)
+    // y = Math.round(y)
 
     if (bitmap) {
       ctx.drawImage(bitmap, x, y)
