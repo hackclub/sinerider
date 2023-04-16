@@ -244,10 +244,7 @@ function World(spec) {
       // Currently, the mathVirtualKeyboard DOM elements get destroyed/recreated every time on hide/show,
       // so we don't have to worry about cleaning up these listeners
       document.querySelectorAll(".MLK__plate > div").forEach((keyboardLayer) => {
-        keyboardLayer.querySelector(".MLK__rows").lastChild.lastChild.addEventListener("click", (event) => {
-          if (!world.navigating && !world.level?.isRunningAsCutscene)
-            world.toggleRunning()
-        });
+        keyboardLayer.querySelector(".MLK__rows").lastChild.lastChild.addEventListener("click", onClickRunButton)
       })
 
       ui.mathField.focus()
