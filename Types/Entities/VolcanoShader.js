@@ -31,6 +31,7 @@ function VolcanoShader(spec) {
     draw,
     resize,
     tick,
+
     transform,
   })
 }
