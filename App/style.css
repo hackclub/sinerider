@@ -131,7 +131,6 @@ body > .bar {
   min-width: 30px;
   min-height: 30px;
 
-  padding: 0 8px;
 
   display: flex;
   align-items: center;
@@ -141,9 +140,12 @@ body > .bar {
   transition: 0.2s;
 }
 .button{
+  padding: 0 8px;
+  margin: 10px;
   background: white;
 }
 .cb-button{
+  padding: 8px;
   background: rgba(0, 0, 0, 0);
 }
 
@@ -241,7 +243,7 @@ input[valid='false'] {
   align-self: center;
 
   align-items: flex-end;
-  justify-content: center;
+  justify-content: flex-start;
 
   bottom: 0px;
   left: 0px;
@@ -249,10 +251,11 @@ input[valid='false'] {
   border-radius: 0px 5px 0px 0px;
 }
 #controls-bar-gfx{
-  position: absolute;
+  display: flex;
+  /* position: absolute; */
   background: rgb(255 255 255);
-  width: 100%;
-  height: 100%;
+  /* width: 100%; */
+  /* height: 100%; */
   border-radius: 0px 5px 0px 0px;
 }
 /* time slider */
@@ -261,11 +264,12 @@ input[valid='false'] {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: absolute;
   height: 0px;
-  margin:auto;
-  left: 30px;
-  width: 1px;
+  flex-grow: 1;
+  /* left: 30px;
+  width: 1px; */
+  position: relative;
+  left: 80px;
   bottom: 30px;
 }
 
@@ -303,8 +307,8 @@ input[valid='false'] {
   -webkit-appearance: none;
   background-color: rgb(255, 255, 255);
   height: 3px;
-  bottom: 10px;
-  position: absolute;
+  position: relative;
+  bottom: 30px;
   border-style: solid;
   border-width: 2px;
   border-color: black;
@@ -361,26 +365,22 @@ input[valid='false'] {
   --bgcolor: white;
   transition: none;
   transition-delay: 0s;
-  left: 100%;
   width: 50px;
   height: 50px;
-  bottom: 50px;
-  position: absolute;
+  position: relative;
   background-image: radial-gradient(circle at 45px 0px, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 40px, var(--bgcolor) 40px);
-  z-index: -1;
+  z-index: 1;
 }
 #expression-envelope {
   --font-size: 1.5rem;
   transition: transform 1s, opacity 0.2s;
-  bottom: 0px;
-  left: 0px;
   font-size: var(--font-size);
-  position: absolute;
   max-width: min-content;
   height: min-content;
   border-radius: 0px 10px 0px 0px;
   padding: 14px 10px 13px 10px;
   z-index: 1;
+  margin: 0;
 }
 
 
@@ -421,8 +421,6 @@ input[valid='false'] {
 --stopbuttonbg: #f46;
 
   transition: left 250ms;
-  position: fixed;
-  left: calc(100% - 100px);
   bottom: 10px;
   width: min-content;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.4);
@@ -436,13 +434,6 @@ input[valid='false'] {
   animation: pulse 0.5s infinite;
   width: 100px;
   bottom: 60px;
-}
-
-.reset-button {
-  position: absolute;
-
-  right: 0;
-  bottom: 0;
 }
 
 #reset-confirmation-dialog {
@@ -496,18 +487,7 @@ input[valid='false'] {
   background: #68f;
 }
 */
-#reset-button {
-  position: absolute;
-
-  left: calc(100% + 30px);
-  bottom: 10px;
-
-  padding: 0;
-}
 #sound-button{
-  position: absolute;
-  left: calc(100% + 120px);
-  bottom: 10px;
   width: min-content;
 }
 #reset-button > .string {
@@ -608,12 +588,12 @@ input[valid='false'] {
 
 
 #volume-slider {
-  position: absolute;
+  position: fixed;
   transition-duration: 1s;
-  bottom: 60px;
-  left: calc(100% + 77px);
+  bottom: 45px;
+  transition-duration: 1s;
   writing-mode: lr-tb; /* IE */
-  -webkit-appearance: slider-vertical; /* Chromium */
+  /* -webkit-appearance: slider-vertical; Chromium */
   opacity: 0;
 }
 
@@ -623,13 +603,8 @@ input[valid='false'] {
 }
 
 #navigator-button {
-  position: absolute;
-  bottom: 10px;
   height: min-content;
   font-size: 1.4rem;
-  width: min-content;
-  left: calc(100% + 70px);
-
 }
 
 #navigator-button > .string {
@@ -939,7 +914,7 @@ input[valid='false'] {
 }
 .tooltip-e,
 .tooltip{
-  z-index: -10;
+  /* z-index: -10; */
 }
 .tooltip::before,
 .tooltip::after {
