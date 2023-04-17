@@ -611,14 +611,18 @@ math-field::part(virtual-keyboard-toggle) {
   transition: 0.05s;
 }
 
+.volume-container {
+  position: relative;
+}
+
 
 #volume-slider {
-  position: fixed;
+  position: absolute;
   transition-duration: 1s;
+  left: -45px;
   bottom: 45px;
-  transition-duration: 1s;
   writing-mode: lr-tb; /* IE */
-  /* -webkit-appearance: slider-vertical; Chromium */
+  -webkit-appearance: slider-vertical; /* Chromium */
   opacity: 0;
 }
 
