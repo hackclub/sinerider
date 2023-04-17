@@ -7,15 +7,20 @@ function ConstantLakeShader(spec) {
 
   const transform = Transform(spec, self)
 
+  let shouldUpdate = false
+  let shouldRenderQuad = false
+
   function draw() {
-    quad.render()
+    if (shouldRenderQuad) quad.render()
+    shouldRenderQuad = !shouldRenderQuad
     ctx.drawImage(quad.localCanvas, 0, 0, screen.width, screen.height)
     // screen.ctx.fillStyle = '#f00'
     // screen.ctx.fillRect(0, 0, 5000, 5000)
   }
 
   function tick() {
-    quad.update()
+    if (shouldUpdate) quad.update()
+    shouldUpdate = !shouldUpdate
   }
 
   function resize(width, height) {
