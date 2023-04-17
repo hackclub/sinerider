@@ -1,10 +1,5 @@
 function Graph(spec) {
-  const {
-    self,
-    screen,
-    camera,
-    ctx,
-  } = Entity(spec, 'Graph')
+  const { self, screen, camera, ctx } = Entity(spec, 'Graph')
 
   let {
     sampleCount = 129,
@@ -20,6 +15,8 @@ function Graph(spec) {
     dashOffset = 0,
     dashSettings = [0.5, 0.5],
     sledders = [],
+    useInterpolation = true,
+    refreshPeriodT = 0.3,
   } = spec
 
   let {
@@ -29,9 +26,11 @@ function Graph(spec) {
   } = spec
 
   if (bounds && sampleDensity) {
-    let span = Math.abs(bounds[0]-bounds[1])
-    sampleCount = Math.ceil(sampleDensity*span)
+    let span = Math.abs(bounds[0] - bounds[1])
+    sampleCount = Math.ceil(sampleDensity * span)
   }
+
+  let minX, maxX
 
   const undashedSettings = []
   const dashSettingsScreen = [0, 0]
@@ -39,32 +38,64 @@ function Graph(spec) {
   // Scope is global scope
   const scope = globalScope
 
-  const sampler = Sampler(spec)
+  const sampler = new Sampler({
+    ...spec,
+    scope,
+  })
   const samples = sampler.generateSampleArray(sampleCount)
+
+  let interpolationSampler = null
+  if (useInterpolation) {
+    interpolationSampler = new InterFrameSampler({
+      sampler,
+      sampleCount,
+      refreshPeriodT,
+    })
+  }
 
   const screenSpaceSample = Vector2()
 
   const minWorldPoint = Vector2()
   const maxWorldPoint = Vector2()
 
-  const terrainLayers = 15
+  const minSample = Vector2()
+  const maxSample = Vector2()
+
+  const terrainLayers = 6
   const terrainParameters = []
   for (let i = 0; i < terrainLayers; i++) {
     scalar = math.lerp(1, 3, Math.random())
     terrainParameters.push([
-      math.lerp(0, 2*PI, Math.random()),
-      math.lerp(0.3, 2, Math.random()),
-      math.lerp(2, 4, Math.random())*scalar,
-      math.lerp(1, 2, Math.random())*scalar,
-      math.lerp(0.05, 0.15, Math.random()),
+      math.lerp(0, TAU, Math.random()),
+      math.lerp(0.3, 3, Math.random()),
+      math.lerp(3, 5, Math.random()) * scalar,
+      math.lerp(1, 3, Math.random()) * scalar,
+      math.lerp(0.05, 0.25, Math.random()),
     ])
   }
-  
-  resample()
+
+  function resample(refresh = false) {
+    updateXBounds()
+    if (useInterpolation) {
+      if (refresh) interpolationSampler.refresh(minX, maxX, scope.t, scope.dt)
+      interpolationSampler.resetExtrema()
+      interpolationSampler.sampleRange(scope, samples, sampleCount, minX, maxX)
+      minSample.set(minX, interpolationSampler.min)
+      maxSample.set(maxX, interpolationSampler.max)
+    } else {
+      sampler.resetExtrema()
+      sampler.sampleRange(scope, samples, sampleCount, 'x', minX, maxX)
+      minSample.set(minX, sampler.min)
+      maxSample.set(maxX, sampler.max)
+    }
+  }
+
+  function tVariableChanged() {
+    resample(true)
+  }
 
   function tick() {
-    if (!freeze)
-      resample()
+    if (!freeze) resample()
   }
 
   function draw() {
@@ -107,79 +138,86 @@ function Graph(spec) {
         ctx.lineTo(screenSpaceSample.x, screenSpaceSample.y)
       }
 
-      dashSettingsScreen[0] = dashSettings[0]*strokeScalar
-      dashSettingsScreen[1] = dashSettings[1]*strokeScalar
+      dashSettingsScreen[0] = dashSettings[0] * strokeScalar
+      dashSettingsScreen[1] = dashSettings[1] * strokeScalar
 
       ctx.setLineDash(dashed ? dashSettingsScreen : undashedSettings)
       ctx.dashOffset = dashOffset
       ctx.lineCap = 'round'
       ctx.strokeStyle = strokeColor
-      ctx.lineWidth = strokeWidth*strokeScalar
+      ctx.lineWidth = strokeWidth * strokeScalar
       ctx.stroke()
     }
 
     ctx.restore()
   }
 
-  function drawSine(xOffset=0, yOffset=0, xScale=1, yScale=1, opacity=0.5) {
+  function drawSine(
+    xOffset = 0,
+    yOffset = 0,
+    xScale = 1,
+    yScale = 1,
+    opacity = 0.5,
+  ) {
     ctx.beginPath()
-    
+
     ctx.globalAlpha = opacity
     camera.worldToScreen(samples[0], screenSpaceSample)
     ctx.moveTo(screen.width, screen.height)
     ctx.lineTo(0, screen.height)
 
-
     for (let i = 0; i < sampleCount; i++) {
-      const x = samples[i].x;
-      const increasedX = x + 50;
+      const x = samples[i].x
+      const increasedX = x + 50
 
-      // if (!window.logged) console.log(samples[i]);
-      window.logged = true;
+      // if (!window.logged) // console.log(samples[i]);
+      window.logged = true
       camera.worldToScreen(samples[i], screenSpaceSample)
-      const y = screenSpaceSample.y+((Math.sin(((x+xOffset)/xScale))+1)*camera.worldToScreenScalar(1))*yScale+yOffset*camera.worldToScreenScalar(1)
+      const y =
+        screenSpaceSample.y +
+        (Math.sin(x / xScale - xOffset) + 1) *
+          camera.worldToScreenScalar(1) *
+          yScale +
+        yOffset * camera.worldToScreenScalar(1)
       ctx.lineTo(screenSpaceSample.x, y)
     }
-    
-    ctx.fillStyle = _.isString(colors.groundPattern) ? colors.groundPattern : _.sample(colors.groundPattern)
+
+    ctx.fillStyle = _.isString(colors.groundPattern)
+      ? colors.groundPattern
+      : _.sample(colors.groundPattern)
     ctx.fill()
 
     ctx.globalAlpha = 1
   }
-  
-  function resample() {
-    // console.log('resampling graph', screen.minFramePoint.toString(), screen.maxFramePoint.toString(), screen)
+
+  function updateXBounds() {
     camera.frameToWorld(screen.minFramePoint, minWorldPoint)
     camera.frameToWorld(screen.maxFramePoint, maxWorldPoint)
-
-    let minX
-    let maxX
 
     if (bounds) {
       minX = bounds[0]
       maxX = bounds[1]
-    }
-    else {
+    } else {
       minX = minWorldPoint[0]
       maxX = maxWorldPoint[0]
     }
-
-    sampler.sampleRange(scope, samples, sampleCount, 'x',  minX, maxX)
   }
 
   function resize() {
-    resample()
+    resample(true)
   }
 
   function startRunning() {
-
+    resample(true)
   }
 
   function stopRunning() {
-    resample()
-    
+    resample(true)
+
     _.invokeEach(sledders, 'reset')
   }
+
+  resample(true)
 
   self.mix(sampler)
 
@@ -188,28 +226,74 @@ function Graph(spec) {
     draw,
     resize,
 
+    tVariableChanged,
+
+    resample,
+    bounds,
+
     startRunning,
     stopRunning,
 
-    get expression() {return sampler.expression},
-    set expression(v) {sampler.expression = v},
+    get minSample() {
+      return minSample
+    },
 
-    get strokeWidth() {return strokeWidth},
-    set strokeWidth(v) {strokeWidth = v},
+    get maxSample() {
+      return maxSample
+    },
 
-    get strokeColor() {return strokeColor},
-    set strokeColor(v) {strokeColor = v},
+    get samples() {
+      return samples
+    },
 
-    get fillColor() {return fillColor},
-    set fillColor(v) {fillColor = v},
+    get expression() {
+      return sampler.expression
+    },
+    set expression(v) {
+      sampler.expression = v
+      resample(true)
+    },
 
-    get dashSettings() {return dashSettings},
-    set dashSettings(v) {dashSettings = v},
+    get strokeWidth() {
+      return strokeWidth
+    },
+    set strokeWidth(v) {
+      strokeWidth = v
+    },
 
-    get dashOffset() {return dashOffset},
-    set dashOffset(v) {dashOffset = v},
+    get strokeColor() {
+      return strokeColor
+    },
+    set strokeColor(v) {
+      strokeColor = v
+    },
 
-    get dashed() {return dashed},
-    set dashed(v) {dashed = v},
+    get fillColor() {
+      return fillColor
+    },
+    set fillColor(v) {
+      fillColor = v
+    },
+
+    get dashSettings() {
+      return dashSettings
+    },
+    set dashSettings(v) {
+      dashSettings = v
+    },
+
+    get dashOffset() {
+      return dashOffset
+    },
+    set dashOffset(v) {
+      dashOffset = v
+    },
+
+    get dashed() {
+      return dashed
+    },
+    set dashed(v) {
+      dashed = v
+    },
   })
 }

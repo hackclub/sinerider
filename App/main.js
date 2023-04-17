@@ -13,7 +13,16 @@ const ui = {
   levelButtonString: $('#level-button > .string'),
   resetButton: $('#reset-button'),
 
+<<<<<<< HEAD
   teaser: $('#teaser'),
+=======
+  resetConfirmationDialog: $('#reset-confirmation-dialog'),
+  resetConfirmButton: $('#reset-confirmation-yes'),
+  resetCancelButton: $('#reset-confirmation-no'),
+
+  tryAgainButton: $('#try-again-button'),
+
+>>>>>>> main
   veil: $('#veil'),
   loadingVeil: $('#loading-veil'),
   loadingVeilString: $('#loading-string'),
@@ -26,30 +35,40 @@ const ui = {
   victoryBar: $('#victory-bar'),
   victoryLabel: $('#victory-label'),
   victoryLabelString: $('#victory-label > .string'),
-  victoryStopButton: $('#victory-stop-button'),
+  timeTaken: $('#time-taken'),
+  charCount: $('#character-count'),
   nextButton: $('#next-button'),
 
   messageBar: $('#message-bar'),
   messageBarString: $('#message-bar > .string'),
 
+  tSliderContainer: $('#t-variable-container'),
+  tSlider: $('#t-variable-slider'),
+
   variablesBar: $('#variables-bar'),
   timeString: $('#time-string'),
+  completionTime: $('#completion-time'),
+
+  submitTwitterScoreDiv: $('#submit_twitter_score_div'),
+  submitTwitterScoreLink: $('#submit_twitter_score_link'),
 
   controlBar: $('#controls-bar'),
   expressionText: $('#expression-text'),
   expressionEnvelope: $('#expression-envelope'),
 
   mathFieldLabel: $('#variable-label > .string'),
+  _mathField: $('#math-field'),
   mathField: $('#math-field'),
   mathFieldStatic: $('#math-field-static'),
 
   dottedMathContainer: $('#dotted-math-container'),
-  dottedMathField: $('#dotted-math-field'),
   dottedMathFieldStatic: $('#dotted-math-field-static'),
-  dottedSlider: $("#dotted-slider"),
+  dottedMathField: $('#dotted-math-field-static'),
+  dottedSlider: $('#dotted-slider'),
+  dottedHintButton: $('#dotted-math-button'),
 
-  volumeSlider: $("#volume-slider"),
-  
+  volumeSlider: $('#volume-slider'),
+
   variableLabel: $('#variable-label'),
 
   runButton: $('#run-button'),
@@ -59,7 +78,30 @@ const ui = {
 
   navigatorFloatingBar: $('#navigator-floating-bar'),
   showAllButton: $('#show-all-button'),
+
+  editorInspector: {
+    editorInspector: $('#editor-inspector'),
+    order: $('#editor-order-input'),
+    timer: $('#editor-timer-input'),
+    x: $('#editor-x-input'),
+    y: $('#editor-y-input'),
+    deleteSelection: $('#editor-inspector-delete'),
+  },
+
+  editorSpawner: {
+    editorSpawner: $('#editor-spawner'),
+    addFixed: $('#editor-spawner-fixed'),
+    addDynamic: $('#editor-spawner-dynamic'),
+    addPath: $('#editor-spawner-path'),
+  },
+  levelInfoDiv: $('#lvl-debug-info'),
+  levelInfoNameStr: $('#lvl-name-str'),
+  levelInfoNickStr: $('#lvl-nick-str'),
+  levelInfoFpsStr: $('#lvl-fps-str'),
+  hideLevelInfoButton: $('#button-hide-level-info'),
 }
+
+const editor = Editor(ui)
 
 ui.levelText.setAttribute('hide', true)
 ui.veil.setAttribute('hide', true)
@@ -68,24 +110,51 @@ const canvas = $('#canvas')
 
 let canvasIsDirty = true
 
-const ticksPerSecond = 30
-const tickDelta = 1/ticksPerSecond
+const urlParams = new URLSearchParams(window.location.search)
+
+const ticksPerSecondOverridden = urlParams.has('ticksPerSecond')
+
+// 60 ticks per second default, but overridable via query param
+const ticksPerSecond = ticksPerSecondOverridden
+  ? urlParams.get('ticksPerSecond')
+  : 60
+
+// This is deliberately decoupled from 'ticksPerSecond' such that we can keep consistent
+// predictable results while replaying the game simulation at higher-than-realtime speeds.
+const tickDelta = 1.0 / 60.0
+
+const startTime = Date.now()
+
+// A positive integer that modifies how much the game draws.  A setting of 1 would result
+// in all frames rendered, 2 would draw every other, etc...
+const drawModulo = urlParams.has('drawModulo') ? urlParams.get('drawModulo') : 1
 
 const screen = Screen({
-  canvas
+  canvas,
 })
 
 let w = worldData[0]
 
-const DEBUG_CONSTANT_LAKE = false
+// const DEBUG_LEVEL = 'Level Editor'
+// const DEBUG_LEVEL = 'Volcano'
+// const DEBUG_LEVEL = 'Constant Lake'
+// const DEBUG_LEVEL = 'Two Below'
+// const DEBUG_LEVEL = 'Time Hard'
+const DEBUG_LEVEL = null
 
-if (DEBUG_CONSTANT_LAKE) {
-  // make Constant Lake first level for testing
-  const constantLakeIndex = w.levelData.findIndex(l => l.name === 'Constant Lake')
+if (DEBUG_LEVEL) {
+  // make debug level first level for testing
+  const debugLevelIndex = w.levelData.findIndex((l) => l.name === DEBUG_LEVEL)
+  if (debugLevelIndex == -1)
+    alert(`DEBUG: Unable to find level '${DEBUG_LEVEL}'`)
   const tmp = w.levelData[0]
-  w.levelData[0] = w.levelData[constantLakeIndex]
-  w.levelData[constantLakeIndex] = tmp
+  w.levelData[0] = w.levelData[debugLevelIndex]
+  w.levelData[debugLevelIndex] = tmp
 }
+
+// Don't show debug info in production
+if (window.location.hostname === 'sinerider.com')
+  ui.levelInfoDiv.setAttribute('hide', true)
 
 const world = World({
   ui,
@@ -96,41 +165,80 @@ const world = World({
   ...worldData[0],
 })
 
+var numTicks = 0
+
 // Core methods
-
 function tick() {
-  world.awake()
-  world.start()
-  
-  world.sendEvent('tick')
+  tickInternal()
 
-  requestDraw()
+  // setTimeout imposes a minimum overhead as the delay approaches 0, and thus it becomes very likely
+  // that our timer loop will fall behind our desired tick rate at ticks/sec > 250
+  // we will check that here and tick repeatedly until we catch up
+  if (ticksPerSecond >= 250) {
+    const elapsedMs = Date.now() - startTime
+    const expectedTicks = (elapsedMs / 1000.0) * ticksPerSecond
+    while (numTicks < expectedTicks) {
+      tickInternal()
+    }
+  }
 }
 
+function tickInternal() {
+  numTicks++
+  world.awake()
+  world.start()
+
+  world.sendEvent('tick')
+
+  if (numTicks % drawModulo == 0) {
+    requestDraw()
+  }
+}
+
+<<<<<<< HEAD
 // let recorder = null
 // if (teaser) {
 //   recorder = Recorder(canvas)
 //   recorder.start()
 // }
+=======
+let timeOfLastDraw = null
+let currentFps = 60
+>>>>>>> main
 
 function draw() {
   if (!canvasIsDirty) return
   canvasIsDirty = false
-  
+
   // Draw order bug where Shader entity isn't actually
   // sorted in World draw array and needs another sort call
   // in order to work? Temp fix (TODO: Fix this)
-  world.sortDrawArray()
+  // world.sortDrawArray()
 
   let entity
-  for (let i = 0; i < world.activeDrawArray.length; i++) {
-    entity = world.activeDrawArray[i]
-    if (entity.draw)
+  for (let i = 0; i < world.drawArray.length; i++) {
+    entity = world.drawArray[i]
+
+    if (entity.activeInHierarchy && entity.draw) {
+      screen.ctx.save()
+      if (entity.predraw) entity.predraw()
       entity.draw()
+      screen.ctx.restore()
+    }
   }
 
+<<<<<<< HEAD
   // if (recorder)
   //   recorder.snap()
+=======
+  let now = performance.now()
+  if (timeOfLastDraw) {
+    let frameFps = 1000 / (now - timeOfLastDraw)
+    currentFps = 0.9 * currentFps + 0.1 * frameFps
+    ui.levelInfoFpsStr.innerText = 'FPS: ' + currentFps.toFixed(2)
+  }
+  timeOfLastDraw = now
+>>>>>>> main
 }
 
 function requestDraw() {
@@ -144,8 +252,17 @@ tick()
 draw()
 
 if (!stepping) {
-  setInterval(tick, 1000/ticksPerSecond)
+  setInterval(tick, 1000 / ticksPerSecond)
 }
+
+// T Parameter Slider
+ui.tSlider.addEventListener('input', () => {
+  if (world.globalScope) {
+    const newT = math.remap(0, 100, 0, 10, Number(ui.tSlider.value))
+
+    world.level.sendEvent('tVariableChanged', [newT])
+  }
+})
 
 // MathQuill
 
@@ -154,28 +271,40 @@ ui.mathFieldStatic = MQ.StaticMath(ui.mathFieldStatic)
 function createMathField(field, eventNameOnEdit) {
   field = MQ.MathField(field, {
     handlers: {
-      edit: function() {
+      edit: function () {
         const text = field.getPlainExpression()
         const latex = field.latex()
         world.level.sendEvent(eventNameOnEdit, [text, latex])
-      } 
-    }
+      },
+    },
   })
 
-  field.getPlainExpression = function() {
+  field.getPlainExpression = function () {
     var tex = field.latex()
     return mathquillToMathJS(tex)
   }
-  
+
   return field
 }
 
 ui.mathField = createMathField(ui.mathField, 'setGraphExpression')
+ui.mathField.focused = () => ui._mathField.classList.contains('mq-focused')
 
 ui.dottedMathFieldStatic = MQ.StaticMath(ui.dottedMathFieldStatic)
 
 function onMathFieldFocus(event) {
   world.onMathFieldFocus()
+}
+
+function onGridlinesDeactive(event) {
+  world.onGridlinesDeactive()
+}
+function onGridlinesActive(event) {
+  world.onGridlinesActive()
+}
+
+function onCoordinate(x, y) {
+  world.onCoordinate(x, y)
 }
 
 ui.expressionEnvelope.addEventListener('focusin', onMathFieldFocus)
@@ -190,15 +319,21 @@ ui.expressionEnvelope.addEventListener('blurout', onMathFieldBlur)
 
 function onKeyUp(event) {
   if (event.keyCode === 13) {
-    if (!world.navigating)
+    if (!world.navigating && !world.level?.isRunningAsCutscene)
       world.toggleRunning()
   }
+  world.sendEvent('keyup', [event.key])
 }
 
-window.addEventListener("keyup", onKeyUp)
+window.addEventListener('keydown', (event) => {
+  if (ui.mathField.focused()) return
+  // world.level?.sendEvent('keydown', [event.key])
+  world.sendEvent('keydown', [event.key])
+})
+
+window.addEventListener('keyup', onKeyUp)
 
 function onExpressionTextChanged(event) {
-
   world.level.sendEvent('setGraphExpression', [ui.expressionText.value])
 }
 
@@ -209,13 +344,24 @@ function setGlobalVolumeLevel(i) {
 
 function onSetVolume(event) {
   let volume = event.target.value / 100
-  console.log("Setting volume to", volume)
   setGlobalVolumeLevel(volume)
 }
 
 ui.volumeSlider.addEventListener('change', onSetVolume)
 ui.volumeSlider.addEventListener('mouseup', onSetVolume)
 ui.volumeSlider.addEventListener('input', onSetVolume)
+
+function onClickHint() {
+  ui.dottedHintButton.style.display = 'none'
+
+  ui.dottedSlider.hidden = false
+  ui.dottedSlider.style.innerHeight = '200px'
+  ui.dottedMathField.style.display = 'block'
+
+  world.level.sendEvent('displayDottedGraph')
+}
+
+ui.dottedHintButton.addEventListener('click', onClickHint)
 
 // Initial page state
 {
@@ -242,7 +388,7 @@ function onClickNextButton(event) {
 ui.nextButton.addEventListener('click', onClickNextButton)
 
 function onClickRunButton(event) {
-  if (!world.level?.isConstantLake() && !world.navigating)
+  if (!world.level?.isRunningAsCutscene && !world.navigating)
     world.toggleRunning()
 
   return true
@@ -251,7 +397,7 @@ function onClickRunButton(event) {
 // TODO: Encapsulate run/stop/victory button behavior (Entity?)
 ui.runButton.addEventListener('click', onClickRunButton)
 ui.stopButton.addEventListener('click', onClickRunButton)
-ui.victoryStopButton.addEventListener('click', onClickRunButton)
+ui.tryAgainButton.addEventListener('click', onClickRunButton)
 
 function onClickShowAllButton(event) {
   world.navigator.showAll = !world.navigator.showAll
@@ -266,10 +412,23 @@ function onClickEditButton(event) {
 ui.editButton.addEventListener('click', onClickEditButton)
 
 function onClickResetButton(event) {
-  world.onClickResetButton()
+  ui.resetConfirmationDialog.showModal()
 }
 
 ui.resetButton.addEventListener('click', onClickResetButton)
+
+function onResetConfirm() {
+  world.onResetConfirm()
+  ui.resetConfirmationDialog.close()
+}
+
+ui.resetConfirmButton.addEventListener('click', onResetConfirm)
+
+function onResetCancel() {
+  ui.resetConfirmationDialog.close()
+}
+
+ui.resetCancelButton.addEventListener('click', onResetCancel)
 
 function onResizeWindow(event) {
   world.sendEvent('resize', [window.innerWidth, window.innerHeight])
@@ -294,12 +453,22 @@ function onMouseMoveCanvas(event) {
   event.preventDefault()
 }
 
+function onMouseMoveWindow(event) {
+  onCoordinate(event.clientX, event.clientY)
+}
+
 canvas.addEventListener('mousemove', onMouseMoveCanvas)
 canvas.addEventListener('pointermove', onMouseMoveCanvas)
+
+window.addEventListener('mousemove', onMouseMoveWindow)
+window.addEventListener('pointermove', onMouseMoveWindow)
 
 function onMouseDownCanvas(event) {
   world.clickableContext.processEvent(event, 'mouseDown')
   event.preventDefault()
+  onGridlinesActive()
+  onCoordinate(event.clientX, event.clientY)
+  ui.mathField.blur()
 }
 
 canvas.addEventListener('mousedown', onMouseDownCanvas)
@@ -308,7 +477,18 @@ canvas.addEventListener('pointerdown', onMouseDownCanvas)
 function onMouseUpCanvas(event) {
   world.clickableContext.processEvent(event, 'mouseUp')
   event.preventDefault()
+  onGridlinesDeactive()
 }
 
 canvas.addEventListener('mouseup', onMouseUpCanvas)
-canvas.addEventListener('pointerup', onMouseUpCanvas)
+window.addEventListener('pointerup', onMouseUpCanvas)
+
+ui.levelInfoDiv.addEventListener('mouseover', function () {
+  console.log('mouseover')
+  ui.hideLevelInfoButton.setAttribute('hide', false)
+})
+
+ui.levelInfoDiv.addEventListener('mouseleave', function () {
+  console.log('mouseleave')
+  ui.hideLevelInfoButton.setAttribute('hide', true)
+})

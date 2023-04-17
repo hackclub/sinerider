@@ -1,12 +1,7 @@
 function ScreenBuffer(spec) {
-  const {
-    self,
-    screen,
-  } = Entity(spec, 'ScreenBuffer')
+  const { self, screen } = Entity(spec, 'ScreenBuffer')
 
-  const {
-    postProcess = null,
-  } = spec  
+  const { postProcess = null } = spec
 
   const bufferCanvas = document.createElement('canvas')
 
@@ -17,7 +12,6 @@ function ScreenBuffer(spec) {
   bufferCtx.owner = 'ScreenBuffer' // For debugging
 
   function resize(width, height) {
-    console.log('RESIZING WINDOW', width, height)
     bufferCanvas.width = width
     bufferCanvas.height = height
   }
@@ -27,7 +21,8 @@ function ScreenBuffer(spec) {
   }
 
   function draw() {
-    if (postProcess) postProcess(bufferCtx, bufferCanvas.width, bufferCanvas.height)
+    if (postProcess)
+      postProcess(bufferCtx, bufferCanvas.width, bufferCanvas.height)
     screen.ctx.drawImage(bufferCanvas, 0, 0, screen.width, screen.height)
     clear()
   }
@@ -36,6 +31,8 @@ function ScreenBuffer(spec) {
     draw,
     resize,
 
-    get canvas() {return bufferCanvas},
+    get canvas() {
+      return bufferCanvas
+    },
   })
 }

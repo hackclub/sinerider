@@ -4,26 +4,18 @@ function Test(value) {
   const self = {}
 
   function stringify(v) {
-    if (_.isArray(v))
-      return `[${_.join(_.map(v, stringify), ', ')}]`
-    else if (_.isObject(v) && _.has(v, 'toString'))
-      return v.toString()
-    else if (_.isObject(v))
-      return JSON.stringify(v)
-    else if (_.isString(v))
-      return `"${v}"`
-    else if (v == null)
-      return 'null'
-    else
-      return _.toString(v)
+    if (_.isArray(v)) return `[${_.join(_.map(v, stringify), ', ')}]`
+    else if (_.isObject(v) && _.has(v, 'toString')) return v.toString()
+    else if (_.isObject(v)) return JSON.stringify(v)
+    else if (_.isString(v)) return `"${v}"`
+    else if (v == null) return 'null'
+    else return _.toString(v)
   }
 
   function assert(boolean, successMessage, failureMessage) {
     if (boolean) {
       // if (LOGTESTS)
-    }
-    else
-      throw new Error(failureMessage)
+    } else throw new Error(failureMessage)
   }
 
   function isTrue() {
@@ -41,79 +33,105 @@ function Test(value) {
   }
 
   function equals(other) {
-    const successMessage = `As expected, ${stringify(value)} equals ${stringify(other)}`
-    const failureMessage = `${stringify(value)} does not equal ${stringify(other)}`
+    const successMessage = `As expected, ${stringify(value)} equals ${stringify(
+      other,
+    )}`
+    const failureMessage = `${stringify(value)} does not equal ${stringify(
+      other,
+    )}`
 
     if (_.isObject(value)) {
       assert(value.equals(other), successMessage, failureMessage)
-    }
-    else {
+    } else {
       assert(value === other, successMessage, failureMessage)
     }
   }
 
   function notEquals(other) {
-    const successMessage = `As expected, ${stringify(value)} does not equal ${stringify(other)}`
+    const successMessage = `As expected, ${stringify(
+      value,
+    )} does not equal ${stringify(other)}`
     const failureMessage = `${stringify(value)} equals ${stringify(other)}`
 
     if (_.isObject(value)) {
       assert(!value.equals(other), successMessage, failureMessage)
-    }
-    else {
+    } else {
       assert(value !== other, successMessage, failureMessage)
     }
   }
 
   function lessThan(other) {
-    const successMessage = `As expected, ${stringify(value)} is less than ${stringify(other)}`
-    const failureMessage = `${stringify(value)} is greater than or equal to ${stringify(other)}`
+    const successMessage = `As expected, ${stringify(
+      value,
+    )} is less than ${stringify(other)}`
+    const failureMessage = `${stringify(
+      value,
+    )} is greater than or equal to ${stringify(other)}`
 
     assert(value < other, successMessage, failureMessage)
   }
 
   function greaterThan(other) {
-    const successMessage = `As expected, ${stringify(value)} is greater than ${stringify(other)}`
-    const failureMessage = `${stringify(value)} is less than or equal to ${stringify(other)}`
+    const successMessage = `As expected, ${stringify(
+      value,
+    )} is greater than ${stringify(other)}`
+    const failureMessage = `${stringify(
+      value,
+    )} is less than or equal to ${stringify(other)}`
 
     assert(value > other, successMessage, failureMessage)
   }
 
   function lessThanOrEquals(other) {
-    const successMessage = `As expected, ${stringify(value)} is less than or equal to ${stringify(other)}`
-    const failureMessage = `${stringify(value)} is greater than ${stringify(other)}`
+    const successMessage = `As expected, ${stringify(
+      value,
+    )} is less than or equal to ${stringify(other)}`
+    const failureMessage = `${stringify(value)} is greater than ${stringify(
+      other,
+    )}`
 
     assert(value <= other, successMessage, failureMessage)
   }
 
   function greaterThanOrEquals(other) {
-    const successMessage = `As expected, ${stringify(value)} is greater than or equal to ${stringify(other)}`
-    const failureMessage = `${stringify(value)} is less than ${stringify(other)}`
+    const successMessage = `As expected, ${stringify(
+      value,
+    )} is greater than or equal to ${stringify(other)}`
+    const failureMessage = `${stringify(value)} is less than ${stringify(
+      other,
+    )}`
 
     assert(value >= other, successMessage, failureMessage)
   }
 
   function fails() {
-    const successMessage = `As expected, this function throws an error with arguments ${stringify([...arguments])}`
-    const failureMessage = `An error was not thrown with arguments ${stringify([...arguments])}`
+    const successMessage = `As expected, this function throws an error with arguments ${stringify(
+      [...arguments],
+    )}`
+    const failureMessage = `An error was not thrown with arguments ${stringify([
+      ...arguments,
+    ])}`
 
     try {
       value.apply(null, arguments)
       assert(false, successMessage, failureMessage)
-    }
-    catch (ex) {
+    } catch (ex) {
       assert(true, successMessage, failureMessage)
     }
   }
 
   function succeeds() {
-    const successMessage = `As expected, this function did not throw an error with arguments ${stringify([...arguments])}`
-    const failureMessage = `An error was thrown with arguments ${stringify([...arguments])}`
+    const successMessage = `As expected, this function did not throw an error with arguments ${stringify(
+      [...arguments],
+    )}`
+    const failureMessage = `An error was thrown with arguments ${stringify([
+      ...arguments,
+    ])}`
 
     try {
       value.apply(null, arguments)
       assert(true, successMessage, failureMessage)
-    }
-    catch (ex) {
+    } catch (ex) {
       assert(false, successMessage, failureMessage)
     }
   }
@@ -137,9 +155,9 @@ function Test(value) {
 }
 
 // Tests
-LOGTESTS = false;
+LOGTESTS = false
 
-(() => {
+;(() => {
   function TestObject(value) {
     function equals(other) {
       return value === other.value
@@ -148,7 +166,9 @@ LOGTESTS = false;
     return {
       equals,
 
-      get value() {return value}
+      get value() {
+        return value
+      },
     }
   }
 

@@ -1,8 +1,5 @@
 function Text(spec) {
-  const {
-    self,
-    screen
-  } = Entity(spec, 'Text')
+  const { self, screen } = Entity(spec, 'Text')
 
   const transform = Transform(spec)
 
@@ -13,26 +10,22 @@ function Text(spec) {
     stroke = false,
     align = 'center',
     baseline = 'middle',
-    font = 'Edu QLD Beginner'
+    font = 'Edu QLD Beginner',
   } = spec
 
-  let {
-    content = 'Hello',
-  } = spec
+  let { content = 'Hello' } = spec
 
   const ctx = screen.ctx
 
-  function tick() {
-
-  }
+  function tick() {}
 
   function drawLocal() {
     ctx.textAlign = align
     ctx.textBaseline = baseline
     ctx.scale(size, size)
-    
+
     ctx.font = `1px ${font}`
-    
+
     if (fill) {
       ctx.fillStyle = fill
       ctx.fillText(content, 0, 0)

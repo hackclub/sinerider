@@ -1,10 +1,7 @@
 function Circle(spec) {
   const self = Shape(spec)
 
-  let {
-    center = Vector2(),
-    radius = 1,
-  } = spec
+  let { center = Vector2(), radius = 1 } = spec
 
   function intersectPoint(point, hit) {
     let p = self.localize(point)
@@ -50,10 +47,18 @@ function Circle(spec) {
     intersectCircle,
     intersectRect,
 
-    get center() {return center},
-    set center(v) {center.set(v)},
+    get center() {
+      return center
+    },
+    set center(v) {
+      center.set(v)
+    },
 
-    get radius() {return getRadius()},
-    set radius(v) {radius = v},
+    get radius() {
+      return getRadius()
+    },
+    set radius(v) {
+      radius = v
+    },
   })
 }

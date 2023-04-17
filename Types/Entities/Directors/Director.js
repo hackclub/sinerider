@@ -1,13 +1,7 @@
-function Director(spec, defaultName='Director') {
-  const {
-    self,
-    screen,
-    camera,
-  } = Entity(spec, defaultName)
+function Director(spec, defaultName = 'Director') {
+  const { self, screen, camera } = Entity(spec, defaultName)
 
-  let {
-    globalScope,
-  } = spec
+  let { globalScope } = spec
 
   const cameraState = CameraState()
   const bounds = spec.bounds ? Bounds(spec.bounds) : null
@@ -16,12 +10,14 @@ function Director(spec, defaultName='Director') {
 
   const playerPosition = Vector2()
 
-  function start() {
-    playerPosition.set(globalScope.p.re, globalScope.p.im)
+  function awake() {
+    if (globalScope && globalScope.p)
+      playerPosition.set(globalScope.p.re, globalScope.p.im)
   }
 
   function tick() {
-    playerPosition.set(globalScope.p.re, globalScope.p.im)
+    if (globalScope && globalScope.p)
+      playerPosition.set(globalScope.p.re, globalScope.p.im)
   }
 
   function canControl() {
@@ -38,6 +34,7 @@ function Director(spec, defaultName='Director') {
   }
 
   return self.mix({
+    awake,
     tick,
 
     bounds,
@@ -49,8 +46,14 @@ function Director(spec, defaultName='Director') {
     startControlling,
     stopControlling,
 
-    get fov() {return cameraState.fov},
-    get position() {return cameraState.position},
-    get rotation() {return cameraState.rotation},
+    get fov() {
+      return cameraState.fov
+    },
+    get position() {
+      return cameraState.position
+    },
+    get rotation() {
+      return cameraState.rotation
+    },
   })
 }

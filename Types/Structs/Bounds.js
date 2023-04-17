@@ -26,12 +26,10 @@ function Bounds() {
       const spec = arguments[0]
       center.set(spec.center)
       size.set(spec.size)
-    }
-    else if (arguments.length == 2) {
+    } else if (arguments.length == 2) {
       center.set(arguments[0])
       size.set(arguments[1])
-    }
-    else if (arguments.length == 4) {
+    } else if (arguments.length == 4) {
       center.set(arguments[0], arguments[1])
       size.set(arguments[2], arguments[3])
     }
@@ -45,8 +43,7 @@ function Bounds() {
     if (arguments.length == 2) {
       min.set(arguments[0])
       max.set(arguments[1])
-    }
-    else if (arguments.length == 4) {
+    } else if (arguments.length == 4) {
       min.set(arguments[0], arguments[1])
       max.set(arguments[2], arguments[3])
     }
@@ -128,15 +125,12 @@ function Bounds() {
   }
 
   function recomputeFromMinMax() {
-    if (min.x > max.x)
-      min.swapX(max)
-    if (min.y > max.y)
-      min.swapY(max)
+    if (min.x > max.x) min.swapX(max)
+    if (min.y > max.y) min.swapY(max)
 
     max.subtract(min, size)
     size.divide(2, extents)
     min.add(extents, center)
-
 
     recomputing = false
   }
@@ -145,13 +139,14 @@ function Bounds() {
     if (other.generator == Vector2) {
       min.min(other)
       max.max(other)
-    }
-    else if (other.generator == Bounds) {
+    } else if (other.generator == Bounds) {
       self.expand(other.min)
       self.expand(other.max)
-    }
-    else {
-      throw new Error(`Cannot expand bounds to fit other of invalid type: `, other)
+    } else {
+      throw new Error(
+        `Cannot expand bounds to fit other of invalid type: `,
+        other,
+      )
     }
   }
 
@@ -161,12 +156,13 @@ function Bounds() {
       const cy = other.y >= min.y && other.y <= max.y
 
       return cx && cy
-    }
-    else if (other.generator == Bounds) {
+    } else if (other.generator == Bounds) {
       return self.contains(other.min) && self.contains(other.max)
-    }
-    else {
-      throw new Error(`Cannot check if bounds contains other of invalid type: `, other)
+    } else {
+      throw new Error(
+        `Cannot check if bounds contains other of invalid type: `,
+        other,
+      )
     }
   }
 
@@ -188,27 +184,47 @@ function Bounds() {
 
     toString,
 
-    get center() {return center},
-    set center(v) {center.set(v)},
+    get center() {
+      return center
+    },
+    set center(v) {
+      center.set(v)
+    },
 
-    get size() {return size},
-    set size(v) {size.set(v)},
+    get size() {
+      return size
+    },
+    set size(v) {
+      size.set(v)
+    },
 
-    get extents() {return extents},
-    set extents(v) {setSize(v)},
+    get extents() {
+      return extents
+    },
+    set extents(v) {
+      setSize(v)
+    },
 
-    get min() {return min},
-    set min(v) {min.set(v)},
+    get min() {
+      return min
+    },
+    set min(v) {
+      min.set(v)
+    },
 
-    get max() {return max},
-    set max(v) {max.set(v)},
+    get max() {
+      return max
+    },
+    set max(v) {
+      max.set(v)
+    },
   })
 }
 
 // Tests
-LOGTESTS = false;
+LOGTESTS = false
 
-(() => {
+;(() => {
   let a
   let b
   let c
@@ -241,7 +257,7 @@ LOGTESTS = false;
     Test(bounds.extents.x).greaterThanOrEquals(0)
 
     // extents.y >= 0
-    Test(bounds.extents.y).greaterThanOrEquals(0) 
+    Test(bounds.extents.y).greaterThanOrEquals(0)
   }
 
   function ValidateProperty(bounds, path) {
@@ -251,15 +267,15 @@ LOGTESTS = false;
     Validate(bounds)
 
     // Set
-    property.set(property.x+1, property.y+1)
+    property.set(property.x + 1, property.y + 1)
     Validate(bounds)
 
     // Set x
-    property.x = property.x+1
+    property.x = property.x + 1
     Validate(bounds)
 
     // Set y
-    property.y = property.y+1
+    property.y = property.y + 1
     Validate(bounds)
 
     // Add
@@ -290,7 +306,7 @@ LOGTESTS = false;
   Test(a).equals(c)
   Test(a).equals(d)
 
-  Validate(a) 
+  Validate(a)
   Validate(b)
   Validate(c)
   Validate(d)

@@ -1,28 +1,22 @@
+let levelBubblesDrawn = 0
 function LevelBubble(spec) {
-  const {
-    ui,
-    self,
-    screen,
-    camera,
-    assets,
-  } = Entity(spec, 'LevelBubble')
+  const { ui, self, parent, screen, camera, assets } = Entity(
+    spec,
+    'LevelBubble',
+  )
 
   const {
     setLevel,
-    waypointDirector,
     levelDatum,
     getEditing,
     tickDelta,
     getBubbleByNick,
     getShowAll,
     quad,
+    panCamera,
   } = spec
 
-  const {
-    nick,
-    requirements,
-    radius = 3,
-  } = levelDatum
+  const { nick, requirements, radius = 3 } = levelDatum
 
   const dependencies = []
 
@@ -42,6 +36,7 @@ function LevelBubble(spec) {
 
   const arrows = []
 
+  let rendered = false
   let completed = false
   let hilighted = false
   let playable = false
@@ -53,12 +48,14 @@ function LevelBubble(spec) {
   let bubbletRunTime = 0
 
   const bubbletGlobalScope = {
-    get t() {return bubbletRunTime},
+    get t() {
+      return bubbletRunTime
+    },
     dt: tickDelta,
 
     get running() {
       return bubbletRunning
-    }
+    },
   }
 
   const bubbletCanvas = document.createElement('canvas')
@@ -70,28 +67,34 @@ function LevelBubble(spec) {
   ui.bubblets.appendChild(bubbletCanvas)
   const bubbletScreen = Screen({
     canvas: bubbletCanvas,
-    element: bubbletCanvas
+    element: bubbletCanvas,
   })
 
   const bubbletCamera = Camera({
-    screen: bubbletScreen
-  })
-
-  let bubbletLevel = Level({
-    datum: levelDatum,
     screen: bubbletScreen,
-    camera: bubbletCamera,
-    globalScope: bubbletGlobalScope,
-    parent: self,
-    useDragCamera: false,
-    isBubbleLevel: true,
-    drawOrder: LAYERS.levelBubbles,
   })
 
-  bubbletLevel.sendEvent('draw')
-  bubbletLevel.active = false
+  // levelDatum.axesEnabled = false
 
-  bubbletLevel.destroy()
+  let bitmap = null
+
+  function resizeBitmap() {
+    let size = Math.round(camera.worldToScreenScalar(radius * 2))
+    if (bitmap) {
+      bitmap.close()
+      bitmap = null
+    }
+    createImageBitmap(bubbletCanvas, {
+      resizeWidth: size,
+      resizeHeight: size,
+    }).then((_bitmap) => {
+      bitmap = _bitmap
+    })
+  }
+
+  function resize() {
+    resizeBitmap()
+  }
 
   const ctx = screen.ctx
 
@@ -110,10 +113,10 @@ function LevelBubble(spec) {
     // Create an arrow to each dependency
     for (bubble of requirements) {
       let arrow = Arrow({
-        truncate: [radius+0.9, radius+0.9],
+        truncate: [radius + 0.9, radius + 0.9],
         point0: bubble.transform.position,
         point1: transform.position,
-        drawOrde: LAYERS.arrows,
+        drawOrder: LAYERS.arrows,
         parent: self,
       })
 
@@ -123,17 +126,43 @@ function LevelBubble(spec) {
     }
 
     refreshPlayable()
-
   }
 
-  function startLate() {
+  function startLate() {}
+
+  function tick() {}
+
+  let tmp = Vector2()
+
+  function localToScreen(localX, localY) {
+    tmp.set(localX, localY)
+    camera.worldToScreen(tmp, tmp, transform)
+    return [tmp.x, tmp.y]
   }
 
-  function tick() {
+  function render() {
+    const bubbletLevel = Level({
+      datum: levelDatum,
+      axesEnabled: false,
+      screen: bubbletScreen,
+      camera: bubbletCamera,
+      globalScope: bubbletGlobalScope,
+      parent: self,
+      useDragCamera: false,
+      isBubbleLevel: true,
+      drawOrder: LAYERS.levelBubbles,
+    })
+    bubbletLevel.awake()
+    bubbletLevel.start()
+    bubbletLevel.sendEvent('tick')
+    bubbletLevel.sendEvent('draw')
+    bubbletLevel.destroy()
+    rendered = true
+    resizeBitmap()
   }
 
   function drawLocal() {
-    const opacity = visible ? playable ? 1 : 0.5 : 0
+    const opacity = visible ? (playable ? 1 : 0.5) : 0
     ctx.globalAlpha = opacity
 
     ctx.beginPath()
@@ -141,17 +170,33 @@ function LevelBubble(spec) {
     let strokeWidth = 0.2
 
     if (playable) {
-      if (hilighted)
-        strokeWidth = 0.4
-      else if (playable)
-        strokeWidth = 0.2
+      if (hilighted) strokeWidth = 0.4
+      else if (playable) strokeWidth = 0.2
 
-      if (clickable.hovering)
-        strokeWidth *= 2
+      if (clickable.hovering) strokeWidth *= 2
     }
 
-    ctx.arc(0, 0, radius, 0, Math.PI*2)
-    ctx.lineWidth = strokeWidth
+    const cutsceneFrameSides = 8
+
+    if (levelDatum.runAsCutscene) {
+      // ctx.rotate(((180 / cutsceneFrameSides) * Math.PI) / 180)
+      let [x, y] = localToScreen(radius, 0)
+      ctx.moveTo(x, y)
+
+      for (var i = 1; i <= cutsceneFrameSides; i += 1) {
+        let [x, y] = localToScreen(
+          radius * Math.cos((i * 2 * Math.PI) / cutsceneFrameSides),
+          radius * Math.sin((i * 2 * Math.PI) / cutsceneFrameSides),
+        )
+        ctx.lineTo(x, y)
+      }
+    } else {
+      let screenRadius = camera.worldToScreenScalar(radius)
+      let [x, y] = localToScreen(0, 0)
+      ctx.arc(x, y, screenRadius, 0, Math.PI * 2)
+    }
+
+    ctx.lineWidth = camera.worldToScreenScalar(strokeWidth)
 
     ctx.fillStyle = '#fff'
     ctx.strokeStyle = hilighted ? '#f88' : '#444'
@@ -160,21 +205,49 @@ function LevelBubble(spec) {
 
     ctx.fill()
     ctx.clip()
-    ctx.drawImage(bubbletCanvas, -radius, -radius, radius*2, radius*2)
 
-    ctx.fillStyle = '#333'
-    ctx.textAlign = 'center'
-    ctx.textBaseline = 'hanging'
-    ctx.font = '1px Roboto Mono'
-    ctx.scale(0.8, 0.8)
-    // ctx.fillText(levelDatum.name, 0, radius)
+    let [x, y] = localToScreen(-radius, radius)
+
+    // x = Math.round(x)
+    // y = Math.round(y)
+
+    if (bitmap) {
+      ctx.drawImage(bitmap, x, y)
+    } else {
+      let size = Math.round(camera.worldToScreenScalar(radius * 2))
+      ctx.drawImage(bubbletCanvas, x, y, size, size)
+    }
 
     ctx.restore()
 
-    // ctx.globalAlpha = 1
+    ctx.lineCap = 'butt'
+    ctx.miterLimit = 20
+    ctx.lineJoin = 'miter'
 
     ctx.beginPath()
-    ctx.arc(0, 0, radius+strokeWidth/2-0.02, 0, Math.PI*2)
+    if (levelDatum.runAsCutscene) {
+      ctx.beginPath()
+      let [x, y] = localToScreen(radius + strokeWidth / 2 - 0.02, 0)
+      ctx.moveTo(x, y)
+
+      for (var i = 1; i < cutsceneFrameSides; i += 1) {
+        let [x, y] = localToScreen(
+          (radius + strokeWidth / 2 - 0.02) *
+            Math.cos((i * 2 * Math.PI) / cutsceneFrameSides),
+          (radius + strokeWidth / 2 - 0.02) *
+            Math.sin((i * 2 * Math.PI) / cutsceneFrameSides),
+        )
+
+        ctx.lineTo(x, y)
+      }
+      ctx.closePath()
+    } else {
+      let outlineScreenRadius = camera.worldToScreenScalar(
+        radius + strokeWidth / 2,
+      )
+      let [x, y] = localToScreen(0, 0)
+      ctx.arc(x, y, outlineScreenRadius, 0, Math.PI * 2)
+    }
 
     ctx.stroke()
   }
@@ -185,26 +258,56 @@ function LevelBubble(spec) {
     if (unlocked) {
       playable = true
       hilighted = !completed
-    }
-    else {
+    } else {
       playable = getShowAll()
       hilighted = false
     }
 
-    // visible = playable || _.some(requirements, v => v.playable)
-    visible = true //TODO: implement gradient fade for invisible unmet requirements. Until then, inaccessible levels will always be shown.
+    visible = playable || _.some(requirements, (v) => v.playable)
+  }
 
-    const opacity = visible ? playable ? 1 : 0.5 : 0
-
-    _.each(arrows, v => {
-      v.opacity = opacity
+  function refreshArrows() {
+    _.each(arrows, (v) => {
+      v.opacity = visible
+        ? playable
+          ? 1
+          : 0.5
+        : v.fromBubble.visible
+        ? 0.5
+        : 0
       v.dashed = !v.toBubble.unlocked
+      v.fadeIn = visible && !v.fromBubble.visible
+      v.fadeOut = !visible && v.fromBubble.visible
     })
   }
 
+  function intersectsScreen() {
+    let center = transform.position
+
+    let left = camera.lowerLeft.x - radius
+    let right = camera.upperRight.x + radius
+    let top = camera.upperRight.y + radius
+    let bottom = camera.lowerLeft.y - radius
+
+    return (
+      center.x > left && center.x < right && center.y > bottom && center.y < top
+    )
+  }
+
   function draw() {
-    camera.drawThrough(ctx, drawLocal, transform)
-    ctx.globalAlpha = 1
+    if (!visible) return
+
+    if (!intersectsScreen()) return
+
+    levelBubblesDrawn++
+
+    ctx.save()
+
+    // Use drawLocal directly instead of passing
+    // to camera to use rounded image coordinates
+    drawLocal()
+
+    ctx.restore()
   }
 
   function complete() {
@@ -212,7 +315,6 @@ function LevelBubble(spec) {
 
     completed = true
     refreshPlayable()
-
 
     _.invokeEach(dependencies, 'refreshPlayable')
   }
@@ -225,6 +327,21 @@ function LevelBubble(spec) {
     }
   }
 
+  function mouseDown(point) {
+    // If not playable, then delegate to parent
+    if (!playable) {
+      parent.updatePanVelocity(point, clickable.holding)
+    }
+  }
+
+  // TODO: Doesn't work if mouse is held on LevelBubble
+  function hoverMove(point) {
+    // If not playable, then delegate to parent
+    if (!playable && clickable.holding) {
+      parent.updatePanVelocity(point, clickable.holding)
+    }
+  }
+
   function click(point) {
     if (!playable) return
 
@@ -232,20 +349,16 @@ function LevelBubble(spec) {
 
     assets.sounds.enter_level.play()
     assets.sounds.map_zoom_in.play()
-    
+
     completeAllRequirements()
 
-    waypointDirector.moveTo(null, {
-      position: transform.position,
-      fov: radius*2,
-    }, 1, () => {
+    panCamera(transform.position, () => {
       setLevel(levelDatum.nick)
       ui.veil.setAttribute('hide', true)
     })
   }
 
   function completeAllRequirements() {
-
     for (requirement of requirements) {
       requirement.complete()
       requirement.completeAllRequirements()
@@ -262,26 +375,48 @@ function LevelBubble(spec) {
     startLate,
     awake,
 
+    resize,
+
     tick,
     draw,
 
-    click,
+    render,
 
-    level: bubbletLevel,
+    mouseDown,
+    hoverMove,
+
+    click,
 
     dependencies,
     linkRequirements,
 
     refreshPlayable,
+    refreshArrows,
 
-    get nick() {return nick},
+    get nick() {
+      return nick
+    },
 
-    get completed() {return completed},
-    get hilighted() {return hilighted},
+    get rendered() {
+      return rendered
+    },
 
-    get playable() {return playable},
-    get visible() {return visible},
-    get unlocked() {return unlocked},
+    get completed() {
+      return completed
+    },
+    get hilighted() {
+      return hilighted
+    },
+
+    get playable() {
+      return playable
+    },
+    get visible() {
+      return visible
+    },
+    get unlocked() {
+      return unlocked
+    },
 
     complete,
     completeAllRequirements,

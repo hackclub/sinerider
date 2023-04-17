@@ -4,9 +4,10 @@ const LAYERS = {
   sky: -100,
   background: -90,
   axes: -80,
+  gridlines:95,
   backSprites: -10,
-  sledders: 0,
   walkers: 1,
+  sledders: 2,
   foreSprites: 10,
   snow: 20,
   graph: 30,
@@ -21,5 +22,6 @@ const LAYERS = {
   arrows: 160,
   levelBubbles: 170,
   darkness: 100,
+  volcanoPostProcessing: 180,
   level: 10000,
 }

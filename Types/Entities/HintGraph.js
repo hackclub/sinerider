@@ -1,25 +1,17 @@
 function HintGraph(spec) {
-  const {
-    self,
-    camera,
-    ui,
-  } = Entity(spec, 'Hint Graph')
+  const { self, camera, ui } = Entity(spec, 'Hint Graph')
 
-  const {
-    slider,
-    globalScope,
-    drawOrder,
-  } = spec
+  const { slider, globalScope, drawOrder } = spec
 
   const { bounds, expression: expressionForm } = slider
 
-  console.log('camera', camera, 'spec', spec)
-
   function createExpression(n) {
     return expressionForm
-      .replace('n', n.toFixed(2))
+      .replaceAll('$', n.toFixed(2))
       .replaceAll('+ -', '-')
       .replaceAll('- +', '-')
+      .replaceAll('+-', '-')
+      .replaceAll('-+', '-')
   }
 
   const dottedGraph = Graph({
@@ -28,15 +20,13 @@ function HintGraph(spec) {
     expression: createExpression(0),
     parent: self,
     strokeWidth: 0.1,
-    strokeColor: 'rgb(0,255,0)',
+    strokeColor: 'rgb(0,255,0,0)',
     dashed: true,
     scaleStroke: true,
     dashSettings: [0.5, 0.5],
     fill: false,
     drawOrder,
   })
-
-  ui.dottedSlider.hidden = false
 
   let expression = createExpression(bounds[2])
 
@@ -45,13 +35,14 @@ function HintGraph(spec) {
     ui.dottedMathFieldStatic.latex(`Y=${text}`)
   }
 
-  ui.dottedSlider.oninput = e => {
-    let val = (ui.dottedSlider.value) / 100
+  ui.dottedSlider.oninput = (e) => {
+    let val = ui.dottedSlider.value / 100
     expression = createExpression(val * (bounds[1] - bounds[0]) + bounds[0])
     setSliderExpression(expression)
   }
 
-  ui.dottedSlider.value = 100 * ((bounds[2] - bounds[0]) / (bounds[1] - bounds[0]))
+  ui.dottedSlider.value =
+    100 * ((bounds[2] - bounds[0]) / (bounds[1] - bounds[0]))
 
   setSliderExpression(expression)
 
@@ -63,16 +54,25 @@ function HintGraph(spec) {
 
   setVisible(true)
 
+  function displayDottedGraph() {
+    dottedGraph.strokeColor = 'rgba(0,255,0)'
+  }
+
   function destroy() {
     setVisible(false)
+
+    dottedGraph.strokeColor = 'rgba(0,255,0,0)'
+    ui.dottedMathField.style.display = 'none'
+    ui.dottedSlider.hidden = true
+    ui.dottedHintButton.style.display = 'block'
   }
 
   function onToggleMap(mapEnabled) {
-    console.log('Transitioning map', mapEnabled)
     setVisible(!mapEnabled)
   }
 
   return self.mix({
+    displayDottedGraph,
     destroy,
     setVisible,
     onToggleMap,

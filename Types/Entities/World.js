@@ -1,50 +1,93 @@
+let assets, globalScope
+let arrowsDrawn = 0,
+  _arrowsDrawn
+
 function World(spec) {
   const self = Entity(spec, 'World')
 
-  const {
-    ui,
-    screen,
-    levelData,
-    requestDraw,
-    tickDelta,
-    version,
-  } = spec
+  const { ui, screen, levelData, requestDraw, tickDelta, version } = spec
+
+  const storage = PlayerStorage()
 
   let running = false
   let runTime = 0
+  let completionTime = null
 
-  const globalScope = {
-    get t() {return runTime},
-    dt: tickDelta,
-    lerp: (a, b, t) => {
-      t = math.clamp01(t)
-      return a*(1-t)+b*t
+  const quads = {}
+
+  globalScope = {
+    customT: 0,
+
+    get t() {
+      return running ? runTime : globalScope.customT
     },
 
-    get running() {return running},
+    get T() {
+      return runTime
+    },
+
+    set runTime(_runTime) {
+      runTime = _runTime
+    },
+
+    timescale: 1,
+    get dt() {
+      return tickDelta * globalScope.timescale
+    },
+
+    lerp: (a, b, t) => {
+      t = math.clamp01(t)
+      return a * (1 - t) + b * t
+    },
+
+    get running() {
+      return running
+    },
+
+    get quads() {
+      return quads
+    },
+
+    get completionTime() {
+      return completionTime
+    },
   }
 
   let navigating = false
   let editing = false
 
-  let waterQuad = null
-  let sunsetQuad = null
-
   function loadQuad() {
+<<<<<<< HEAD
     /* Don't need to load shaders for teaser */
   } 
 
   const assets = Assets({
+=======
+    quads.water = WaterQuad(assets)
+    quads.sunset = SunsetQuad('(sin(x)-(y-2)*i)*i/2', assets)
+    quads.volcano = VolcanoQuad(assets)
+    quads.volcanoSunset = VolcanoSunsetQuad(
+      '((sin(x)*i)/2)+(x/4)+((y*i)/5)',
+      assets,
+    )
+    quads.lava = LavaQuad(assets)
+  }
+
+  assets = Assets({
+>>>>>>> main
     paths: spec.assets,
     callbacks: {
       complete: assetsComplete,
       progress: assetsProgress,
-    }
+    },
   })
 
   const clickableContext = ClickableContext({
     entity: self,
   })
+
+  let backgroundMusicAsset = null
+  let backgroundMusicSound = null
 
   let navigator
 
@@ -53,16 +96,32 @@ function World(spec) {
   let levelBubble
 
   function start() {
+    // Only show the level info if we're not in debug
+    if (!window.location.hostname.endsWith('sinerider.com')) {
+      ui.levelInfoDiv.setAttribute('hide', false)
+      ui.hideLevelInfoButton.addEventListener('click', hideLevelInfoClicked)
+    }
   }
 
   function tick() {
-    if (window.innerHeight != screen.height || window.innerWidth != screen.width)
+    if (self.drawArrayIsUnsorted) self.sortDrawArray()
+    if (
+      window.innerHeight != screen.height ||
+      window.innerWidth != screen.width
+    )
       screen.resize()
 
     if (running) runTime += tickDelta
   }
 
   function draw() {
+    levelBubblesDrawn = 0
+    _arrowsDrawn = arrowsDrawn
+    arrowsDrawn = 0
+  }
+
+  function hideLevelInfoClicked() {
+    ui.levelInfoDiv.setAttribute('hide', true)
   }
 
   function loadingVeilClicked() {
@@ -80,10 +139,27 @@ function World(spec) {
       drawOrder: LAYERS.navigator,
     })
 
-    if (_.endsWith(location.href, '#random'))
-      setLevel('RANDOM')
-    else
-      setLevel(levelData[0].nick)
+    const url = new URL(location)
+
+    if (url.search) {
+      try {
+        urlData = JSON.parse(LZString.decompressFromBase64(url.search.slice(1)))
+        setLevel(urlData.nick, urlData)
+
+        // Very stupid, maybe Navigator should just be instantiated after this block?
+        const bubble = navigator.getBubbleByNick(urlData.nick)
+        if (bubble) navigator.initialBubble = bubble
+
+        return
+      } catch (err) {
+        console.error('Error loading url:', err)
+        // TODO: Maybe switch to modal
+        alert('Sorry, this URL is malformed :(')
+      }
+    }
+
+    if (_.endsWith(location.href, '#random')) setLevel('RANDOM')
+    else setLevel(levelData[0].nick)
   }
 
   function assetsComplete() {
@@ -94,18 +170,33 @@ function World(spec) {
   }
 
   function assetsProgress(progress, total) {
-    ui.loadingVeilString.innerHTML = `loading…<br>${Math.round(100*progress/total)}%`
+    ui.loadingVeilString.innerHTML = `loading…<br>${Math.round(
+      (100 * progress) / total,
+    )}%`
   }
 
-  function setLevel(nick) {
+  function setLevel(nick, urlData = null) {
     if (level) level.destroy()
 
     levelBubble = navigator.getBubbleByNick(nick)
+    isPuzzle = urlData?.isPuzzle ?? false
+    var savedLatex
+    if (isPuzzle) {
+      levelDatum = generatePuzzleLevel(urlData)
+      savedLatex = levelDatum.expressionOverride
+        ? levelDatum.expressionOverride
+        : levelDatum.defaultExpression
+    } else {
+      if (nick == 'RANDOM') {
+        levelDatum = generateRandomLevel()
+      } else {
+        levelDatum = _.find(levelData, (v) => v.nick == nick)
+      }
+      savedLatex = urlData?.savedLatex ?? storage.getLevel(nick)?.savedLatex
 
-    if (nick == 'RANDOM')
-      levelDatum = generateRandomLevel()
-    else
-      levelDatum = _.find(levelData, v => v.nick == nick)
+      if (urlData?.goals && urlData?.goals.length)
+        levelDatum.goals = (levelDatum.goals ?? []).concat(urlData?.goals)
+    }
 
     level = Level({
       ui,
@@ -117,17 +208,26 @@ function World(spec) {
       globalScope,
       active: !navigating,
       levelCompleted,
+      playBackgroundMusic,
       tickDelta,
       isBubbleLevel: false,
-      sunsetQuad,
-      waterQuad,
+      world: self,
+
+      storage,
+      savedLatex,
+      urlData,
     })
 
     level.playOpenMusic()
-    level.reset()
+    level.restart()
 
-    ui.levelText.value = levelDatum.name
-    ui.levelButtonString.innerHTML = levelDatum.name
+    if (ui.levelText) {
+      ui.levelText.value = levelDatum.name
+      ui.levelButtonString.innerHTML = levelDatum.name
+
+      ui.levelInfoNameStr.innerHTML = levelDatum.name
+      ui.levelInfoNickStr.innerHTML = levelDatum.nick
+    }
 
     setNavigating(false)
   }
@@ -135,14 +235,13 @@ function World(spec) {
   function setNavigating(_navigating) {
     navigating = _navigating
 
-    if (navigating)
-      self.sendEvent('onToggleMap', [_navigating])
+    if (navigating) self.sendEvent('onToggleMap', [_navigating])
 
+    editor.active = level.isEditor() && !navigating
     level.active = !navigating
     navigator.active = navigating
 
-    if (!navigating)
-      self.sendEvent('onToggleMap', [_navigating])
+    if (!navigating) self.sendEvent('onToggleMap', [_navigating])
 
     ui.controlBar.setAttribute('hide', navigating)
     ui.navigatorFloatingBar.setAttribute('hide', !navigating)
@@ -151,38 +250,65 @@ function World(spec) {
     if (navigating) {
       navigator.revealHighlightedLevels(levelDatum.nick)
       navigator.refreshBubbles()
-    }
-    else {
+      canvas.classList.add('map')
+    } else {
       // ui.variablesBar.setAttribute('hide', true)
+      canvas.classList.remove('map')
 
       navigator.showAll = false
       // if (navigator.showAllUsed)
-        ui.showAllButton.setAttribute('hide', false)
+      ui.showAllButton.setAttribute('hide', false)
     }
   }
 
-  function levelCompleted(soft=false) {
+  function makeTwitterSubmissionUrl() {
+    return (
+      'https://twitter.com/intent/tweet?text=' +
+      encodeURIComponent(
+        '#sinerider ' +
+          levelDatum.nick +
+          ' ' +
+          level.currentLatex.replace(/\s/g, ''),
+      )
+    )
+  }
+
+  function levelCompleted(soft = false) {
+    setCompletionTime(runTime)
+
+    const timeTaken = Math.round(runTime * 100) / 100
+    const charCount = ui.mathFieldStatic.latex().length
+
+    ui.timeTaken.innerHTML =
+      timeTaken + ' second' + (timeTaken === 1 ? '' : 's')
+    ui.charCount.innerHTML =
+      charCount + ' character' + (charCount === 1 ? '' : 's')
+
     if (soft) {
       nextLevel(2.5)
-    }
-    else {
+    } else {
       ui.victoryBar.setAttribute('hide', false)
-      ui.controlBar.setAttribute('hide', true)
+      ui.expressionEnvelope.setAttribute('hide', true)
       ui.showAllButton.setAttribute('hide', true)
     }
 
-    levelBubble.complete()
+    const isPuzzle = true
+    if ('isPuzzle' in levelDatum && levelDatum['isPuzzle']) {
+      ui.submitTwitterScoreDiv.setAttribute('hide', false)
+      ui.submitTwitterScoreLink.setAttribute('href', makeTwitterSubmissionUrl())
+    } else {
+      ui.submitTwitterScoreDiv.setAttribute('hide', true)
+    }
+    levelBubble?.complete()
   }
 
-  function transitionNavigating(_navigating, duration=1, cb) {
+  function transitionNavigating(_navigating, duration = 1, cb) {
     ui.veil.setAttribute('style', `transition-duration: ${duration}s;`)
     ui.veil.setAttribute('hide', false)
 
-    if (_navigating)
-      self.sendEvent('onLevelFadeOut', [_navigating, duration])
-    else
-      self.sendEvent('onMapFadeOut', [_navigating, duration])
-    
+    if (_navigating) self.sendEvent('onLevelFadeOut', [_navigating, duration])
+    else self.sendEvent('onMapFadeOut', [_navigating, duration])
+
     setTimeout(() => {
       // HACK: to fix camera flicker
       setTimeout(() => {
@@ -191,15 +317,14 @@ function World(spec) {
       }, 100)
       setNavigating(_navigating)
 
-      if (_navigating)
-        self.sendEvent('onMapFadeIn', [_navigating, duration])
-      else
-        self.sendEvent('onLevelFadeIn', [_navigating, duration])
+      if (_navigating) self.sendEvent('onMapFadeIn', [_navigating, duration])
+      else self.sendEvent('onLevelFadeIn', [_navigating, duration])
 
       if (cb) cb()
-    }, duration*1000)
+    }, duration * 1000)
   }
 
+<<<<<<< HEAD
   function nextLevel(transitionDuration=1) {
     console.log('LEVEL COMPLETED')
     if (teaser)
@@ -209,6 +334,12 @@ function World(spec) {
         stopRunning(false)
       })
     }
+=======
+  function nextLevel(transitionDuration = 1) {
+    transitionNavigating(true, transitionDuration, () => {
+      stopRunning(false)
+    })
+>>>>>>> main
   }
 
   function onClickNextButton() {
@@ -224,28 +355,40 @@ function World(spec) {
     editing = _editing
   }
 
-  function startRunning() {
+  function startRunning(
+    playSound = true,
+    hideNavigator = true,
+    disableExpressionEditing = true,
+  ) {
     running = true
+    setCompletionTime(null)
 
     ui.mathField.blur()
-    ui.expressionEnvelope.setAttribute('disabled', true)
+    ui.expressionEnvelope.setAttribute('disabled', disableExpressionEditing)
     ui.menuBar.setAttribute('hide', true)
 
     ui.runButton.setAttribute('hide', true)
     ui.stopButton.setAttribute('hide', false)
-    ui.navigatorButton.setAttribute('hide', true)
+    if (hideNavigator) ui.navigatorButton.setAttribute('hide', true)
     ui.resetButton.setAttribute('hide', true)
+    ui.tryAgainButton.setAttribute('hide', true)
 
-    assets.sounds.start_running.play()
+    if (playSound) assets.sounds.start_running.play()
 
     self.sendEvent('startRunning', [])
 
     requestDraw()
   }
 
-  function stopRunning(playSound=true) {
+  function setCompletionTime(t) {
+    completionTime = t
+    ui.completionTime.innerHTML = t
+  }
+
+  function stopRunning(playSound = true) {
     runTime = 0
     running = false
+    setCompletionTime(null)
 
     ui.mathField.blur()
     ui.expressionEnvelope.setAttribute('disabled', false)
@@ -254,7 +397,9 @@ function World(spec) {
 
     ui.controlBar.setAttribute('hide', navigating)
     ui.navigatorButton.setAttribute('hide', false)
+    ui.expressionEnvelope.setAttribute('hide', false)
     ui.runButton.setAttribute('hide', false)
+    ui.tryAgainButton.setAttribute('hide', true)
     ui.stopButton.setAttribute('hide', true)
     ui.resetButton.setAttribute('hide', false)
 
@@ -263,8 +408,7 @@ function World(spec) {
       setTimeout(() => ui.expressionText.focus(), 250)
     }
 
-    if (playSound)
-      assets.sounds.stop_running.play()
+    if (playSound) assets.sounds.stop_running.play()
 
     self.sendEvent('stopRunning', [])
 
@@ -286,7 +430,9 @@ function World(spec) {
       do {
         goalPosition.x = _.random(-10, 10)
         goalPosition.y = _.random(-10, 10)
-      } while (_.find(goals, v => v.x == goalPosition.x && v.y == goalPosition.y))
+      } while (
+        _.find(goals, (v) => v.x == goalPosition.x && v.y == goalPosition.y)
+      )
 
       goals.push(goalPosition)
     }
@@ -299,9 +445,12 @@ function World(spec) {
 
       do {
         sledderX = _.random(-10, 10)
-      } while (_.find(goals, v => v.x == sledderX) || _.find(sledders, v => v.x == sledderX))
+      } while (
+        _.find(goals, (v) => v.x == sledderX) ||
+        _.find(sledders, (v) => v.x == sledderX)
+      )
 
-      sledders.push({x: sledderX})
+      sledders.push({ x: sledderX })
     }
 
     const biomes = _.values(Colors.biomes)
@@ -320,13 +469,63 @@ function World(spec) {
     }
   }
 
+  function generatePuzzleLevel(urlData) {
+    return {
+      isPuzzle: true,
+      name: urlData.name,
+      nick: urlData.nick,
+      drawOrder: LAYERS.level,
+      slider: urlData.slider,
+      x: urlData.x,
+      y: urlData.y,
+      biome: urlData.biome,
+      colors: urlData.colors,
+      defaultExpression: urlData.defaultExpression,
+      expressionOverride: urlData.expressionOverride,
+      hint: urlData.hint,
+      goals: urlData.goals,
+      sledders: urlData.sledders,
+      sprites: urlData.sprites,
+    }
+  }
+
+  function playBackgroundMusic(datum, level) {
+    let asset
+
+    if (!_.isObject(datum)) datum = { asset: datum }
+
+    asset = datum.asset
+
+    if (asset == backgroundMusicAsset) return
+
+    if (backgroundMusicSound != null) {
+      backgroundMusicSound.fadeDestroy()
+      backgroundMusicAsset = null
+      backgroundMusicSound = null
+    }
+
+    if (asset == null) return
+
+    backgroundMusicAsset = asset
+    backgroundMusicSound = Sound({
+      asset,
+      assets,
+      level,
+      name: 'Sound ' + asset,
+      parent: self,
+      loop: true,
+      fadeOnNavigating: false,
+      ...datum,
+    })
+  }
+
   function onClickMapButton() {
     transitionNavigating(!navigating)
     assets.sounds.map_button.play()
   }
 
-  function onClickResetButton() {
-    level.reset()
+  function onResetConfirm() {
+    level.restart()
     assets.sounds.restart_button.play()
   }
 
@@ -338,11 +537,25 @@ function World(spec) {
     self.sendEvent('mathFieldBlurred')
   }
 
+  function onGridlinesDeactive() {
+    self.sendEvent('disableGridlines')
+  }
+  function onGridlinesActive() {
+    self.sendEvent('enableGridlines')
+  }
+  function onCoordinate(x, y) {
+    self.sendEvent('setCoordinates', [x, y])
+  }
+
   return self.mix({
     start,
     tick,
     draw,
 
+    globalScope,
+
+    _startRunning: startRunning,
+    _stopRunning: stopRunning,
     toggleRunning,
 
     nextLevel,
@@ -354,20 +567,39 @@ function World(spec) {
     transitionNavigating,
 
     onClickMapButton,
-    onClickResetButton,
+    onResetConfirm,
     onClickNextButton,
 
     onMathFieldFocus,
     onMathFieldBlur,
 
-    get navigator() {return navigator},
+    onGridlinesActive,
+    onGridlinesDeactive,
+    onCoordinate,
 
-    get editing() {return editing},
-    set editing(v) {setEditing(v)},
+    get navigator() {
+      return navigator
+    },
+    get running() {
+      return running
+    },
 
-    get level() {return level},
+    get editing() {
+      return editing
+    },
+    set editing(v) {
+      setEditing(v)
+    },
 
-    get navigating() {return navigating},
-    set navigating(v) {setNavigating(v)},
+    get level() {
+      return level
+    },
+
+    get navigating() {
+      return navigating
+    },
+    set navigating(v) {
+      setNavigating(v)
+    },
   })
 }

@@ -1,9 +1,5 @@
 function Speech(spec) {
-  const {
-    self,
-    screen,
-    camera,
-  } = Entity(spec, 'Speech')
+  const { self, screen, camera, world } = Entity(spec, 'Speech')
 
   let {
     content = 'WORDS WORDS WORDS',
@@ -20,12 +16,16 @@ function Speech(spec) {
     domain = [NINF, PINF],
     drawIfRunning = false,
     globalScope,
+    deactivationThreshold = null,
+    activationThreshold = null,
   } = spec
 
   const transform = Transform(spec, self)
 
   let domainTransform
-  
+
+  let activationThresholdMet = false
+
   let textDirection
   switch (direction) {
     case 'up-left':
@@ -109,14 +109,17 @@ function Speech(spec) {
   textDirection.normalize()
 
   const textTangent = Vector2(textDirection).orthogonalize()
-  const textOriginPerturbation = Vector2(textTangent).multiply(0)//Math.random()*distance/6)
+  const textOriginPerturbation = Vector2(textTangent).multiply(0) //Math.random()*distance/6)
 
   const worldPosition = Vector2()
+  const worldPositionScreen = Vector2()
 
   const speakerOrigin = Vector2(speakerX, speakerY)
   const speakerOriginWorld = Vector2()
 
-  const textOrigin = Vector2(textDirection).multiply(distance).add(textOriginPerturbation)
+  const textOrigin = Vector2(textDirection)
+    .multiply(distance)
+    .add(textOriginPerturbation)
   const textOriginWorld = Vector2()
   const textOriginScreen = Vector2()
 
@@ -129,23 +132,28 @@ function Speech(spec) {
   const lineTerminusScreen = Vector2()
 
   const controlPointWorld = Vector2()
-  const controlPointPerturbation = Vector2(Math.random()*Math.sign(textDirection.x || (Math.round(Math.random())*2-1))*distance/10, Math.random()*distance/10)
+  const controlPointPerturbation = Vector2(
+    (Math.random() *
+      Math.sign(textDirection.x || Math.round(Math.random()) * 2 - 1) *
+      distance) /
+      10,
+    (Math.random() * distance) / 10,
+  )
   const controlPointScreen = Vector2()
 
   if (speech) {
-    if (!_.isArray(speech))
-      speech = [speech]
+    if (!_.isArray(speech)) speech = [speech]
 
     for (s of speech) {
-      if (_.isString(s))
-        s = {content: s}
+      if (_.isString(s)) s = { content: s }
 
       Speech({
         parent: self,
         domainTransform,
+        domain,
         globalScope,
         x: textOrigin.x + (s.x || 0),
-        y: textOrigin.y + (s.y || 0) + size*0.8,
+        y: textOrigin.y + (s.y || 0) + size * 0.8,
         ...s,
       })
     }
@@ -154,7 +162,7 @@ function Speech(spec) {
   function awake() {
     domainTransform = self.getFromAncestor('domainTransform')
   }
-  
+
   function tick() {
     transform.rotation = -transform.parentWorldRotation
   }
@@ -171,7 +179,9 @@ function Speech(spec) {
     lineOriginWorld.set(lineDirection).multiply(0.25).add(speakerOriginWorld)
     lineTerminusWorld.set(lineDirection).multiply(-0.25).add(textOriginWorld)
 
-    lineOriginWorld.lerp(lineTerminusWorld, 0.5, controlPointWorld).add(controlPointPerturbation)
+    lineOriginWorld
+      .lerp(lineTerminusWorld, 0.5, controlPointWorld)
+      .add(controlPointPerturbation)
   }
 
   function transformPoints() {
@@ -179,16 +189,46 @@ function Speech(spec) {
     camera.worldToScreen(lineOriginWorld, lineOriginScreen)
     camera.worldToScreen(lineTerminusWorld, lineTerminusScreen)
     camera.worldToScreen(controlPointWorld, controlPointScreen)
+    camera.worldToScreen(worldPosition, worldPositionScreen)
   }
 
+  let inDomain = false
+
   function draw() {
-    // Draw based on whether we are within the given domain 
-    if (domainTransform && (domainTransform.x < domain[0] || domainTransform.x > domain[1]))
+    // Activation/deactivation threshold logic
+    if (
+      deactivationThreshold &&
+      domainTransform &&
+      Math.abs(domainTransform.x - deactivationThreshold) < 0.1
+    ) {
+      self.destroy()
+      console.log('destroyed speech sprite')
+    }
+
+    if (
+      activationThreshold &&
+      domainTransform &&
+      Math.abs(domainTransform.x - activationThreshold) < 0.1
+    )
+      activationThresholdMet = true
+
+    if (activationThreshold && !activationThresholdMet) return
+
+    // Draw based on whether we are within the given domain
+    if (
+      domainTransform &&
+      (domainTransform.x < domain[0] || domainTransform.x > domain[1])
+    )
       return
 
-    if (globalScope.running && !drawIfRunning)
+    if (
+      globalScope.running &&
+      !drawIfRunning &&
+      !world.level.isRunningAsCutscene
+    ) {
       return
-      
+    }
+
     const scalar = camera.worldToScreenScalar()
 
     calculatePoints()
@@ -197,22 +237,32 @@ function Speech(spec) {
     ctx = screen.ctx
 
     ctx.strokeStyle = color
-    ctx.lineWidth = scalar/15
+    ctx.lineWidth = scalar / 15
     ctx.lineCap = 'round'
+
+    // ctx.beginPath()
+    // ctx.fillStyle = 'green'
+    // ctx.arc(worldPositionScreen.x, worldPositionScreen.y, 4, 0, TAU)
+    // ctx.fill()
 
     ctx.beginPath()
     ctx.moveTo(lineOriginScreen.x, lineOriginScreen.y)
-    ctx.quadraticCurveTo(controlPointScreen.x, controlPointScreen.y, lineTerminusScreen.x, lineTerminusScreen.y)
+    ctx.quadraticCurveTo(
+      controlPointScreen.x,
+      controlPointScreen.y,
+      lineTerminusScreen.x,
+      lineTerminusScreen.y,
+    )
     ctx.stroke()
 
     ctx.fillStyle = color
     ctx.textAlign = align
     ctx.textBaseline = baseline
-    ctx.font = '1px '+font
+    ctx.font = '1px ' + font
 
     ctx.save()
     ctx.translate(textOriginScreen.x, textOriginScreen.y)
-    ctx.scale(size*scalar, size*scalar)
+    ctx.scale(size * scalar, size * scalar)
     ctx.fillText(content, 0, 0)
     ctx.restore()
   }
@@ -220,7 +270,9 @@ function Speech(spec) {
   return self.mix({
     transform,
 
-    awake,    
+    domain,
+
+    awake,
     tick,
     draw,
   })

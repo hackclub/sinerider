@@ -1,11 +1,5 @@
 function PathGoal(spec) {
-  const {
-    self,
-    screen,
-    camera,
-    transform,
-    ctx,
-  } = Goal(spec, 'Path Goal')
+  const { self, screen, camera, transform, ctx } = Goal(spec, 'Path Goal')
 
   const base = _.mix(self)
 
@@ -19,9 +13,9 @@ function PathGoal(spec) {
     pathY = 0,
   } = spec
 
-  const trackPoints = []
+  let trackPoints = []
 
-  const bottom = Vector2(0, -size/2)
+  const bottom = Vector2(0, -size / 2)
   const bottomWorld = Vector2()
 
   const slopeTangent = Vector2()
@@ -44,24 +38,20 @@ function PathGoal(spec) {
   const pathMinWorld = Vector2()
   const pathMaxWorld = Vector2()
 
-  const pathSign = Math.sign(pathX)
-  const pathSpan = Math.abs(pathX)
+  let pathSign = Math.sign(pathX)
+  let pathSpan = Math.abs(pathX)
 
-  const maxPathResetSpeed = 3
+  let maxPathResetSpeed = 3
   let pathResetSpeed = 0
   let pathProgress = 0
 
   const outerColor = Color()
-  const outerColors = [
-    Color('#111111'),
-    Color('#444444'),
-    Color('#333333'),
-  ]
+  const outerColors = [Color('#111111'), Color('#444444'), Color('#333333')]
 
   const shape = Circle({
     transform,
     center: Vector2(0, 0),
-    radius: size/2,
+    radius: size / 2,
   })
 
   // Establish path origin in world space
@@ -73,13 +63,27 @@ function PathGoal(spec) {
     parent: self,
     globalScope,
     expression: pathExpression,
-    fill: false,
     freeze: true,
+    fill: false,
     scaleStroke: true,
     bounds: [pathStartWorld.x, pathEndWorld.x],
-    sampleCount: Math.round(pathSpan*4),
+    sampleCount: Math.round(pathSpan * 4),
     strokeWidth: 1,
     strokeColor: '#888',
+    dashed: true,
+    dashSettings: [0.5, 0.5],
+    useInterpolation: false,
+  })
+
+  const hintGraph = Graph({
+    name: 'Path Hint Graph',
+    parent: self,
+    globalScope,
+    expression: pathExpression,
+    fill: false,
+    scaleStroke: true,
+    strokeWidth: 0.1,
+    strokeColor: '#FFA500',
     dashed: true,
     dashSettings: [0.5, 0.5],
   })
@@ -87,6 +91,9 @@ function PathGoal(spec) {
   // HACK: Hijack the graph's draw method to draw it behind the goal object
   const drawPathGraph = pathGraph.draw.bind(pathGraph)
   pathGraph.draw = () => {}
+
+  const drawHintGraph = hintGraph.draw.bind(hintGraph)
+  hintGraph.draw = () => {}
 
   // Sample start/end points
   pathStartWorld.y = pathGraph.sample('x', pathStartWorld.x)
@@ -109,10 +116,94 @@ function PathGoal(spec) {
   pathStartWorld.min(pathEndWorld, pathMinWorld)
   pathStartWorld.max(pathEndWorld, pathMaxWorld)
 
-  trackPoints.push(pathStartWorld)
-  trackPoints.push(pathEndWorld)
+  // trackPoints.push(pathStartWorld)
+  // trackPoints.push(pathEndWorld)
+  trackPoints.push(pathGraph.minSample)
+  trackPoints.push(pathGraph.maxSample)
+
+  const boundsTransform = Transform(spec)
+
+  const bounds = Rect({
+    transform: boundsTransform,
+  })
+
+  updateBounds()
+
+  const clickable = Clickable({
+    entity: self,
+    shape: bounds,
+    transform,
+    camera,
+  })
+
+  function updateBounds() {
+    const max = pathGraph.samples.reduce(
+      (max, el) => (el[1] > max ? el[1] : max),
+      NINF,
+    )
+    const min = pathGraph.samples.reduce(
+      (min, el) => (el[1] < min ? el[1] : min),
+      PINF,
+    )
+    const height = max - min
+    const top = transform.invertScalar(max)
+
+    bounds.width = pathX
+    bounds.height = height
+    bounds.center = Vector2(pathX / 2, top - height / 2)
+  }
+
+  let oldExpression
+
+  function select() {
+    editor.editingPath = true
+
+    ui.mathFieldLabel.innerText = 'P='
+
+    ui.mathField.latex(pathExpression)
+    ui.mathFieldStatic.latex(pathExpression)
+
+    oldExpression = world.level.currentLatex
+
+    editor.select(self, 'path')
+  }
+
+  function deselect() {
+    editor.editingPath = false
+
+    ui.mathFieldLabel.innerText = 'Y='
+
+    ui.mathField.latex(oldExpression)
+    ui.mathFieldStatic.latex(oldExpression)
+
+    editor.deselect()
+  }
+
+  function setGraphExpression(text, latex) {
+    if (!clickable.selected) return
+
+    pathExpression = text
+
+    pathGraph.expression = text
+    pathGraph.refresh()
+
+    hintGraph.expression = text
+    hintGraph.refresh()
+
+    ui.mathFieldStatic.latex(latex)
+
+    updateBounds()
+  }
 
   function tick() {
+    const height = pathGraph.max - pathGraph.min
+    const top = transform.invertScalar(pathGraph.max)
+
+    bounds.height = height
+    bounds.center = Vector2(pathX / 2, top - height / 2)
+
+    boundsTransform.y = top - height / 2
+
     base.tick()
     tickPath()
   }
@@ -124,18 +215,28 @@ function PathGoal(spec) {
       if (self.triggered) {
         pathPositionWorld.x += self.triggeringSledderDelta.x
         pathResetSpeed = 0
+      } else {
+        pathPositionWorld.x -= pathSign * self.tickDelta * pathResetSpeed
+        pathResetSpeed = Math.min(
+          pathResetSpeed + self.tickDelta * 6,
+          maxPathResetSpeed,
+        )
       }
-      else {
-        pathPositionWorld.x -= pathSign*self.tickDelta*pathResetSpeed
-        pathResetSpeed = Math.min(pathResetSpeed+self.tickDelta*6, maxPathResetSpeed)
-      }
-      pathPositionWorld.x = math.clamp(pathMinWorld.x, pathMaxWorld.x, pathPositionWorld.x)
+      pathPositionWorld.x = math.clamp(
+        pathMinWorld.x,
+        pathMaxWorld.x,
+        pathPositionWorld.x,
+      )
 
-      pathProgress = math.unlerp(pathStartWorld.x, pathEndWorld.x, pathPositionWorld.x)
+      pathProgress = math.unlerp(
+        pathStartWorld.x,
+        pathEndWorld.x,
+        pathPositionWorld.x,
+      )
 
       pathPositionWorld.y = pathGraph.sample('x', pathPositionWorld.x)
       transform.invertPoint(pathPositionWorld, pathPosition)
-      shape.center = pathPosition
+      shape.center.set(pathPosition)
 
       if (self.triggered && pathProgress != 0 && pathProgressZero) {
         assets.sounds.path_goal_start.play()
@@ -148,11 +249,9 @@ function PathGoal(spec) {
     }
   }
 
-
   function checkComplete() {
     if (self.triggered && !self.completed && !self.failed) {
-      if (!self.available)
-        self.fail()
+      if (!self.available) self.fail()
       else if (pathProgress == 1) {
         self.complete()
         assets.sounds.path_goal_continue.stop()
@@ -167,12 +266,12 @@ function PathGoal(spec) {
     ctx.lineWidth = self.strokeWidth
 
     ctx.beginPath()
-    ctx.arc(pathPosition.x, -pathPosition.y, size/2, 0, TAU)
+    ctx.arc(pathPosition.x, -pathPosition.y, size / 2, 0, TAU)
     ctx.fill()
     ctx.stroke()
 
     ctx.beginPath()
-    ctx.arc(pathEnd.x, -pathEnd.y, size/2, 0, TAU)
+    ctx.arc(pathEnd.x, -pathEnd.y, size / 2, 0, TAU)
     ctx.strokeStyle = '#888'
     // ctx.stroke()
 
@@ -181,9 +280,13 @@ function PathGoal(spec) {
       ctx.fillStyle = 'green'
       ctx.textAlign = 'center'
       ctx.textBaseline = 'middle'
-      ctx.fillText('position: '+pathPosition.toString(), pathPosition.x, -pathPosition.y)
-      ctx.fillText('start: '+pathStart.toString(), pathStart.x, -pathStart.y)
-      ctx.fillText('end: '+pathEnd.toString(), pathEnd.x, -pathEnd.y)
+      ctx.fillText(
+        'position: ' + pathPosition.toString(),
+        pathPosition.x,
+        -pathPosition.y,
+      )
+      ctx.fillText('start: ' + pathStart.toString(), pathStart.x, -pathStart.y)
+      ctx.fillText('end: ' + pathEnd.toString(), pathEnd.x, -pathEnd.y)
     }
   }
 
@@ -194,20 +297,35 @@ function PathGoal(spec) {
     camera.worldToScreen(pathStartWorld, pathStartScreen)
     camera.worldToScreen(pathEndWorld, pathEndScreen)
 
-    let outerStyle = ctx.createLinearGradient(pathStartScreen.x, 0, pathEndScreen.x, 0)
+    let outerStyle = ctx.createLinearGradient(
+      pathStartScreen.x,
+      0,
+      pathEndScreen.x,
+      0,
+    )
 
     for (let i = 0; i < outerColors.length; i++) {
-      let p = i/(outerColors.length-1)
+      let p = i / (outerColors.length - 1)
       outerColor.set(outerColors[i]).lerp(self.flashWhite, self.flashProgress)
       outerStyle.addColorStop(p, outerColor.hex)
     }
 
-    let innerStyle = ctx.createLinearGradient(pathStartScreen.x, 0, pathEndScreen.x, 0)
+    let innerStyle = ctx.createLinearGradient(
+      pathStartScreen.x,
+      0,
+      pathEndScreen.x,
+      0,
+    )
 
     innerStyle.addColorStop(0, '#6F0')
-    innerStyle.addColorStop(pathProgress/2, '#4F6')
+    innerStyle.addColorStop(pathProgress / 2, '#4F6')
     innerStyle.addColorStop(pathProgress, '#4F6')
-    innerStyle.addColorStop(math.clamp01(pathProgress+0.02), '#FFF')
+    innerStyle.addColorStop(math.clamp01(pathProgress + 0.02), '#FFF')
+
+    if (clickable.selected) {
+      hintGraph.resize()
+      drawHintGraph()
+    }
 
     pathGraph.strokeWidth = 0.4
     pathGraph.strokeColor = outerStyle
@@ -228,9 +346,11 @@ function PathGoal(spec) {
     if (self.debug) {
       shape.draw(ctx, camera)
 
-      if (dynamic)
-        rigidbody.draw(ctx)
+      if (dynamic) rigidbody.draw(ctx)
     }
+
+    // TODO: Polish bounding box
+    if (clickable.selectedInEditor) bounds.draw(ctx, camera)
   }
 
   function reset() {
@@ -240,19 +360,95 @@ function PathGoal(spec) {
     pathPositionWorld.set(pathStartWorld)
   }
 
+  function resize() {
+    hintGraph.resize()
+  }
+
+  function dragMove(point) {
+    transform.position = point
+
+    // Reset pathStart/pathEnd
+    pathStart.set(Vector2())
+    pathEnd.set(Vector2(pathX, 0))
+
+    // Re-transform to world space
+    transform.transformPoint(pathStart, pathStartWorld)
+    transform.transformPoint(pathEnd, pathEndWorld)
+
+    // Reset pathPosition
+    pathPosition.set(pathStart)
+    transform.transformPoint(pathPosition, pathPositionWorld)
+
+    pathStart.min(pathEnd, pathMin)
+    pathStart.max(pathEnd, pathMax)
+
+    pathStartWorld.min(pathEndWorld, pathMinWorld)
+    pathStartWorld.max(pathEndWorld, pathMaxWorld)
+
+    // Re-calculate path progress
+    tickPath()
+
+    // Update graph
+    pathGraph.bounds[0] = pathStartWorld.x
+    pathGraph.bounds[1] = pathEndWorld.x
+    pathGraph.refresh()
+
+    boundsTransform.x = point.x
+    updateBounds()
+
+    trackPoints = [pathStartWorld, pathEndWorld]
+
+    ui.editorInspector.x.value = point.x.toFixed(2)
+    ui.editorInspector.y.value = point.y.toFixed(2)
+  }
+
+  function dragEnd() {
+    reset()
+  }
+
+  function setX(x) {
+    transform.position.x = x
+  }
+
+  function setY(y) {
+    transform.position.y = y
+  }
+
   return self.mix({
     transform,
 
     tick,
     draw,
 
+    setX,
+    setY,
+
+    dragMove,
+    dragEnd,
+
     reset,
+    resize,
 
     checkComplete,
 
     trackPoints,
     shape,
 
-    get completedProgress() {return pathProgress},
+    select,
+    deselect,
+
+    clickable,
+
+    setGraphExpression,
+
+    bounds,
+    boundsTransform,
+
+    get completedProgress() {
+      return pathProgress
+    },
+    get type() {
+      return 'path'
+    },
   })
 }

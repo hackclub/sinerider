@@ -1,2 +1,10 @@
+todo.md
 .vscode
+<<<<<<< HEAD
 .DS_Store
+=======
+todo.md
+**/*.DS_Store
+.vs
+node_modules
+>>>>>>> main

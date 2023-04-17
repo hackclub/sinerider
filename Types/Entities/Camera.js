@@ -3,24 +3,20 @@
 // The camera smoothly pans and zooms to keep all Sledders, Goals, and the Axes origin in view at all times.
 
 function Camera(spec) {
-  const {
-    self,
-    screen,
-  } = Entity(spec, 'Camera')
+  const { self, screen } = Entity(spec, 'Camera')
 
   const transform = Transform(spec)
 
-  let {
-    fov = 5,
-    rotation = 0,
-    globalScope = {},
-    directors = [],
-  } = spec
+  let { fov = 5, rotation = 0, globalScope = {}, directors = [] } = spec
 
-  const offset = Vector2(spec.offset || [0, 0])
+  let shake = 0
+
+  // const defaultOffset = Vector2(spec.offset || [0, 0])
+  const defaultOffset = Vector2([0, 0])
+  const offset = defaultOffset.clone()
   const scaledOffset = Vector2()
-  
-  let activeDirector
+
+  let activeDirector = null
 
   transform.scale = fov
 
@@ -79,13 +75,10 @@ function Camera(spec) {
   }
 
   function worldToScreen(point, output, localTransform) {
-    if (output)
-      output.set(point)
-    else
-      output = point
+    if (output) output.set(point)
+    else output = point
 
-    if (localTransform)
-      localTransform.transformPoint(output)
+    if (localTransform) localTransform.transformPoint(output)
 
     transform.invertPoint(output)
     screen.frameToScreen(output)
@@ -94,28 +87,22 @@ function Camera(spec) {
   }
 
   function screenToWorld(point, output, localTransform) {
-    if (output)
-      output.set(point)
-    else
-      output = point
+    if (output) output.set(point)
+    else output = point
 
     screen.screenToFrame(output)
     transform.transformPoint(output)
 
-    if (localTransform)
-      localTransform.invertPoint(output)
+    if (localTransform) localTransform.invertPoint(output)
 
     return output
   }
 
   function worldToScreenDirection(input, output, localTransform) {
-    if (output)
-      output.set(input)
-    else
-      output = input
+    if (output) output.set(input)
+    else output = input
 
-    if (localTransform)
-      localTransform.transformDirection(output)
+    if (localTransform) localTransform.transformDirection(output)
 
     transform.invertDirection(output)
     screen.frameToScreenDirection(output)
@@ -124,26 +111,23 @@ function Camera(spec) {
   }
 
   function screenToWorldDirection(input, output, localTransform) {
-    if (output)
-      output.set(input)
-    else
-      output = input
+    if (output) output.set(input)
+    else output = input
 
     screen.screenToFrameDirection(output)
     transform.transformDirection(output)
 
-    if (localTransform)
-      localTransform.invertDirection(output)
+    if (localTransform) localTransform.invertDirection(output)
 
     return output
   }
 
-  function worldToScreenScalar(scalar=1) {
+  function worldToScreenScalar(scalar = 1) {
     const frameScalar = transform.invertScalar(scalar)
     return screen.transform.transformScalar(frameScalar)
   }
 
-  function screenToWorldScalar(scalar=1) {
+  function screenToWorldScalar(scalar = 1) {
     const frameScalar = screen.transform.invertScalar(scalar)
     return transform.transformScalar(frameScalar)
   }
@@ -177,7 +161,6 @@ function Camera(spec) {
     transform.transformPoint(screen.maxFramePoint, upperRight)
   }
 
-
   function sampleDirector() {
     let _activeDirector
     for (c of directors) {
@@ -188,10 +171,8 @@ function Camera(spec) {
     }
 
     if (activeDirector != _activeDirector) {
-      if (activeDirector)
-        activeDirector.stopControlling()
-      if (_activeDirector)
-        _activeDirector.startControlling()
+      if (activeDirector) activeDirector.stopControlling()
+      if (_activeDirector) _activeDirector.startControlling()
 
       activeDirector = _activeDirector
     }
@@ -205,6 +186,8 @@ function Camera(spec) {
       transform.position = activeDirector.cameraState.position
       transform.position.add(scaledOffset)
       setFov(activeDirector.cameraState.fov)
+      // const offsetMargin = math.max(scaledOffset.x, scaledOffset.y)
+      // setFov(activeDirector.cameraState.fov+offsetMargin)
     }
   }
 
@@ -212,12 +195,26 @@ function Camera(spec) {
     directors.push(director)
   }
 
+  let target = offset.clone()
+
   function tick() {
     computeCorners()
     sampleDirector()
 
-    if (self.debug) {
+    // Every n ticks, translate camera slightly then lerp to normal
+
+    if (Math.random() > 1 - shake) {
+      defaultOffset.add(
+        Vector2(
+          ((Math.random() - 0.5) * shake) / 2,
+          ((Math.random() - 0.5) * shake) / 2,
+        ),
+        target,
+      )
     }
+
+    const timescale = globalScope.timescale ?? 1 // globalScope is cleared on map navigation, not sure why?
+    offset.lerp(shake > 0 ? target : defaultOffset, 0.1 * timescale)
   }
 
   function drawLocal(ctx) {
@@ -246,11 +243,9 @@ function Camera(spec) {
     }
   }
 
-  function startRunning() {
-  }
+  function startRunning() {}
 
-  function stopRunningLate() {
-  }
+  function stopRunningLate() {}
 
   function drawThrough(ctx, drawCallback, localTransform) {
     ctx.save()
@@ -291,7 +286,7 @@ function Camera(spec) {
     screenToWorldCanvas,
 
     tick,
-    draw,
+    // draw,
     start,
 
     startRunning,
@@ -301,13 +296,45 @@ function Camera(spec) {
 
     addDirector,
 
-    get fov() {return fov},
-    set fov(v) {setFov(fov)},
+    computeCorners,
 
-    get position() {return transform.position},
-    set position(v) {transform.position.set(v)},
+    get fov() {
+      return fov
+    },
+    set fov(v) {
+      setFov(fov)
+    },
 
-    get rotation() {return rotation},
-    set rotation(v) {transform.rotation = v},
+    get activeDirector() {
+      return activeDirector
+    },
+
+    get position() {
+      return transform.position
+    },
+    set position(v) {
+      transform.position.set(v)
+    },
+
+    get rotation() {
+      return rotation
+    },
+    set rotation(v) {
+      transform.rotation = v
+    },
+
+    get shake() {
+      return shake
+    },
+    set shake(v) {
+      shake = v
+    },
+
+    get offset() {
+      return defaultOffset
+    },
+    set offset(v) {
+      defaultOffset.set(v)
+    },
   })
 }

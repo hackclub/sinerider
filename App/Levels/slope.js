@@ -1,336 +1,422 @@
-const SLOPE = [{
-  name: 'A Solid Slope',
-  nick: 'SLOPE_POSITIVE',
-  colors: Colors.biomes.alps,
-  x: 10,
-  y: 0,
-  camera: {
-    x: 0,
-    y: 0,
-    fov: 7,
-  },
-  requirements: ['HELLO_WORLD'],
-  flashMathField: true,
-  defaultExpression: '-x',
-  hint: 'hint: x makes a slope',
-  goals: [
-    {
-      type: 'path',
-      expression: 'x',
-      pathX: -4,
-      x: -2,
-      y: 0,
-    },
-  ],
-  sledders: [{
-    speech: [{
-      speakerX: -0.4,
-      content: 'Ready to go?',
-      direction: 'up-up-left',
-      distance: 1.5,
-    },{
-      speakerX: 0.3,
-      content: 'Let’s do it!',
-      direction: 'right-up',
-      distance: 1,
-    }]
-  }],
-  texts: [{
-    x: -3,
-    y: -2,
-    size: 0.4,
-    align: 'right',
-    content: 'This is your objective →'
-  },{
-    x: -3.1,
-    y: -6.8,
-    size: 0.4,
-    align: 'center',
-    content: 'Edit this function to hit it!'
-  }],
-  slider: {expression:"nx", bounds:[-1,1,-1]},
-  textBubbles: [{content:"Click here to edit your function", domSelector:"#expression-envelope", place:"top-right", destroyOnClick:true}, {content:"slide me up", domSelector:"#dotted-slider-box", place:"bottom-left",destroyOnClick:true}],
-  sky: {
-    asset:'images.western_slopes_background',
-    margin: 1,
-  },
-},
-{
-  name: 'Try facing forwards?',
-  nick: 'SLOPE_NEGATIVE',
-  colors: Colors.biomes.alps,
-  x: 10,
-  y: 0,
-  camera: {
-    x: 2,
-    y: -2,
-    fov: 7,
-  },
-  requirements: null,
-  defaultExpression: 'x',
-  hint: 'hint: go negative',
-  goals: [
-    {
-      type: 'path',
-      expression: '-x',
-      pathX: 6,
-      x: 2,
-      y: 0,
-    },
-  ],
-  sledders: [{
-    speech: [{
-      speakerX: -0.4,
-      content: '…forward this time? Please?',
-      direction: 'up',
-      distance: 1.5,
-    },{
-      speakerX: 0.3,
-      content: 'Wuss.',
-      direction: 'up-right',
-      distance: 1,
-    }]
-  }],
-  slider: {expression:"nx", bounds:[-1,1,1]},
-  sky: {
-    asset: 'images.western_slopes_background',
-    margin: 1,
-  },
-},
-{
-  name: 'A real steep hill',
-  nick: 'SLOPE_STEEPER',
-  colors: Colors.biomes.alps,
-  x: 5,
-  y: -10,
-  camera: {
-    x: 2,
-    y: -5.5,
-    fov: 11,
-  },
-  requirements: ['SLOPE_NEGATIVE'],
-  defaultExpression: '-x',
-  hint: 'hint: try multiplying',
-  goals: [
-    {
-      type: 'path',
-      expression: '-x*2',
-      pathX: 6,
-      x: 2,
-      y: 0,
-    },
-  ],
-  sledders: [{
-    speech: [{
-      speakerX: -0.4,
-      content: 'Wuss!',
-      direction: 'up-up-left',
-      distance: 1.3,
-    },{
-      speakerX: 0.3,
-      content: '…shut up.',
-      direction: 'up-right-right',
-      distance: 1,
-      speech: {
-        content: 'This seems dangerous.',
-        distance: 1,
-      }
-    }]
-  }],
-  slider: {
-    expression: 'nx',
-    bounds: [-1.5, -1, -1]
-  },
-  sky: {
-    asset: 'images.western_slopes_background',
-    margin: 1,
-  },
-},
-{
-  name: 'The bunny slope',
-  nick: 'SLOPE_SHALLOWER',
-  colors: Colors.biomes.alps,
-  x: 10,
-  y: 0,
-  camera: {
-    x: 2,
-    y: 0,
-    fov: 7,
-  },
-  requirements: null,
-  hint: 'hint: what’s the opposite of multiplying?',
-  defaultExpression: '-x',
-  goals: [
-    {
-      type: 'path',
-      expression: '-x/2',
-      pathX: 6,
-      x: 2,
-      y: 0,
-    },
-  ],
-  sledders: [{
-    speech: [{
-      speakerX: -0.4,
-      content: 'But also definitely less fun.',
-      direction: 'up',
-      distance: 1.5,
-      speech: {
-        content: 'This is definitely safer.',
-        direction: 'up-up-left',
-        distance: 0.8,
-      }
-    },{
-      speakerX: 0.3,
-      content: 'There’s probably a connection there.',
-      direction: 'right-up',
-      distance: 0.8,
-    }]
-  }],
-  slider: {expression:"\\frac{-x}{n}", bounds:[1,1.5,1]},
-  sky: {
-    asset: 'images.western_slopes_background',
-    margin: 1,
-  },
-},
-{
-  name: 'Moving up in the world',
-  nick: 'SLOPE_HIGHER',
-  colors: Colors.biomes.alps,
-  x: 5,
-  y: 10,
-  camera: {
-    x: 5,
-    y: 2,
-    fov: 9,
-  },
-  requirements: ['SLOPE_NEGATIVE'],
-  defaultExpression: '-x-3',
-  hint: 'hint: add a constant',
-  goals: [
-    {
-      type: 'path',
-      expression: '-x+7',
-      pathX: 6,
-      x: 2,
-      y: 0,
-    },
-  ],
-  sledders: [{
-    speech: [{
-      speakerX: -0.4,
-      content: '…sorry.',
-      direction: 'up-left',
-      distance: 1,
-      speech: {
-        content: 'Things seem better today!',
-        distance: 1,
-      }
-    },{
-      speakerX: 0.3,
-      content: 'Yeah. Can we not talk about it?',
-      direction: 'right-up-up',
-      distance: 1.3,
-    }]
-  }],
-  slider: {expression:"-x + n", bounds:[-3,1,-3]},
-  sky: {
-    asset: 'images.western_slopes_background',
-    margin: 1,
-  },
-},
-{
-  name: 'About halfway down',
-  nick: 'SLOPE_LOWER',
-  colors: Colors.biomes.alps,
-  x: 10,
-  y: 0,
-  camera: {
-    x: 2,
-    y: -4,
-    fov: 11,
-  },
-  requirements: null,
-  defaultExpression: '-x',
-  hint: 'hint: if adding makes it go up…',
-  goals: [
-    {
-      type: 'path',
-      expression: '-x-3',
-      pathX: 4,
-      x: 3,
-      y: 0,
-    },
-  ],
-  sledders: [{
-    speech: [{
-      speakerX: -0.4,
-      content: 'I love you.',
-      direction: 'up',
-      distance: 1.5,
-    },{
-      speakerX: 0.4,
-      content: 'I love you too, Sam.',
-      direction: 'right-up',
-      distance: 0.75,
-    }]
-  }],
-  slider: {expression:"-x + n", bounds:[-2,0,0]},
-  sky: {
-    asset: 'images.western_slopes_background',
-    margin: 1,
-  },
-},
-CONSTANT_LAKE,
-{
-  name: 'We\'re at the bottom',
-  nick: 'SLOPE_SCALE_TRANSLATE',
-  colors: Colors.biomes.alps,
-  x: 10,
-  y: 0,
-  camera: {
+const SLOPE = [
+  {
+    name: 'A Solid Slope',
+    nick: 'SLOPE_POSITIVE',
+    biome: 'westernSlopes',
     x: 10,
-    y: -5,
-    fov: 12,
-  },
-  requirements: [
-    'CONSTANT_LAKE',
-  ],
-  defaultExpression: '-\\frac{x}{2}',
-  hint: 'put it all together!',
-  goals: [
-    {
-      type: 'path',
-      expression: '-x/3-5',
-      pathX: 14,
-      x: 3,
-      y: 0,
+    y: 0,
+    requirements: ['HELLO_WORLD'],
+    flashMathField: true,
+    defaultExpression: '-x',
+    goals: [
+      {
+        x: -2,
+        y: -2,
+      },
+      {
+        x: -4,
+        y: -4,
+      },
+      {
+        x: -6,
+        y: -6,
+      },
+    ],
+    sledders: [
+      {
+        // speech: [
+        //   {
+        //     speakerX: -0.4,
+        //     content: 'Remember, follow the WHOLE path.',
+        //     direction: 'up-up-left',
+        //     distance: 1.5,
+        //   },
+        //   {
+        //     speakerX: 0.3,
+        //     content: 'I know how to do this, Ada!',
+        //     direction: 'right-up',
+        //     distance: 1,
+        //   },
+        // ],
+      },
+    ],
+    texts: [
+      {
+        x: -1.5,
+        y: 0.6,
+        size: 0.6,
+        align: 'right',
+        // fill: '#fff',
+        content: 'Edit the function to sled through the squares',
+      },
+    ],
+    slider: {
+      expression: '$\\cdot x',
+      bounds: [-1, 1, -1],
     },
-  ],
-  sprites: [{
-    x: 2,
-    size: 2,
-    asset: 'images.sam_float',
-    speech: [{
-      speakerX: 0.3,
-      speakerY: -0.4,
-      content: 'I’m gonna split off and check out the valley.',
-      direction: 'up-up-right',
-      distance: 2.5,
-    }]
-  }],
-  sledders: [{
-    asset: 'images.benny_sled',
-    speech: [{
-      speakerX: 0,
-      y: 0.6,
-      content: 'catch up with you later!',
-      direction: 'up-up-left',
-      distance: 1,
-    }]
-  }],
-  sky: {
-    asset: 'images.western_slopes_background',
-    margin: 1,
+    tips: [
+      {
+        content: 'Edit function here',
+        domSelector: '#expression-envelope',
+        place: 'top-right',
+        destroyOnClick: true,
+        index: 0,
+      },
+      {
+        content: 'Click here to sled',
+        domSelector: '#run-button',
+        place: 'top-left',
+        destroyOnClick: true,
+        index: 1,
+        style: { visibility: 'hidden' },
+        // style: { fontSize: '1.1rem' },
+      },
+      // {
+      //   content: 'Click here ',
+      //   domSelector: '#dotted-math-button',
+      //   place: 'top-left',
+      //   destroyOnClick: true,
+      // },
+    ],
+    sprites: [],
   },
-}]
+  {
+    name: 'Try facing forwards?',
+    nick: 'SLOPE_NEGATIVE',
+    biome: 'westernSlopes',
+    x: 10,
+    y: 0,
+    requirements: null,
+    defaultExpression: 'x',
+    hint: 'hint: go negative',
+    goals: [
+      {
+        type: 'path',
+        expression: '-x',
+        pathX: 6,
+        x: 2,
+        y: 0,
+      },
+    ],
+    sledders: [
+      {
+        speech: [
+          {
+            speakerX: -0.25,
+            speakerY: 0.6,
+            content: '…forward this time? Please?',
+            direction: 'up-up-left',
+            distance: 2,
+          },
+          {
+            speakerX: 0.35,
+            speakerY: 0.6,
+            content: 'Wuss.',
+            direction: 'up-up-right',
+            distance: 1.2,
+          },
+        ],
+      },
+    ],
+    texts: [
+      {
+        x: 3,
+        y: 0.6,
+        size: 0.6,
+        align: 'left',
+        // fill: '#fff',
+        content: 'Well done! Now sled through this path',
+      },
+    ],
+    slider: { expression: '$\\cdot x', bounds: [-1, 1, 1] },
+    sprites: [],
+  },
+  {
+    name: 'A real steep hill',
+    nick: 'SLOPE_STEEPER',
+    biome: 'westernSlopes',
+    x: 10,
+    y: -10,
+    requirements: ['SLOPE_NEGATIVE'],
+    defaultExpression: '-5x',
+    slider: {
+      expression: '$x',
+      bounds: [-6, -3, -5],
+    },
+    texts: [
+      {
+        x: 2,
+        y: 4,
+        size: 1,
+        align: 'left',
+        content: 'ABC goals must be hit in order',
+      },
+    ],
+    goals: [
+      {
+        order: 'A',
+        x: 2,
+        y: -4,
+      },
+      {
+        order: 'B',
+        x: 4,
+        y: -8,
+      },
+      {
+        order: 'C',
+        x: 6,
+        y: -12,
+      },
+    ],
+    sledders: [
+      {
+        speech: [
+          {
+            x: -0.3,
+            y: 0.6,
+            content: 'Steep!',
+            direction: 'up-up-left',
+            distance: 1.2,
+          },
+          // {
+          //   speakerX: 0.4,
+          //   speakerY: 0.7,
+          //   content: 'Steep.',
+          //   direction: 'right-up',
+          //   distance: 1.4,
+          //   // speech: {
+          //   //   content: 'This seems dangerous.',
+          //   //   distance: 1,
+          //   // },
+          // },
+        ],
+      },
+    ],
+    sprites: [],
+  },
+  {
+    name: 'The bunny slope',
+    nick: 'SLOPE_SHALLOWER',
+    biome: 'westernSlopes',
+    x: 10,
+    y: 0,
+    requirements: null,
+    defaultExpression: '\\frac{x}{2}',
+    slider: {
+      expression: '-\\frac{x}{$}',
+      bounds: [1, 2, 1],
+    },
+    goals: [
+      {
+        x: 4,
+        y: -1,
+        order: 'A',
+      },
+      {
+        type: 'path',
+        expression: '-x/4',
+        pathX: 6,
+        x: 6,
+        y: 0,
+        order: 'B',
+      },
+      {
+        x: 14,
+        y: -3.5,
+        order: 'C',
+      },
+    ],
+    sledders: [
+      {
+        speech: [
+          {
+            speakerX: -0.4,
+            speakerY: 0.7,
+            content: '…yes.',
+            direction: 'up-up-left',
+            distance: 1.4,
+            speech: {
+              content: 'No.',
+              direction: 'up',
+              distance: 0.8,
+            },
+          },
+          {
+            speakerX: 0.7,
+            speakerY: 0.7,
+            content: 'Do you want my scarf?',
+            direction: 'right-up-up',
+            distance: 2.2,
+            speech: {
+              content: 'Are you cold?',
+              direction: 'up-up-left',
+              distance: 1.2,
+            },
+          },
+        ],
+      },
+    ],
+    sprites: [],
+  },
+  {
+    name: 'Moving up in the world',
+    nick: 'SLOPE_HIGHER',
+    biome: 'westernSlopes',
+    x: 10,
+    y: 10,
+    camera: {
+      x: 5,
+      y: 2,
+      fov: 9,
+    },
+    requirements: ['SLOPE_NEGATIVE'],
+    defaultExpression: '-x-3',
+    slider: {
+      expression: '-x+$',
+      bounds: [-3, 3, -3],
+    },
+    goals: [
+      {
+        type: 'path',
+        expression: '-x+8',
+        pathX: 4,
+        x: 3,
+        y: 0,
+      },
+    ],
+    sledders: [
+      {
+        speech: [
+          {
+            y: 0.6,
+            speakerX: -0.4,
+            // speakerY: 0.8,
+            content: 'Perfect.',
+            direction: 'up-left',
+            distance: 1,
+            speech: {
+              content: "So how are we doing? Are we winning?",
+              distance: 1,
+            },
+          },
+          {
+            y: 0.7,
+            speakerX: 0.5,
+            // speakerY: 0.7,
+            content: 'I don\'t see anyone else on the slopes yet.',
+            direction: 'right-up-up',
+            distance: 1.25,
+          },
+        ],
+      },
+    ],
+    sprites: [],
+  },
+  {
+    name: 'About halfway down',
+    nick: 'SLOPE_LOWER',
+    biome: 'westernSlopes',
+    x: 10,
+    y: 0,
+    requirements: null,
+    defaultExpression: '-x+1',
+    goals: [
+      {
+        type: 'path',
+        expression: '-x-3',
+        pathX: 4,
+        x: 3,
+        y: 0,
+      },
+    ],
+    sledders: [
+      {
+        speech: [
+          {
+            x: -0.3,
+            y: 0.65,
+            content: "Jack! Stop it!",
+            direction: 'up',
+            distance: 0.6,
+            speech:{
+              content: 'Make sure we don\'t crash.',
+              direction: 'up',
+              distance: 1.2,
+            },
+          },
+          {
+            x: 0.5,
+            y: 0.7,
+            content: 'Don\'t worry, I\'ll cushion the blow.',
+            direction: 'right-up',
+            distance: 2.2,
+          },
+        ],
+      },
+    ],
+    slider: { expression: '-x+$', bounds: [-1, 2, 1] },
+    sprites: [],
+  },
+  CONSTANT_LAKE,
+  {
+    name: "We're at the bottom",
+    nick: 'SLOPE_SCALE_TRANSLATE',
+    biome: 'westernSlopes',
+    x: 10,
+    y: 0,
+    backgroundMusic: 'sounds.music.birds',
+    requirements: ['CONSTANT_LAKE'],
+    defaultExpression: '-\\frac{x}{2}',
+    hint: 'put it all together!',
+    goals: [
+      {
+        type: 'path',
+        expression: '-x/3-5',
+        pathX: 14,
+        x: 3,
+        y: 0,
+      },
+    ],
+    sprites: [
+      {
+        x: 3,
+        size: 2,
+        asset: 'images.sam_float',
+        speech: [
+          {
+            speakerX: 0.3,
+            speakerY: -0.4,
+            content: 'I have a race to win.',
+            direction: 'up-right-right',
+            distance: 1,
+            speech: {
+              content: "...you do whatever you want.",
+              direction: 'up-right-right',
+              distance: 1.5,
+            },
+          },
+        ],
+      },
+    ],
+    sledders: [
+      {
+        asset: 'images.benny_sled',
+        speech: [
+          {
+            speakerX: 0.2,
+            y: 0.7,
+            content: 'We never get to do my things.',
+            direction: 'up-up-left',
+            distance: 2,
+            speech: {
+              content: 'Ok, seriously. I want to see this canyon.',
+              direction: 'up',
+              distance: 1,
+            },
+          },
+        ],
+      },
+    ],
+  },
+]

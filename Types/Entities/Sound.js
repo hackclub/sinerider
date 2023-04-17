@@ -1,18 +1,17 @@
 function Sound(spec) {
-  const {
-    self,
-    assets,
-  } = Entity(spec, 'Sound')
+  const { self, assets } = Entity(spec, 'Sound')
 
   const {
     asset,
     domain = null,
-    walkers = null,
     loop = false,
     duration = null,
     fadeOut = 300,
     volume = 1,
-  }  = spec
+    track = 'walkers',
+    level = null,
+    fadeOnNavigating = true,
+  } = spec
 
   const howl = _.get(assets, asset)
 
@@ -20,6 +19,14 @@ function Sound(spec) {
   let played = false
 
   let soundId
+
+  let fadeDestroyProgress = 0
+  let fadeDestroyDuration = 0
+
+  let mapFadeProgress = 0
+  let mapFade = false
+
+  let lastVol
 
   function awake() {
     if (!domain) {
@@ -32,11 +39,10 @@ function Sound(spec) {
   }
 
   function tick() {
-    if (domain) {
-      if (!walkers)
-        throw `walkers cannot be null if walkerRange is passed`
+    let vol = volume
 
-      const x = walkers[0].transform.position.x
+    if (domain) {
+      const x = level?.cutsceneDistanceParameter
 
       // Sounds w/ domains only play once
       if (x > domain[0] && !howl.playing() && !played) {
@@ -47,29 +53,55 @@ function Sound(spec) {
       if (domain.length != 2 && domain.length != 4)
         throw `Expected domain in Sound to have 2 (fade in range) or 4 (+ fade out range) elements, got ${domain.length}`
 
-      let volume = math.clamp01(math.unlerp(domain[0], domain[1], x))
+      vol = math.clamp01(math.unlerp(domain[0], domain[1], x))
 
-      if (domain.length == 4)
-        volume *= math.clamp01(math.unlerp(domain[3], domain[2], x))
-
-      howl.volume(volume)
+      if (domain.length == 4) {
+        if (self.debug)
+          console.log(
+            `${self.name} distance parameter: ${level.cutsceneDistanceParameter} volume: ${volume}`,
+          )
+        vol *= math.clamp01(math.unlerp(domain[3], domain[2], x))
+      }
     }
 
     if (duration) {
-      const a = 1 - math.clamp01(math.unlerp(duration - fadeOut, duration, secondsPlayed * 1000))
-      howl.volume(howl.volume() * a)
+      const a =
+        1 -
+        math.clamp01(
+          math.unlerp(duration - fadeOut, duration, secondsPlayed * 1000),
+        )
+      vol *= a
     }
 
-    if (howl.playing())
-      secondsPlayed += 1 / ticksPerSecond
+    if (howl.playing()) secondsPlayed += 1 / ticksPerSecond
+
+    if (fadeDestroyDuration) {
+      fadeDestroyProgress += tickDelta / fadeDestroyDuration
+      vol *= 1 - fadeDestroyProgress
+      if (fadeDestroyProgress >= 1) self.destroy()
+    }
+
+    if (mapFade) mapFadeProgress += tickDelta
+    else mapFadeProgress -= tickDelta
+    mapFadeProgress = math.clamp01(mapFadeProgress)
+    vol *= 1 - mapFadeProgress
+
+    if (vol != lastVol) {
+      howl.volume(vol)
+      lastVol = vol
+    }
+  }
+
+  function fadeDestroy(duration = 1) {
+    fadeDestroyDuration = duration
   }
 
   function onLevelFadeOut(navigating, duration) {
-    howl.fade(volume, 0, duration*1000, soundId)
+    if (fadeOnNavigating) mapFade = true
   }
 
   function onLevelFadeIn(navigating, duration) {
-    howl.fade(0, volume, duration*1000, soundId)
+    if (fadeOnNavigating) mapFade = false
   }
 
   function destroy() {
@@ -80,6 +112,7 @@ function Sound(spec) {
     awake,
     tick,
     destroy,
+    fadeDestroy,
     onLevelFadeIn,
     onLevelFadeOut,
     howl,

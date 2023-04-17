@@ -1,26 +1,19 @@
-function Transform(spec={}, entity=null) {
-  let {
-    scale = 1,
-    rotation = 0,
-  } = spec
+function Transform(spec = {}, entity = null) {
+  let { scale = 1, rotation = 0 } = spec
 
-  if (!entity && spec.entity)
-    entity = spec.entity
+  if (!entity && spec.entity) entity = spec.entity
 
-  const position = spec.position ? 
-    Vector2(spec.position) :
-    Vector2(spec.x || 0, spec.y || 0)
+  const position = spec.position
+    ? Vector2(spec.position)
+    : Vector2(spec.x || 0, spec.y || 0)
 
   const rotator = Vector2(Math.cos(rotation), Math.sin(rotation))
   const inverseRotator = Vector2(Math.cos(-rotation), Math.sin(-rotation))
 
   function getParent() {
-    if (!entity)
-      return null
-    if (!entity.parent)
-      return null
-    if (!entity.parent.transform)
-      return null
+    if (!entity) return null
+    if (!entity.parent) return null
+    if (!entity.parent.transform) return null
 
     return entity.parent.transform
   }
@@ -28,8 +21,7 @@ function Transform(spec={}, entity=null) {
   function tryApplyParent(path, ...args) {
     let parent = getParent()
 
-    if (!parent)
-      return false
+    if (!parent) return false
 
     parent[path].apply(parent, args)
 
@@ -46,7 +38,7 @@ function Transform(spec={}, entity=null) {
     }
   }
 
-  function transformPoint(point, output=null) {
+  function transformPoint(point, output = null) {
     if (!output) output = point
     else output.set(point)
 
@@ -59,7 +51,7 @@ function Transform(spec={}, entity=null) {
     return output
   }
 
-  function invertPoint(point, output=null) {
+  function invertPoint(point, output = null) {
     if (!output) output = point
     else output.set(point)
 
@@ -72,7 +64,7 @@ function Transform(spec={}, entity=null) {
     return output
   }
 
-  function transformDirection(point, output=null) {
+  function transformDirection(point, output = null) {
     if (!output) output = point
     else output.set(point)
 
@@ -84,7 +76,7 @@ function Transform(spec={}, entity=null) {
     return output
   }
 
-  function invertDirection(point, output=null) {
+  function invertDirection(point, output = null) {
     if (!output) output = point
     else output.set(point)
 
@@ -98,16 +90,16 @@ function Transform(spec={}, entity=null) {
 
   function transformScalar(scalar) {
     tryApplyParent('transformScalar', scalar)
-    return scalar*scale
+    return scalar * scale
   }
 
   function invertScalar(scalar) {
     tryApplyParent('invertScalar', scalar)
-    return scalar/scale
+    return scalar / scale
   }
 
   function transformCanvas(ctx) {
-    ctx.scale(1/scale, 1/scale)
+    ctx.scale(1 / scale, 1 / scale)
     ctx.rotate(-rotation)
     ctx.translate(-position.x, -position.y)
 
@@ -137,29 +129,49 @@ function Transform(spec={}, entity=null) {
     transformCanvas,
     invertCanvas,
 
-    get position() {return position},
+    get position() {
+      return position
+    },
     set position(v) {
       position.x = v[0]
       position.y = v[1]
     },
 
-    get x() {return position.x},
-    set x(v) {position.x = v},
+    get x() {
+      return position.x
+    },
+    set x(v) {
+      position.x = v
+    },
 
-    get y() {return position.y},
-    set y(v) {position.y = v},
+    get y() {
+      return position.y
+    },
+    set y(v) {
+      position.y = v
+    },
 
-    get scale() {return scale},
-    set scale(v) {scale = v},
+    get scale() {
+      return scale
+    },
+    set scale(v) {
+      scale = v
+    },
 
-    get rotation() {return rotation},
-    set rotation(v) {setRotation(v)},
+    get rotation() {
+      return rotation
+    },
+    set rotation(v) {
+      setRotation(v)
+    },
 
-    get parent() {return getParent()},
+    get parent() {
+      return getParent()
+    },
 
     get worldRotation() {
       let p = getParent()
-      return (p ? p.worldRotation : 0)+rotation
+      return (p ? p.worldRotation : 0) + rotation
     },
 
     get parentWorldRotation() {

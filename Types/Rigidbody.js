@@ -33,26 +33,31 @@ function Rigidbody(spec) {
     }
 
     // Gravity
-    velocity[1] -= 9.8*globalScope.dt
+    velocity[1] -= 9.8 * globalScope.dt
 
     // Integrate velocity. TODO: Verlet integration
-    transform.x += velocity[0]*globalScope.dt
-    transform.y += velocity[1]*globalScope.dt
+    transform.x += velocity[0] * globalScope.dt
+    transform.y += velocity[1] * globalScope.dt
 
     // Sample graph height
     samplePosition.set(transform.position)
     samplePosition.add(positionOffset)
 
     const graphY = graph.sample('x', samplePosition.x)
-    grounded = samplePosition.y < graphY-collisionThreshold
+    grounded = samplePosition.y < graphY - collisionThreshold
 
     if (grounded) {
       // Slope and velocity of graph at this position
       const graphSlope = graph.sampleSlope('x', samplePosition.x)
-      const verticalGraphVelocity = graph.sampleSlope('t', globalScope.t, 'x', samplePosition.x)
+      const verticalGraphVelocity = graph.sampleSlope(
+        't',
+        globalScope.t,
+        'x',
+        samplePosition.x,
+      )
 
       // Vertical depth of penetration
-      const verticalPenetration = graphY-samplePosition.y
+      const verticalPenetration = graphY - samplePosition.y
 
       // Set collision tangent
       collisionTangent.x = 1
@@ -67,10 +72,10 @@ function Rigidbody(spec) {
       const normalScalar = collisionNormal.dot(velocity)
 
       // Project penetration onto collision normal
-      const depenetrationScalar = collisionNormal.y*verticalPenetration
+      const depenetrationScalar = collisionNormal.y * verticalPenetration
 
       // Project graph velocity onto collision normal
-      const graphVelocityScalar = collisionNormal.y*verticalGraphVelocity
+      const graphVelocityScalar = collisionNormal.y * verticalGraphVelocity
 
       // Calculate depenetration
       collisionNormal.multiply(depenetrationScalar, depenetration)
@@ -139,11 +144,19 @@ function Rigidbody(spec) {
   }
 
   return {
-    get velocity() {return velocity},
-    set velocity(v) {velocity.set(v)},
+    get velocity() {
+      return velocity
+    },
+    set velocity(v) {
+      velocity.set(v)
+    },
 
-    get upright() {return upright},
-    set upright(v) {upright.set(v)},
+    get upright() {
+      return upright
+    },
+    set upright(v) {
+      upright.set(v)
+    },
 
     resetVelocity,
 
