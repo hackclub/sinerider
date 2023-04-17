@@ -1,34 +1,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-<<<<<<< HEAD
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-
-    <title>SineRider</title>
-
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
-    <meta name="description" content="A beautiful game about love, math, and graphing, built by teenagers at Hack Club and fully open-source! Coming Autumn 2022.">
-    <meta name="keywords" content="games, math, graphing, art, game design, love, sinerider"> 
-
-    <link rel="preconnect" href="https://fonts.gstatic.com"> 
-    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Roboto&family=Roboto+Mono&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Edu+QLD+Beginner&display=swap" rel="stylesheet">
-    
-    <link href="App/style.css" rel="stylesheet" type="text/css"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-
-    <script defer data-domain="sinerider.com" src="https://plausible.io/js/plausible.js"></script>
-  </head>
-  <body>
-    <video autoplay controls style="display:none;"></video>
-    <img src="Assets/Images/error.png" style="display: none;" id="error-sprite"/>
-=======
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
 
@@ -111,24 +83,11 @@
       style="display: none"
       id="error-sprite"
     />
->>>>>>> main
 
     <div class="bubblets"></div>
 
     <canvas id="canvas"></canvas>
 
-<<<<<<< HEAD
-    <div class="variables floating bar" id="variables-bar" hide=true>
-      <div class="string" id="time-string">T=0</div>
-    </div>
-
-    <div class="bar floating top" id="top-bar" hide=false>
-      <div id="volume-slider-box">
-        <div class="">🔊</div>
-        <input id="volume-slider" type="range" orient="horizontal" hide="true"/>  
-      </div>
-      <div class="button" id="navigator-button" hide=false>
-=======
     <div class="variables floating bar" id="variables-bar" hide="true">
       <div class="string" id="time-string">t=0</div>
     </div>
@@ -176,18 +135,14 @@
         <!-- TODO: Add path goal -->
       </div>
       <div class="button" id="navigator-button" hide="false">
->>>>>>> main
         <div class="string">🏔</div>
       </div>
     </div>
     <div id="completion-time" hide="true"></div>
     <div id="dotted-math-container">
-<<<<<<< HEAD
-=======
       <div class="button" id="dotted-math-button">
         <div class="string">📝 Hint!</div>
       </div>
->>>>>>> main
       <div id="dotted-math-field-static"></div>
       <div id="dotted-slider-box">
         <input
@@ -198,15 +153,6 @@
         />
       </div>
     </div>
-<<<<<<< HEAD
-      
-    <div class="bar menu" id="menu-bar" hide=false>
-      <div class="button" id="edit-button" hide=true>
-        <div class="string">Edit</div>
-      </div>
-
-      <input class="text" id="level-text" type="text"/>
-=======
 
     <div class="bar menu" id="menu-bar" hide="false">
       <div class="button" id="edit-button" hide="true">
@@ -214,7 +160,6 @@
       </div>
 
       <input class="text" id="level-text" type="text" />
->>>>>>> main
 
       <div class="button" id="level-button">
         <div class="string"></div>
@@ -226,20 +171,6 @@
     </div>
 
     <div class="bar floating controls" id="controls-bar">
-<<<<<<< HEAD
-      <div class="button" id="reset-button">
-        <div class="string">↺</div>
-      </div>
-
-      <div class="hstack">
-        <div class="envelope" id="expression-envelope" disabled=false>
-          <div class="label" id="variable-label">
-            <div class="string">Y=</div>
-          </div>
-  
-          <div id="math-field"></div>
-  
-=======
       <div class="button tooltip" id="reset-button" data-tooltip="Reset">
         <div class="string">↺</div>
       </div>
@@ -262,40 +193,10 @@
 
           <div id="math-field"></div>
 
->>>>>>> main
           <div id="math-field-static"></div>
         </div>
       </div>
 
-<<<<<<< HEAD
-      <input class="text" id="expression-text" type="text" hide=true/>
-
-      <div class="button" id="run-button" hide=false>
-        <div class="string">GO</div>
-      </div>
-
-      <div class="button" id="stop-button" hide=true>
-        <div class="string">STOP</div>
-      </div>
-    </div>
-
-    <div class="bar message" id="message-bar" hide=true>
-      <div class="string">MESSAGE</div>
-    </div>
-
-    <div class="bar victory floating" id="victory-bar" hide=true>
-      <div class="envelope" id="victory-envelope">
-        <div class="button" id="victory-stop-button">
-          <div class="string">STOP</div>
-        </div>
-
-        <div class="label" id="victory-label">
-          <div class="string">Victory!</div>
-        </div>
-
-        <div class="button" id="next-button">
-          <div class="string">NEXT</div>
-=======
       <input class="text" id="expression-text" type="text" hide="true" />
 
       <div class="button" id="run-button" hide="false">
@@ -322,7 +223,6 @@
         </div>
         <div class="button" id="reset-confirmation-yes">
           <div class="string">Reset</div>
->>>>>>> main
         </div>
       </div>
     </dialog>
@@ -331,10 +231,6 @@
       <div class="string">MESSAGE</div>
     </div>
 
-<<<<<<< HEAD
-    <div class="bar floating navigator" id="navigator-floating-bar" hide=true>
-      <div class="button" id="show-all-button" hide=false>
-=======
     <div class="bar victory floating" id="victory-bar" hide="true">
       <div class="envelope" id="victory-envelope">
         <div class="label" id="victory-label">
@@ -368,45 +264,10 @@
 
     <div class="bar floating navigator" id="navigator-floating-bar" hide="true">
       <div class="button" id="show-all-button" hide="false">
->>>>>>> main
         <div class="string">SHOW ALL</div>
       </div>
     </div>
 
-<<<<<<< HEAD
-    <div class="veil" id="veil" hide=true>
-    </div>
-
-    <div class="loading veil" id="loading-veil" hide=false>
-      <img class="teaser-logo" src="sr_logo.webp" />
-      <p>Coming April 14th, 2023.</p>
-      <div class="string" id="loading-string"></div>
-    </div>
-
-    <div id="teaser" class="loading teaser veil" hide="true">
-      <a target="blank" href="https://hackclub.com">
-        <img class="orpheus-flag" src="flag-orpheus-top.png" />
-      </a>
-      <div>
-        <!-- Have logo file be in root dir for now to separate from game assets -->
-        <img class="teaser-logo" src="sr_logo.webp" />
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/8ZLcuP8fDQA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <div class="string teaser-remarks">
-          <p>Coming April 14th, 2023. Built by teenagers at <a class="teaser-link" href="https://hackclub.com">Hack Club</a>.</p>
-          <p>SineRider is fully open source! Check out the <a target="blank" class="teaser-link" href="https://github.com/hackclub/sinerider">GitHub</a>.</p>
-
-          <br/>
-
-          <p>Sign up for future updates:</p>
-          <form action="https://postal.hackclub.com/subscribe" method="POST" accept-charset="utf-8">
-            <input type="email" name="email" id="email" placeholder="~ your email here ~"/>
-            <input type="hidden" name="list" value="BM6Pz903DjLGu892wQsWl2763Q"/>
-            <input type="hidden" name="subform" value="yes"/>
-            <input type="submit" class="submit-button" name="submit" id="submit" value="Subscribe" />
-          </form>
-        </div>
-      </div>
-=======
     <div class="veil" id="veil" hide="true"></div>
 
     <div id="lvl-debug-info" hide="true">
@@ -436,17 +297,12 @@
         </a>
       </div>
       <div class="string" id="loading-string"></div>
->>>>>>> main
     </div>
 
     <!-- Load External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"></script>
-<<<<<<< HEAD
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
-=======
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.js"></script>
->>>>>>> main
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/7.3.0/math.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.9.1/mathquill.min.js"></script>
@@ -465,12 +321,9 @@
     <script src="Libraries/preprocessMathQuill.js"></script>
 
     <!-- Load Structs -->
-<<<<<<< HEAD
-=======
     <script src="Types/Structs/EntityGroup.js"></script>
     <script src="Types/Structs/Editor.js"></script>
     <script src="Types/Structs/PlayerStorage.js"></script>
->>>>>>> main
     <script src="Types/Structs/Test.js"></script>
     <script src="Types/Structs/Vector2.js"></script>
     <script src="Types/Structs/Bounds.js"></script>
@@ -484,69 +337,46 @@
     <script src="App/colors.js"></script>
 
     <!-- Load Basic Types -->
-<<<<<<< HEAD
-    <script src="Types/Recorder.js"></script>
-    <script src="Types/Assets.js"></script>
-    <script src="Types/Engine.js"></script>
-    <script src="Types/Sampler.js"></script>
-=======
     <script src="Types/Assets.js"></script>
     <script src="Types/Engine.js"></script>
     <script src="Types/Sampler.js"></script>
     <script src="Types/InterFrameSampler.js"></script>
     <script src="Types/BufferSampler.js"></script>
->>>>>>> main
     <script src="Types/Transform.js"></script>
     <script src="Types/Screen.js"></script>
     <script src="Types/Rigidbody.js"></script>
     <script src="Types/Clickable.js"></script>
     <script src="Types/ClickableContext.js"></script>
-<<<<<<< HEAD
-    <script src="Types/WaterQuad.js"></script>
-    <script src="Types/SunsetQuad.js"></script>
-=======
     <script src="Types/VolcanoQuad.js"></script>
     <script src="Types/LavaQuad.js"></script>
     <script src="Types/WaterQuad.js"></script>
     <script src="Types/SunsetQuad.js"></script>
     <script src="Types/VolcanoSunsetQuad.js"></script>
->>>>>>> main
 
     <!-- Load Components -->
     <script src="Types/Entities/Directors/Director.js"></script>
     <script src="Types/Entities/Directors/TrackingDirector.js"></script>
     <script src="Types/Entities/Directors/WaypointDirector.js"></script>
     <script src="Types/Entities/Directors/LerpDirector.js"></script>
-<<<<<<< HEAD
-    <!--<script src="Types/Entities/Directors/DragDirector.js"></script>-->
-=======
     <script src="Types/Entities/Directors/PanDirector.js"></script>
     <!--<script src='Types/Entities/Directors/DragDirector.js'></script>-->
->>>>>>> main
 
     <!-- Load Entities -->
     <script src="Types/Entities/HintGraph.js"></script>
     <script src="Types/Entities/Sound.js"></script>
     <script src="Types/Entities/ScreenBuffer.js"></script>
     <script src="Types/Entities/Water.js"></script>
-<<<<<<< HEAD
-    <script src="Types/Entities/Shader.js"></script>
-=======
     <script src="Types/Entities/ConstantLakeShader.js"></script>
     <script src="Types/Entities/VolcanoShader.js"></script>
     <script src="Types/Entities/PostProcessing.js"></script>
     <script src="Types/Entities/VolcanoSunsetShader.js"></script>
->>>>>>> main
     <script src="Types/Entities/Entity.js"></script>
     <script src="Types/Entities/World.js"></script>
     <script src="Types/Entities/Level.js"></script>
     <script src="Types/Entities/Navigator.js"></script>
     <script src="Types/Entities/Camera.js"></script>
     <script src="Types/Entities/Axes.js"></script>
-<<<<<<< HEAD
-=======
     <script src="Types/Entities/Gridlines.js"></script>
->>>>>>> main
     <script src="Types/Entities/Sprite.js"></script>
     <script src="Types/Entities/Goals/Goal.js"></script>
     <script src="Types/Entities/Goals/PathGoal.js"></script>
@@ -559,17 +389,6 @@
     <script src="Types/Entities/Graph.js"></script>
     <script src="Types/Entities/Sledder.js"></script>
     <script src="Types/Entities/Walker.js"></script>
-<<<<<<< HEAD
-    <script src="Types/Entities/LevelBubble.js"></script>
-    <script src="Types/Entities/TextBubble.js"></script>
-    <script src="Types/Entities/CloudRow.js"></script>
-    <script src="Types/Entities/Sky.js"></script>
-    <script src="Types/Entities/SnowFall.js"></script>
-    
-    <!-- Load World Data -->
-    <script src="App/layers.js"></script>
-    <script src="App/Levels/constantLake.js"></script>
-=======
     <script src="Types/Entities/LavaMonster.js"></script>
     <script src="Types/Entities/LevelBubble.js"></script>
     <script src="Types/Entities/Tip.js"></script>
@@ -585,28 +404,21 @@
     <script src="App/Levels/constantLake.js"></script>
     <script src="App/Levels/volcano.js"></script>
     <script src="App/Levels/editor.js"></script>
->>>>>>> main
     <script src="App/Levels/slope.js"></script>
     <script src="App/Levels/parabola.js"></script>
     <script src="App/Levels/wave.js"></script>
     <script src="App/Levels/logistic.js"></script>
     <script src="App/Levels/time.js"></script>
-<<<<<<< HEAD
-=======
     <script src="App/Levels/ooo.js"></script>
     <script src="App/Levels/convergence.js"></script>
     <script src="App/Levels/swamp.js"></script>
     <script src="App/Levels/credits.js"></script>
->>>>>>> main
     <script src="App/eden.js"></script>
 
     <!-- Start the Engine -->
     <script src="App/main.js"></script>
-<<<<<<< HEAD
-=======
 
     <!-- This Does Something -->
     <script src="App/dinoegg.js"></script>
->>>>>>> main
   </body>
 </html>

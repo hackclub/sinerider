@@ -57,12 +57,6 @@ function World(spec) {
   let editing = false
 
   function loadQuad() {
-<<<<<<< HEAD
-    /* Don't need to load shaders for teaser */
-  } 
-
-  const assets = Assets({
-=======
     quads.water = WaterQuad(assets)
     quads.sunset = SunsetQuad('(sin(x)-(y-2)*i)*i/2', assets)
     quads.volcano = VolcanoQuad(assets)
@@ -74,7 +68,6 @@ function World(spec) {
   }
 
   assets = Assets({
->>>>>>> main
     paths: spec.assets,
     callbacks: {
       complete: assetsComplete,
@@ -324,22 +317,10 @@ function World(spec) {
     }, duration * 1000)
   }
 
-<<<<<<< HEAD
-  function nextLevel(transitionDuration=1) {
-    console.log('LEVEL COMPLETED')
-    if (teaser)
-      ui.teaser.setAttribute('hide', false)
-    else {
-      transitionNavigating(true, transitionDuration, () => {
-        stopRunning(false)
-      })
-    }
-=======
   function nextLevel(transitionDuration = 1) {
     transitionNavigating(true, transitionDuration, () => {
       stopRunning(false)
     })
->>>>>>> main
   }
 
   function onClickNextButton() {

@@ -13,16 +13,12 @@ const ui = {
   levelButtonString: $('#level-button > .string'),
   resetButton: $('#reset-button'),
 
-<<<<<<< HEAD
-  teaser: $('#teaser'),
-=======
   resetConfirmationDialog: $('#reset-confirmation-dialog'),
   resetConfirmButton: $('#reset-confirmation-yes'),
   resetCancelButton: $('#reset-confirmation-no'),
 
   tryAgainButton: $('#try-again-button'),
 
->>>>>>> main
   veil: $('#veil'),
   loadingVeil: $('#loading-veil'),
   loadingVeilString: $('#loading-string'),
@@ -195,16 +191,8 @@ function tickInternal() {
   }
 }
 
-<<<<<<< HEAD
-// let recorder = null
-// if (teaser) {
-//   recorder = Recorder(canvas)
-//   recorder.start()
-// }
-=======
 let timeOfLastDraw = null
 let currentFps = 60
->>>>>>> main
 
 function draw() {
   if (!canvasIsDirty) return
@@ -227,10 +215,6 @@ function draw() {
     }
   }
 
-<<<<<<< HEAD
-  // if (recorder)
-  //   recorder.snap()
-=======
   let now = performance.now()
   if (timeOfLastDraw) {
     let frameFps = 1000 / (now - timeOfLastDraw)
@@ -238,7 +222,6 @@ function draw() {
     ui.levelInfoFpsStr.innerText = 'FPS: ' + currentFps.toFixed(2)
   }
   timeOfLastDraw = now
->>>>>>> main
 }
 
 function requestDraw() {

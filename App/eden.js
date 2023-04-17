@@ -11,14 +11,11 @@ worldData.push({
       benny_float: 'jack_float_right.webp',
       benny_float_dark: '.svg',
       benny_float_left: '.svg',
-<<<<<<< HEAD
-=======
       lavamonster: '.webp',
       lavamonster_jaw: '.webp',
       lavamonster_top_jaw: '.webp',
       lavamonster_bottom_jaw: '.webp',
       sinusoidal_desert_background: '.webp',
->>>>>>> main
       sam_sled: 'ada_sled.webp',
       sam_float: 'ada_float_right.webp',
       sam_float_dark: '.svg',
@@ -26,24 +23,18 @@ worldData.push({
       sam_stand_snowball: 'sam_float_left.svg',
       cabin_1: '.webp',
       world_map: '.svg',
-<<<<<<< HEAD
-=======
       goalpost_left: '.webp',
       goalpost_right: '.webp',
->>>>>>> main
       cloud_1: '.webp',
       cloud_2: '.webp',
       cloud_3: '.webp',
       cloud_4: '.webp',
       cloud_5: '.webp',
-<<<<<<< HEAD
-=======
       cloud_6: '.webp',
       cloud_7: '.webp',
       cloud_8: '.webp',
       cloud_9: '.webp',
       cloud_10: '.webp',
->>>>>>> main
       tree_1: '.webp',
       tree_2: '.webp',
       tree_3: '.webp',
@@ -52,14 +43,10 @@ worldData.push({
       crow: '.webp',
       tree_home_1: '.webp',
       tree_home_2: '.webp',
-<<<<<<< HEAD
-      initial_bg:'initial-bg.webp',
-=======
       tree_home_3: '.webp',
       initial_bg: 'initial-bg.webp',
       logistic_dunes_background: '.webp',
       hilbert_delta_background: '.webp',
->>>>>>> main
       western_slopes_background: '.webp',
       western_slopes_background_no_sky: '.webp',
       eternal_canyon_background: '.webp',
@@ -77,11 +64,6 @@ worldData.push({
       rock_1: '.webp',
       rock_2: '.webp',
       rock_3: '.webp',
-<<<<<<< HEAD
-      bush_1: '.webp',
-      bush_2: '.webp',
-      grass_1: '.webp',
-=======
       big_rock: '.webp',
       bush_1: '.webp',
       bush_2: '.webp',
@@ -109,7 +91,6 @@ worldData.push({
       pi_confused: '.webp',
       xkcd_sledders: '.webp',
       benny_sam_sled: '.svg',
->>>>>>> main
     },
     sounds: {
       music: {
@@ -147,38 +128,6 @@ worldData.push({
           western_loop: '.mp3',
         },
       },
-<<<<<<< HEAD
-      next_button: '.mp3',
-      goal_success: '.mp3',
-      level_success: '.mp3',
-      restart_button: '.mp3',
-      start_running: '.mp3',
-      stop_running: '.mp3',
-    },
-  },
-  levelData: [{
-    name: 'Welcome',
-    nick: 'HELLO_WORLD',
-    colors: Colors.biomes.home,
-    x: 0,
-    y: 0,
-    requirements: [],
-    runMusic: 'sounds.music.intro',
-    flashRunButton: true,
-    defaultExpression: '\\frac{-2}{1+e^{-x+5}}+\\frac{-2}{1+\\left(x-28\\right)^2}',
-    hint: 'congratulations, you found the secret hint!',
-    camera: {
-      offset: {
-        x: 0,
-        y: 0.53,
-      }
-    },
-    goals: [
-      {
-        type: 'dynamic',
-        x: 6.7,
-        y: 0
-=======
       lava_monster_roar: '.mp3',
       map_button: 'map_button_compressed.mp3',
       next_button: 'next_button_compressed.mp3',
@@ -230,7 +179,6 @@ worldData.push({
         volcano_stars_frag: 'volcano_stars.frag',
         volcano_stars_vert: 'volcano_stars.vert',
         volcano_sunset: '.frag',
->>>>>>> main
       },
     },
   },
@@ -298,145 +246,6 @@ worldData.push({
             },
           ],
         },
-<<<<<<< HEAD
-      ]
-    }],
-    sprites: [
-    {
-      asset: 'images.cabin_1',
-      size: 6,
-      x: -4,
-      // offset: [0, -2],
-      anchored: true,
-    },
-    {
-      asset: 'images.tree_home_1',
-      drawOrder: LAYERS.foreSprites,
-      flipX: '*',
-      size: 6.1,
-      x: 2,
-      y: 0,
-      offset: Vector2(0, 0.8),
-      anchored: true
-    },
-    {
-      asset: 'images.tree_home_1',
-      flipX: '*',
-      size: 5.4,
-      x: -9,
-      y: 0,
-      offset: Vector2(0, 0.8),
-      anchored: true
-    },{
-      asset: 'images.tree_home_1',
-      drawOrder: LAYERS.foreSprites,
-      flipX: '*',
-      size: 6.7,
-      x: -7.5,
-      y: 0,
-      offset: Vector2(0, 0.8),
-      anchored: true
-    },
-    {
-      asset: 'images.tree_home_2',
-      flipX: false,
-      size: 6.4,
-      x: 8,
-      y: 0,
-      offset: Vector2(0, 0.8),
-      anchored: true
-    },
-    // {
-    //   asset: 'images.tree_home_1',
-    //   drawOrder: LAYERS.foreSprites,
-    //   flipX: '*',
-    //   size: 5.2,
-    //   x: 21,
-    //   y: 0,
-    //   offset: Vector2(0, 0.8),
-    //   anchored: true
-    // },
-    // {
-    //   asset: 'images.tree_home_1',
-    //   flipX: '*',
-    //   size: 5.9,
-    //   x: 10,
-    //   y: 0,
-    //   offset: Vector2(0, 0.8),
-    //   anchored: true
-    // },
-    // {
-    //   asset: 'images.tree_home_1',
-    //   drawOrder: LAYERS.foreSprites,
-    //   flipX: '*',
-    //   size: 7.1,
-    //   x: 34.2,
-    //   y: 0,
-    //   offset: Vector2(0, 0.7),
-    //   anchored: true
-    // },
-    // {
-    //   asset: 'images.tree_home_1',
-    //   flipX: '*',
-    //   size: 5.6,
-    //   x: 36.3,
-    //   y: 0,
-    //   offset: Vector2(0, 0.8),
-    //   anchored:true
-    // },
-    {
-      asset: 'images.crow',
-      flipX: '*',
-      size: 1,
-      x: 31,
-      y: 0,
-      anchored: true
-    },
-    {
-      asset: 'images.logo_text',
-      drawOrder: LAYERS.foreSprites,
-      size: 20,
-      x: 20,
-      y: 13,
-      anchored: false,
-    }
-  ],
-    texts: [/*{
-      x: 14,
-      y: -5.5,
-      size: 0.7,
-      fill: '#ffffff',
-      content: 'WIP Pre-Alpha. Don’t distribute yet!'
-    },*/{
-      x: 14,
-      y: -4,
-      size: 1.5,
-      fill: '#ffffff',
-      content: 'A game about love and graphing.'
-    }],
-    sky: {
-      asset:'images.initial_bg',
-      margin: 1,
-    },
-    clouds: {
-    },
-    snow: {
-      density: 0.4,
-      maxHeight: 8,
-      velocity: {
-        x: 0.2,
-        y: 0.4
-      }
-    },
-    textBubbles: [{
-      content: 'this one!',
-      domSelector: '#run-button',
-      place: 'top-left',
-      destroyOnClick: true,
-      style: {fontSize:'1.1rem'},
-    }],
-  },/*{
-=======
       ],
       sprites: [
         {
@@ -523,7 +332,6 @@ worldData.push({
         },
       ],
     } /*{
->>>>>>> main
     name: 'Random',
     nick: 'RANDOM',
     colors: Colors.biomes.alps,
