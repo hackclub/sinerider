@@ -50,6 +50,7 @@ const ui = {
   controlBarGFX: document.getElementById("controls-bar-gfx"),
   expressionText: $('#expression-text'),
   expressionEnvelope: $('#expression-envelope'),
+  keyboardBar: $('#keyboard-bar'),
 
   mathFieldLabel: $('#variable-label > .string'),
   _mathField: $('#math-field'),
@@ -236,6 +237,7 @@ ui.timeSlider.addEventListener('input', () => {
     world.level.sendEvent('tVariableChanged', [newT])
   }
 })
+
 ui.timeSlider.addEventListener('change', () => {
   if (world.globalScope) {
     const newT = 0
@@ -243,31 +245,25 @@ ui.timeSlider.addEventListener('change', () => {
     world.level.sendEvent('tVariableChanged', [newT])
   }
 })
-// MathQuill
+
+// MathLive/MathQuill
+
+mathVirtualKeyboard.container = ui.keyboardBar
+mathVirtualKeyboard.actionKeycap = "Go/Stop" // Replace Enter key sigil
+
+window.mathVirtualKeyboard.addEventListener('geometrychange', (ev) => {
+  screen.resize()
+});
 
 ui.mathFieldStatic = MQ.StaticMath(ui.mathFieldStatic)
 
-function createMathField(field, eventNameOnEdit) {
-  field = MQ.MathField(field, {
-    handlers: {
-      edit: function () {
-        const text = field.getPlainExpression()
-        const latex = field.latex()
-        world.level.sendEvent(eventNameOnEdit, [text, latex])
-      },
-    },
-  })
+ui.mathField.addEventListener('input',(ev) => {
+  const latex = ev.target.getValue('latex');
+  const text = mathquillToMathJS(latex)
+  world.level.sendEvent('setGraphExpression', [text, latex])
+});
 
-  field.getPlainExpression = function () {
-    var tex = field.latex()
-    return mathquillToMathJS(tex)
-  }
-
-  return field
-}
-
-ui.mathField = createMathField(ui.mathField, 'setGraphExpression')
-ui.mathField.focused = () => ui._mathField.classList.contains('mq-focused')
+ui.mathField.focused = () => document.activeElement == ui.mathField
 
 ui.dottedMathFieldStatic = MQ.StaticMath(ui.dottedMathFieldStatic)
 

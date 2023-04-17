@@ -34,9 +34,20 @@ function Screen(spec = {}) {
   const minFramePoint = Vector2()
   const maxFramePoint = Vector2()
 
+  function isMobile() {
+    return /Mobi/i.test(window.navigator.userAgent)
+  }
+
   function resize() {
     width = element.innerWidth || element.width
     height = element.innerHeight || element.height
+
+    if (isMobile()) {
+      const keyboardElement = $('.MLK__plate')
+      if (keyboardElement != null) {
+        height -= keyboardElement.offsetHeight
+      }
+    }
 
     canvas.width = width
     canvas.height = height

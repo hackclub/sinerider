@@ -193,7 +193,8 @@ body > .bar {
 
   transition: 0.5s;
   pointer-events: none;
-  z-index: 2;
+
+  z-index: 500;
 }
 
 .victory .envelope {
@@ -235,13 +236,20 @@ input[valid='false'] {
   border: 1px solid red;
 }
 
-#controls-bar {
+#controls-bar-with-keyboard {
   transition: none;
   transition-delay: 0s;
 
   position: absolute;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
   align-self: center;
 
+  flex-direction: column;
+}
+
+#controls-bar {
   align-items: flex-end;
   justify-content: flex-start;
 
@@ -357,6 +365,22 @@ input[valid='false'] {
 #variable-label{
   bottom: 50%;
 }
+
+math-field::part(virtual-keyboard-toggle) {
+  display: none;
+}
+
+@media not (pointer: coarse) {
+  .ML__keyboard {
+    display: none;
+  }
+}
+
+.ML__keyboard {
+  min-height: var(--keyboard-height);
+  width: 100vw;
+}
+
 #expression-envelope {
   width: fit-content;
   transition: transform 1s, opacity 0.2s;
@@ -418,7 +442,8 @@ input[valid='false'] {
 #stop-button,
 #try-again-button,
 #run-button {
---stopbuttonbg: #f46;
+  --stopbuttonbg: #f46;
+  position: relative;
 
   transition: left 250ms;
   bottom: 10px;

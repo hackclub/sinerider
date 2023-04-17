@@ -238,6 +238,20 @@ function World(spec) {
 
     ui.controlBar.setAttribute('hide', navigating)
     ui.navigatorFloatingBar.setAttribute('hide', !navigating)
+    if (navigating) {
+      mathVirtualKeyboard.hide()
+    } else {
+      mathVirtualKeyboard.show()
+      // very hacky way to attach a listener to the enter key on each layer of the virtual keyboard
+      // Currently, the mathVirtualKeyboard DOM elements get destroyed/recreated every time on hide/show,
+      // so we don't have to worry about cleaning up these listeners
+      document.querySelectorAll(".MLK__plate > div").forEach((keyboardLayer) => {
+        keyboardLayer.querySelector(".MLK__rows").lastChild.lastChild.addEventListener("click", onClickRunButton)
+      })
+
+      ui.mathField.focus()
+    }
+
     // ui.topBar.setAttribute('hide', navigating)
 
     if (navigating) {
@@ -381,7 +395,8 @@ function World(spec) {
 
     //ui.timeSlider.setAttribute('hide', false)
     ui.controlBarGFX.style.background = "white"
-    ui.mathField.blur()
+    ui.mathField.focus()
+
     ui.expressionEnvelope.setAttribute('disabled', false)
     ui.resetButton.disabled = false
     //ui.menuBar.setAttribute('hide', false)
