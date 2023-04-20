@@ -216,11 +216,13 @@ function World(spec) {
     level.playOpenMusic()
     level.restart()
 
-    ui.levelText.value = levelDatum.name
-    ui.levelButtonString.innerHTML = levelDatum.name
+    if (ui.levelText) {
+      ui.levelText.value = levelDatum.name
+      ui.levelButtonString.innerHTML = levelDatum.name
 
-    ui.levelInfoNameStr.innerHTML = levelDatum.name
-    ui.levelInfoNickStr.innerHTML = levelDatum.nick
+      ui.levelInfoNameStr.innerHTML = levelDatum.name
+      ui.levelInfoNickStr.innerHTML = levelDatum.nick
+    }
 
     setNavigating(false)
   }

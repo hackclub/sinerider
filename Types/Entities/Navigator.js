@@ -40,7 +40,7 @@ function Navigator(spec) {
 
   const bubbles = _.map(levelData, createBubble)
   const bubbleRenderQueue = []
-  const bubbleRenderCap = 10
+  const bubbleRenderCap = 1
 
   function start() {
     if (initialBubble) initialBubble.completeAllRequirements()
