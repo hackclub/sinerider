@@ -728,16 +728,15 @@ function Level(spec) {
   }
   function updateRunButtonPosition(){
     ui.runButton.style.transition = "left 0ms"
-    ui.runButton.style.left = `${ui.controlBar.offsetWidth + 10}px`
-    ui.stopButton.style.left = `${ui.controlBar.offsetWidth + 10}px`
-    
+    // ui.runButton.style.left = `${ui.controlBar.offsetWidth + 10}px`
+    // ui.stopButton.style.left = `${ui.controlBar.offsetWidth + 10}px`
   }
   window.addEventListener("resize", updateUI);
   function updateUI(){
     refreshMathFieldRadius()
     updateHintEquationHeight()
-    updateControlBarWidth()
-    updateTimeSliderPosition()
+    //updateControlBarWidth()
+    //updateTimeSliderPosition()
     updateRunButtonPosition()
   }
   function goalCompleted(goal) {

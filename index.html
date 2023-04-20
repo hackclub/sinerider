@@ -161,29 +161,10 @@
     </div>
     
     <div class="bar floating controls" id="controls-bar"> 
-      <div id="controls-bar-gfx"></div>
       <div class="button reset-button" id="try-again-button" hide="true">
         <div class="string">Try Again</div>
       </div>
       <div class="bar floating controls" id="expression-envelope" disabled="false">
-        <div id="time-slider-container" class="controls">
-          <div id="time-slider-ticks">
-            <div class="slider-tick"><div class="slider-tick-label">0s</div></div>
-            <div class="slider-tick"><div class="slider-tick-label">1</div></div>
-            <div class="slider-tick"><div class="slider-tick-label">2</div></div>
-            <div class="slider-tick"><div class="slider-tick-label">3</div></div>
-            <div class="slider-tick"><div class="slider-tick-label">4</div></div>
-            <div class="slider-tick"><div class="slider-tick-label">5</div></div>
-            <div class="slider-tick"><div class="slider-tick-label">6</div></div>
-            <div class="slider-tick"><div class="slider-tick-label">7</div></div>
-            <div class="slider-tick"><div class="slider-tick-label">8</div></div>
-            <div class="slider-tick"><div class="slider-tick-label">9</div></div>
-            <div class="slider-tick"><div class="slider-tick-label">10s</div></div>
-          </div>
-          <input type="range" id="time-slider" value="0" min="0" max="100" step="1"  orient="horizontal">
-          
-        </div>
-        <div id="junction" class="controls"></div>
         <div class="label" id="variable-label">
           <div class="string">Y=</div>
         </div>
@@ -191,31 +172,50 @@
         <div id="math-field"></div>
   
         <div id="math-field-static"></div>
-
-        
-        <div class="cb-button tooltip" id="reset-button" data-tooltip="Reset">
+      </div>
+      <div id="controls-bar-gfx">
+        <div id="junction" class="controls"></div>
+        <div class="cb-button" id="reset-button" data-tooltip="Reset">
           <div class="string">↺</div>
         </div>
-        <div class="cb-button tooltip" id="navigator-button" data-tooltip="Map">
+        <div class="cb-button" id="navigator-button" data-tooltip="Map">
           <div class="string">🌎</div>
         </div>
-        <input id="volume-slider" type="range" orient="horizontal" />
-        <div class="cb-button tooltip" id="sound-button" data-tooltip="Volume">🔊</div>
+        <div class="volume-container">
+          <div class="cb-button tooltip" id="sound-button" data-tooltip="Volume">
+            🔊
+          </div>
+          <input id="volume-slider" type="range" orient="horizontal" />
+        </div>
       </div>
 
 
       <input class="text" id="expression-text" type="text" hide="true" />
 
       <div class="button" id="run-button" hide="false">
-
         <div class="string">GO</div>
       </div>
   
       <div class="button reset-button bar floating controls" id="stop-button" hide="true">
         <div class="string">STOP</div>
       </div>
-  
-        <input class="text" id="expression-text" type="text" hide="true" />
+
+      <div id="time-slider-container" class="controls">
+        <div id="time-slider-ticks">
+          <div class="slider-tick"><div class="slider-tick-label">0s</div></div>
+          <div class="slider-tick"><div class="slider-tick-label">1</div></div>
+          <div class="slider-tick"><div class="slider-tick-label">2</div></div>
+          <div class="slider-tick"><div class="slider-tick-label">3</div></div>
+          <div class="slider-tick"><div class="slider-tick-label">4</div></div>
+          <div class="slider-tick"><div class="slider-tick-label">5</div></div>
+          <div class="slider-tick"><div class="slider-tick-label">6</div></div>
+          <div class="slider-tick"><div class="slider-tick-label">7</div></div>
+          <div class="slider-tick"><div class="slider-tick-label">8</div></div>
+          <div class="slider-tick"><div class="slider-tick-label">9</div></div>
+          <div class="slider-tick"><div class="slider-tick-label">10s</div></div>
+        </div>
+        <input type="range" id="time-slider" value="0" min="0" max="100" step="1"  orient="horizontal">
+
       </div>
     </div>
     
