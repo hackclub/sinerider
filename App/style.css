@@ -146,6 +146,7 @@ body > .bar {
 }
 .cb-button{
   padding: 8px;
+  margin-right: 4px;
   background: rgba(0, 0, 0, 0);
 }
 
@@ -252,10 +253,10 @@ input[valid='false'] {
 }
 #controls-bar-gfx{
   display: flex;
-  /* position: absolute; */
+  position: relative;
   background: rgb(255 255 255);
   /* width: 100%; */
-  /* height: 100%; */
+  height: 100%;
   border-radius: 0px 5px 0px 0px;
 }
 /* time slider */
@@ -308,7 +309,7 @@ input[valid='false'] {
   background-color: rgb(255, 255, 255);
   height: 3px;
   position: relative;
-  bottom: 30px;
+  bottom: 40px;
   border-style: solid;
   border-width: 2px;
   border-color: black;
@@ -365,9 +366,8 @@ input[valid='false'] {
   --bgcolor: white;
   transition: none;
   transition-delay: 0s;
-  width: 50px;
-  height: 50px;
-  position: relative;
+  position: absolute;
+  bottom: 50px;
   background-image: radial-gradient(circle at 45px 0px, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 40px, var(--bgcolor) 40px);
   z-index: 1;
 }
@@ -489,7 +489,13 @@ input[valid='false'] {
 */
 #sound-button{
   width: min-content;
+  font-size: 24px;
 }
+
+#reset-button {
+  margin-left: 30px;
+}
+
 #reset-button > .string {
   font-size: 24px;
   line-height: 14px;
