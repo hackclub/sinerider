@@ -421,7 +421,6 @@ input[valid='false'] {
 --stopbuttonbg: #f46;
 
   transition: left 250ms;
-  bottom: 10px;
   width: min-content;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.4);
   z-index: 2;
@@ -460,6 +459,10 @@ input[valid='false'] {
   border-width: 2px;
   border-style: solid;
   border-color: #000;
+}
+
+#run-button {
+  position: relative;
 }
 
 #run-button:not(:hover) {
