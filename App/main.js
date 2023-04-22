@@ -90,8 +90,9 @@ const ui = {
     addPath: $('#editor-spawner-path'),
   },
   levelInfoDiv: $('#lvl-debug-info'),
-  levelInfoNameStr: $('#lvl_name_str'),
-  levelInfoNickStr: $('#lvl_nick_str'),
+  levelInfoNameStr: $('#lvl-name-str'),
+  levelInfoNickStr: $('#lvl-nick-str'),
+  levelInfoFpsStr: $('#lvl-fps-str'),
   hideLevelInfoButton: $('#button-hide-level-info'),
 }
 
@@ -108,7 +109,7 @@ const urlParams = new URLSearchParams(window.location.search)
 
 const ticksPerSecondOverridden = urlParams.has('ticksPerSecond')
 
-// 30 ticks per second default, but overridable via query param
+// 60 ticks per second default, but overridable via query param
 const ticksPerSecond = ticksPerSecondOverridden
   ? urlParams.get('ticksPerSecond')
   : 60
@@ -189,6 +190,9 @@ function tickInternal() {
   }
 }
 
+let timeOfLastDraw = null
+let currentFps = 60
+
 function draw() {
   if (!canvasIsDirty) return
   canvasIsDirty = false
@@ -209,6 +213,14 @@ function draw() {
       screen.ctx.restore()
     }
   }
+
+  let now = performance.now()
+  if (timeOfLastDraw) {
+    let frameFps = 1000 / (now - timeOfLastDraw)
+    currentFps = 0.9 * currentFps + 0.1 * frameFps
+    ui.levelInfoFpsStr.innerText = 'FPS: ' + currentFps.toFixed(2)
+  }
+  timeOfLastDraw = now
 }
 
 function requestDraw() {

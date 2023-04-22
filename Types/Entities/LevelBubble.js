@@ -152,8 +152,8 @@ function LevelBubble(spec) {
       isBubbleLevel: true,
       drawOrder: LAYERS.levelBubbles,
     })
-    bubbletLevel.sendLifecycleEvent('awake')
-    bubbletLevel.sendLifecycleEvent('start')
+    bubbletLevel.awake()
+    bubbletLevel.start()
     bubbletLevel.sendEvent('tick')
     bubbletLevel.sendEvent('draw')
     bubbletLevel.destroy()
