@@ -421,7 +421,7 @@ const VOLCANO = (() => {
         drawOrder: LAYERS.foreSprites,
         size: 10,
         x: 54,
-        offset: [0, 0.3],
+        offset: [0, 0.6],
         anchored: true,
       },
       {
@@ -430,7 +430,7 @@ const VOLCANO = (() => {
         drawOrder: LAYERS.foreSprites,
         size: 10,
         x: 40,
-        offset: [0, 0.3],
+        offset: [0, 0.6],
         anchored: true,
       },
       {
@@ -439,7 +439,7 @@ const VOLCANO = (() => {
         drawOrder: LAYERS.foreSprites,
         size: 10,
         x: 25,
-        offset: [0, 0.3],
+        offset: [0, 0.6],
         anchored: true,
       },
       {
@@ -457,7 +457,7 @@ const VOLCANO = (() => {
         drawOrder: LAYERS.foreSprites,
         size: 12,
         x: 48,
-        offset: [0, 0.2],
+        offset: [0, 0.6],
         anchored: true,
       },
       {
@@ -466,7 +466,7 @@ const VOLCANO = (() => {
         drawOrder: LAYERS.foreSprites,
         size: 12,
         x: 74,
-        offset: [0, 0.2],
+        offset: [0, 0.6],
         anchored: true,
       },
       {
@@ -475,7 +475,7 @@ const VOLCANO = (() => {
         drawOrder: LAYERS.foreSprites,
         size: 12,
         x: 69,
-        offset: [0, 0.2],
+        offset: [0, 0.6],
         anchored: true,
       },
       {
@@ -484,7 +484,7 @@ const VOLCANO = (() => {
         drawOrder: LAYERS.foreSprites,
         size: 1.5,
         x: -88,
-        offset: [0, 0.9],
+        offset: [0, 0.7],
         anchored: true,
       },
       {
