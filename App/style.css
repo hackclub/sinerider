@@ -495,6 +495,11 @@ input[valid='false'] {
   font-size: 24px;
 }
 
+#navigator-button {
+  width: min-content;
+  font-size: 24px;
+}
+
 #reset-button {
   margin-left: 30px;
 }
@@ -618,14 +623,6 @@ input[valid='false'] {
   top: -80px;
 }
 
-#navigator-button {
-  height: min-content;
-  font-size: 1.4rem;
-}
-
-#navigator-button > .string {
-  padding-bottom: 0px;
-}
 
 #navigator-floating-bar {
   bottom: 0;
@@ -930,6 +927,7 @@ input[valid='false'] {
 }
 .tooltip-e,
 .tooltip{
+  position: relative;
   /* z-index: -10; */
 }
 .tooltip::before,
