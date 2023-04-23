@@ -327,6 +327,7 @@ input[valid='false'] {
   flex-direction: column;
   justify-content: start;
   align-items: center;
+  font-size: 3vmin;
 }
 
 #reset-confirmation-dialog > div, #show-all-confirmation-dialog > div {
@@ -337,9 +338,16 @@ input[valid='false'] {
   align-items: center;
 }
 
-#reset-confirmation-yes:not(:hover), #show-all-yes:not(:hover) {
+#reset-confirmation-yes, #show-all-yes {
   background: #f46;
   color: white;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #f46;
+}
+#reset-confirmation-yes:hover, #show-all-yes:hover {
+  background: #222;
+  border-color: #000
 }
 
 #reset-confirmation-no, #show-all-no {
