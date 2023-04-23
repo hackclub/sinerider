@@ -255,7 +255,6 @@ input[valid='false'] {
   display: flex;
   position: relative;
   background: rgb(255 255 255);
-  /* width: 100%; */
   height: 100%;
   border-radius: 0px 5px 0px 0px;
 }
@@ -267,8 +266,6 @@ input[valid='false'] {
   align-items: center;
   height: 0px;
   flex-grow: 1;
-  /* left: 30px;
-  width: 1px; */
   position: relative;
   left: 80px;
   bottom: 30px;
@@ -284,6 +281,7 @@ input[valid='false'] {
 .slider-tick {
   height: 10px;
   width: 2px;
+  left: 6px;
   background-color: rgb(255, 255, 255);
   border-style: solid;
   border-width: 2px;
@@ -295,11 +293,14 @@ input[valid='false'] {
   position: absolute;
   top: 15px;
   transform: translateX(-50%);
-  font-size: 1.3rem;
-  -webkit-text-stroke-width: 0.3px;
-  -webkit-text-stroke-color: white;
+  font-size: 1.1rem;
+  text-shadow: -1px 1px 0 #ffffff,
+				  1px 1px 0 #ffffff,
+				 1px -1px 0 #ffffff,
+				-1px -1px 0 #ffffff;
+
   color: black;
-  font-weight: bold;
+  font-family: "Roboto Mono";
 }
 
 #time-slider {
