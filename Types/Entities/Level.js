@@ -5,6 +5,9 @@
  * callback which is invoked whenever the level's completion condition is met.
  */
 function Level(spec) {
+
+  let running = false
+
   const { self, assets, screen, ui, world } = Entity(spec, spec.datum.nick)
 
   const {
@@ -365,6 +368,8 @@ function Level(spec) {
 
       // Hide math field by default
       ui.expressionEnvelope.classList.add('hidden')
+      ui.stopButton.style.setProperty('--stopbuttonbg', 'rgb(150,150,150)')
+      console.log('is cutscene')
     }
 
     editor.active = isEditor()
@@ -377,12 +382,17 @@ function Level(spec) {
       ui.mathField.latex(defaultVectorExpression)
       ui.mathFieldStatic.latex(defaultVectorExpression)
     } else if (!runAsCutscene && !isBubbleLevel) {
+      ui.stopButton.style.setProperty('--stopbuttonbg', '#f46')
+
       // Otherwise display editor normally as graph editor
       ui.expressionEnvelope.classList.remove('hidden')
       ui.mathFieldLabel.innerText = 'Y='
 
       ui.mathField.latex(startingExpression)
       ui.mathFieldStatic.latex(startingExpression)
+    }
+    if(runAsCutscene){
+      ui.stopButton.style.background = 'background: rgb(150,150,150);'
     }
   }
 
@@ -433,6 +443,7 @@ function Level(spec) {
   }
 
   function tick() {
+    updateUI()
     // screen.ctx.filter = `blur(${Math.floor(world.level.sledders[0].rigidbody.velocity/40 * 4)}px)`
     let time = runAsCutscene
       ? getCutsceneDistanceParameter().toFixed(1)
@@ -673,7 +684,61 @@ function Level(spec) {
 
     texts.push(text)
   }
+  var soundShowing = false
+  ui.soundButton.addEventListener("click", toggleSoundBar);
+  function toggleSoundBar(){
+    if(soundShowing){
+      ui.volumeSlider.style.opacity = "0"
+      ui.volumeSlider.disabled = true
+      soundShowing = false
+    }
+    else{
+      ui.volumeSlider.style.opacity = "1"
+      ui.volumeSlider.disabled = false
+      soundShowing = true
+    }
+  }
+  var juncColor = "white"
+  function refreshMathFieldRadius(){
+    let radius = (ui.expressionEnvelope.offsetHeight - ui.controlBar.offsetHeight)/2
+    ui.junction.style.height = `${radius}px`
+    ui.junction.style.width = `${radius}px`
+    if(running) juncColor = "rgb(220,220,220)"; if(!running) juncColor = "white"
+    ui.junction.style.backgroundImage = `radial-gradient(circle at ${radius}px  0px, rgba(0,0,0,0) 0, rgba(0, 0, 0, 0) ${radius}px, ${juncColor} ${radius}px)`
+    ui.expressionEnvelope.style.opacity = "1";
+    let borderRadius = radius/2
+    ui.expressionEnvelope.style.borderRadius = `0px ${borderRadius}px 0px 0px`
+  }
+  function updateTimeSliderPosition(){
+    if(running){
 
+    ui.timeSliderContainer.style.left = `${100 + ui.controlBar.offsetWidth + ui.stopButton.offsetWidth}px`
+    }
+    else{
+      ui.timeSliderContainer.style.left = `${100 + ui.controlBar.offsetWidth + ui.runButton.offsetWidth}px`
+    }
+    ui.timeSliderContainer.style.width = `${window.innerWidth - ui.controlBar.offsetWidth - 100}px`
+  }
+  function updateHintEquationHeight(){
+    ui.dottedMathField.style.bottom = `${ui.expressionEnvelope.offsetHeight + 50}px`
+    ui.dottedHintButton.style.bottom = `${ui.expressionEnvelope.offsetHeight - 75}px`
+  } 
+  function updateControlBarWidth(){
+    ui.controlBar.style.width = `${ui.expressionEnvelope.offsetWidth + 175}px`
+  }
+  function updateRunButtonPosition(){
+    ui.runButton.style.transition = "left 0ms"
+    // ui.runButton.style.left = `${ui.controlBar.offsetWidth + 10}px`
+    // ui.stopButton.style.left = `${ui.controlBar.offsetWidth + 10}px`
+  }
+  window.addEventListener("resize", updateUI);
+  function updateUI(){
+    refreshMathFieldRadius()
+    updateHintEquationHeight()
+    //updateControlBarWidth()
+    //updateTimeSliderPosition()
+    updateRunButtonPosition()
+  }
   function goalCompleted(goal) {
     if (!completed) {
       refreshLowestOrder()
@@ -785,11 +850,15 @@ function Level(spec) {
   }
 
   function startRunning() {
+    updateUI()
+    running = true
+
     ui.runButton.classList.remove('flash-shadow')
 
     ui.mathFieldStatic.latex(currentLatex)
 
-    ui.tSliderContainer.setAttribute('hide', true)
+    ui.timeSliderContainer.setAttribute('hide', true)
+    updateUI()
 
     if (usingTInExpression) {
       if (graph.resample) graph.resample()
@@ -805,11 +874,16 @@ function Level(spec) {
   }
 
   function stopRunning() {
+    running = false
+    updateUI()
+    
     _.invokeEach(goals, 'reset')
     _.invokeEach(tips, 'toggleVisible')
-    if (usingTInExpression) ui.tSliderContainer.setAttribute('hide', false)
+    if (usingTInExpression) ui.timeSliderContainer.setAttribute('hide', false)
     completed = false
     refreshLowestOrder()
+
+
   }
 
   function isVolcano() {
@@ -1042,6 +1116,7 @@ function Level(spec) {
   }
 
   function setGraphExpression(text, latex) {
+    updateUI()
     if (editor.editingPath) {
       // console.log('returning')
       return
@@ -1069,7 +1144,7 @@ function Level(spec) {
       })
     } catch {}
 
-    ui.tSliderContainer.setAttribute('hide', !usingTInExpression)
+    ui.timeSliderContainer.setAttribute('hide', !usingTInExpression)
 
     graph.expression = text
     ui.expressionEnvelope.setAttribute('valid', graph.valid)

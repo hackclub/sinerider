@@ -38,6 +38,16 @@ const TIME = [
         ],
       },
     ],
+    tips : [
+      {
+        content: 'Drag t-slider to see graph change with time',
+        domSelector: '#time-slider-container',
+        destroyOnClick: true,
+        index: 0,
+        place: 'top-right',
+        style:{left:0, visibility: 'visible'},
+      }
+    ],
   },
   {
     name: 'Time Constant',

@@ -4,7 +4,6 @@ let arrowsDrawn = 0,
 
 function World(spec) {
   const self = Entity(spec, 'World')
-
   const { ui, screen, levelData, requestDraw, tickDelta, version } = spec
 
   const storage = PlayerStorage()
@@ -104,7 +103,10 @@ function World(spec) {
     )
       screen.resize()
 
-    if (running) runTime += tickDelta
+    if (running){
+      runTime += tickDelta
+      ui.timeSlider.value = runTime*10
+    } 
   }
 
   function draw() {
@@ -281,7 +283,8 @@ function World(spec) {
       nextLevel(2.5)
     } else {
       ui.victoryBar.setAttribute('hide', false)
-      ui.expressionEnvelope.setAttribute('hide', true)
+      //ui.expressionEnvelope.setAttribute('hide', true)
+      ui.timeSlider.disabled = false
       ui.showAllButton.setAttribute('hide', true)
     }
 
@@ -336,23 +339,29 @@ function World(spec) {
     editing = _editing
   }
 
-  function startRunning(
-    playSound = true,
-    hideNavigator = true,
-    disableExpressionEditing = true,
-  ) {
+
+  function startRunning(playSound = true, hideNavigator = true, disableExpressionEditing = true) {
     running = true
+    //setControlBarOpacity(false)
     setCompletionTime(null)
 
-    ui.mathField.blur()
+    //ui.mathField.blur()
     ui.expressionEnvelope.setAttribute('disabled', disableExpressionEditing)
-    ui.menuBar.setAttribute('hide', true)
-
+    ui.resetButton.disabled = true
+    ui.timeSlider.disabled = true
+    ui.controlBarGFX.style.background = "rgb(220,220,220)"
+    //ui.menuBar.setAttribute('hide', true)
+    //ui.soundButton.setAttribute('hide', true)
+    //ui.junction.setAttribute('hide', true)
+    //ui.timeSlider.setAttribute('hide', true)
     ui.runButton.setAttribute('hide', true)
+    
     ui.stopButton.setAttribute('hide', false)
-    if (hideNavigator) ui.navigatorButton.setAttribute('hide', true)
-    ui.resetButton.setAttribute('hide', true)
+    //if (hideNavigator) ui.navigatorButton.setAttribute('hide', true)
+    //ui.resetButton.setAttribute('hide', true)
     ui.tryAgainButton.setAttribute('hide', true)
+    //ui.dottedMathContainer.setAttribute('hide', true)
+    
 
     if (playSound) assets.sounds.start_running.play()
 
@@ -370,20 +379,28 @@ function World(spec) {
     runTime = 0
     running = false
     setCompletionTime(null)
+    //setControlBarOpacity(true)
 
+    //ui.timeSlider.setAttribute('hide', false)
+    ui.controlBarGFX.style.background = "white"
     ui.mathField.blur()
     ui.expressionEnvelope.setAttribute('disabled', false)
-    ui.menuBar.setAttribute('hide', false)
+    ui.resetButton.disabled = false
+    //ui.menuBar.setAttribute('hide', false)
     ui.victoryBar.setAttribute('hide', true)
-
+    ui.timeSlider.disabled = false
+    //ui.junction.setAttribute('hide', false)
     ui.controlBar.setAttribute('hide', navigating)
-    ui.navigatorButton.setAttribute('hide', false)
-    ui.expressionEnvelope.setAttribute('hide', false)
+    //ui.navigatorButton.setAttribute('hide', false)
+    //ui.expressionEnvelope.setAttribute('hide', false)
     ui.runButton.setAttribute('hide', false)
     ui.tryAgainButton.setAttribute('hide', true)
+    
     ui.stopButton.setAttribute('hide', true)
-    ui.resetButton.setAttribute('hide', false)
-
+    
+    //ui.resetButton.setAttribute('hide', false)
+    //ui.soundButton.setAttribute('hide', false)
+    ui.timeSlider.value = 0
     if (!navigating) {
       // HACK: Timed to avoid bug in Safari (at least) that causes whole page to be permanently offset when off-screen text input is focused
       setTimeout(() => ui.expressionText.focus(), 250)
@@ -400,7 +417,6 @@ function World(spec) {
     if (running) stopRunning()
     else startRunning()
   }
-
   function generateRandomLevel() {
     const goalCount = _.random(2, 5)
     const goals = []

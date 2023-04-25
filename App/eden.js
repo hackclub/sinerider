@@ -327,7 +327,7 @@ worldData.push({
         {
           content: 'click here!',
           domSelector: '#run-button',
-          place: 'top-left',
+          place: 'top-right',
           style: { fontSize: '1.1rem' },
         },
       ],
