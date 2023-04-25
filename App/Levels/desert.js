@@ -138,7 +138,7 @@ const DESERT = {
     {
       speaker: 'Ada',
       color: '#FFF',
-      content: 'A little, yeah!',
+      content: 'Yes, absolutely!',
       direction: 'up-up-left',
       gap: 1,
     },
@@ -303,7 +303,7 @@ const DESERT = {
       size: 1.7,
       x: 7.2,
       y: 0,
-      offset: [0, 0,5],
+      offset: [0, 0, 5],
       anchored: true,
     },
     {
@@ -313,7 +313,7 @@ const DESERT = {
       size: 3,
       x: 14,
       y: 0,
-      offset: [0, 0,5],
+      offset: [0, 0, 5],
       anchored: true,
     },
     {
@@ -408,7 +408,7 @@ const DESERT = {
       asset: 'images.cactus',
       draworder: LAYERS.foreSprites,
       flipX: true,
-      size: .6,
+      size: 0.6,
       x: 29,
       y: 0,
       offset: [0, 0.5],
@@ -443,7 +443,7 @@ const DESERT = {
       size: 3,
       x: 39,
       y: 0,
-      offset: [0, 0,5],
+      offset: [0, 0, 5],
       anchored: true,
     },
     {
@@ -512,7 +512,7 @@ const DESERT = {
       size: 3,
       x: 49,
       y: 0,
-      offset: [0, 0,5],
+      offset: [0, 0, 5],
       anchored: true,
     },
     {
@@ -559,7 +559,7 @@ const DESERT = {
       size: 3,
       x: 61.3,
       y: 0,
-      offset: [0, 0,5],
+      offset: [0, 0, 5],
       anchored: true,
     },
     {
@@ -569,7 +569,7 @@ const DESERT = {
       size: 3,
       x: 61.3,
       y: 0,
-      offset: [0, 0,5],
+      offset: [0, 0, 5],
       anchored: true,
     },
     {
@@ -608,7 +608,7 @@ const DESERT = {
       size: 3,
       x: 74,
       y: 0,
-      offset: [0, 0,5],
+      offset: [0, 0, 5],
       anchored: true,
     },
     {
@@ -637,7 +637,7 @@ const DESERT = {
       size: 3,
       x: 77.3,
       y: 0,
-      offset: [0, 0,5],
+      offset: [0, 0, 5],
       anchored: true,
     },
     {
@@ -681,14 +681,14 @@ const DESERT = {
       anchored: true,
     },
     {
-        asset: 'images.blooming_joshua_tree',
-        drawOrder: LAYERS.foreSprites,
-        flipX: true,
-        size: 2.4,
-        x: 78,
-        y: 0,
-        offset: [0, 0.0],
-        anchored: true,
+      asset: 'images.blooming_joshua_tree',
+      drawOrder: LAYERS.foreSprites,
+      flipX: true,
+      size: 2.4,
+      x: 78,
+      y: 0,
+      offset: [0, 0.0],
+      anchored: true,
     },
     {
       asset: 'images.desert_tree',
