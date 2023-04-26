@@ -405,6 +405,8 @@ math-field::part(virtual-keyboard-toggle) {
   padding: 14px 10px 13px 10px;
   z-index: 1;
   margin: 0;
+
+  position: relative;
 }
 
 
