@@ -46,6 +46,13 @@ const ui = {
 
   submitTwitterScoreDiv: $('#submit_twitter_score_div'),
   submitTwitterScoreLink: $('#submit_twitter_score_link'),
+  submitRedditScoreDiv: $('#submit_reddit_score_div'),
+  submitRedditScoreLink: $('#submit_reddit_score_link'),
+  submitRedditScoreSubreddit: $('#submit_reddit_score_subreddit'),
+
+  redditOpenModal: $('#redditOpen-bar'),
+  redditOpenCommand: $('#redditOpen-command'),
+  redditOpenCloseButton: $('#close-redditOpen-button'),
 
   controlBar: $('#controls-bar'),
   expressionText: $('#expression-text'),
