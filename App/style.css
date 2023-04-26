@@ -194,6 +194,7 @@ body > .bar {
 
   transition: 0.5s;
   pointer-events: none;
+
   z-index: 2;
 }
 
@@ -937,6 +938,7 @@ input[valid='false'] {
 }
 .tooltip-e,
 .tooltip{
+  z-index: 2;
   position: relative;
   /* z-index: -10; */
 }
