@@ -367,6 +367,10 @@ function LevelBubble(spec) {
     refreshPlayable()
   }
 
+  // Render on load
+  console.log('Rendering level bubble', levelDatum.nick)
+  render()
+
   return self.mix({
     transform,
     clickable,

@@ -47,11 +47,11 @@ function Navigator(spec) {
   }
 
   function tick() {
-    if (bubbleRenderQueue.length > 0) {
-      let b = 0
-      while (b++ <= bubbleRenderCap && bubbleRenderQueue.length > 0)
-        bubbleRenderQueue.pop().render()
-    }
+    // if (bubbleRenderQueue.length > 0) {
+    //   let b = 0
+    //   while (b++ <= bubbleRenderCap && bubbleRenderQueue.length > 0)
+    //     bubbleRenderQueue.pop().render()
+    // }
   }
 
   function draw() {
