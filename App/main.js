@@ -50,6 +50,7 @@ const ui = {
   controlBarGFX: document.getElementById("controls-bar-gfx"),
   expressionText: $('#expression-text'),
   expressionEnvelope: $('#expression-envelope'),
+  keyboardBar: $('#keyboard-bar'),
 
   mathFieldLabel: $('#variable-label > .string'),
   _mathField: $('#math-field'),
@@ -255,7 +256,10 @@ ui.timeSlider.addEventListener('change', () => {
     world.level.sendEvent('tVariableChanged', [newT])
   }
 })
-// MathQuill
+
+// MathLive/MathQuill
+
+mathVirtualKeyboard.container = ui.keyboardBar
 
 ui.mathFieldStatic = MQ.StaticMath(ui.mathFieldStatic)
 

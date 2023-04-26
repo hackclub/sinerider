@@ -236,13 +236,20 @@ input[valid='false'] {
   border: 1px solid red;
 }
 
-#controls-bar {
+#controls-bar-with-keyboard {
   transition: none;
   transition-delay: 0s;
 
   position: absolute;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
   align-self: center;
 
+  flex-direction: column;
+}
+
+#controls-bar {
   align-items: flex-end;
   justify-content: flex-start;
 
@@ -251,6 +258,7 @@ input[valid='false'] {
   height: 50px;
   border-radius: 0px 5px 0px 0px;
 }
+
 #controls-bar-gfx{
   display: flex;
   position: relative;
@@ -354,6 +362,17 @@ input[valid='false'] {
 
 #math-field[valid='false'] {
   border: 1px solid red;
+}
+
+@media not (pointer: coarse) {
+  math-field::part(virtual-keyboard-toggle) {
+    display: none;
+  }
+}
+
+.ML__keyboard {
+  min-height: var(--keyboard-height);
+  width: 100vw;
 }
 
 #variable-label{
