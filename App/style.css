@@ -88,7 +88,7 @@ body > .bar {
   overflow: visible;
 }
 
-.floating
+.floating .button,
 .envelope {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
 }
@@ -126,11 +126,16 @@ body > .bar {
   border: none;
   opacity: 1;
 }
-.cb-button,
+
 .button {
   min-width: 30px;
   min-height: 30px;
 
+  padding: 0 8px;
+
+  background: #fff;
+
+  border-radius: 5px;
 
   display: flex;
   align-items: center;
@@ -139,23 +144,12 @@ body > .bar {
   cursor: pointer;
   transition: 0.2s;
 }
-.button{
-  padding: 0 8px;
-  margin: 10px;
-  background: white;
-}
-.cb-button{
-  padding: 8px;
-  margin-right: 4px;
-  background: rgba(0, 0, 0, 0);
-}
 
-.cb-button:hover,
 .button:hover {
   background: #222;
   color: #fff;
 }
-.cb-button *,
+
 .button * {
   user-select: none;
   pointer-events: none;
@@ -190,11 +184,10 @@ body > .bar {
   display: flex;
 
   background: transparent;
-  bottom: 70px;
+  bottom: 20px;
 
   transition: 0.5s;
   pointer-events: none;
-  z-index: 2;
 }
 
 .victory .envelope {
@@ -237,97 +230,18 @@ input[valid='false'] {
 }
 
 #controls-bar {
-  transition: none;
-  transition-delay: 0s;
-
   position: absolute;
+
+  left: 20px;
+  bottom: 20px;
+  right: 20px;
   align-self: center;
 
   align-items: flex-end;
-  justify-content: flex-start;
-
-  bottom: 0px;
-  left: 0px;
-  height: 50px;
-  border-radius: 0px 5px 0px 0px;
-}
-#controls-bar-gfx{
-  display: flex;
-  position: relative;
-  background: rgb(255 255 255);
-  height: 100%;
-  border-radius: 0px 5px 0px 0px;
-}
-/* time slider */
-#time-slider-container {
-  display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
-  height: 0px;
-  flex-grow: 1;
-  position: relative;
-  left: 80px;
-  bottom: 30px;
+
+  /*box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);*/
 }
-
-#time-slider-ticks {
-  display: flex;
-  justify-content: space-between;
-  width: 110%;
-  margin-bottom: 20px;
-}
-
-.slider-tick {
-  height: 10px;
-  width: 2px;
-  left: 6px;
-  background-color: rgb(255, 255, 255);
-  border-style: solid;
-  border-width: 2px;
-  border-color: black;
-  position: relative;
-}
-
-.slider-tick-label {
-  position: absolute;
-  top: 15px;
-  transform: translateX(-50%);
-  font-size: 1.1rem;
-  text-shadow: -1px 1px 0 #ffffff,
-				  1px 1px 0 #ffffff,
-				 1px -1px 0 #ffffff,
-				-1px -1px 0 #ffffff;
-
-  color: black;
-  font-family: "Roboto Mono";
-}
-
-#time-slider {
-  transition: left 100ms;
-  width: 110%;
-  -webkit-appearance: none;
-  background-color: rgb(255, 255, 255);
-  height: 3px;
-  position: relative;
-  bottom: 40px;
-  border-style: solid;
-  border-width: 2px;
-  border-color: black;
-}
-
-#time-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  cursor: pointer;
-  border: rgb(150, 0, 0);
-  background-color: red;
-  border-width: 2px;
-  border-style: solid;
-}
-
 
 #controls-bar[hide='true'] {
   bottom: -50vh;
@@ -348,42 +262,15 @@ input[valid='false'] {
   margin: 0;
   background: #fff;
 }
-#math-field{
-  border-radius: 80px;
-}
 
 #math-field[valid='false'] {
   border: 1px solid red;
 }
 
-#variable-label{
-  bottom: 50%;
-}
 #expression-envelope {
   width: fit-content;
   transition: transform 1s, opacity 0.2s;
 }
-#junction{
-  --bgcolor: white;
-  transition: none;
-  transition-delay: 0s;
-  position: absolute;
-  bottom: 50px;
-  background-image: radial-gradient(circle at 45px 0px, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 40px, var(--bgcolor) 40px);
-  z-index: 1;
-}
-#expression-envelope {
-  --font-size: 1.5rem;
-  transition: transform 1s, opacity 0.2s;
-  font-size: var(--font-size);
-  max-width: min-content;
-  height: min-content;
-  border-radius: 0px 10px 0px 0px;
-  padding: 14px 10px 13px 10px;
-  z-index: 1;
-  margin: 0;
-}
-
 
 #expression-envelope[disabled='true'] > #math-field {
   display: none;
@@ -416,24 +303,23 @@ input[valid='false'] {
   transform: translate(0, 200%);
   opacity: 0;
 }
-#stop-button,
-#try-again-button,
-#run-button {
---stopbuttonbg: #f46;
 
-  transition: left 250ms;
-  width: min-content;
-  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.4);
-  z-index: 2;
-  border-radius: 5px;
-  min-width: 55px;
+#run-button {
+  position: absolute;
+
+  right: 0;
+  bottom: 0;
 }
 
-#try-again-button{
-  left: calc(100% - 150px);
+#try-again-button {
   animation: pulse 0.5s infinite;
-  width: 100px;
-  bottom: 60px;
+}
+
+.reset-button {
+  position: absolute;
+
+  right: 0;
+  bottom: 0;
 }
 
 #reset-confirmation-dialog {
@@ -462,47 +348,33 @@ input[valid='false'] {
   border-color: #000;
 }
 
-#run-button {
-  position: relative;
-}
-
 #run-button:not(:hover) {
   background: #4f6;
 }
 
-
 .reset-button:not(:hover) {
-  
-  background: var(--stopbuttonbg);
+  background: #f46;
 }
 
 #next-button:not(:hover) {
   background: #4f6;
 }
-#next-button{
-  border-radius: 5px;
-}
 
 #victory-stop-button:not(:hover) {
   background: #f46;
 }
-/*
+
 #reset-button:not(:hover) {
   background: #68f;
 }
-*/
-#sound-button{
-  width: min-content;
-  font-size: 24px;
-}
-
-#navigator-button {
-  width: min-content;
-  font-size: 24px;
-}
 
 #reset-button {
-  margin-left: 30px;
+  position: absolute;
+
+  left: 0;
+  bottom: 0;
+
+  padding: 0;
 }
 
 #reset-button > .string {
@@ -601,29 +473,38 @@ input[valid='false'] {
   transition: 0.05s;
 }
 
-.volume-container {
-  /* Set position explicitly on this so that child elements (the slider) with absolute position
-   * use this as a reference point. We don't have to set left/right/bottom/top because we actually
-   * want this positioned wherever flexbox puts it */
-  position: relative;
+#volume-slider-box {
+  transition-duration: 1s;
+  border: 2px solid rgba(255, 255, 255, 0);
+  padding: 10px;
+  border-radius: 0 0 10px 0;
+}
+#volume-slider-box:hover {
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(9px);
 }
 
 #volume-slider {
-  position: absolute;
-  transition-duration: 1s;
-  bottom: 45px;
-  left: -45px;
-  transition-duration: 1s;
-  writing-mode: lr-tb; /* IE */
-  -webkit-appearance: slider-vertical; /* Chromium */
   opacity: 0;
+  transition-duration: 1s;
 }
-
+#volume-slider-box:hover > #volume-slider {
+  opacity: 1;
+}
 
 #top-bar[hide='true'] {
   top: -80px;
 }
 
+#navigator-button {
+  margin-right: 20px;
+  border-radius: 0 0 10px 10px;
+  font-size: 2.4rem;
+}
+
+#navigator-button > .string {
+  padding-bottom: 5px;
+}
 
 #navigator-floating-bar {
   bottom: 0;
@@ -719,6 +600,13 @@ input[valid='false'] {
   -moz-box-shadow: #8bd 0 0 1px 2px, inset #6ae 0 0 2px 0;
   box-shadow: #8bd 0 0 1px 2px, inset #ffffff 0 0 2px 0;
   border-color: #ffffff;
+}
+
+.invalid-exp {
+  -webkit-box-shadow: #f00 0 0 1px 2px, inset #6ae 0 0 2px 0 !important;
+  -moz-box-shadow: #f00 0 0 1px 2px, inset #6ae 0 0 2px 0 !important;
+  box-shadow: #f00 0 0 1px 3px, inset #ffffff 0 0 3px 0 !important;
+  border-color: #ffffff !important;
 }
 
 .helper-bubble {
@@ -836,50 +724,41 @@ input[valid='false'] {
 }
 
 #dotted-math-container {
-  position: absolute;  
-  left: 0px;
+  position: fixed;
+  right: 40px;
+  top: 15%;
+  bottom: 20%;
   /* display: flex;  */
   display: none; /* Disabled by default */
   border-width: 3px;
-  width: calc(100% - 100px);
-  height: 25px;
-  border-radius: 0px 0px 0px 5px;
-  bottom: 100px;
 }
 
 #dotted-math-field-static {
-  background: #5f5f5f;
-  border-radius: 0px 5px 5px 0px;
-  box-shadow: 0px 2px 4px rgb(0 0 0 / 40%);
-  font-family: monospace;
-  color: rgb(0,255,0);
-  text-shadow: rgb(0, 0, 0) 1px 0 10px;
-  display: none;
-  position: absolute;
-  font-size: 1.5rem;
-  padding: 5px;
-  height: min-content;
+  border: 2px solid rgba(110, 70, 70, 0.2);
+  backdrop-filter: blur(9px);
+  text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.75);
+  margin-top: auto;
+  margin-bottom: auto;
   font-weight: bold;
+  font-family: monospace;
+  color: rgb(0, 255, 0);
+  display: none;
 }
 
 #dotted-math-button {
-  box-shadow: 0px 2px 4px rgb(0 0 0 / 40%);
-  position: absolute;
-  margin-left: 10px;
-  background-color: rgb(0 255 0);
-  border-radius: 5px;
-  transition: bottom 0ms;
+  margin-top: 40vh;
+  margin-bottom: 40vh;
+  margin-left: auto;
+  background-color: rgb(255, 174, 0);
 }
 
 #dotted-slider {
-  writing-mode: lr-tb; /* IE */
+  writing-mode: bt-lr; /* IE */
   -webkit-appearance: slider-vertical; /* Chromium */
-  height: 75vh;
-  bottom: 0px;
-  left: 100%;
-  line-height: 100vh;
+  width: 8px;
+  height: 70vh;
+  /*line-height: 100vh;*/
   accent-color: rgb(0, 255, 0);
-  position:absolute;
 }
 
 .vstack {
@@ -896,9 +775,6 @@ input[valid='false'] {
 }
 
 @media only screen and (max-width: 600px) {
-  /*#time-slider-container{
-    width: calc(700 px - 100%);
-  }*/
   #expression-envelope-container {
     position: fixed;
     top: 20px;
@@ -906,6 +782,18 @@ input[valid='false'] {
 
   #expression-envelope-container[hide='true'] {
     top: -50vh;
+  }
+
+  #navigator-button {
+    position: fixed;
+    bottom: 20px;
+    font-size: 1.5rem;
+    height: 30px;
+    width: 40px;
+    left: calc(50% - (30px / 2));
+    padding: 0px;
+    border-radius: 5px;
+    margin: 0;
   }
 
   #volume-slider-box {
@@ -923,19 +811,14 @@ input[valid='false'] {
 
   #expression-envelope {
     font-size: 0.9rem;
-    border-radius: 0px 10px 0px 0px;
   }
 }
-.tooltip-e,
-.tooltip{
-  position: relative;
-  /* z-index: -10; */
-}
+
 .tooltip::before,
 .tooltip::after {
   --scale: 0;
   --arrow-size: 10px;
-  --reset-tooltip-color: rgb(23, 22, 22);
+  --reset-tooltip-color: #68f;
   --volume-tooltip-color: rgb(34, 136, 238);
 
   position: absolute;
@@ -1124,9 +1007,7 @@ input[valid='false'] {
   grid-auto-rows: 12px;
   padding: 0px;
 }
-#loading-veil{
-  z-index: 5;
-}
+
 .modal {
   position: fixed;
 }
