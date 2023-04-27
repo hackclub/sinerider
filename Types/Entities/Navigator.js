@@ -40,7 +40,7 @@ function Navigator(spec) {
 
   const bubbles = _.map(levelData, createBubble)
   const bubbleRenderQueue = []
-  const bubbleRenderCap = 1
+  const bubbleRenderCap = 10
 
   function start() {
     if (initialBubble) initialBubble.completeAllRequirements()
@@ -177,9 +177,7 @@ function Navigator(spec) {
     let b = 0
     for (bubble of bubbles) {
       if (bubble.visible && !bubble.rendered) {
-        // We cap the number of bubbles rendered synchronously to prevent crashing on some iphones
-        if (b++ < bubbleRenderCap) bubble.render()
-        else bubbleRenderQueue.push(bubble)
+        bubbleRenderQueue.push(bubble)
       }
     }
   }

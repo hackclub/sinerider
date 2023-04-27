@@ -63,18 +63,15 @@ const SLOPE = [
         index: 0,
         
       },
-      
       {
-        
         content: 'Click here to sled',
         domSelector: '#run-button',
-        place: 'top-right',
+        place: 'top-left',
         destroyOnClick: true,
         index: 1,
         style: { visibility: 'hidden' },
         // style: { fontSize: '1.1rem' },
       },
-    
       // {
       //   content: 'Click here ',
       //   domSelector: '#dotted-math-button',

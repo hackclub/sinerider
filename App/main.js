@@ -17,8 +17,6 @@ const ui = {
   resetCancelButton: $('#reset-confirmation-no'),
 
   tryAgainButton: $('#try-again-button'),
-  timeSlider: $('#time-slider'),
-  timeSliderContainer: $('#time-slider-container'),
 
   veil: $('#veil'),
   loadingVeil: $('#loading-veil'),
@@ -39,6 +37,9 @@ const ui = {
   messageBar: $('#message-bar'),
   messageBarString: $('#message-bar > .string'),
 
+  tSliderContainer: $('#t-variable-container'),
+  tSlider: $('#t-variable-slider'),
+
   variablesBar: $('#variables-bar'),
   timeString: $('#time-string'),
   completionTime: $('#completion-time'),
@@ -47,7 +48,6 @@ const ui = {
   submitTwitterScoreLink: $('#submit_twitter_score_link'),
 
   controlBar: $('#controls-bar'),
-  controlBarGFX: document.getElementById("controls-bar-gfx"),
   expressionText: $('#expression-text'),
   expressionEnvelope: $('#expression-envelope'),
 
@@ -99,9 +99,6 @@ const ui = {
   levelInfoNickStr: $('#lvl-nick-str'),
   levelInfoFpsStr: $('#lvl-fps-str'),
   hideLevelInfoButton: $('#button-hide-level-info'),
-
-  junction: $('#junction'),
-  soundButton: $('#sound-button')
 }
 
 const editor = Editor(ui)
@@ -246,20 +243,14 @@ if (!stepping) {
 }
 
 // T Parameter Slider
-ui.timeSlider.addEventListener('input', () => {
+ui.tSlider.addEventListener('input', () => {
   if (world.globalScope) {
-    const newT = math.remap(0, 100, 0, 10, Number(ui.timeSlider.value))
+    const newT = math.remap(0, 100, 0, 10, Number(ui.tSlider.value))
 
     world.level.sendEvent('tVariableChanged', [newT])
   }
 })
-ui.timeSlider.addEventListener('change', () => {
-  if (world.globalScope) {
-    const newT = 0
-    ui.timeSlider.value = 0
-    world.level.sendEvent('tVariableChanged', [newT])
-  }
-})
+
 // MathQuill
 
 ui.mathFieldStatic = MQ.StaticMath(ui.mathFieldStatic)
@@ -349,6 +340,7 @@ ui.volumeSlider.addEventListener('input', onSetVolume)
 
 function onClickHint() {
   ui.dottedHintButton.style.display = 'none'
+
   ui.dottedSlider.hidden = false
   ui.dottedSlider.style.innerHeight = '200px'
   ui.dottedMathField.style.display = 'block'
@@ -369,7 +361,6 @@ ui.dottedHintButton.addEventListener('click', onClickHint)
 setGlobalVolumeLevel(ui.volumeSlider.value / 100)
 
 function onClickMapButton(event) {
-  ui.dottedMathContainer.style.background = "rgba(0,0,0,0)"
   world.onClickMapButton()
   requestDraw()
 }
@@ -378,7 +369,6 @@ ui.levelButton.addEventListener('click', onClickMapButton)
 ui.navigatorButton.addEventListener('click', onClickMapButton)
 
 function onClickNextButton(event) {
-  ui.dottedMathContainer.style.background = "rgba(0,0,0,0)"
   world.onClickNextButton()
 }
 
