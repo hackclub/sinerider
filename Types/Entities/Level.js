@@ -153,8 +153,7 @@ function Level(spec) {
     darkBufferOrScreen = darkenBufferScreen
   }
 
-  const startingExpression =
-    (!isConstantLakeAndNotBubble() ? savedLatex : null) ?? defaultExpression
+  const startingExpression = getStartingExpression()    
 
   const graph = Graph({
     camera,
@@ -427,6 +426,14 @@ function Level(spec) {
       }
     }
   }
+
+  function getStartingExpression() {
+    let isPuzzle = urlData?.isPuzzle ?? false
+    if (isPuzzle) {
+      return urlData?.expressionOverride ? urlData?.expressionOverride : defaultExpression 
+    }
+    return (!isConstantLakeAndNotBubble() ? savedLatex : null) ?? defaultExpression
+  } 
 
   function getCutsceneDistanceParameter() {
     let playerEntity =
