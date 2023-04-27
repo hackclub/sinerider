@@ -150,6 +150,11 @@ body > .bar {
   color: #fff;
 }
 
+.disabled {
+  pointer-events: none;
+  background: rgb(125,125,125) !important;
+}
+
 .button * {
   user-select: none;
   pointer-events: none;
