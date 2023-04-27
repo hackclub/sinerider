@@ -190,6 +190,17 @@ body > .bar {
   pointer-events: none;
 }
 
+.reddit-open {
+  position: absolute;
+  display: flex;
+
+  background: transparent;
+  bottom: 20px;
+
+  transition: 0.5s;
+  pointer-events: none;
+}
+
 .victory .envelope {
   flex-basis: 400px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
@@ -198,8 +209,20 @@ body > .bar {
   pointer-events: all;
 }
 
+.reddit-open .envelope {
+  flex-basis: 400px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+  background: #eee;
+  padding: 5px;
+  pointer-events: all;
+}
+
 .victory[hide='true'] {
-  bottom: -80px;
+  bottom: -100px;
+}
+
+.reddit-open[hide='true'] {
+  bottom: -300px;
 }
 
 .message[hide='true'] {
@@ -358,6 +381,10 @@ input[valid='false'] {
 
 #next-button:not(:hover) {
   background: #4f6;
+}
+
+#close-reddit-open-button:not(:hover) {
+  background: #f46;
 }
 
 #victory-stop-button:not(:hover) {

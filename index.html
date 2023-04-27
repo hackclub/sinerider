@@ -77,6 +77,7 @@
       gtag('config', 'G-SLDEWZQ8N1')
     </script>
   </head>
+
   <body>
     <img
       src="Assets/Images/error.png"
@@ -180,11 +181,7 @@
           <div class="label" id="t-variable-label">
             <div class="string">t=</div>
           </div>
-          <input
-            value="0"
-            type="range"
-            id="t-variable-slider"
-          />
+          <input value="0" type="range" id="t-variable-slider" />
         </div>
         <div class="envelope" id="expression-envelope" disabled="false">
           <div class="label" id="variable-label">
@@ -246,21 +243,57 @@
               id="hovertext"
               data-hover="The number of characters in your solution (lower = better)"
             >
-              <span id="character-count"></span>              
+              <span id="character-count"></span>
             </div>
-            <div id="submit_twitter_score_div" hide="true">
-              <a id="submit_twitter_score_link" href="http://google.com" target="_blank">Submit score via Twitter</a>
+            <div id="submit-twitter-score-div" hide="true">
+              <a
+                id="submit-twitter-score-link"
+                href="http://google.com"
+                target="_blank"
+                >Submit score via Twitter</a
+              >
             </div>
-
+            <div id="submit-reddit-score-div" hide="true">
+              <a id="submit-reddit-score-link" href="javascript:;">
+                Submit score via Reddit
+              </a>
+            </div>
           </div>
-      
         </div>
 
         <div class="button" id="next-button">
           <div class="string">NEXT</div>
         </div>
+      </div>
+    </div>
+
+    <div class="bar reddit-open floating" id="reddit-open-bar" hide="true">
+      <div class="envelope" id="reddit-open-envelope">
+        <div class="label" id="reddit-open-label">
+          <div class="string">
+            <h3 id="reddit-open-text">Reddit Command Copied!</h3>
+            <p>
+              The command has been copied in your clipboard.<br />Please paste
+              it into the daily level thread.<br />
+              Command:
+            </p>
+            <input type="text" id="reddit-open-command" readonly />
+            <br />
+            <a
+              id="submit_reddit_score_subreddit"
+              href="https://google.com"
+              target="_blank"
+            >
+              Open Subreddit
+            </a>
+          </div>
+          <div class="button" id="close-reddit-open-button">
+            <div class="string">X</div>
+          </div>
+          <br />
         </div>
-    </div>    
+      </div>
+    </div>
 
     <div class="bar floating navigator" id="navigator-floating-bar" hide="true">
       <div class="button" id="show-all-button" hide="false">

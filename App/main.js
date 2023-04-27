@@ -44,8 +44,15 @@ const ui = {
   timeString: $('#time-string'),
   completionTime: $('#completion-time'),
 
-  submitTwitterScoreDiv: $('#submit_twitter_score_div'),
-  submitTwitterScoreLink: $('#submit_twitter_score_link'),
+  submitTwitterScoreDiv: $('#submit-twitter-score-div'),
+  submitTwitterScoreLink: $('#submit-twitter-score-link'),
+  submitRedditScoreDiv: $('#submit-reddit-score-div'),
+  submitRedditScoreLink: $('#submit-reddit-score-link'),
+  submitRedditScoreSubreddit: $('#submit_reddit_score_subreddit'),
+
+  redditOpenModal: $('#reddit-open-bar'),
+  redditOpenCommand: $('#reddit-open-command'),
+  redditOpenCloseButton: $('#close-reddit-open-button'),
 
   controlBar: $('#controls-bar'),
   expressionText: $('#expression-text'),
