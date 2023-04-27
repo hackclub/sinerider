@@ -271,26 +271,6 @@ input[valid='false'] {
   width: fit-content;
   transition: transform 1s, opacity 0.2s;
 }
-#junction{
-  --bgcolor: white;
-  transition: none;
-  transition-delay: 0s;
-  position: absolute;
-  bottom: 50px;
-  background-image: radial-gradient(circle at 45px 0px, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 40px, var(--bgcolor) 40px);
-  z-index: 1;
-}
-#expression-envelope {
-  --font-size: 1.5rem;
-  transition: transform 1s, opacity 0.2s;
-  font-size: var(--font-size);
-  max-width: min-content;
-  height: min-content;
-  border-radius: 0px 10px 0px 0px;
-  padding: 14px 10px 13px 10px;
-  z-index: 1;
-  margin: 0;
-}
 
 #expression-envelope[disabled='true'] > #math-field {
   display: none;
@@ -333,8 +313,13 @@ input[valid='false'] {
 
 #try-again-button {
   animation: pulse 0.5s infinite;
-  width: 100px;
-  bottom: 60px;
+}
+
+.reset-button {
+  position: absolute;
+
+  right: 0;
+  bottom: 0;
 }
 
 #reset-confirmation-dialog {
