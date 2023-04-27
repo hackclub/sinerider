@@ -322,7 +322,7 @@ input[valid='false'] {
   bottom: 0;
 }
 
-#reset-confirmation-dialog {
+#reset-confirmation-dialog, #show-all-confirmation-dialog {
   display: flex;
   flex-direction: column;
   justify-content: start;
