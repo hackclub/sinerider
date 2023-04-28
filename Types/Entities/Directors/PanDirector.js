@@ -105,10 +105,13 @@ function PanDirector(spec) {
     let top = camera.upperRight.y
     let bottom = camera.lowerLeft.y
 
-    let x = math.remap(left, right, -1, 1, mousePoint.x)
-    let y = math.remap(bottom, top, -1, 1, mousePoint.y)
+    camera.worldToFrame(mousePoint, newVelocity)
 
-    newVelocity.set(x, y).normalize().multiply(panSpeed)
+    newVelocity.multiply(2)
+    newVelocity.x = math.clamp(-1, 1, newVelocity.x)
+    newVelocity.y = math.clamp(-1, 1, newVelocity.y)
+
+    newVelocity.multiply(panSpeed)
 
     // console.log('Mouse move', x, y)
 
