@@ -495,7 +495,7 @@ function World(spec) {
     }
 
     const sledderCount =
-      goalCount > 3 || (goalCount == 3 && ordered) ? _.random(1, 2) : 1
+      goalCount > 2 && Math.random() < 0.5 ? _.random(1, 2) : 1
     const sledders = []
     const sledderAssets = [
       'images.ada_sled',
