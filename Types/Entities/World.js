@@ -418,20 +418,58 @@ function World(spec) {
   }
 
   function generateRandomLevel() {
-    const goalCount = _.random(2, 5)
+    const goalCount = _.random(2, 6)
     const goals = []
 
     for (let i = 0; i < goalCount; i++) {
-      const goalPosition = {}
+      let x = 0
+      let y = 0
+
+      const type = Math.random() < 1 / (goalCount + 1) ? 'dynamic' : 'fixed'
 
       do {
-        goalPosition.x = _.random(-10, 10)
-        goalPosition.y = _.random(-10, 10)
+        x = _.random(-12, 12)
+        y = _.random(-12, 12)
       } while (
-        _.find(goals, (v) => v.x == goalPosition.x && v.y == goalPosition.y)
+        _.find(goals, (v) => {
+          const d = Math.sqrt(Math.pow(x - v.x, 2) + Math.pow(y - v.y, 2))
+
+          if (type == 'dynamic' && v.type == 'dynamic') {
+            if (Math.abs(v.x - x) < 1.5) return true
+          } else if (type == 'dynamic' || v.type == 'dynamic') {
+            if (Math.abs(v.x - x) < 1.5) return true
+          } else {
+            if (d <= 1.9) return true
+          }
+        })
       )
 
-      goals.push(goalPosition)
+      goals.push({
+        x,
+        y,
+        type,
+      })
+    }
+
+    {
+      const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
+
+      const ordered = Math.random() < 0.6
+      const orderCount = !ordered ? 0 : Math.max(2, _.random(0, goalCount))
+
+      let i = 0
+      let a = [...goals]
+      while (i < orderCount) {
+        i++
+
+        a = _.shuffle(a)
+        const v = a.pop()
+
+        if (alphabet[0] == 'A' && i == orderCount) v.order = 'B'
+        else if (Math.random() < 0.5) v.order = alphabet[0]
+        else v.order = alphabet.shift()
+
+      }
     }
 
     const sledderCount = 1
@@ -443,14 +481,21 @@ function World(spec) {
       do {
         sledderX = _.random(-10, 10)
       } while (
-        _.find(goals, (v) => v.x == sledderX) ||
-        _.find(sledders, (v) => v.x == sledderX)
+        _.find(goals, (v) => Math.abs(v.x - sledderX) < 1.5) ||
+        _.find(sledders, (v) => Math.abs(v.x - sledderX) < 1.5)
       )
 
       sledders.push({ x: sledderX })
     }
 
-    const biomes = _.values(Colors.biomes)
+    const biome = _.sample([
+      'westernSlopes',
+      'valleyParabola',
+      'eternalCanyon',
+      'sinusoidalDesert',
+      'logisticDunes',
+      'hilbertDelta',
+    ])
 
     return {
       name: 'Random Level',
@@ -458,11 +503,10 @@ function World(spec) {
       drawOrder: LAYERS.level,
       x: -10,
       y: 0,
-      colors: biomes[_.random(0, biomes.length)],
       defaultExpression: '0',
-      hint: 'Soft eyes, grasshopper.',
       goals,
       sledders,
+      biome,
     }
   }
 
