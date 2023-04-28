@@ -158,12 +158,17 @@ function World(spec) {
   function assetsComplete() {
     loadQuad()
 
+    // Remove the loading bar
+    ui.loadingProgressBarContainer.setAttribute('hide', true)
+
     ui.loadingVeilString.innerHTML = 'click to begin'
     ui.loadingVeil.addEventListener('click', loadingVeilClicked)
   }
 
   function assetsProgress(progress, total) {
-    ui.loadingVeilString.innerHTML = `loading…<br>${Math.round(
+    const percent = Math.round((100 * progress) / total)
+    ui.loadingProgressBar.style.width = `${percent}%`
+    ui.loadingVeilString.innerHTML = `loading… ${Math.round(
       (100 * progress) / total,
     )}%`
   }

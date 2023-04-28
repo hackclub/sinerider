@@ -541,6 +541,10 @@ input[valid='false'] {
   border-radius: 10px 10px 0 0;
 }
 
+#github-version > p {
+  font-size: small;
+}
+
 #loading-remarks {
   max-width: 80vmin;
 }
@@ -552,6 +556,29 @@ input[valid='false'] {
 #loading-string {
   text-decoration: underline;
   cursor: pointer;
+}
+
+#loading-progress-bar-container {
+  margin: 20px auto;
+  width: 25%;
+  height: 20px;
+  background-color: #ccc;
+}
+
+#loading-progress-bar {
+  height: 100%;
+  background-color: #4caf50;
+  width: 0%;
+}
+
+#redirect-link {
+  margin: 20px auto;
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  padding: 0.375rem 0.75rem;
 }
 
 .background {
