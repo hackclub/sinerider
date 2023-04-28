@@ -5,6 +5,9 @@ worldData.push({
   name: 'Eden',
   assets: {
     images: {
+      ada_sled: '.webp',
+      jack_sled: '.webp',
+      ada_jack_sled: '.webp',
       lunchbox_sam_sled: 'ada_jack_sled.webp',
       lunchbox_sled: 'jack_sled.webp',
       benny_sled: 'jack_sled.webp',

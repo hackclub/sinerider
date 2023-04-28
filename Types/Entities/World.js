@@ -425,9 +425,11 @@ function World(spec) {
   }
 
   function generateRandomLevel() {
-    const goalCount = _.random(2, 6)
     const goals = []
+    // Skew towards 2–5 goal levels, with potential for as many as 7
+    const goalCount = _.random(2, _.random(5, 7))
 
+    // Generate goals at random locations
     for (let i = 0; i < goalCount; i++) {
       let x = 0
       let y = 0
@@ -435,7 +437,7 @@ function World(spec) {
       const type = Math.random() < 1 / (goalCount + 1) ? 'dynamic' : 'fixed'
 
       do {
-        x = _.random(-12, 12)
+        x = _.random(-16, 16)
         y = _.random(-12, 12)
       } while (
         _.find(goals, (v) => {
@@ -458,10 +460,13 @@ function World(spec) {
       })
     }
 
+    // Apply ordering to goals
     {
       const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
 
-      const ordered = Math.random() < 0.6
+      const ordered =
+        Math.random() < 0.5 ||
+        _.filter(goals, (v) => v.type == 'dynamic').length > 1
       const orderCount = !ordered ? 0 : Math.max(2, _.random(0, goalCount))
 
       let i = 0
@@ -475,24 +480,43 @@ function World(spec) {
         if (alphabet[0] == 'A' && i == orderCount) v.order = 'B'
         else if (Math.random() < 0.5) v.order = alphabet[0]
         else v.order = alphabet.shift()
-
       }
     }
 
-    const sledderCount = 1
+    // Guarantee that there is never more than one unordered dynamic goal
+    {
+      let unorderedDynamicGoals = 0
+      for (goal of goals) {
+        if (goal.type == 'dynamic') {
+          if (unorderedDynamicGoals > 0) goal.type = 'fixed'
+          unorderedDynamicGoals++
+        }
+      }
+    }
+
+    const sledderCount =
+      goalCount > 3 || (goalCount == 3 && ordered) ? _.random(1, 2) : 1
     const sledders = []
+    const sledderAssets = [
+      'images.ada_sled',
+      'images.jack_sled',
+      'images.ada_jack_sled',
+    ]
 
     for (let i = 0; i < sledderCount; i++) {
       let sledderX
 
       do {
-        sledderX = _.random(-10, 10)
+        sledderX = _.random(-16, 16)
       } while (
         _.find(goals, (v) => Math.abs(v.x - sledderX) < 1.5) ||
-        _.find(sledders, (v) => Math.abs(v.x - sledderX) < 1.5)
+        _.find(sledders, (v) => Math.abs(v.x - sledderX) < 3.5)
       )
 
-      sledders.push({ x: sledderX })
+      sledders.push({
+        x: sledderX,
+        asset: sledderCount == 1 ? _.sample(sledderAssets) : sledderAssets[i],
+      })
     }
 
     const biome = _.sample([
