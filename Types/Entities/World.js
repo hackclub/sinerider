@@ -259,21 +259,24 @@ function World(spec) {
       'https://twitter.com/intent/tweet?text=' +
       encodeURIComponent(
         '#sinerider ' +
-        levelDatum.nick +
-        ' ' +
-        level.currentLatex.replace(/\s/g, ''),
+          levelDatum.nick +
+          ' ' +
+          level.currentLatex.replace(/\s/g, ''),
       )
     )
   }
 
   function openRedditModal() {
     ui.redditOpenModal.setAttribute('hide', false)
-    ui.redditOpenCommand.setAttribute('value', '#sinerider ' +
-      levelDatum.nick +
-      ' ' +
-      level.currentLatex.replace(/\s/g, ''))
+    ui.redditOpenCommand.setAttribute(
+      'value',
+      '#sinerider ' +
+        levelDatum.nick +
+        ' ' +
+        level.currentLatex.replace(/\s/g, ''),
+    )
     ui.redditOpenCommand.select()
-    document.execCommand('copy');
+    document.execCommand('copy')
   }
 
   function levelCompleted(soft = false) {
@@ -301,8 +304,12 @@ function World(spec) {
       ui.submitTwitterScoreLink.setAttribute('href', makeTwitterSubmissionUrl())
 
       ui.submitRedditScoreDiv.setAttribute('hide', false)
-      ui.submitRedditScoreSubreddit.setAttribute('href', 'https://reddit.com/r/SineRider')
-      ui.redditOpenCloseButton.onclick = () => ui.redditOpenModal.setAttribute('hide', true)
+      ui.submitRedditScoreSubreddit.setAttribute(
+        'href',
+        'https://reddit.com/r/SineRider',
+      )
+      ui.redditOpenCloseButton.onclick = () =>
+        ui.redditOpenModal.setAttribute('hide', true)
       ui.submitRedditScoreLink.onclick = openRedditModal
     } else {
       ui.submitTwitterScoreDiv.setAttribute('hide', true)
