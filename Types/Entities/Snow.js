@@ -71,7 +71,7 @@ function Snow(spec, name = 'Snow') {
     screen,
     assets,
     density = 0.5,
-    maxParticles = 100,
+    maxParticles = 70,
     spawnHeight = [8, 16],
     colorRange = [Color('#b8bdda'), Color('#e1b0f0')],
     camera,

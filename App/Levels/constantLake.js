@@ -101,7 +101,7 @@ const CONSTANT_LAKE = {
       direction: 'up-up-left',
       distance: 1.2,
       speech: {
-        content: 'Let\'s speed up.',
+        content: "Let's speed up.",
         direction: 'up',
         x: -0.5,
         y: 1.3,
@@ -136,7 +136,7 @@ const CONSTANT_LAKE = {
     },
     {
       speaker: 'Ada',
-      content: 'When you race, you race to win.',
+      content: 'Winning is the point of racing.',
       direction: 'up-up-right',
       gap: 1,
       // length: 2,
@@ -147,7 +147,8 @@ const CONSTANT_LAKE = {
       direction: 'up-up-left',
       gap: 1,
       speech: {
-        content: 'Well there are other things to do too. Eternal Canyon is coming up…',
+        content:
+          'Well there are other things to do too. Eternal Canyon is coming up…',
         direction: 'up',
         x: -0.6,
         y: 1.3,
@@ -165,7 +166,8 @@ const CONSTANT_LAKE = {
       content: 'It would be a crime not to.',
       direction: 'up-up-right',
       speech: {
-        content: "We both know we're not coming back. Can we at least stop for the sunset?",
+        content:
+          "We both know we're not coming back. Can we at least stop for the sunset?",
         direction: 'up',
         x: 0.6,
         y: 1.3,
@@ -175,13 +177,14 @@ const CONSTANT_LAKE = {
     {
       speaker: 'Ada',
       color: '#fff',
-      content: 'It\'s very nice and I\'m glad you see the beauty here. We can watch while we trek.',
+      content:
+        "It's very nice and I'm glad you see the beauty here. We can watch while we trek.",
       direction: 'up-up-left',
     },
     {
       speaker: 'Jack',
       color: '#fff',
-      content: "O great cheeto ball, we mean no disrespect!",
+      content: 'O great cheeto ball, we mean no disrespect!',
       direction: 'up-right',
       length: 4,
       gap: 2,
@@ -192,7 +195,6 @@ const CONSTANT_LAKE = {
         gap: 1,
         color: '#fff',
       },
-
     },
     {
       speaker: 'Ada',
@@ -212,9 +214,9 @@ const CONSTANT_LAKE = {
     {
       speaker: 'Jack',
       color: '#fff',
-      content: "Me? Never.",
+      content: 'Me? Never.',
       gap: 1,
-    }
+    },
     // {
     //   speaker: 'Ada',
     //   color: '#fff',
