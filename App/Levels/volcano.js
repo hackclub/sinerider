@@ -153,6 +153,7 @@ const VOLCANO = (() => {
       {
         x: -115,
         // x: -52,
+        range: [-130, 10000],
         asset: 'images.sam_float',
         name: 'Ada',
         transition: {
@@ -482,9 +483,27 @@ const VOLCANO = (() => {
         asset: 'images.dante',
         flipX: true,
         drawOrder: LAYERS.foreSprites,
-        size: 1.5,
-        x: -88,
-        offset: [0, 0.7],
+        size: 1.6,
+        x: -137.5,
+        offset: [0, 1],
+        anchored: true,
+      },
+      {
+        asset: 'images.big_rock',
+        drawOrder: LAYERS.foreSprites,
+        size: 3,
+        x: -139,
+        offset: [0, 0.38],
+        anchored: true,
+        sloped: true,
+      },
+      {
+        asset: 'images.volcano_rock_1',
+        flipX: true,
+        drawOrder: LAYERS.foreSprites,
+        size: 2.5,
+        x: -137.5,
+        offset: [0, 0.4],
         anchored: true,
       },
       {
