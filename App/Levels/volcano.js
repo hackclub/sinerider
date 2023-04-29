@@ -7,7 +7,7 @@ const VOLCANO = (() => {
     runAsCutscene: true,
     axesEnabled: false,
     radius: 3,
-    x: -40,
+    x: -50,
     y: 0,
     camera: {},
     victoryX: 800,
