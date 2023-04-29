@@ -556,7 +556,6 @@ input[valid='false'] {
 #loading-string {
   text-decoration: underline;
   cursor: pointer;
-  color: #fff;
   padding: 0.375rem 0.75rem;
 }
 
@@ -580,7 +579,7 @@ input[valid='false'] {
   right: 0;
   margin: 0 auto;
   width: 100%;
-  max-width: 40vmin;
+  max-width: 80vmin;
   padding: 10px 10%;
   text-align: center;
 }

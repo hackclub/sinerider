@@ -161,7 +161,6 @@ function World(spec) {
     // Remove the loading bar
     ui.loadingProgressBarContainer.setAttribute('hide', true)
     
-    ui.loadingVeilString.style.backgroundColor = '#ec3750'
     ui.loadingVeilString.innerHTML = 'click to begin'
     ui.loadingVeil.addEventListener('click', loadingVeilClicked)
   }
