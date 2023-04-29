@@ -382,8 +382,6 @@ function Goal(spec) {
 
     // TODO: Separate level editor state from playing level/normal levels
     get selectable() {
-      // HACK: Necessary until above tattoo^
-      return false
       return !globalScope.running
     },
   })
