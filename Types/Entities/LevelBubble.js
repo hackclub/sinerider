@@ -2,7 +2,7 @@ let levelBubblesDrawn = 0
 function LevelBubble(spec) {
   const { ui, self, parent, screen, camera, assets } = Entity(
     spec,
-    'LevelBubble',
+    'LevelBubble ' + spec.levelDatum.nick,
   )
 
   const {
