@@ -23,7 +23,9 @@ const ui = {
   loadingVeilString: $('#loading-string'),
   loadingProgressBarContainer: $('#loading-progress-bar-container'),
   loadingProgressBar: $('#loading-progress-bar'),
-  loadingLinkRedirect: $('.loading-link'),
+  twitterLinkRedirect: $('#twitter-link'),
+  redditLinkRedirect: $('#reddit-link'),
+  githubLinkRedirect: $('#github-link'),
 
   bubblets: $('.bubblets'),
 
@@ -355,11 +357,20 @@ function onClickHint() {
 
 ui.dottedHintButton.addEventListener('click', onClickHint)
 
-// prevent link click from triggering the parent div's click event
-ui.loadingLinkRedirect.addEventListener('click', function (event) {
+// prevent twitter link click from triggering level click
+ui.twitterLinkRedirect.addEventListener('click', function (event) {
   event.stopPropagation()
 })
 
+// prevent reddit link click from triggering level click
+ui.redditLinkRedirect.addEventListener('click', function (event) {
+  event.stopPropagation()
+})
+
+// prevent github link click from triggering level click
+ui.githubLinkRedirect.addEventListener('click', function (event) {
+  event.stopPropagation()
+})
 
 // Initial page state
 {

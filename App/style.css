@@ -547,11 +547,11 @@ input[valid='false'] {
 
 /* #loading-remarks {
   max-width: 80vmin;
-} */
+}
 
 #loading-remarks > h3 {
   text-align: center;
-}
+} */
 
 #loading-string {
   text-decoration: underline;
@@ -567,14 +567,30 @@ input[valid='false'] {
 
 #loading-progress-bar {
   height: 100%;
-  background-color: #4caf50;
+  background-color: #ec3750;
   width: 0%;
+}
+
+#puzzles {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 20px auto;
+  padding: 10px 10%;
+  border: 2px dashed #ec3750;
+}
+
+#puzzles > h3 {
+  text-align: center;
+  text-decoration: underline;
 }
 
 #loading-links {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  gap: 20px;
 }
 
 .loading-link {
@@ -586,8 +602,34 @@ input[valid='false'] {
   padding: 0.375rem 0.75rem;
 }
 
-.loading-link:hover {
+#twitter-link:hover,
+#reddit-link:hover {
   transform: scale(1.1);
+}
+
+#github-link {
+  display: inline-block;
+  position: relative;
+  color: #ec3750;
+  text-decoration: none;
+}
+
+#github-link::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #ec3750;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+#github-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
 }
 
 .background {
