@@ -160,7 +160,8 @@ function World(spec) {
 
     // Remove the loading bar
     ui.loadingProgressBarContainer.setAttribute('hide', true)
-
+    
+    ui.loadingVeilString.style.backgroundColor = '#ec3750'
     ui.loadingVeilString.innerHTML = 'click to begin'
     ui.loadingVeil.addEventListener('click', loadingVeilClicked)
   }
@@ -168,9 +169,6 @@ function World(spec) {
   function assetsProgress(progress, total) {
     const percent = Math.round((100 * progress) / total)
     ui.loadingProgressBar.style.width = `${percent}%`
-    ui.loadingVeilString.innerHTML = `loading… ${Math.round(
-      (100 * progress) / total,
-    )}%`
   }
 
   function setLevel(nick, urlData = null) {
