@@ -23,6 +23,7 @@ const ui = {
   loadingVeilString: $('#loading-string'),
   loadingProgressBarContainer: $('#loading-progress-bar-container'),
   loadingProgressBar: $('#loading-progress-bar'),
+  loadingLinkRedirect: $('.loading-link'),
 
   bubblets: $('.bubblets'),
 
@@ -353,6 +354,12 @@ function onClickHint() {
 }
 
 ui.dottedHintButton.addEventListener('click', onClickHint)
+
+// prevent link click from triggering the parent div's click event
+ui.loadingLinkRedirect.addEventListener('click', function (event) {
+  event.stopPropagation()
+})
+
 
 // Initial page state
 {
