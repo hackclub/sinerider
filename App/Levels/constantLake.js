@@ -136,7 +136,7 @@ const CONSTANT_LAKE = {
     },
     {
       speaker: 'Ada',
-      content: 'When you race, you race to win.',
+      content: 'Winning is the point of racing.',
       direction: 'up-up-right',
       gap: 1,
       // length: 2,
