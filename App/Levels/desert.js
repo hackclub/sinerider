@@ -899,6 +899,6 @@ const DESERT = {
   ],
   backgroundMusic: {
     asset: 'sounds.music.desert.western_loop',
-    volume: 0.4,
+    volume: 1,
   },
 }

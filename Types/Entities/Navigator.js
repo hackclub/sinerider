@@ -23,7 +23,7 @@ function Navigator(spec) {
     drawOrder: LAYERS.map,
     anchored: false,
     size: 190,
-    x: 75,
+    x: 85,
     y: -5.5,
     asset: 'images.world_map',
   })
@@ -105,14 +105,6 @@ function Navigator(spec) {
       0,
       () => {
         assets.sounds.map_zoom_out.play()
-        moveToLevel(nick, 0.5, () => {
-          if (nicks.length > 0 && nicks[0] != nick)
-            assets.sounds.map_zoom_highlighted.play()
-
-          // setTimeout(() => {
-          //   moveToLevel(nicks, 1)
-          // }, 0)
-        })
       },
       8,
     )

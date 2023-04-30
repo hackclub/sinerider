@@ -7,7 +7,7 @@ const VOLCANO = (() => {
     runAsCutscene: true,
     axesEnabled: false,
     radius: 3,
-    x: -40,
+    x: -50,
     y: 0,
     camera: {},
     victoryX: 800,
@@ -634,34 +634,34 @@ const VOLCANO = (() => {
     ],
     backgroundMusic: {
       asset: 'sounds.music.volcano.start',
-      volume: 0.4,
-      domain: [-1001, -1000, SLEDDER_START, SLEDDER_START + 100],
+      volume: 1,
+      domain: [-1001, -1000, SLEDDER_START, SLEDDER_START + 30],
     },
     sounds: [
       {
         asset: 'sounds.music.volcano.jump',
         loop: false,
-        volume: 0.4,
-        domain: [SLEDDER_START, SLEDDER_START + 100, 200, 240],
+        volume: 1,
+        domain: [SLEDDER_START, SLEDDER_START + 30, 200, 240],
         track: 'sledders',
       },
       // {
       //   asset: 'sounds.music.volcano.middle_buildup',
       //   loop: true,
-      //   volume: 0.4,
+      //   volume: 1,
       //   domain: [-3, 10, 100, 140],
       //   track: 'sledders'
       // },
       // {
       //   asset: 'sounds.music.volcano.jump',
-      //   volume: 0.4,
+      //   volume: 1,
       //   domain: [120, 150],
       //   track: 'sledders'
       // },
       {
         asset: 'sounds.music.volcano.middle_guitar',
-        volume: 0.4,
-        domain: [250, 270],
+        volume: 1,
+        domain: [240, 300],
         track: 'sledders',
       },
     ],
