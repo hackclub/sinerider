@@ -61,13 +61,13 @@ const CONSTANT_LAKE = {
   },
   backgroundMusic: {
     asset: 'sounds.music.constant_lake.base',
-    volume: 0.2,
+    volume: 1,
   },
   sounds: [
     {
       asset: 'sounds.music.constant_lake.pad_1_loopable',
       loop: true,
-      volume: 0.3,
+      volume: 1,
       domain: [-20, 0],
     },
     {
@@ -75,6 +75,7 @@ const CONSTANT_LAKE = {
       domain: [0, 8],
       // fadeOut: 3000,
       loop: true,
+      volume: 1,
       // duration: 33000,
     },
     {
@@ -91,7 +92,7 @@ const CONSTANT_LAKE = {
       // fadeOut: 3000,
       // duration: 20000,
       // loop: true,
-      volume: 2,
+      volume: 1,
     },
   ],
   dialogue: [
