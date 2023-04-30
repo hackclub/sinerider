@@ -268,15 +268,12 @@ function World(spec) {
 
   function openRedditModal() {
     ui.redditOpenModal.setAttribute('hide', false)
-    ui.redditOpenCommand.setAttribute(
-      'value',
-      '#sinerider ' +
-        levelDatum.nick +
-        ' ' +
-        level.currentLatex.replace(/\s/g, ''),
-    )
-    ui.redditOpenCommand.select()
-    document.execCommand('copy')
+    let text = `#sinerider ${levelDatum.nick} ${level.currentLatex.replace(
+      /\s/g,
+      '',
+    )}`
+    ui.redditOpenCommand.setAttribute('value', text)
+    navigator.clipboard.writeText(text)
   }
 
   function levelCompleted(soft = false) {
