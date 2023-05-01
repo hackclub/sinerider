@@ -541,17 +541,113 @@ input[valid='false'] {
   border-radius: 10px 10px 0 0;
 }
 
-#loading-remarks {
+#github-string > p {
+  font-size: small;
+}
+
+/* #loading-remarks {
   max-width: 80vmin;
 }
 
 #loading-remarks > h3 {
   text-align: center;
+} */
+
+#main-loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vmin;
+}
+
+.loading-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  max-width: 50vmin;
 }
 
 #loading-string {
   text-decoration: underline;
   cursor: pointer;
+  padding: 0.375rem 0.75rem;
+}
+
+#loading-progress-bar-container {
+  margin: 20px auto;
+  width: 25%;
+  height: 20px;
+  background-color: #ccc;
+}
+
+#loading-progress-bar {
+  height: 100%;
+  background-color: #ec3750;
+  width: 0%;
+}
+
+#loading-bottom {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 80vmin;
+  padding: 10px 10%;
+  text-align: center;
+}
+
+#puzzles {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+#puzzles > h3 {
+  text-align: center;
+  font-size: 16px;
+}
+
+#loading-links {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.loading-link {
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+}
+
+.puzzle-link-image {
+  margin-left: 10px;
+  width: 50%;
+  height: 50%;
+  object-fit: cover;
+}
+
+#twitter-link:hover,
+#reddit-link:hover {
+  transform: scale(1.1);
+}
+
+#github-link {
+  display: inline-block;
+  color: #ec3750;
+  position: relative;
+  font-size: small;
+  text-decoration: none;
+}
+
+#github-link:hover {
+  text-decoration: underline;
 }
 
 .background {
