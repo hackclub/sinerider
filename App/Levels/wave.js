@@ -54,7 +54,7 @@ const WAVE = [
           {
             x: 0.3,
             y: 0.7,
-            content: 'You\'re late.',
+            content: "You're late.",
             color: '#FFF',
             direction: 'up-up-left',
             distance: 1,
@@ -109,19 +109,19 @@ const WAVE = [
         y: 0,
         speech: [
           {
-            x: 0.2,
-            y: 0.5,
-            content: 'I\'m sorry I held you up.',
+            x: 0.1,
+            y: 0.45,
+            content: "…and I'm really sorry.",
             color: '#FFF',
-            direction: 'up',
-            distance: 0.6,
+            direction: 'up-left',
+            distance: 0.8,
             speech: [
               {
-                // x
-                content: 'Thanks for staying.',
+                y: 0.8,
+                content: 'I know.',
                 color: '#FFF',
-                direction: 'up-right',
-                distance: 1,
+                direction: 'up',
+                distance: 0.6,
               },
             ],
           },
@@ -159,11 +159,31 @@ const WAVE = [
         asset: 'images.sam_sled',
         x: -TAU + 0.1,
         y: 0,
+        speech: [
+          {
+            x: 0.3,
+            y: 0.65,
+            content: "I'm still mad at you.",
+            color: '#FFF',
+            direction: 'up-up-right',
+            distance: 1.2,
+          },
+        ],
       },
       {
         asset: 'images.lunchbox_sled',
         x: TAU - 0.1,
         y: 0,
+        speech: [
+          {
+            x: 0.3,
+            y: 0.65,
+            content: 'I know.',
+            color: '#FFF',
+            direction: 'up-up-left',
+            distance: 0.8,
+          },
+        ],
       },
     ],
   },
@@ -204,14 +224,14 @@ const WAVE = [
           {
             x: 0.3,
             y: 0.65,
-            content: 'That\'s NOT how this works.',
+            content: "Yeah. We're not gonna win.",
             color: '#FFF',
             direction: 'up-right',
-            distance: 1.5,
-            speech : {
-              direction: 'up-right',
-              content: 'I guess we can explore more now since we can\'t win.',
-              distance: 1.5,
+            distance: 1,
+            speech: {
+              direction: 'up-up-right',
+              content: 'May as well take our time now.',
+              distance: 0.8,
               color: '#FFF',
             },
           },
@@ -223,10 +243,10 @@ const WAVE = [
           {
             x: 0.3,
             y: 0.65,
-            content: 'Yay! I was right all along!',
+            content: 'You sure?',
             color: '#FFF',
             direction: 'up-up-right',
-            distance: 1.75,
+            distance: 1.5,
           },
         ],
         x: TAU,
@@ -327,30 +347,30 @@ const WAVE = [
     ],
     sledders: [
       {
-        asset: 'images.sam_sled',
+        asset: 'images.lunchbox_sled',
         speech: [
           {
             x: 0.3,
             y: 0.65,
-            content: 'Hey Jack... it takes more effort to do two sleds... do you want to...',
+            content: 'Can we share a sled again?',
             color: '#FFF',
-            direction: 'up-left',
-            distance: 2.5,
+            direction: 'up-up-right',
+            distance: 1.2,
           },
         ],
         x: 0,
         y: 0,
       },
       {
-        asset: 'images.lunchbox_sled',
+        asset: 'images.sam_sled',
         speech: [
           {
             x: 0.3,
             y: 0.65,
-            content: 'Yes. Yes, I do.',
+            content: '…fine.',
             color: '#FFF',
-            direction: 'up-up-right',
-            distance: 1,
+            direction: 'up-up-left',
+            distance: 0.8,
           },
         ],
         x: TAU,
@@ -392,8 +412,8 @@ const WAVE = [
         y: 0,
         speech: [
           {
-            x: 0.3,
-            y: 0.65,
+            x: -0.15,
+            y: 0.6,
             content: 'This is cozy.',
             color: '#FFF',
             direction: 'up-up-right',
