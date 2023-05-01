@@ -21,6 +21,11 @@ const ui = {
   veil: $('#veil'),
   loadingVeil: $('#loading-veil'),
   loadingVeilString: $('#loading-string'),
+  loadingProgressBarContainer: $('#loading-progress-bar-container'),
+  loadingProgressBar: $('#loading-progress-bar'),
+  twitterLinkRedirect: $('#twitter-link'),
+  redditLinkRedirect: $('#reddit-link'),
+  githubLinkRedirect: $('#github-link'),
 
   bubblets: $('.bubblets'),
 
@@ -351,6 +356,21 @@ function onClickHint() {
 }
 
 ui.dottedHintButton.addEventListener('click', onClickHint)
+
+// prevent twitter link click from triggering level click
+ui.twitterLinkRedirect.addEventListener('click', function (event) {
+  event.stopPropagation()
+})
+
+// prevent reddit link click from triggering level click
+ui.redditLinkRedirect.addEventListener('click', function (event) {
+  event.stopPropagation()
+})
+
+// prevent github link click from triggering level click
+ui.githubLinkRedirect.addEventListener('click', function (event) {
+  event.stopPropagation()
+})
 
 // Initial page state
 {
