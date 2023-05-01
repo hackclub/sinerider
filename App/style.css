@@ -553,6 +553,22 @@ input[valid='false'] {
   text-align: center;
 } */
 
+#main-loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vmin;
+}
+
+.loading-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  max-width: 50vmin;
+}
+
 #loading-string {
   text-decoration: underline;
   cursor: pointer;
