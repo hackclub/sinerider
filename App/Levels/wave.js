@@ -134,8 +134,8 @@ const WAVE = [
     name: 'Cos',
     nick: 'COS_SCALE_X_Y',
     biome: 'sinusoidalDesert',
-    x: 0,
-    y: -20,
+    x: 10,
+    y: -10,
     requirements: ['DESERT'],
     defaultExpression: '\\sin \\left(x\\right)',
     goals: [
@@ -321,8 +321,8 @@ const WAVE = [
     name: 'Sin Scale X',
     nick: 'SIN_SCALE_X',
     biome: 'sinusoidalDesert',
-    x: 10,
-    y: -10,
+    x: 0,
+    y: -20,
     requirements: ['DESERT'],
     defaultExpression: '\\sin \\left(\\frac{x}{4}\\right)',
     slider: {
@@ -384,7 +384,7 @@ const WAVE = [
     biome: 'sinusoidalDesert',
     x: 0,
     y: -20,
-    requirements: [null],
+    requirements: [null, 'SIN_TRANSLATE_X_Y'],
     defaultExpression: '\\sin \\left(\\frac{x}{2}\\right)',
     slider: {
       expression: '$\\cdot \\sin \\left(\\frac{x}{2}\\right)',
@@ -427,9 +427,9 @@ const WAVE = [
     name: 'Sin Translate Scale XY',
     nick: 'SIN_TRANSLATE_SCALE_X_Y',
     biome: 'sinusoidalDesert',
-    x: -10,
-    y: -10,
-    requirements: [null, 'COS_SCALE_X_Y', 'SIN_TRANSLATE_X_Y'],
+    x: 10,
+    y: 10,
+    requirements: [null, 'COS_SCALE_X_Y'],
     defaultExpression: '3\\cos \\left(\\frac{x+3}{2}\\right)-1',
     goals: [
       {
