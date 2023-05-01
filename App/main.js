@@ -250,13 +250,14 @@ if (!stepping) {
 }
 
 // T Parameter Slider
-ui.tSlider.addEventListener('input', () => {
+ui.tSlider.addEventListener('input', refreshTSlider)
+function refreshTSlider() {
   if (world.globalScope) {
     const newT = math.remap(0, 100, 0, 10, Number(ui.tSlider.value))
 
     world.level.sendEvent('tVariableChanged', [newT])
   }
-})
+}
 
 // MathQuill
 
@@ -484,6 +485,8 @@ canvas.addEventListener('mousedown', onMouseDownCanvas)
 canvas.addEventListener('pointerdown', onMouseDownCanvas)
 
 function onMouseUpCanvas(event) {
+  ui.tSlider.value = 0
+  refreshTSlider()
   world.clickableContext.processEvent(event, 'mouseUp')
   event.preventDefault()
   onGridlinesDeactive()
