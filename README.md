@@ -1,5 +1,5 @@
 # SineRider
-SineRider is a game about love and graphing, built by a global team of teenagers at [Hack Club](https://hackclub.com). This open-source project is maintained by youth of all kinds: artists, musicians, programmers, and storytellers, so if that's you, come join us! We need your help to contine to make SineRider awesome.
+SineRider is a game about love and graphing, built by a global team of teenagers at [Hack Club](https://hackclub.com). This open-source project is maintained by youth of all kinds: artists, musicians, programmers, and storytellers, so if that's you, come join us! We need your help to continue making SineRider awesome.
 
 ## The Origin Story
 SineRider began its life as a Unity web game in 2013. Back then, it looked like this:
