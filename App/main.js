@@ -255,7 +255,7 @@ function refreshTSlider() {
   if (world.globalScope) {
     const newT = math.remap(0, 100, 0, 10, Number(ui.tSlider.value))
 
-    world.level.sendEvent('tVariableChanged', [newT])
+    world.level?.sendEvent('tVariableChanged', [newT])
   }
 }
 
