@@ -394,8 +394,13 @@ ui.stopButton.addEventListener('click', onClickRunButton)
 ui.tryAgainButton.addEventListener('click', onClickRunButton)
 
 function onClickShowAllButton(event) {
-  ui.showAllConfirmationDialog.showModal()
-  
+
+  let showall = localStorage.getItem("ShowAll");
+  if (showall != "True") {
+  ui.showAllConfirmationDialog.showModal()}
+  else {
+    onShowAllConfirm()
+  }  
 
 }
 
@@ -430,6 +435,7 @@ function onShowAllConfirm() {
 
   world.navigator.showAll = !world.navigator.showAll
   ui.showAllConfirmationDialog.close()
+  window.localStorage.setItem("ShowAll", "True");
 }
 
 ui.showAllConfirmButton.addEventListener('click', onShowAllConfirm)
