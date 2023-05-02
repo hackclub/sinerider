@@ -38,6 +38,7 @@ const ui = {
   timeTaken: $('#time-taken'),
   charCount: $('#character-count'),
   nextButton: $('#next-button'),
+  nextButtonText: $('#next-button-text'),
 
   messageBar: $('#message-bar'),
   messageBarString: $('#message-bar > .string'),
@@ -415,14 +416,12 @@ ui.stopButton.addEventListener('click', onClickRunButton)
 ui.tryAgainButton.addEventListener('click', onClickRunButton)
 
 function onClickShowAllButton(event) {
-
-  let showall = localStorage.getItem("ShowAll");
-  if (showall != "True") {
-  ui.showAllConfirmationDialog.showModal()}
-  else {
+  let showall = localStorage.getItem('ShowAll')
+  if (showall != 'True') {
+    ui.showAllConfirmationDialog.showModal()
+  } else {
     onShowAllConfirm()
-  }  
-
+  }
 }
 
 ui.showAllButton.addEventListener('click', onClickShowAllButton)
@@ -453,10 +452,9 @@ function onResetCancel() {
 ui.resetCancelButton.addEventListener('click', onResetCancel)
 
 function onShowAllConfirm() {
-
   world.navigator.showAll = !world.navigator.showAll
   ui.showAllConfirmationDialog.close()
-  window.localStorage.setItem("ShowAll", "True");
+  window.localStorage.setItem('ShowAll', 'True')
 }
 
 ui.showAllConfirmButton.addEventListener('click', onShowAllConfirm)
