@@ -61,6 +61,7 @@ const SLOPE = [
         place: 'top-right',
         destroyOnClick: true,
         index: 0,
+        
       },
       {
         content: 'Click here to sled',
