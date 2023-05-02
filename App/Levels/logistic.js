@@ -5,7 +5,7 @@ const LOGISTIC = [
     biome: 'logisticDunes',
     x: 0,
     y: -30,
-    requirements: ['SIN_SCALE_X_Y'],
+    requirements: ['SIN_TRANSLATE_SCALE_X_Y'],
     defaultExpression: '\\frac{1}{1+x^2}',
     // slider: {
     //   expression: '\\frac{1}{1+\\left(x+$\\right)^2}',
@@ -52,14 +52,15 @@ const LOGISTIC = [
           {
             x: 0.3,
             y: 0.65,
-            content: "And we\'ll go back to sharing as soon as we get the checkpoints.",
+            content:
+              "And we'll go back to sharing as soon as we get the checkpoints.",
             direction: 'up-up-left',
             distance: 1,
             content: {
               direction: 'up-up-left',
               content: 'You grab those ones over there!',
               distance: 1.5,
-            }
+            },
           },
         ],
       },
@@ -208,7 +209,7 @@ const LOGISTIC = [
           {
             speakerX: 0.7,
             speakerY: 0.7,
-            content: 'I thought you didn\'t want to race anymore.',
+            content: "I thought you didn't want to race anymore.",
             direction: 'right-up-up',
             distance: 2.5,
           },
@@ -262,7 +263,7 @@ const LOGISTIC = [
           {
             speakerX: 0.7,
             speakerY: 0.7,
-            content: 'You\'re thinking about it too much.',
+            content: "You're thinking about it too much.",
             direction: 'right-up-up',
             distance: 1.5,
           },

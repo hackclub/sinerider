@@ -2,7 +2,7 @@ let levelBubblesDrawn = 0
 function LevelBubble(spec) {
   const { ui, self, parent, screen, camera, assets } = Entity(
     spec,
-    'LevelBubble',
+    'LevelBubble ' + spec.levelDatum.nick,
   )
 
   const {
@@ -59,10 +59,15 @@ function LevelBubble(spec) {
   }
 
   const bubbletCanvas = document.createElement('canvas')
+  const previewCanvas = document.createElement('canvas')
 
   let bubbletPixels = 512
+
   bubbletCanvas.width = bubbletPixels
   bubbletCanvas.height = bubbletPixels
+
+  previewCanvas.width = bubbletPixels * 2
+  previewCanvas.height = bubbletPixels * 2
 
   ui.bubblets.appendChild(bubbletCanvas)
   const bubbletScreen = Screen({
@@ -159,66 +164,84 @@ function LevelBubble(spec) {
     bubbletLevel.destroy()
     rendered = true
     resizeBitmap()
+
+    const previewCtx = previewCanvas.getContext('2d')
+    let previewWidth = previewCanvas.width / 2,
+      previewHeight = previewCanvas.height / 2
+    const previewTransform = Transform({
+      x: previewWidth,
+      y: previewHeight,
+      scale: Math.min(bubbletCanvas.width / 2, bubbletCanvas.height / 2),
+    })
+
+    // camera.drawThrough(previewCtx, drawLocalWithTransform, previewTransform)
+
+    previewTransform.invertCanvas(previewCtx)
+    drawLocalWithTransform(previewCtx, 2)
   }
 
-  function drawLocal() {
-    const opacity = visible ? (playable ? 1 : 0.5) : 0
-    ctx.globalAlpha = opacity
+  // Old drawLocal which uses passed transform
+  // TODO: Clean up
+  function drawLocalWithTransform(ctx, radius) {
+    // Opacity for local draw is always 1, which is then
+    // changed when drawing the offscreen canvas to the screen
 
     ctx.beginPath()
 
-    let strokeWidth = 0.2
+    let strokeWidth = 0.12
+    let outlineRadius = radius - strokeWidth
 
-    if (playable) {
-      if (hilighted) strokeWidth = 0.4
-      else if (playable) strokeWidth = 0.2
+    // if (playable) {
+    //   if (hilighted) strokeWidth = 0.4
+    //   else if (playable) strokeWidth = 0.2
 
-      if (clickable.hovering) strokeWidth *= 2
-    }
+    //   if (clickable.hovering) strokeWidth *= 2
+    // }
 
     const cutsceneFrameSides = 8
 
     if (levelDatum.runAsCutscene) {
-      // ctx.rotate(((180 / cutsceneFrameSides) * Math.PI) / 180)
-      let [x, y] = localToScreen(radius, 0)
-      ctx.moveTo(x, y)
+      ctx.rotate(((180 / cutsceneFrameSides) * Math.PI) / 180)
+      ctx.beginPath()
+      ctx.moveTo(outlineRadius, 0)
 
       for (var i = 1; i <= cutsceneFrameSides; i += 1) {
-        let [x, y] = localToScreen(
-          radius * Math.cos((i * 2 * Math.PI) / cutsceneFrameSides),
-          radius * Math.sin((i * 2 * Math.PI) / cutsceneFrameSides),
+        ctx.lineTo(
+          outlineRadius * Math.cos((i * 2 * Math.PI) / cutsceneFrameSides),
+          outlineRadius * Math.sin((i * 2 * Math.PI) / cutsceneFrameSides),
         )
-        ctx.lineTo(x, y)
       }
     } else {
-      let screenRadius = camera.worldToScreenScalar(radius)
-      let [x, y] = localToScreen(0, 0)
-      ctx.arc(x, y, screenRadius, 0, Math.PI * 2)
+      ctx.arc(0, 0, outlineRadius, 0, Math.PI * 2)
     }
 
-    ctx.lineWidth = camera.worldToScreenScalar(strokeWidth)
+    ctx.lineWidth = strokeWidth
 
     ctx.fillStyle = '#fff'
-    ctx.strokeStyle = hilighted ? '#f88' : '#444'
+    ctx.strokeStyle = '#444' // Draw as unhighlighted for buffer
 
     ctx.save()
 
     ctx.fill()
     ctx.clip()
 
-    let [x, y] = localToScreen(-radius, radius)
-
-    // x = Math.round(x)
-    // y = Math.round(y)
-
-    if (bitmap) {
-      ctx.drawImage(bitmap, x, y)
+    if (levelDatum.runAsCutscene) {
+      ctx.rotate((-(180 / cutsceneFrameSides) * Math.PI) / 180)
+      ctx.drawImage(bubbletCanvas, -radius, -radius, radius * 2, radius * 2)
     } else {
-      let size = Math.round(camera.worldToScreenScalar(radius * 2))
-      ctx.drawImage(bubbletCanvas, x, y, size, size)
+      ctx.drawImage(bubbletCanvas, -radius, -radius, radius * 2, radius * 2)
     }
 
+    ctx.fillStyle = '#333'
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'hanging'
+    ctx.font = '1px Roboto Mono'
+    ctx.scale(0.8, 0.8)
+    // ctx.fillText(levelDatum.name, 0, radius)
+
     ctx.restore()
+
+    // ctx.globalAlpha = 1
 
     ctx.lineCap = 'butt'
     ctx.miterLimit = 20
@@ -227,29 +250,70 @@ function LevelBubble(spec) {
     ctx.beginPath()
     if (levelDatum.runAsCutscene) {
       ctx.beginPath()
-      let [x, y] = localToScreen(radius + strokeWidth / 2 - 0.02, 0)
-      ctx.moveTo(x, y)
+      ctx.moveTo(outlineRadius + strokeWidth / 2 - 0.02, 0)
 
       for (var i = 1; i < cutsceneFrameSides; i += 1) {
-        let [x, y] = localToScreen(
-          (radius + strokeWidth / 2 - 0.02) *
+        ctx.lineTo(
+          (outlineRadius + strokeWidth / 2 - 0.02) *
             Math.cos((i * 2 * Math.PI) / cutsceneFrameSides),
-          (radius + strokeWidth / 2 - 0.02) *
+          (outlineRadius + strokeWidth / 2 - 0.02) *
             Math.sin((i * 2 * Math.PI) / cutsceneFrameSides),
         )
-
-        ctx.lineTo(x, y)
       }
       ctx.closePath()
     } else {
-      let outlineScreenRadius = camera.worldToScreenScalar(
-        radius + strokeWidth / 2,
-      )
-      let [x, y] = localToScreen(0, 0)
-      ctx.arc(x, y, outlineScreenRadius, 0, Math.PI * 2)
+      ctx.arc(0, 0, outlineRadius + strokeWidth / 2 - 0.02, 0, Math.PI * 2)
     }
 
     ctx.stroke()
+  }
+
+  function drawLocal() {
+    const opacity = visible ? (playable ? 1 : 0.5) : 0
+    ctx.globalAlpha = opacity
+
+    ctx.drawImage(previewCanvas, -radius, -radius, radius * 2, radius * 2)
+
+    // if (playable) {
+    //   if (hilighted) strokeWidth = 0.4
+    //   else if (playable) strokeWidth = 0.2
+
+    //   if (clickable.hovering) strokeWidth *= 2
+    // }
+
+    if (playable && (hilighted || clickable.hovering)) {
+      let strokeWidth = 0.24
+      if (clickable.hovering) strokeWidth *= 1.5
+      let outlineRadius = radius - 0.2
+
+      ctx.lineWidth = strokeWidth
+
+      ctx.fillStyle = '#fff'
+      ctx.strokeStyle = hilighted ? '#f88' : '#444'
+
+      const cutsceneFrameSides = 8
+
+      ctx.beginPath()
+      if (levelDatum.runAsCutscene) {
+        ctx.beginPath()
+        ctx.rotate(((180 / cutsceneFrameSides) * Math.PI) / 180)
+        ctx.moveTo(outlineRadius + strokeWidth / 2 - 0.02, 0)
+
+        for (var i = 1; i < cutsceneFrameSides; i += 1) {
+          ctx.lineTo(
+            (outlineRadius + strokeWidth / 2 - 0.02) *
+              Math.cos((i * 2 * Math.PI) / cutsceneFrameSides),
+            (outlineRadius + strokeWidth / 2 - 0.02) *
+              Math.sin((i * 2 * Math.PI) / cutsceneFrameSides),
+          )
+        }
+        ctx.closePath()
+      } else {
+        ctx.arc(0, 0, outlineRadius + strokeWidth / 2 - 0.02, 0, Math.PI * 2)
+      }
+
+      ctx.stroke()
+    }
   }
 
   function refreshPlayable() {
@@ -305,7 +369,7 @@ function LevelBubble(spec) {
 
     // Use drawLocal directly instead of passing
     // to camera to use rounded image coordinates
-    drawLocal()
+    camera.drawThrough(ctx, drawLocal, transform)
 
     ctx.restore()
   }

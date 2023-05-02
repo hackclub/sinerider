@@ -333,18 +333,52 @@
     </div>
 
     <div class="loading veil" id="loading-veil" hide="false">
-      <div class="string" id="loading-remarks">
-        <p>
-          To load a level from a previous session click the ⛰️ button and then
-          UNLOCK ALL.
-        </p>
-      </div>
       <div id="flag">
         <a href="https://github.com/hackclub">
           <img class="hackclub-logo" src="Assets/Images/hc_logo.png" />
         </a>
       </div>
-      <div class="string" id="loading-string"></div>
+
+      <div id="main-loading">
+        <div id="loading-top">
+          <img class="loading-image" src="Assets/Images/loading-screen.png" />
+        </div>
+
+        <div id="loading-progress-bar-container">
+          <div id="loading-progress-bar"></div>
+        </div>
+        <div class="string" id="loading-string"></div>
+      </div>
+
+      <div id="loading-bottom">
+        <div id="puzzles">
+          <h3>New puzzles published daily on</h3>
+
+          <div id="loading-links">
+            <a href="https://www.twitter.com/sineriderbot" target="_blank" class="loading-link" id="twitter-link">
+              <img
+                src="Assets/Images/twitter.png"
+                alt="Twitter"
+                class="puzzle-link-image"
+              />
+            </a>
+            
+            <a href="https://www.reddit.com/r/sinerider" target="_blank" class="loading-link" id="reddit-link">
+              <img
+                src="Assets/Images/reddit.png"
+                alt="Reddit"
+                class="puzzle-link-image"
+              />
+            </a>
+          </div>
+        </div>
+
+        <div class="string" id="github-string">
+          <a href="http://www.github.com/hackclub/sinerider" target="_blank" class="loading-link" id="github-link">
+            Built and maintained by teenagers. Version 0.5
+          </a>
+        </div>
+      </div>
     </div>
 
     <!-- Load External Libraries -->

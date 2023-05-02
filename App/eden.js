@@ -5,6 +5,9 @@ worldData.push({
   name: 'Eden',
   assets: {
     images: {
+      ada_sled: '.webp',
+      jack_sled: '.webp',
+      ada_jack_sled: '.webp',
       lunchbox_sam_sled: 'ada_jack_sled.webp',
       lunchbox_sled: 'jack_sled.webp',
       benny_sled: 'jack_sled.webp',
@@ -110,11 +113,6 @@ worldData.push({
           pad_2_loopable: 'pad_2_loopable_compressed.mp3',
           pad_3_loopable: 'pad_3_loopable_compressed.mp3',
           pad_swell_1: 'pad_swell_1_compressed.mp3',
-          pad_swell_2: 'pad_swell_2_compressed.mp3',
-          pad_swell_3: 'pad_swell_3_compressed.mp3',
-          swell_1: 'swell_1_compressed.mp3',
-          swell_2: 'swell_2_compressed.mp3',
-          swell_3: 'swell_3_compressed.mp3',
           wind: 'wind_compressed.mp3',
         },
         volcano: {

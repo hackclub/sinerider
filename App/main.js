@@ -21,6 +21,11 @@ const ui = {
   veil: $('#veil'),
   loadingVeil: $('#loading-veil'),
   loadingVeilString: $('#loading-string'),
+  loadingProgressBarContainer: $('#loading-progress-bar-container'),
+  loadingProgressBar: $('#loading-progress-bar'),
+  twitterLinkRedirect: $('#twitter-link'),
+  redditLinkRedirect: $('#reddit-link'),
+  githubLinkRedirect: $('#github-link'),
 
   bubblets: $('.bubblets'),
 
@@ -250,13 +255,14 @@ if (!stepping) {
 }
 
 // T Parameter Slider
-ui.tSlider.addEventListener('input', () => {
+ui.tSlider.addEventListener('input', refreshTSlider)
+function refreshTSlider() {
   if (world.globalScope) {
     const newT = math.remap(0, 100, 0, 10, Number(ui.tSlider.value))
 
-    world.level.sendEvent('tVariableChanged', [newT])
+    world.level?.sendEvent('tVariableChanged', [newT])
   }
-})
+}
 
 // MathQuill
 
@@ -356,6 +362,21 @@ function onClickHint() {
 }
 
 ui.dottedHintButton.addEventListener('click', onClickHint)
+
+// prevent twitter link click from triggering level click
+ui.twitterLinkRedirect.addEventListener('click', function (event) {
+  event.stopPropagation()
+})
+
+// prevent reddit link click from triggering level click
+ui.redditLinkRedirect.addEventListener('click', function (event) {
+  event.stopPropagation()
+})
+
+// prevent github link click from triggering level click
+ui.githubLinkRedirect.addEventListener('click', function (event) {
+  event.stopPropagation()
+})
 
 // Initial page state
 {
@@ -491,6 +512,8 @@ canvas.addEventListener('mousedown', onMouseDownCanvas)
 canvas.addEventListener('pointerdown', onMouseDownCanvas)
 
 function onMouseUpCanvas(event) {
+  ui.tSlider.value = 0
+  refreshTSlider()
   world.clickableContext.processEvent(event, 'mouseUp')
   event.preventDefault()
   onGridlinesDeactive()

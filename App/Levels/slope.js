@@ -3,7 +3,7 @@ const SLOPE = [
     name: 'A Solid Slope',
     nick: 'SLOPE_POSITIVE',
     biome: 'westernSlopes',
-    x: 10,
+    x: 20,
     y: 0,
     requirements: ['HELLO_WORLD'],
     flashMathField: true,
@@ -297,7 +297,7 @@ const SLOPE = [
             direction: 'up-left',
             distance: 1,
             speech: {
-              content: "So how are we doing? Are we winning?",
+              content: 'So how are we doing? Are we winning?',
               distance: 1,
             },
           },
@@ -305,7 +305,7 @@ const SLOPE = [
             y: 0.7,
             speakerX: 0.5,
             // speakerY: 0.7,
-            content: 'I don\'t see anyone else on the slopes yet.',
+            content: "I don't see anyone else on the slopes yet.",
             direction: 'right-up-up',
             distance: 1.25,
           },
@@ -337,11 +337,11 @@ const SLOPE = [
           {
             x: -0.3,
             y: 0.65,
-            content: "Jack! Stop it!",
+            content: 'Jack! Stop it!',
             direction: 'up',
             distance: 0.6,
-            speech:{
-              content: 'Make sure we don\'t crash.',
+            speech: {
+              content: "Make sure we don't crash.",
               direction: 'up',
               distance: 1.2,
             },
@@ -349,7 +349,7 @@ const SLOPE = [
           {
             x: 0.5,
             y: 0.7,
-            content: 'Don\'t worry, I\'ll cushion the blow.',
+            content: "Don't worry, I'll cushion the blow.",
             direction: 'right-up',
             distance: 2.2,
           },
@@ -392,7 +392,7 @@ const SLOPE = [
             direction: 'up-right-right',
             distance: 1,
             speech: {
-              content: "...you do whatever you want.",
+              content: '...you do whatever you want.',
               direction: 'up-right-right',
               distance: 1.5,
             },
