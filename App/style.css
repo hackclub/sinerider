@@ -150,6 +150,11 @@ body > .bar {
   color: #fff;
 }
 
+.disabled {
+  pointer-events: none;
+  background: rgb(125,125,125) !important;
+}
+
 .button * {
   user-select: none;
   pointer-events: none;
@@ -345,14 +350,15 @@ input[valid='false'] {
   bottom: 0;
 }
 
-#reset-confirmation-dialog {
+#reset-confirmation-dialog, #show-all-confirmation-dialog {
   display: flex;
   flex-direction: column;
   justify-content: start;
   align-items: center;
+  font-size: 3vmin;
 }
 
-#reset-confirmation-dialog > div {
+#reset-confirmation-dialog > div, #show-all-confirmation-dialog > div {
   margin: 5px 0px;
   width: 100%;
   display: flex;
@@ -360,12 +366,19 @@ input[valid='false'] {
   align-items: center;
 }
 
-#reset-confirmation-yes:not(:hover) {
+#reset-confirmation-yes, #show-all-yes {
   background: #f46;
   color: white;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #f46;
+}
+#reset-confirmation-yes:hover, #show-all-yes:hover {
+  background: #222;
+  border-color: #000
 }
 
-#reset-confirmation-no {
+#reset-confirmation-no, #show-all-no {
   border-width: 2px;
   border-style: solid;
   border-color: #000;

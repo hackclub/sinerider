@@ -84,7 +84,12 @@ const ui = {
   stopButtonString: $('#stop-button > .string'),
 
   navigatorFloatingBar: $('#navigator-floating-bar'),
+
   showAllButton: $('#show-all-button'),
+
+  showAllConfirmationDialog: $('#show-all-confirmation-dialog'),
+  showAllConfirmButton: $('#show-all-yes'),
+  showAllCancelButton: $('#show-all-no'),
 
   editorInspector: {
     editorInspector: $('#editor-inspector'),
@@ -410,7 +415,14 @@ ui.stopButton.addEventListener('click', onClickRunButton)
 ui.tryAgainButton.addEventListener('click', onClickRunButton)
 
 function onClickShowAllButton(event) {
-  world.navigator.showAll = !world.navigator.showAll
+
+  let showall = localStorage.getItem("ShowAll");
+  if (showall != "True") {
+  ui.showAllConfirmationDialog.showModal()}
+  else {
+    onShowAllConfirm()
+  }  
+
 }
 
 ui.showAllButton.addEventListener('click', onClickShowAllButton)
@@ -439,6 +451,21 @@ function onResetCancel() {
 }
 
 ui.resetCancelButton.addEventListener('click', onResetCancel)
+
+function onShowAllConfirm() {
+
+  world.navigator.showAll = !world.navigator.showAll
+  ui.showAllConfirmationDialog.close()
+  window.localStorage.setItem("ShowAll", "True");
+}
+
+ui.showAllConfirmButton.addEventListener('click', onShowAllConfirm)
+
+function onShowAllCancel() {
+  ui.showAllConfirmationDialog.close()
+}
+
+ui.showAllCancelButton.addEventListener('click', onShowAllCancel)
 
 function onResizeWindow(event) {
   world.sendEvent('resize', [window.innerWidth, window.innerHeight])

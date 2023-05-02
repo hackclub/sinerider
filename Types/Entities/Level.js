@@ -383,6 +383,10 @@ function Level(spec) {
       ui.mathField.latex(startingExpression)
       ui.mathFieldStatic.latex(startingExpression)
     }
+    if(runAsCutscene){
+      ui.stopButton.classList.add('disabled')
+
+    }
   }
 
   function start() {}
