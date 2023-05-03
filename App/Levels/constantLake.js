@@ -236,7 +236,7 @@ const CONSTANT_LAKE = {
       range: [-24, 37],
       walkers: {
         name: 'Jack',
-        asset: 'images.benny_float',
+        asset: 'images.jack_float',
         x: -24,
       },
     },

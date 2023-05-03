@@ -257,7 +257,7 @@ if (!stepping) {
 // T Parameter Slider
 ui.tSlider.addEventListener('input', refreshTSlider)
 function refreshTSlider() {
-  if (world.globalScope) {
+  if (world.globalScope && !world.running) {
     const newT = math.remap(0, 100, 0, 10, Number(ui.tSlider.value))
 
     world.level?.sendEvent('tVariableChanged', [newT])

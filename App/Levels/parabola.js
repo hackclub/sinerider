@@ -66,9 +66,9 @@ const PARABOLA = [
         asset: 'images.sam_sled',
         speech: [
           {
-            x: 0.5,
+            x: 0.4,
             y: 0.6,
-            content: 'Easier to move with only one!',
+            content: 'So much faster without him!',
             direction: 'up-up-right',
             distance: 1,
           },
@@ -90,7 +90,7 @@ const PARABOLA = [
       fov: 8,
     },
     requirements: null,
-    defaultExpression: '(x-2)^2',
+    defaultExpression: '\\left(x-1\\right)^2',
     hint: 'hint: add to (x)',
     slider: {
       expression: '\\left(x+$\\right)^2',
@@ -110,11 +110,11 @@ const PARABOLA = [
         asset: 'images.sam_sled',
         speech: [
           {
-            x: 0.5,
+            x: 0.3,
             y: 0.6,
-            content: 'Although I guess ghosts don\'t weigh much...',
-            direction: 'up-up-right',
-            distance: 1.5,
+            content: "It's so much… quieter now!",
+            direction: 'up',
+            distance: 1.3,
           },
         ],
         x: -1,
@@ -150,11 +150,11 @@ const PARABOLA = [
         asset: 'images.sam_sled',
         speech: [
           {
-            x: 0.5,
+            x: 0.2,
             y: 0.6,
-            content: 'If he hadn\'t stopped every 20 ft, every level would be this easy!',
+            content: 'Quiet is good.',
             direction: 'up-up-right',
-            distance: 1.75,
+            distance: 1,
           },
         ],
         x: -1,
@@ -186,15 +186,22 @@ const PARABOLA = [
     sledders: [
       {
         asset: 'images.sam_sled',
-        // speech: [
-        //   {
-        //     x: 0.5,
-        //     y: 0.6,
-        //     content: 'I hope he didn\'t fall.',
-        //     direction: 'up',
-        //     distance: 1,
-        //   },
-        // ],
+        speech: [
+          {
+            x: 0.4,
+            y: 0.65,
+            content: "Even if he'll probably get lost.",
+            direction: 'up-up-right',
+            distance: 1.2,
+            speech: [
+              {
+                content: 'He can make his own decisions…',
+                direction: 'up',
+                distance: 1,
+              },
+            ],
+          },
+        ],
         x: -12,
         y: 0,
       },
@@ -241,11 +248,11 @@ const PARABOLA = [
         // ],
         speech: [
           {
-            x: 0.5,
-            y: 0.6,
-            content: 'I hope he doesn\'t fall.',
+            x: 0.3,
+            y: 0.7,
+            content: 'I need to stay focused.',
             direction: 'up-up-right',
-            distance: 1.5,
+            distance: 1.2,
           },
         ],
         x: -5,
@@ -276,9 +283,9 @@ const PARABOLA = [
         asset: 'images.sam_sled',
         speech: [
           {
-            x: 0.5,
+            x: 0.3,
             y: 0.6,
-            content: 'At least it wasn\'t so quiet when he was here.',
+            content: '…',
             direction: 'up-up-right',
             distance: 1,
           },
@@ -312,9 +319,8 @@ const PARABOLA = [
         y: 0,
         speech: [
           {
-            speakerX: 0.5,
-            speakerY: 0.4,
-            color: '#fff',
+            speakerX: 0.4,
+            speakerY: 0.7,
             content: 'I do miss him.',
             direction: 'up-up-right',
             distance: 1.5,
