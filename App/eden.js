@@ -92,6 +92,7 @@ worldData.push({
       pi_confused: '.webp',
       xkcd_sledders: '.webp',
       benny_sam_sled: '.svg',
+      credits: '.webp',
     },
     sounds: {
       music: {
