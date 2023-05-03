@@ -109,23 +109,23 @@ function Arrow(spec) {
     let bottom = camera.lowerLeft.y
 
     if (
-      (point0.x > left &&
-        point0.x < right &&
-        point0.y > bottom &&
-        point0.y < top) ||
-      (point1.x > left &&
-        point1.x < right &&
-        point1.y > bottom &&
-        point1.y < top)
+      (point0.x >= left &&
+        point0.x <= right &&
+        point0.y >= bottom &&
+        point0.y <= top) ||
+      (point1.x >= left &&
+        point1.x <= right &&
+        point1.y >= bottom &&
+        point1.y <= top)
     ) {
       return true
     }
 
     return (
       intersectsLine(left, top, right, top) ||
-      intersectsLine(right, top, bottom, right) ||
+      intersectsLine(right, top, right, bottom) ||
       intersectsLine(right, bottom, left, bottom) ||
-      intersectsLine(left, bottom, top, left)
+      intersectsLine(left, bottom, left, top)
     )
   }
 

@@ -21,6 +21,11 @@ const ui = {
   veil: $('#veil'),
   loadingVeil: $('#loading-veil'),
   loadingVeilString: $('#loading-string'),
+  loadingProgressBarContainer: $('#loading-progress-bar-container'),
+  loadingProgressBar: $('#loading-progress-bar'),
+  twitterLinkRedirect: $('#twitter-link'),
+  redditLinkRedirect: $('#reddit-link'),
+  githubLinkRedirect: $('#github-link'),
 
   bubblets: $('.bubblets'),
 
@@ -44,8 +49,15 @@ const ui = {
   timeString: $('#time-string'),
   completionTime: $('#completion-time'),
 
-  submitTwitterScoreDiv: $('#submit_twitter_score_div'),
-  submitTwitterScoreLink: $('#submit_twitter_score_link'),
+  submitTwitterScoreDiv: $('#submit-twitter-score-div'),
+  submitTwitterScoreLink: $('#submit-twitter-score-link'),
+  submitRedditScoreDiv: $('#submit-reddit-score-div'),
+  submitRedditScoreLink: $('#submit-reddit-score-link'),
+  submitRedditScoreSubreddit: $('#submit_reddit_score_subreddit'),
+
+  redditOpenModal: $('#reddit-open-bar'),
+  redditOpenCommand: $('#reddit-open-command'),
+  redditOpenCloseButton: $('#close-reddit-open-button'),
 
   controlBar: $('#controls-bar'),
   expressionText: $('#expression-text'),
@@ -72,7 +84,12 @@ const ui = {
   stopButtonString: $('#stop-button > .string'),
 
   navigatorFloatingBar: $('#navigator-floating-bar'),
+
   showAllButton: $('#show-all-button'),
+
+  showAllConfirmationDialog: $('#show-all-confirmation-dialog'),
+  showAllConfirmButton: $('#show-all-yes'),
+  showAllCancelButton: $('#show-all-no'),
 
   editorInspector: {
     editorInspector: $('#editor-inspector'),
@@ -238,13 +255,14 @@ if (!stepping) {
 }
 
 // T Parameter Slider
-ui.tSlider.addEventListener('input', () => {
-  if (world.globalScope) {
+ui.tSlider.addEventListener('input', refreshTSlider)
+function refreshTSlider() {
+  if (world.globalScope && !world.running) {
     const newT = math.remap(0, 100, 0, 10, Number(ui.tSlider.value))
 
-    world.level.sendEvent('tVariableChanged', [newT])
+    world.level?.sendEvent('tVariableChanged', [newT])
   }
-})
+}
 
 // MathQuill
 
@@ -345,6 +363,21 @@ function onClickHint() {
 
 ui.dottedHintButton.addEventListener('click', onClickHint)
 
+// prevent twitter link click from triggering level click
+ui.twitterLinkRedirect.addEventListener('click', function (event) {
+  event.stopPropagation()
+})
+
+// prevent reddit link click from triggering level click
+ui.redditLinkRedirect.addEventListener('click', function (event) {
+  event.stopPropagation()
+})
+
+// prevent github link click from triggering level click
+ui.githubLinkRedirect.addEventListener('click', function (event) {
+  event.stopPropagation()
+})
+
 // Initial page state
 {
   let volume = window.localStorage.getItem('volume')
@@ -382,7 +415,14 @@ ui.stopButton.addEventListener('click', onClickRunButton)
 ui.tryAgainButton.addEventListener('click', onClickRunButton)
 
 function onClickShowAllButton(event) {
-  world.navigator.showAll = !world.navigator.showAll
+
+  let showall = localStorage.getItem("ShowAll");
+  if (showall != "True") {
+  ui.showAllConfirmationDialog.showModal()}
+  else {
+    onShowAllConfirm()
+  }  
+
 }
 
 ui.showAllButton.addEventListener('click', onClickShowAllButton)
@@ -411,6 +451,21 @@ function onResetCancel() {
 }
 
 ui.resetCancelButton.addEventListener('click', onResetCancel)
+
+function onShowAllConfirm() {
+
+  world.navigator.showAll = !world.navigator.showAll
+  ui.showAllConfirmationDialog.close()
+  window.localStorage.setItem("ShowAll", "True");
+}
+
+ui.showAllConfirmButton.addEventListener('click', onShowAllConfirm)
+
+function onShowAllCancel() {
+  ui.showAllConfirmationDialog.close()
+}
+
+ui.showAllCancelButton.addEventListener('click', onShowAllCancel)
 
 function onResizeWindow(event) {
   world.sendEvent('resize', [window.innerWidth, window.innerHeight])
@@ -457,6 +512,8 @@ canvas.addEventListener('mousedown', onMouseDownCanvas)
 canvas.addEventListener('pointerdown', onMouseDownCanvas)
 
 function onMouseUpCanvas(event) {
+  ui.tSlider.value = 0
+  refreshTSlider()
   world.clickableContext.processEvent(event, 'mouseUp')
   event.preventDefault()
   onGridlinesDeactive()

@@ -31,7 +31,7 @@ const TIME = [
           {
             x: 0.3,
             y: 0.7,
-            content: '"do whatever you want." Fine! I will!',
+            content: '"do whatever you want."',
             direction: 'up-up-right',
             distance: 0.8,
           },
@@ -76,7 +76,7 @@ const TIME = [
           {
             x: 0.3,
             y: 0.7,
-            content: 'This. This is what I want. Adventure galore.',
+            content: 'This is what I want. Adventure.',
             direction: 'up-up-right',
             distance: 0.8,
           },
@@ -127,7 +127,7 @@ const TIME = [
           {
             x: 0.3,
             y: 0.7,
-            content: 'So is are those ghost islands? Is that why they float too?',
+            content: 'Wee…',
             direction: 'up',
             distance: 0.8,
           },
@@ -159,9 +159,16 @@ const TIME = [
           {
             x: 0.3,
             y: 0.7,
-            content: 'So what do people talk about when they\'re alone...',
+            content: 'Just the void.',
             direction: 'up-up-right',
             distance: 0.8,
+            speech: [
+              {
+                content: "But now there's nobody to talk to…",
+                direction: 'up',
+                distance: 0.8,
+              },
+            ],
           },
         ],
       },
@@ -197,20 +204,6 @@ const TIME = [
         x: 0,
         y: 0,
         asset: 'images.lunchbox_sled',
-        speech: [
-          {
-            x: 0.3,
-            y: 0.7,
-            content: 'What\'s the hardest shape to escape?',
-            direction: 'up',
-            distance: 0.8,
-            speech: {
-              content: 'Hullo empty void! I hope you like dad jokes.',
-              direction: 'up',
-              distance: 1,
-            },
-          },
-        ],
       },
     ],
   },
@@ -248,7 +241,7 @@ const TIME = [
           {
             x: 0.3,
             y: 0.7,
-            content: 'a TRAPezoid. hehehe.',
+            content: '*sigh*',
             direction: 'up',
             distance: 0.8,
           },
@@ -298,7 +291,8 @@ const TIME = [
           {
             x: 0.25,
             y: 0.7,
-            content: 'Nothing??? This is even worse than being chided.',
+            content: 'Being alone sucks.',
+            color: '#FFF',
             direction: 'up',
             distance: 1.5,
           },
@@ -357,7 +351,7 @@ const TIME = [
         y: 16,
         size: 1,
         fill: '#fff',
-        content: "(this level is impossible, don't bother trying)",
+        content: '(this level is impossible)',
       },
     ],
     sledders: [
@@ -410,27 +404,19 @@ const TIME = [
         y: 0,
         speech: [
           {
-            distance: 1.75,
+            distance: 2,
             speakerX: 0.4,
-            speakerY: 0.75,
-            color: '#FFF',
-            content: "Why are they floating?",
+            speakerY: 0.7,
+            content: 'How do the islands float?',
             direction: 'up-up-right',
             align: 'right',
           },
           {
-            distance: 2,
+            distance: 1.5,
             speakerX: -0.25,
-            speakerY: 0.65,
-            color: '#FFF',
-            content: "...cus floating islands.",
-            direction: 'up-left-left',
-            speech: {
-              content: "oooh those are the floating islands I saw!",
-              direction: 'up-up-left',
-              distance: 1.5,
-              color: '#FFF',
-            }
+            speakerY: 0.6,
+            content: 'Noogler hats.',
+            direction: 'up-left',
           },
         ],
       },
@@ -460,6 +446,15 @@ const TIME = [
       {
         x: 0,
         y: 0,
+        speech: [
+          {
+            speakerX: 0.4,
+            speakerY: 0.7,
+            content: "Maybe they're ghost islands?",
+            direction: 'up-up-right',
+            distance: 2,
+          },
+        ],
       },
     ],
   },
@@ -500,28 +495,17 @@ const TIME = [
         y: 0,
         speech: [
           {
-            speakerX: -0.4,
-            speakerY: 0.7,
-            content: 'Jack, we haunt people...',
-            direction: 'up-up-left',
-            distance: 1.4,
-            speech: {
-              content: 'Why?',
-              direction: 'up',
-              distance: 0.8,
-            },
-          },
-          {
-            speakerX: 0.7,
-            speakerY: 0.7,
-            content: 'Well, like, we have jobs and stuff.',
-            direction: 'right-up-up',
-            distance: 2.2,
-            speech: {
-              content: 'I still can\'t believe we\'re here.',
-              direction: 'up-up-left',
-              distance: 1.2,
-            },
+            x: -0.2,
+            y: 0.65,
+            content: 'This place is cool.',
+            direction: 'up-up-right',
+            distance: 1,
+            speech: [
+              {
+                content: 'You were right.',
+                direction: 'up',
+              },
+            ],
           },
         ],
       },
@@ -556,32 +540,6 @@ const TIME = [
       {
         x: 0,
         y: 0,
-        speech: [
-          {
-            speakerX: -0.4,
-            speakerY: 0.7,
-            content: 'We win memories.',
-            direction: 'up-up-left',
-            distance: 1.8,
-            speech: {
-              content: 'It\'s worth it.',
-              direction: 'up',
-              distance: 0.8,
-            },
-          },
-          {
-            speakerX: 0.7,
-            speakerY: 0.7,
-            content: 'I thought that was only if we won.',
-            direction: 'right-up-up',
-            distance: 2.2,
-            speech: {
-              content: 'It\'s just weird to be so far from home.',
-              direction: 'up',
-              distance: 1.2,
-            },
-          },
-        ],
       },
     ],
   },
@@ -609,7 +567,7 @@ const TIME = [
       {
         x: -4,
         y: 0,
-        asset: 'images.sam_sled',
+        asset: 'images.ada_jack_sled',
       },
     ],
   },

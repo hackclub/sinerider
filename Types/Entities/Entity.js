@@ -250,7 +250,8 @@ function Entity(spec, defaultName = 'Entity') {
   }
 
   function removeDescendant(descendant) {
-    drawArray.splice(drawArray.indexOf(descendant), 1)
+    if (drawArray.indexOf(descendant) >= 0)
+      drawArray.splice(drawArray.indexOf(descendant), 1)
   }
 
   function isDescendantOf(other) {
