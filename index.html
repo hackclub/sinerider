@@ -77,6 +77,7 @@
       gtag('config', 'G-SLDEWZQ8N1')
     </script>
   </head>
+
   <body>
     <img
       src="Assets/Images/error.png"
@@ -223,6 +224,18 @@
       </div>
     </dialog>
 
+    <dialog id="show-all-confirmation-dialog">
+      <div class="string">Are you sure you want to unlock all levels?</div>
+      <div>
+        <div class="button" id="show-all-no">
+          <div class="string">Cancel</div>
+        </div>
+        <div class="button" id="show-all-yes">
+          <div class="string">Unlock All</div>
+        </div>
+      </div>
+    </dialog>
+
     <div class="bar message" id="message-bar" hide="true">
       <div class="string">MESSAGE</div>
     </div>
@@ -244,6 +257,19 @@
             >
               <span id="character-count"></span>
             </div>
+            <div id="submit-twitter-score-div" hide="true">
+              <a
+                id="submit-twitter-score-link"
+                href="http://google.com"
+                target="_blank"
+                >Submit score via Twitter</a
+              >
+            </div>
+            <div id="submit-reddit-score-div" hide="true">
+              <a id="submit-reddit-score-link" href="javascript:;">
+                Submit score via Reddit
+              </a>
+            </div>
           </div>
         </div>
 
@@ -253,9 +279,37 @@
       </div>
     </div>
 
+    <div class="bar reddit-open floating" id="reddit-open-bar" hide="true">
+      <div class="envelope" id="reddit-open-envelope">
+        <div class="label" id="reddit-open-label">
+          <div class="string">
+            <h3 id="reddit-open-text">Reddit Command Copied!</h3>
+            <p>
+              The command has been copied in your clipboard.<br />Please paste
+              it into the daily level thread.<br />
+              Command:
+            </p>
+            <input type="text" id="reddit-open-command" readonly />
+            <br />
+            <a
+              id="submit_reddit_score_subreddit"
+              href="https://google.com"
+              target="_blank"
+            >
+              Open Subreddit
+            </a>
+          </div>
+          <div class="button" id="close-reddit-open-button">
+            <div class="string">X</div>
+          </div>
+          <br />
+        </div>
+      </div>
+    </div>
+
     <div class="bar floating navigator" id="navigator-floating-bar" hide="true">
       <div class="button" id="show-all-button" hide="false">
-        <div class="string">SHOW ALL</div>
+        <div class="string">UNLOCK ALL</div>
       </div>
     </div>
 
@@ -264,9 +318,11 @@
     <div id="lvl-debug-info" hide="true">
       <div class="grid">
         <div class="string debugtitle">Level name:</div>
-        <div class="string debuginfo" id="lvl_name_str">N/A</div>
+        <div class="string debuginfo" id="lvl-name-str">N/A</div>
         <div class="string debugtitle">Level nick:</div>
-        <div class="string debuginfo" id="lvl_nick_str">N/A</div>
+        <div class="string debuginfo" id="lvl-nick-str">N/A</div>
+        <div class="string debugtitle">FPS:</div>
+        <div class="string debuginfo" id="lvl-fps-str">N/A</div>
       </div>
       <div class="button" id="button-hide-level-info" hide="true">
         <div class="string">X</div>
@@ -274,25 +330,74 @@
     </div>
 
     <div class="loading veil" id="loading-veil" hide="false">
-      <div class="string" id="loading-remarks">
-        <p>
-          To load a level from a previous session click the ⛰️ button and then
-          SHOW ALL.
-        </p>
-      </div>
-      <div class="string" id="loading-mobile" hide="true">
-        <p>
-          <strong>WARNING:</strong> We Strongly Recommend Playing This on
-          Something with a Keyboard
-        </p>
-      </div>
-
       <div id="flag">
         <a href="https://github.com/hackclub">
           <img class="hackclub-logo" src="Assets/Images/hc_logo.png" />
         </a>
       </div>
-      <div class="string" id="loading-string"></div>
+
+      <div id="main-loading">
+        <div id="loading-top">
+          <img class="loading-image" src="Assets/Images/loading-screen.png" />
+        </div>
+
+        <div class="string" id="loading-mobile" hide="true">
+          <p>
+            <strong>WARNING:</strong> We Strongly Recommend Playing This on
+            Something with a Keyboard
+          </p>
+        </div>
+
+        <div id="loading-progress-bar-container">
+          <div id="loading-progress-bar"></div>
+        </div>
+        <div class="string" id="loading-string"></div>
+      </div>
+
+      <div id="loading-bottom">
+        <div id="puzzles">
+          <h3>New puzzles published daily on</h3>
+
+          <div id="loading-links">
+            <a
+              href="https://www.twitter.com/sineriderbot"
+              target="_blank"
+              class="loading-link"
+              id="twitter-link"
+            >
+              <img
+                src="Assets/Images/twitter.png"
+                alt="Twitter"
+                class="puzzle-link-image"
+              />
+            </a>
+
+            <a
+              href="https://www.reddit.com/r/sinerider"
+              target="_blank"
+              class="loading-link"
+              id="reddit-link"
+            >
+              <img
+                src="Assets/Images/reddit.png"
+                alt="Reddit"
+                class="puzzle-link-image"
+              />
+            </a>
+          </div>
+        </div>
+
+        <div class="string" id="github-string">
+          <a
+            href="http://www.github.com/hackclub/sinerider"
+            target="_blank"
+            class="loading-link"
+            id="github-link"
+          >
+            Built and maintained by teenagers. Version 0.5
+          </a>
+        </div>
+      </div>
     </div>
 
     <!-- Load External Libraries -->

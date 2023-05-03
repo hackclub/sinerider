@@ -22,6 +22,11 @@ const ui = {
   loadingVeil: $('#loading-veil'),
   loadingMobile: $('#loading-mobile'),
   loadingVeilString: $('#loading-string'),
+  loadingProgressBarContainer: $('#loading-progress-bar-container'),
+  loadingProgressBar: $('#loading-progress-bar'),
+  twitterLinkRedirect: $('#twitter-link'),
+  redditLinkRedirect: $('#reddit-link'),
+  githubLinkRedirect: $('#github-link'),
 
   bubblets: $('.bubblets'),
 
@@ -44,6 +49,17 @@ const ui = {
   variablesBar: $('#variables-bar'),
   timeString: $('#time-string'),
   completionTime: $('#completion-time'),
+
+  submitTwitterScoreDiv: $('#submit-twitter-score-div'),
+  submitTwitterScoreLink: $('#submit-twitter-score-link'),
+  submitRedditScoreDiv: $('#submit-reddit-score-div'),
+  submitRedditScoreLink: $('#submit-reddit-score-link'),
+  submitRedditScoreSubreddit: $('#submit_reddit_score_subreddit'),
+
+  redditOpenModal: $('#reddit-open-bar'),
+  redditOpenCommand: $('#reddit-open-command'),
+  redditOpenCloseButton: $('#close-reddit-open-button'),
+
   controlBar: $('#controls-bar'),
   expressionText: $('#expression-text'),
   expressionEnvelope: $('#expression-envelope'),
@@ -69,7 +85,12 @@ const ui = {
   stopButtonString: $('#stop-button > .string'),
 
   navigatorFloatingBar: $('#navigator-floating-bar'),
+
   showAllButton: $('#show-all-button'),
+
+  showAllConfirmationDialog: $('#show-all-confirmation-dialog'),
+  showAllConfirmButton: $('#show-all-yes'),
+  showAllCancelButton: $('#show-all-no'),
 
   editorInspector: {
     editorInspector: $('#editor-inspector'),
@@ -87,8 +108,9 @@ const ui = {
     addPath: $('#editor-spawner-path'),
   },
   levelInfoDiv: $('#lvl-debug-info'),
-  levelInfoNameStr: $('#lvl_name_str'),
-  levelInfoNickStr: $('#lvl_nick_str'),
+  levelInfoNameStr: $('#lvl-name-str'),
+  levelInfoNickStr: $('#lvl-nick-str'),
+  levelInfoFpsStr: $('#lvl-fps-str'),
   hideLevelInfoButton: $('#button-hide-level-info'),
 }
 
@@ -124,7 +146,7 @@ const urlParams = new URLSearchParams(window.location.search)
 
 const ticksPerSecondOverridden = urlParams.has('ticksPerSecond')
 
-// 30 ticks per second default, but overridable via query param
+// 60 ticks per second default, but overridable via query param
 const ticksPerSecond = ticksPerSecondOverridden
   ? urlParams.get('ticksPerSecond')
   : 60
@@ -149,6 +171,7 @@ let w = worldData[0]
 // const DEBUG_LEVEL = 'Volcano'
 // const DEBUG_LEVEL = 'Constant Lake'
 // const DEBUG_LEVEL = 'Two Below'
+// const DEBUG_LEVEL = 'Time Hard'
 const DEBUG_LEVEL = null
 
 if (DEBUG_LEVEL) {
@@ -204,6 +227,9 @@ function tickInternal() {
   }
 }
 
+let timeOfLastDraw = null
+let currentFps = 60
+
 function draw() {
   if (!canvasIsDirty) return
   canvasIsDirty = false
@@ -224,6 +250,14 @@ function draw() {
       screen.ctx.restore()
     }
   }
+
+  let now = performance.now()
+  if (timeOfLastDraw) {
+    let frameFps = 1000 / (now - timeOfLastDraw)
+    currentFps = 0.9 * currentFps + 0.1 * frameFps
+    ui.levelInfoFpsStr.innerText = 'FPS: ' + currentFps.toFixed(2)
+  }
+  timeOfLastDraw = now
 }
 
 function requestDraw() {
@@ -241,13 +275,14 @@ if (!stepping) {
 }
 
 // T Parameter Slider
-ui.tSlider.addEventListener('input', () => {
-  if (world.globalScope) {
+ui.tSlider.addEventListener('input', refreshTSlider)
+function refreshTSlider() {
+  if (world.globalScope && !world.running) {
     const newT = math.remap(0, 100, 0, 10, Number(ui.tSlider.value))
 
-    world.level.sendEvent('tVariableChanged', [newT])
+    world.level?.sendEvent('tVariableChanged', [newT])
   }
-})
+}
 
 // MathQuill
 
@@ -348,6 +383,21 @@ function onClickHint() {
 
 ui.dottedHintButton.addEventListener('click', onClickHint)
 
+// prevent twitter link click from triggering level click
+ui.twitterLinkRedirect.addEventListener('click', function (event) {
+  event.stopPropagation()
+})
+
+// prevent reddit link click from triggering level click
+ui.redditLinkRedirect.addEventListener('click', function (event) {
+  event.stopPropagation()
+})
+
+// prevent github link click from triggering level click
+ui.githubLinkRedirect.addEventListener('click', function (event) {
+  event.stopPropagation()
+})
+
 // Initial page state
 {
   let volume = window.localStorage.getItem('volume')
@@ -385,7 +435,14 @@ ui.stopButton.addEventListener('click', onClickRunButton)
 ui.tryAgainButton.addEventListener('click', onClickRunButton)
 
 function onClickShowAllButton(event) {
-  world.navigator.showAll = !world.navigator.showAll
+
+  let showall = localStorage.getItem("ShowAll");
+  if (showall != "True") {
+  ui.showAllConfirmationDialog.showModal()}
+  else {
+    onShowAllConfirm()
+  }  
+
 }
 
 ui.showAllButton.addEventListener('click', onClickShowAllButton)
@@ -414,6 +471,21 @@ function onResetCancel() {
 }
 
 ui.resetCancelButton.addEventListener('click', onResetCancel)
+
+function onShowAllConfirm() {
+
+  world.navigator.showAll = !world.navigator.showAll
+  ui.showAllConfirmationDialog.close()
+  window.localStorage.setItem("ShowAll", "True");
+}
+
+ui.showAllConfirmButton.addEventListener('click', onShowAllConfirm)
+
+function onShowAllCancel() {
+  ui.showAllConfirmationDialog.close()
+}
+
+ui.showAllCancelButton.addEventListener('click', onShowAllCancel)
 
 function onResizeWindow(event) {
   world.sendEvent('resize', [window.innerWidth, window.innerHeight])
@@ -460,14 +532,14 @@ canvas.addEventListener('mousedown', onMouseDownCanvas)
 canvas.addEventListener('pointerdown', onMouseDownCanvas)
 
 function onMouseUpCanvas(event) {
+  ui.tSlider.value = 0
+  refreshTSlider()
   world.clickableContext.processEvent(event, 'mouseUp')
   event.preventDefault()
   onGridlinesDeactive()
 }
 
 canvas.addEventListener('mouseup', onMouseUpCanvas)
-canvas.addEventListener('pointerup', onMouseUpCanvas)
-window.addEventListener('mouseup', onMouseUpCanvas)
 window.addEventListener('pointerup', onMouseUpCanvas)
 
 ui.levelInfoDiv.addEventListener('mouseover', function () {

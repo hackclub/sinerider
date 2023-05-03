@@ -5,7 +5,7 @@ const LOGISTIC = [
     biome: 'logisticDunes',
     x: 0,
     y: -30,
-    requirements: ['SIN_SCALE_X_Y'],
+    requirements: ['SIN_TRANSLATE_SCALE_X_Y'],
     defaultExpression: '\\frac{1}{1+x^2}',
     // slider: {
     //   expression: '\\frac{1}{1+\\left(x+$\\right)^2}',
@@ -48,6 +48,15 @@ const LOGISTIC = [
         asset: 'images.sam_sled',
         x: 1,
         y: 0,
+        speech: [
+          {
+            x: 0.3,
+            y: 0.65,
+            content: 'Beautiful!',
+            direction: 'up-up-left',
+            distance: 1,
+          },
+        ],
       },
       {
         asset: 'images.lunchbox_sled',
@@ -106,6 +115,29 @@ const LOGISTIC = [
         asset: 'images.lunchbox_sled',
         x: 1,
         y: 0,
+        speech: {
+          x: 0.3,
+          y: 0.7,
+          content: '…hi!',
+          direction: 'up-up-right',
+        },
+      },
+    ],
+    sprites: [
+      {
+        asset: 'images.benny_float',
+        x: -4,
+        y: 0,
+        anchored: true,
+        sloped: true,
+        size: 1.7,
+        offset: [0, 0.7],
+        speech: {
+          x: 0,
+          y: 1.1,
+          content: 'hi!',
+          direction: 'up-up-left',
+        },
       },
     ],
   },
@@ -120,17 +152,40 @@ const LOGISTIC = [
     goals: [
       {
         type: 'path',
-        expression: '-((x-4)/2)^2+8',
-        x: 1,
+        expression: '-((x-5)/2)^2+11',
+        x: 0,
         y: 0,
-        pathX: 5,
+        pathX: 8,
       },
     ],
     sledders: [
       {
-        asset: 'images.sam_sled',
+        asset: 'images.ada_jack_sled',
         x: -12,
         y: 0,
+        speech: {
+          x: -0.1,
+          y: 0.6,
+          content: '…where did you come from?',
+          direction: 'up-up-right',
+        },
+      },
+    ],
+    sprites: [
+      {
+        asset: 'images.benny_float',
+        x: 6,
+        y: 0,
+        anchored: true,
+        sloped: true,
+        size: 1.7,
+        offset: [0, 0.7],
+        speech: {
+          x: 0,
+          y: 1.1,
+          content: 'Cleveland!',
+          direction: 'up-up-left',
+        },
       },
     ],
   },
@@ -165,6 +220,27 @@ const LOGISTIC = [
       {
         x: -8,
         y: 0,
+        speech: [
+          {
+            speakerX: -0.3,
+            speakerY: 0.7,
+            content: 'Hmm?',
+            direction: 'up-up-left',
+            distance: 2.3,
+          },
+          {
+            speakerX: 0.5,
+            speakerY: 0.7,
+            content: 'Like, it could be flat.',
+            direction: 'up-right',
+            distance: 2,
+            speech: {
+              content: 'Why are there dunes instead of nothing?',
+              direction: 'up-up-right',
+              distance: 1.2,
+            },
+          },
+        ],
       },
     ],
   },
@@ -198,6 +274,15 @@ const LOGISTIC = [
       {
         x: -8,
         y: 0,
+        speech: [
+          {
+            x: 0.3,
+            y: 0.65,
+            content: 'That sky sure looks tasty.',
+            direction: 'up-up-right',
+            distance: 1,
+          },
+        ],
       },
     ],
   },

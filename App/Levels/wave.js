@@ -54,7 +54,7 @@ const WAVE = [
           {
             x: 0.3,
             y: 0.7,
-            content: 'Hi.',
+            content: "You're late.",
             color: '#FFF',
             direction: 'up-up-left',
             distance: 1,
@@ -109,15 +109,15 @@ const WAVE = [
         y: 0,
         speech: [
           {
-            x: 0.2,
-            y: 0.5,
-            content: '…and I apologize.',
+            x: 0.1,
+            y: 0.45,
+            content: "…and I'm really sorry.",
             color: '#FFF',
-            direction: 'left-left-up',
-            distance: 0.6,
+            direction: 'up-left',
+            distance: 0.8,
             speech: [
               {
-                x: -1,
+                y: 0.8,
                 content: 'I know.',
                 color: '#FFF',
                 direction: 'up',
@@ -134,8 +134,8 @@ const WAVE = [
     name: 'Cos',
     nick: 'COS_SCALE_X_Y',
     biome: 'sinusoidalDesert',
-    x: 0,
-    y: -20,
+    x: 10,
+    y: -10,
     requirements: ['DESERT'],
     defaultExpression: '\\sin \\left(x\\right)',
     goals: [
@@ -159,11 +159,31 @@ const WAVE = [
         asset: 'images.sam_sled',
         x: -TAU + 0.1,
         y: 0,
+        speech: [
+          {
+            x: 0.3,
+            y: 0.65,
+            content: "I'm still mad at you.",
+            color: '#FFF',
+            direction: 'up-up-right',
+            distance: 1.2,
+          },
+        ],
       },
       {
         asset: 'images.lunchbox_sled',
         x: TAU - 0.1,
         y: 0,
+        speech: [
+          {
+            x: 0.3,
+            y: 0.65,
+            content: 'I know.',
+            color: '#FFF',
+            direction: 'up-up-left',
+            distance: 0.8,
+          },
+        ],
       },
     ],
   },
@@ -200,9 +220,35 @@ const WAVE = [
         asset: 'images.sam_sled',
         x: 0,
         y: 0,
+        speech: [
+          {
+            x: 0.3,
+            y: 0.65,
+            content: "Yeah. We're not gonna win.",
+            color: '#FFF',
+            direction: 'up-right',
+            distance: 1,
+            speech: {
+              direction: 'up-up-right',
+              content: 'May as well take our time now.',
+              distance: 0.8,
+              color: '#FFF',
+            },
+          },
+        ],
       },
       {
         asset: 'images.lunchbox_sled',
+        speech: [
+          {
+            x: 0.3,
+            y: 0.65,
+            content: 'You sure?',
+            color: '#FFF',
+            direction: 'up-up-right',
+            distance: 1.5,
+          },
+        ],
         x: TAU,
         y: 0,
       },
@@ -237,9 +283,35 @@ const WAVE = [
         asset: 'images.sam_sled',
         x: 1,
         y: 0,
+        // speech: [
+        //   {
+        //     x: 0.3,
+        //     y: 0.65,
+        //     content: 'Stop it Jack, it\'s still your fault I\'m upset.',
+        //     color: '#FFF',
+        //     direction: 'up-left',
+        //     distance: 2.5,
+        //   },
+        // ],
       },
       {
         asset: 'images.lunchbox_sled',
+        // speech: [
+        //   {
+        //     x: 0.3,
+        //     y: 0.65,
+        //     content: 'Ok ok sorry. Besides cacti have pretty flowers. Is it cactuses?',
+        //     color: '#FFF',
+        //     direction: 'up-up-right',
+        //     distance: 1,
+        //     speech: {
+        //       content: 'Has anyone ever compared you to a cactus?',
+        //       distance: 1.5,
+        //       color: '#FFF',
+        //       direction: 'up-right'
+        //     }
+        //   },
+        // ],
         x: TAU + 1,
         y: 0,
       },
@@ -249,8 +321,8 @@ const WAVE = [
     name: 'Sin Scale X',
     nick: 'SIN_SCALE_X',
     biome: 'sinusoidalDesert',
-    x: 10,
-    y: -10,
+    x: 0,
+    y: -20,
     requirements: ['DESERT'],
     defaultExpression: '\\sin \\left(\\frac{x}{4}\\right)',
     slider: {
@@ -275,12 +347,32 @@ const WAVE = [
     ],
     sledders: [
       {
-        asset: 'images.sam_sled',
+        asset: 'images.lunchbox_sled',
+        speech: [
+          {
+            x: 0.3,
+            y: 0.65,
+            content: 'Can we share a sled again?',
+            color: '#FFF',
+            direction: 'up-up-right',
+            distance: 1.2,
+          },
+        ],
         x: 0,
         y: 0,
       },
       {
-        asset: 'images.lunchbox_sled',
+        asset: 'images.sam_sled',
+        speech: [
+          {
+            x: 0.3,
+            y: 0.65,
+            content: '…fine.',
+            color: '#FFF',
+            direction: 'up-up-left',
+            distance: 0.8,
+          },
+        ],
         x: TAU,
         y: 0,
       },
@@ -292,7 +384,7 @@ const WAVE = [
     biome: 'sinusoidalDesert',
     x: 0,
     y: -20,
-    requirements: [null],
+    requirements: [null, 'SIN_TRANSLATE_X_Y'],
     defaultExpression: '\\sin \\left(\\frac{x}{2}\\right)',
     slider: {
       expression: '$\\cdot \\sin \\left(\\frac{x}{2}\\right)',
@@ -318,6 +410,16 @@ const WAVE = [
       {
         x: (-TAU * 2) / 3,
         y: 0,
+        speech: [
+          {
+            x: -0.15,
+            y: 0.6,
+            content: 'This is cozy.',
+            color: '#FFF',
+            direction: 'up-up-right',
+            distance: 1,
+          },
+        ],
       },
     ],
   },
@@ -325,9 +427,9 @@ const WAVE = [
     name: 'Sin Translate Scale XY',
     nick: 'SIN_TRANSLATE_SCALE_X_Y',
     biome: 'sinusoidalDesert',
-    x: -10,
-    y: -10,
-    requirements: [null, 'COS_SCALE_X_Y', 'SIN_TRANSLATE_X_Y'],
+    x: 10,
+    y: 10,
+    requirements: [null, 'COS_SCALE_X_Y'],
     defaultExpression: '3\\cos \\left(\\frac{x+3}{2}\\right)-1',
     goals: [
       {

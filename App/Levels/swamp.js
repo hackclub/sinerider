@@ -19,25 +19,24 @@ const SWAMP = [
     ],
     sledders: [
       {
-        // speech: [
-        //   {
-        //     distance: 2.2,
-        //     speakerX: 0.4,
-        //     speakerY: 0.75,
-        //     color: '#FFF',
-        //     content: "Well that's unsettling.",
-        //     direction: 'up-up-right',
-        //   },
-        //   {
-        //     distance: 1.5,
-        //     speakerX: -0.25,
-        //     speakerY: 0.65,
-        //     color: '#FFF',
-        //     content: "Yah I don't like that.",
-        //     direction: 'left-up-up',
-        //     align: 'right',
-        //   },
-        // ],
+        speech: [
+          {
+            speakerX: -0.4,
+            speakerY: 0.7,
+            content: 'Yikes, this place is spooky!',
+            direction: 'up-up-left',
+            distance: 2.2,
+            color: '#FFF',
+          },
+          {
+            speakerX: 0.7,
+            speakerY: 0.7,
+            content: 'Yeah...',
+            color: '#FFF',
+            direction: 'up-up-right',
+            distance: 1.5,
+          },
+        ],
       },
     ],
     sprites: [],
@@ -63,31 +62,31 @@ const SWAMP = [
     sprites: [],
     sledders: [
       {
-        // speech: [
-        //   {
-        //     distance: 1.5,
-        //     speakerX: 0.4,
-        //     speakerY: 0.75,
-        //     color: '#FFF',
-        //     direction: 'right-up-up',
-        //     content: '…ok good.',
-        //     speech: {
-        //       distance: 1,
-        //       color: '#FFF',
-        //       direction: 'up',
-        //       content: '…how far to the finish?',
-        //     },
-        //   },
-        //   {
-        //     distance: 2.2,
-        //     speakerX: -0.25,
-        //     speakerY: 0.65,
-        //     color: '#FFF',
-        //     content: 'Not far. Next stop.',
-        //     direction: 'left-up-up',
-        //     align: 'right',
-        //   },
-        // ],
+        speech: [
+          {
+            distance: 1.6,
+            speakerX: 0.5,
+            speakerY: 0.7,
+            color: '#FFF',
+            direction: 'up-up-right',
+            content: 'Just follow me!',
+            speech: {
+              distance: 1,
+              color: '#FFF',
+              direction: 'up',
+              content: 'Come on. I have a shortcut.',
+            },
+          },
+          {
+            distance: 2.3,
+            speakerX: -0.3,
+            speakerY: 0.55,
+            color: '#FFF',
+            content: 'Jack…',
+            direction: 'up-up-left',
+            align: 'right',
+          },
+        ],
       },
     ],
   },

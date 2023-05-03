@@ -23,7 +23,7 @@ function Navigator(spec) {
     drawOrder: LAYERS.map,
     anchored: false,
     size: 190,
-    x: 75,
+    x: 85,
     y: -5.5,
     asset: 'images.world_map',
   })
@@ -33,19 +33,25 @@ function Navigator(spec) {
     camera,
   })
 
-  let rect = Rect({
-    parent: self,
-  })
-
   let showAll = false
   let showAllUsed = false
 
   let initialBubble = null
 
   const bubbles = _.map(levelData, createBubble)
+  const bubbleRenderQueue = []
+  const bubbleRenderCap = 10
 
   function start() {
     if (initialBubble) initialBubble.completeAllRequirements()
+  }
+
+  function tick() {
+    if (bubbleRenderQueue.length > 0) {
+      let b = 0
+      while (b++ <= bubbleRenderCap && bubbleRenderQueue.length > 0)
+        bubbleRenderQueue.pop().render()
+    }
   }
 
   function draw() {
@@ -99,14 +105,6 @@ function Navigator(spec) {
       0,
       () => {
         assets.sounds.map_zoom_out.play()
-        moveToLevel(nick, 0.5, () => {
-          if (nicks.length > 0 && nicks[0] != nick)
-            assets.sounds.map_zoom_highlighted.play()
-
-          // setTimeout(() => {
-          //   moveToLevel(nicks, 1)
-          // }, 0)
-        })
       },
       8,
     )
@@ -168,6 +166,12 @@ function Navigator(spec) {
   function refreshBubbles() {
     _.invokeEach(bubbles, 'refreshPlayable')
     _.invokeEach(bubbles, 'refreshArrows')
+    let b = 0
+    for (bubble of bubbles) {
+      if (bubble.visible && !bubble.rendered) {
+        bubbleRenderQueue.push(bubble)
+      }
+    }
   }
 
   function panCamera(point, cb = null) {
@@ -188,6 +192,7 @@ function Navigator(spec) {
 
   return self.mix({
     start,
+    tick,
     draw,
 
     moveToLevel,

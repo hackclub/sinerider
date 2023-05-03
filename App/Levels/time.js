@@ -31,7 +31,7 @@ const TIME = [
           {
             x: 0.3,
             y: 0.7,
-            content: '"Do whatever you want."',
+            content: '"do whatever you want."',
             direction: 'up-up-right',
             distance: 0.8,
           },
@@ -76,7 +76,7 @@ const TIME = [
           {
             x: 0.3,
             y: 0.7,
-            content: 'Well, this is what I want.',
+            content: 'This is what I want. Adventure.',
             direction: 'up-up-right',
             distance: 0.8,
           },
@@ -127,7 +127,7 @@ const TIME = [
           {
             x: 0.3,
             y: 0.7,
-            content: '…where did she get the other sled?',
+            content: 'Wee…',
             direction: 'up',
             distance: 0.8,
           },
@@ -159,9 +159,16 @@ const TIME = [
           {
             x: 0.3,
             y: 0.7,
-            content: 'I think I want it, anyway.',
+            content: 'Just the void.',
             direction: 'up-up-right',
             distance: 0.8,
+            speech: [
+              {
+                content: "But now there's nobody to talk to…",
+                direction: 'up',
+                distance: 0.8,
+              },
+            ],
           },
         ],
       },
@@ -230,6 +237,15 @@ const TIME = [
         x: 0,
         y: 0,
         asset: 'images.lunchbox_sled',
+        speech: [
+          {
+            x: 0.3,
+            y: 0.7,
+            content: '*sigh*',
+            direction: 'up',
+            distance: 0.8,
+          },
+        ],
       },
     ],
   },
@@ -275,7 +291,8 @@ const TIME = [
           {
             x: 0.25,
             y: 0.7,
-            content: 'being alone sucks.',
+            content: 'Being alone sucks.',
+            color: '#FFF',
             direction: 'up',
             distance: 1.5,
           },
@@ -334,7 +351,7 @@ const TIME = [
         y: 16,
         size: 1,
         fill: '#fff',
-        content: "(this level is impossible, don't bother trying)",
+        content: '(this level is impossible)',
       },
     ],
     sledders: [
@@ -385,6 +402,23 @@ const TIME = [
       {
         x: 0,
         y: 0,
+        speech: [
+          {
+            distance: 2,
+            speakerX: 0.4,
+            speakerY: 0.7,
+            content: 'How do the islands float?',
+            direction: 'up-up-right',
+            align: 'right',
+          },
+          {
+            distance: 1.5,
+            speakerX: -0.25,
+            speakerY: 0.6,
+            content: 'Noogler hats.',
+            direction: 'up-left',
+          },
+        ],
       },
     ],
   },
@@ -412,6 +446,15 @@ const TIME = [
       {
         x: 0,
         y: 0,
+        speech: [
+          {
+            speakerX: 0.4,
+            speakerY: 0.7,
+            content: "Maybe they're ghost islands?",
+            direction: 'up-up-right',
+            distance: 2,
+          },
+        ],
       },
     ],
   },
@@ -450,6 +493,21 @@ const TIME = [
       {
         x: 0,
         y: 0,
+        speech: [
+          {
+            x: -0.2,
+            y: 0.65,
+            content: 'This place is cool.',
+            direction: 'up-up-right',
+            distance: 1,
+            speech: [
+              {
+                content: 'You were right.',
+                direction: 'up',
+              },
+            ],
+          },
+        ],
       },
     ],
   },
@@ -509,7 +567,7 @@ const TIME = [
       {
         x: -4,
         y: 0,
-        asset: 'images.sam_sled',
+        asset: 'images.ada_jack_sled',
       },
     ],
   },

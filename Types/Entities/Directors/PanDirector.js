@@ -1,3 +1,4 @@
+let n = 0.1
 function PanDirector(spec) {
   const { self, screen, cameraState } = Director(spec, 'PanDirector')
 
@@ -32,6 +33,17 @@ function PanDirector(spec) {
   let clickable = Clickable({
     entity: self,
   })
+
+  let lowerLeftScreen = Vector2()
+
+  function snapCameraToNearestPixel() {
+    // camera.worldToScreen(camera.lowerLeft, lowerLeftScreen)
+    // let { x, y } = lowerLeftScreen
+    // let dx = Math.round(x) - x
+    // let dy = Math.round(y) - y
+    // cameraState.position.x += camera.screenToWorldScalar(dx)
+    // cameraState.position.y += camera.screenToWorldScalar(dy)
+  }
 
   function tick() {
     if (!transitComplete) {
@@ -72,8 +84,16 @@ function PanDirector(spec) {
     }
 
     velocity.lerp(newVelocity, 0.7, velocity)
-    cameraState.position.add(velocity)
+
+    if (velocity.magnitude > 0.01) {
+      cameraState.position.add(velocity)
+    }
     justUpdatedVelocity = false
+
+    // cameraState.position.x = Math.floor(cameraState.position.x / 0.1) * 0.1
+    // cameraState.position.y = Math.floor(cameraState.position.y / 0.1) * 0.1
+
+    snapCameraToNearestPixel()
   }
 
   function updateVelocity(mousePoint, heldDown = clickable.holding) {
@@ -85,10 +105,13 @@ function PanDirector(spec) {
     let top = camera.upperRight.y
     let bottom = camera.lowerLeft.y
 
-    let x = math.remap(left, right, -1, 1, mousePoint.x)
-    let y = math.remap(bottom, top, -1, 1, mousePoint.y)
+    camera.worldToFrame(mousePoint, newVelocity)
 
-    newVelocity.set(x, y).normalize().multiply(panSpeed)
+    newVelocity.multiply(2)
+    newVelocity.x = math.clamp(-1, 1, newVelocity.x)
+    newVelocity.y = math.clamp(-1, 1, newVelocity.y)
+
+    newVelocity.multiply(panSpeed)
 
     // console.log('Mouse move', x, y)
 

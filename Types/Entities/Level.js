@@ -5,7 +5,7 @@
  * callback which is invoked whenever the level's completion condition is met.
  */
 function Level(spec) {
-  const { self, assets, screen, ui } = Entity(spec, 'Level')
+  const { self, assets, screen, ui, world } = Entity(spec, spec.datum.nick)
 
   const {
     globalScope,
@@ -15,7 +15,6 @@ function Level(spec) {
     storage,
     urlData,
     savedLatex,
-    world,
     playBackgroundMusic,
   } = spec
 
@@ -74,7 +73,7 @@ function Level(spec) {
 
   let hasBeenRun = false
 
-  camera = Camera({
+  let camera = Camera({
     globalScope,
     parent: self,
     ...cameraSpec,
@@ -154,8 +153,7 @@ function Level(spec) {
     darkBufferOrScreen = darkenBufferScreen
   }
 
-  const startingExpression =
-    (!isConstantLakeAndNotBubble() ? savedLatex : null) ?? defaultExpression
+  const startingExpression = getStartingExpression()    
 
   const graph = Graph({
     camera,
@@ -385,6 +383,10 @@ function Level(spec) {
       ui.mathField.latex(startingExpression)
       ui.mathFieldStatic.latex(startingExpression)
     }
+    if(runAsCutscene){
+      ui.stopButton.classList.add('disabled')
+
+    }
   }
 
   function start() {}
@@ -424,6 +426,14 @@ function Level(spec) {
       }
     }
   }
+
+  function getStartingExpression() {
+    let isPuzzle = urlData?.isPuzzle ?? false
+    if (isPuzzle) {
+      return urlData?.expressionOverride ? urlData?.expressionOverride : defaultExpression 
+    }
+    return (!isConstantLakeAndNotBubble() ? savedLatex : null) ?? defaultExpression
+  } 
 
   function getCutsceneDistanceParameter() {
     let playerEntity =
@@ -501,13 +511,6 @@ function Level(spec) {
         }
       }
     }
-
-    screen.ctx.save()
-    screen.ctx.scale(1, screen.height)
-    screen.ctx.fillStyle = skyGradient
-
-    datum.sky ? 0 : screen.ctx.fillRect(0, 0, screen.width, screen.height)
-    screen.ctx.restore()
   }
 
   function assignPlayerPosition() {
@@ -711,6 +714,9 @@ function Level(spec) {
   //  3. Share custom levels
 
   function serialize() {
+    if (urlData?.isPuzzle) {
+      return serializePuzzle()
+    }
     const json = {
       v: 0.1, // TODO: change version handling to World?
       nick: datum.nick,
@@ -733,6 +739,12 @@ function Level(spec) {
       json.t = globalScope.t
     }
     return json
+  }
+
+  // Puzzles are completely serializable using the url data
+  function serializePuzzle() {
+    urlData.expressionOverride = currentLatex
+    return urlData
   }
 
   function goalFailed(goal) {
@@ -900,7 +912,11 @@ function Level(spec) {
     }
 
     if (isBubbleLevel && datum.bubble) {
-      datum = _.merge(_.cloneDeep(datum), datum.bubble)
+      // console.log(datum)
+      datum = {
+        ...datum,
+        ...datum.bubble,
+      }
     }
 
     if (!isBubbleLevel && isVolcano()) {

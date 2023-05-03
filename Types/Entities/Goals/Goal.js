@@ -382,6 +382,8 @@ function Goal(spec) {
 
     // TODO: Separate level editor state from playing level/normal levels
     get selectable() {
+      // HACK: Necessary until above TODO is addressed^
+      return false
       return !globalScope.running
     },
   })

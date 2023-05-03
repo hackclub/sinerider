@@ -1,4 +1,6 @@
 let assets, globalScope
+let arrowsDrawn = 0,
+  _arrowsDrawn
 
 function World(spec) {
   const self = Entity(spec, 'World')
@@ -95,7 +97,7 @@ function World(spec) {
   }
 
   function tick() {
-    if (!self.drawArrayIsUnsorted) self.sortDrawArray()
+    if (self.drawArrayIsUnsorted) self.sortDrawArray()
     if (
       window.innerHeight != screen.height ||
       window.innerWidth != screen.width
@@ -107,6 +109,8 @@ function World(spec) {
 
   function draw() {
     levelBubblesDrawn = 0
+    _arrowsDrawn = arrowsDrawn
+    arrowsDrawn = 0
   }
 
   function hideLevelInfoClicked() {
@@ -154,28 +158,40 @@ function World(spec) {
   function assetsComplete() {
     loadQuad()
 
+    // Remove the loading bar
+    ui.loadingProgressBarContainer.setAttribute('hide', true)
+    
     ui.loadingVeilString.innerHTML = 'click to begin'
     ui.loadingVeil.addEventListener('click', loadingVeilClicked)
   }
 
   function assetsProgress(progress, total) {
-    ui.loadingVeilString.innerHTML = `loading…<br>${Math.round(
-      (100 * progress) / total,
-    )}%`
+    const percent = Math.round((100 * progress) / total)
+    ui.loadingProgressBar.style.width = `${percent}%`
   }
 
   function setLevel(nick, urlData = null) {
     if (level) level.destroy()
 
     levelBubble = navigator.getBubbleByNick(nick)
+    isPuzzle = urlData?.isPuzzle ?? false
+    var savedLatex
+    if (isPuzzle) {
+      levelDatum = generatePuzzleLevel(urlData)
+      savedLatex = levelDatum.expressionOverride
+        ? levelDatum.expressionOverride
+        : levelDatum.defaultExpression
+    } else {
+      if (nick == 'RANDOM') {
+        levelDatum = generateRandomLevel()
+      } else {
+        levelDatum = _.find(levelData, (v) => v.nick == nick)
+      }
+      savedLatex = urlData?.savedLatex ?? storage.getLevel(nick)?.savedLatex
 
-    if (nick == 'RANDOM') levelDatum = generateRandomLevel()
-    else levelDatum = _.find(levelData, (v) => v.nick == nick)
-
-    const savedLatex = urlData?.savedLatex ?? storage.getLevel(nick)?.savedLatex
-
-    if (urlData?.goals && urlData?.goals.length)
-      levelDatum.goals = (levelDatum.goals ?? []).concat(urlData?.goals)
+      if (urlData?.goals && urlData?.goals.length)
+        levelDatum.goals = (levelDatum.goals ?? []).concat(urlData?.goals)
+    }
 
     level = Level({
       ui,
@@ -200,11 +216,13 @@ function World(spec) {
     level.playOpenMusic()
     level.restart()
 
-    ui.levelText.value = levelDatum.name
-    ui.levelButtonString.innerHTML = levelDatum.name
+    if (ui.levelText) {
+      ui.levelText.value = levelDatum.name
+      ui.levelButtonString.innerHTML = levelDatum.name
 
-    ui.levelInfoNameStr.innerHTML = levelDatum.name
-    ui.levelInfoNickStr.innerHTML = levelDatum.nick
+      ui.levelInfoNameStr.innerHTML = levelDatum.name
+      ui.levelInfoNickStr.innerHTML = levelDatum.nick
+    }
 
     setNavigating(false)
   }
@@ -238,6 +256,28 @@ function World(spec) {
     }
   }
 
+  function makeTwitterSubmissionUrl() {
+    return (
+      'https://twitter.com/intent/tweet?text=' +
+      encodeURIComponent(
+        '#sinerider ' +
+          levelDatum.nick +
+          ' ' +
+          level.currentLatex.replace(/\s/g, ''),
+      )
+    )
+  }
+
+  function openRedditModal() {
+    ui.redditOpenModal.setAttribute('hide', false)
+    let text = `#sinerider ${levelDatum.nick} ${level.currentLatex.replace(
+      /\s/g,
+      '',
+    )}`
+    ui.redditOpenCommand.setAttribute('value', text)
+    navigator.clipboard.writeText(text)
+  }
+
   function levelCompleted(soft = false) {
     setCompletionTime(runTime)
 
@@ -257,7 +297,24 @@ function World(spec) {
       ui.showAllButton.setAttribute('hide', true)
     }
 
-    levelBubble.complete()
+    const isPuzzle = true
+    if ('isPuzzle' in levelDatum && levelDatum['isPuzzle']) {
+      ui.submitTwitterScoreDiv.setAttribute('hide', false)
+      ui.submitTwitterScoreLink.setAttribute('href', makeTwitterSubmissionUrl())
+
+      ui.submitRedditScoreDiv.setAttribute('hide', false)
+      ui.submitRedditScoreSubreddit.setAttribute(
+        'href',
+        'https://reddit.com/r/SineRider',
+      )
+      ui.redditOpenCloseButton.onclick = () =>
+        ui.redditOpenModal.setAttribute('hide', true)
+      ui.submitRedditScoreLink.onclick = openRedditModal
+    } else {
+      ui.submitTwitterScoreDiv.setAttribute('hide', true)
+      ui.submitRedditScoreDiv.setAttribute('hide', true)
+    }
+    levelBubble?.complete()
   }
 
   function transitionNavigating(_navigating, duration = 1, cb) {
@@ -367,39 +424,108 @@ function World(spec) {
   }
 
   function generateRandomLevel() {
-    const goalCount = _.random(2, 5)
     const goals = []
+    // Skew towards 2–5 goal levels, with potential for as many as 7
+    const goalCount = _.random(2, _.random(5, 7))
 
+    // Generate goals at random locations
     for (let i = 0; i < goalCount; i++) {
-      const goalPosition = {}
+      let x = 0
+      let y = 0
+
+      const type = Math.random() < 1 / (goalCount + 1) ? 'dynamic' : 'fixed'
 
       do {
-        goalPosition.x = _.random(-10, 10)
-        goalPosition.y = _.random(-10, 10)
+        x = _.random(-16, 16)
+        y = _.random(-12, 12)
       } while (
-        _.find(goals, (v) => v.x == goalPosition.x && v.y == goalPosition.y)
+        _.find(goals, (v) => {
+          const d = Math.sqrt(Math.pow(x - v.x, 2) + Math.pow(y - v.y, 2))
+
+          if (type == 'dynamic' && v.type == 'dynamic') {
+            if (Math.abs(v.x - x) < 1.5) return true
+          } else if (type == 'dynamic' || v.type == 'dynamic') {
+            if (Math.abs(v.x - x) < 1.5) return true
+          } else {
+            if (d <= 1.9) return true
+          }
+        })
       )
 
-      goals.push(goalPosition)
+      goals.push({
+        x,
+        y,
+        type,
+      })
     }
 
-    const sledderCount = 1
+    // Apply ordering to goals
+    {
+      const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
+
+      const ordered =
+        Math.random() < 0.5 ||
+        _.filter(goals, (v) => v.type == 'dynamic').length > 1
+      const orderCount = !ordered ? 0 : Math.max(2, _.random(0, goalCount))
+
+      let i = 0
+      let a = [...goals]
+      while (i < orderCount) {
+        i++
+
+        a = _.shuffle(a)
+        const v = a.pop()
+
+        if (alphabet[0] == 'A' && i == orderCount) v.order = 'B'
+        else if (Math.random() < 0.5) v.order = alphabet[0]
+        else v.order = alphabet.shift()
+      }
+    }
+
+    // Guarantee that there is never more than one unordered dynamic goal
+    {
+      let unorderedDynamicGoals = 0
+      for (goal of goals) {
+        if (goal.type == 'dynamic') {
+          if (unorderedDynamicGoals > 0) goal.type = 'fixed'
+          unorderedDynamicGoals++
+        }
+      }
+    }
+
+    const sledderCount =
+      goalCount > 2 && Math.random() < 0.5 ? _.random(1, 2) : 1
     const sledders = []
+    const sledderAssets = [
+      'images.ada_sled',
+      'images.jack_sled',
+      'images.ada_jack_sled',
+    ]
 
     for (let i = 0; i < sledderCount; i++) {
       let sledderX
 
       do {
-        sledderX = _.random(-10, 10)
+        sledderX = _.random(-16, 16)
       } while (
-        _.find(goals, (v) => v.x == sledderX) ||
-        _.find(sledders, (v) => v.x == sledderX)
+        _.find(goals, (v) => Math.abs(v.x - sledderX) < 1.5) ||
+        _.find(sledders, (v) => Math.abs(v.x - sledderX) < 3.5)
       )
 
-      sledders.push({ x: sledderX })
+      sledders.push({
+        x: sledderX,
+        asset: sledderCount == 1 ? _.sample(sledderAssets) : sledderAssets[i],
+      })
     }
 
-    const biomes = _.values(Colors.biomes)
+    const biome = _.sample([
+      'westernSlopes',
+      'valleyParabola',
+      'eternalCanyon',
+      'sinusoidalDesert',
+      'logisticDunes',
+      'hilbertDelta',
+    ])
 
     return {
       name: 'Random Level',
@@ -407,11 +533,30 @@ function World(spec) {
       drawOrder: LAYERS.level,
       x: -10,
       y: 0,
-      colors: biomes[_.random(0, biomes.length)],
       defaultExpression: '0',
-      hint: 'Soft eyes, grasshopper.',
       goals,
       sledders,
+      biome,
+    }
+  }
+
+  function generatePuzzleLevel(urlData) {
+    return {
+      isPuzzle: true,
+      name: urlData.name,
+      nick: urlData.nick,
+      drawOrder: LAYERS.level,
+      slider: urlData.slider,
+      x: urlData.x,
+      y: urlData.y,
+      biome: urlData.biome,
+      colors: urlData.colors,
+      defaultExpression: urlData.defaultExpression,
+      expressionOverride: urlData.expressionOverride,
+      hint: urlData.hint,
+      goals: urlData.goals,
+      sledders: urlData.sledders,
+      sprites: urlData.sprites,
     }
   }
 
@@ -443,8 +588,6 @@ function World(spec) {
       fadeOnNavigating: false,
       ...datum,
     })
-
-    console.log(`Playing sound ${backgroundMusicAsset}`)
   }
 
   function onClickMapButton() {

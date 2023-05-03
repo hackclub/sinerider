@@ -150,6 +150,11 @@ body > .bar {
   color: #fff;
 }
 
+.disabled {
+  pointer-events: none;
+  background: rgb(125, 125, 125) !important;
+}
+
 .button * {
   user-select: none;
   pointer-events: none;
@@ -190,6 +195,17 @@ body > .bar {
   pointer-events: none;
 }
 
+.reddit-open {
+  position: absolute;
+  display: flex;
+
+  background: transparent;
+  bottom: 20px;
+
+  transition: 0.5s;
+  pointer-events: none;
+}
+
 .victory .envelope {
   flex-basis: 400px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
@@ -198,8 +214,20 @@ body > .bar {
   pointer-events: all;
 }
 
+.reddit-open .envelope {
+  flex-basis: 400px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+  background: #eee;
+  padding: 5px;
+  pointer-events: all;
+}
+
 .victory[hide='true'] {
-  bottom: -80px;
+  bottom: -100px;
+}
+
+.reddit-open[hide='true'] {
+  bottom: -300px;
 }
 
 .message[hide='true'] {
@@ -322,14 +350,17 @@ input[valid='false'] {
   bottom: 0;
 }
 
-#reset-confirmation-dialog {
+#reset-confirmation-dialog,
+#show-all-confirmation-dialog {
   display: flex;
   flex-direction: column;
   justify-content: start;
   align-items: center;
+  font-size: 3vmin;
 }
 
-#reset-confirmation-dialog > div {
+#reset-confirmation-dialog > div,
+#show-all-confirmation-dialog > div {
   margin: 5px 0px;
   width: 100%;
   display: flex;
@@ -337,12 +368,22 @@ input[valid='false'] {
   align-items: center;
 }
 
-#reset-confirmation-yes:not(:hover) {
+#reset-confirmation-yes,
+#show-all-yes {
   background: #f46;
   color: white;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #f46;
+}
+#reset-confirmation-yes:hover,
+#show-all-yes:hover {
+  background: #222;
+  border-color: #000;
 }
 
-#reset-confirmation-no {
+#reset-confirmation-no,
+#show-all-no {
   border-width: 2px;
   border-style: solid;
   border-color: #000;
@@ -358,6 +399,10 @@ input[valid='false'] {
 
 #next-button:not(:hover) {
   background: #4f6;
+}
+
+#close-reddit-open-button:not(:hover) {
+  background: #f46;
 }
 
 #victory-stop-button:not(:hover) {
@@ -514,22 +559,118 @@ input[valid='false'] {
   border-radius: 10px 10px 0 0;
 }
 
-#loading-remarks {
+#github-string > p {
+  font-size: small;
+}
+
+/* #loading-remarks {
   max-width: 80vmin;
 }
 
 #loading-remarks > h3 {
   text-align: center;
+} */
+
+#main-loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vmin;
+}
+
+.loading-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  max-width: 50vmin;
 }
 
 #loading-mobile {
-  text-align: left;
+  text-align: center;
   max-width: 80vmin;
 }
 
 #loading-string {
   text-decoration: underline;
   cursor: pointer;
+  padding: 0.375rem 0.75rem;
+}
+
+#loading-progress-bar-container {
+  margin: 20px auto;
+  width: 25%;
+  height: 20px;
+  background-color: #ccc;
+}
+
+#loading-progress-bar {
+  height: 100%;
+  background-color: #ec3750;
+  width: 0%;
+}
+
+#loading-bottom {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 80vmin;
+  padding: 10px 10%;
+  text-align: center;
+}
+
+#puzzles {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+#puzzles > h3 {
+  text-align: center;
+  font-size: 16px;
+}
+
+#loading-links {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.loading-link {
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+}
+
+.puzzle-link-image {
+  margin-left: 10px;
+  width: 50%;
+  height: 50%;
+  object-fit: cover;
+}
+
+#twitter-link:hover,
+#reddit-link:hover {
+  transform: scale(1.1);
+}
+
+#github-link {
+  display: inline-block;
+  color: #ec3750;
+  position: relative;
+  font-size: small;
+  text-decoration: none;
+}
+
+#github-link:hover {
+  text-decoration: underline;
 }
 
 .background {
@@ -1008,7 +1149,7 @@ input[valid='false'] {
   top: 0px;
   width: 300px;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   grid-auto-rows: 12px;
   padding: 0px;
 }

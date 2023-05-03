@@ -8,7 +8,7 @@ function PlayerStorage() {
 
   function setLevel(name, data) {
     levels[name] = data
-    localStorage.setItem('levels', JSON.stringify(data))
+    localStorage.setItem('levels', JSON.stringify(levels))
   }
 
   return {
