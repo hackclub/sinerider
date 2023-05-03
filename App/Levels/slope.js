@@ -61,7 +61,6 @@ const SLOPE = [
         place: 'top-right',
         destroyOnClick: true,
         index: 0,
-        
       },
       {
         content: 'Click here to sled',
@@ -392,7 +391,7 @@ const SLOPE = [
             direction: 'up-right-right',
             distance: 1,
             speech: {
-              content: '...you do whatever you want.',
+              content: '...do whatever you want.',
               direction: 'up-right-right',
               distance: 1.5,
             },

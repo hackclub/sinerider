@@ -233,7 +233,7 @@ const DESERT = {
         name: 'Jack',
         x: -6,
         backflip: [72, 76],
-        asset: 'images.benny_float',
+        asset: 'images.jack_float',
       },
     },
   ],

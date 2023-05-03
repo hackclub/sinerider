@@ -294,7 +294,7 @@ const CREDITS = {
       walkers: {
         name: 'Jack',
         x: -6,
-        asset: 'images.benny_float',
+        asset: 'images.jack_float',
       },
     },
   ],

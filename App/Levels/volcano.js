@@ -168,7 +168,7 @@ const VOLCANO = (() => {
         walkers: {
           x: -3,
           name: 'Jack',
-          asset: 'images.benny_float',
+          asset: 'images.jack_float',
           transition: {
             name: 'SLEDDER_1',
             xRequirements: [-33, -34.5],
