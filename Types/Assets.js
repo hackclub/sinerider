@@ -16,7 +16,8 @@ function Assets(spec) {
 
   if (callbacks.progress) callbacks.progress(0, loadTotal)
 
-  function isSupported(ext) {
+  function isSupported(filename) {
+    let ext = getExtension(filename)
     return Howler.codecs(ext)
   }
 
@@ -91,7 +92,7 @@ function Assets(spec) {
       } else
       if (_.isArray(v)) {
         // find the first filetype we support and load that
-        let ext = v.map(f => getExtension(f)).find((v) => isSupported(v))
+        let ext = v.find((v) => isSupported(v))
         loadAsset(object, folders, ext, i)
       } else
       if (_.isObject(v)) {
