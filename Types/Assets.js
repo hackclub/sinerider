@@ -16,6 +16,14 @@ function Assets(spec) {
 
   if (callbacks.progress) callbacks.progress(0, loadTotal)
 
+  function isSupported(ext) {
+    return Howler.codecs(ext)
+  }
+
+  function getExtension(file) {
+    return file.split('.').pop()
+  }
+
   function loadAsset(object, folders, file, key, assetSpec = {}) {
     // console.log(`Loading asset '${file}' from folders `, folders)
 
@@ -78,10 +86,18 @@ function Assets(spec) {
 
   function load(object, folders = []) {
     _.each(object, (v, i) => {
+      if (_.isString(v)) {
+        loadAsset(object, folders, v, i)
+      } else
+      if (_.isArray(v)) {
+        // find the first filetype we support and load that
+        let ext = v.map(f => getExtension(f)).find((v) => isSupported(v))
+        loadAsset(object, folders, ext, i)
+      } else
       if (_.isObject(v)) {
         if (_.has(v, 'src')) loadAsset(object, folders, v.src, i, v)
         else load(v, [...folders, i])
-      } else if (_.isString(v)) loadAsset(object, folders, v, i)
+      } 
     })
   }
 
