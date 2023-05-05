@@ -138,6 +138,8 @@ function World(spec) {
       try {
         urlData = JSON.parse(LZString.decompressFromBase64(url.search.slice(1)))
         setLevel(urlData.nick, urlData)
+        // hide map if it's a puzzle
+        if (world.level.name.includes("puzzle")) ui.navigatorButton.setAttribute("hide", true);
 
         // Very stupid, maybe Navigator should just be instantiated after this block?
         const bubble = navigator.getBubbleByNick(urlData.nick)
@@ -261,9 +263,9 @@ function World(spec) {
       'https://twitter.com/intent/tweet?text=' +
       encodeURIComponent(
         '#sinerider ' +
-          levelDatum.nick +
-          ' ' +
-          level.currentLatex.replace(/\s/g, ''),
+        levelDatum.nick +
+        ' ' +
+        level.currentLatex.replace(/\s/g, ''),
       )
     )
   }
