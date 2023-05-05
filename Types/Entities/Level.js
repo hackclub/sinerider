@@ -592,7 +592,7 @@ function Level(spec) {
         globalScope,
         visible: false,
         place: 'top-right',
-        ...tipDatum,
+        ...tipDatum,        
       }),
     )
   }
@@ -1198,6 +1198,9 @@ function Level(spec) {
     },
     get completed() {
       return completed
+    },
+    get nick(){
+      return datum.nick
     },
 
     isEditor,
