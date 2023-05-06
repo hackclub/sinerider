@@ -383,6 +383,10 @@ function Level(spec) {
       ui.mathField.latex(startingExpression)
       ui.mathFieldStatic.latex(startingExpression)
     }
+    if(runAsCutscene){
+      ui.stopButton.classList.add('disabled')
+
+    }
   }
 
   function start() {}
@@ -592,7 +596,7 @@ function Level(spec) {
         globalScope,
         visible: false,
         place: 'top-right',
-        ...tipDatum,
+        ...tipDatum,        
       }),
     )
   }
@@ -1190,6 +1194,9 @@ function Level(spec) {
     },
     get completed() {
       return completed
+    },
+    get nick(){
+      return datum.nick
     },
 
     isEditor,

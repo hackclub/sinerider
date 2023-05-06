@@ -39,13 +39,8 @@ function Tip(spec) {
     toggleVisible(true)
   }
 
-  function complete(){
-    refreshDOM()
-    tipCompleted()
-  }
   function destroy() {
     helperBubble.remove()
-    domElement.onmousedown = () => {}
     tipCompleted()
 
   }
@@ -66,8 +61,8 @@ function Tip(spec) {
   }
 
   if (destroyOnClick)
-    domElement.onmousedown = () => {
-      self.complete()
+      domElement.onmousedown = () => {
+      self.destroy()
     }
 
   function onToggleMap(navigating) {
@@ -79,7 +74,6 @@ function Tip(spec) {
     helperBubble,
     onToggleMap,
     refreshDOM,
-    complete,
     destroy,
 
     awake,

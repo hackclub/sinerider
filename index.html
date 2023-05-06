@@ -77,7 +77,20 @@
       gtag('config', 'G-SLDEWZQ8N1')
     </script>
   </head>
+  <!-- Google tag (gtag.js) -->
+  <script
+    async
+    src="https://www.googletagmanager.com/gtag/js?id=G-XB809Q5TGT"
+  ></script>
+  <script>
+    window.dataLayer = window.dataLayer || []
+    function gtag() {
+      dataLayer.push(arguments)
+    }
+    gtag('js', new Date())
 
+    gtag('config', 'G-XB809Q5TGT')
+  </script>
   <body>
     <img
       src="Assets/Images/error.png"
@@ -224,6 +237,18 @@
       </div>
     </dialog>
 
+    <dialog id="show-all-confirmation-dialog">
+      <div class="string">Are you sure you want to unlock all levels?</div>
+      <div>
+        <div class="button" id="show-all-no">
+          <div class="string">Cancel</div>
+        </div>
+        <div class="button" id="show-all-yes">
+          <div class="string">Unlock All</div>
+        </div>
+      </div>
+    </dialog>
+
     <div class="bar message" id="message-bar" hide="true">
       <div class="string">MESSAGE</div>
     </div>
@@ -262,7 +287,7 @@
         </div>
 
         <div class="button" id="next-button">
-          <div class="string">NEXT</div>
+          <div class="string" id="next-button-text">NEXT</div>
         </div>
       </div>
     </div>
@@ -297,7 +322,7 @@
 
     <div class="bar floating navigator" id="navigator-floating-bar" hide="true">
       <div class="button" id="show-all-button" hide="false">
-        <div class="string">SHOW ALL</div>
+        <div class="string">UNLOCK ALL</div>
       </div>
     </div>
 
@@ -318,18 +343,67 @@
     </div>
 
     <div class="loading veil" id="loading-veil" hide="false">
-      <div class="string" id="loading-remarks">
-        <p>
-          To load a level from a previous session click the ⛰️ button and then
-          SHOW ALL.
-        </p>
-      </div>
       <div id="flag">
         <a href="https://github.com/hackclub">
           <img class="hackclub-logo" src="Assets/Images/hc_logo.png" />
         </a>
       </div>
-      <div class="string" id="loading-string"></div>
+
+      <div id="main-loading">
+        <div id="loading-top">
+          <img class="loading-image" src="Assets/Images/loading-screen.png" />
+        </div>
+
+        <div id="loading-progress-bar-container">
+          <div id="loading-progress-bar"></div>
+        </div>
+        <div class="string" id="loading-string"></div>
+      </div>
+
+      <div id="loading-bottom">
+        <div id="puzzles">
+          <h3>New puzzles published daily on</h3>
+
+          <div id="loading-links">
+            <a
+              href="https://www.twitter.com/sineriderbot"
+              target="_blank"
+              class="loading-link"
+              id="twitter-link"
+            >
+              <img
+                src="Assets/Images/twitter.png"
+                alt="Twitter"
+                class="puzzle-link-image"
+              />
+            </a>
+
+            <a
+              href="https://www.reddit.com/r/sinerider"
+              target="_blank"
+              class="loading-link"
+              id="reddit-link"
+            >
+              <img
+                src="Assets/Images/reddit.png"
+                alt="Reddit"
+                class="puzzle-link-image"
+              />
+            </a>
+          </div>
+        </div>
+
+        <div class="string" id="github-string">
+          <a
+            href="http://www.github.com/hackclub/sinerider"
+            target="_blank"
+            class="loading-link"
+            id="github-link"
+          >
+            Built and maintained by teenagers. Version 0.5
+          </a>
+        </div>
+      </div>
     </div>
 
     <!-- Load External Libraries -->

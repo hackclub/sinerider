@@ -250,11 +250,8 @@ function Entity(spec, defaultName = 'Entity') {
   }
 
   function removeDescendant(descendant) {
-    /* This (I think) is what caused some bug
-      which made visible level bubbles be evicted from draw array.
-      Non-visible entities are removed during sort, so this line isn't strictly necessary
-    */
-    // drawArray.splice(drawArray.indexOf(descendant), 1)
+    if (drawArray.indexOf(descendant) >= 0)
+      drawArray.splice(drawArray.indexOf(descendant), 1)
   }
 
   function isDescendantOf(other) {
