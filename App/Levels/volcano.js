@@ -24,7 +24,8 @@ const VOLCANO = (() => {
             domain: [10, 135],
             properties: {
               verticalBias: 0,
-              transitionSmoothing: 0.01,
+              transitionSmoothing: 0.005,
+              smoothing: 0.05,
             },
           },
           {
