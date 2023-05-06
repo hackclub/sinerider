@@ -139,7 +139,8 @@ function World(spec) {
         urlData = JSON.parse(LZString.decompressFromBase64(url.search.slice(1)))
         setLevel(urlData.nick, urlData)
         // hide map if it's a puzzle
-        if (world.level.name.includes("puzzle")) ui.navigatorButton.setAttribute("hide", true);
+        if (world.level.name.includes('puzzle'))
+          ui.navigatorButton.setAttribute('hide', true)
 
         // Very stupid, maybe Navigator should just be instantiated after this block?
         const bubble = navigator.getBubbleByNick(urlData.nick)
@@ -263,9 +264,9 @@ function World(spec) {
       'https://twitter.com/intent/tweet?text=' +
       encodeURIComponent(
         '#sinerider ' +
-        levelDatum.nick +
-        ' ' +
-        level.currentLatex.replace(/\s/g, ''),
+          levelDatum.nick +
+          ' ' +
+          level.currentLatex.replace(/\s/g, ''),
       )
     )
   }
@@ -301,19 +302,24 @@ function World(spec) {
 
     const isPuzzle = true
     if ('isPuzzle' in levelDatum && levelDatum['isPuzzle']) {
-      ui.nextButtonText.innerHTML = 'PLAY<br>AGAIN'
+      // hide next button
+      ui.nextButton.setAttribute('hide', true)
 
-      ui.submitTwitterScoreDiv.setAttribute('hide', false)
-      ui.submitTwitterScoreLink.setAttribute('href', makeTwitterSubmissionUrl())
+      const puzzleMsgs = document.getElementsByClassName('puzzle-msg')
+      for (let idx = 0; idx < puzzleMsgs.length; idx++) {
+        puzzleMsgs[idx].setAttribute('hide', false)
+      }
 
-      ui.submitRedditScoreDiv.setAttribute('hide', false)
-      ui.submitRedditScoreSubreddit.setAttribute(
+      $('#twitter-submission-url').setAttribute(
         'href',
-        'https://reddit.com/r/SineRider',
+        makeTwitterSubmissionUrl(),
       )
+
+      console.log($('#submit-reddit-score'))
+      $('#submit-reddit-score').onclick = openRedditModal
+
       ui.redditOpenCloseButton.onclick = () =>
         ui.redditOpenModal.setAttribute('hide', true)
-      ui.submitRedditScoreLink.onclick = openRedditModal
     } else {
       ui.submitTwitterScoreDiv.setAttribute('hide', true)
       ui.submitRedditScoreDiv.setAttribute('hide', true)
