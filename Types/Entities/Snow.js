@@ -28,14 +28,15 @@ function Flake(spec) {
   }
 
   function tick() {
-    // if (!spawned) return
-
     if (position.x > camera.upperRight.x + 1) spawned = false
     else if (position.x < camera.lowerLeft.x - 1) spawned = false
     else if (position.y < camera.lowerLeft.y - 1) spawned = false
-    // else if (position.y > camera.upperRight.y + 1) spawn()
+    // else if (position.y > camera.upperRight.y + 1) spawned = false
 
-    if (!spawned && Math.random() < 0.00001 * camera.fov * camera.fov) spawn()
+    if (!spawned) {
+      if (Math.random() < 0.00001 * camera.fov * camera.fov) spawn()
+      return
+    }
 
     if (growth < 1) growth += 0.01
 
@@ -70,7 +71,7 @@ function Snow(spec, name = 'Snow') {
     screen,
     assets,
     density = 0.5,
-    maxParticles = 100,
+    maxParticles = 70,
     spawnHeight = [8, 16],
     colorRange = [Color('#b8bdda'), Color('#e1b0f0')],
     camera,

@@ -3,14 +3,16 @@ function Navigator(spec) {
 
   const { screen, levelData, tickDelta, getEditing, setLevel, assets } = spec
 
+  let mapFov = 15
+
   const camera = Camera({
     screen,
-    fov: 20,
+    fov: mapFov,
     parent: self,
     offset: [0, 0],
   })
 
-  const waypointDirector = WaypointDirector({
+  const panDirector = PanDirector({
     parent: self,
     camera,
   })
@@ -21,21 +23,50 @@ function Navigator(spec) {
     drawOrder: LAYERS.map,
     anchored: false,
     size: 190,
-    x: 75,
+    x: 85,
     y: -5.5,
     asset: 'images.world_map',
+  })
+
+  const clickable = Clickable({
+    entity: self,
+    camera,
   })
 
   let showAll = false
   let showAllUsed = false
 
-  const bubbles = _.map(levelData, createBubble)
+  let initialBubble = null
 
-  function tick() {}
+  const bubbles = _.map(levelData, createBubble)
+  const bubbleRenderQueue = []
+  const bubbleRenderCap = 10
+
+  function start() {
+    if (initialBubble) initialBubble.completeAllRequirements()
+  }
+
+  function tick() {
+    if (bubbleRenderQueue.length > 0) {
+      let b = 0
+      while (b++ <= bubbleRenderCap && bubbleRenderQueue.length > 0)
+        bubbleRenderQueue.pop().render()
+    }
+  }
 
   function draw() {
     screen.ctx.fillStyle = '#fff'
     screen.ctx.fillRect(0, 0, screen.width, screen.height)
+
+    // let left = camera.lowerLeft.x + 5
+    // let right = camera.upperRight.x - 5
+    // let top = camera.upperRight.y
+    // let bottom = camera.lowerLeft.y
+    // rect.center.set((left + right) / 2, (top + bottom) / 2)
+    // rect.width = right - left
+    // rect.height = top - bottom
+
+    // rect.draw(screen.ctx, camera)
   }
 
   function createBubble(levelDatum) {
@@ -43,11 +74,11 @@ function Navigator(spec) {
       levelDatum,
       setLevel,
       assets,
-      waypointDirector,
       camera,
       getEditing,
       tickDelta,
       getBubbleByNick,
+      panCamera,
       parent: self,
       getShowAll: () => showAll,
       drawOrder: LAYERS.levelBubbles,
@@ -74,14 +105,6 @@ function Navigator(spec) {
       0,
       () => {
         assets.sounds.map_zoom_out.play()
-        moveToLevel(nick, 0.5, () => {
-          if (nicks.length > 0 && nicks[0] != nick)
-            assets.sounds.map_zoom_highlighted.play()
-
-          setTimeout(() => {
-            moveToLevel(nicks, 1)
-          }, 0)
-        })
       },
       8,
     )
@@ -112,13 +135,13 @@ function Navigator(spec) {
 
     const delta = Vector2(maxPosition).subtract(minPosition)
 
-    const fov = Math.max(delta.x, delta.y) / 2 + padding
+    // const fov = Math.max(delta.x, delta.y) / 2 + padding
 
-    waypointDirector.moveTo(
+    panDirector.moveTo(
       null,
       {
         position,
-        fov,
+        fov: mapFov,
       },
       duration,
       cb,
@@ -130,7 +153,6 @@ function Navigator(spec) {
       showAll = _showAll
 
       if (showAll) {
-        moveToLevel([], 1)
         ui.showAllButton.setAttribute('hide', true)
         assets.sounds.map_zoom_show_all.play()
         showAllUsed = true
@@ -144,13 +166,41 @@ function Navigator(spec) {
   function refreshBubbles() {
     _.invokeEach(bubbles, 'refreshPlayable')
     _.invokeEach(bubbles, 'refreshArrows')
+    let b = 0
+    for (bubble of bubbles) {
+      if (bubble.visible && !bubble.rendered) {
+        bubbleRenderQueue.push(bubble)
+      }
+    }
+  }
+
+  function panCamera(point, cb = null) {
+    panDirector.moveTo(
+      null,
+      {
+        fov: mapFov,
+        position: point,
+      },
+      1,
+      cb,
+    )
+  }
+
+  function click() {
+    return false // Don't let propagate to child LevelBubbles
   }
 
   return self.mix({
+    start,
     tick,
     draw,
 
     moveToLevel,
+
+    clickable,
+    updatePanVelocity: panDirector.updateVelocity,
+
+    click,
 
     refreshBubbles,
     revealHighlightedLevels,
@@ -169,6 +219,13 @@ function Navigator(spec) {
     },
     set showAllUsed(v) {
       showAllUsed = v
+    },
+
+    get initialBubble() {
+      return initialBubble
+    },
+    set initialBubble(v) {
+      initialBubble = v
     },
   })
 }

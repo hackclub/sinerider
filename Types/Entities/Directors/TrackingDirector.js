@@ -1,11 +1,19 @@
 function TrackingDirector(spec) {
-  const { self, screen, cameraState } = Director(spec, 'TrackingDirector')
+  const { self, screen, cameraState, parent } = Director(
+    spec,
+    'TrackingDirector',
+  )
 
   let { trackedEntities = [] } = spec
 
   const { camera, globalScope, transitions = [] } = spec
 
-  let { minFov = 5, minFovMargin = 3, smoothing = 0.05 } = spec
+  let {
+    minFov = 5,
+    minFovMargin = 3,
+    smoothing = 0.02,
+    verticalBias = 7,
+  } = spec
 
   const targetState = CameraState({
     fov: minFov,
@@ -24,7 +32,7 @@ function TrackingDirector(spec) {
 
   cameraState.set(targetState)
 
-  function start() {
+  function awake() {
     snap()
   }
 
@@ -52,6 +60,11 @@ function TrackingDirector(spec) {
           transition.properties.minFovMargin ?? minFovMargin,
           transitionSmoothing,
         )
+        verticalBias = math.lerp(
+          verticalBias,
+          transition.properties.verticalBias ?? verticalBias,
+          transitionSmoothing,
+        )
         smoothing = math.lerp(
           smoothing,
           transition.properties.smoothing ?? smoothing,
@@ -67,6 +80,11 @@ function TrackingDirector(spec) {
       minFovMargin = math.lerp(
         minFovMargin,
         spec.minFovMargin ?? 3,
+        transitionSmoothing,
+      )
+      verticalBias = math.lerp(
+        verticalBias,
+        spec.verticalBias ?? 7,
         transitionSmoothing,
       )
       smoothing = math.lerp(
@@ -87,17 +105,21 @@ function TrackingDirector(spec) {
 
     _.eachDeep(trackedEntities, trackEntity)
 
+    if (trackedEntityCount == 0) {
+      minTrackPoint.set()
+      maxTrackPoint.set()
+    }
+
     maxTrackPoint.subtract(minTrackPoint, trackSpan)
 
     // Bias for showing more background. Maybe should be configurable?
-    maxTrackPoint.y += 7
+    maxTrackPoint.y += verticalBias
 
     // Correct for space occupied by equation bar
     const equationRatio = ui.expressionEnvelope.clientHeight / screen.height
     minTrackPoint.y -= 4 * trackSpan.y * equationRatio
 
     minTrackPoint.add(maxTrackPoint, targetState.position)
-
     targetState.position.divide(2)
 
     const ySpan = Math.abs(maxTrackPoint.y - minTrackPoint.y)
@@ -107,16 +129,7 @@ function TrackingDirector(spec) {
 
     targetState.position.y += (0.5 * (span - ySpan)) / 2
 
-    const positionSmoothing = math.remap(
-      0,
-      2,
-      smoothing,
-      1,
-      targetState.position.distance(cameraState.position),
-      true,
-    )
-
-    cameraState.position.lerp(targetState.position, positionSmoothing)
+    cameraState.position.lerp(targetState.position, smoothing)
 
     targetState.fov = Math.max(
       Math.abs(maxTrackPoint.x - cameraState.position.x),
@@ -125,20 +138,11 @@ function TrackingDirector(spec) {
 
     targetState.fov = Math.max(targetState.fov + minFovMargin, minFov)
 
-    const fovSmoothing = math.remap(
-      0.5,
-      5,
-      smoothing,
-      1,
-      Math.abs(cameraState.fov - targetState.fov),
-      true,
-    )
-
-    cameraState.fov = math.lerp(cameraState.fov, targetState.fov, fovSmoothing)
+    cameraState.fov = math.lerp(cameraState.fov, targetState.fov, smoothing)
   }
 
   function trackEntity(entity) {
-    if (!entity.activeInHierarchy) return
+    if (!entity.active) return
 
     minTrackPoint.min(entity.transform.position)
     maxTrackPoint.max(entity.transform.position)
@@ -149,6 +153,8 @@ function TrackingDirector(spec) {
         maxTrackPoint.max(point)
       }
     }
+
+    trackedEntityCount++
   }
 
   function draw() {}
@@ -158,9 +164,6 @@ function TrackingDirector(spec) {
     cameraState.set(targetState)
     trackEntities()
     cameraState.set(targetState)
-
-    if (self.debug || true) {
-    }
   }
 
   function setGraphExpression() {
@@ -174,7 +177,7 @@ function TrackingDirector(spec) {
   }
 
   return self.mix({
-    start,
+    awake,
 
     tick,
     draw,
@@ -183,5 +186,9 @@ function TrackingDirector(spec) {
     stopRunning,
 
     setGraphExpression,
+
+    get trackedEntities() {
+      return trackedEntities
+    },
   })
 }

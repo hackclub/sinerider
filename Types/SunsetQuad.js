@@ -223,6 +223,7 @@ function SunsetQuad(defaultExpression, assets) {
     t += delta * 0.00005
 
     // // console.log(vectorField)
+
     updateParticlePositions(vectorField)
     oldParticlePositionsBuffer.data(oldParticlePositions)
     newParticlePositionsBuffer.data(newParticlePositions)

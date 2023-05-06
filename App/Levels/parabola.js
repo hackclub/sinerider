@@ -64,6 +64,15 @@ const PARABOLA = [
     sledders: [
       {
         asset: 'images.sam_sled',
+        speech: [
+          {
+            x: 0.4,
+            y: 0.6,
+            content: 'So much faster without him!',
+            direction: 'up-up-right',
+            distance: 1,
+          },
+        ],
         x: -2,
         y: 0,
       },
@@ -81,7 +90,7 @@ const PARABOLA = [
       fov: 8,
     },
     requirements: null,
-    defaultExpression: '(x-2)^2',
+    defaultExpression: '\\left(x-1\\right)^2',
     hint: 'hint: add to (x)',
     slider: {
       expression: '\\left(x+$\\right)^2',
@@ -99,6 +108,15 @@ const PARABOLA = [
     sledders: [
       {
         asset: 'images.sam_sled',
+        speech: [
+          {
+            x: 0.3,
+            y: 0.6,
+            content: "It's so much… quieter now!",
+            direction: 'up',
+            distance: 1.3,
+          },
+        ],
         x: -1,
         y: 0,
       },
@@ -130,6 +148,15 @@ const PARABOLA = [
     sledders: [
       {
         asset: 'images.sam_sled',
+        speech: [
+          {
+            x: 0.2,
+            y: 0.6,
+            content: 'Quiet is good.',
+            direction: 'up-up-right',
+            distance: 1,
+          },
+        ],
         x: -1,
         y: 0,
       },
@@ -159,6 +186,22 @@ const PARABOLA = [
     sledders: [
       {
         asset: 'images.sam_sled',
+        speech: [
+          {
+            x: 0.4,
+            y: 0.65,
+            content: "Even if he'll probably get lost.",
+            direction: 'up-up-right',
+            distance: 1.2,
+            speech: [
+              {
+                content: 'He can make his own decisions…',
+                direction: 'up',
+                distance: 1,
+              },
+            ],
+          },
+        ],
         x: -12,
         y: 0,
       },
@@ -189,6 +232,29 @@ const PARABOLA = [
     sledders: [
       {
         asset: 'images.sam_sled',
+        // speech: [
+        //   {
+        //     x: 0.5,
+        //     y: 0.6,
+        //     content: 'Jack would go and check...',
+        //     direction: 'up',
+        //     distance: 1,
+        //     speech: {
+        //       content: 'Ok also why are the islands floating?',
+        //       distance: 1,
+        //       direction: 'up',
+        //     },
+        //   },
+        // ],
+        speech: [
+          {
+            x: 0.3,
+            y: 0.7,
+            content: 'I need to stay focused.',
+            direction: 'up-up-right',
+            distance: 1.2,
+          },
+        ],
         x: -5,
         y: 0,
       },
@@ -215,6 +281,15 @@ const PARABOLA = [
     sledders: [
       {
         asset: 'images.sam_sled',
+        speech: [
+          {
+            x: 0.3,
+            y: 0.6,
+            content: '…',
+            direction: 'up-up-right',
+            distance: 1,
+          },
+        ],
         x: 3,
         y: 0,
       },
@@ -244,9 +319,8 @@ const PARABOLA = [
         y: 0,
         speech: [
           {
-            speakerX: 0.5,
-            speakerY: 0.4,
-            color: '#fff',
+            speakerX: 0.4,
+            speakerY: 0.7,
             content: 'I do miss him.',
             direction: 'up-up-right',
             distance: 1.5,

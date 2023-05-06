@@ -21,7 +21,7 @@ function Screen(spec = {}) {
 
   let { canvas, element = window } = spec
 
-  const ctx = canvas.getContext('2d')
+  const ctx = canvas.getContext('2d', { alpha: false })
 
   let width
   let height
@@ -49,7 +49,7 @@ function Screen(spec = {}) {
     aspect = width / height
 
     minFramePoint[0] = vertical ? -1 : -aspect
-    minFramePoint[1] = vertical ? 1 / aspect : -1
+    minFramePoint[1] = vertical ? -1 / aspect : -1
 
     maxFramePoint[0] = vertical ? 1 : aspect
     maxFramePoint[1] = vertical ? 1 / aspect : 1

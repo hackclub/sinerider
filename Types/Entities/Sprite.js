@@ -7,6 +7,7 @@ function Sprite(spec = {}) {
     asset,
     image,
     graph,
+    parent,
     flipX = false,
     flipY = false,
     globalScope,
@@ -21,9 +22,13 @@ function Sprite(spec = {}) {
     world,
     sky = null,
     rotatingSpeed = 0,
+    angularVelocity = 0,
   } = spec
 
+  const velocity = spec.velocity ? Vector2(spec.velocity) : Vector2()
   const origin = Vector2(spec)
+
+  const worldPosition = Vector2()
 
   const pos = Vector2()
   const sizer = Vector2()
@@ -73,6 +78,9 @@ function Sprite(spec = {}) {
   }
 
   function tick() {
+    origin.x += velocity.x * tickDelta
+    origin.y += velocity.y * tickDelta
+    transform.rotation += angularVelocity * tickDelta
     if (anchored) {
       transform.x = origin.x
       transform.y = graph.sample('x', transform.x)
@@ -85,11 +93,13 @@ function Sprite(spec = {}) {
 
       let angle = Math.asin(slopeTangent.y)
       transform.rotation = angle
-      
     }
-    if (rotatingSpeed !=0){
-      transform.rotation += tickDelta*rotatingSpeed
+    if (rotatingSpeed != 0) {
+      transform.rotation += tickDelta * rotatingSpeed
     }
+
+    worldPosition.set()
+    transform.transformPoint(worldPosition)
   }
 
   function drawLocal() {
@@ -110,23 +120,41 @@ function Sprite(spec = {}) {
     if (fixed) {
       if (sky.height / sky.width >= screen.height / screen.width) {
         let adjustmentY = (screen.width * sky.height) / sky.width
-        pos.set(spec.x*screen.width, spec.y*(adjustmentY) + (screen.height - adjustmentY)/2)
-        sizer.set(screen.width/sky.width, screen.width/sky.width)
+        pos.set(
+          spec.x * screen.width,
+          spec.y * adjustmentY + (screen.height - adjustmentY) / 2,
+        )
+        sizer.set(screen.width / sky.width, screen.width / sky.width)
       } else {
         let adjustmentX = (screen.height * sky.width) / sky.height
-        pos.set(spec.x*(adjustmentX)+(screen.width-adjustmentX)/2, spec.y*screen.height)
-        sizer.set(screen.height/sky.height, screen.height/sky.height)
+        pos.set(
+          spec.x * adjustmentX + (screen.width - adjustmentX) / 2,
+          spec.y * screen.height,
+        )
+        sizer.set(screen.height / sky.height, screen.height / sky.height)
       }
 
       // Also it needs to be rotated differently
       ctx.save()
-      ctx.translate(pos.x+size*sizer[0]/2, pos.y+size*sizer[0]/2)
+      ctx.translate(
+        pos.x + (size * sizer[0]) / 2,
+        pos.y + (size * sizer[0]) / 2,
+      )
       ctx.rotate(transform.rotation)
-      screen.ctx.drawImage(image, -size*sizer[0]/2, -size*sizer[1]/2, size*sizer[0], size*sizer[1])
+      screen.ctx.drawImage(
+        image,
+        (-size * sizer[0]) / 2,
+        (-size * sizer[1]) / 2,
+        size * sizer[0],
+        size * sizer[1],
+      )
       ctx.restore()
+    } else if (
+      worldPosition.x + size > camera.lowerLeft.x &&
+      worldPosition.x - size < camera.upperRight.x
+    ) {
+      camera.drawThrough(ctx, drawLocal, transform)
     }
-    else{
-    camera.drawThrough(ctx, drawLocal, transform)}
   }
 
   return self.mix({
