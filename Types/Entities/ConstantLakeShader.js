@@ -1,5 +1,5 @@
 function ConstantLakeShader(spec) {
-  const { self, screen } = Entity(spec, 'Shader')
+  const { self, screen } = Entity(spec, 'ConstantLakeShader')
 
   const { quad } = spec
 
