@@ -138,6 +138,9 @@ function World(spec) {
       try {
         urlData = JSON.parse(LZString.decompressFromBase64(url.search.slice(1)))
         setLevel(urlData.nick, urlData)
+        // hide map if it's a puzzle
+        if (world.level.name.includes('puzzle'))
+          ui.navigatorButton.setAttribute('hide', true)
 
         // Very stupid, maybe Navigator should just be instantiated after this block?
         const bubble = navigator.getBubbleByNick(urlData.nick)
@@ -160,7 +163,7 @@ function World(spec) {
 
     // Remove the loading bar
     ui.loadingProgressBarContainer.setAttribute('hide', true)
-    
+
     ui.loadingVeilString.innerHTML = 'click to begin'
     ui.loadingVeil.addEventListener('click', loadingVeilClicked)
   }
@@ -299,17 +302,24 @@ function World(spec) {
 
     const isPuzzle = true
     if ('isPuzzle' in levelDatum && levelDatum['isPuzzle']) {
-      ui.submitTwitterScoreDiv.setAttribute('hide', false)
-      ui.submitTwitterScoreLink.setAttribute('href', makeTwitterSubmissionUrl())
+      // hide next button
+      ui.nextButton.setAttribute('hide', true)
 
-      ui.submitRedditScoreDiv.setAttribute('hide', false)
-      ui.submitRedditScoreSubreddit.setAttribute(
+      const puzzleMsgs = document.getElementsByClassName('puzzle-msg')
+      for (let idx = 0; idx < puzzleMsgs.length; idx++) {
+        puzzleMsgs[idx].setAttribute('hide', false)
+      }
+
+      $('#twitter-submission-url').setAttribute(
         'href',
-        'https://reddit.com/r/SineRider',
+        makeTwitterSubmissionUrl(),
       )
+
+      console.log($('#submit-reddit-score'))
+      $('#submit-reddit-score').onclick = openRedditModal
+
       ui.redditOpenCloseButton.onclick = () =>
         ui.redditOpenModal.setAttribute('hide', true)
-      ui.submitRedditScoreLink.onclick = openRedditModal
     } else {
       ui.submitTwitterScoreDiv.setAttribute('hide', true)
       ui.submitRedditScoreDiv.setAttribute('hide', true)
@@ -340,9 +350,15 @@ function World(spec) {
   }
 
   function nextLevel(transitionDuration = 1) {
-    transitionNavigating(true, transitionDuration, () => {
+    if ('isPuzzle' in levelDatum && levelDatum['isPuzzle']) {
+      ui.victoryBar.setAttribute('hide', true)
       stopRunning(false)
-    })
+      level.restart()
+    } else {
+      transitionNavigating(true, transitionDuration, () => {
+        stopRunning(false)
+      })
+    }
   }
 
   function onClickNextButton() {

@@ -153,7 +153,7 @@ function Level(spec) {
     darkBufferOrScreen = darkenBufferScreen
   }
 
-  const startingExpression = getStartingExpression()    
+  const startingExpression = getStartingExpression()
 
   const graph = Graph({
     camera,
@@ -430,10 +430,14 @@ function Level(spec) {
   function getStartingExpression() {
     let isPuzzle = urlData?.isPuzzle ?? false
     if (isPuzzle) {
-      return urlData?.expressionOverride ? urlData?.expressionOverride : defaultExpression 
+      return urlData?.expressionOverride
+        ? urlData?.expressionOverride
+        : defaultExpression
     }
-    return (!isConstantLakeAndNotBubble() ? savedLatex : null) ?? defaultExpression
-  } 
+    return (
+      (!isConstantLakeAndNotBubble() ? savedLatex : null) ?? defaultExpression
+    )
+  }
 
   function getCutsceneDistanceParameter() {
     let playerEntity =
@@ -592,7 +596,7 @@ function Level(spec) {
         globalScope,
         visible: false,
         place: 'top-right',
-        ...tipDatum,
+        ...tipDatum,        
       }),
     )
   }
@@ -920,14 +924,6 @@ function Level(spec) {
     }
 
     if (!isBubbleLevel && isVolcano()) {
-      VolcanoShader({
-        parent: self,
-        screen,
-        assets,
-        quad: quads.volcano,
-        drawOrder: LAYERS.volcanoPostProcessing,
-        sledders,
-      })
       LavaMonster({
         parent: self,
         world,
@@ -1198,6 +1194,9 @@ function Level(spec) {
     },
     get completed() {
       return completed
+    },
+    get nick(){
+      return datum.nick
     },
 
     isEditor,

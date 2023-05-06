@@ -1,5 +1,5 @@
 function VolcanoShader(spec) {
-  const { self, screen } = Entity(spec, 'Shader')
+  const { self, screen } = Entity(spec, 'VolcanoShader')
 
   const { quad, sledders } = spec
 
