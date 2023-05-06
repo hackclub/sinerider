@@ -8,7 +8,12 @@ function TrackingDirector(spec) {
 
   const { camera, globalScope, transitions = [] } = spec
 
-  let { minFov = 5, minFovMargin = 3, smoothing = 0.02 } = spec
+  let {
+    minFov = 5,
+    minFovMargin = 3,
+    smoothing = 0.02,
+    verticalBias = 7,
+  } = spec
 
   const targetState = CameraState({
     fov: minFov,
@@ -55,6 +60,11 @@ function TrackingDirector(spec) {
           transition.properties.minFovMargin ?? minFovMargin,
           transitionSmoothing,
         )
+        verticalBias = math.lerp(
+          verticalBias,
+          transition.properties.verticalBias ?? verticalBias,
+          transitionSmoothing,
+        )
         smoothing = math.lerp(
           smoothing,
           transition.properties.smoothing ?? smoothing,
@@ -70,6 +80,11 @@ function TrackingDirector(spec) {
       minFovMargin = math.lerp(
         minFovMargin,
         spec.minFovMargin ?? 3,
+        transitionSmoothing,
+      )
+      verticalBias = math.lerp(
+        verticalBias,
+        spec.verticalBias ?? 7,
         transitionSmoothing,
       )
       smoothing = math.lerp(
@@ -98,7 +113,7 @@ function TrackingDirector(spec) {
     maxTrackPoint.subtract(minTrackPoint, trackSpan)
 
     // Bias for showing more background. Maybe should be configurable?
-    maxTrackPoint.y += 7
+    maxTrackPoint.y += verticalBias
 
     // Correct for space occupied by equation bar
     const equationRatio = ui.expressionEnvelope.clientHeight / screen.height
