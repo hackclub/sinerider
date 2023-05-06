@@ -385,7 +385,9 @@ function Level(spec) {
     }
     if(runAsCutscene){
       ui.stopButton.classList.add('disabled')
-
+    }
+    if (!runAsCutscene){
+      ui.stopButton.classList.remove('disabled')
     }
   }
 
