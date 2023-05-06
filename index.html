@@ -85,6 +85,7 @@
 
     gtag('config', 'G-XB809Q5TGT')
   </script>
+
   <body>
     <img
       src="Assets/Images/error.png"
@@ -251,32 +252,45 @@
       <div class="envelope" id="victory-envelope">
         <div class="label" id="victory-label">
           <div class="string">
-            <h3 id="victory-text">Victory!</h3>
+            <h3 id="victory-text">Congrats!</h3>
+            <p class="puzzle-msg" hide="true">
+              Your equation solved the puzzle in
+            </p>
             <div
               id="hovertext"
               data-hover="How quickly your solution runs (faster = better)"
             >
               <span id="time-taken"></span>,
             </div>
+            <p class="puzzle-msg" hide="true">and</p>
             <div
               id="hovertext"
               data-hover="The number of characters in your solution (lower = better)"
             >
               <span id="character-count"></span>
             </div>
-            <div id="submit-twitter-score-div" hide="true">
-              <a
-                id="submit-twitter-score-link"
-                href="http://google.com"
-                target="_blank"
-                >Submit score via Twitter</a
+            .
+            <br class="puzzle-msg" hide="true" />
+            <br class="puzzle-msg" hide="true" />
+            <div class="puzzle-msg" hide="true">
+              To see how you did on the
+              <a href="https://sinerider-leaderboard.hackclub.dev/"
+                >Leaderboard</a
+              >, share your solution on
+              <!-- url for submitting is generated when puzzle is solved -->
+              <a href="#" target="_blank" id="twitter-submission-url"
+                >Twitter</a
               >
+              or
+              <!-- should include link to puzzle on Reddit -->
+              <a href="#" id="submit-reddit-score">Reddit</a>.
             </div>
-            <div id="submit-reddit-score-div" hide="true">
-              <a id="submit-reddit-score-link" href="javascript:;">
-                Submit score via Reddit
-              </a>
-            </div>
+            <br class="puzzle-msg" hide="true" />
+            <br class="puzzle-msg" hide="true" />
+            <p class="puzzle-msg" hide="true">
+              Think you can do better?
+              <a href="#" onclick="onClickRunButton()">Try again!</a>
+            </p>
           </div>
         </div>
 
@@ -300,7 +314,7 @@
             <br />
             <a
               id="submit_reddit_score_subreddit"
-              href="https://google.com"
+              href="https://reddit.com/r/SineRider"
               target="_blank"
             >
               Open Subreddit

@@ -223,8 +223,13 @@ body > .bar {
 }
 
 .victory[hide='true'] {
-  bottom: -100px;
+  bottom: -160px;
 }
+
+.puzzle-msg[hide='true'] {
+  display: none;
+}
+
 
 .reddit-open[hide='true'] {
   bottom: -300px;
@@ -440,6 +445,14 @@ input[valid='false'] {
   margin: 0;
   text-align: center;
   font-size: 21px;
+}
+
+#victory-label .string {
+  text-align: center;
+}
+
+.puzzle-msg {
+  display: inline;
 }
 
 #hovertext {
