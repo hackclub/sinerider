@@ -272,7 +272,7 @@ ui.mathFieldStatic = MQ.StaticMath(ui.mathFieldStatic)
 function createMathField(field, eventNameOnEdit) {
   field = MQ.MathField(field, {
     handlers: {
-      edit: function () {
+      edit: function() {
         const text = field.getPlainExpression()
         const latex = field.latex()
         world.level.sendEvent(eventNameOnEdit, [text, latex])
@@ -280,7 +280,7 @@ function createMathField(field, eventNameOnEdit) {
     },
   })
 
-  field.getPlainExpression = function () {
+  field.getPlainExpression = function() {
     var tex = field.latex()
     return mathquillToMathJS(tex)
   }
@@ -365,17 +365,17 @@ function onClickHint() {
 ui.dottedHintButton.addEventListener('click', onClickHint)
 
 // prevent twitter link click from triggering level click
-ui.twitterLinkRedirect.addEventListener('click', function (event) {
+ui.twitterLinkRedirect.addEventListener('click', function(event) {
   event.stopPropagation()
 })
 
 // prevent reddit link click from triggering level click
-ui.redditLinkRedirect.addEventListener('click', function (event) {
+ui.redditLinkRedirect.addEventListener('click', function(event) {
   event.stopPropagation()
 })
 
 // prevent github link click from triggering level click
-ui.githubLinkRedirect.addEventListener('click', function (event) {
+ui.githubLinkRedirect.addEventListener('click', function(event) {
   event.stopPropagation()
 })
 
@@ -520,12 +520,14 @@ function onMouseUpCanvas(event) {
 canvas.addEventListener('mouseup', onMouseUpCanvas)
 window.addEventListener('pointerup', onMouseUpCanvas)
 
-ui.levelInfoDiv.addEventListener('mouseover', function () {
+ui.levelInfoDiv.addEventListener('mouseover', function() {
   console.log('mouseover')
   ui.hideLevelInfoButton.setAttribute('hide', false)
 })
 
-ui.levelInfoDiv.addEventListener('mouseleave', function () {
+ui.levelInfoDiv.addEventListener('mouseleave', function() {
   console.log('mouseleave')
   ui.hideLevelInfoButton.setAttribute('hide', true)
 })
+
+
