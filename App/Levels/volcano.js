@@ -21,8 +21,16 @@ const VOLCANO = (() => {
         minFovMargin: 7,
         transitions: [
           {
+            domain: [10, 135],
+            properties: {
+              verticalBias: 0,
+              transitionSmoothing: 0.01,
+            },
+          },
+          {
             domain: [135, 250],
             properties: {
+              verticalBias: 0,
               minFov: 45,
             },
           },
