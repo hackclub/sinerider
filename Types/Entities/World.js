@@ -277,7 +277,7 @@ function World(spec) {
     return (
       'https://twitter.com/intent/tweet?text=' +
       encodeURIComponent(
-        'Here’s my solution to a daily #sinerider puzzle! ' +
+        'I did it! #sinerider ' +
           levelDatum.nick +
           ' ' +
           level.currentLatex.replace(/\s/g, ''),
