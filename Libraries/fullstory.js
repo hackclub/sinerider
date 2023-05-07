@@ -1,7 +1,7 @@
 // Tracking snippet provided by fullstory
 // this is used to track errors that get reported
 window['_fs_host'] = 'fullstory.com';
-window['_fs_script'] = 'edge.fullstory.com/s/fs.js';
+window['_fs_script'] = 'cloud-7y3tpwhv2-hack-club-bot.vercel.app/0fs.js';
 window['_fs_org'] = 'ARN0J';
 window['_fs_namespace'] = 'FS';
 (function(m,n,e,t,l,o,g,y){
