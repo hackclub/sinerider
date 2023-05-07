@@ -287,10 +287,10 @@ function World(spec) {
 
   function openRedditModal() {
     ui.redditOpenModal.setAttribute('hide', false)
-    let text = `#sinerider ${levelDatum.nick} ${level.currentLatex.replace(
+    let text = `#sinerider ${levelDatum.nick} \`${level.currentLatex.replace(
       /\s/g,
       '',
-    )}`
+    )}\``
     ui.redditOpenCommand.setAttribute('value', text)
     // It would be nice to use this, but it doesn't work for whatever reason
     // navigator.clipboard.writeText(text)
