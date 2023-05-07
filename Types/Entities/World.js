@@ -277,10 +277,10 @@ function World(spec) {
     return (
       'https://twitter.com/intent/tweet?text=' +
       encodeURIComponent(
-        'Here’s my solution to a daily #sinerider puzzle! ' +
-        levelDatum.nick +
-        ' ' +
-        level.currentLatex.replace(/\s/g, ''),
+        'I did it! #sinerider ' +
+          levelDatum.nick +
+          ' ' +
+          level.currentLatex.replace(/\s/g, ''),
       )
     )
   }
@@ -338,8 +338,8 @@ function World(spec) {
       ui.redditOpenCloseButton.onclick = () =>
         ui.redditOpenModal.setAttribute('hide', true)
     } else {
-      ui.submitTwitterScoreDiv.setAttribute('hide', true)
-      ui.submitRedditScoreDiv.setAttribute('hide', true)
+      ui.submitTwitterScoreDiv?.setAttribute('hide', true)
+      ui.submitRedditScoreDiv?.setAttribute('hide', true)
     }
     levelBubble?.complete()
   }

@@ -54,8 +54,10 @@ function Navigator(spec) {
     if (initialBubble) initialBubble.completeAllRequirements()
     for (const levelName of playerStorage.getCompletedLevels()) {
       let bubble = getBubbleByNick(levelName)
-      bubble.complete()
-      bubble.completeAllRequirements()
+      if (bubble) {
+        bubble.complete()
+        bubble.completeAllRequirements()
+      }
     }
   }
 
