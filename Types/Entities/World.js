@@ -278,9 +278,9 @@ function World(spec) {
       'https://twitter.com/intent/tweet?text=' +
       encodeURIComponent(
         'Here’s my solution to a daily #sinerider puzzle! ' +
-          levelDatum.nick +
-          ' ' +
-          level.currentLatex.replace(/\s/g, ''),
+        levelDatum.nick +
+        ' ' +
+        level.currentLatex.replace(/\s/g, ''),
       )
     )
   }
@@ -292,7 +292,10 @@ function World(spec) {
       '',
     )}`
     ui.redditOpenCommand.setAttribute('value', text)
-    navigator.clipboard.writeText(text)
+    // It would be nice to use this, but it doesn't work for whatever reason
+    // navigator.clipboard.writeText(text)
+    ui.redditOpenCommand.select()
+    document.execCommand('copy')
   }
 
   function levelCompleted(soft = false) {
