@@ -599,6 +599,12 @@ input[valid='false'] {
   max-width: 50vmin;
 }
 
+#reset-string {
+  padding: 0.375rem 0.75rem;
+  border: 1px solid #000;
+  cursor: pointer;
+}
+
 #loading-string {
   text-decoration: underline;
   cursor: pointer;

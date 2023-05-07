@@ -1,7 +1,15 @@
 function Navigator(spec) {
   const self = Entity(spec, 'Navigator')
 
-  const { screen, levelData, tickDelta, getEditing, setLevel, assets } = spec
+  const {
+    screen,
+    levelData,
+    tickDelta,
+    getEditing,
+    setLevel,
+    assets,
+    playerStorage,
+  } = spec
 
   let mapFov = 15
 
@@ -44,6 +52,11 @@ function Navigator(spec) {
 
   function start() {
     if (initialBubble) initialBubble.completeAllRequirements()
+    for (const levelName of playerStorage.getCompletedLevels()) {
+      let bubble = getBubbleByNick(levelName)
+      bubble.complete()
+      bubble.completeAllRequirements()
+    }
   }
 
   function tick() {
