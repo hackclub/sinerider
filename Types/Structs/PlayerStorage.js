@@ -6,12 +6,30 @@ function PlayerStorage() {
     return levels[name]
   }
 
-  function setLevel(name, data) {
-    levels[name] = data
+  function getCompletedLevels() {
+    return Object.keys(levels)
+  }
+
+  function save() {
     localStorage.setItem('levels', JSON.stringify(levels))
   }
 
+  function setLevel(name, data) {
+    levels[name] = data
+    save()
+  }
+
+  function clear() {
+    levels = {}
+    save()
+  }
+
   return {
+    get levels() {
+      return levels
+    },
+    clear,
+    getCompletedLevels,
     getLevel,
     setLevel,
   }

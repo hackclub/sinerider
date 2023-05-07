@@ -7,7 +7,7 @@ function World(spec) {
 
   const { ui, screen, levelData, requestDraw, tickDelta, version } = spec
 
-  const storage = PlayerStorage()
+  const playerStorage = PlayerStorage()
 
   let running = false
   let runTime = 0
@@ -127,6 +127,7 @@ function World(spec) {
       levelData,
       getEditing,
       setLevel,
+      playerStorage,
       active: false,
       parent: self,
       drawOrder: LAYERS.navigator,
@@ -166,6 +167,18 @@ function World(spec) {
 
     ui.loadingVeilString.innerHTML = 'click to begin'
     ui.loadingVeil.addEventListener('click', loadingVeilClicked)
+
+    if (playerStorage.getCompletedLevels().length) {
+      ui.resetSolutionsString.setAttribute('hide', false)
+      ui.resetSolutionsString.innerHTML = 'reset saved solutions'
+      ui.resetSolutionsString.addEventListener('click', resetSavedSolutions)
+    }
+  }
+
+  function resetSavedSolutions(event) {
+    event.stopPropagation()
+    ui.resetSolutionsString.remove()
+    playerStorage.clear()
   }
 
   function assetsProgress(progress, total) {
@@ -190,7 +203,8 @@ function World(spec) {
       } else {
         levelDatum = _.find(levelData, (v) => v.nick == nick)
       }
-      savedLatex = urlData?.savedLatex ?? storage.getLevel(nick)?.savedLatex
+      savedLatex =
+        urlData?.savedLatex ?? playerStorage.getLevel(nick)?.savedLatex
 
       if (urlData?.goals && urlData?.goals.length)
         levelDatum.goals = (levelDatum.goals ?? []).concat(urlData?.goals)
@@ -211,7 +225,7 @@ function World(spec) {
       isBubbleLevel: false,
       world: self,
 
-      storage,
+      storage: playerStorage,
       savedLatex,
       urlData,
     })
