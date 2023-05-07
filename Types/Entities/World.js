@@ -335,8 +335,8 @@ function World(spec) {
       ui.redditOpenCloseButton.onclick = () =>
         ui.redditOpenModal.setAttribute('hide', true)
     } else {
-      ui.submitTwitterScoreDiv.setAttribute('hide', true)
-      ui.submitRedditScoreDiv.setAttribute('hide', true)
+      ui.submitTwitterScoreDiv?.setAttribute('hide', true)
+      ui.submitRedditScoreDiv?.setAttribute('hide', true)
     }
     levelBubble?.complete()
   }
