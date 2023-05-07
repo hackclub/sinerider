@@ -455,8 +455,8 @@ function World(spec) {
 
   function generateRandomLevel() {
     const goals = []
-    // Skew towards 2–5 goal levels, with potential for as many as 7
-    const goalCount = _.random(2, _.random(5, 7))
+    // Skew towards 3-goal levels, with potential for as many as 7
+    const goalCount = _.random(_.random(2, 3), _.random(3, 7))
 
     // Generate goals at random locations
     for (let i = 0; i < goalCount; i++) {
