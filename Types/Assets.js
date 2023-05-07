@@ -50,11 +50,13 @@ function Assets(spec) {
       asset.loading = 'eager'
       asset.src = path
       asset.onload = () => assetLoaded(path)
+      asset.onerror = (error) => {console.error('Asset request failed', error)}
     } else if (isSound) {
       ;(assetSpec.src = path),
         (asset = new Howl({
           ...assetSpec,
           onload: () => assetLoaded(path),
+          onloaderror: (error) => {console.error('Asset request failed', error)}
         }))
     } else if (isShader) {
       fetch(path)
@@ -62,7 +64,7 @@ function Assets(spec) {
         .then((text) => {
           object[key] = text
           assetLoaded(path)
-        })
+        }).catch((error) => { console.log('Asset request failed', error) })
     } else {
       return
     }
