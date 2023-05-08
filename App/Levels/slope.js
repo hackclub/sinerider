@@ -343,9 +343,9 @@ const SLOPE = [
           {
             speakerX: 0.5,
             speakerY: 0.7,
-            content: 'You too, Ada',
+            content: 'Love you too',
             direction: 'up-right',
-            distance: 2,
+            distance: 2.1,
           },
         ],
       },
