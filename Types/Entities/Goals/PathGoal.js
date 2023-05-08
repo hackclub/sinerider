@@ -95,6 +95,9 @@ function PathGoal(spec) {
   const drawHintGraph = hintGraph.draw.bind(hintGraph)
   hintGraph.draw = () => {}
 
+  assets.sounds.path_goal_start.volume(0.5)
+  assets.sounds.path_goal_continue.volume(0.5)
+
   // Sample start/end points
   pathStartWorld.y = pathGraph.sample('x', pathStartWorld.x)
   pathEndWorld.y = pathGraph.sample('x', pathEndWorld.x)

@@ -60,6 +60,10 @@ function Level(spec) {
 
   let usingTInExpression = false
 
+  assets.sounds.level_success.volume(0.5)
+  assets.sounds.goal_success.volume(0.5)
+  assets.sounds.goal_fail.volume(0.5)
+
   if (!isBubbleLevel) {
     if (flashMathField) ui.expressionEnvelope.classList.add('flash-shadow')
     else ui.expressionEnvelope.classList.remove('flash-shadow')
