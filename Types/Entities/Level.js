@@ -9,7 +9,6 @@ function Level(spec) {
 
   const {
     globalScope,
-    levelCompleted,
     isBubbleLevel,
     datum,
     storage,
@@ -32,6 +31,14 @@ function Level(spec) {
     camera: cameraSpec = {},
     victoryX = null,
   } = datum
+
+  let completed = false
+  let hasBeenCompleted = spec.hasBeenCompleted ?? false
+
+  const levelCompleted = (soft = false) => {
+    hasBeenCompleted = true
+    spec.levelCompleted(soft)
+  }
 
   const quads = globalScope.quads
 
@@ -168,8 +175,6 @@ function Level(spec) {
   })
 
   let shader = null // Only loaded for Constant Lake
-
-  let completed = spec.completed ?? false
 
   let skyColors = colors.sky
 
@@ -727,7 +732,7 @@ function Level(spec) {
     const json = {
       v: 0.1, // TODO: change version handling to World?
       nick: datum.nick,
-      completed,
+      completed: hasBeenCompleted,
       savedLatex: isConstantLakeAndNotBubble()
         ? vectorExpression
         : currentLatex,
@@ -743,7 +748,6 @@ function Level(spec) {
           })
         : null,
     }
-    console.log(json)
     if (isConstantLakeAndNotBubble()) {
       json.t = globalScope.t
     }

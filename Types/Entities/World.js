@@ -156,7 +156,7 @@ function World(spec) {
     }
 
     if (_.endsWith(location.href, '#random')) setLevel('RANDOM')
-    else setLevel(levelData[0].nick)
+    else setLevel(playerStorage.activeLevel ?? levelData[0].nick)
   }
 
   function assetsComplete() {
