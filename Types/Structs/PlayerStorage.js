@@ -18,6 +18,8 @@ function PlayerStorage() {
   }
 
   function setLevel(name, data, activate = true) {
+    if (!data) return
+
     levels[name] = data
     if (activate) activeLevel = name
     save()
