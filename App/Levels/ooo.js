@@ -110,7 +110,50 @@ const OOO = [
         order: 'A',
       },
     ],
-    sledders: [{}],
+    sledders: [
+      {
+        speech: [
+          {
+            distance: 1.5,
+            speakerX: 0.5,
+            speakerY: 0.7,
+            color: '#FFF',
+            direction: 'up-up-right',
+            content: 'Pi creature!',
+          },
+          {
+            distance: 2.2,
+            speakerX: -0.3,
+            speakerY: 0.55,
+            color: '#FFF',
+            content: 'omigosh!!',
+            direction: 'up-up-left',
+            align: 'right',
+          },
+        ],
+      },
+    ],
+    sprites: [
+      {
+        asset: 'images.pi_dance_kick',
+        flipX: false,
+        drawOrder: LAYERS.foreSprites,
+        size: 1.4,
+        x: 6,
+        y: 0,
+        offset: [0, 0.9],
+        sloped: true,
+        anchored: true,
+        speech: {
+          x: 0.2,
+          y: 1.2,
+          color: '#FFF',
+          content: '*meep*',
+          direction: 'up-up-right',
+          distance: 0.8,
+        },
+      },
+    ],
   },
   {
     name: 'Out of Order 5',
@@ -152,7 +195,50 @@ const OOO = [
         order: 'C',
       },
     ],
-    sledders: [{}],
+    sledders: [
+      {
+        speech: [
+          {
+            distance: 2.2,
+            speakerX: 0.5,
+            speakerY: 0.7,
+            color: '#FFF',
+            direction: 'up-up-right',
+            content: 'How majestic…',
+          },
+          {
+            distance: 1.5,
+            speakerX: -0.3,
+            speakerY: 0.55,
+            color: '#FFF',
+            content: 'eee!!',
+            direction: 'up-up-left',
+            align: 'right',
+          },
+        ],
+      },
+    ],
+    sprites: [
+      {
+        asset: 'images.pi_confused',
+        flipX: false,
+        drawOrder: LAYERS.foreSprites,
+        size: 1.4,
+        x: 10,
+        y: 0,
+        offset: [0, 0.9],
+        sloped: true,
+        anchored: true,
+        // speech: {
+        //   x: 0.2,
+        //   y: 1.2,
+        //   color: '#FFF',
+        //   content: '…',
+        //   direction: 'up-up-right',
+        //   distance: 0.8,
+        // },
+      },
+    ],
   },
   {
     name: 'Out of Order 6',

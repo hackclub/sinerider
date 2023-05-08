@@ -120,25 +120,19 @@ const SWAMP = [
       {
         speech: [
           {
-            distance: 1.6,
+            distance: 2.1,
             speakerX: 0.5,
             speakerY: 0.7,
             color: '#FFF',
             direction: 'up-up-right',
-            content: 'Just follow me!',
-            speech: {
-              distance: 1,
-              color: '#FFF',
-              direction: 'up',
-              content: 'Come on. I have a shortcut.',
-            },
+            content: 'But first, a little more exploring…',
           },
           {
-            distance: 2.3,
+            distance: 1.4,
             speakerX: -0.3,
             speakerY: 0.55,
             color: '#FFF',
-            content: 'Jack…',
+            content: '…',
             direction: 'up-up-left',
             align: 'right',
           },
