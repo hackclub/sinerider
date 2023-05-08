@@ -65,11 +65,11 @@ const SWAMP = [
         speech: [
           {
             distance: 1.6,
-            speakerX: 0.5,
-            speakerY: 0.7,
+            speakerX: 0.6,
+            speakerY: 0.6,
             color: '#FFF',
             direction: 'up-up-right',
-            content: 'Just follow me!',
+            content: 'Just follow me!!',
             speech: {
               distance: 1,
               color: '#FFF',
@@ -80,7 +80,7 @@ const SWAMP = [
           {
             distance: 2.3,
             speakerX: -0.3,
-            speakerY: 0.55,
+            speakerY: 0.5,
             color: '#FFF',
             content: 'Jack…',
             direction: 'up-up-left',
