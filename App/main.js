@@ -541,11 +541,9 @@ canvas.addEventListener('mouseup', onMouseUpCanvas)
 window.addEventListener('pointerup', onMouseUpCanvas)
 
 ui.levelInfoDiv.addEventListener('mouseover', function () {
-  console.log('mouseover')
   ui.hideLevelInfoButton.setAttribute('hide', false)
 })
 
 ui.levelInfoDiv.addEventListener('mouseleave', function () {
-  console.log('mouseleave')
   ui.hideLevelInfoButton.setAttribute('hide', true)
 })
