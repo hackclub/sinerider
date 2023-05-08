@@ -291,8 +291,13 @@ function World(spec) {
   }
 
   function makeTwitterSubmissionUrl() {
-    const twitterPrefill = `#sinerider #${levelDatum.nick} My solution for the question of the day took ${timeTaken()}sec in ${charCount()} characters. Try solving it yourself: ${linkToPuzzle}`
     const linkToPuzzle = `https://sinerider.com/puzzle/${levelDatum.nick}`
+    const solution = ui.mathField.getPlainExpression().replace(/\s/g, '')
+    const twitterPrefill = `#${levelDatum.nick} My solution for the #sinerider puzzle of the day took ${Math.round(timeTaken() * 10) / 10} seconds & ${charCount()} characters
+    
+    ${solution}
+    
+    Try solving it yourself: ${linkToPuzzle}`
     return (
       `https://twitter.com/intent/tweet?text=${encodeURIComponent(twitterPrefill)}`
     )
