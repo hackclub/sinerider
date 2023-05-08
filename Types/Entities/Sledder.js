@@ -36,8 +36,8 @@ function Sledder(spec = {}) {
     Vector2(0.1, 1.6),
     Vector2(0.3, 1.6),
     Vector2(0.3, 0.7),
-    Vector2(0.5, 0.5),
-    Vector2(0.5, 0),
+    Vector2(0.6, 0.5),
+    Vector2(0.6, 0),
   ]
 
   const trail = Trail({
