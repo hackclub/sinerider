@@ -291,7 +291,7 @@ function World(spec) {
   }
 
   function makeTwitterSubmissionUrl() {
-    const twitterPrefill = `#sinerider My solution for the question of the day took ${timeTaken()}sec in ${charCount()} characters.`
+    const twitterPrefill = `#sinerider #${levelDatum.nick} My solution for the question of the day took ${timeTaken()}sec in ${charCount()} characters.`
     return (
       `https://twitter.com/intent/tweet?text=${encodeURIComponent(twitterPrefill)}`
     )
