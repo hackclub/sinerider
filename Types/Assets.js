@@ -6,6 +6,7 @@ function Assets(spec) {
   let loadTotal = 0
   let loadCount = 0
   let loaded = false
+  let failed = false
 
   const imageExtensions = ['svg', 'png', 'jpg', 'jpeg', 'webp']
   const soundExtensions = ['m4a', 'mp3', 'ogg', 'wav']
@@ -50,13 +51,13 @@ function Assets(spec) {
       asset.loading = 'eager'
       asset.src = path
       asset.onload = () => assetLoaded(path)
-      asset.onerror = (error) => {console.error('Asset request failed', error, path)}
+      asset.onerror = (error) => handleFailure(error, path)
     } else if (isSound) {
       ;(assetSpec.src = path),
         (asset = new Howl({
           ...assetSpec,
           onload: () => assetLoaded(path),
-          onloaderror: (error) => {console.error('Asset request failed', error, path)}
+          onloaderror: (error) => handleFailure(error, path)
         }))
     } else if (isShader) {
       fetch(path)
@@ -64,7 +65,7 @@ function Assets(spec) {
         .then((text) => {
           object[key] = text
           assetLoaded(path)
-        }).catch((error) => {console.log('Asset request failed', error, path)})
+        }).catch((error) => handleFailure(error, path))
     } else {
       return
     }
@@ -90,6 +91,14 @@ function Assets(spec) {
       callbacks.complete()
     } else if (callbacks.progress) {
       callbacks.progress(loadTotal - loadCount, loadTotal)
+    }
+  }
+
+  function handleFailure(error, path) {
+    console.error('Asset request failed', error, path)
+    if (!failed) {
+      alert("Something failed to load. Try refreshing the page.")
+      failed = true
     }
   }
 
