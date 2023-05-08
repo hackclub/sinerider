@@ -143,7 +143,7 @@ const WAVE = [
     x: 10,
     y: -10,
     requirements: ['DESERT'],
-    defaultExpression: '\\sin \\left(x\\right)',
+    defaultExpression: '\\cos \\left(x\\right)',
     goals: [
       {
         type: 'path',
@@ -200,7 +200,7 @@ const WAVE = [
     x: -10,
     y: -10,
     requirements: ['DESERT'],
-    defaultExpression: '\\sin \\left(x\\right)',
+    defaultExpression: '\\sin \\left(x+\\frac{pi}{4}\\right)',
     slider: {
       expression: '\\sin \\left(x+$\\right)',
       bounds: [-2, 1, 0],
@@ -252,7 +252,7 @@ const WAVE = [
             content: 'You sure?',
             color: '#FFF',
             direction: 'up-up-right',
-            distance: 1.5,
+            distance: 1.4,
           },
         ],
         x: TAU,
