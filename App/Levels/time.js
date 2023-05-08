@@ -242,6 +242,7 @@ const TIME = [
             x: 0.3,
             y: 0.7,
             content: '*sigh*',
+            color: '#FFF',
             direction: 'up',
             distance: 0.8,
           },
