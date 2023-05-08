@@ -447,12 +447,14 @@ function World(spec) {
     ui.victoryBar.setAttribute('hide', true)
 
     ui.controlBar.setAttribute('hide', navigating)
-    ui.navigatorButton.setAttribute('hide', false)
     ui.expressionEnvelope.setAttribute('hide', false)
     ui.runButton.setAttribute('hide', false)
     ui.tryAgainButton.setAttribute('hide', true)
     ui.stopButton.setAttribute('hide', true)
     ui.resetButton.setAttribute('hide', false)
+
+    if (!level.name.startsWith('puzzle_'))
+      ui.navigatorButton.setAttribute('hide', false)
 
     if (!navigating) {
       // HACK: Timed to avoid bug in Safari (at least) that causes whole page to be permanently offset when off-screen text input is focused
