@@ -283,35 +283,35 @@ const WAVE = [
         asset: 'images.sam_sled',
         x: 1,
         y: 0,
-        // speech: [
-        //   {
-        //     x: 0.3,
-        //     y: 0.65,
-        //     content: 'Stop it Jack, it\'s still your fault I\'m upset.',
-        //     color: '#FFF',
-        //     direction: 'up-left',
-        //     distance: 2.5,
-        //   },
-        // ],
+        speech: [
+          {
+            x: 0.3,
+            y: 0.65,
+            content: 'Certainly both.',
+            color: '#FFF',
+            direction: 'up-left',
+            distance: 0.9,
+            speech: {
+              content: 'Somehow I identify with cacti…',
+              distance: 1,
+              color: '#FFF',
+              direction: 'up-up-left',
+            },
+          },
+        ],
       },
       {
         asset: 'images.lunchbox_sled',
-        // speech: [
-        //   {
-        //     x: 0.3,
-        //     y: 0.65,
-        //     content: 'Ok ok sorry. Besides cacti have pretty flowers. Is it cactuses?',
-        //     color: '#FFF',
-        //     direction: 'up-up-right',
-        //     distance: 1,
-        //     speech: {
-        //       content: 'Has anyone ever compared you to a cactus?',
-        //       distance: 1.5,
-        //       color: '#FFF',
-        //       direction: 'up-right'
-        //     }
-        //   },
-        // ],
+        speech: [
+          {
+            x: 0.3,
+            y: 0.65,
+            color: '#FFF',
+            content: 'Because of the spines, or the flowers?',
+            direction: 'up-up-right',
+            distance: 1.5,
+          },
+        ],
         x: TAU + 1,
         y: 0,
       },
@@ -444,6 +444,29 @@ const WAVE = [
       {
         x: -4,
         y: 0,
+        speech: [
+          {
+            speakerX: -0.25,
+            speakerY: 0.6,
+            content: 'Indeed.',
+            color: '#FFF',
+            direction: 'up-up-left',
+            distance: 1.4,
+            speech: {
+              color: '#FFF',
+              content: 'Love sure is complicated.',
+            },
+          },
+          {
+            speakerX: 0.4,
+            speakerY: 0.65,
+            content: 'Best faced together',
+            color: '#FFF',
+            // direction: 'up-right',
+            direction: Vector2(0.5, 0.6),
+            distance: 2.6,
+          },
+        ],
       },
     ],
   },
