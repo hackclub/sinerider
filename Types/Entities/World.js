@@ -291,7 +291,8 @@ function World(spec) {
   }
 
   function makeTwitterSubmissionUrl() {
-    const twitterPrefill = `#sinerider #${levelDatum.nick} My solution for the question of the day took ${timeTaken()}sec in ${charCount()} characters.`
+    const linkToPuzzle = `https://sinerider.com/puzzle/?nick=${levelDatum.nick}`
+    const twitterPrefill = `#sinerider #${levelDatum.nick} My solution for the question of the day took ${timeTaken()}sec in ${charCount()} characters. Try solving it yourself: ${linkToPuzzle}`
     return (
       `https://twitter.com/intent/tweet?text=${encodeURIComponent(twitterPrefill)}`
     )
