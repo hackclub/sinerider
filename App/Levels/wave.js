@@ -271,14 +271,14 @@ const WAVE = [
     goals: [
       {
         type: 'path',
-        expression: 'cos(x-1)+4',
+        expression: 'cos(x-1)+7',
         x: 2,
         y: 0,
         pathX: 4,
       },
       {
         type: 'path',
-        expression: 'cos(x-1)+4',
+        expression: 'cos(x-1)+7',
         x: TAU + 2,
         y: 0,
         pathX: 4,
@@ -315,7 +315,7 @@ const WAVE = [
             color: '#FFF',
             content: 'Because of the spines, or the flowers?',
             direction: 'up-up-right',
-            distance: 1.5,
+            distance: 1.4,
           },
         ],
         x: TAU + 1,
