@@ -319,7 +319,7 @@ function World(spec) {
     setCompletionTime(runTime)
 
     const timeTaken = Math.round(runTime * 100) / 100
-    const charCount = ui.mathFieldStatic.latex().length
+    const charCount = ui.mathFieldStatic.text().length
 
     ui.timeTaken.innerHTML =
       timeTaken + ' second' + (timeTaken === 1 ? '' : 's')
