@@ -569,10 +569,22 @@ input[valid='false'] {
 
 #navigator-floating-bar {
   bottom: 0;
+  justify-content: flex-start;
 }
 
 #show-all-button {
   border-radius: 10px 10px 0 0;
+  cursor: pointer;
+}
+
+#show-all-button:hover {
+  background-color: #f46;
+}
+
+#show-all-button > img {
+  width: 20px;
+  height: auto;
+  margin: 0 5px;
 }
 
 #github-string > p {
