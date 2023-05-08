@@ -23,7 +23,7 @@ const SWAMP = [
           {
             speakerX: -0.4,
             speakerY: 0.7,
-            content: 'Yikes, this place is spooky!',
+            content: 'This place creeps me out.',
             direction: 'up-up-left',
             distance: 2.2,
             color: '#FFF',
@@ -116,7 +116,35 @@ const SWAMP = [
         y: 0,
       },
     ],
-    sledders: [{}],
+    sledders: [
+      {
+        speech: [
+          {
+            distance: 1.6,
+            speakerX: 0.5,
+            speakerY: 0.7,
+            color: '#FFF',
+            direction: 'up-up-right',
+            content: 'Just follow me!',
+            speech: {
+              distance: 1,
+              color: '#FFF',
+              direction: 'up',
+              content: 'Come on. I have a shortcut.',
+            },
+          },
+          {
+            distance: 2.3,
+            speakerX: -0.3,
+            speakerY: 0.55,
+            color: '#FFF',
+            content: 'Jack…',
+            direction: 'up-up-left',
+            align: 'right',
+          },
+        ],
+      },
+    ],
   },
   {
     name: 'False Cubic',
