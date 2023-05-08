@@ -56,6 +56,7 @@ const ui = {
   completionTime: $('#completion-time'),
 
   redditOpenModal: $('#reddit-open-bar'),
+  redditOpenModalURL: $('#submit_reddit_score_subreddit'),
   redditOpenCommand: $('#reddit-open-command'),
   redditOpenCloseButton: $('#close-reddit-open-button'),
 

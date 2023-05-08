@@ -295,20 +295,24 @@ function World(spec) {
       'https://twitter.com/intent/tweet?text=' +
       encodeURIComponent(
         'I did it! #sinerider ' +
-          levelDatum.nick +
-          ' ' +
-          level.currentLatex.replace(/\s/g, ''),
+        levelDatum.nick +
+        ' ' +
+        level.currentLatex.replace(/\s/g, ''),
       )
     )
   }
 
   function openRedditModal() {
     ui.redditOpenModal.setAttribute('hide', false)
+    ui.redditOpenCommand.setAttribute('hide', false)
+    ui.redditOpenModalURL.setAttribute('hide', false)
+
     let text = `#sinerider ${levelDatum.nick} \`${level.currentLatex.replace(
       /\s/g,
       '',
     )}\``
     ui.redditOpenCommand.setAttribute('value', text)
+
     // It would be nice to use this, but it doesn't work for whatever reason
     // navigator.clipboard.writeText(text)
     ui.redditOpenCommand.select()
@@ -349,7 +353,6 @@ function World(spec) {
         makeTwitterSubmissionUrl(),
       )
 
-      console.log($('#submit-reddit-score'))
       $('#submit-reddit-score').onclick = openRedditModal
 
       ui.redditOpenCloseButton.onclick = () =>
@@ -357,6 +360,8 @@ function World(spec) {
     } else {
       ui.submitTwitterScoreDiv?.setAttribute('hide', true)
       ui.submitRedditScoreDiv?.setAttribute('hide', true)
+      ui.redditOpenModalURL?.setAttribute('hide', true)
+      ui.redditOpenCommand?.setAttribute('hide', true)
     }
     levelBubble?.complete()
   }
