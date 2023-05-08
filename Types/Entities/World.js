@@ -168,15 +168,26 @@ function World(spec) {
     ui.loadingVeilString.innerHTML = 'click to begin'
     ui.loadingVeil.addEventListener('click', loadingVeilClicked)
 
-    if (playerStorage.getCompletedLevels().length) {
+    const c = playerStorage.getCompletedLevels().length
+    const total = levelData.length
+    if (c) {
       ui.resetSolutionsString.setAttribute('hide', false)
-      ui.resetSolutionsString.innerHTML = 'reset saved solutions'
-      ui.resetSolutionsString.addEventListener('click', resetSavedSolutions)
+      ui.resetSolutionsString.innerHTML = `You have completed ${c}/${total} levels. Reset?`
+      ui.resetSolutionsString.addEventListener('click', (event) => {
+        ui.resetProgressConfirmationDialog.showModal(), event.stopPropagation()
+      })
+      ui.resetProgressConfirmButton.addEventListener('click', (event) => {
+        resetSavedSolutions()
+        ui.resetProgressConfirmationDialog.close()
+      })
+      ui.resetProgressCancelButton.addEventListener('click', (event) => {
+        ui.resetProgressConfirmationDialog.close()
+        event.stopPropagation()
+      })
     }
   }
 
   function resetSavedSolutions(event) {
-    event.stopPropagation()
     ui.resetSolutionsString.remove()
     playerStorage.clear()
   }
@@ -191,7 +202,8 @@ function World(spec) {
 
     levelBubble = navigator.getBubbleByNick(nick)
     isPuzzle = urlData?.isPuzzle ?? false
-    var savedLatex
+    let savedLatex
+    let completed = false
     if (isPuzzle) {
       levelDatum = generatePuzzleLevel(urlData)
       savedLatex = levelDatum.expressionOverride
@@ -205,6 +217,8 @@ function World(spec) {
       }
       savedLatex =
         urlData?.savedLatex ?? playerStorage.getLevel(nick)?.savedLatex
+      completed =
+        urlData?.completed ?? playerStorage.getLevel(nick)?.completed ?? false
 
       if (urlData?.goals && urlData?.goals.length)
         levelDatum.goals = (levelDatum.goals ?? []).concat(urlData?.goals)
@@ -227,6 +241,7 @@ function World(spec) {
 
       storage: playerStorage,
       savedLatex,
+      completed,
       urlData,
     })
 

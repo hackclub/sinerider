@@ -7,7 +7,8 @@ function PlayerStorage() {
   }
 
   function getCompletedLevels() {
-    return Object.keys(levels)
+    console.log(levels)
+    return _.filter(levels, (v) => v.completed)
   }
 
   function save() {

@@ -364,6 +364,7 @@ input[valid='false'] {
 }
 
 #reset-confirmation-dialog > div,
+#reset-progress-confirmation-dialog > div,
 #show-all-confirmation-dialog > div {
   margin: 5px 0px;
   width: 100%;
@@ -373,6 +374,7 @@ input[valid='false'] {
 }
 
 #reset-confirmation-yes,
+#reset-progress-confirmation-yes,
 #show-all-yes {
   background: #f46;
   color: white;
@@ -381,12 +383,14 @@ input[valid='false'] {
   border-color: #f46;
 }
 #reset-confirmation-yes:hover,
+#reset-progress-confirmation-yes:hover,
 #show-all-yes:hover {
   background: #222;
   border-color: #000;
 }
 
 #reset-confirmation-no,
+#reset-progress-confirmation-no,
 #show-all-no {
   border-width: 2px;
   border-style: solid;
@@ -600,15 +604,23 @@ input[valid='false'] {
 }
 
 #reset-string {
+  text-align: center;
   padding: 0.375rem 0.75rem;
   border: 1px solid #000;
   cursor: pointer;
+  font-size: 0.7em;
 }
 
 #loading-string {
   text-decoration: underline;
   cursor: pointer;
   padding: 0.375rem 0.75rem;
+}
+
+#loading-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #loading-progress-bar-container {

@@ -169,7 +169,7 @@ function Level(spec) {
 
   let shader = null // Only loaded for Constant Lake
 
-  let completed = false
+  let completed = spec.completed ?? false
 
   let skyColors = colors.sky
 
@@ -383,10 +383,10 @@ function Level(spec) {
       ui.mathField.latex(startingExpression)
       ui.mathFieldStatic.latex(startingExpression)
     }
-    if(runAsCutscene){
+    if (runAsCutscene) {
       ui.stopButton.classList.add('disabled')
     }
-    if (!runAsCutscene){
+    if (!runAsCutscene) {
       ui.stopButton.classList.remove('disabled')
     }
   }
@@ -598,7 +598,7 @@ function Level(spec) {
         globalScope,
         visible: false,
         place: 'top-right',
-        ...tipDatum,        
+        ...tipDatum,
       }),
     )
   }
@@ -710,6 +710,7 @@ function Level(spec) {
         completed = true
         levelCompleted()
         assets.sounds.level_success.play()
+        save()
       }
     }
   }
@@ -726,6 +727,7 @@ function Level(spec) {
     const json = {
       v: 0.1, // TODO: change version handling to World?
       nick: datum.nick,
+      completed,
       savedLatex: isConstantLakeAndNotBubble()
         ? vectorExpression
         : currentLatex,
@@ -741,6 +743,7 @@ function Level(spec) {
           })
         : null,
     }
+    console.log(json)
     if (isConstantLakeAndNotBubble()) {
       json.t = globalScope.t
     }
@@ -1031,8 +1034,8 @@ function Level(spec) {
   }
 
   function save() {
-    // Do not write to URL if debug level is set
-    if (DEBUG_LEVEL) return
+    // Do not write to URL if debug level is set or if this is a bubble level
+    if (DEBUG_LEVEL || isBubbleLevel) return
 
     // Save to player storage and to URI
     storage.setLevel(datum.nick, serialize())
@@ -1197,7 +1200,7 @@ function Level(spec) {
     get completed() {
       return completed
     },
-    get nick(){
+    get nick() {
       return datum.nick
     },
 

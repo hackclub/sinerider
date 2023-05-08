@@ -12,6 +12,10 @@ const ui = {
   levelButtonString: $('#level-button > .string'),
   resetButton: $('#reset-button'),
 
+  resetProgressConfirmationDialog: $('#reset-progress-confirmation-dialog'),
+  resetProgressConfirmButton: $('#reset-progress-confirmation-yes'),
+  resetProgressCancelButton: $('#reset-progress-confirmation-no'),
+
   resetConfirmationDialog: $('#reset-confirmation-dialog'),
   resetConfirmButton: $('#reset-confirmation-yes'),
   resetCancelButton: $('#reset-confirmation-no'),

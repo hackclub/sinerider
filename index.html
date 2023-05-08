@@ -17,11 +17,14 @@
       name="keywords"
       content="games, math, graphing, art, game design, love, sinerider"
     />
-    <meta name="twitter:card" content="summary" />                
-    <meta name="twitter:title" content="Sinerider" />                
-    <meta name="twitter:description" content="A game about love and graphing" />                
-    <meta name="twitter:image" content="https://cloud-o9nw1frsj-hack-club-bot.vercel.app/0sinerider-social.png" />
-    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Sinerider" />
+    <meta name="twitter:description" content="A game about love and graphing" />
+    <meta
+      name="twitter:image"
+      content="https://cloud-o9nw1frsj-hack-club-bot.vercel.app/0sinerider-social.png"
+    />
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://sinerider.com/" />
@@ -224,6 +227,20 @@
       </div>
     </dialog>
 
+    <dialog id="reset-progress-confirmation-dialog">
+      <div class="string">
+        Are you sure you want to permanently delete your progress?
+      </div>
+      <div>
+        <div class="button" id="reset-progress-confirmation-no">
+          <div class="string">Cancel</div>
+        </div>
+        <div class="button" id="reset-progress-confirmation-yes">
+          <div class="string">Reset</div>
+        </div>
+      </div>
+    </dialog>
+
     <div class="bar message" id="message-bar" hide="true">
       <div class="string">MESSAGE</div>
     </div>
@@ -252,7 +269,8 @@
             <br class="puzzle-msg" hide="true" />
             <br class="puzzle-msg" hide="true" />
             <div class="puzzle-msg" hide="true">
-              To see how you rank on the Leaderboard, summon the SineRider bumblebot on
+              To see how you rank on the Leaderboard, summon the SineRider
+              bumblebot on
               <!-- url for submitting is generated when puzzle is solved -->
               <a href="#" target="_blank" id="twitter-submission-url"
                 >Twitter</a
@@ -335,6 +353,7 @@
 
       <div id="main-loading">
         <div id="loading-top">
+          <div class="string" id="reset-string" hide="true"></div>
           <img class="loading-image" src="Assets/Images/loading-screen.png" />
         </div>
 
@@ -342,7 +361,6 @@
           <div id="loading-progress-bar"></div>
         </div>
         <div class="string" id="loading-string"></div>
-        <div class="string" id="reset-string" hide="true"></div>
       </div>
 
       <div id="loading-bottom">
@@ -379,7 +397,12 @@
         </div>
 
         <div class="string" id="github-string">
-          <a href="http://www.github.com/hackclub/sinerider" target="_blank" class="loading-link" id="github-link">
+          <a
+            href="http://www.github.com/hackclub/sinerider"
+            target="_blank"
+            class="loading-link"
+            id="github-link"
+          >
             Built and maintained by teenagers. Public Beta 0.5
           </a>
         </div>
