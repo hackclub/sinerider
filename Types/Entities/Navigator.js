@@ -52,7 +52,6 @@ function Navigator(spec) {
 
   function start() {
     if (initialBubble) initialBubble.completeAllRequirements()
-    console.log(playerStorage.getCompletedLevels())
     for (const datum of playerStorage.getCompletedLevels()) {
       let bubble = getBubbleByNick(datum.nick)
       if (bubble) {

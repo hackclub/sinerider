@@ -202,7 +202,6 @@ function Speech(spec) {
       Math.abs(domainTransform.x - deactivationThreshold) < 0.1
     ) {
       self.destroy()
-      console.log('destroyed speech sprite')
     }
 
     if (
