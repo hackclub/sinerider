@@ -386,9 +386,9 @@ const SLOPE = [
             direction: 'up-right-right',
             distance: 1,
             speech: {
-              content: '...do whatever you want.',
+              content: '…do whatever you want.',
               direction: 'up-up-right',
-              distance: 1.5,
+              distance: 0.8,
             },
           },
         ],
@@ -403,7 +403,7 @@ const SLOPE = [
             y: 0.7,
             content: 'We never get to do my things.',
             direction: 'up-up-left',
-            distance: 2,
+            distance: 1.6,
             speech: {
               content: 'Ok, seriously. I want to see this canyon.',
               direction: 'up',
