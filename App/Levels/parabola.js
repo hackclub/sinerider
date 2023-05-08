@@ -283,7 +283,7 @@ const PARABOLA = [
         asset: 'images.sam_sled',
         speech: [
           {
-            x: 0.3,
+            x: 0.4,
             y: 0.6,
             content: '…',
             direction: 'up-up-right',
