@@ -15,5 +15,12 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/puzzle/:id",
+      "destination": "https://sinerider-api.hackclub.com/puzzle/:id",
+      "permanent": false
+    }
   ]
 }
