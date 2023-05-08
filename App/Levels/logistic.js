@@ -6,7 +6,7 @@ const LOGISTIC = [
     x: 0,
     y: -30,
     requirements: ['SIN_TRANSLATE_SCALE_X_Y'],
-    defaultExpression: '\\frac{1}{1+x^2}',
+    defaultExpression: '\\frac{1}{1+\\left(x+4\\right)^2}',
     // slider: {
     //   expression: '\\frac{1}{1+\\left(x+$\\right)^2}',
     //   bounds: [-3, 1, -1],
@@ -50,11 +50,11 @@ const LOGISTIC = [
         y: 0,
         speech: [
           {
-            x: 0.3,
-            y: 0.65,
+            x: 0.2,
+            y: 0.6,
             content: 'Beautiful!',
             direction: 'up-up-left',
-            distance: 1,
+            distance: 1.4,
           },
         ],
       },
@@ -62,6 +62,15 @@ const LOGISTIC = [
         asset: 'images.lunchbox_sled',
         x: 3,
         y: 0,
+        speech: [
+          {
+            x: 0.3,
+            y: 0.7,
+            content: 'Look at that beach!!',
+            direction: 'up-up-right',
+            distance: 0.9,
+          },
+        ],
       },
     ],
   },
@@ -276,11 +285,18 @@ const LOGISTIC = [
         y: 0,
         speech: [
           {
-            x: 0.3,
-            y: 0.65,
-            content: 'That sky sure looks tasty.',
-            direction: 'up-up-right',
-            distance: 1,
+            speakerX: -0.4,
+            speakerY: 0.55,
+            content: 'The arc of the universe is long…',
+            direction: 'up-up-left',
+            distance: 2.2,
+          },
+          {
+            speakerX: 0.5,
+            speakerY: 0.65,
+            content: '…but it bends toward dunes.',
+            direction: 'up-right-right',
+            distance: 2.6,
           },
         ],
       },
