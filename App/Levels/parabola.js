@@ -150,7 +150,7 @@ const PARABOLA = [
         asset: 'images.sam_sled',
         speech: [
           {
-            x: 0.2,
+            x: 0.4,
             y: 0.6,
             content: 'Quiet is good.',
             direction: 'up-up-right',
