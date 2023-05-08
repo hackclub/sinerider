@@ -291,6 +291,11 @@ function World(spec) {
   }
 
   function makeTwitterSubmissionUrl() {
+    const twitterPrefill = `#sinerider My solution for the question of the day took ${timeTaken()}sec in ${charCount()} characters.`
+    return (
+      `https://twitter.com/intent/tweet?text=${encodeURIComponent(twitterPrefill)}`
+    )
+    // @msw: While implementing a quick-fix, the following is a noop
     return (
       'https://twitter.com/intent/tweet?text=' +
       encodeURIComponent(
@@ -315,16 +320,21 @@ function World(spec) {
     document.execCommand('copy')
   }
 
+  function charCount() {
+    return ui.mathFieldStatic.latex().length
+  }
+
+  function timeTaken() {
+    return Math.round(runTime * 100) / 100
+  }
+
   function levelCompleted(soft = false) {
     setCompletionTime(runTime)
 
-    const timeTaken = Math.round(runTime * 100) / 100
-    const charCount = ui.mathFieldStatic.latex().length
-
     ui.timeTaken.innerHTML =
-      timeTaken + ' second' + (timeTaken === 1 ? '' : 's')
+      timeTaken() + ' second' + (timeTaken() === 1 ? '' : 's')
     ui.charCount.innerHTML =
-      charCount + ' character' + (charCount === 1 ? '' : 's')
+      charCount() + ' character' + (charCount() === 1 ? '' : 's')
 
     if (soft) {
       nextLevel(2.5)
@@ -349,8 +359,9 @@ function World(spec) {
         makeTwitterSubmissionUrl(),
       )
 
-      console.log($('#submit-reddit-score'))
-      $('#submit-reddit-score').onclick = openRedditModal
+      // Hide reddit for the time being
+      // console.log($('#submit-reddit-score'))
+      // $('#submit-reddit-score').onclick = openRedditModal
 
       ui.redditOpenCloseButton.onclick = () =>
         ui.redditOpenModal.setAttribute('hide', true)
