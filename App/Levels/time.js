@@ -702,7 +702,6 @@ const TIME = [
       {
         x: 0,
         y: 0,
-        asset: 'images.lunchbox_sled',
       },
     ],
   },
