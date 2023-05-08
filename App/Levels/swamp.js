@@ -101,10 +101,10 @@ const SWAMP = [
     goals: [
       {
         x: 0,
-        y: -8,
+        y: -4,
       },
       {
-        x: 8,
+        x: 4,
         y: 0,
       },
       {
@@ -112,7 +112,7 @@ const SWAMP = [
         y: 8,
       },
       {
-        x: -8,
+        x: -4,
         y: 0,
       },
     ],
@@ -120,7 +120,7 @@ const SWAMP = [
       {
         speech: [
           {
-            distance: 2.1,
+            distance: 2,
             speakerX: 0.5,
             speakerY: 0.7,
             color: '#FFF',
