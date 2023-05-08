@@ -387,7 +387,7 @@ const SLOPE = [
             distance: 1,
             speech: {
               content: '...do whatever you want.',
-              direction: 'up-right-right',
+              direction: 'up-up-right',
               distance: 1.5,
             },
           },
