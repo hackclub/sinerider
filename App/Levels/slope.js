@@ -247,7 +247,7 @@ const SLOPE = [
             speakerY: 0.7,
             content: 'Do you want my scarf?',
             direction: 'right-up-up',
-            distance: 2.2,
+            distance: 2.1,
             speech: {
               content: 'Are you cold?',
               direction: 'up-up-left',
