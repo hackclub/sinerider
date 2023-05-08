@@ -9,12 +9,12 @@ const SWAMP = [
     defaultExpression: '0',
     goals: [
       {
-        x: 8,
+        x: 12,
         y: 0,
       },
       {
-        x: 8,
-        y: -8,
+        x: 6,
+        y: -6,
       },
     ],
     sledders: [
