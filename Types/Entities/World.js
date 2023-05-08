@@ -170,9 +170,11 @@ function World(spec) {
 
     const c = playerStorage.getCompletedLevels().length
     const total = levelData.length
+    const percent = Math.round((100 * c) / total)
+    const congrats = percent < 100 ? '' : 'well done, '
     if (c) {
       ui.resetSolutionsString.setAttribute('hide', false)
-      ui.resetSolutionsString.innerHTML = `You have completed ${c}/${total} levels. Reset?`
+      ui.resetSolutionsString.innerHTML = `You have completed ${c}/${total} levels (${congrats}${percent}%). Reset?`
       ui.resetSolutionsString.addEventListener('click', (event) => {
         ui.resetProgressConfirmationDialog.showModal(), event.stopPropagation()
       })
