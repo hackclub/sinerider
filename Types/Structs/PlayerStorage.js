@@ -9,7 +9,7 @@ function PlayerStorage() {
   }
 
   function getCompletedLevels() {
-    return _.filter(levels, (v) => v.completed)
+    return _.filter(levels, (v) => v?.completed)
   }
 
   function save() {
