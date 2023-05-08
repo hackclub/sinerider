@@ -76,7 +76,7 @@ const TIME = [
           {
             x: 0.3,
             y: 0.7,
-            content: 'This is what I want. Adventure.',
+            content: 'This is what I want. Adventure!',
             direction: 'up-up-right',
             distance: 0.8,
           },
