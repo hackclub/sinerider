@@ -297,7 +297,7 @@ function World(spec) {
         'I did it! #sinerider ' +
           levelDatum.nick +
           ' ' +
-          ui.mathFieldStatic.getPlainExpression().replace(/\s/g, ''),
+          ui.mathField.getPlainExpression().replace(/\s/g, ''),
       )
     )
   }
