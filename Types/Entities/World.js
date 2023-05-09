@@ -315,6 +315,9 @@ function World(spec) {
 
   function openRedditModal() {
     ui.redditOpenModal.setAttribute('hide', false)
+    ui.redditOpenCommand.setAttribute('hide', false)
+    $('#submit-reddit-score-subreddit').setAttribute('hide', false)
+
     let text = `#sinerider ${levelDatum.nick} \`${level.currentLatex.replace(
       /\s/g,
       '',
@@ -372,6 +375,8 @@ function World(spec) {
       ui.redditOpenCloseButton.onclick = () =>
         ui.redditOpenModal.setAttribute('hide', true)
     } else {
+      ui.redditOpenCommand?.setAttribute('hide', false)
+      ('#submit-reddit-score-subreddit')?.setAttribute('hide', false)
       ui.submitTwitterScoreDiv?.setAttribute('hide', true)
       ui.submitRedditScoreDiv?.setAttribute('hide', true)
     }
