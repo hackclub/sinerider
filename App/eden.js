@@ -322,7 +322,7 @@ worldData.push({
       ],
       tips: [
         {
-          content: 'click here!',
+          content: 'click the timer to start!',
           domSelector: '#run-button',
           place: 'top-left',
           style: { fontSize: '1.1rem' },
