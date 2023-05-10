@@ -202,6 +202,13 @@ function World(spec) {
   function setLevel(nick, urlData = null) {
     if (level) level.destroy()
 
+    gtag('event', 'setLevel', {
+      event_category: nick.toLowerCase().startsWith('puzzle_')
+        ? 'daily'
+        : 'campaign',
+      value: nick,
+    })
+
     levelBubble = navigator.getBubbleByNick(nick)
     isPuzzle = urlData?.isPuzzle ?? false
     let savedLatex
@@ -339,6 +346,13 @@ function World(spec) {
 
   function levelCompleted(soft = false) {
     setCompletionTime(runTime)
+
+    gtag('event', 'levelCompleted', {
+      event_category: level.name.toLowerCase().startsWith('puzzle_')
+        ? 'daily'
+        : 'campaign',
+      value: level.name,
+    })
 
     ui.timeTaken.innerHTML =
       timeTaken() + ' second' + (timeTaken() === 1 ? '' : 's')
