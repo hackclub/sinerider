@@ -389,8 +389,13 @@ function World(spec) {
       ui.redditOpenCloseButton.onclick = () =>
         ui.redditOpenModal.setAttribute('hide', true)
     } else {
-      ui.redditOpenCommand?.setAttribute('hide', false)
-      ('#submit-reddit-score-subreddit')?.setAttribute('hide', false)
+      // TODO: Causing error… commenting for now
+      // ui.redditOpenCommand
+      //   ?.setAttribute(
+      //     'hide',
+      //     false,
+      //   )('#submit-reddit-score-subreddit')
+      //   ?.setAttribute('hide', false)
       ui.submitTwitterScoreDiv?.setAttribute('hide', true)
       ui.submitRedditScoreDiv?.setAttribute('hide', true)
     }
