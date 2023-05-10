@@ -24,7 +24,7 @@ function PlayerStorage() {
     if (!data) return
 
     levels[name] = data
-    if (activate) activeLevel = name
+    if (activate && !name.startsWith('puzzle_')) activeLevel = name
     save()
   }
 
