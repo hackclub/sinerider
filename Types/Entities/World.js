@@ -300,14 +300,18 @@ function World(spec) {
   function makeTwitterSubmissionUrl() {
     const linkToPuzzle = `https://sinerider.com/puzzle/${levelDatum.nick}`
     const solution = ui.mathField.getPlainExpression().replace(/\s/g, '')
-    const twitterPrefill = `#${levelDatum.nick} My solution for the #sinerider puzzle of the day took ${Math.round(timeTaken() * 10) / 10} seconds & ${charCount()} characters
+    const twitterPrefill = `#${
+      levelDatum.nick
+    } My solution for the #sinerider puzzle of the day took ${
+      Math.round(timeTaken() * 10) / 10
+    } seconds & ${charCount()} characters
     
     ${solution}
     
     Try solving it yourself: ${linkToPuzzle}`
-    return (
-      `https://twitter.com/intent/tweet?text=${encodeURIComponent(twitterPrefill)}`
-    )
+    return `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+      twitterPrefill,
+    )}`
     // @msw: While implementing a quick-fix, the following is a noop
     return (
       'https://twitter.com/intent/tweet?text=' +
