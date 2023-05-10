@@ -11,7 +11,7 @@ function PlayerStorage() {
   function getCompletedLevels() {
     return _.filter(
       levels,
-      (v) => v?.completed && !v.name.toLowerCase().startsWith('puzzle_'),
+      (v, k) => v?.completed && !k.toLowerCase().startsWith('puzzle_'),
     )
   }
 
