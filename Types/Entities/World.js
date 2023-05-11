@@ -207,7 +207,7 @@ function World(spec) {
   function setLevel(nick, urlData = null) {
     if (level) level.destroy()
 
-    gtag('event', 'setLevel', {
+    emitEvent('setLevel', {
       event_category: nick.toLowerCase().startsWith('puzzle_')
         ? 'daily'
         : 'campaign',
@@ -356,7 +356,7 @@ function World(spec) {
   function levelCompleted(soft = false) {
     setCompletionTime(runTime)
 
-    gtag('event', 'levelCompleted', {
+    emitEvent('levelCompleted', {
       event_category: level.name.toLowerCase().startsWith('puzzle_')
         ? 'daily'
         : 'campaign',

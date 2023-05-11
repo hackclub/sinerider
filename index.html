@@ -70,6 +70,14 @@
 
       gtag('config', 'G-XB809Q5TGT')
     </script>
+    <script>
+      function emitEvent(name, data= {}) {
+        gtag('event', name, data)
+        if (window.FS?.event) {
+          FS.event(name, data)
+        }
+      }
+    </script>
   </head>
 
   <body>
