@@ -28,7 +28,7 @@
 **sinerider-reddit-bot** (node - web service + worker - heroku)
 [repo](https://github.com/GalaxyGamingBoy/sinerider-reddit-bot) /
 [deployment](https://dashboard.heroku.com/apps/sinerider-reddit)
-- Is NOT exposed to end-user traffic.  Has a worker and web service component.  Worker is responsible for polling Twitter for new relevant tweets, queueing work for later processing, dispatching work to the scoring service, and auto-responding to Twitter submissions.
+- Is NOT exposed to end-user traffic.  Has a worker and web service component.  Worker is responsible for polling Reddit for new relevant submissions, queueing work for later processing, dispatching work to the scoring service, and auto-responding to Reddit submissions.
 
 **sinerider-leaderboard** (node - vercel)
 [repo](https://github.com/hackclub/sinerider-leaderboard) /
