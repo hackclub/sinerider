@@ -1,0 +1,167 @@
+{
+	"info": {
+		"_postman_id": "a6f025ea-e557-4103-bd8c-dcfff3a5158c",
+		"name": "sinerider-twitter",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26253586"
+	},
+	"item": [
+		{
+			"name": "Zapier Tweet Integration",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "923joiwef0fjoqalslqw2eroofd234igj",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "hackclub",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "full_text",
+							"value": "#sinerider puzzle_1 x^2",
+							"type": "text"
+						},
+						{
+							"key": "url",
+							"value": "bar",
+							"type": "text"
+						},
+						{
+							"key": "user__name",
+							"value": "foobar",
+							"type": "text"
+						},
+						{
+							"key": "user__id",
+							"value": "23423423423423",
+							"type": "text"
+						},
+						{
+							"key": "id",
+							"value": "12",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/onNewTweet",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"onNewTweet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Publish Puzzle",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "923joiwef0fjoqalslqw2eroofd234igj",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "hackclub",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "text",
+							"value": "foo",
+							"type": "text"
+						},
+						{
+							"key": "url",
+							"value": "bar",
+							"type": "text"
+						},
+						{
+							"key": "user__id",
+							"value": "foobar",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8080/publishPuzzle?publishingInfo=N4AjCIEsBNwLnABwK4C9UBsCmB9AjOADRghJqZYAqkALtvKZVgM40gAK52IAxAcRBTpsAERYBjAE6RENSAHsAdg3ABBEBiUBzENAnTZCxSHkAzEDQAWWEEIpESZYVgCqAJQAyKyzRqJmcAD0gVry8lrYAHTi8gC24CAAvkA=",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"publishPuzzle"
+					],
+					"query": [
+						{
+							"key": "publishingInfo",
+							"value": "N4AjCIEsBNwLnABwK4C9UBsCmB9AjOADRghJqZYAqkALtvKZVgM40gAK52IAxAcRBTpsAERYBjAE6RENSAHsAdg3ABBEBiUBzENAnTZCxSHkAzEDQAWWEEIpESZYVgCqAJQAyKyzRqJmcAD0gVry8lrYAHTi8gC24CAAvkA="
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Status",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "923joiwef0fjoqalslqw2eroofd234igj",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "hackclub",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "sinerider-twitter.herokuapp.com/status",
+					"host": [
+						"sinerider-twitter",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"status"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
