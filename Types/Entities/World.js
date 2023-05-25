@@ -156,7 +156,12 @@ function World(spec) {
     }
 
     if (_.endsWith(location.href, '#random')) setLevel('RANDOM')
-    else setLevel(playerStorage.activeLevel ?? levelData[0].nick)
+    else if (
+      playerStorage.activeLevel &&
+      _.find(levelData, (v) => v.nick == playerStorage.activeLevel)
+    )
+      setLevel(playerStorage.activeLevel)
+    else setLevel(levelData[0].nick)
   }
 
   function assetsComplete() {
@@ -201,6 +206,13 @@ function World(spec) {
 
   function setLevel(nick, urlData = null) {
     if (level) level.destroy()
+
+    gtag('event', 'setLevel', {
+      event_category: nick.toLowerCase().startsWith('puzzle_')
+        ? 'daily'
+        : 'campaign',
+      value: nick,
+    })
 
     levelBubble = navigator.getBubbleByNick(nick)
     isPuzzle = urlData?.isPuzzle ?? false
@@ -293,14 +305,17 @@ function World(spec) {
   function makeTwitterSubmissionUrl() {
     const linkToPuzzle = `https://sinerider.com/puzzle/${levelDatum.nick}`
     const solution = ui.mathField.getPlainExpression().replace(/\s/g, '')
-    const twitterPrefill = `#${levelDatum.nick} My solution for the #sinerider puzzle of the day took ${Math.round(timeTaken() * 10) / 10} seconds & ${charCount()} characters
-
+    const twitterPrefill = `#${
+          levelDatum.nick
+        } My solution for the #sinerider puzzle of the day took ${
+          Math.round(timeTaken() * 10) / 10
+        } seconds & ${charCount()} characters
     ${solution}
 
     Try solving it yourself: ${linkToPuzzle}`
-    return (
-      `https://twitter.com/intent/tweet?text=${encodeURIComponent(twitterPrefill)}`
-    )
+    return `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+      twitterPrefill,
+    )}`
     // @msw: While implementing a quick-fix, the following is a noop
     return (
       'https://twitter.com/intent/tweet?text=' +
@@ -341,6 +356,13 @@ function World(spec) {
   function levelCompleted(soft = false) {
     setCompletionTime(runTime)
 
+    gtag('event', 'levelCompleted', {
+      event_category: level.name.toLowerCase().startsWith('puzzle_')
+        ? 'daily'
+        : 'campaign',
+      value: level.name,
+    })
+
     ui.timeTaken.innerHTML =
       timeTaken() + ' second' + (timeTaken() === 1 ? '' : 's')
     ui.charCount.innerHTML =
@@ -375,8 +397,13 @@ function World(spec) {
       ui.redditOpenCloseButton.onclick = () =>
         ui.redditOpenModal.setAttribute('hide', true)
     } else {
-      ui.redditOpenCommand?.setAttribute('hide', false)
-        ('#submit-reddit-score-subreddit')?.setAttribute('hide', false)
+      // TODO: Causing error… commenting for now
+      // ui.redditOpenCommand
+      //   ?.setAttribute(
+      //     'hide',
+      //     false,
+      //   )('#submit-reddit-score-subreddit')
+      //   ?.setAttribute('hide', false)
       ui.submitTwitterScoreDiv?.setAttribute('hide', true)
       ui.submitRedditScoreDiv?.setAttribute('hide', true)
     }

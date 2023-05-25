@@ -1,0 +1,112 @@
+{
+	"info": {
+		"_postman_id": "0938c0f7-41bb-4a04-b19a-9c12fbe8e347",
+		"name": "sinerider-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26253586"
+	},
+	"item": [
+		{
+			"name": "Publish new puzzle",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "QtjmzxcvkjywOMwef",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "hackclub",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://sinerider-api.herokuapp.com/publishNewDailyPuzzle",
+					"protocol": "https",
+					"host": [
+						"sinerider-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"publishNewDailyPuzzle"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Queue new random puzzle",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "QtjmzxcvkjywOMwef",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "hackclub",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:80/generate?id=puzzle_6&title=Daily Puzzle %236&description=Try your hand at this new puzzle!&order=6.0",
+					"host": [
+						"localhost"
+					],
+					"port": "80",
+					"path": [
+						"generate"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "puzzle_6"
+						},
+						{
+							"key": "title",
+							"value": "Daily Puzzle #6"
+						},
+						{
+							"key": "description",
+							"value": "Try your hand at this new puzzle!"
+						},
+						{
+							"key": "order",
+							"value": "6.0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/level/:name",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "levels",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}

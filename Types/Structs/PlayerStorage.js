@@ -9,7 +9,10 @@ function PlayerStorage() {
   }
 
   function getCompletedLevels() {
-    return _.filter(levels, (v) => v?.completed)
+    return _.filter(
+      levels,
+      (v, k) => v?.completed && !k.toLowerCase().startsWith('puzzle_'),
+    )
   }
 
   function save() {
@@ -21,7 +24,7 @@ function PlayerStorage() {
     if (!data) return
 
     levels[name] = data
-    if (activate) activeLevel = name
+    if (activate && !name.startsWith('puzzle_')) activeLevel = name
     save()
   }
 
