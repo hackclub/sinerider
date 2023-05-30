@@ -306,13 +306,12 @@ function World(spec) {
     const linkToPuzzle = `https://sinerider.com/puzzle/${levelDatum.nick}`
     const solution = ui.mathField.getPlainExpression().replace(/\s/g, '')
     const twitterPrefill = `#${
-      levelDatum.nick
-    } My solution for the #sinerider puzzle of the day took ${
-      Math.round(timeTaken() * 10) / 10
-    } seconds & ${charCount()} characters
-    
+          levelDatum.nick
+        } My solution for the #sinerider puzzle of the day took ${
+          Math.round(timeTaken() * 10) / 10
+        } seconds & ${charCount()} characters
     ${solution}
-    
+
     Try solving it yourself: ${linkToPuzzle}`
     return `https://twitter.com/intent/tweet?text=${encodeURIComponent(
       twitterPrefill,
@@ -322,9 +321,9 @@ function World(spec) {
       'https://twitter.com/intent/tweet?text=' +
       encodeURIComponent(
         'I did it! #sinerider ' +
-          levelDatum.nick +
-          ' ' +
-          level.currentLatex.replace(/\s/g, ''),
+        levelDatum.nick +
+        ' ' +
+        level.currentLatex.replace(/\s/g, ''),
       )
     )
   }
@@ -338,6 +337,7 @@ function World(spec) {
       /\s/g,
       '',
     )}\``
+    $('#submit-reddit-score-subreddit').setAttribute('href', `https://sinerider.com/reddit/${levelDatum.nick}`)
     ui.redditOpenCommand.setAttribute('value', text)
     // It would be nice to use this, but it doesn't work for whatever reason
     // navigator.clipboard.writeText(text)
@@ -392,8 +392,7 @@ function World(spec) {
       )
 
       // Hide reddit for the time being
-      // console.log($('#submit-reddit-score'))
-      // $('#submit-reddit-score').onclick = openRedditModal
+      $('#submit-reddit-score').onclick = openRedditModal
 
       ui.redditOpenCloseButton.onclick = () =>
         ui.redditOpenModal.setAttribute('hide', true)
