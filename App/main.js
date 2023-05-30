@@ -204,15 +204,13 @@ var numTicks = 0
 function tick() {
   tickInternal()
 
-  // setTimeout imposes a minimum overhead as the delay approaches 0, and thus it becomes very likely
-  // that our timer loop will fall behind our desired tick rate at ticks/sec > 250
+  // setTimeout and rendering impose some minimum overhead as the delay approaches 0, and thus
+  // it becomes very likely that our timer loop will fall behind our desired tick rate.
   // we will check that here and tick repeatedly until we catch up
-  if (ticksPerSecond >= 250) {
-    const elapsedMs = Date.now() - startTime
-    const expectedTicks = (elapsedMs / 1000.0) * ticksPerSecond
-    while (numTicks < expectedTicks) {
-      tickInternal()
-    }
+  const elapsedMs = Date.now() - startTime
+  const expectedTicks = (elapsedMs / 1000.0) * ticksPerSecond
+  while (numTicks < expectedTicks) {
+    tickInternal()
   }
 }
 
