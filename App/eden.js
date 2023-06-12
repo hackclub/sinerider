@@ -96,7 +96,7 @@ worldData.push({
     },
     sounds: {
       music: {
-        intro: '.mp3',
+        intro: ['.m4a', '.mp3'],
         birds: '.mp3',
         credits: '.mp3',
         map: '.mp3',
