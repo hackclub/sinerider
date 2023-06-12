@@ -660,6 +660,10 @@ input[valid='false'] {
   text-align: center;
 }
 
+#social-links {
+  margin-bottom: 25px;
+}
+
 #puzzles {
   display: inline-flex;
   flex-wrap: wrap;
@@ -672,6 +676,12 @@ input[valid='false'] {
   font-size: 16px;
 }
 
+#leaderboard {
+  position: relative;
+  font-size: small;
+  text-decoration: none;
+}
+
 #loading-links {
   display: flex;
   justify-content: space-evenly;
@@ -682,7 +692,6 @@ input[valid='false'] {
   display: inline-block;
   font-weight: 400;
   text-align: center;
-  vertical-align: middle;
   user-select: none;
 }
 
@@ -698,7 +707,8 @@ input[valid='false'] {
   transform: scale(1.1);
 }
 
-#github-link {
+#github-link,
+#leaderboard-link {
   display: inline-block;
   color: #ec3750;
   position: relative;
@@ -706,7 +716,8 @@ input[valid='false'] {
   text-decoration: none;
 }
 
-#github-link:hover {
+#github-link:hover,
+#leaderboard-link:hover {
   text-decoration: underline;
 }
 
