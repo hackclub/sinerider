@@ -113,7 +113,7 @@ function Level(spec) {
     NewPoint = Vector2(x, y)
     camera.screenToWorld(NewPoint)
 
-    if (gridlines.getactive()) {
+    if (gridlines.active) {
       gridlines.setActiveTrue(NewPoint.x, NewPoint.y)
       CoordinateBox1.visibletrue()
     }

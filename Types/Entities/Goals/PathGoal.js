@@ -124,7 +124,9 @@ function PathGoal(spec) {
   trackPoints.push(pathGraph.minSample)
   trackPoints.push(pathGraph.maxSample)
 
-  const boundsTransform = Transform(spec)
+  const boundsTransform = Transform({
+    x: spec.x,
+  })
 
   const bounds = Rect({
     transform: boundsTransform,
@@ -153,7 +155,7 @@ function PathGoal(spec) {
 
     bounds.width = pathX
     bounds.height = height
-    bounds.center = Vector2(pathX / 2, top - height / 2)
+    bounds.center = Vector2(pathX / 2, (max + min) / 2)
   }
 
   let oldExpression
@@ -188,10 +190,10 @@ function PathGoal(spec) {
     pathExpression = text
 
     pathGraph.expression = text
-    pathGraph.refresh()
+    pathGraph.resample()
 
     hintGraph.expression = text
-    hintGraph.refresh()
+    hintGraph.resample()
 
     ui.mathFieldStatic.latex(latex)
 
@@ -203,9 +205,9 @@ function PathGoal(spec) {
     const top = transform.invertScalar(pathGraph.max)
 
     bounds.height = height
-    bounds.center = Vector2(pathX / 2, top - height / 2)
+    bounds.center = Vector2(pathX / 2, (pathGraph.max + pathGraph.min) / 2)
 
-    boundsTransform.y = top - height / 2
+    // debugger
 
     base.tick()
     tickPath()
@@ -353,7 +355,7 @@ function PathGoal(spec) {
     }
 
     // TODO: Polish bounding box
-    if (clickable.selectedInEditor) bounds.draw(ctx, camera)
+    if (true || clickable.selectedInEditor) bounds.draw(ctx, camera)
   }
 
   function reset() {
@@ -394,7 +396,7 @@ function PathGoal(spec) {
     // Update graph
     pathGraph.bounds[0] = pathStartWorld.x
     pathGraph.bounds[1] = pathEndWorld.x
-    pathGraph.refresh()
+    pathGraph.resample()
 
     boundsTransform.x = point.x
     updateBounds()

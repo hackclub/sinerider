@@ -349,7 +349,7 @@ worldData.push({
     }],
   },*/,
     ...SLOPE,
-    // ...EDITOR,
+    ...EDITOR,
     ...PARABOLA,
     ...WAVE,
     ...LOGISTIC,
