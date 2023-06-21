@@ -1,5 +1,5 @@
 function ClickableContext(spec) {
-  const { entity } = spec
+  const { entity, screen } = spec
 
   let target = null
   let selection = null
@@ -10,7 +10,10 @@ function ClickableContext(spec) {
   const collectHitArgs = [mousePoint, hits]
 
   function processEvent(eventData, eventName) {
-    mousePoint.set(eventData.offsetX, eventData.offsetY)
+    mousePoint.set(
+      eventData.offsetX * screen.samplingFactor,
+      eventData.offsetY * screen.samplingFactor,
+    )
 
     // Collect all hits at mousePoint
     hits.length = 0

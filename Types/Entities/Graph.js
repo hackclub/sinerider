@@ -61,17 +61,23 @@ function Graph(spec) {
   const minSample = Vector2()
   const maxSample = Vector2()
 
-  const terrainLayers = 6
-  const terrainParameters = []
-  for (let i = 0; i < terrainLayers; i++) {
-    scalar = math.lerp(1, 3, Math.random())
-    terrainParameters.push([
-      math.lerp(0, TAU, Math.random()),
-      math.lerp(0.3, 3, Math.random()),
-      math.lerp(3, 5, Math.random()) * scalar,
-      math.lerp(1, 3, Math.random()) * scalar,
-      math.lerp(0.05, 0.25, Math.random()),
-    ])
+  let terrainLayers = 6
+  let terrainParameters
+
+  generateTerrainParameters()
+
+  function generateTerrainParameters() {
+    terrainParameters = []
+    for (let i = 0; i < terrainLayers; i++) {
+      scalar = math.lerp(1, 3, Math.random())
+      terrainParameters.push([
+        math.lerp(0, TAU, Math.random()),
+        math.lerp(0.3, 3, Math.random()),
+        math.lerp(3, 5, Math.random()) * scalar,
+        math.lerp(1, 3, Math.random()) * scalar,
+        math.lerp(0.05, 0.25, Math.random()),
+      ])
+    }
   }
 
   function resample(refresh = false) {
@@ -294,6 +300,23 @@ function Graph(spec) {
     },
     set dashed(v) {
       dashed = v
+    },
+
+    set terrainLayers(v) {
+      terrainLayers = v
+      generateTerrainParameters()
+    },
+
+    set sampleCount(v) {
+      sampleCount = v
+
+      samples = sampler.generateSampleArray(sampleCount)
+
+      interpolationSampler = new InterFrameSampler({
+        sampler,
+        sampleCount,
+        refreshPeriodT,
+      })
     },
   })
 }

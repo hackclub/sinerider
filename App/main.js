@@ -106,6 +106,15 @@ const ui = {
     addDynamic: $('#editor-spawner-dynamic'),
     addPath: $('#editor-spawner-path'),
   },
+
+  settingsButton: $('#settings-button'),
+
+  graphicsSettingsDialog: $('#graphics-settings-dialog'),
+  setResolutionButton: $('#set-resolution-button'),
+  setSampleDensityButton: $('#set-sample-density-button'),
+  setMiscGraphicsButton: $('#set-misc-graphics-button'),
+  closeGraphicsButton: $('#close-graphics-button'),
+
   levelInfoDiv: $('#lvl-debug-info'),
   levelInfoNameStr: $('#lvl-name-str'),
   levelInfoNickStr: $('#lvl-nick-str'),
@@ -444,6 +453,32 @@ function onClickShowAllButton(event) {
 
 ui.showAllButton.addEventListener('click', onClickShowAllButton)
 
+function onClickSettingsButton(event) {
+  ui.graphicsSettingsDialog.showModal()
+}
+
+ui.graphicsSettingsDialog.addEventListener('click', (event) => {
+  const x = event.clientX
+  const y = event.clientY
+  const rect = ui.graphicsSettingsDialog.getBoundingClientRect()
+  const outsideModal =
+    x < rect.x ||
+    x > rect.x + rect.width ||
+    y < rect.y ||
+    y > rect.y + rect.height
+  if (outsideModal) {
+    ui.graphicsSettingsDialog.close()
+  }
+})
+
+ui.settingsButton.addEventListener('click', onClickSettingsButton)
+
+function onClickCloseGraphicsButton() {
+  ui.graphicsSettingsDialog.close()
+}
+
+// ui.closeGraphicsButton.addEventListener('click', onClickCloseGraphicsButton)
+
 function onClickEditButton(event) {
   world.editing = !world.editing
 }
@@ -492,6 +527,87 @@ function onResizeWindow(event) {
 
 window.addEventListener('resize', onResizeWindow)
 
+/* Graphics setting buttons */
+
+const resolutionSelector = {
+  selection: 2,
+  applySettings: (option) => {
+    screen.samplingFactor = option[1]
+    screen.resize()
+  },
+  options: [
+    ['Low', 0.6],
+    ['Medium', 0.8],
+    ['High', 1.0],
+  ],
+}
+
+const sampleDensitySelector = {
+  selection: 1,
+  applySettings: (option) => {
+    if (world.level?.graph) world.level.graph.samplingFactor = option[1]
+  },
+  options: [
+    ['Low', 60],
+    ['Medium', 129],
+    ['High', 300],
+  ],
+}
+
+const miscGraphicsSelector = {
+  selection: 2,
+  applySettings: (option) => {
+    if (world.level?.graph)
+      world.level.graph.terrainLayers = option[1].terrainLayers
+  },
+  options: [
+    [
+      'Low',
+      {
+        terrainLayers: 0,
+      },
+    ],
+    [
+      'Medium',
+      {
+        terrainLayers: 3,
+      },
+    ],
+    [
+      'High',
+      {
+        terrainLayers: 6,
+      },
+    ],
+  ],
+}
+
+function createToggleSelector(element, selector) {
+  let choice = selector.options[selector.selection]
+  element.innerText = choice[0]
+  selector.applySettings(choice)
+
+  return () => {
+    selector.selection = (selector.selection + 1) % selector.options.length
+    choice = selector.options[selector.selection]
+    element.innerText = choice[0]
+    selector.applySettings(choice)
+  }
+}
+
+ui.setResolutionButton.addEventListener(
+  'click',
+  createToggleSelector(ui.setResolutionButton, resolutionSelector),
+)
+ui.setSampleDensityButton.addEventListener(
+  'click',
+  createToggleSelector(ui.setSampleDensityButton, sampleDensitySelector),
+)
+ui.setMiscGraphicsButton.addEventListener(
+  'click',
+  createToggleSelector(ui.setMiscGraphicsButton, miscGraphicsSelector),
+)
+
 function onClickCanvas() {
   if (stepping) {
     tick()
@@ -507,7 +623,10 @@ function onMouseMoveCanvas(event) {
 }
 
 function onMouseMoveWindow(event) {
-  onCoordinate(event.clientX, event.clientY)
+  onCoordinate(
+    event.clientX * screen.samplingFactor,
+    event.clientY * screen.samplingFactor,
+  )
 }
 
 canvas.addEventListener('mousemove', onMouseMoveCanvas)

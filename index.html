@@ -140,8 +140,16 @@
         <div id="editor-inspector-delete" class="button string">X</div>
         <!-- TODO: Add path goal -->
       </div>
-      <div class="button" id="navigator-button" hide="false">
-        <div class="string">🏔</div>
+
+      <div class="hbar">
+        <!-- TODO: Tooltip -->
+        <div class="button tooltip" id="settings-button" data-tooltip="Settings">
+          <div class="string">⚙️</div>
+        </div>
+
+        <div class="button" id="navigator-button" hide="false">
+          <div class="string">🏔</div>
+        </div>
       </div>
     </div>
     <div id="completion-time" hide="true"></div>
@@ -252,6 +260,22 @@
         <div class="button" id="reset-progress-confirmation-yes">
           <div class="string">Reset</div>
         </div>
+      </div>
+    </dialog>
+
+    <dialog id="graphics-settings-dialog">
+      <div class="string">Graphics Settings</div>
+      <div>
+        <label>Resolution</label>
+        <button class="button" id="set-resolution-button">High</button>
+      </div>
+      <div>
+        <label>Sample Density</label>
+        <button class="button" id="set-sample-density-button">High</button>
+      </div>
+      <div>
+        <label>Misc. Graphics</label>
+        <button class="button" id="set-misc-graphics-button">High</button>
       </div>
     </dialog>
 

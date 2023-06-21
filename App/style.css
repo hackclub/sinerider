@@ -36,10 +36,18 @@ html {
 
 canvas {
   user-select: none;
+  width: 100vw;
+  height: 100vh;
 }
 
 .map {
   /* transform: scale(1.42) rotateX(40deg) rotateY(-4deg); */
+}
+
+#graphics-settings-dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .bar {
@@ -279,6 +287,11 @@ input[valid='false'] {
   bottom: -50vh;
 }
 
+.hbar {
+  display: flex;
+  flex-direction: row;
+}
+
 #expression-text {
   display: none;
   flex-grow: 1;
@@ -403,6 +416,13 @@ input[valid='false'] {
 
 .reset-button:not(:hover) {
   background: #f46;
+}
+
+/* TODO: Clean up settings button, use existing CSS */
+#settings-button {
+  margin-right: 20px;
+  border-radius: 0 0 10px 10px;
+  font-size: 2.4rem;
 }
 
 #next-button:not(:hover) {

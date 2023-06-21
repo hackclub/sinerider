@@ -1216,6 +1216,10 @@ function Level(spec) {
     sledders,
     walkers,
 
+    get graph() {
+      return graph
+    },
+
     // TODO: temp
     trackedEntities,
 

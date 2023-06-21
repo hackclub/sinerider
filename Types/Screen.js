@@ -34,9 +34,14 @@ function Screen(spec = {}) {
   const minFramePoint = Vector2()
   const maxFramePoint = Vector2()
 
+  let samplingFactor = 1.0
+
   function resize() {
     width = element.innerWidth || element.width
     height = element.innerHeight || element.height
+
+    width *= samplingFactor
+    height *= samplingFactor
 
     canvas.width = width
     canvas.height = height
@@ -133,6 +138,13 @@ function Screen(spec = {}) {
     },
     get maxFramePoint() {
       return maxFramePoint
+    },
+
+    get samplingFactor() {
+      return samplingFactor
+    },
+    set samplingFactor(o) {
+      samplingFactor = o
     },
   }
 }

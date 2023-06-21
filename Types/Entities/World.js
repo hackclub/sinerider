@@ -76,6 +76,7 @@ function World(spec) {
 
   const clickableContext = ClickableContext({
     entity: self,
+    screen /* Pass screen for downsampling ratio */,
   })
 
   let backgroundMusicAsset = null
