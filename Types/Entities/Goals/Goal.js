@@ -153,7 +153,7 @@ function Goal(spec) {
   function drawLocal() {
     if (order) {
       ctx.save()
-      ctx.fillStyle = strokeStyle
+      // ctx.fillStyle = strokeStyle
       ctx.textAlign = 'center'
       ctx.textBaseline = 'middle'
       ctx.font = '1px Roboto Mono'
@@ -236,6 +236,20 @@ function Goal(spec) {
         : available
         ? availableFill
         : unavailableFill,
+    )
+
+    console.log(
+      'Set goal color',
+      order,
+      completed
+        ? 'completedFill'
+        : failed
+        ? 'failedFill'
+        : triggered
+        ? 'triggeredFill'
+        : available
+        ? 'availableFill'
+        : 'unavailableFill',
     )
 
     strokeColor.lerp(flashWhite, flashProgress)
