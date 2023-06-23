@@ -94,7 +94,10 @@ const ui = {
   editorInspector: {
     editorInspector: $('#editor-inspector'),
     order: $('#editor-order-input'),
+    orderLabel: $('#editor-order-label'),
     timer: $('#editor-timer-input'),
+    timerLabel: $('#editor-timer-label'),
+    positionLabel: $('#editor-position-label'),
     x: $('#editor-x-input'),
     y: $('#editor-y-input'),
     deleteSelection: $('#editor-inspector-delete'),
@@ -324,17 +327,6 @@ function onMathFieldFocus(event) {
   world.onMathFieldFocus()
 }
 
-function onGridlinesDeactive(event) {
-  world.onGridlinesDeactive()
-}
-function onGridlinesActive(event) {
-  world.onGridlinesActive()
-}
-
-function onCoordinate(x, y) {
-  world.onCoordinate(x, y)
-}
-
 ui.expressionEnvelope.addEventListener('focusin', onMathFieldFocus)
 
 function onMathFieldBlur(event) {
@@ -532,7 +524,7 @@ window.addEventListener('resize', onResizeWindow)
 const resolutionSelector = {
   selection: 2,
   applySettings: (option) => {
-    screen.samplingFactor = option[1]
+    screen.resolutionScalingFactor = option[1]
     screen.resize()
   },
   options: [
@@ -545,7 +537,8 @@ const resolutionSelector = {
 const sampleDensitySelector = {
   selection: 1,
   applySettings: (option) => {
-    if (world.level?.graph) world.level.graph.samplingFactor = option[1]
+    if (world.level?.graph)
+      world.level.graph.resolutionScalingFactor = option[1]
   },
   options: [
     ['Low', 60],
@@ -622,11 +615,18 @@ function onMouseMoveCanvas(event) {
   event.preventDefault()
 }
 
+function selectScreenCoordinatesFromWindow(windowX, windowY) {
+  const screenX = screen.resolutionScalingFactor * windowX
+  const screenY = screen.resolutionScalingFactor * windowY
+
+  world.sendEvent('selectScreenCoordinates', [
+    screenX * screen.resolutionScalingFactor,
+    screenY * screen.resolutionScalingFactor,
+  ])
+}
+
 function onMouseMoveWindow(event) {
-  onCoordinate(
-    event.clientX * screen.samplingFactor,
-    event.clientY * screen.samplingFactor,
-  )
+  selectScreenCoordinatesFromWindow(event.clientX, event.clientY)
 }
 
 canvas.addEventListener('mousemove', onMouseMoveCanvas)
@@ -638,20 +638,20 @@ window.addEventListener('pointermove', onMouseMoveWindow)
 function onMouseDownCanvas(event) {
   world.clickableContext.processEvent(event, 'mouseDown')
   event.preventDefault()
-  onGridlinesActive()
-  onCoordinate(event.clientX, event.clientY)
+  selectScreenCoordinatesFromWindow(event.clientX, event.clientY)
   ui.mathField.blur()
+  world.sendEvent('enableGridlines')
 }
 
 canvas.addEventListener('mousedown', onMouseDownCanvas)
 canvas.addEventListener('pointerdown', onMouseDownCanvas)
 
 function onMouseUpCanvas(event) {
-  ui.tSlider.value = 0
-  refreshTSlider()
-  world.clickableContext.processEvent(event, 'mouseUp')
   event.preventDefault()
-  onGridlinesDeactive()
+  ui.tSlider.value = 0
+  // refreshTSlider()
+  world.clickableContext.processEvent(event, 'mouseUp')
+  world.sendEvent('disableGridlines')
 }
 
 canvas.addEventListener('mouseup', onMouseUpCanvas)

@@ -229,6 +229,8 @@ function World(spec) {
       } else {
         levelDatum = _.find(levelData, (v) => v.nick == nick)
       }
+
+      // Load level data from URL into datum
       savedLatex =
         urlData?.savedLatex ?? playerStorage.getLevel(nick)?.savedLatex
       completed =
@@ -236,6 +238,9 @@ function World(spec) {
 
       if (urlData?.goals && urlData?.goals.length)
         levelDatum.goals = (levelDatum.goals ?? []).concat(urlData?.goals)
+
+      if (urlData?.x && levelDatum.sledders[0])
+        levelDatum.sledders[0].x = urlData.x
     }
 
     level = Level({
@@ -712,16 +717,6 @@ function World(spec) {
     self.sendEvent('mathFieldBlurred')
   }
 
-  function onGridlinesDeactive() {
-    self.sendEvent('disableGridlines')
-  }
-  function onGridlinesActive() {
-    self.sendEvent('enableGridlines')
-  }
-  function onCoordinate(x, y) {
-    self.sendEvent('setCoordinates', [x, y])
-  }
-
   return self.mix({
     start,
     tick,
@@ -747,10 +742,6 @@ function World(spec) {
 
     onMathFieldFocus,
     onMathFieldBlur,
-
-    onGridlinesActive,
-    onGridlinesDeactive,
-    onCoordinate,
 
     get navigator() {
       return navigator

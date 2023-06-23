@@ -151,7 +151,6 @@ function PathGoal(spec) {
       PINF,
     )
     const height = max - min
-    const top = transform.invertScalar(max)
 
     bounds.width = pathX
     bounds.height = height
@@ -160,7 +159,7 @@ function PathGoal(spec) {
 
   let oldExpression
 
-  function select() {
+  function selectEditor() {
     editor.editingPath = true
 
     ui.mathFieldLabel.innerText = 'P='
@@ -173,7 +172,7 @@ function PathGoal(spec) {
     editor.select(self, 'path')
   }
 
-  function deselect() {
+  function deselectEditor() {
     editor.editingPath = false
 
     ui.mathFieldLabel.innerText = 'Y='
@@ -275,9 +274,9 @@ function PathGoal(spec) {
     ctx.fill()
     ctx.stroke()
 
-    ctx.beginPath()
-    ctx.arc(pathEnd.x, -pathEnd.y, size / 2, 0, TAU)
-    ctx.strokeStyle = '#888'
+    // ctx.beginPath()
+    // ctx.arc(pathEnd.x, -pathEnd.y, size / 2, 0, TAU)
+    // ctx.strokeStyle = '#888'
     // ctx.stroke()
 
     if (self.debug) {
@@ -369,12 +368,12 @@ function PathGoal(spec) {
     hintGraph.resize()
   }
 
-  function dragMove(point) {
-    transform.position = point
+  function dragMoveEditor(point) {
+    transform.position.x = point.x
 
     // Reset pathStart/pathEnd
-    pathStart.set(Vector2())
-    pathEnd.set(Vector2(pathX, 0))
+    // pathStart.set(Vector2())
+    // pathEnd.set(Vector2(pathX, 0))
 
     // Re-transform to world space
     transform.transformPoint(pathStart, pathStartWorld)
@@ -407,7 +406,7 @@ function PathGoal(spec) {
     ui.editorInspector.y.value = point.y.toFixed(2)
   }
 
-  function dragEnd() {
+  function dragEndEditor() {
     reset()
   }
 
@@ -428,8 +427,8 @@ function PathGoal(spec) {
     setX,
     setY,
 
-    dragMove,
-    dragEnd,
+    dragMoveEditor,
+    dragEndEditor,
 
     reset,
     resize,
@@ -439,8 +438,8 @@ function PathGoal(spec) {
     trackPoints,
     shape,
 
-    select,
-    deselect,
+    selectEditor,
+    deselectEditor,
 
     clickable,
 

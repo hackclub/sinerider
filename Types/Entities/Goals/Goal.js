@@ -238,20 +238,6 @@ function Goal(spec) {
         : unavailableFill,
     )
 
-    console.log(
-      'Set goal color',
-      order,
-      completed
-        ? 'completedFill'
-        : failed
-        ? 'failedFill'
-        : triggered
-        ? 'triggeredFill'
-        : available
-        ? 'availableFill'
-        : 'unavailableFill',
-    )
-
     strokeColor.lerp(flashWhite, flashProgress)
     strokeColorB.lerp(flashWhite, flashProgress)
     fillColor.lerp(flashWhite, flashProgress)

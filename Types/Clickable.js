@@ -41,6 +41,19 @@ function Clickable(spec) {
   const dragDelta = Vector2()
   let dragDistance = 0
 
+  function sendEvent(name, args) {
+    entity.sendEvent(name, args)
+    if (editor.active) {
+      // TODO: Actually implement a sensible Editor implementation
+      // and figure out how to organize Editor business logic;
+      // for now editing is handled implicitly in relevant Entities (goals)
+      // through events
+      const editEventName =
+        name.charAt(0).toLowerCase() + name.substring(1) + 'Editor'
+      entity.sendEvent(editEventName, args)
+    }
+  }
+
   function collectHit(point, hits) {
     const overlapping = testOverlap(point)
 
@@ -93,13 +106,13 @@ function Clickable(spec) {
   function mouseEnter(point) {
     hovering = true
     recordPoint(point, hoverOnPoint)
-    entity.sendEvent('hoverOn', [hoverOnPoint])
+    sendEvent('hoverOn', [hoverOnPoint])
   }
 
   function mouseExit(point) {
     hovering = false
     recordPoint(point, hoverOffPoint)
-    entity.sendEvent('hoverOff', [hoverOffPoint])
+    sendEvent('hoverOff', [hoverOffPoint])
   }
 
   function mouseDown(point) {
@@ -109,14 +122,14 @@ function Clickable(spec) {
       holding = true
       recordPoint(point, dragStartPoint)
 
-      entity.sendEvent('mouseDown', [mouseDownPoint])
+      sendEvent('mouseDown', [mouseDownPoint])
     }
   }
 
   function mouseMove(point) {
     if (hovering) {
       recordPoint(point, hoverMovePoint)
-      entity.sendEvent('hoverMove', [hoverMovePoint])
+      sendEvent('hoverMove', [hoverMovePoint])
     }
     if (holding) {
       recordPoint(point, dragMovePoint)
@@ -126,13 +139,13 @@ function Clickable(spec) {
       let dragThresholdMet = toFrameScalar(dragDistance) > dragThreshold
 
       if (dragging) {
-        entity.sendEvent('dragMove', [dragMovePoint])
+        sendEvent('dragMove', [dragMovePoint])
       } else if (dragThresholdMet) {
         dragging = true
-        entity.sendEvent('dragStart', [dragStartPoint])
+        sendEvent('dragStart', [dragStartPoint])
       }
 
-      entity.sendEvent('mouseMove', [dragMovePoint])
+      sendEvent('mouseMove', [dragMovePoint])
     }
   }
 
@@ -141,13 +154,13 @@ function Clickable(spec) {
 
     if (holding) {
       holding = false
-      entity.sendEvent('click', [clickPoint])
-      entity.sendEvent('mouseUp', [mouseUpPoint])
+      sendEvent('click', [clickPoint])
+      sendEvent('mouseUp', [mouseUpPoint])
     }
     if (dragging) {
       dragging = false
       recordPoint(point, dragEndPoint)
-      entity.sendEvent('dragEnd', [dragEndPoint])
+      sendEvent('dragEnd', [dragEndPoint])
     }
   }
 
@@ -156,13 +169,13 @@ function Clickable(spec) {
   function select(_deselectMe) {
     deselectMe = _deselectMe
     selected = true
-    entity.sendEvent('select', [])
+    sendEvent('select', [])
   }
 
   function deselect() {
     deselectMe = null
     selected = false
-    entity.sendEvent('deselect', [])
+    sendEvent('deselect', [])
   }
 
   return _.mixIn(self, {

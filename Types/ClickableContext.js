@@ -11,8 +11,8 @@ function ClickableContext(spec) {
 
   function processEvent(eventData, eventName) {
     mousePoint.set(
-      eventData.offsetX * screen.samplingFactor,
-      eventData.offsetY * screen.samplingFactor,
+      eventData.offsetX * screen.resolutionScalingFactor,
+      eventData.offsetY * screen.resolutionScalingFactor,
     )
 
     // Collect all hits at mousePoint
@@ -34,7 +34,9 @@ function ClickableContext(spec) {
       target = newTarget
     }
 
-    if (eventName == 'mouseDown') {
+    // TODO: Figure out editor
+    if (editor.active && eventName == 'mouseDown') {
+      // This event is only used for selection in editor
       let newSelection = hits
         .reverse()
         .find((h) => h.enabled && h.entity.selectable)

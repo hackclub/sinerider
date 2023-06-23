@@ -12,9 +12,14 @@ function Assets(spec) {
   const soundExtensions = ['m4a', 'mp3', 'ogg', 'wav']
   const shaderExtensions = ['glsl', 'frag', 'vert']
 
-  load(self)
-
   if (callbacks.progress) callbacks.progress(0, loadTotal)
+
+  const ASSET_TIMEOUT = 5000
+
+  const assetsLoaded = {}
+  const attemptsTried = {}
+
+  load(self)
 
   function loadAsset(object, folders, file, key, assetSpec = {}) {
     // console.log(`Loading asset '${file}' from folders `, folders)
@@ -57,7 +62,7 @@ function Assets(spec) {
         (asset = new Howl({
           ...assetSpec,
           onload: () => assetLoaded(path),
-          onloaderror: (error) => handleFailure(error, path)
+          onloaderror: (error) => handleFailure(error, path),
         }))
     } else if (isShader) {
       fetch(path)
@@ -65,10 +70,23 @@ function Assets(spec) {
         .then((text) => {
           object[key] = text
           assetLoaded(path)
-        }).catch((error) => handleFailure(error, path))
+        })
+        .catch((error) => handleFailure(error, path))
     } else {
-      return
+      throw `Unexpected file extension: .${extension}`
     }
+
+    // TODO: Clean up
+    setTimeout(() => {
+      if (!assetsLoaded[path]) {
+        const attempts = attemptsTried[path] || 1
+        if (attempts < 5) {
+          console.log(`Failed to load ${path} after 5000ms, retrying...`)
+          attemptsTried[path] = attemptsTried + 1
+          loadAsset(arguments)
+        }
+      }
+    }, ASSET_TIMEOUT)
 
     object[key] = asset
 
@@ -86,6 +104,7 @@ function Assets(spec) {
   }
 
   function assetLoaded(path) {
+    assetsLoaded[path] = true
     loadCount--
     if (loadCount == 0) {
       callbacks.complete()
@@ -97,7 +116,7 @@ function Assets(spec) {
   function handleFailure(error, path) {
     console.error('Asset request failed', error, path)
     if (!failed) {
-      alert("Something failed to load. Try refreshing the page.")
+      alert(`Something failed to load: ${path}. Try refreshing the page.`)
       failed = true
     }
   }

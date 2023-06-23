@@ -56,7 +56,6 @@ function Level(spec) {
   let highestOrder = 'A'
 
   let lava, volcanoSunset, sky
-  let CoordinateBox1 = null
 
   let usingTInExpression = false
 
@@ -108,36 +107,26 @@ function Level(spec) {
 
   if (axes) trackedEntities.unshift(axes)
 
-  function setCoordinates(x, y) {
-    Point = Vector2(x, y)
-    NewPoint = Vector2(x, y)
-    camera.screenToWorld(NewPoint)
-
-    if (gridlines.active) {
-      gridlines.setActiveTrue(NewPoint.x, NewPoint.y)
-      CoordinateBox1.visibletrue()
-    }
-    CoordinateBox1.refreshDOM(NewPoint.x, NewPoint.y, Point.x, Point.y)
-  }
-
-  let gridlines = null
-  gridlines = Gridlines({
+  // Gridlines and corresponding coordinate bubble
+  const gridlines = Gridlines({
     drawOrder: LAYERS.gridlines,
     camera,
     globalScope,
     parent: self,
     domSelector: '#body',
   })
-  CoordinateBox1 = CoordinateBox({
+  const coordinateBox = CoordinateBox({
     drawOrder: LAYERS.gridlines,
     camera,
     globalScope,
     parent: self,
     content: '0, 0',
     domSelector: '#reset-button',
-    place: 'top-right',
     style: { ...self.style, visibility: 'hidden' },
   })
+
+  disableGridlines()
+
   let darkBufferOrScreen = screen
   let darkenBufferOpacity = 0.0
   let darkenBuffer, darkenBufferScreen
@@ -740,17 +729,15 @@ function Level(spec) {
       savedLatex: isConstantLakeAndNotBubble()
         ? vectorExpression
         : currentLatex,
-      goals: isEditor()
-        ? goals.map((g) => {
-            s = {
-              type: g.type,
-              x: g.transform.x,
-              y: g.transform.y,
-              order: g.order,
-            }
-            return s
-          })
-        : null,
+    }
+    if (isEditor()) {
+      json.goals = goals.map((g) => ({
+        type: g.type,
+        x: g.transform.x,
+        y: g.transform.y,
+        order: g.order,
+      }))
+      if (sledders[0]) json.x = sledders[0].transform.x
     }
     if (isConstantLakeAndNotBubble()) {
       json.t = globalScope.t
@@ -1084,7 +1071,7 @@ function Level(spec) {
       math.parse(text).traverse((node) => {
         if (node.name == 't' || node.args?.some((arg) => arg.name == 't')) {
           usingTInExpression = true
-          throw '' // Throw exception for janky early return
+          throw '' // HACK: Throw exception for early return
         }
       })
     } catch {}
@@ -1108,15 +1095,32 @@ function Level(spec) {
     ui.expressionEnvelope.classList.remove('flash-shadow')
   }
 
+  // TODO: Figure out how gridlines enable/disable logic
+  // should be organized, along with UI generally
   function disableGridlines() {
-    gridlines.setActiveFalse()
-    CoordinateBox1.visiblefalse()
+    gridlines.active = false
+    coordinateBox.visible = false
   }
+
   function enableGridlines() {
-    if (!world.running) {
-      gridlines.setActiveTrue(CoordinateBox1.getx(), CoordinateBox1.gety())
-      CoordinateBox1.visibletrue()
+    // TODO: Implement special gridline behavior for editor
+    if (!world.running && !isEditor()) {
+      gridlines.active = true
+      coordinateBox.visible = true
     }
+  }
+
+  function selectScreenCoordinates(screenX, screenY) {
+    // TODO: Creating a vector every call? Anti-pattern?
+    const worldPoint = Vector2(screenX, screenY)
+    camera.screenToWorld(worldPoint)
+    coordinateBox.selectCoordinates(
+      screenX,
+      screenY,
+      worldPoint.x,
+      worldPoint.y,
+    )
+    gridlines.updatePosition(worldPoint.x, worldPoint.y)
   }
 
   function destroy() {
@@ -1168,8 +1172,6 @@ function Level(spec) {
 
     setGraphExpression,
 
-    setCoordinates,
-
     camera,
     graph,
 
@@ -1186,6 +1188,7 @@ function Level(spec) {
 
     enableGridlines,
     disableGridlines,
+    selectScreenCoordinates,
 
     get isRunningAsCutscene() {
       return runAsCutscene

@@ -38,7 +38,11 @@ function Editor(ui) {
     }
   })
 
-  function select(_selection, _selectionType, attributes = null) {
+  function select(
+    _selection,
+    _selectionType,
+    attributes = ['order', 'timer', 'x', 'y'],
+  ) {
     if (!active) return
 
     editorSpawner.setAttribute('hide', true)
@@ -50,10 +54,20 @@ function Editor(ui) {
     // TODO: Resolve source of truth as either consumer or branching in Editor
     // from passed type
     if (attributes) {
-      for (input of ['order', 'timer', 'x', 'y'])
-        ui.editorInspector[input].setAttribute('hide', true)
-      for (input of attributes)
-        ui.editorInspector[input].setAttribute('hide', false)
+      // TODO: Disgusting, clean up
+      const hideOrder = !attributes.includes('order')
+      ui.editorInspector.order.setAttribute('hide', hideOrder)
+      ui.editorInspector.orderLabel.setAttribute('hide', hideOrder)
+
+      const hideTimer = !attributes.includes('timer')
+      ui.editorInspector.timer.setAttribute('hide', hideTimer)
+      ui.editorInspector.timerLabel.setAttribute('hide', hideTimer)
+
+      const hideX = !attributes.includes('x')
+      const hideY = !attributes.includes('y')
+      ui.editorInspector.x.setAttribute('hide', hideX)
+      ui.editorInspector.y.setAttribute('hide', hideY)
+      ui.editorInspector.positionLabel.setAttribute('hide', hideX && hideY)
     }
 
     order.value = selection.order ?? ''
