@@ -44,10 +44,6 @@ function World(spec) {
       return running
     },
 
-    get quads() {
-      return quads
-    },
-
     get completionTime() {
       return completionTime
     },
@@ -240,10 +236,17 @@ function World(spec) {
         levelDatum.goals = (levelDatum.goals ?? []).concat(urlData?.goals)
 
       if (urlData?.x && levelDatum.sledders[0])
-        levelDatum.sledders[0].x = urlData.x
+        levelDatum.sledders[0].transform.x = urlData.x
     }
 
-    level = Level({
+    const generator =
+      {
+        CONSTANT_LAKE: ConstantLake,
+        VOLCANO: Volcano,
+        DESERT: Desert,
+      }[levelDatum.nick] || Level
+
+    level = generator({
       ui,
       screen,
       assets,
@@ -257,6 +260,7 @@ function World(spec) {
       tickDelta,
       isBubbleLevel: false,
       world: self,
+      quads,
 
       storage: playerStorage,
       savedLatex,
@@ -465,16 +469,11 @@ function World(spec) {
     editing = _editing
   }
 
-  function startRunning(
-    playSound = true,
-    hideNavigator = true,
-    disableExpressionEditing = true,
-  ) {
+  function startRunning(playSound = true, hideNavigator = true) {
     running = true
     setCompletionTime(null)
 
     ui.mathField.blur()
-    ui.expressionEnvelope.setAttribute('disabled', disableExpressionEditing)
     ui.menuBar.setAttribute('hide', true)
 
     ui.runButton.setAttribute('hide', true)

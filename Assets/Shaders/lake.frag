@@ -8,8 +8,10 @@ void main(void) {
     vec3 col = vec3(0.2, 0.2, 1.);
 
     float height = 0.55;
+
+    float speed = 1.2;
     
-    float waterHeight = uv.y + sin((uv.x + time) * 4.) * 0.015;
+    float waterHeight = uv.y + sin((uv.x + time) * speed) * 0.015;
 
     float b = 0.005;
 

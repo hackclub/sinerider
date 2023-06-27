@@ -1,9 +1,11 @@
 function ScreenBuffer(spec) {
   const { self, screen } = Entity(spec, 'ScreenBuffer')
 
-  const { postProcess = null } = spec
+  let { postProcess = null, canvas: bufferCanvas, parameters } = spec
 
-  const bufferCanvas = document.createElement('canvas')
+  if (!bufferCanvas) {
+    bufferCanvas = document.createElement('canvas')
+  }
 
   bufferCanvas.width = screen.width
   bufferCanvas.height = screen.height
@@ -22,7 +24,12 @@ function ScreenBuffer(spec) {
 
   function draw() {
     if (postProcess)
-      postProcess(bufferCtx, bufferCanvas.width, bufferCanvas.height)
+      postProcess(
+        bufferCtx,
+        bufferCanvas.width,
+        bufferCanvas.height,
+        parameters,
+      )
     screen.ctx.drawImage(bufferCanvas, 0, 0, screen.width, screen.height)
     clear()
   }
@@ -30,6 +37,7 @@ function ScreenBuffer(spec) {
   return _.mixIn(self, {
     draw,
     resize,
+    parameters,
 
     get canvas() {
       return bufferCanvas

@@ -220,11 +220,7 @@ function Speech(spec) {
     )
       return
 
-    if (
-      globalScope.running &&
-      !drawIfRunning &&
-      !world.level.isRunningAsCutscene
-    ) {
+    if (globalScope.running && !drawIfRunning && !world.level.isCutscene) {
       return
     }
 

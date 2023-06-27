@@ -1,7 +1,7 @@
 function LavaMonster(spec) {
   const { self, camera, screen } = Entity(spec, 'LavaMonster')
 
-  const { world, globalScope } = spec
+  const { sledder } = spec
 
   const transform = Transform(spec, self)
 
@@ -34,28 +34,24 @@ function LavaMonster(spec) {
 
   let roarPlayed = false
 
-  function draw() {}
-
   function tick() {
     transform.position.x = 0
     transform.position.y = 110
 
-    if (world.level?.sledders) {
-      const x = world.level.sledders[0].transform.x
+    const x = sledder.transform.x
 
-      const tangentAngle = Math.atan(-(x - 250) / 150)
-      transform.rotation = tangentAngle
-      transform.position.y = 40 - ((x - 200) / 6) ** 2
-      transform.position.x = (x - 5) * 1.01
+    const tangentAngle = Math.atan(-(x - 250) / 150)
+    transform.rotation = tangentAngle
+    transform.position.y = 40 - ((x - 200) / 6) ** 2
+    transform.position.x = (x - 5) * 1.01
 
-      const t = 1 / (1 + Math.exp(-0.3 * (x - 195)))
+    const t = 1 / (1 + Math.exp(-0.3 * (x - 195)))
 
-      jaw.transform.y = -4 + 4 * t
+    jaw.transform.y = -4 + 4 * t
 
-      if (x > 170 && !roarPlayed) {
-        roar.play()
-        roarPlayed = true
-      }
+    if (x > 170 && !roarPlayed) {
+      roar.play()
+      roarPlayed = true
     }
   }
 
@@ -63,5 +59,7 @@ function LavaMonster(spec) {
     transform,
     tick,
     draw,
+
+    roar,
   })
 }

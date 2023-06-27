@@ -1,7 +1,7 @@
 function ConstantLakeShader(spec) {
   const { self, screen } = Entity(spec, 'ConstantLakeShader')
 
-  const { quad } = spec
+  const { quad, walkerPosition } = spec
 
   const ctx = screen.ctx
 
@@ -13,7 +13,7 @@ function ConstantLakeShader(spec) {
   let shouldTick = false
 
   function draw() {
-    quad.render()
+    quad.render(walkerPosition.x)
     ctx.drawImage(quad.localCanvas, 0, 0, screen.width, screen.height)
     shouldTick = true
   }

@@ -9,7 +9,7 @@ void main(void) {
   vec3 currentCol = texture2D(current, uv).rgb;
   vec3 accCol = texture2D(acc, uv).rgb;
 
-  vec3 col = accCol * 0.96 + currentCol;
+  vec3 col = accCol * 0.97 + currentCol;
 
   gl_FragColor = vec4(col, 1.0);
 }

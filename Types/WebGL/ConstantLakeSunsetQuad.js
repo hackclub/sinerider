@@ -123,7 +123,7 @@ function ConstantLakeSunsetQuad(defaultExpression, assets) {
 
   // const input = document.querySelector('input')
 
-  const eta = 0.004
+  const eta = 0.12
   t = 0
 
   function updateParticlePositions(vectorField) {
@@ -148,8 +148,8 @@ function ConstantLakeSunsetQuad(defaultExpression, assets) {
 
       const [dx, dy] = vectorField(x, y, world.level.cutsceneDistanceParameter)
 
-      const newX = eta * dx + normX
-      const newY = eta * dy + normY
+      const newX = eta * tickDelta * dx + normX
+      const newY = eta * tickDelta * dy + normY
 
       // otherwise nudge w/ gradient
       oldParticlePositions[index] = normX
@@ -235,10 +235,10 @@ function ConstantLakeSunsetQuad(defaultExpression, assets) {
   const START_STARS_FADE_IN = 0.0
 
   // Pass in progress parameter (x distance)
-  function render() {
+  function render(walkerX) {
     // console.log('time', progress, 'iTime', 5 * progress)
 
-    const iTime = (world.level.firstWalkerX / 20.0 + 0.7) * 5
+    const iTime = (walkerX / 20.0 + 0.7) * 5
 
     // Only bother rendering stars if faded in at all
     // subtract 1 b/c uv and length(skyCol)

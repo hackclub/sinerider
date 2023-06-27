@@ -3,6 +3,10 @@ function Rect(spec) {
 
   let { center = Vector2(), width = 1, height = 1 } = spec
 
+  function getBounds() {
+    return self
+  }
+
   function intersectPoint(point, hit) {
     let p = self.localize(point)
     p.subtract(center)
@@ -49,6 +53,8 @@ function Rect(spec) {
     intersectPoint,
     intersectCircle,
     intersectRect,
+
+    getBounds,
 
     get center() {
       return center

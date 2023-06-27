@@ -216,7 +216,7 @@ function Walker(spec) {
 
     set darkModeOpacity(o) {
       if (darkSprite) darkSprite.opacity = o
-      else throw `Tried to set opacity of Sprite without an opacity`
+      else throw `Tried to set darken opacity of undarkenable Sprite`
     },
     get hasDarkMode() {
       return hasDarkMode

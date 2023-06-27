@@ -123,6 +123,8 @@ const ui = {
   levelInfoNickStr: $('#lvl-nick-str'),
   levelInfoFpsStr: $('#lvl-fps-str'),
   hideLevelInfoButton: $('#button-hide-level-info'),
+
+  skipCutsceneButton: $('#skip-cutscene-button'),
 }
 
 const editor = Editor(ui)
@@ -180,14 +182,19 @@ const screen = Screen({
 
 let w = worldData[0]
 
-// const DEBUG_LEVEL = 'Level Editor'
-// const DEBUG_LEVEL = 'Volcano'
-// const DEBUG_LEVEL = 'Constant Lake'
-// const DEBUG_LEVEL = 'Two Below'
-// const DEBUG_LEVEL = 'Time Hard'
-const DEBUG_LEVEL = null
+const IS_PRODUCTION = window.location.hostname === 'sinerider.com'
 
-if (DEBUG_LEVEL) {
+// Don't show debug info in production
+if (IS_PRODUCTION) ui.levelInfoDiv.setAttribute('hide', true)
+
+let DEBUG_LEVEL = null
+// DEBUG_LEVEL = 'Level Editor'
+// DEBUG_LEVEL = 'Volcano'
+// DEBUG_LEVEL = 'Constant Lake'
+// DEBUG_LEVEL = 'Two Below'
+// DEBUG_LEVEL = 'Time Hard'
+
+if (!IS_PRODUCTION && DEBUG_LEVEL) {
   // make debug level first level for testing
   const debugLevelIndex = w.levelData.findIndex((l) => l.name === DEBUG_LEVEL)
   if (debugLevelIndex == -1)
@@ -196,10 +203,6 @@ if (DEBUG_LEVEL) {
   w.levelData[0] = w.levelData[debugLevelIndex]
   w.levelData[debugLevelIndex] = tmp
 }
-
-// Don't show debug info in production
-if (window.location.hostname === 'sinerider.com')
-  ui.levelInfoDiv.setAttribute('hide', true)
 
 const world = World({
   ui,
@@ -265,8 +268,11 @@ function draw() {
   let now = performance.now()
   if (timeOfLastDraw) {
     let frameFps = 1000 / (now - timeOfLastDraw)
-    currentFps = 0.9 * currentFps + 0.1 * frameFps
-    ui.levelInfoFpsStr.innerText = 'FPS: ' + currentFps.toFixed(2)
+    // Avoid counting double-ticks
+    if (frameFps != Infinity) {
+      currentFps = 0.9 * currentFps + 0.1 * frameFps
+      ui.levelInfoFpsStr.innerText = 'FPS: ' + currentFps.toFixed(2)
+    }
   }
   timeOfLastDraw = now
 }
@@ -338,9 +344,8 @@ ui.expressionEnvelope.addEventListener('blurout', onMathFieldBlur)
 // HTML events
 
 function onKeyUp(event) {
-  if (event.keyCode === 13) {
-    if (!world.navigating && !world.level?.isRunningAsCutscene)
-      world.toggleRunning()
+  if (event.key === 'Enter') {
+    if (!world.navigating && !world.level?.isCutscene) world.toggleRunning()
   }
   world.sendEvent('keyup', [event.key])
 }

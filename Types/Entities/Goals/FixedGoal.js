@@ -5,7 +5,7 @@ function FixedGoal(spec) {
 
   let { world, size = 1 } = spec
 
-  const shape = Rect({
+  const bounds = Rect({
     transform,
     width: size,
     height: size,
@@ -13,7 +13,7 @@ function FixedGoal(spec) {
 
   const clickable = Clickable({
     entity: self,
-    shape,
+    bounds,
     transform,
     camera,
   })
@@ -97,7 +97,7 @@ function FixedGoal(spec) {
 
   return self.mix({
     draw,
-    shape,
+    bounds,
 
     clickable,
     mouseDown,

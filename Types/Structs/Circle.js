@@ -3,6 +3,13 @@ function Circle(spec) {
 
   let { center = Vector2(), radius = 1 } = spec
 
+  function getBounds() {
+    return Rect({
+      width: radius,
+      height: radius,
+    })
+  }
+
   function intersectPoint(point, hit) {
     let p = self.localize(point)
     p.subtract(center)
@@ -42,6 +49,8 @@ function Circle(spec) {
     shapeType: 'circle',
 
     draw,
+
+    getBounds,
 
     intersectPoint,
     intersectCircle,

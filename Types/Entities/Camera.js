@@ -258,6 +258,7 @@ function Camera(spec) {
     computeCorners()
   }
 
+  if (!screen.resizeSubs) debugger
   screen.resizeSubs.push(onResizeScreen)
 
   return self.mix({

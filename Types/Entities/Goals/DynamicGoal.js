@@ -12,7 +12,7 @@ function DynamicGoal(spec) {
 
   let startPosition = Vector2(spec)
 
-  const shape = Circle({
+  const bounds = Circle({
     transform,
     center: Vector2(0, 0),
     radius: size / 2,
@@ -20,7 +20,7 @@ function DynamicGoal(spec) {
 
   const clickable = Clickable({
     entity: self,
-    shape,
+    bounds,
     transform,
     camera,
   })
@@ -182,7 +182,7 @@ function DynamicGoal(spec) {
     setX,
     setY,
 
-    shape,
+    bounds,
 
     get type() {
       return 'dynamic'

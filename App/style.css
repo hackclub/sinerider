@@ -360,6 +360,13 @@ input[valid='false'] {
   animation: pulse 0.5s infinite;
 }
 
+#skip-cutscene-button {
+  position: absolute;
+
+  left: 0;
+  bottom: 0;
+}
+
 .reset-button {
   position: absolute;
 
@@ -414,7 +421,7 @@ input[valid='false'] {
   background: #4f6;
 }
 
-.reset-button:not(:hover) {
+.reset-button:not(:hover), #skip-cutscene-button:not(:hover) {
   background: #f46;
 }
 

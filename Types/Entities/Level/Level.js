@@ -15,6 +15,8 @@ function Level(spec) {
     urlData,
     savedLatex,
     playBackgroundMusic,
+    quads,
+    darkenable,
   } = spec
 
   preprocessDatum(datum)
@@ -39,8 +41,6 @@ function Level(spec) {
     hasBeenCompleted = true
     spec.levelCompleted(soft)
   }
-
-  const quads = globalScope.quads
 
   const sledders = []
   const walkers = []
@@ -127,37 +127,38 @@ function Level(spec) {
 
   disableGridlines()
 
-  let darkBufferOrScreen = screen
-  let darkenBufferOpacity = 0.0
-  let darkenBuffer, darkenBufferScreen
+  let darkenBufferOrScreen, darkenBuffer
 
-  if (isConstantLakeAndNotBubble()) {
-    // Credit for screen buffer business logic to LevelBubble.js by @cwalker
+  // HACK: Collect entities created (only) in Level
+  // in buffer which can then be darkened (ConstantLake)
+  if (spec.useDarkenBuffer) {
     darkenBuffer = ScreenBuffer({
       parent: self,
-      screen,
       drawOrder: LAYERS.lighting,
-      postProcess: (ctx, width, height) => {
-        // Darken screen
+      screen,
+      postProcess: (ctx, width, height, params) => {
         ctx.globalCompositeOperation = 'source-atop'
-        ctx.fillStyle = `rgba(1.0, 0.5, 0, ${darkenBufferOpacity})`
+        ctx.fillStyle = `rgba(1.0, 0.5, 0, ${params.darkenOpacity})`
         ctx.fillRect(0, 0, width, height)
         ctx.globalCompositeOperation = 'source-over'
       },
+      parameters: {
+        darkenOpacity: 0.5,
+      },
     })
-
-    darkenBufferScreen = Screen({
+    darkenBufferOrScreen = Screen({
       canvas: darkenBuffer.canvas,
     })
-
-    darkBufferOrScreen = darkenBufferScreen
+  } else {
+    darkenBufferOrScreen = screen
   }
 
-  const startingExpression = getStartingExpression()
+  const startingExpression =
+    spec.startingExpression ?? getStartingGraphExpression()
 
   const graph = Graph({
     camera,
-    screen: darkBufferOrScreen,
+    screen: darkenBufferOrScreen,
     globalScope,
     expression: mathquillToMathJS(startingExpression),
     parent: self,
@@ -166,8 +167,6 @@ function Level(spec) {
     sledders,
     useInterpolation: false,
   })
-
-  let shader = null // Only loaded for Constant Lake
 
   let skyColors = colors.sky
 
@@ -178,45 +177,6 @@ function Level(spec) {
   for (const color of skyColors) skyGradient.addColorStop(color[0], color[1])
 
   loadDatum(spec.datum)
-
-  let defaultVectorExpression =
-    '\\frac{(\\sin (x)-(y-2)\\cdot i)\\cdot i}{2}+\\frac{x}{4}+\\frac{y\\cdot i}{5}'
-  let vectorExpression = defaultVectorExpression
-
-  let isVectorEditorActive = false
-
-  const showUIAnimation = {
-    keyframes: [
-      { transform: 'translateY(calc(100% + 20px))', opacity: '0' },
-      { transform: 'translateY(0px)', opacity: '1' },
-      // { opacity: '0' },
-      // { opacity: '1' },
-    ],
-    options: {
-      duration: 1700,
-      easing: 'ease-out',
-      fill: 'forwards',
-    },
-  }
-
-  const hideUIAnimation = {
-    keyframes: [
-      { transform: 'translateY(0px)', opacity: '1' },
-      { transform: 'translateY(calc(100% + 20px))', opacity: '0' },
-    ],
-    options: {
-      duration: 1700,
-      easing: 'ease-out',
-    },
-  }
-
-  const VECTOR_FIELD_START_X = 13.5
-  const VECTOR_FIELD_END_X = 17.5
-
-  if (isConstantLakeAndNotBubble() && savedLatex) {
-    walkerPositionX = VECTOR_FIELD_END_X
-    defaultVectorExpression = savedLatex
-  }
 
   function preprocessDatum(datum) {
     // Reuse datum across levels/bubbles
@@ -347,6 +307,16 @@ function Level(spec) {
     return datum.nick == 'LEVEL_EDITOR'
   }
 
+  function initMathEditor() {
+    /* By default, make math editor display the graph */
+    ui.expressionEnvelope.setAttribute('disabled', false)
+    ui.expressionEnvelope.classList.remove('hidden')
+    ui.mathFieldLabel.innerText = 'Y='
+
+    ui.mathField.latex(startingExpression)
+    ui.mathFieldStatic.latex(startingExpression)
+  }
+
   function awake() {
     refreshLowestOrder()
 
@@ -356,37 +326,13 @@ function Level(spec) {
 
     if (playBackgroundMusic) playBackgroundMusic(datum.backgroundMusic, self)
 
-    if (runAsCutscene && !isBubbleLevel) {
-      // Don't play sound, keep navigator
-      world._startRunning(false, false, !isConstantLakeAndNotBubble()) // Keep editor enabled for Constant Lake
-
-      // Hide math field by default
-      ui.expressionEnvelope.classList.add('hidden')
-    }
-
     editor.active = isEditor()
 
-    // For constant lake, change math field to vector
-    // field editor for later in the scene
-    if (isConstantLakeAndNotBubble()) {
-      ui.mathFieldLabel.innerText = 'V='
+    // Can be overridden, use self.
+    self.initMathEditor()
 
-      ui.mathField.latex(defaultVectorExpression)
-      ui.mathFieldStatic.latex(defaultVectorExpression)
-    } else if (!runAsCutscene && !isBubbleLevel) {
-      // Otherwise display editor normally as graph editor
-      ui.expressionEnvelope.classList.remove('hidden')
-      ui.mathFieldLabel.innerText = 'Y='
-
-      ui.mathField.latex(startingExpression)
-      ui.mathFieldStatic.latex(startingExpression)
-    }
-    if (runAsCutscene) {
-      ui.stopButton.classList.add('disabled')
-    }
-    if (!runAsCutscene) {
-      ui.stopButton.classList.remove('disabled')
-    }
+    // For puzzles, enable stop button
+    ui.stopButton.classList.remove('disabled')
   }
 
   function start() {}
@@ -427,16 +373,14 @@ function Level(spec) {
     }
   }
 
-  function getStartingExpression() {
-    let isPuzzle = urlData?.isPuzzle ?? false
+  function getStartingGraphExpression() {
+    const isPuzzle = urlData?.isPuzzle ?? false
     if (isPuzzle) {
       return urlData?.expressionOverride
         ? urlData?.expressionOverride
         : defaultExpression
     }
-    return (
-      (!isConstantLakeAndNotBubble() ? savedLatex : null) ?? defaultExpression
-    )
+    return savedLatex ?? defaultExpression
   }
 
   function getCutsceneDistanceParameter() {
@@ -447,27 +391,13 @@ function Level(spec) {
     return playerEntity?.transform.x
   }
 
+  function getTime() {
+    return globalScope.t
+  }
+
   function tick() {
-    // screen.ctx.filter = `blur(${Math.floor(world.level.sledders[0].rigidbody.velocity/40 * 4)}px)`
-    let time = runAsCutscene
-      ? getCutsceneDistanceParameter().toFixed(1)
-      : (Math.round(globalScope.t * 10) / 10).toString()
-
-    // LakeSunsetShader
-    // VolcanoShader
-    // VolcanoSunsetShader
-
-    if ((globalScope.running || runAsCutscene) && !_.includes(time, '.'))
-      time += '.0'
-
-    // console.log('tracked entities', trackedEntities)
-
-    for (const walker of walkers) {
-      checkTransition(walker)
-    }
-    for (const sledder of sledders) {
-      checkTransition(sledder)
-    }
+    _.each(walkers, checkTransition)
+    _.each(sledders, checkTransition)
 
     if (victoryX != null && !completed) {
       if (getCutsceneDistanceParameter() > victoryX) {
@@ -475,6 +405,9 @@ function Level(spec) {
         levelCompleted(true)
       }
     }
+
+    // Can be overridden (self.)
+    let time = self.getTime().toFixed(1)
 
     // ui.timeString.innerHTML = 't='+time
     ui.runButtonString.innerHTML = 't=' + time
@@ -495,25 +428,6 @@ function Level(spec) {
       sky.blur = motionBlur
       graph.blur = motionBlur
       lava.blur = motionBlur
-    }
-  }
-
-  function draw() {
-    if (isConstantLake() && walkers[0] && walkers[0].transform.position) {
-      const x = walkers[0].transform.position.x
-
-      drawConstantLakeEditor(x)
-      darkenBufferOpacity = Math.min(0.9, Math.pow(Math.max(0, x) / 20, 2))
-
-      const walkerDarkenOpacity = Math.pow(darkenBufferOpacity, 5)
-
-      for (const walker of walkers) {
-        walker.darkModeOpacity = walkerDarkenOpacity
-
-        for (const w of walker.walkers) {
-          if (w.hasDarkMode) w.darkModeOpacity = walkerDarkenOpacity
-        }
-      }
     }
   }
 
@@ -614,10 +528,10 @@ function Level(spec) {
 
         levelCompleted(true)
       },
-      screen: darkBufferOrScreen,
+      screen: darkenBufferOrScreen,
       speechScreen: screen,
       drawOrder: LAYERS.walkers,
-      hasDarkMode: isConstantLake(),
+      hasDarkMode: darkenable,
       ...walkerDatum,
     })
 
@@ -633,7 +547,7 @@ function Level(spec) {
       camera,
       graph,
       globalScope,
-      screen: darkBufferOrScreen,
+      screen: darkenBufferOrScreen,
       drawOrder: LAYERS.sledders,
       speechScreen: screen,
       motionBlur: false,
@@ -668,7 +582,7 @@ function Level(spec) {
       globalScope,
       drawOrder: LAYERS.backSprites,
       anchored: true,
-      screen: darkBufferOrScreen,
+      screen: darkenBufferOrScreen,
       speechScreen: screen,
       ...spriteDatum,
     })
@@ -726,9 +640,6 @@ function Level(spec) {
       v: 0.1, // TODO: change version handling to World?
       nick: datum.nick,
       completed: hasBeenCompleted,
-      savedLatex: isConstantLakeAndNotBubble()
-        ? vectorExpression
-        : currentLatex,
     }
     if (isEditor()) {
       json.goals = goals.map((g) => ({
@@ -738,9 +649,6 @@ function Level(spec) {
         order: g.order,
       }))
       if (sledders[0]) json.x = sledders[0].transform.x
-    }
-    if (isConstantLakeAndNotBubble()) {
-      json.t = globalScope.t
     }
     return json
   }
@@ -773,11 +681,15 @@ function Level(spec) {
     stopRunning()
   }
 
-  function restart() {
-    const expression = isConstantLake()
-      ? defaultVectorExpression
-      : defaultExpression
+  function getDefaultExpression() {
+    return defaultExpression
+  }
 
+  function restart() {
+    // Can be overridden, use self.
+    const expression = self.getDefaultExpression()
+
+    // setGraphExpression() only updates static
     ui.mathField.latex(expression)
 
     self.sendEvent('setGraphExpression', [
@@ -831,62 +743,6 @@ function Level(spec) {
     return datum.name === 'Volcano'
   }
 
-  function isConstantLake() {
-    return datum.name === 'Constant Lake'
-  }
-
-  function isConstantLakeAndNotBubble() {
-    return isConstantLake() && !isBubbleLevel
-  }
-
-  function drawConstantLakeEditor(walkerPositionX) {
-    if (walkerPositionX > VECTOR_FIELD_END_X) {
-      if (!isVectorEditorActive) {
-        isVectorEditorActive = true
-
-        ui.resetButton.setAttribute('hide', false)
-        ui.expressionEnvelope.classList.remove('hidden')
-
-        ui.expressionEnvelope.animate(
-          showUIAnimation.keyframes,
-          showUIAnimation.options,
-        )
-        ui.resetButton.animate(
-          showUIAnimation.keyframes,
-          showUIAnimation.options,
-        )
-      }
-    } else if (walkerPositionX < VECTOR_FIELD_START_X && isVectorEditorActive) {
-      isVectorEditorActive = false
-
-      const resetButtonAnimation = ui.resetButton.animate(
-        hideUIAnimation.keyframes,
-        hideUIAnimation.options,
-      )
-      const expressionEnvelopeAnimation = ui.expressionEnvelope.animate(
-        hideUIAnimation.keyframes,
-        hideUIAnimation.options,
-      )
-
-      resetButtonAnimation.onfinish = () =>
-        ui.resetButton.setAttribute('hide', true)
-      expressionEnvelopeAnimation.onfinish = () =>
-        ui.expressionEnvelope.classList.add('hidden')
-    }
-  }
-
-  function mergeData(source, out) {
-    for (const [key, value] of Object.entries(source)) {
-      if (_.isObject(value)) {
-        let tmp = {}
-        mergeData(value, tmp)
-        out[key] = tmp
-      } else {
-        out[key] = value
-      }
-    }
-  }
-
   function loadDatum(datum) {
     if (datum.sky) {
       sky = Sky({
@@ -895,7 +751,7 @@ function Level(spec) {
         globalScope,
         asset: datum.sky.asset,
         margin: datum.sky.margin,
-        screen: darkBufferOrScreen,
+        screen: darkenBufferOrScreen,
         drawOrder: LAYERS.background,
         motionBlur: false,
         ...datum.sky,
@@ -923,36 +779,6 @@ function Level(spec) {
       }
     }
 
-    if (!isBubbleLevel && isVolcano()) {
-      LavaMonster({
-        parent: self,
-        world,
-        screen,
-        assets,
-        drawOrder: LAYERS.backSprites - 1,
-        camera,
-        globalScope,
-      })
-      // PostProcessing({
-      //   parent: self,
-      //   screen,
-      //   drawOrder: LAYERS.volcanoPostProcessing,
-      //   process: ctx => {
-      //     blur = Math.floor(Math.min(sledders[0].rigidbody.velocity.magnitude/40 * 4, 10))
-      //     ctx.filter = `blur(${blur}px)`
-      //   }
-      // })
-      volcanoSunset = VolcanoSunsetShader({
-        parent: self,
-        screen,
-        assets,
-        quad: quads.volcanoSunset,
-        drawOrder: LAYERS.sky,
-        sledders,
-      })
-      // sledders.forEach(s => s.drawOrder = 10000)
-    }
-
     if (datum.clouds)
       Clouds({
         parent: self,
@@ -962,26 +788,15 @@ function Level(spec) {
         velocity: datum.clouds.velocity,
         heights: datum.clouds.heights,
         drawOrder: LAYERS.clouds,
-        screen: darkBufferOrScreen,
+        screen: darkenBufferOrScreen,
         ...datum.clouds,
       })
-    // Constant Lake sunset scene
-    if (isConstantLakeAndNotBubble()) {
-      ConstantLakeShader({
-        parent: self,
-        screen,
-        assets,
-        quad: quads.sunset,
-        drawOrder: LAYERS.sky,
-        walkerPosition: walkers[0].transform.position,
-      })
-    }
     if (datum.water && !isBubbleLevel) {
       Water({
         parent: self,
         camera,
         waterQuad: quads.water,
-        screen: darkBufferOrScreen,
+        screen: darkenBufferOrScreen,
         globalScope,
         drawOrder: LAYERS.backSprites,
         ...datum.water,
@@ -992,7 +807,7 @@ function Level(spec) {
         parent: self,
         camera,
         waterQuad: quads.lava,
-        screen: darkBufferOrScreen,
+        screen: darkenBufferOrScreen,
         globalScope,
         drawOrder: LAYERS.backSprites,
         ...datum.lava,
@@ -1009,7 +824,7 @@ function Level(spec) {
         velocityY: datum.snow.velocity.y,
         maxHeight: datum.snow.maxHeight,
         drawOrder: LAYERS.snow,
-        screen: darkBufferOrScreen,
+        screen: darkenBufferOrScreen,
         ...datum.snow,
       })
 
@@ -1033,7 +848,7 @@ function Level(spec) {
     if (DEBUG_LEVEL || isBubbleLevel) return
 
     // Save to player storage and to URI
-    storage.setLevel(datum.nick, serialize())
+    storage.setLevel(datum.nick, self.serialize())
     history.pushState(
       null,
       null,
@@ -1059,12 +874,6 @@ function Level(spec) {
     currentLatex = latex
 
     save()
-
-    if (isConstantLakeAndNotBubble()) {
-      vectorExpression = latex
-      quads.sunset.setVectorFieldExpression(text)
-      return
-    }
 
     usingTInExpression = false
     try {
@@ -1124,14 +933,11 @@ function Level(spec) {
   }
 
   function destroy() {
-    if (runAsCutscene && !isBubbleLevel) {
-      world._stopRunning()
-    }
     _.invokeEach(tips, 'destroy')
   }
 
   function resize() {
-    darkBufferOrScreen.resize()
+    darkenBufferOrScreen.resize()
     graph.resize()
   }
 
@@ -1226,10 +1032,23 @@ function Level(spec) {
     // TODO: temp
     trackedEntities,
 
-    get firstWalkerX() {
-      return walkers[0]?.transform.x
-    },
-
     tVariableChanged,
+    sky,
+    lava,
+
+    levelCompleted,
+
+    getDefaultExpression,
+    initMathEditor,
+
+    getTime,
+
+    get darkenBuffer() {
+      if (!spec.useDarkenBuffer) {
+        throw `Tried to access non-existent darken buffer in Level`
+      }
+
+      return darkenBuffer
+    },
   })
 }

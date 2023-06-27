@@ -1,4 +1,5 @@
 const CONSTANT_LAKE = {
+  type: 'ConstantLake',
   name: 'Constant Lake',
   nick: 'CONSTANT_LAKE',
   biome: 'westernSlopes',

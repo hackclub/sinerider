@@ -99,13 +99,15 @@
     </div>
 
     <div class="bar floating top" id="top-bar" hide="false">
-      <div
-        id="volume-slider-box"
-        class="tooltip-e tooltip"
-        data-tooltip="Volume"
-      >
-        <div class="">🔊</div>
-        <input id="volume-slider" type="range" orient="horizontal" />
+      <div>
+        <div
+          id="volume-slider-box"
+          class="tooltip-e tooltip"
+          data-tooltip="Volume"
+        >
+          <div class="">🔊</div>
+          <input id="volume-slider" type="range" orient="horizontal" />
+        </div>
       </div>
       <!-- when i move this it doesn't allow me to click on puzzles -->
       <!-- <div class="try-again-button">
@@ -148,7 +150,11 @@
           <div class="string">🏔</div>
         </div>
 
-        <div class="button tooltip" id="settings-button" data-tooltip="Settings">
+        <div
+          class="button tooltip"
+          id="settings-button"
+          data-tooltip="Settings"
+        >
           <div class="string">⚙️</div>
         </div>
       </div>
@@ -210,12 +216,19 @@
 
       <input class="text" id="expression-text" type="text" hide="true" />
 
-      <div class="button" id="run-button" hide="false">
-        <div class="string">GO</div>
+      <div>
+        <div class="button" id="run-button" hide="false">
+          <div class="string">GO</div>
+        </div>
       </div>
 
-      <div class="button reset-button" id="stop-button" hide="true">
-        <div class="string">STOP</div>
+      <div>
+        <div class="button" id="skip-cutscene-button" hide="true">
+          <div class="string">Skip Cutscene</div>
+        </div>
+        <div class="button reset-button" id="stop-button" hide="true">
+          <div class="string">STOP</div>
+        </div>
       </div>
 
       <div class="button reset-button" id="try-again-button" hide="true">
@@ -311,9 +324,10 @@
               Show off your solution and see how you rank up against other
               solvers on
               <!-- url for submitting is generated when puzzle is solved -->
-              <a href="#" target="_blank" id="twitter-submission-url">Twitter</a
+              <a href="#" target="_blank" id="twitter-submission-url"
+                >Twitter</a
               >
-               or 
+              or
               <a href="#" id="submit-reddit-score">Reddit</a>.
             </div>
             <br class="puzzle-msg" hide="true" />
@@ -514,7 +528,6 @@
     <script src="Types/Entities/VolcanoSunsetShader.js"></script>
     <script src="Types/Entities/Entity.js"></script>
     <script src="Types/Entities/World.js"></script>
-    <script src="Types/Entities/Level.js"></script>
     <script src="Types/Entities/Navigator.js"></script>
     <script src="Types/Entities/Camera.js"></script>
     <script src="Types/Entities/Axes.js"></script>
@@ -538,6 +551,13 @@
     <script src="Types/Entities/Clouds.js"></script>
     <script src="Types/Entities/Sky.js"></script>
     <script src="Types/Entities/Snow.js"></script>
+    <script src="Types/Entities/Level/Level.js"></script>
+    <script src="Types/Entities/Level/Cutscene.js"></script>
+    <script src="Types/Entities/Level/Cutscenes/ConstantLake.js"></script>
+    <script src="Types/Entities/Level/Cutscenes/Volcano.js"></script>
+    <script src="Types/Entities/Level/Cutscenes/Desert.js"></script>
+
+    <!-- Load Levels -->
 
     <!-- Load World Data -->
     <script src="App/biomes.js"></script>
