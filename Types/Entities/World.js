@@ -236,7 +236,7 @@ function World(spec) {
         levelDatum.goals = (levelDatum.goals ?? []).concat(urlData?.goals)
 
       if (urlData?.x && levelDatum.sledders[0])
-        levelDatum.sledders[0].transform.x = urlData.x
+        levelDatum.sledders[0].x = urlData.x
     }
 
     const generator =
@@ -244,6 +244,7 @@ function World(spec) {
         CONSTANT_LAKE: ConstantLake,
         VOLCANO: Volcano,
         DESERT: Desert,
+        LEVEL_EDITOR: LevelEditor,
       }[levelDatum.nick] || Level
 
     level = generator({
@@ -287,7 +288,6 @@ function World(spec) {
 
     if (navigating) self.sendEvent('onToggleMap', [_navigating])
 
-    editor.active = level.isEditor() && !navigating
     level.active = !navigating
     navigator.active = navigating
 

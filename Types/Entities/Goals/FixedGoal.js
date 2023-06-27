@@ -21,11 +21,11 @@ function FixedGoal(spec) {
   t = 0
 
   function select() {
-    editor.select(self, 'fixed')
+    // editor.select(self, 'fixed')
   }
 
   function deselect() {
-    editor.deselect()
+    // editor.deselect()
   }
 
   function drawLocal() {
@@ -77,10 +77,9 @@ function FixedGoal(spec) {
   let moving = false
 
   function mouseDown() {
-    // console.log('moved down')
-    if (editor.active) {
-      moving = true
-    }
+    // if (editor.active) {
+    //   moving = true
+    // }
   }
 
   function mouseMove(point) {

@@ -5,7 +5,6 @@ function Goal(spec) {
 
   let {
     type = 'fixed',
-    timer = 0,
     order = null,
     size = 1,
     camera,
@@ -13,7 +12,6 @@ function Goal(spec) {
     goalCompleted,
     goalFailed,
     globalScope,
-    graph,
     getLowestOrder,
   } = spec
 
@@ -189,13 +187,9 @@ function Goal(spec) {
     self.refresh()
   }
 
-  function startRunning() {
-    // TODO: Fix editor vs. non-editor logic for showing/hiding GUI
-    if (self.clickable && world.level.isEditor()) self.clickable.enabled = false
-  }
+  function startRunning() {}
 
   function stopRunning() {
-    if (self.clickable) self.clickable.enabled = true
     self.reset()
   }
 

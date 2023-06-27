@@ -119,18 +119,18 @@ function Sledder(spec = {}) {
   }
 
   function select() {
-    editor.select(self, 'sledder', ['x', 'y'])
+    // editor.select(self, 'sledder', ['x', 'y'])
   }
 
   function deselect() {
-    editor.deselect()
+    // editor.deselect()
   }
 
   function dragMove(point) {
-    if (!editor.active) return
-    transform.position = point
-    ui.editorInspector.x.value = point.x.toFixed(2)
-    ui.editorInspector.y.value = point.y.toFixed(2)
+    // if (!editor.active) return
+    // transform.position = point
+    // ui.editorInspector.x.value = point.x.toFixed(2)
+    // ui.editorInspector.y.value = point.y.toFixed(2)
   }
 
   function dragEnd() {

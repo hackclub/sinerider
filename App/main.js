@@ -127,7 +127,7 @@ const ui = {
   skipCutsceneButton: $('#skip-cutscene-button'),
 }
 
-const editor = Editor(ui)
+// const editor = Editor(ui)
 
 ui.levelText.setAttribute('hide', true)
 ui.veil.setAttribute('hide', true)

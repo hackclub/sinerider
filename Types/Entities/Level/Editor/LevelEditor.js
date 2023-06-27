@@ -1,20 +1,26 @@
 // TODO: Figure out how Editor should work?
 // (Maybe doesn't need its own class?)
-function EditorLevel(spec) {
+function LevelEditor(spec) {
   const { self, goals, sledders } = Level(spec)
+  const { globalScope } = spec
 
   const base = _.mix(self)
 
-  const panel = EditorPanel({})
+  const panel = EditorPanel({
+    parent: self,
+    globalScope,
+  })
+
+  console.log('level editor')
 
   function awake() {
     base.awake()
-    editor.active = true
+    // editor.active = true
   }
 
   function destroy() {
     base.destroy()
-    editor.active = true
+    // editor.active = true
   }
 
   function serialize() {

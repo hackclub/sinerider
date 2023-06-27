@@ -142,11 +142,11 @@ function DynamicGoal(spec) {
   }
 
   function select() {
-    editor.select(self, 'dynamic')
+    // editor.select(self, 'dynamic')
   }
 
   function deselect() {
-    editor.deselect()
+    // editor.deselect()
   }
 
   function setX(x) {

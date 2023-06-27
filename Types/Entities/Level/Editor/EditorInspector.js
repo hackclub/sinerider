@@ -1,3 +1,0 @@
-function EditorInspector(spec) {
-  // TODO
-}

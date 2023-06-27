@@ -4,6 +4,7 @@ function Entity(spec, defaultName = 'Entity') {
   let {
     name = defaultName,
     active = true,
+    enabled = true,
     parent = null,
     assets = null,
     camera = null,
@@ -118,7 +119,7 @@ function Entity(spec, defaultName = 'Entity') {
   }
 
   function sendEvent(path, args = [], latePath = null) {
-    if (!active) return
+    if (!active || !enabled) return
 
     // latePath is constructed on first call, and passed down for subsequent calls, to avoid memory pressure of creating the same new string for every object
     let argumentsArray = arguments
@@ -191,19 +192,8 @@ function Entity(spec, defaultName = 'Entity') {
     return null
   }
 
-  let lastFramePos = Vector2()
-  let currentFramePos = Vector2()
-
   function predraw() {
     screen.ctx.filter = `blur(${Math.floor(blur)}px)`
-    if (motionBlur && camera && self.transform) {
-      // camera.transform.invertPoint(self.transform.transformPoint(Vector2(0, 0)), currentFramePos)
-      // const blur = lastFramePos.subtract(currentFramePos).magnitude * 300
-      // screen.ctx.filter = `blur(${Math.floor(blur)}px)`
-      // // TODO: Switch from blur based on sledder velocity to being based on camera velocity wrt object
-      // console.log('blur', blur, lastFramePos.toString(), currentFramePos.toString(), screen.ctx.canvas.filter)
-      // lastFramePos.set(currentFramePos)
-    }
   }
 
   function sortChildren() {
@@ -344,6 +334,13 @@ function Entity(spec, defaultName = 'Entity') {
     },
     set active(v) {
       setActive(v)
+    },
+
+    get enabled() {
+      return enabled
+    },
+    set enabled(v) {
+      enabled = v
     },
 
     get activeInHierarchy() {

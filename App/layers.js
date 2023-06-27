@@ -24,4 +24,5 @@ const LAYERS = {
   darkness: 100,
   volcanoPostProcessing: 180,
   level: 10000,
+  ui: Infinity,
 }

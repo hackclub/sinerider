@@ -326,8 +326,6 @@ function Level(spec) {
 
     if (playBackgroundMusic) playBackgroundMusic(datum.backgroundMusic, self)
 
-    editor.active = isEditor()
-
     // Can be overridden, use self.
     self.initMathEditor()
 
@@ -408,6 +406,7 @@ function Level(spec) {
 
     // Can be overridden (self.)
     let time = self.getTime().toFixed(1)
+    if (time === '0.0') time = '0'
 
     // ui.timeString.innerHTML = 't='+time
     ui.runButtonString.innerHTML = 't=' + time
@@ -864,11 +863,6 @@ function Level(spec) {
   }
 
   function setGraphExpression(text, latex) {
-    if (editor.editingPath) {
-      // console.log('returning')
-      return
-    }
-
     ui.mathFieldStatic.latex(latex)
 
     currentLatex = latex

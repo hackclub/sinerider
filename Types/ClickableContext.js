@@ -35,7 +35,7 @@ function ClickableContext(spec) {
     }
 
     // TODO: Figure out editor
-    if (editor.active && eventName == 'mouseDown') {
+    if (eventName == 'mouseDown') {
       // This event is only used for selection in editor
       let newSelection = hits
         .reverse()
@@ -64,15 +64,14 @@ function ClickableContext(spec) {
   }
 
   function keydown(key) {
-    alert('keydown')
-    if (key == 'Backspace' || key == 'Delete') {
-      // TODO: Maybe tag entities with general type for polymorphism?
-      if (selection && selection.name.includes('Goal')) {
-        editor.deselect()
-        world.level.sendEvent('goalDeleted', [selection])
-        selection.destroy()
-      }
-    }
+    // if (key == 'Backspace' || key == 'Delete') {
+    //   // TODO: Maybe tag entities with general type for polymorphism?
+    //   if (selection && selection.name.includes('Goal')) {
+    //     editor.deselect()
+    //     world.level.sendEvent('goalDeleted', [selection])
+    //     selection.destroy()
+    //   }
+    // }
   }
 
   return {

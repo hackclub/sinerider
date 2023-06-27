@@ -1,0 +1,3 @@
+function InspectorPanel(spec) {
+  // TODO
+}
