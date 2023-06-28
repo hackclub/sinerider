@@ -32,34 +32,7 @@ function DynamicGoal(spec) {
     positionOffset: Vector2(0, -0.5),
   })
 
-  let t = 0
-
   function drawLocal() {
-    t += 0.1
-    if (clickable.selectedInEditor) {
-      transform.scale = 1.1
-
-      ctx.fillStyle = ctx.createConicGradient(Math.PI / 4, size / 2, size / 2)
-      ctx.fillStyle.addColorStop(t % 1, '#FBA')
-      ctx.fillStyle.addColorStop((t + 0.25) % 1, '#BC1')
-      ctx.fillStyle.addColorStop((t + 0.5) % 1, '#BFC')
-      ctx.fillStyle.addColorStop((t + 0.75) % 1, '#A9D')
-      ctx.fillStyle.addColorStop((t + 1) % 1, '#A9B')
-
-      ctx.lineWidth = 0.05
-
-      let outlinePadding = 0.3
-
-      ctx.fillRect(
-        -size / 2 - outlinePadding / 2,
-        -size / 2 - outlinePadding / 2,
-        size + outlinePadding,
-        size + outlinePadding,
-      )
-    } else {
-      transform.scale = 1
-    }
-
     ctx.strokeStyle = self.strokeStyle
     ctx.fillStyle = self.fillStyle
 
@@ -116,39 +89,6 @@ function DynamicGoal(spec) {
     transform.rotation = angle
   }
 
-  let moving = false
-
-  function mouseDown() {
-    // console.log('moved down')
-    if (editor.active) {
-      transform.scale = 1.1
-      moving = true
-    }
-  }
-
-  function mouseMove(point) {
-    if (!moving) return
-    startPosition = point
-    transform.position = point
-    ui.editorInspector.x.value = point.x.toFixed(2)
-    ui.editorInspector.y.value = point.y.toFixed(2)
-  }
-
-  function mouseUp() {
-    if (!moving) return
-    transform.scale = 1
-    moving = false
-    reset()
-  }
-
-  function select() {
-    // editor.select(self, 'dynamic')
-  }
-
-  function deselect() {
-    // editor.deselect()
-  }
-
   function setX(x) {
     startPosition.x = x
     transform.position.x = x
@@ -165,19 +105,18 @@ function DynamicGoal(spec) {
     transform,
     rigidbody,
 
-    clickable,
+    // TODO: Ideally this sort of thing shouldn't
+    // be exposed? Either refactor how Editable goals
+    // work or establish/re-establish how Crockford
+    // inheritance should ideally be used
+    startPosition,
 
-    mouseDown,
-    mouseMove,
-    mouseUp,
+    clickable,
 
     tick,
     draw,
 
     reset,
-
-    select,
-    deselect,
 
     setX,
     setY,

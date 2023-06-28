@@ -176,6 +176,7 @@ function Level(spec) {
 
   for (const color of skyColors) skyGradient.addColorStop(color[0], color[1])
 
+  // Note: datum is loaded *during construction*
   loadDatum(spec.datum)
 
   function preprocessDatum(datum) {
@@ -438,19 +439,14 @@ function Level(spec) {
     globalScope.p.im = playerEntity.transform.position.y
   }
 
-  function trackDescendants(entity, array = trackedEntities) {
-    _.each(entity.children, (v) => {
-      array.push(v)
-      trackDescendants(v, array)
-    })
-  }
-
-  function addGoal(goalDatum) {
-    const generator = {
+  function addGoal(goalDatum, customGenerators = null) {
+    const generators = customGenerators || {
       path: PathGoal,
       fixed: FixedGoal,
       dynamic: DynamicGoal,
-    }[goalDatum.type || 'fixed']
+    }
+
+    const generator = generators[goalDatum.type || 'fixed']
 
     const goal = generator({
       name: 'Goal ' + goals.length,
@@ -935,30 +931,12 @@ function Level(spec) {
     graph.resize()
   }
 
-  function removeGoal(type) {}
-
-  // TODO: Refactor?
-  let goalLookup = {}
-
-  function goalAdded(type) {
-    addGoal({
-      type,
-    })
-    goalLookup[goals[goals.length - 1].id] = goals.length - 1
-  }
-
-  // Takes in entity -- refactor?
-  function goalDeleted(goal) {
-    goals.splice(
-      goals.findIndex((g) => g.id == goal.id),
-      1,
-    )
-  }
-
   return self.mix({
     awake,
     start,
     destroy,
+
+    addGoal,
 
     tick,
     draw,
@@ -993,9 +971,6 @@ function Level(spec) {
     get isRunningAsCutscene() {
       return runAsCutscene
     },
-
-    goalAdded,
-    goalDeleted,
 
     save,
 

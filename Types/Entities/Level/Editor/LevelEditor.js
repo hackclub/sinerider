@@ -1,26 +1,40 @@
 // TODO: Figure out how Editor should work?
 // (Maybe doesn't need its own class?)
 function LevelEditor(spec) {
-  const { self, goals, sledders } = Level(spec)
-  const { globalScope } = spec
+  const { self, ui, goals, sledders } = Level(spec)
 
   const base = _.mix(self)
 
-  const panel = EditorPanel({
+  const editor = Editor({
     parent: self,
-    globalScope,
+    level: self,
+    ui,
   })
 
   console.log('level editor')
 
-  function awake() {
-    base.awake()
-    // editor.active = true
+  function goalDeleted(goal) {
+    goals.splice(goals.indexOf(goal), 1)
   }
 
-  function destroy() {
-    base.destroy()
-    // editor.active = true
+  function addedGoalFromEditor(type) {
+    /* Kind of a hack? Reuse base class helper */
+    const generators = {
+      path: EditablePathGoal,
+      fixed: EditableFixedGoal,
+      dynamic: EditableDynamicGoal,
+    }
+
+    base.addGoal(
+      {
+        type,
+        editor,
+      },
+      generators,
+    )
+
+    const addedGoal = _.last(goals)
+    addedGoal.select()
   }
 
   function serialize() {
@@ -41,9 +55,8 @@ function LevelEditor(spec) {
   }
 
   return self.mix({
-    awake,
-    destroy,
-
+    goalDeleted,
     serialize,
+    addedGoalFromEditor,
   })
 }

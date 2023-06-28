@@ -140,38 +140,6 @@ function PathGoal(spec) {
     camera,
   })
 
-  function calculatePositions() {
-    // Establish path origin in world space
-    transform.transformPoint(pathStart, pathStartWorld)
-    transform.transformPoint(pathEnd, pathEndWorld)
-
-    // Sample start/end points
-    pathStartWorld.y = pathGraph.sample('x', pathStartWorld.x)
-    pathEndWorld.y = pathGraph.sample('x', pathEndWorld.x)
-
-    // Move transform to start of path
-    transform.position = pathStartWorld
-
-    // Compute world-space points
-    transform.invertPoint(pathStartWorld, pathStart)
-    transform.invertPoint(pathEndWorld, pathEnd)
-
-    pathPosition.set(pathStart)
-    transform.transformPoint(pathPosition, pathPositionWorld)
-
-    // Compute min/max points
-    pathStart.min(pathEnd, pathMin)
-    pathStart.max(pathEnd, pathMax)
-
-    pathStartWorld.min(pathEndWorld, pathMinWorld)
-    pathStartWorld.max(pathEndWorld, pathMaxWorld)
-
-    // trackPoints.push(pathStartWorld)
-    // trackPoints.push(pathEndWorld)
-    trackPoints.push(pathGraph.minSample)
-    trackPoints.push(pathGraph.maxSample)
-  }
-
   function updateBounds() {
     const max = pathGraph.samples.reduce(
       (max, el) => (el[1] > max ? el[1] : max),
@@ -478,7 +446,5 @@ function PathGoal(spec) {
     get type() {
       return 'path'
     },
-
-    calculatePositions,
   })
 }

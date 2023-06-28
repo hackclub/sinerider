@@ -1,79 +1,88 @@
-function Editor(ui) {
-  const { editorInspector, order, timer, x, y, deleteSelection } =
-    ui.editorInspector
-
-  const { editorSpawner, addFixed, addDynamic, addPath } = ui.editorSpawner
-
-  let showing = true
-
-  addFixed.addEventListener('click', () => {
-    world.level.sendEvent('goalAdded', ['fixed'])
-  })
-
-  addDynamic.addEventListener('click', () => {
-    world.level.sendEvent('goalAdded', ['dynamic'])
-  })
-
-  addPath.addEventListener('click', () => {
-    ui.editorInspector.x.value = point.x.toFixed(2)
-    ui.editorInspector.y.value = point.y.toFixed(2)
-    world.level.sendEvent('goalAdded', ['path'])
-  })
+function Editor(spec) {
+  const { self } = Entity(spec, 'Editor')
+  const { ui, level } = spec
 
   let editingPath = false
 
-  let selection
-  let selectionType
+  let selection = null
+  let selectionIsDeletable = false
 
-  let active = false
+  const {
+    order: orderUI,
+    timer: timerUI,
+    position: positionUI,
+  } = ui.editorInspector.editableAttributes
 
-  deleteSelection.addEventListener('click', () => {
-    if (
-      selectionType == 'fixed' ||
-      selectionType == 'path' ||
-      selectionType == 'dynamic' ||
-      selectionType == 'sledder'
-    ) {
+  function addFixedClicked() {
+    level.sendEvent('addedGoalFromEditor', ['fixed'])
+  }
+
+  function addDynamicClicked() {
+    level.sendEvent('addedGoalFromEditor', ['dynamic'])
+  }
+
+  function addPathClicked() {
+    level.sendEvent('addedGoalFromEditor', ['path'])
+  }
+
+  function deleteSelectionButtonClicked() {
+    if (selection && selectionIsDeletable) {
       selection.remove()
+      deselect()
     }
-  })
+  }
+
+  function hide() {
+    ui.editorSpawner.panel.setAttribute('hide', true)
+    ui.editorInspector.panel.setAttribute('hide', true)
+  }
+
+  function showSpawnerPanel() {
+    ui.editorSpawner.panel.setAttribute('hide', false)
+    ui.editorInspector.panel.setAttribute('hide', true)
+  }
+
+  function showInspectorPanel() {
+    ui.editorSpawner.panel.setAttribute('hide', true)
+    ui.editorInspector.panel.setAttribute('hide', false)
+  }
 
   function select(
-    _selection,
-    _selectionType,
+    newSelection,
     attributes = ['order', 'timer', 'x', 'y'],
+    newSelectionIsDeletable = true,
   ) {
-    if (!active) return
+    selection = newSelection
+    selectionIsDeletable = newSelectionIsDeletable
 
-    editorSpawner.setAttribute('hide', true)
-    editorInspector.setAttribute('hide', false)
+    showInspectorPanel()
 
-    selection = _selection
-    selectionType = _selectionType
+    const hideOrder = !attributes.includes('order')
+    orderUI.input.setAttribute('hide', hideOrder)
+    orderUI.label.setAttribute('hide', hideOrder)
 
-    // TODO: Resolve source of truth as either consumer or branching in Editor
-    // from passed type
-    if (attributes) {
-      // TODO: Disgusting, clean up
-      const hideOrder = !attributes.includes('order')
-      ui.editorInspector.order.setAttribute('hide', hideOrder)
-      ui.editorInspector.orderLabel.setAttribute('hide', hideOrder)
+    const hideTimer = !attributes.includes('timer')
+    timerUI.input.setAttribute('hide', hideTimer)
+    timerUI.input.setAttribute('hide', hideTimer)
 
-      const hideTimer = !attributes.includes('timer')
-      ui.editorInspector.timer.setAttribute('hide', hideTimer)
-      ui.editorInspector.timerLabel.setAttribute('hide', hideTimer)
+    const hideX = !attributes.includes('x')
+    const hideY = !attributes.includes('y')
+    positionUI.x.setAttribute('hide', hideX)
+    positionUI.y.setAttribute('hide', hideY)
+    positionUI.label.setAttribute('hide', hideX && hideY)
 
-      const hideX = !attributes.includes('x')
-      const hideY = !attributes.includes('y')
-      ui.editorInspector.x.setAttribute('hide', hideX)
-      ui.editorInspector.y.setAttribute('hide', hideY)
-      ui.editorInspector.positionLabel.setAttribute('hide', hideX && hideY)
-    }
+    orderUI.input.value = selection.order ?? ''
+    positionUI.x.value = selection.x ? selection.x.toFixed(2) : ''
+    positionUI.y.value = selection.y ? selection.y.toFixed(2) : ''
+    timerUI.input.value = selection.timer ?? ''
+  }
 
-    order.value = selection.order ?? ''
-    x.value = selection.x ? selection.x.toFixed(2) : ''
-    y.value = selection.y ? selection.y.toFixed(2) : ''
-    timer.value = selection.timer ?? ''
+  function selectionChange() {
+    // Update UI
+    orderUI.input.value = selection.order ?? ''
+    positionUI.x.value = selection.x ? selection.x.toFixed(2) : ''
+    positionUI.y.value = selection.y ? selection.y.toFixed(2) : ''
+    timerUI.input.value = selection.timer ?? ''
   }
 
   function deselect() {
@@ -91,21 +100,25 @@ function Editor(ui) {
     editorInspector.setAttribute('hide', showing)
   }
 
+  function awake() {
+    ui.nextButton.setAttribute('hide', true)
+    showSpawnerPanel()
+  }
+
+  function destroy() {
+    ui.nextButton.setAttribute('hide', false)
+    hide()
+  }
+
   function show() {
     showing = true
-    ui.nextButton.setAttribute('hide', true)
-    editorSpawner.setAttribute('hide', false)
-    editorInspector.setAttribute('hide', true)
   }
 
   function hide() {
     showing = false
-    ui.nextButton.setAttribute('hide', false)
-    editorSpawner.setAttribute('hide', true)
-    editorInspector.setAttribute('hide', true)
   }
 
-  order.addEventListener('input', (event) => {
+  function orderInputEdited(event) {
     let data = event.data ? event.data.toUpperCase() : null
     if (!/[a-z]/i.test(data)) {
       event.preventDefault()
@@ -114,9 +127,9 @@ function Editor(ui) {
     }
     order.value = data
     if (selection?.setOrder) selection.setOrder(data)
-  })
+  }
 
-  timer.addEventListener('input', (event) => {
+  function timerInputEdited(event) {
     let value
     try {
       value = Number(timer.value)
@@ -124,9 +137,9 @@ function Editor(ui) {
       return
     }
     if (selection?.setTimer) selection.setTimer(value)
-  })
+  }
 
-  x.addEventListener('input', (event) => {
+  function positionXInputEdited(event) {
     let value
     try {
       value = Number(x.value)
@@ -134,9 +147,9 @@ function Editor(ui) {
       return
     }
     if (selection?.setX) selection.setX(value)
-  })
+  }
 
-  y.addEventListener('input', (event) => {
+  function positionYInputEdited(event) {
     let value
     try {
       value = Number(y.value)
@@ -144,23 +157,18 @@ function Editor(ui) {
       return
     }
     if (selection?.setY) selection?.setY(value)
-  })
+  }
 
-  return {
-    show,
-    hide,
+  function onSetActive(active) {
+    if (active) show()
+    else hide()
+  }
 
-    get active() {
-      return active
-    },
-    set active(v) {
-      active = v
-      if (v) {
-        show()
-      } else {
-        hide()
-      }
-    },
+  return self.mix({
+    awake,
+    destroy,
+
+    onSetActive,
 
     get editingPath() {
       return editingPath
@@ -171,5 +179,17 @@ function Editor(ui) {
 
     deselect,
     select,
-  }
+
+    addDynamicClicked,
+    addFixedClicked,
+    addPathClicked,
+    deleteSelectionButtonClicked,
+
+    orderInputEdited,
+    timerInputEdited,
+    positionXInputEdited,
+    positionYInputEdited,
+
+    selectionChange,
+  })
 }
