@@ -1,6 +1,8 @@
 function FixedGoal(spec) {
   const { self, screen, camera, transform, ctx } = Goal(spec, 'Fixed Goal')
 
+  self.editableType = FixedGoalEditable
+
   const base = _.mix(self)
 
   let { world, size = 1 } = spec

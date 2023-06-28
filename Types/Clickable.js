@@ -43,15 +43,14 @@ function Clickable(spec) {
 
   function sendEvent(name, args) {
     entity.sendEvent(name, args)
-    // if (editor.active) {
-    //   // TODO: Actually implement a sensible Editor implementation
-    //   // and figure out how to organize Editor business logic;
-    //   // for now editing is handled implicitly in relevant Entities (goals)
-    //   // through events
-    //   const editEventName =
-    //     name.charAt(0).toLowerCase() + name.substring(1) + 'Editor'
-    //   entity.sendEvent(editEventName, args)
-    // }
+    if (world.level?.editing) {
+      // TODO: Actually implement a sensible Editor implementation
+      // and figure out how to organize Editor business logic;
+      // for now editing is handled implicitly in relevant Entities (goals)
+      // through events
+      const editEventName = `editable.${name}`
+      entity.sendEvent(editEventName, args)
+    }
   }
 
   function collectHit(point, hits) {

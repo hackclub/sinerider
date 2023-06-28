@@ -11,6 +11,28 @@ function LevelEditor(spec) {
     ui,
   })
 
+  /*
+
+Editor flow:
+
+Open level editor (map, URL (edit: true), sinerider.com/?edit)
+  - Level -> LevelEditor()
+    -> sendEvent('editorEnabled')
+    - gridlines always enabled
+      -> override selectScreenCoordinates()
+        -> if selected, no coordinate box
+    - Share button
+  
+Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
+  - Open as normal, uneditable level
+
+
+*/
+
+  function awake() {
+    self.sendEvent('editorAwake', [editor])
+  }
+
   console.log('level editor')
 
   function goalDeleted(goal) {
@@ -19,22 +41,28 @@ function LevelEditor(spec) {
 
   function addedGoalFromEditor(type) {
     /* Kind of a hack? Reuse base class helper */
-    const generators = {
-      path: EditablePathGoal,
-      fixed: EditableFixedGoal,
-      dynamic: EditableDynamicGoal,
-    }
+    // const editableGenerator = {
+    //   path: PathGoalEditable,
+    //   fixed: FixedGoalEditable,
+    //   dynamic: DynamicGoalEditable,
+    // }[type]
 
-    base.addGoal(
-      {
-        type,
-        editor,
-      },
-      generators,
-    )
+    // base.addGoal(
+    //   {
+    //     type,
+    //     editor,
+    //     editableGenerator,
+    //   },
+    //   generators,
+    // )
+
+    base.addGoal({
+      type,
+    })
 
     const addedGoal = _.last(goals)
-    addedGoal.select()
+    addedGoal.sendEvent('editorAwake', [editor])
+    // addedGoal.sendEvent('select')
   }
 
   function serialize() {
@@ -55,8 +83,19 @@ function LevelEditor(spec) {
   }
 
   return self.mix({
+    awake,
     goalDeleted,
     serialize,
     addedGoalFromEditor,
+
+    // TODO: Remove need for this
+    // (effectively global variable)
+    get editing() {
+      return editor.active
+    },
+
+    get editor() {
+      return editor
+    },
   })
 }

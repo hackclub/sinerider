@@ -1,12 +1,5 @@
 function Editable(spec) {
   const { entity, shape, transform, camera } = spec
-
-  const clickable = Clickable({
-    entity,
-    shape,
-    transform,
-    camera,
-  })
 }
 
 /*

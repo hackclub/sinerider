@@ -439,14 +439,12 @@ function Level(spec) {
     globalScope.p.im = playerEntity.transform.position.y
   }
 
-  function addGoal(goalDatum, customGenerators = null) {
-    const generators = customGenerators || {
+  function addGoal(goalDatum) {
+    const generator = {
       path: PathGoal,
       fixed: FixedGoal,
       dynamic: DynamicGoal,
-    }
-
-    const generator = generators[goalDatum.type || 'fixed']
+    }[goalDatum.type || 'fixed']
 
     const goal = generator({
       name: 'Goal ' + goals.length,

@@ -1,9 +1,11 @@
 function DynamicGoal(spec) {
   const { self, screen, camera, transform, ctx } = Goal(spec, 'Dynamic Goal')
 
+  self.editableType = DynamicGoalEditable
+
   const base = _.mix(self)
 
-  let { size = 1, globalScope, graph } = spec
+  let { size = 1, globalScope, graph, editor } = spec
 
   const bottom = Vector2(0, -size / 2)
   const bottomWorld = Vector2()
@@ -87,6 +89,51 @@ function DynamicGoal(spec) {
 
     let angle = math.atan2(slopeTangent.y, slopeTangent.x)
     transform.rotation = angle
+  }
+
+  function setX(x) {
+    startPosition.x = x
+    transform.position.x = x
+    self.reset()
+  }
+
+  function setY(y) {
+    startPosition.y = y
+    transform.position.y = y
+    self.reset()
+  }
+
+  /* Editor logic */
+  // TODO: Move to subclases
+
+  let moving = false
+
+  function editor_mouseDown() {
+    transform.scale = 1.1
+    moving = true
+  }
+
+  function editor_mouseMove(point) {
+    if (!moving) return
+    startPosition = point
+    transform.position = point
+    ui.editorInspector.x.value = point.x.toFixed(2)
+    ui.editorInspector.y.value = point.y.toFixed(2)
+  }
+
+  function mouseUp() {
+    if (!moving) return
+    transform.scale = 1
+    moving = false
+    reset()
+  }
+
+  function select() {
+    editor.select(self, 'dynamic')
+  }
+
+  function deselect() {
+    editor.deselect()
   }
 
   function setX(x) {

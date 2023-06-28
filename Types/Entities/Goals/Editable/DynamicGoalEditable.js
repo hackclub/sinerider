@@ -1,20 +1,21 @@
-function EditableDynamicGoal(spec) {
-  const { self, transform, startPosition, clickable, ctx, camera, bounds } =
-    DynamicGoal(spec)
+function DynamicGoalEditable(spec) {
+  const { self, parent } = Entity(spec, 'DynamicGoalEditable')
 
   const { editor } = spec
 
-  const base = _.mix(self)
+  const { startPosition, transform } = parent
+
+  const clickable = parent.clickable
+
+  let moving = false
 
   function select() {
-    editor.select(self, 'dynamic', ['order', 'x', 'y'])
+    editor.select(parent, 'dynamic', ['order', 'x', 'y'])
   }
 
   function unselect() {
     editor.unselect()
   }
-
-  let moving = false
 
   function mouseDown() {
     if (!clickable.selected) return
@@ -64,7 +65,12 @@ function EditableDynamicGoal(spec) {
     }
   }
 
+  function awake() {
+    console.log('Created DynamicGoalEditable')
+  }
+
   return self.mix({
+    awake,
     drawLocal,
 
     mouseDown,

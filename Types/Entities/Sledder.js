@@ -1,6 +1,8 @@
 function Sledder(spec = {}) {
   const { self, screen, assets } = Entity(spec, 'Sledder')
 
+  self.editableType = SledderEditable
+
   const transform = Transform(spec, self)
   const rigidbody = Rigidbody({
     ...spec,

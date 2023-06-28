@@ -1,6 +1,8 @@
 function PathGoal(spec) {
   const { self, screen, camera, transform, ctx } = Goal(spec, 'Path Goal')
 
+  self.editableType = PathGoalEditable
+
   const base = _.mix(self)
 
   let {

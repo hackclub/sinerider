@@ -1,5 +1,4 @@
-function Editor(spec) {
-  const { self } = Entity(spec, 'Editor')
+function Editor() {
   const { ui, level } = spec
 
   let editingPath = false

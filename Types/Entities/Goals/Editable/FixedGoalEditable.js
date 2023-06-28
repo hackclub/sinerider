@@ -1,16 +1,14 @@
-function EditablePathGoal(spec) {
-  const { self } = PathGoal(spec)
+function FixedGoalEditable(spec) {
+  const { self, parent } = Entity(spec, 'FixedGoalEditable')
 
   const { editor } = spec
-
-  const base = _.mix(self)
 
   function dragMove(event) {
     // Change goal position
   }
 
   function select() {
-    editor.select(self, 'dynamic', ['x'])
+    editor.select(parent, 'dynamic', ['order', 'x', 'y'])
   }
 
   function unselect() {
