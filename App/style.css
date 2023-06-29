@@ -349,6 +349,10 @@ input[valid='false'] {
   opacity: 0;
 }
 
+#share-button {
+  background: rgb(116, 146, 255);
+}
+
 #run-button {
   position: absolute;
 
@@ -365,6 +369,26 @@ input[valid='false'] {
 
   left: 0;
   bottom: 0;
+}
+
+/* TODO: Make copy link dialog for modal look decent */
+
+#share-editor-level-dialog > .hbar {
+  align-items: center;
+  gap: 20px;
+  border: 2px solid #000;
+  padding: 0px 10px;
+  max-width: 100%;
+  margin-top: 10px;
+}
+
+#editor-sharing-link {
+  width: 300px;
+  overflow: scroll;
+}
+
+#editor-copy-sharing-link-button {
+  background: rgb(99, 99, 255);
 }
 
 .reset-button {
@@ -1124,6 +1148,10 @@ input[valid='false'] {
 .editor-bar[hide='false'] {
   display: inherit;
   animation: show-editor-bar 0.5s;
+}
+
+.editor-sliding-up {
+  transform: translateY(calc(-100% - 73px / 2));
 }
 
 @keyframes show-editor-bar {

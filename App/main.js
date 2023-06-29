@@ -92,19 +92,23 @@ const ui = {
   showAllCancelButton: $('#show-all-no'),
 
   editorInspector: {
-    editorInspector: $('#editor-inspector'),
-    order: $('#editor-order-input'),
-    orderLabel: $('#editor-order-label'),
-    timer: $('#editor-timer-input'),
-    timerLabel: $('#editor-timer-label'),
-    positionLabel: $('#editor-position-label'),
-    x: $('#editor-x-input'),
-    y: $('#editor-y-input'),
-    deleteSelection: $('#editor-inspector-delete'),
+    panel: $('#editor-inspector'),
+    inputs: {
+      order: $('#editor-order-input'),
+      timer: $('#editor-timer-input'),
+      x: $('#editor-x-input'),
+      y: $('#editor-y-input'),
+    },
+    labels: {
+      order: $('#editor-order-label'),
+      timer: $('#editor-timer-label'),
+      position: $('#editor-position-label'),
+    },
+    deleteSelectionButton: $('#editor-inspector-delete'),
   },
 
   editorSpawner: {
-    editorSpawner: $('#editor-spawner'),
+    panel: $('#editor-spawner'),
     addFixed: $('#editor-spawner-fixed'),
     addDynamic: $('#editor-spawner-dynamic'),
     addPath: $('#editor-spawner-path'),
@@ -125,6 +129,12 @@ const ui = {
   hideLevelInfoButton: $('#button-hide-level-info'),
 
   skipCutsceneButton: $('#skip-cutscene-button'),
+
+  editorSharingLinkDialog: $('#editor-share-dialog'),
+  editorSharingLink: $('#editor-sharing-link'),
+  editorCopySharingLinkButton: $('#editor-copy-sharing-link-button'),
+
+  shareButton: $('#share-button'),
 }
 
 // const editor = Editor(ui)
@@ -454,6 +464,21 @@ function onClickSettingsButton(event) {
   ui.graphicsSettingsDialog.showModal()
 }
 
+// TODO: Generalize this
+ui.editorSharingLinkDialog.addEventListener('click', (event) => {
+  const x = event.clientX
+  const y = event.clientY
+  const rect = ui.editorSharingLinkDialog.getBoundingClientRect()
+  const outsideModal =
+    x < rect.x ||
+    x > rect.x + rect.width ||
+    y < rect.y ||
+    y > rect.y + rect.height
+  if (outsideModal) {
+    ui.editorSharingLinkDialog.close()
+  }
+})
+
 ui.graphicsSettingsDialog.addEventListener('click', (event) => {
   const x = event.clientX
   const y = event.clientY
@@ -645,7 +670,7 @@ function onMouseDownCanvas(event) {
   event.preventDefault()
   selectScreenCoordinatesFromWindow(event.clientX, event.clientY)
   ui.mathField.blur()
-  world.sendEvent('enableGridlines')
+  world.sendEvent('onMouseDown')
 }
 
 canvas.addEventListener('mousedown', onMouseDownCanvas)
@@ -656,7 +681,7 @@ function onMouseUpCanvas(event) {
   ui.tSlider.value = 0
   // refreshTSlider()
   world.clickableContext.processEvent(event, 'mouseUp')
-  world.sendEvent('disableGridlines')
+  world.sendEvent('onMouseUp')
 }
 
 canvas.addEventListener('mouseup', onMouseUpCanvas)
@@ -668,4 +693,47 @@ ui.levelInfoDiv.addEventListener('mouseover', function () {
 
 ui.levelInfoDiv.addEventListener('mouseleave', function () {
   ui.hideLevelInfoButton.setAttribute('hide', true)
+})
+
+/* Editor UI events */
+
+ui.shareButton.addEventListener('click', () => {
+  world.sendEvent('onShareButtonClicked')
+})
+
+ui.editorCopySharingLinkButton.addEventListener('click', () => {
+  const link = ui.editorSharingLink.innerText
+  navigator.clipboard.writeText(link)
+})
+
+// Spawner
+ui.editorSpawner.addDynamic.addEventListener('click', () =>
+  world.sendEvent('addDynamicClicked'),
+)
+ui.editorSpawner.addFixed.addEventListener('click', () =>
+  world.sendEvent('addFixedClicked'),
+)
+ui.editorSpawner.addPath.addEventListener('click', () =>
+  world.sendEvent('addPathClicked'),
+)
+
+// Inspector
+ui.editorInspector.inputs.order.addEventListener('input', (event) => {
+  world.sendEvent('orderInputEdited', [event])
+})
+
+ui.editorInspector.inputs.timer.addEventListener('input', (event) => {
+  world.sendEvent('timerInputEdited', [event])
+})
+
+ui.editorInspector.inputs.x.addEventListener('input', (event) => {
+  world.sendEvent('positionXInputEdited', [event])
+})
+
+ui.editorInspector.inputs.y.addEventListener('input', (event) => {
+  world.sendEvent('positionYInputEdited', [event])
+})
+
+ui.editorInspector.deleteSelectionButton.addEventListener('click', () => {
+  world.sendEvent('deleteSelection')
 })

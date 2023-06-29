@@ -114,33 +114,39 @@
         <button id="try-again" type="button">Try Again</button>
       </div> -->
 
-      <div class="bar editor-bar" id="editor-spawner" hide="true">
-        <div id="editor-spawner-fixed" class="button string">
-          Add fixed goal
+      <div>
+        <div class="bar editor-bar" id="editor-spawner" hide="true">
+          <div id="editor-spawner-fixed" class="button string">
+            Add fixed goal
+          </div>
+          <div id="editor-spawner-dynamic" class="button string">
+            Add dynamic goal
+          </div>
+          <div id="editor-spawner-path" class="button string">
+            Add path goal
+          </div>
+          <div class="button" id="share-button" hide="false">
+            <div class="string">Share</div>
+          </div>
         </div>
-        <div id="editor-spawner-dynamic" class="button string">
-          Add dynamic goal
+        <div class="bar editor-bar" id="editor-inspector" hide="true">
+          <div class="label" id="editor-order-label">
+            <div class="string">Order</div>
+          </div>
+          <input id="editor-order-input" maxlength="1" placeholder="None" />
+          <div class="label" id="editor-position-label">
+            <div class="string">Position</div>
+          </div>
+          <div id="editor-position">
+            <input id="editor-x-input" type="number" placeholder="X" />
+            <input id="editor-y-input" type="number" placeholder="Y" />
+          </div>
+          <div class="label" id="editor-timer-label">
+            <div class="string">Timer</div>
+          </div>
+          <input id="editor-timer-input" min="0" />
+          <div id="editor-inspector-delete" class="button string">X</div>
         </div>
-        <div id="editor-spawner-path" class="button string">Add path goal</div>
-      </div>
-      <div class="bar editor-bar" id="editor-inspector" hide="true">
-        <div class="label" id="editor-order-label">
-          <div class="string">Order</div>
-        </div>
-        <input id="editor-order-input" maxlength="1" />
-        <div class="label" id="editor-position-label">
-          <div class="string">Position</div>
-        </div>
-        <div id="editor-position">
-          <input id="editor-x-input" type="number" placeholder="X" />
-          <input id="editor-y-input" type="number" placeholder="Y" />
-        </div>
-        <div class="label" id="editor-timer-label">
-          <div class="string">Timer</div>
-        </div>
-        <input id="editor-timer-input" min="0" />
-        <div id="editor-inspector-delete" class="button string">X</div>
-        <!-- TODO: Add path goal -->
       </div>
 
       <!-- TODO: Clean up CSS -->
@@ -235,6 +241,19 @@
         <div class="string">Try Again</div>
       </div>
     </div>
+
+    <dialog id="editor-share-dialog">
+      <!-- TODO: Make decent -->
+      <div class="string">Share the link below:</div>
+      <div class="hbar">
+        <div class="string" id="editor-sharing-link">
+          https://sinerider.com/?auwbdiawdyiubawduybaubydwuhbawdhubawuhbd
+        </div>
+        <div class="button" id="editor-copy-sharing-link-button">
+          <div class="string">Copy</div>
+        </div>
+      </div>
+    </dialog>
 
     <dialog id="reset-confirmation-dialog">
       <div class="string">
@@ -479,7 +498,6 @@
 
     <!-- Load Structs -->
     <script src="Types/Structs/EntityGroup.js"></script>
-    <script src="Types/Structs/Editor.js"></script>
     <script src="Types/Structs/PlayerStorage.js"></script>
     <script src="Types/Structs/Test.js"></script>
     <script src="Types/Structs/Vector2.js"></script>
@@ -556,13 +574,8 @@
     <script src="Types/Entities/Level/Cutscenes/ConstantLake.js"></script>
     <script src="Types/Entities/Level/Cutscenes/Volcano.js"></script>
     <script src="Types/Entities/Level/Cutscenes/Desert.js"></script>
-    <script src="Types/Entities/Level/Editor/Dragger.js"></script>
-    <script src="Types/Entities/Level/Editor/Editable.js"></script>
-    <script src="Types/Entities/Level/Editor/InspectorPanel.js"></script>
+
     <script src="Types/Entities/Level/Editor/LevelEditor.js"></script>
-    <script src="Types/Entities/Level/Editor/EditorPanel.js"></script>
-    <script src="Types/Entities/Level/Editor/SpawnerPanel.js"></script>
-    <script src="Types/Entities/Level/Editor/Spawner.js"></script>
 
     <!-- Load Levels -->
 
