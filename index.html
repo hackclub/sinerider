@@ -114,39 +114,35 @@
         <button id="try-again" type="button">Try Again</button>
       </div> -->
 
-      <div>
-        <div class="bar editor-bar" id="editor-spawner" hide="true">
-          <div id="editor-spawner-fixed" class="button string">
-            Add fixed goal
-          </div>
-          <div id="editor-spawner-dynamic" class="button string">
-            Add dynamic goal
-          </div>
-          <div id="editor-spawner-path" class="button string">
-            Add path goal
-          </div>
-          <div class="button" id="share-button" hide="false">
-            <div class="string">Share</div>
-          </div>
+      <div class="bar editor-bar" id="editor-spawner" hide="true">
+        <div id="editor-spawner-fixed" class="button string">
+          Add fixed goal
         </div>
-        <div class="bar editor-bar" id="editor-inspector" hide="true">
-          <div class="label" id="editor-order-label">
-            <div class="string">Order</div>
-          </div>
-          <input id="editor-order-input" maxlength="1" placeholder="None" />
-          <div class="label" id="editor-position-label">
-            <div class="string">Position</div>
-          </div>
-          <div id="editor-position">
-            <input id="editor-x-input" type="number" placeholder="X" />
-            <input id="editor-y-input" type="number" placeholder="Y" />
-          </div>
-          <div class="label" id="editor-timer-label">
-            <div class="string">Timer</div>
-          </div>
-          <input id="editor-timer-input" min="0" />
-          <div id="editor-inspector-delete" class="button string">X</div>
+        <div id="editor-spawner-dynamic" class="button string">
+          Add dynamic goal
         </div>
+        <div id="editor-spawner-path" class="button string">Add path goal</div>
+        <div class="button" id="share-button" hide="false">
+          <div class="string">Share</div>
+        </div>
+      </div>
+      <div class="bar editor-bar" id="editor-inspector" hide="true">
+        <div class="label" id="editor-order-label">
+          <div class="string">Order</div>
+        </div>
+        <input id="editor-order-input" maxlength="1" placeholder="None" />
+        <div class="label" id="editor-position-label">
+          <div class="string">Position</div>
+        </div>
+        <div id="editor-position">
+          <input id="editor-x-input" type="number" placeholder="X" />
+          <input id="editor-y-input" type="number" placeholder="Y" />
+        </div>
+        <div class="label" id="editor-timer-label">
+          <div class="string">Timer</div>
+        </div>
+        <input id="editor-timer-input" min="0" />
+        <div id="editor-inspector-delete" class="button string">X</div>
       </div>
 
       <!-- TODO: Clean up CSS -->
