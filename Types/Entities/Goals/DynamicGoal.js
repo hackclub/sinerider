@@ -1,11 +1,12 @@
 function DynamicGoal(spec) {
-  const { self, screen, camera, transform, ctx } = Goal(spec, 'Dynamic Goal')
-
-  self.editableType = DynamicGoalEditable
+  const { self, screen, camera, transform, ctx, parent } = Goal(
+    spec,
+    'Dynamic Goal',
+  )
 
   const base = _.mix(self)
 
-  let { size = 1, globalScope, graph, editor } = spec
+  let { size = 1, globalScope, graph } = spec
 
   const bottom = Vector2(0, -size / 2)
   const bottomWorld = Vector2()
@@ -14,7 +15,7 @@ function DynamicGoal(spec) {
 
   let startPosition = Vector2(spec)
 
-  const bounds = Circle({
+  const shape = Circle({
     transform,
     center: Vector2(0, 0),
     radius: size / 2,
@@ -22,7 +23,7 @@ function DynamicGoal(spec) {
 
   const clickable = Clickable({
     entity: self,
-    bounds,
+    shape,
     transform,
     camera,
   })
@@ -104,35 +105,41 @@ function DynamicGoal(spec) {
   }
 
   /* Editor logic */
-  // TODO: Move to subclases
+
+  const editor = parent
 
   let moving = false
 
-  function editor_mouseDown() {
+  function mouseDown() {
+    if (!editor.editing) return
     transform.scale = 1.1
     moving = true
   }
 
-  function editor_mouseMove(point) {
+  function mouseMove(point) {
+    if (!editor.editing) return
     if (!moving) return
     startPosition = point
     transform.position = point
-    ui.editorInspector.x.value = point.x.toFixed(2)
-    ui.editorInspector.y.value = point.y.toFixed(2)
+    editor.update()
   }
 
   function mouseUp() {
+    if (!editor.editing) return
     if (!moving) return
     transform.scale = 1
     moving = false
     reset()
+    editor.update()
   }
 
   function select() {
-    editor.select(self, 'dynamic')
+    if (!editor.editing) return
+    editor.select(self, ['x', 'y', 'order'])
   }
 
   function deselect() {
+    if (!editor.editing) return
     editor.deselect()
   }
 
@@ -152,11 +159,11 @@ function DynamicGoal(spec) {
     transform,
     rigidbody,
 
-    // TODO: Ideally this sort of thing shouldn't
-    // be exposed? Either refactor how Editable goals
-    // work or establish/re-establish how Crockford
-    // inheritance should ideally be used
-    startPosition,
+    mouseDown,
+    mouseUp,
+    mouseMove,
+    select,
+    deselect,
 
     clickable,
 
@@ -168,7 +175,7 @@ function DynamicGoal(spec) {
     setX,
     setY,
 
-    bounds,
+    shape,
 
     get type() {
       return 'dynamic'

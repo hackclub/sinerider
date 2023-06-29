@@ -237,6 +237,9 @@ function World(spec) {
 
       if (urlData?.x && levelDatum.sledders[0])
         levelDatum.sledders[0].x = urlData.x
+
+      if (urlData?.defaultExpression)
+        levelDatum.defaultExpression = urlData.defaultExpression
     }
 
     const generator =

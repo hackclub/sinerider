@@ -1,13 +1,14 @@
 function FixedGoal(spec) {
-  const { self, screen, camera, transform, ctx } = Goal(spec, 'Fixed Goal')
-
-  self.editableType = FixedGoalEditable
+  const { self, screen, camera, transform, ctx, parent } = Goal(
+    spec,
+    'Fixed Goal',
+  )
 
   const base = _.mix(self)
 
   let { world, size = 1 } = spec
 
-  const bounds = Rect({
+  const shape = Rect({
     transform,
     width: size,
     height: size,
@@ -15,20 +16,12 @@ function FixedGoal(spec) {
 
   const clickable = Clickable({
     entity: self,
-    bounds,
+    shape,
     transform,
     camera,
   })
 
   t = 0
-
-  function select() {
-    // editor.select(self, 'fixed')
-  }
-
-  function deselect() {
-    // editor.deselect()
-  }
 
   function drawLocal() {
     t += 0.01
@@ -76,19 +69,31 @@ function FixedGoal(spec) {
     ctx.globalAlpha = 1
   }
 
+  /* Editor logic */
+
+  const editor = parent
+
   let moving = false
 
+  function select() {
+    if (!editor.editing) return
+    editor.select(self, ['x', 'y', 'order'])
+  }
+
+  function deselect() {
+    if (!editor.editing) return
+    editor.deselect()
+  }
+
   function mouseDown() {
-    // if (editor.active) {
-    //   moving = true
-    // }
+    if (!editor.editing) return
+    moving = true
   }
 
   function mouseMove(point) {
     if (!moving) return
     transform.position = point
-    ui.editorInspector.x.value = point.x.toFixed(2)
-    ui.editorInspector.y.value = point.y.toFixed(2)
+    editor.update()
   }
 
   function mouseUp() {
@@ -98,7 +103,7 @@ function FixedGoal(spec) {
 
   return self.mix({
     draw,
-    bounds,
+    shape,
 
     clickable,
     mouseDown,

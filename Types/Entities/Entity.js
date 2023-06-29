@@ -266,34 +266,9 @@ function Entity(spec, defaultName = 'Entity') {
     }
   }
 
-  // TODO: Clean up how editor works
-  function editorAwake(editor) {
-    // HACK: Use event to pass editor
-    // when it really should be passed via spec
-    if (self.editableType) {
-      debugger
-      self.editable = self.editableType({
-        parent: self,
-        editor,
-      })
-    }
-  }
-
-  function editorEnabled() {
-    if (self.editable) self.editable.active = true
-  }
-
-  function editorDisabled() {
-    if (self.editable) self.editable.active = false
-  }
-
   return _.mixIn(self, {
     awake,
     start,
-
-    editorAwake,
-    editorEnabled,
-    editorDisabled,
 
     destroy,
 
@@ -321,9 +296,6 @@ function Entity(spec, defaultName = 'Entity') {
     addDescendant,
     removeDescendant,
     isDescendantOf,
-
-    editorEnabled,
-    editorDisabled,
 
     predraw,
 

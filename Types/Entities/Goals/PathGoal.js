@@ -1,7 +1,5 @@
 function PathGoal(spec) {
-  const { self, screen, camera, transform, ctx } = Goal(spec, 'Path Goal')
-
-  self.editableType = PathGoalEditable
+  const { self, camera, transform, ctx, parent } = Goal(spec, 'Path Goal')
 
   const base = _.mix(self)
 
@@ -12,6 +10,7 @@ function PathGoal(spec) {
     expression: pathExpression = 'sin(x)',
     pathX = 4,
     pathY = 0,
+    graph,
   } = spec
 
   let trackPoints = []
@@ -156,41 +155,6 @@ function PathGoal(spec) {
     bounds.width = pathX
     bounds.height = height
     bounds.center = Vector2(pathX / 2, (max + min) / 2)
-  }
-
-  let oldExpression
-
-  function selectEditor() {
-    // editor.editingPath = true
-    // ui.mathFieldLabel.innerText = 'P='
-    // ui.mathField.latex(pathExpression)
-    // ui.mathFieldStatic.latex(pathExpression)
-    // oldExpression = world.level.currentLatex
-    // editor.select(self, 'path')
-  }
-
-  function deselectEditor() {
-    // editor.editingPath = false
-    // ui.mathFieldLabel.innerText = 'Y='
-    // ui.mathField.latex(oldExpression)
-    // ui.mathFieldStatic.latex(oldExpression)
-    // editor.deselect()
-  }
-
-  function setGraphExpression(text, latex) {
-    if (!clickable.selected) return
-
-    pathExpression = text
-
-    pathGraph.expression = text
-    pathGraph.resample()
-
-    hintGraph.expression = text
-    hintGraph.resample()
-
-    ui.mathFieldStatic.latex(latex)
-
-    updateBounds()
   }
 
   function tick() {
@@ -362,7 +326,57 @@ function PathGoal(spec) {
     hintGraph.resize()
   }
 
-  function dragMoveEditor(point) {
+  /* Editor logic */
+
+  const editor = parent
+
+  let oldExpression
+
+  function select() {
+    if (!editor.editing) return
+
+    parent.sendEvent('selectedPathGoalForEditing')
+
+    editor.select(self, ['x'])
+
+    oldExpression = parent.currentLatex
+
+    ui.mathFieldLabel.innerText = 'P='
+    ui.mathField.latex(pathExpression)
+    ui.mathFieldStatic.latex(pathExpression)
+  }
+
+  function deselect() {
+    if (!editor.editing) return
+
+    parent.sendEvent('unselectedPathGoalForEditing')
+
+    editor.deselect()
+
+    ui.mathFieldLabel.innerText = 'Y='
+    ui.mathField.latex(oldExpression)
+    ui.mathFieldStatic.latex(oldExpression)
+  }
+
+  function setGraphExpression(text, latex) {
+    if (!clickable.selected) return
+
+    pathExpression = text
+
+    pathGraph.expression = text
+    pathGraph.resample()
+
+    hintGraph.expression = text
+    hintGraph.resample()
+
+    ui.mathFieldStatic.latex(latex)
+
+    updateBounds()
+  }
+
+  function dragMove(point) {
+    if (!editor.editing) return
+
     transform.position.x = point.x
 
     // Reset pathStart/pathEnd
@@ -396,20 +410,22 @@ function PathGoal(spec) {
 
     trackPoints = [pathStartWorld, pathEndWorld]
 
-    ui.editorInspector.x.value = point.x.toFixed(2)
-    ui.editorInspector.y.value = point.y.toFixed(2)
+    editor.update()
   }
 
-  function dragEndEditor() {
+  function dragEnd() {
+    if (!editor.editing) return
     reset()
   }
 
+  let _p = Vector2()
   function setX(x) {
-    transform.position.x = x
-  }
-
-  function setY(y) {
-    transform.position.y = y
+    // HACK: Not sure why, but
+    // when I move the code in dragMove
+    // to setX() the bounding box doesn't
+    // update properly? TODO: Debug
+    _p.x = x
+    dragMove(_p)
   }
 
   return self.mix({
@@ -419,10 +435,12 @@ function PathGoal(spec) {
     draw,
 
     setX,
-    setY,
 
-    dragMoveEditor,
-    dragEndEditor,
+    select,
+    deselect,
+
+    dragMove,
+    dragEnd,
 
     reset,
     resize,
@@ -432,15 +450,16 @@ function PathGoal(spec) {
     trackPoints,
     shape,
 
-    selectEditor,
-    deselectEditor,
-
     clickable,
 
     setGraphExpression,
 
     bounds,
     boundsTransform,
+
+    get pathExpression() {
+      return pathExpression
+    },
 
     get completedProgress() {
       return pathProgress

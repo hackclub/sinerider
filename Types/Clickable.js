@@ -43,14 +43,6 @@ function Clickable(spec) {
 
   function sendEvent(name, args) {
     entity.sendEvent(name, args)
-    if (world.level?.editing) {
-      // TODO: Actually implement a sensible Editor implementation
-      // and figure out how to organize Editor business logic;
-      // for now editing is handled implicitly in relevant Entities (goals)
-      // through events
-      const editEventName = `editable.${name}`
-      entity.sendEvent(editEventName, args)
-    }
   }
 
   function collectHit(point, hits) {
@@ -166,6 +158,7 @@ function Clickable(spec) {
   let deselectMe = null
 
   function select(_deselectMe) {
+    console.log('select')
     deselectMe = _deselectMe
     selected = true
     sendEvent('select', [])
@@ -224,12 +217,6 @@ function Clickable(spec) {
       return enabled
     },
     set enabled(v) {
-      if (!v && deselectMe && editor.active) {
-        // console.log('calling deselectMe')
-        deselectMe()
-
-        if (deselect) deselect()
-      }
       enabled = v
     },
 

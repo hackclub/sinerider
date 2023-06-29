@@ -1,6 +1,6 @@
 // TODO: Refactor Gridlines, clean up interface
 function Gridlines(spec) {
-  const { self, screen } = Entity(spec, 'Gridlines')
+  const { self, screen, parent } = Entity(spec, 'Gridlines')
 
   const transform = Transform()
 
@@ -76,14 +76,17 @@ function Gridlines(spec) {
     ctx.lineWidth = camera.screenToWorldScalar(1)
 
     ctx.stroke()
-    ctx.beginPath()
-    ctx.moveTo(camera.lowerLeft.x, -y)
-    ctx.lineTo(camera.upperRight.x, -y)
-    ctx.moveTo(x, -camera.lowerLeft.y)
-    ctx.lineTo(x, -camera.upperRight.y)
-    ctx.strokeStyle = 'rgba(136, 187, 221, 1)'
-    ctx.lineWidth = camera.screenToWorldScalar(1)
-    ctx.stroke()
+
+    if (!parent.isEditor) {
+      ctx.beginPath()
+      ctx.moveTo(camera.lowerLeft.x, -y)
+      ctx.lineTo(camera.upperRight.x, -y)
+      ctx.moveTo(x, -camera.lowerLeft.y)
+      ctx.lineTo(x, -camera.upperRight.y)
+      ctx.strokeStyle = 'rgba(136, 187, 221, 1)'
+      ctx.lineWidth = camera.screenToWorldScalar(1)
+      ctx.stroke()
+    }
   }
 
   function draw() {

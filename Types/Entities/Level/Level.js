@@ -71,7 +71,7 @@ function Level(spec) {
     else ui.runButton.classList.remove('flash-shadow')
   }
 
-  let currentLatex
+  let currentLatex = defaultExpression
 
   const trackedEntities = [speech, sledders, walkers, goals]
 
@@ -302,10 +302,6 @@ function Level(spec) {
     }
 
     datum._preprocessed = true
-  }
-
-  function isEditor() {
-    return datum.nick == 'LEVEL_EDITOR'
   }
 
   function initMathEditor() {
@@ -634,15 +630,6 @@ function Level(spec) {
       nick: datum.nick,
       completed: hasBeenCompleted,
     }
-    if (isEditor()) {
-      json.goals = goals.map((g) => ({
-        type: g.type,
-        x: g.transform.x,
-        y: g.transform.y,
-        order: g.order,
-      }))
-      if (sledders[0]) json.x = sledders[0].transform.x
-    }
     return json
   }
 
@@ -837,15 +824,16 @@ function Level(spec) {
   }
 
   function save() {
-    // Do not write to URL if debug level is set or if this is a bubble level
-    if (DEBUG_LEVEL || isBubbleLevel) return
+    // Do not write to URL if this is a bubble level
+    if (isBubbleLevel) return
 
     // Save to player storage and to URI
-    storage.setLevel(datum.nick, self.serialize())
+    const serialized = self.serialize() // Overridden
+    storage.setLevel(datum.nick, serialized)
     history.pushState(
       null,
       null,
-      '?' + LZString.compressToBase64(JSON.stringify(serialize())),
+      '?' + LZString.compressToBase64(JSON.stringify(serialized)),
     )
   }
 
@@ -856,7 +844,24 @@ function Level(spec) {
     _.invokeEach(sledders, 'reset')
   }
 
+  // Tightly-couple Level superclass to PathGoal
+  // to ignore graph updates while editing goal
+  // TODO: Fix this
+  let editingPath
+
+  function selectedPathGoalForEditing() {
+    console.log('Selected path goal for editing')
+    editingPath = true
+  }
+
+  function unselectedPathGoalForEditing() {
+    console.log('Unselected path goal for editing')
+    editingPath = false
+  }
+
   function setGraphExpression(text, latex) {
+    if (editingPath) return
+
     ui.mathFieldStatic.latex(latex)
 
     currentLatex = latex
@@ -901,10 +906,16 @@ function Level(spec) {
 
   function enableGridlines() {
     // TODO: Implement special gridline behavior for editor
-    if (!world.running && !isEditor()) {
-      gridlines.active = true
-      coordinateBox.visible = true
-    }
+    gridlines.active = true
+    coordinateBox.visible = true
+  }
+
+  function onMouseDown() {
+    if (!world.running) enableGridlines()
+  }
+
+  function onMouseUp() {
+    disableGridlines()
   }
 
   function selectScreenCoordinates(screenX, screenY) {
@@ -948,6 +959,9 @@ function Level(spec) {
 
     setGraphExpression,
 
+    selectedPathGoalForEditing,
+    unselectedPathGoalForEditing,
+
     camera,
     graph,
 
@@ -958,9 +972,14 @@ function Level(spec) {
       return getCutsceneDistanceParameter()
     },
 
+    save,
+
     playOpenMusic,
 
     mathFieldFocused,
+
+    gridlines,
+    coordinateBox,
 
     enableGridlines,
     disableGridlines,
@@ -988,7 +1007,6 @@ function Level(spec) {
       return datum.nick
     },
 
-    isEditor,
     sledders,
     walkers,
 
@@ -1009,6 +1027,9 @@ function Level(spec) {
     initMathEditor,
 
     getTime,
+
+    onMouseDown,
+    onMouseUp,
 
     get darkenBuffer() {
       if (!spec.useDarkenBuffer) {

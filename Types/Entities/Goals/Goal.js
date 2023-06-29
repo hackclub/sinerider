@@ -1,5 +1,5 @@
 function Goal(spec) {
-  const { self, screen, ctx } = Entity(spec, 'Goal')
+  const { self, screen, ctx, parent } = Entity(spec, 'Goal')
 
   const transform = Transform(spec)
 
@@ -260,43 +260,29 @@ function Goal(spec) {
     self.refreshColors()
   }
 
-  function setOrder(_order) {
-    order = _order
-    world.level.reset()
+  const baseDestroy = self.destroy
+
+  function destroy() {
+    baseDestroy()
+
+    // Level bubbles (TODO: Clean up separation of concerns
+    // between normal level and bubble)
+    if (parent.goalDeleted) parent.goalDeleted()
   }
 
-  function setX(x) {
-    transform.position.x = x
-  }
-
-  function setY(y) {
-    transform.position.y = y
-  }
-
-  function remove() {
-    self.deselect()
-    world.level.sendEvent('goalDeleted', [self])
-    self.destroy()
-  }
-
-  function keydown(key) {
-    if (
-      document.activeElement == document.body && // Ignore if in text field
-      self.clickable?.selected &&
-      (key == 'Backspace' || key == 'Delete')
-    ) {
-      remove()
-    }
+  function setOrder(v) {
+    order = v
   }
 
   return self.mix({
     tVariableChanged,
     transform,
 
+    destroy,
+
     awake,
 
-    keydown,
-    remove,
+    setOrder,
 
     tick,
     draw,
@@ -315,10 +301,6 @@ function Goal(spec) {
     fail,
 
     setAlphaByFlashFade,
-
-    setOrder,
-    setX,
-    setY,
 
     get x() {
       return transform.position.x

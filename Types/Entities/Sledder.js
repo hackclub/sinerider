@@ -1,7 +1,5 @@
 function Sledder(spec = {}) {
-  const { self, screen, assets } = Entity(spec, 'Sledder')
-
-  self.editableType = SledderEditable
+  const { self, screen, parent } = Entity(spec, 'Sledder')
 
   const transform = Transform(spec, self)
   const rigidbody = Rigidbody({
@@ -120,32 +118,43 @@ function Sledder(spec = {}) {
     trail.reset()
   }
 
+  /* Editor logic */
+
+  const editor = parent
+
   function select() {
-    // editor.select(self, 'sledder', ['x', 'y'])
+    if (!editor.editing) return
+    editor.select(self, ['x'], false)
   }
 
   function deselect() {
-    // editor.deselect()
+    if (!editor.editing) return
+    editor.deselect()
   }
 
   function dragMove(point) {
-    // if (!editor.active) return
-    // transform.position = point
-    // ui.editorInspector.x.value = point.x.toFixed(2)
-    // ui.editorInspector.y.value = point.y.toFixed(2)
+    if (!editor.editing) return
+    transform.position = point
+    editor.update()
   }
 
   function dragEnd() {
+    if (!editor.editing) return
     originX = transform.x
     reset()
+    editor.update()
   }
 
   function setX(x) {
-    transform.position.x = x
+    originX = x
+    reset()
+    editor.update()
   }
 
   function setY(y) {
     transform.position.y = y
+    // reset()
+    // editor.update()
   }
 
   return self.mix({
@@ -171,6 +180,14 @@ function Sledder(spec = {}) {
 
     select,
     deselect,
+
+    get x() {
+      return transform.position.x
+    },
+
+    get y() {
+      return transform.position.y
+    },
 
     get transition() {
       return transition
