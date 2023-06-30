@@ -46,13 +46,17 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
       ...base.serialize(),
       defaultExpression: self.currentLatex,
       goals: goals.map((g) => {
-        return {
+        const goalJson = {
           type: g.type,
           x: g.transform.x,
           y: g.transform.y,
-          order: g.order,
-          expression: g.pathExpression,
         }
+        if (g.order) goalJson.order = g.order
+        if (g.pathExpression) {
+          goalJson.expression = g.pathExpression
+          goalJson.expressionLatex = g.pathExpressionLatex
+        }
+        return goalJson
       }),
     }
     if (sledders[0]) json.x = sledders[0].transform.x

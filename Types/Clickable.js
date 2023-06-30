@@ -158,7 +158,6 @@ function Clickable(spec) {
   let deselectMe = null
 
   function select(_deselectMe) {
-    console.log('select')
     deselectMe = _deselectMe
     selected = true
     sendEvent('select', [])

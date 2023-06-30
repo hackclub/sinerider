@@ -17,6 +17,7 @@ function Graph(spec) {
     sledders = [],
     useInterpolation = true,
     refreshPeriodT = 0.3,
+    fixedPoints = false,
   } = spec
 
   let {
@@ -136,11 +137,56 @@ function Graph(spec) {
     if (stroke) {
       ctx.beginPath()
 
-      camera.worldToScreen(samples[0], screenSpaceSample)
+      let roundedSample
+
+      // TODO: Implement fixed points to make
+      // stroked hint graphs not "march"
+      if (fixedPoints) {
+        const sample = samples[1]
+        const roundedSampleX = Math.round(sample.x)
+
+        const sampleA = sample
+        const sampleB = samples[i + 1]
+
+        const roundedSampleSlope =
+          (sampleB.y - sampleA.y) / (sampleB.x - sampleA.x)
+        const roundedSampleY =
+          sample.y + (roundedSampleX - sample.x) * roundedSampleSlope
+
+        roundedSample.set(roundedSampleX, roundedSampleY)
+        camera.worldToScreen(roundedSample, screenSpaceSample)
+      } else {
+        camera.worldToScreen(samples[0], screenSpaceSample)
+      }
+
       ctx.moveTo(screenSpaceSample.x, screenSpaceSample.y)
 
       for (let i = 1; i < sampleCount; i++) {
-        camera.worldToScreen(samples[i], screenSpaceSample)
+        const sample = samples[i]
+
+        if (fixedPoints) {
+          const roundedSampleX = Math.round(sample.x)
+
+          let sampleA, sampleB
+          if (i == sampleCount - 1) {
+            sampleA = samples[i - 1]
+            sampleB = sample
+          } else {
+            sampleA = sample
+            sampleB = samples[i + 1]
+          }
+
+          const roundedSampleSlope =
+            (sampleB.y - sampleA.y) / (sampleB.x - sampleA.x)
+          const roundedSampleY =
+            sample.y + (roundedSampleX - sample.x) * roundedSampleSlope
+
+          roundedSample.set(roundedSampleX, roundedSampleY)
+          camera.worldToScreen(roundedSample, screenSpaceSample)
+        } else {
+          camera.worldToScreen(sample, screenSpaceSample)
+        }
+
         ctx.lineTo(screenSpaceSample.x, screenSpaceSample.y)
       }
 
@@ -148,7 +194,7 @@ function Graph(spec) {
       dashSettingsScreen[1] = dashSettings[1] * strokeScalar
 
       ctx.setLineDash(dashed ? dashSettingsScreen : undashedSettings)
-      ctx.dashOffset = dashOffset
+      ctx.dashOffset = 30
       ctx.lineCap = 'round'
       ctx.strokeStyle = strokeColor
       ctx.lineWidth = strokeWidth * strokeScalar

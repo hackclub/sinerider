@@ -11,7 +11,19 @@ function PathGoal(spec) {
     pathX = 4,
     pathY = 0,
     graph,
+    debug = false,
+
+    // Optional, used for editor
+    expressionLatex: pathExpressionLatex = null,
   } = spec
+
+  if (!pathExpressionLatex) {
+    // Ideally this should never happen,
+    // but to prevent PathGoal from breaking
+    pathExpressionLatex = pathExpression
+  }
+
+  const minBoundsHeight = 1
 
   let trackPoints = []
 
@@ -86,6 +98,7 @@ function PathGoal(spec) {
     strokeColor: '#FFA500',
     dashed: true,
     dashSettings: [0.5, 0.5],
+    // fixedPoints: true,
   })
 
   // HACK: Hijack the graph's draw method to draw it behind the goal object
@@ -134,9 +147,13 @@ function PathGoal(spec) {
 
   updateBounds()
 
+  const union = Union({
+    shapes: [shape, bounds],
+  })
+
   const clickable = Clickable({
     entity: self,
-    shape: bounds,
+    shape: union,
     transform,
     camera,
   })
@@ -150,7 +167,7 @@ function PathGoal(spec) {
       (min, el) => (el[1] < min ? el[1] : min),
       PINF,
     )
-    const height = max - min
+    const height = Math.max(max - min, minBoundsHeight)
 
     bounds.width = pathX
     bounds.height = height
@@ -158,7 +175,7 @@ function PathGoal(spec) {
   }
 
   function tick() {
-    const height = pathGraph.max - pathGraph.min
+    const height = Math.max(pathGraph.max - pathGraph.min, minBoundsHeight)
     const top = transform.invertScalar(pathGraph.max)
 
     bounds.height = height
@@ -312,7 +329,7 @@ function PathGoal(spec) {
     }
 
     // TODO: Polish bounding box
-    // if (true || clickable.selectedInEditor) bounds.draw(ctx, camera)
+    if (debug || clickable.selectedInEditor) union.draw(ctx, camera)
   }
 
   function reset() {
@@ -330,7 +347,7 @@ function PathGoal(spec) {
 
   const editor = parent
 
-  let oldExpression
+  let oldExpressionLatex
 
   function select() {
     if (!editor.editing) return
@@ -339,11 +356,11 @@ function PathGoal(spec) {
 
     editor.select(self, ['x'])
 
-    oldExpression = parent.currentLatex
+    oldExpressionLatex = parent.currentLatex
 
     ui.mathFieldLabel.innerText = 'P='
-    ui.mathField.latex(pathExpression)
-    ui.mathFieldStatic.latex(pathExpression)
+    ui.mathField.latex(pathExpressionLatex)
+    ui.mathFieldStatic.latex(pathExpressionLatex)
   }
 
   function deselect() {
@@ -354,14 +371,17 @@ function PathGoal(spec) {
     editor.deselect()
 
     ui.mathFieldLabel.innerText = 'Y='
-    ui.mathField.latex(oldExpression)
-    ui.mathFieldStatic.latex(oldExpression)
+    ui.mathField.latex(oldExpressionLatex)
+    ui.mathFieldStatic.latex(oldExpressionLatex)
   }
 
   function setGraphExpression(text, latex) {
     if (!clickable.selected) return
 
+    if (!text) return
+
     pathExpression = text
+    pathExpressionLatex = latex
 
     pathGraph.expression = text
     pathGraph.resample()
@@ -461,11 +481,19 @@ function PathGoal(spec) {
       return pathExpression
     },
 
+    get pathExpressionLatex() {
+      return pathExpressionLatex
+    },
+
     get completedProgress() {
       return pathProgress
     },
     get type() {
       return 'path'
+    },
+
+    set debug(v) {
+      debug = v
     },
   })
 }

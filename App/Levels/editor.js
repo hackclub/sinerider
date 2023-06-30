@@ -5,7 +5,7 @@ const EDITOR = [
     colors: Colors.biomes.alps,
     x: -10,
     y: 0,
-    requirements: ['HELLO_WORLD'],
+    requirements: [],
     sledders: [
       {
         asset: 'images.sam_sled',
