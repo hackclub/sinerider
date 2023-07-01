@@ -40,8 +40,8 @@ const CONSTANT_LAKE = {
   ],
   texts: [
     {
-      x: -20,
-      y: -0.5,
+      x: -23,
+      y: 1,
       size: 0.6,
       align: 'left',
       // fill: '#fff',

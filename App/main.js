@@ -360,6 +360,10 @@ function onKeyUp(event) {
   world.sendEvent('keyup', [event.key])
 }
 
+window.addEventListener('mousewheel', (event) => {
+  world.sendEvent('onMouseWheel', [event])
+})
+
 window.addEventListener('keydown', (event) => {
   if (ui.mathField.focused()) return
   // world.level?.sendEvent('keydown', [event.key])

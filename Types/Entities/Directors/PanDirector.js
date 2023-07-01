@@ -162,6 +162,10 @@ function PanDirector(spec) {
     callback = cb
   }
 
+  function setTargetFov(_fov) {
+    cameraState.fov = _fov
+  }
+
   return self.mix({
     tick,
     draw,
@@ -169,6 +173,8 @@ function PanDirector(spec) {
     keydown,
     keyup,
     moveTo,
+
+    setTargetFov,
 
     clickable,
     updateVelocity,

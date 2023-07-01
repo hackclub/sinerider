@@ -129,6 +129,8 @@ function World(spec) {
       drawOrder: LAYERS.navigator,
     })
 
+    navigator.active = false
+
     const url = new URL(location)
 
     if (url.search) {
