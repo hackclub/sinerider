@@ -25,6 +25,8 @@ function Sledder(spec = {}) {
 
   const velocity = [0, 0]
 
+  const position = transform.position
+
   const slopeTangent = Vector2()
 
   const pointCloud = [
@@ -87,11 +89,30 @@ function Sledder(spec = {}) {
     })
   }
 
-  function draw() {
-    if (clickable.selectedInEditor) shape.draw(ctx, camera)
+  const debugVectorOrigin = Vector2()
+  const debugVectorTerminus = Vector2()
 
+  function drawDebugVector(ctx, vector, color) {
+    camera.worldToScreen(position, debugVectorOrigin)
+
+    debugVectorTerminus.set(vector)
+    debugVectorTerminus.add(position)
+    camera.worldToScreen(debugVectorTerminus)
+
+    ctx.beginPath()
+    ctx.moveTo(debugVectorOrigin.x, debugVectorOrigin.y)
+    ctx.lineTo(debugVectorTerminus.x, debugVectorTerminus.y)
+
+    ctx.strokeStyle = color
+    ctx.lineWidth = 4
+    ctx.stroke()
+  }
+
+  function draw() {
     // rigidbody.draw(ctx)
     // camera.drawThrough(ctx, drawLocal, transform)
+    drawDebugVector(ctx, slopeTangent, 'blue')
+    drawDebugVector(ctx, rigidbody.upright, 'orange')
   }
 
   function startRunning() {}
@@ -102,17 +123,56 @@ function Sledder(spec = {}) {
   }
 
   function reset() {
-    transform.x = originX
-    transform.y = graph.sample('x', transform.x)
+    const polar = graph.isPolar
 
-    slopeTangent.x = 1
-    slopeTangent.y = graph.sampleSlope('x', transform.x)
-    slopeTangent.normalize()
+    if (polar) {
+      const theta = Math.atan2(transform.y, transform.x)
 
-    // Set the Upright vector of rigidbody to the slope normal
-    slopeTangent.orthogonalize(rigidbody.upright)
+      const r = position.magnitude
 
-    let angle = Math.asin(slopeTangent.y)
+      const rAtTheta = graph.sample('theta', theta)
+      const rAtMinusTheta = graph.sample('theta', -theta)
+      let surfaceR, surfaceTheta
+
+      const pointAtTheta = Vector2(),
+        pointAtMinusTheta = Vector2()
+
+      graph.pointAtTheta(theta, pointAtTheta)
+      graph.pointAtTheta(-theta, pointAtMinusTheta)
+
+      if (
+        pointAtTheta.distance(position) < pointAtMinusTheta.distance(position)
+      ) {
+        surfaceR = rAtTheta
+        surfaceTheta = theta
+        position.set(pointAtTheta)
+      } else {
+        surfaceR = rAtMinusTheta
+        surfaceTheta = -theta
+        position.set(pointAtMinusTheta)
+      }
+
+      graph.tangentVectorAt(surfaceTheta, slopeTangent)
+      slopeTangent.normalize()
+
+      graph.normalVectorAt(surfaceTheta, rigidbody.upright)
+      rigidbody.upright.negate()
+      rigidbody.upright.normalize()
+    } else {
+      transform.x = originX
+      transform.y = graph.sample('x', transform.x)
+
+      slopeTangent.x = 1
+      slopeTangent.y = graph.sampleSlope('x', transform.x)
+
+      slopeTangent.normalize()
+
+      // Set the Upright vector of rigidbody to the slope normal
+      slopeTangent.orthogonalize(rigidbody.upright)
+    }
+
+    // let angle = Math.asin(slopeTangent.y)
+    let angle = -PI / 2 + Math.atan2(rigidbody.upright.y, rigidbody.upright.x)
     transform.rotation = angle
 
     trail.reset()
@@ -134,7 +194,7 @@ function Sledder(spec = {}) {
 
   function dragMove(point) {
     if (!editor.editing) return
-    transform.position = point
+    position = point
     editor.update()
   }
 
@@ -152,7 +212,7 @@ function Sledder(spec = {}) {
   }
 
   function setY(y) {
-    transform.position.y = y
+    position.y = y
     // reset()
     // editor.update()
   }
@@ -182,11 +242,11 @@ function Sledder(spec = {}) {
     deselect,
 
     get x() {
-      return transform.position.x
+      return position.x
     },
 
     get y() {
-      return transform.position.y
+      return position.y
     },
 
     get transition() {

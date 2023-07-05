@@ -8,6 +8,7 @@ function Rigidbody(spec) {
     fixed = false,
     fixedRotation = false,
     positionOffset = Vector2(),
+    invertGravity,
   } = spec
 
   let grounded = false
@@ -27,13 +28,26 @@ function Rigidbody(spec) {
   const debugVectorOrigin = Vector2()
   const debugVectorTerminus = Vector2()
 
+  const polar = graph.isPolar
+
+  const gravitySign = invertGravity ? 1 : -1
+
   function tick() {
     if (!globalScope.running || fixed) {
       return
     }
 
     // Gravity
-    velocity[1] -= 9.8 * globalScope.dt
+    if (polar) {
+      // Polar (towards center)
+      const theta = Math.atan2(transform.y, transform.x)
+      const r = transform.position.magnitude
+      velocity[0] += gravitySign * Math.cos(theta) * r * globalScope.dt
+      velocity[1] += gravitySign * Math.sin(theta) * r * globalScope.dt
+    } else {
+      // Cartesian (down)
+      velocity[1] += gravitySign * 9.8 * globalScope.dt
+    }
 
     // Integrate velocity. TODO: Verlet integration
     transform.x += velocity[0] * globalScope.dt
@@ -43,36 +57,81 @@ function Rigidbody(spec) {
     samplePosition.set(transform.position)
     samplePosition.add(positionOffset)
 
-    const graphY = graph.sample('x', samplePosition.x)
-    grounded = samplePosition.y < graphY - collisionThreshold
+    let graphY
+
+    let surfaceR, surfaceTheta
+
+    let penetrationDepth
+
+    if (polar) {
+      const theta = Math.atan2(samplePosition.y, samplePosition.x)
+
+      const r = transform.position.magnitude
+
+      const rAtTheta = graph.sample('theta', theta)
+      const rAtMinusTheta = graph.sample('theta', -theta)
+      if (Math.abs(r - rAtTheta) < Math.abs(r - rAtMinusTheta)) {
+        surfaceR = rAtTheta
+        surfaceTheta = theta
+      } else {
+        surfaceR = rAtMinusTheta
+        surfaceTheta = -theta
+      }
+
+      if (surfaceR < 0) {
+        console.log('surface r is negative', surfaceR)
+        debugger
+      }
+
+      penetrationDepth = surfaceR - r
+    } else {
+      const graphY = graph.sample('x', samplePosition.x)
+
+      penetrationDepth = graphY - samplePosition.y
+    }
+
+    grounded = penetrationDepth > collisionThreshold
 
     if (grounded) {
       // Slope and velocity of graph at this position
-      const graphSlope = graph.sampleSlope('x', samplePosition.x)
-      const verticalGraphVelocity = graph.sampleSlope(
-        't',
-        globalScope.t,
-        'x',
-        samplePosition.x,
-      )
-
-      // Vertical depth of penetration
-      const verticalPenetration = graphY - samplePosition.y
+      let graphSlope, verticalGraphVelocity
+      if (polar) {
+        graphSlope = graph.sampleSlopeFromTheta(surfaceTheta)
+        verticalGraphVelocity =
+          graph.sampleSlope('t', globalScope.t, 'theta', surfaceTheta) *
+          Math.sin(surfaceTheta)
+      } else {
+        graphSlope = graph.sampleSlope('x', samplePosition.x)
+        verticalGraphVelocity = graph.sampleSlope(
+          't',
+          globalScope.t,
+          'x',
+          samplePosition.x,
+        )
+      }
 
       // Set collision tangent
-      collisionTangent.x = 1
-      collisionTangent.y = graphSlope
-      collisionTangent.normalize()
+      if (polar) {
+        graph.tangentVectorAt(surfaceTheta, collisionTangent)
+        collisionTangent.normalize()
 
-      // Set collision normal
-      collisionTangent.orthogonalize(collisionNormal)
+        debugger
+        graph.normalVectorAt(surfaceTheta, collisionNormal)
+        collisionNormal.normalize()
+      } else {
+        collisionTangent.x = 1
+        collisionTangent.y = graphSlope
+        collisionTangent.normalize()
+
+        // Set collision normal
+        collisionTangent.orthogonalize(collisionNormal)
+      }
 
       // Project velocity onto collision normal and tangent
       const tangentScalar = collisionTangent.dot(velocity)
-      const normalScalar = collisionNormal.dot(velocity)
 
       // Project penetration onto collision normal
-      const depenetrationScalar = collisionNormal.y * verticalPenetration
+      const depenetrationScalar = collisionNormal.y * penetrationDepth
 
       // Project graph velocity onto collision normal
       const graphVelocityScalar = collisionNormal.y * verticalGraphVelocity

@@ -32,6 +32,10 @@ function Level(spec) {
     runAsCutscene = false,
     camera: cameraSpec = {},
     victoryX = null,
+    type = 'cartesian',
+    minTheta = 0,
+    maxTheta = TAU,
+    invertGravity = false,
   } = datum
 
   let completed = false
@@ -156,7 +160,11 @@ function Level(spec) {
   const startingExpression =
     spec.startingExpression ?? getStartingGraphExpression()
 
-  const graph = Graph({
+  const graphGenerator = {
+    cartesian: Graph,
+    polar: PolarGraph,
+  }[type]
+  const graph = graphGenerator({
     camera,
     screen: darkenBufferOrScreen,
     globalScope,
@@ -166,6 +174,9 @@ function Level(spec) {
     colors,
     sledders,
     useInterpolation: false,
+    minTheta,
+    maxTheta,
+    invertGravity,
   })
 
   let skyColors = colors.sky
@@ -308,7 +319,7 @@ function Level(spec) {
     /* By default, make math editor display the graph */
     ui.expressionEnvelope.setAttribute('disabled', false)
     ui.expressionEnvelope.classList.remove('hidden')
-    ui.mathFieldLabel.innerText = 'Y='
+    ui.mathFieldLabel.innerText = `${graph.label}=`
 
     ui.mathField.latex(startingExpression)
     ui.mathFieldStatic.latex(startingExpression)
@@ -455,6 +466,7 @@ function Level(spec) {
       goalFailed,
       getLowestOrder: () => lowestOrder,
       world,
+      invertGravity,
       ...goalDatum,
     })
 
@@ -540,6 +552,7 @@ function Level(spec) {
       drawOrder: LAYERS.sledders,
       speechScreen: screen,
       motionBlur: false,
+      invertGravity,
       ...sledderDatum,
     })
 

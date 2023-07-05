@@ -1,5 +1,7 @@
-function Graph(spec) {
-  const { self, screen, camera, ctx } = Entity(spec, 'Graph')
+// TODO: Figure out how polar vs. cartesian should work
+// and how this class should work (or if needs to exist?)
+function PolarGraph(spec) {
+  const { self, screen, camera, ctx } = Entity(spec, 'Polar Graph')
 
   let {
     sampleCount = 129,
@@ -18,6 +20,8 @@ function Graph(spec) {
     useInterpolation = true,
     refreshPeriodT = 0.3,
     fixedPoints = false,
+    minTheta = 0,
+    maxTheta = TAU,
   } = spec
 
   let {
@@ -30,8 +34,6 @@ function Graph(spec) {
     let span = Math.abs(bounds[0] - bounds[1])
     sampleCount = Math.ceil(sampleDensity * span)
   }
-
-  let minX, maxX
 
   const undashedSettings = []
   const dashSettingsScreen = [0, 0]
@@ -56,44 +58,56 @@ function Graph(spec) {
 
   const screenSpaceSample = Vector2()
 
-  const minWorldPoint = Vector2()
-  const maxWorldPoint = Vector2()
-
   const minSample = Vector2()
   const maxSample = Vector2()
 
   let terrainLayers = 6
   let terrainParameters
 
-  generateTerrainParameters()
+  // generateTerrainParameters()
 
-  function generateTerrainParameters() {
-    terrainParameters = []
-    for (let i = 0; i < terrainLayers; i++) {
-      scalar = math.lerp(1, 3, Math.random())
-      terrainParameters.push([
-        math.lerp(0, TAU, Math.random()),
-        math.lerp(0.3, 3, Math.random()),
-        math.lerp(3, 5, Math.random()) * scalar,
-        math.lerp(1, 3, Math.random()) * scalar,
-        math.lerp(0.05, 0.25, Math.random()),
-      ])
-    }
-  }
+  // function generateTerrainParameters() {
+  //   terrainParameters = []
+  //   for (let i = 0; i < terrainLayers; i++) {
+  //     scalar = math.lerp(1, 3, Math.random())
+  //     terrainParameters.push([
+  //       math.lerp(0, TAU, Math.random()),
+  //       math.lerp(0.3, 3, Math.random()),
+  //       math.lerp(3, 5, Math.random()) * scalar,
+  //       math.lerp(1, 3, Math.random()) * scalar,
+  //       math.lerp(0.05, 0.25, Math.random()),
+  //     ])
+  //   }
+  // }
 
   function resample(refresh = false) {
-    updateXBounds()
     if (useInterpolation) {
-      if (refresh) interpolationSampler.refresh(minX, maxX, scope.t, scope.dt)
+      if (refresh)
+        interpolationSampler.refresh(minTheta, maxTheta, scope.t, scope.dt)
       interpolationSampler.resetExtrema()
       interpolationSampler.sampleRange(scope, samples, sampleCount, minX, maxX)
       minSample.set(minX, interpolationSampler.min)
       maxSample.set(maxX, interpolationSampler.max)
     } else {
       sampler.resetExtrema()
-      sampler.sampleRange(scope, samples, sampleCount, 'x', minX, maxX)
-      minSample.set(minX, sampler.min)
-      maxSample.set(maxX, sampler.max)
+      sampler.sampleRange(
+        scope,
+        samples,
+        sampleCount,
+        'theta',
+        minTheta,
+        maxTheta,
+      )
+      // TODO: Refactor Sampler (ParametericSampler?)
+      minSample.y = math.pinf
+      maxSample.y = math.ninf
+      for (const sample of samples) {
+        const theta = sample[0],
+          r = sample[1]
+        sample.set(r * Math.cos(theta), r * Math.sin(theta))
+        if (sample.y < minSample.y) minSample.set(sample)
+        if (sample.y > maxSample.y) maxSample.set(sample)
+      }
     }
   }
 
@@ -112,6 +126,12 @@ function Graph(spec) {
 
     const strokeScalar = scaleStroke ? worldToScreenScalar : 1
 
+    // Fill if curve is closed. TODO: I'm pretty sure
+    // this doesn't work in every case?
+    const start = samples[0]
+    const end = samples[sampleCount - 1]
+    fill = start.distance(end) < 0.001
+
     if (fill) {
       ctx.beginPath()
       camera.worldToScreen(samples[0], screenSpaceSample)
@@ -122,71 +142,28 @@ function Graph(spec) {
         ctx.lineTo(screenSpaceSample.x, screenSpaceSample.y)
       }
 
-      ctx.lineTo(screen.width, screen.height)
-      ctx.lineTo(0, screen.height)
+      // ctx.lineTo(screen.width, screen.height)
+      // ctx.lineTo(0, screen.height)
 
       ctx.fillStyle = fillColor
       ctx.fill()
 
       ctx.clip()
 
-      for (let i = 0; i < terrainLayers; i++)
-        drawSine.apply(null, terrainParameters[i])
+      // for (let i = 0; i < terrainLayers; i++)
+      //   drawSine.apply(null, terrainParameters[i])
     }
 
     if (stroke) {
       ctx.beginPath()
 
-      let roundedSample
-
-      // TODO: Implement fixed points to make
-      // stroked hint graphs not "march"
-      if (fixedPoints) {
-        const sample = samples[1]
-        const roundedSampleX = Math.round(sample.x)
-
-        const sampleA = sample
-        const sampleB = samples[i + 1]
-
-        const roundedSampleSlope =
-          (sampleB.y - sampleA.y) / (sampleB.x - sampleA.x)
-        const roundedSampleY =
-          sample.y + (roundedSampleX - sample.x) * roundedSampleSlope
-
-        roundedSample.set(roundedSampleX, roundedSampleY)
-        camera.worldToScreen(roundedSample, screenSpaceSample)
-      } else {
-        camera.worldToScreen(samples[0], screenSpaceSample)
-      }
+      camera.worldToScreen(samples[0], screenSpaceSample)
 
       ctx.moveTo(screenSpaceSample.x, screenSpaceSample.y)
 
       for (let i = 1; i < sampleCount; i++) {
         const sample = samples[i]
-
-        if (fixedPoints) {
-          const roundedSampleX = Math.round(sample.x)
-
-          let sampleA, sampleB
-          if (i == sampleCount - 1) {
-            sampleA = samples[i - 1]
-            sampleB = sample
-          } else {
-            sampleA = sample
-            sampleB = samples[i + 1]
-          }
-
-          const roundedSampleSlope =
-            (sampleB.y - sampleA.y) / (sampleB.x - sampleA.x)
-          const roundedSampleY =
-            sample.y + (roundedSampleX - sample.x) * roundedSampleSlope
-
-          roundedSample.set(roundedSampleX, roundedSampleY)
-          camera.worldToScreen(roundedSample, screenSpaceSample)
-        } else {
-          camera.worldToScreen(sample, screenSpaceSample)
-        }
-
+        camera.worldToScreen(sample, screenSpaceSample)
         ctx.lineTo(screenSpaceSample.x, screenSpaceSample.y)
       }
 
@@ -242,21 +219,6 @@ function Graph(spec) {
     ctx.globalAlpha = 1
   }
 
-  function updateXBounds() {
-    camera.frameToWorld(screen.minFramePoint, minWorldPoint)
-    camera.frameToWorld(screen.maxFramePoint, maxWorldPoint)
-
-    if (bounds) {
-      minX = bounds[0]
-      maxX = bounds[1]
-    } else {
-      minX = minWorldPoint[0]
-      maxX = maxWorldPoint[0]
-    }
-
-    // TODO: Update min/max theta?
-  }
-
   function resize() {
     resample(true)
   }
@@ -271,6 +233,45 @@ function Graph(spec) {
     _.invokeEach(sledders, 'reset')
   }
 
+  function pointAtTheta(theta, p) {
+    const r = self.sample('theta', theta)
+    p.set(r * Math.cos(theta), r * Math.sin(theta))
+  }
+
+  function sampleSlopeFromTheta(theta) {
+    const r = self.sample('theta', theta)
+    const rPrime = self.sampleSlope('theta', theta)
+    const sinTheta = Math.sin(theta),
+      cosTheta = Math.cos(theta)
+    const graphSlope =
+      (rPrime * sinTheta + r * cosTheta) / (rPrime * cosTheta - r * sinTheta)
+    return graphSlope
+  }
+
+  const eps = 0.00001
+
+  function tangentVectorAt(theta, output = Vector2()) {
+    const r = self.sample('theta', theta),
+      rPrime = self.sampleSlope('theta', theta),
+      sinTheta = Math.sin(theta),
+      cosTheta = Math.cos(theta)
+
+    output.set(
+      -r * sinTheta + cosTheta * rPrime,
+      cosTheta * r + sinTheta * rPrime,
+    )
+  }
+
+  const v1 = Vector2(),
+    v2 = Vector2()
+
+  function normalVectorAt(theta, output = Vector2()) {
+    tangentVectorAt(theta - eps, v1)
+    tangentVectorAt(theta + eps, v2)
+    v2.subtract(v1, output)
+    output.divide(2 * eps)
+  }
+
   resample(true)
 
   self.mix(sampler)
@@ -279,6 +280,13 @@ function Graph(spec) {
     tick,
     draw,
     resize,
+
+    tangentVectorAt,
+    normalVectorAt,
+
+    pointAtTheta,
+
+    sampleSlopeFromTheta,
 
     tVariableChanged,
 
@@ -289,7 +297,15 @@ function Graph(spec) {
     stopRunning,
 
     get label() {
-      return 'Y'
+      return 'R'
+    },
+
+    get isPolar() {
+      return true
+    },
+
+    get maxTheta() {
+      return maxTheta
     },
 
     get minSample() {

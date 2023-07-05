@@ -5,6 +5,8 @@ function Transform(spec = {}, entity = null) {
 
   const position = spec.position
     ? Vector2(spec.position)
+    : spec.theta && spec.r
+    ? Vector2(spec.r * Math.cos(spec.theta), spec.r * Math.sin(spec.theta))
     : Vector2(spec.x || 0, spec.y || 0)
 
   const rotator = Vector2(Math.cos(rotation), Math.sin(rotation))
