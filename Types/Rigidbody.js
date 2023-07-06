@@ -28,14 +28,15 @@ function Rigidbody(spec) {
   const debugVectorOrigin = Vector2()
   const debugVectorTerminus = Vector2()
 
-  const polar = graph.isPolar
-
   const gravitySign = invertGravity ? 1 : -1
 
   function tick() {
     if (!globalScope.running || fixed) {
       return
     }
+
+    // Graph can change from cartesian/polar mid-level
+    const polar = graph.isPolar
 
     // Gravity
     if (polar) {

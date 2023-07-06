@@ -98,11 +98,15 @@ const ui = {
       timer: $('#editor-timer-input'),
       x: $('#editor-x-input'),
       y: $('#editor-y-input'),
+      start: $('#editor-start-input'),
+      end: $('#editor-end-input'),
     },
     labels: {
       order: $('#editor-order-label'),
       timer: $('#editor-timer-label'),
       position: $('#editor-position-label'),
+      start: $('#editor-start-label'),
+      end: $('#editor-end-label'),
     },
     deleteSelectionButton: $('#editor-inspector-delete'),
   },
@@ -114,13 +118,24 @@ const ui = {
     addPath: $('#editor-spawner-path'),
   },
 
-  settingsButton: $('#settings-button'),
+  editorLevelConfigurationButton: $('#editor-level-configuration-button'),
+  editorLevelConfigurationDialog: $('#editor-level-configuration-dialog'),
+  editorLevelConfigurationIsPolarCheckbox: $(
+    '#editor-level-configuration-is-polar-checkbox',
+  ),
+  editorLevelConfigurationBiomeSelect: $(
+    '#editor-level-configuration-biome-select',
+  ),
+  editorLevelConfigurationSledderSelect: $(
+    '#editor-level-configuration-sledder-select',
+  ),
 
+  settingsButton: $('#settings-button'),
   graphicsSettingsDialog: $('#graphics-settings-dialog'),
   setResolutionButton: $('#set-resolution-button'),
   setSampleDensityButton: $('#set-sample-density-button'),
   setMiscGraphicsButton: $('#set-misc-graphics-button'),
-  closeGraphicsButton: $('#close-graphics-button'),
+  // closeGraphicsButton: $('#close-graphics-button'),
 
   levelInfoDiv: $('#lvl-debug-info'),
   levelInfoNameStr: $('#lvl-name-str'),
@@ -131,13 +146,16 @@ const ui = {
   skipCutsceneButton: $('#skip-cutscene-button'),
 
   editorSharingLinkDialog: $('#editor-share-dialog'),
-  editorSharingLink: $('#editor-sharing-link'),
-  editorCopySharingLinkButton: $('#editor-copy-sharing-link-button'),
+
+  // editorSharingLink: $('#editor-sharing-link'),
+  // editorCopySharingLinkButton: $('#editor-copy-sharing-link-button'),
 
   shareButton: $('#share-button'),
-}
 
-// const editor = Editor(ui)
+  puzzleLink: $('#puzzle-link'),
+  copyEditorLinkButton: $('#editor-copy-editor-link'),
+  copyPuzzleLinkButton: $('#editor-copy-puzzle-link'),
+}
 
 ui.levelText.setAttribute('hide', true)
 ui.veil.setAttribute('hide', true)
@@ -464,46 +482,42 @@ function onClickShowAllButton(event) {
 
 ui.showAllButton.addEventListener('click', onClickShowAllButton)
 
-function onClickSettingsButton(event) {
-  ui.graphicsSettingsDialog.showModal()
+/* Dialogs */
+function makeDialogCloseable(dialog) {
+  dialog.addEventListener('click', (event) => {
+    const x = event.clientX
+    const y = event.clientY
+    const rect = dialog.getBoundingClientRect()
+    const outsideModal =
+      x < rect.x ||
+      x > rect.x + rect.width ||
+      y < rect.y ||
+      y > rect.y + rect.height
+    if (outsideModal) {
+      dialog.close()
+    }
+  })
 }
 
-// TODO: Generalize this
-ui.editorSharingLinkDialog.addEventListener('click', (event) => {
-  const x = event.clientX
-  const y = event.clientY
-  const rect = ui.editorSharingLinkDialog.getBoundingClientRect()
-  const outsideModal =
-    x < rect.x ||
-    x > rect.x + rect.width ||
-    y < rect.y ||
-    y > rect.y + rect.height
-  if (outsideModal) {
-    ui.editorSharingLinkDialog.close()
-  }
-})
-
-ui.graphicsSettingsDialog.addEventListener('click', (event) => {
-  const x = event.clientX
-  const y = event.clientY
-  const rect = ui.graphicsSettingsDialog.getBoundingClientRect()
-  const outsideModal =
-    x < rect.x ||
-    x > rect.x + rect.width ||
-    y < rect.y ||
-    y > rect.y + rect.height
-  if (outsideModal) {
-    ui.graphicsSettingsDialog.close()
-  }
-})
-
-ui.settingsButton.addEventListener('click', onClickSettingsButton)
-
-function onClickCloseGraphicsButton() {
-  ui.graphicsSettingsDialog.close()
+function makeButtonOpenDialog(button, dialog) {
+  button.addEventListener('click', () => dialog.showModal())
 }
 
-// ui.closeGraphicsButton.addEventListener('click', onClickCloseGraphicsButton)
+function makeButtonCloseDialog(button, dialog) {
+  button.addEventListener('click', () => dialog.close())
+}
+
+makeDialogCloseable(ui.editorSharingLinkDialog)
+makeDialogCloseable(ui.graphicsSettingsDialog)
+makeDialogCloseable(ui.editorLevelConfigurationDialog)
+
+makeButtonOpenDialog(ui.settingsButton, ui.graphicsSettingsDialog)
+// makeButtonCloseDialog(ui.closeGraphicsButton, ui.graphicsSettingsDialog)
+
+makeButtonOpenDialog(
+  ui.editorLevelConfigurationButton,
+  ui.editorLevelConfigurationDialog,
+)
 
 function onClickEditButton(event) {
   world.editing = !world.editing
@@ -699,14 +713,74 @@ ui.levelInfoDiv.addEventListener('mouseleave', function () {
   ui.hideLevelInfoButton.setAttribute('hide', true)
 })
 
-/* Editor UI events */
+/* Editor UI */
+
+function bindElementDOMEventToWorldEvent(
+  element,
+  domEventName,
+  worldEventName,
+) {
+  element.addEventListener(domEventName, (event) =>
+    world.sendEvent(worldEventName, [event]),
+  )
+}
+
+/* Init configuration menus */
+
+// TODO: Maybe use DOM prototypes? UI management in general
+// needs rewrite
+
+for (const biomeName of Object.keys(BIOMES)) {
+  const option = document.createElement('option')
+  option.innerText =
+    biomeName.charAt(0).toUpperCase() +
+    biomeName.substring(1).replace(/([A-Z])/g, ' $1')
+  option.value = biomeName
+  ui.editorLevelConfigurationBiomeSelect.add(option)
+}
+
+for (const [sledderName, sledderImage] of [
+  ['Ada', 'images.ada_sled'],
+  ['Jack', 'images.jack_sled'],
+]) {
+  const option = document.createElement('option')
+  option.innerText = sledderName
+  option.value = sledderImage
+  ui.editorLevelConfigurationSledderSelect.add(option)
+}
+
+ui.editorLevelConfigurationBiomeSelect.addEventListener('change', () => {
+  const selectedIndex = ui.editorLevelConfigurationBiomeSelect.selectedIndex
+  const options = ui.editorLevelConfigurationBiomeSelect.options
+  const selectedBiomeKey = options[selectedIndex].value
+  world.sendEvent('selectBiome', [selectedBiomeKey])
+})
+
+ui.editorLevelConfigurationIsPolarCheckbox.addEventListener('input', () => {
+  const checked = ui.editorLevelConfigurationIsPolarCheckbox.checked
+  world.sendEvent('setPolar', [checked])
+})
+
+ui.editorLevelConfigurationSledderSelect.addEventListener('input', () => {
+  const selectedIndex = ui.editorLevelConfigurationSledderSelect.selectedIndex
+  const options = ui.editorLevelConfigurationSledderSelect.options
+  const selectedSledderImage = options[selectedIndex].value
+  world.sendEvent('setSledderImage', [selectedSledderImage])
+})
+
+/* Events */
 
 ui.shareButton.addEventListener('click', () => {
   world.sendEvent('onShareButtonClicked')
 })
 
-ui.editorCopySharingLinkButton.addEventListener('click', () => {
-  const link = ui.editorSharingLink.innerText
+ui.copyEditorLinkButton.addEventListener('click', () => {
+  const link = window.location.href
+  navigator.clipboard.writeText(link)
+})
+
+ui.copyPuzzleLinkButton.addEventListener('click', () => {
+  const link = ui.puzzleLink.value
   navigator.clipboard.writeText(link)
 })
 

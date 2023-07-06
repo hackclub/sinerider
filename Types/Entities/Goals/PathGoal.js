@@ -158,6 +158,18 @@ function PathGoal(spec) {
     camera,
   })
 
+  function setEnds(pathStartX, pathEndX) {
+    pathX = pathEndX - pathStartX
+
+    pathStart.set(pathStartX, 0)
+    pathEnd.set(pathEndX, 0)
+
+    pathSign = Math.sign(pathX)
+    pathSpan = Math.abs(pathX)
+
+    dragMove(transform.position)
+  }
+
   function updateBounds() {
     const max = pathGraph.samples.reduce(
       (max, el) => (el[1] > max ? el[1] : max),
@@ -354,7 +366,7 @@ function PathGoal(spec) {
 
     parent.sendEvent('selectedPathGoalForEditing')
 
-    editor.select(self, ['x'])
+    editor.select(self, ['start', 'end'])
 
     oldExpressionLatex = parent.currentLatex
 
@@ -476,6 +488,16 @@ function PathGoal(spec) {
 
     bounds,
     boundsTransform,
+
+    setEnds,
+
+    get pathStart() {
+      return pathStart
+    },
+
+    get pathEnd() {
+      return pathEnd
+    },
 
     get pathExpression() {
       return pathExpression

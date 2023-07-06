@@ -32,7 +32,7 @@ function Level(spec) {
     runAsCutscene = false,
     camera: cameraSpec = {},
     victoryX = null,
-    type = 'cartesian',
+    graphType = 'cartesian',
     minTheta = 0,
     maxTheta = TAU,
     invertGravity = false,
@@ -163,7 +163,10 @@ function Level(spec) {
   const graphGenerator = {
     cartesian: Graph,
     polar: PolarGraph,
-  }[type]
+  }[graphType]
+  if (!graphGenerator) {
+    debugger
+  }
   const graph = graphGenerator({
     camera,
     screen: darkenBufferOrScreen,
@@ -178,6 +181,29 @@ function Level(spec) {
     maxTheta,
     invertGravity,
   })
+
+  function createGraphFromType(graphType, extraSpec = {}) {
+    const graphGenerator = {
+      cartesian: Graph,
+      polar: PolarGraph,
+    }[graphType]
+    const graph = graphGenerator({
+      camera,
+      screen: darkenBufferOrScreen,
+      globalScope,
+      expression: mathquillToMathJS(startingExpression),
+      parent: self,
+      drawOrder: LAYERS.graph,
+      colors,
+      sledders,
+      useInterpolation: false,
+      minTheta,
+      maxTheta,
+      invertGravity,
+      ...extraSpec,
+    })
+    return graph
+  }
 
   let skyColors = colors.sky
 
@@ -970,6 +996,8 @@ function Level(spec) {
     startRunning,
     stopRunning,
 
+    createGraphFromType,
+
     setGraphExpression,
 
     selectedPathGoalForEditing,
@@ -1043,6 +1071,10 @@ function Level(spec) {
 
     onMouseDown,
     onMouseUp,
+
+    loadDatum,
+
+    addSledder,
 
     get darkenBuffer() {
       if (!spec.useDarkenBuffer) {

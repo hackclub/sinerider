@@ -135,7 +135,7 @@ function DynamicGoal(spec) {
 
   function select() {
     if (!editor.editing) return
-    editor.select(self, ['x', 'y', 'order'])
+    editor.select(self, ['x', 'order'])
   }
 
   function deselect() {

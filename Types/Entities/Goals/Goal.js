@@ -274,6 +274,14 @@ function Goal(spec) {
     order = v
   }
 
+  function setX(x) {
+    transform.position.x = x
+  }
+
+  function setY(y) {
+    transform.position.y = y
+  }
+
   return self.mix({
     tVariableChanged,
     transform,
@@ -283,6 +291,8 @@ function Goal(spec) {
     awake,
 
     setOrder,
+    setX,
+    setY,
 
     tick,
     draw,

@@ -194,7 +194,7 @@ function Sledder(spec = {}) {
 
   function dragMove(point) {
     if (!editor.editing) return
-    position = point
+    position.set(point)
     editor.update()
   }
 

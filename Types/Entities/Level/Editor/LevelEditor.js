@@ -1,7 +1,7 @@
 // TODO: Figure out how Editor should work?
 // (Maybe doesn't need its own class?)
 function LevelEditor(spec) {
-  const { self, ui, goals, sledders, gridlines, coordinateBox, graph } =
+  const { self, ui, goals, sledders, gridlines, coordinateBox, graph, sky } =
     Level(spec)
 
   const base = _.mix(self)
@@ -81,7 +81,7 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
 
   function select(
     newSelection,
-    attributes = ['order', 'timer', 'x', 'y'],
+    attributes = ['start', 'end', 'order', 'timer', 'x', 'y'],
     newSelectionIsDeletable = true,
   ) {
     selection = newSelection
@@ -102,6 +102,13 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
     inputs.x.setAttribute('hide', hideX)
     inputs.y.setAttribute('hide', hideY)
     labels.position.setAttribute('hide', hideX && hideY)
+
+    const hideStart = !attributes.includes('start')
+    labels.start.setAttribute('hide', hideStart)
+    inputs.start.setAttribute('hide', hideStart)
+    const hideEnd = !attributes.includes('end')
+    labels.end.setAttribute('hide', hideEnd)
+    inputs.end.setAttribute('hide', hideEnd)
 
     ui.editorInspector.deleteSelectionButton.setAttribute(
       'hide',
@@ -257,14 +264,61 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
       location.origin +
       '?' +
       LZString.compressToBase64(JSON.stringify(serialized))
-    ui.editorSharingLink.innerText = url
+    ui.puzzleLink.value = url
     ui.editorSharingLinkDialog.showModal()
+  }
+
+  const graphs = {}
+
+  graphs[graph.isPolar ?? false] = _.clone(graph)
+
+  function setPolar(polar) {
+    // TODO: Figure out how this should work.
+    // Either PolarGraph should be merged w/ Graph
+    // and just use a polar: true/false variable,
+    // or there should be a self-contained mechanism
+    // for destroying the graph and replacing it
+    // with a new one. (W/ saved polar/cartesian expressions.)
+    const newGraph =
+      graphs[polar] ||
+      (graphs[polar] = base.createGraphFromType(polar ? 'polar' : 'cartesian', {
+        // Default expressions if not already saved
+        expression: polar ? 'theta' : 'x',
+      }))
+    // This doesn't even work? Draws both, breaks physics
+    _.mixIn(graph, newGraph)
+    ui.mathFieldLabel.innerText = `${graph.label}=`
+  }
+
+  function selectBiome(biomeKey) {
+    // HACK: Figure out how this should work.
+    sky.destroy()
+
+    // TODO: Set music
+    base.loadDatum(BIOMES[biomeKey])
+  }
+
+  function setSledderImage(sledderImagePath) {
+    const sledder = sledders[0]
+    const x = sledder.x,
+      y = sledder.y
+    sledders.splice(sledders.indexOf(sledder), 1)
+    sledder.destroy()
+    base.addSledder({
+      x,
+      y,
+      asset: sledderImagePath,
+    })
   }
 
   return self.mix({
     awake,
     goalDeleted,
     serialize,
+
+    setPolar,
+    selectBiome,
+    setSledderImage,
 
     keydown,
 

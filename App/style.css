@@ -349,6 +349,14 @@ input[valid='false'] {
   opacity: 0;
 }
 
+#editor-copy-puzzle-link {
+  background: rgb(116, 146, 255);
+}
+
+#editor-copy-editor-link {
+  background: rgb(255, 162, 116);
+}
+
 #share-button {
   background: rgb(116, 146, 255);
 }

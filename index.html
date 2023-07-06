@@ -115,6 +115,13 @@
       </div> -->
 
       <div class="bar editor-bar" id="editor-spawner" hide="true">
+        <div
+          class="button tooltip"
+          id="editor-level-configuration-button"
+          data-tooltip="Configure"
+        >
+          <div class="string">⚙️</div>
+        </div>
         <div id="editor-spawner-fixed" class="button string">
           Add fixed goal
         </div>
@@ -131,6 +138,7 @@
           <div class="string">Order</div>
         </div>
         <input id="editor-order-input" maxlength="1" placeholder="None" />
+
         <div class="label" id="editor-position-label">
           <div class="string">Position</div>
         </div>
@@ -138,10 +146,22 @@
           <input id="editor-x-input" type="number" placeholder="X" />
           <input id="editor-y-input" type="number" placeholder="Y" />
         </div>
+
         <div class="label" id="editor-timer-label">
           <div class="string">Timer</div>
         </div>
         <input id="editor-timer-input" min="0" />
+
+        <div class="label" id="editor-start-label">
+          <div class="string">Start</div>
+        </div>
+        <input id="editor-start-input" type="number" />
+
+        <div class="label" id="editor-end-label">
+          <div class="string">End</div>
+        </div>
+        <input id="editor-end-input" type="number" />
+
         <div id="editor-inspector-delete" class="button string">X</div>
       </div>
 
@@ -238,15 +258,45 @@
       </div>
     </div>
 
+    <!-- Editor dialogs -->
+
+    <!-- TODO: Make decent -->
+    <dialog id="editor-level-configuration-dialog">
+      <div class="string">Level Options</div>
+      <div>
+        <label>Polar</label>
+        <input
+          id="editor-level-configuration-is-polar-checkbox"
+          type="checkbox"
+        />
+      </div>
+      <div>
+        <label>Biome</label>
+        <select id="editor-level-configuration-biome-select">
+          <!-- Options added in main.js -->
+        </select>
+      </div>
+      <div>
+        <label>Sledder</label>
+        <select id="editor-level-configuration-sledder-select">
+          <!-- Options added in main.js-->
+        </select>
+      </div>
+    </dialog>
+
+    <!-- TODO: Make decent -->
     <dialog id="editor-share-dialog">
-      <!-- TODO: Make decent -->
-      <div class="string">Share the link below:</div>
+      <div class="string">Share this puzzle:</div>
       <div class="hbar">
-        <div class="string" id="editor-sharing-link">
+        <!-- <div class="string" id="editor-sharing-link">
           https://sinerider.com/?auwbdiawdyiubawduybaubydwuhbawdhubawuhbd
+        </div> -->
+        <input id="puzzle-link" hide="true" />
+        <div class="button" id="editor-copy-puzzle-link">
+          <div class="string">Copy Link to Puzzle</div>
         </div>
-        <div class="button" id="editor-copy-sharing-link-button">
-          <div class="string">Copy</div>
+        <div class="button" id="editor-copy-editor-link">
+          <div class="string">Copy Link to Editor</div>
         </div>
       </div>
     </dialog>

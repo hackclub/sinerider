@@ -4,7 +4,7 @@ const POLAR = [
     nick: 'POLAR_SPIRAL',
     colors: Colors.biomes.alps,
     x: -20,
-    y: 0,
+    y: 10,
     requirements: [],
     sledders: [
       {
@@ -75,7 +75,7 @@ const POLAR = [
         content: 'This is wack',
       },
     ],
-    type: 'polar',
+    graphType: 'polar',
     defaultExpression: '5',
     invertGravity: false,
     maxTheta: TAU,
