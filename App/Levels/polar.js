@@ -9,64 +9,64 @@ const POLAR = [
     sledders: [
       {
         asset: 'images.jack_sled',
-        x: 6 * Math.cos(1 * (PI / 6)),
-        y: 6 * Math.sin(1 * (PI / 6)),
+        x: 6,
+        y: 0,
       },
-      {
-        asset: 'images.jack_sled',
-        x: 6 * Math.cos(2 * (PI / 6)),
-        y: 6 * Math.sin(2 * (PI / 6)),
-      },
-      {
-        asset: 'images.jack_sled',
-        x: 6 * Math.cos(3 * (PI / 6)),
-        y: 6 * Math.sin(3 * (PI / 6)),
-      },
-      {
-        asset: 'images.jack_sled',
-        x: 6 * Math.cos(4 * (PI / 6)),
-        y: 6 * Math.sin(4 * (PI / 6)),
-      },
-      {
-        asset: 'images.jack_sled',
-        x: 6 * Math.cos(5 * (PI / 6)),
-        y: 6 * Math.sin(5 * (PI / 6)),
-      },
-      {
-        asset: 'images.jack_sled',
-        x: 6 * Math.cos(6 * (PI / 6)),
-        y: 6 * Math.sin(6 * (PI / 6)),
-      },
-      {
-        asset: 'images.jack_sled',
-        x: 6 * Math.cos(7 * (PI / 6)),
-        y: 6 * Math.sin(7 * (PI / 6)),
-      },
-      {
-        asset: 'images.jack_sled',
-        x: 6 * Math.cos(8 * (PI / 6)),
-        y: 6 * Math.sin(8 * (PI / 6)),
-      },
-      {
-        asset: 'images.jack_sled',
-        x: 6 * Math.cos(9 * (PI / 6)),
-        y: 6 * Math.sin(9 * (PI / 6)),
-      },
-      {
-        asset: 'images.jack_sled',
-        x: 6 * Math.cos(10 * (PI / 6)),
-        y: 6 * Math.sin(10 * (PI / 6)),
-      },
-      {
-        asset: 'images.jack_sled',
-        x: 6 * Math.cos(11 * (PI / 6)),
-        y: 6 * Math.sin(11 * (PI / 6)),
-      },
-      {
-        asset: 'images.jack_sled',
-        x: 6 * Math.cos(12 * (PI / 6)),
-        y: 6 * Math.sin(12 * (PI / 6)),
-      },
+      // {
+      //   asset: 'images.jack_sled',
+      //   x: 6 * Math.cos(2 * (PI / 6)),
+      //   y: 6 * Math.sin(2 * (PI / 6)),
+      // },
+      // {
+      //   asset: 'images.jack_sled',
+      //   x: 6 * Math.cos(3 * (PI / 6)),
+      //   y: 6 * Math.sin(3 * (PI / 6)),
+      // },
+      // {
+      //   asset: 'images.jack_sled',
+      //   x: 6 * Math.cos(4 * (PI / 6)),
+      //   y: 6 * Math.sin(4 * (PI / 6)),
+      // },
+      // {
+      //   asset: 'images.jack_sled',
+      //   x: 6 * Math.cos(5 * (PI / 6)),
+      //   y: 6 * Math.sin(5 * (PI / 6)),
+      // },
+      // {
+      //   asset: 'images.jack_sled',
+      //   x: 6 * Math.cos(6 * (PI / 6)),
+      //   y: 6 * Math.sin(6 * (PI / 6)),
+      // },
+      // {
+      //   asset: 'images.jack_sled',
+      //   x: 6 * Math.cos(7 * (PI / 6)),
+      //   y: 6 * Math.sin(7 * (PI / 6)),
+      // },
+      // {
+      //   asset: 'images.jack_sled',
+      //   x: 6 * Math.cos(8 * (PI / 6)),
+      //   y: 6 * Math.sin(8 * (PI / 6)),
+      // },
+      // {
+      //   asset: 'images.jack_sled',
+      //   x: 6 * Math.cos(9 * (PI / 6)),
+      //   y: 6 * Math.sin(9 * (PI / 6)),
+      // },
+      // {
+      //   asset: 'images.jack_sled',
+      //   x: 6 * Math.cos(10 * (PI / 6)),
+      //   y: 6 * Math.sin(10 * (PI / 6)),
+      // },
+      // {
+      //   asset: 'images.jack_sled',
+      //   x: 6 * Math.cos(11 * (PI / 6)),
+      //   y: 6 * Math.sin(11 * (PI / 6)),
+      // },
+      // {
+      //   asset: 'images.jack_sled',
+      //   x: 6 * Math.cos(12 * (PI / 6)),
+      //   y: 6 * Math.sin(12 * (PI / 6)),
+      // },
     ],
     texts: [
       {

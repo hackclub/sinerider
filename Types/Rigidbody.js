@@ -35,14 +35,15 @@ function Rigidbody(spec) {
       return
     }
 
-    // Graph can change from cartesian/polar mid-level
+    // Graph can change from cartesian/polar mid-level (editor)
     const polar = graph.isPolar
+
+    const r = transform.position.magnitude
 
     // Gravity
     if (polar) {
-      // Polar (towards center)
+      // Polar (towards or away from center)
       const theta = Math.atan2(transform.y, transform.x)
-      const r = transform.position.magnitude
       velocity[0] += gravitySign * Math.cos(theta) * r * globalScope.dt
       velocity[1] += gravitySign * Math.sin(theta) * r * globalScope.dt
     } else {
@@ -58,26 +59,11 @@ function Rigidbody(spec) {
     samplePosition.set(transform.position)
     samplePosition.add(positionOffset)
 
-    let graphY
-
-    let surfaceR, surfaceTheta
-
-    let penetrationDepth
+    let penetrationDepth, surfaceTheta
 
     if (polar) {
-      const theta = Math.atan2(samplePosition.y, samplePosition.x)
-
-      const r = transform.position.magnitude
-
-      const rAtTheta = graph.sample('theta', theta)
-      const rAtMinusTheta = graph.sample('theta', -theta)
-      if (Math.abs(r - rAtTheta) < Math.abs(r - rAtMinusTheta)) {
-        surfaceR = rAtTheta
-        surfaceTheta = theta
-      } else {
-        surfaceR = rAtMinusTheta
-        surfaceTheta = -theta
-      }
+      surfaceTheta = graph.thetaOfClosestSurfacePoint(transform.position)
+      const surfaceR = graph.sample('theta', surfaceTheta)
 
       if (surfaceR < 0) {
         console.log('surface r is negative', surfaceR)
@@ -94,54 +80,63 @@ function Rigidbody(spec) {
     grounded = penetrationDepth > collisionThreshold
 
     if (grounded) {
-      // Slope and velocity of graph at this position
-      let graphSlope, verticalGraphVelocity
-      if (polar) {
-        graphSlope = graph.sampleSlopeFromTheta(surfaceTheta)
-        verticalGraphVelocity =
-          graph.sampleSlope('t', globalScope.t, 'theta', surfaceTheta) *
-          Math.sin(surfaceTheta)
-      } else {
-        graphSlope = graph.sampleSlope('x', samplePosition.x)
-        verticalGraphVelocity = graph.sampleSlope(
-          't',
-          globalScope.t,
-          'x',
-          samplePosition.x,
-        )
-      }
-
-      // Set collision tangent
+      // Set collision tangent, normal, velocity
       if (polar) {
         graph.tangentVectorAt(surfaceTheta, collisionTangent)
         collisionTangent.normalize()
 
-        debugger
         graph.normalVectorAt(surfaceTheta, collisionNormal)
         collisionNormal.normalize()
+
+        graph.velocityVectorAt(surfaceTheta, graphVelocity)
+
+        collisionNormal.multiply(penetrationDepth, depenetration)
+        transform.position.add(depenetration)
+
+        // Zero velocity
+        velocity.set(0, 0)
+
+        // const velocityY = velocity.y
+
+        // // Add velocity of ground
+        velocity.add(graphVelocity)
+
+        // // Prevent "sticking" to ground in cases where upward velocity was higher before collision correction
+        // velocity.y = Math.max(velocity.y, velocityY)
+
+        return
       } else {
+        const graphSlope = graph.sampleSlope('x', samplePosition.x)
+
         collisionTangent.x = 1
         collisionTangent.y = graphSlope
         collisionTangent.normalize()
 
         // Set collision normal
         collisionTangent.orthogonalize(collisionNormal)
+
+        graphVelocity.set(
+          0,
+          graph.sampleSlope('t', globalScope.t, 'x', samplePosition.x),
+        )
       }
 
       // Project velocity onto collision normal and tangent
       const tangentScalar = collisionTangent.dot(velocity)
 
       // Project penetration onto collision normal
-      const depenetrationScalar = collisionNormal.y * penetrationDepth
+      // const depenetrationScalar = collisionNormal.y * penetrationDepth
+      const depenetrationScalar = penetrationDepth
 
       // Project graph velocity onto collision normal
-      const graphVelocityScalar = collisionNormal.y * verticalGraphVelocity
+      // const graphVelocityScalar = collisionNormal.y * verticalGraphVelocity
 
       // Calculate depenetration
       collisionNormal.multiply(depenetrationScalar, depenetration)
 
       // Calculate graph velocity
-      collisionNormal.multiply(graphVelocityScalar, graphVelocity)
+      graphVelocity.multiply(graphVelocity.dot(collisionNormal))
+      // collisionNormal.multiply(graphVelocityScalar, graphVelocity)
 
       // Save current upward velocity
       const velocityY = velocity.y

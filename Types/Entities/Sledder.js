@@ -92,8 +92,8 @@ function Sledder(spec = {}) {
   const debugVectorOrigin = Vector2()
   const debugVectorTerminus = Vector2()
 
-  function drawDebugVector(ctx, vector, color) {
-    camera.worldToScreen(position, debugVectorOrigin)
+  function drawDebugVector(ctx, vector, color, origin = position) {
+    camera.worldToScreen(origin, debugVectorOrigin)
 
     debugVectorTerminus.set(vector)
     debugVectorTerminus.add(position)
@@ -111,8 +111,8 @@ function Sledder(spec = {}) {
   function draw() {
     // rigidbody.draw(ctx)
     // camera.drawThrough(ctx, drawLocal, transform)
-    drawDebugVector(ctx, slopeTangent, 'blue')
-    drawDebugVector(ctx, rigidbody.upright, 'orange')
+    // drawDebugVector(ctx, slopeTangent, 'blue')
+    // drawDebugVector(ctx, rigidbody.upright, 'orange')
   }
 
   function startRunning() {}
@@ -126,37 +126,12 @@ function Sledder(spec = {}) {
     const polar = graph.isPolar
 
     if (polar) {
-      const theta = Math.atan2(transform.y, transform.x)
-
-      const r = position.magnitude
-
-      const rAtTheta = graph.sample('theta', theta)
-      const rAtMinusTheta = graph.sample('theta', -theta)
-      let surfaceR, surfaceTheta
-
-      const pointAtTheta = Vector2(),
-        pointAtMinusTheta = Vector2()
-
-      graph.pointAtTheta(theta, pointAtTheta)
-      graph.pointAtTheta(-theta, pointAtMinusTheta)
-
-      if (
-        pointAtTheta.distance(position) < pointAtMinusTheta.distance(position)
-      ) {
-        surfaceR = rAtTheta
-        surfaceTheta = theta
-        position.set(pointAtTheta)
-      } else {
-        surfaceR = rAtMinusTheta
-        surfaceTheta = -theta
-        position.set(pointAtMinusTheta)
-      }
+      const surfaceTheta = graph.thetaOfClosestSurfacePoint(position)
 
       graph.tangentVectorAt(surfaceTheta, slopeTangent)
       slopeTangent.normalize()
 
       graph.normalVectorAt(surfaceTheta, rigidbody.upright)
-      rigidbody.upright.negate()
       rigidbody.upright.normalize()
     } else {
       transform.x = originX
@@ -193,13 +168,13 @@ function Sledder(spec = {}) {
   }
 
   function dragMove(point) {
-    if (!editor.editing) return
+    // if (!editor.editing) return
     position.set(point)
     editor.update()
   }
 
   function dragEnd() {
-    if (!editor.editing) return
+    // if (!editor.editing) return
     originX = transform.x
     reset()
     editor.update()

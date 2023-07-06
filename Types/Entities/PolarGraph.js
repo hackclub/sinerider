@@ -119,6 +119,28 @@ function PolarGraph(spec) {
     if (!freeze) resample()
   }
 
+  const debugVectorOrigin = Vector2()
+  const debugVectorTerminus = Vector2()
+
+  function drawDebugVector(ctx, vector, color, origin = position) {
+    camera.worldToScreen(origin, debugVectorOrigin)
+
+    debugVectorTerminus.set(vector)
+    debugVectorTerminus.add(origin)
+    camera.worldToScreen(debugVectorTerminus)
+
+    ctx.beginPath()
+    ctx.moveTo(debugVectorOrigin.x, debugVectorOrigin.y)
+    ctx.lineTo(debugVectorTerminus.x, debugVectorTerminus.y)
+
+    ctx.strokeStyle = color
+    ctx.lineWidth = 4
+    ctx.stroke()
+  }
+
+  let point = Vector2(),
+    normal = Vector2()
+
   function draw() {
     ctx.save()
 
@@ -179,6 +201,14 @@ function PolarGraph(spec) {
     }
 
     ctx.restore()
+
+    for (let theta = 0; theta <= TAU + 0.001; theta += TAU / 12) {
+      pointAtTheta(theta, point)
+      normalVectorAt(theta, normal)
+      normal.normalize()
+      normal.multiply(0.2)
+      drawDebugVector(ctx, normal, 'black', point)
+    }
   }
 
   function drawSine(
@@ -238,6 +268,22 @@ function PolarGraph(spec) {
     p.set(r * Math.cos(theta), r * Math.sin(theta))
   }
 
+  const pAtTheta = Vector2(),
+    pAtMinusTheta = Vector2()
+
+  function thetaOfClosestSurfacePoint(position) {
+    const theta = Math.atan2(position.y, position.x)
+
+    pointAtTheta(theta, pAtTheta)
+    pointAtTheta(-theta, pAtMinusTheta)
+
+    if (pAtTheta.distance(position) < pAtMinusTheta.distance(position)) {
+      return theta
+    } else {
+      return -theta
+    }
+  }
+
   function sampleSlopeFromTheta(theta) {
     const r = self.sample('theta', theta)
     const rPrime = self.sampleSlope('theta', theta)
@@ -247,8 +293,6 @@ function PolarGraph(spec) {
       (rPrime * sinTheta + r * cosTheta) / (rPrime * cosTheta - r * sinTheta)
     return graphSlope
   }
-
-  const eps = 0.00001
 
   function tangentVectorAt(theta, output = Vector2()) {
     const r = self.sample('theta', theta),
@@ -262,14 +306,19 @@ function PolarGraph(spec) {
     )
   }
 
-  const v1 = Vector2(),
-    v2 = Vector2()
-
   function normalVectorAt(theta, output = Vector2()) {
-    tangentVectorAt(theta - eps, v1)
-    tangentVectorAt(theta + eps, v2)
-    v2.subtract(v1, output)
-    output.divide(2 * eps)
+    tangentVectorAt(theta, output)
+    output.orthogonalize()
+    output.negate()
+  }
+
+  // Velocity vector w.r.t. time
+  function velocityVectorAt(theta, output = Vector2()) {
+    const rPrimeWrtTime = self.sampleSlope('t', globalScope.t, 'theta', theta),
+      sinTheta = Math.sin(theta),
+      cosTheta = Math.cos(theta)
+
+    output.set(rPrimeWrtTime * cosTheta, rPrimeWrtTime * sinTheta)
   }
 
   resample(true)
@@ -281,11 +330,13 @@ function PolarGraph(spec) {
     draw,
     resize,
 
+    velocityVectorAt,
     tangentVectorAt,
     normalVectorAt,
 
     pointAtTheta,
 
+    thetaOfClosestSurfacePoint,
     sampleSlopeFromTheta,
 
     tVariableChanged,
