@@ -787,10 +787,19 @@ ui.copyPuzzleLinkButton.addEventListener('click', () => {
 // Spawner
 bindElementDOMEventToWorldEvent(
   ui.editorSpawner.addDynamic,
+  'click',
   'onAddDynamicClicked',
 )
-bindElementDOMEventToWorldEvent(ui.editorSpawner.addFixed, 'onAddFixedClicked')
-bindElementDOMEventToWorldEvent(ui.editorSpawner.addPath, 'onAddPathClicked')
+bindElementDOMEventToWorldEvent(
+  ui.editorSpawner.addFixed,
+  'click',
+  'onAddFixedClicked',
+)
+bindElementDOMEventToWorldEvent(
+  ui.editorSpawner.addPath,
+  'click',
+  'onAddPathClicked',
+)
 
 // Inspector
 for (const [name, input] of Object.entries(ui.editorInspector.inputs)) {

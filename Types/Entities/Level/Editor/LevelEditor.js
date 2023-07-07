@@ -311,34 +311,15 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
     ui.editorSharingLinkDialog.showModal()
   }
 
-  const graphs = {}
-
-  graphs[graph.isPolar ?? false] = _.clone(graph)
-
   function setPolar(polar) {
-    // TODO: Figure out how this should work.
-    // Either PolarGraph should be merged w/ Graph
-    // and just use a polar: true/false variable,
-    // or there should be a self-contained mechanism
-    // for destroying the graph and replacing it
-    // with a new one. (W/ saved polar/cartesian expressions.)
-    const newGraph =
-      graphs[polar] ||
-      (graphs[polar] = base.createGraphFromType(polar ? 'polar' : 'cartesian', {
-        // Default expressions if not already saved
-        expression: polar ? 'theta' : 'x',
-      }))
-    // This doesn't even work? Draws both, breaks physics
-    _.mixIn(graph, newGraph)
+    graph.polar = polar
     ui.mathFieldLabel.innerText = `${graph.label}=`
+    self.sendEvent('reset')
   }
 
   function selectBiome(biomeKey) {
-    // HACK: Figure out how this should work.
-    sky.destroy()
-
-    // TODO: Set music
-    base.loadDatum(BIOMES[biomeKey])
+    const biome = BIOMES[biomeKey]
+    base.setBiome(biome)
   }
 
   function setSledderImage(sledderImagePath) {

@@ -522,13 +522,13 @@ input[valid='false'] {
   display: inline;
 }
 
-#hovertext {
+.hovertext {
   position: relative;
   display: inline-block;
   border-bottom: 1px dotted black;
 }
 
-#hovertext:before {
+.hovertext:before {
   content: attr(data-hover);
   visibility: hidden;
   opacity: 0;
@@ -547,7 +547,7 @@ input[valid='false'] {
   left: -150%;
 }
 
-#hovertext:hover:before {
+.hovertext:hover:before {
   opacity: 1;
   visibility: visible;
 }

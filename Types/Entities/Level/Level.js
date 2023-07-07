@@ -59,7 +59,7 @@ function Level(spec) {
   let lowestOrder = 'A'
   let highestOrder = 'A'
 
-  let lava, volcanoSunset, sky
+  let lava, volcanoSunset, sky, clouds, snow
 
   let usingTInExpression = false
 
@@ -160,14 +160,12 @@ function Level(spec) {
   const startingExpression =
     spec.startingExpression ?? getStartingGraphExpression()
 
-  const graphGenerator = {
-    cartesian: Graph,
-    polar: PolarGraph,
-  }[graphType]
-  if (!graphGenerator) {
-    debugger
-  }
-  const graph = graphGenerator({
+  let polar
+  if (graphType === 'polar') polar = true
+  else if (graphType === 'cartesian') polar = false
+  else throw `Unexpected graphType '${graphType}', expected polar/cartesian`
+
+  const graph = Graph({
     camera,
     screen: darkenBufferOrScreen,
     globalScope,
@@ -177,6 +175,7 @@ function Level(spec) {
     colors,
     sledders,
     useInterpolation: false,
+    polar,
     minTheta,
     maxTheta,
     invertGravity,
@@ -762,20 +761,58 @@ function Level(spec) {
     return datum.name === 'Volcano'
   }
 
-  function loadDatum(datum) {
-    if (datum.sky) {
+  function setSky(skyDatum) {
+    if (sky) sky.destroy()
+    if (skyDatum)
       sky = Sky({
         parent: self,
         camera,
         globalScope,
-        asset: datum.sky.asset,
-        margin: datum.sky.margin,
+        asset: skyDatum.asset,
+        margin: skyDatum.margin,
         screen: darkenBufferOrScreen,
         drawOrder: LAYERS.background,
         motionBlur: false,
-        ...datum.sky,
+        ...skyDatum,
       })
-    }
+  }
+
+  function setSnow(snowDatum) {
+    if (snow) snow.destroy()
+    if (snowDatum)
+      snow = Snow({
+        parent: self,
+        camera,
+        globalScope,
+        screen,
+        density: snowDatum.density,
+        velocityX: snowDatum.velocity.x,
+        velocityY: snowDatum.velocity.y,
+        maxHeight: snowDatum.maxHeight,
+        drawOrder: LAYERS.snow,
+        screen: darkenBufferOrScreen,
+        ...snowDatum,
+      })
+  }
+
+  function setClouds(cloudDatum) {
+    if (clouds) clouds.destroy()
+    if (cloudDatum)
+      clouds = Clouds({
+        parent: self,
+        camera,
+        globalScope,
+        assets,
+        velocity: cloudDatum.velocity,
+        heights: cloudDatum.heights,
+        drawOrder: LAYERS.clouds,
+        screen: darkenBufferOrScreen,
+        ...cloudDatum,
+      })
+  }
+
+  function loadDatum(datum) {
+    if (datum.sky) setSky(datum.sky)
 
     if (!isBubbleLevel) _.each(datum.sounds, addSound)
     _.each(datum.sprites, addSprite)
@@ -798,18 +835,7 @@ function Level(spec) {
       }
     }
 
-    if (datum.clouds)
-      Clouds({
-        parent: self,
-        camera,
-        globalScope,
-        assets,
-        velocity: datum.clouds.velocity,
-        heights: datum.clouds.heights,
-        drawOrder: LAYERS.clouds,
-        screen: darkenBufferOrScreen,
-        ...datum.clouds,
-      })
+    if (datum.clouds) setClouds(datum.clouds)
     if (datum.water && !isBubbleLevel) {
       Water({
         parent: self,
@@ -832,21 +858,7 @@ function Level(spec) {
         ...datum.lava,
       })
     }
-    if (datum.snow)
-      Snow({
-        parent: self,
-        camera,
-        globalScope,
-        screen,
-        density: datum.snow.density,
-        velocityX: datum.snow.velocity.x,
-        velocityY: datum.snow.velocity.y,
-        maxHeight: datum.snow.maxHeight,
-        drawOrder: LAYERS.snow,
-        screen: darkenBufferOrScreen,
-        ...datum.snow,
-      })
-
+    if (datum.snow) setSnow(datum.snow)
     if (datum.slider && !isBubbleLevel) {
       HintGraph({
         ui,
@@ -979,10 +991,27 @@ function Level(spec) {
     graph.resize()
   }
 
+  function setBiome(biome) {
+    // Sky
+    setSky(biome.sky)
+
+    // Snow, clouds
+    setSnow(biome.snow)
+    setClouds(biome.clouds)
+
+    // Music
+    if (playBackgroundMusic) playBackgroundMusic(biome.backgroundMusic, self)
+
+    // Graph colors
+    graph.assignColors(biome.colors)
+  }
+
   return self.mix({
     awake,
     start,
     destroy,
+
+    setBiome,
 
     addGoal,
 

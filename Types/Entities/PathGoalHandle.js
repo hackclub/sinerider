@@ -6,7 +6,7 @@ function PathGoalHandle(spec) {
   const transform = Transform(spec)
 
   const radius = 0.5
-  const color = '#fff'
+  const color = '#f00'
 
   const center = Vector2()
 
@@ -31,7 +31,6 @@ function PathGoalHandle(spec) {
   }
 
   function dragMove(point) {
-    console.log('setting end', point.x)
     if (type === 'start') {
       parent.setStart(point.x)
     } else if (type === 'end') {
@@ -39,14 +38,8 @@ function PathGoalHandle(spec) {
     }
   }
 
-  function mouseDown() {
-    console.log('path handle clicked')
-  }
-
   return self.mix({
     transform,
-
-    mouseDown,
 
     clickable,
 
