@@ -109,7 +109,7 @@ function Sledder(spec = {}) {
   }
 
   function draw() {
-    // rigidbody.draw(ctx)
+    rigidbody.draw(ctx)
     // camera.drawThrough(ctx, drawLocal, transform)
     // drawDebugVector(ctx, slopeTangent, 'blue')
     // drawDebugVector(ctx, rigidbody.upright, 'orange')

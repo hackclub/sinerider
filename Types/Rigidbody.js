@@ -13,6 +13,7 @@ function Rigidbody(spec) {
 
   let grounded = false
   const velocity = Vector2()
+  const originalVelocity = Vector2()
 
   const collisionThreshold = 0.0
   const collisionTangent = Vector2()
@@ -39,15 +40,13 @@ function Rigidbody(spec) {
     let polar = graph.isPolar
     // polar = false
 
-    const r = transform.position.magnitude
-
     // Gravity
     if (polar) {
       // Polar (towards or away from center)
       const theta = Math.atan2(transform.y, transform.x)
-      velocity[0] += gravitySign * Math.cos(theta) * 9.8 * globalScope.dt
-      velocity[1] += gravitySign * Math.sin(theta) * 9.8 * globalScope.dt
-      // velocity[1] += gravitySign * 9.8 * globalScope.dt
+
+      velocity[0] += gravitySign * Math.cos(theta) * 9.8 * 3 * globalScope.dt
+      velocity[1] += gravitySign * Math.sin(theta) * 9.8 * 3 * globalScope.dt
     } else {
       // Cartesian (down)
       velocity[1] += gravitySign * 9.8 * globalScope.dt
@@ -66,18 +65,11 @@ function Rigidbody(spec) {
     if (polar) {
       surfaceTheta = graph.thetaOfClosestSurfacePoint(transform.position)
 
-      const graphY = graph.sample('theta', surfaceTheta)
+      const surfaceR = graph.sample('theta', surfaceTheta)
 
-      penetrationDepth = graphY - transform.position.magnitude
+      const r = transform.position.magnitude
 
-      // const surfaceR = graph.sample('theta', surfaceTheta)
-
-      // if (surfaceR < 0) {
-      //   console.log('surface r is negative', surfaceR)
-      //   debugger
-      // }
-
-      // penetrationDepth = surfaceR - r
+      penetrationDepth = surfaceR - r
     } else {
       const graphY = graph.sample('x', samplePosition.x)
 
@@ -102,7 +94,8 @@ function Rigidbody(spec) {
         /* Collision correction */
 
         // Project velocity onto collision normal and tangent
-        const tangentScalar = collisionTangent.dot(velocity)
+        const tangentScalar =
+          collisionTangent.dot(velocity) / velocity.magnitude
 
         const depenetrationScalar = penetrationDepth
 
@@ -113,8 +106,8 @@ function Rigidbody(spec) {
         graphVelocity.multiply(graphVelocity.dot(collisionNormal))
         // collisionNormal.multiply(graphVelocityScalar, graphVelocity)
 
-        // Save current upward velocity
-        const velocityY = velocity.y
+        // Save current velocity
+        originalVelocity.set(velocity)
 
         // Reset velocity to limits imposed by ground angle
         collisionTangent.multiply(tangentScalar, velocity)
@@ -123,7 +116,7 @@ function Rigidbody(spec) {
         velocity.add(graphVelocity)
 
         // Prevent "sticking" to ground in cases where upward velocity was higher before collision correction
-        velocity.y = Math.max(velocity.y, velocityY)
+        // velocity.max(originalVelocity)
 
         // Smoothly move upright vector toward ground normal
         upright.lerp(collisionNormal, 0.15)
@@ -216,8 +209,6 @@ function Rigidbody(spec) {
   }
 
   function draw(ctx) {
-    drawDebugVector(ctx, velocity, 'blue')
-
     if (grounded) {
       drawDebugVector(ctx, collisionNormal, 'green')
       drawDebugVector(ctx, collisionTangent, 'red')
@@ -225,6 +216,8 @@ function Rigidbody(spec) {
       drawDebugVector(ctx, graphVelocity, 'cyan')
       drawDebugVector(ctx, depenetration, 'pink')
     }
+
+    drawDebugVector(ctx, velocity, 'orange')
   }
 
   function resetVelocity() {

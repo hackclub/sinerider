@@ -10,7 +10,7 @@ const POLAR = [
       {
         asset: 'images.jack_sled',
         x: 0,
-        y: 30,
+        y: 5,
       },
       // {
       //   asset: 'images.jack_sled',

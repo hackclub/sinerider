@@ -139,6 +139,7 @@ function PolarGraph(spec) {
   }
 
   let point = Vector2(),
+    tangent = Vector2(),
     normal = Vector2()
 
   function draw() {
@@ -208,6 +209,12 @@ function PolarGraph(spec) {
       normal.normalize()
       normal.multiply(0.2)
       drawDebugVector(ctx, normal, 'black', point)
+
+      tangentVectorAt(theta, tangent)
+      tangent.normalize()
+      tangent.negate()
+
+      drawDebugVector(ctx, tangent, 'blue', point)
     }
   }
 
