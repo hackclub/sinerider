@@ -130,11 +130,10 @@ function Rigidbody(spec) {
 
         // Depenetrate from ground
         transform.position.add(depenetration)
-
-        return
       } else {
         const graphSlope = graph.sampleSlope('x', samplePosition.x)
 
+        // Set collision tangent
         collisionTangent.x = 1
         collisionTangent.y = graphSlope
         collisionTangent.normalize()
@@ -142,53 +141,54 @@ function Rigidbody(spec) {
         // Set collision normal
         collisionTangent.orthogonalize(collisionNormal)
 
-        graphVelocity.set(
-          0,
-          graph.sampleSlope('t', globalScope.t, 'x', samplePosition.x),
+        const verticalGraphVelocity = graph.sampleSlope(
+          't',
+          globalScope.t,
+          'x',
+          samplePosition.x,
         )
+
+        // Project velocity onto collision normal and tangent
+        const tangentScalar = collisionTangent.dot(velocity)
+        const normalScalar = collisionNormal.dot(velocity)
+
+        // Project penetration onto collision normal
+        const depenetrationScalar = collisionNormal.y * penetrationDepth
+
+        // Project graph velocity onto collision normal
+        const graphVelocityScalar = collisionNormal.y * verticalGraphVelocity
+
+        // Calculate depenetration
+        collisionNormal.multiply(depenetrationScalar, depenetration)
+
+        // Calculate graph velocity
+        collisionNormal.multiply(graphVelocityScalar, graphVelocity)
+
+        // Save current upward velocity
+        const velocityY = velocity.y
+
+        // Reset velocity to limits imposed by ground angle
+        collisionTangent.multiply(tangentScalar, velocity)
+
+        // Add velocity of ground
+        velocity.add(graphVelocity)
+
+        // Prevent "sticking" to ground in cases where upward velocity was higher before collision correction
+        velocity.y = Math.max(velocity.y, velocityY)
+
+        // Smoothly move upright vector toward ground normal
+        upright.lerp(collisionNormal, 0.15)
+        upright.normalize()
+
+        const uprightAngle = math.atan2(-upright.x, upright.y)
+
+        // Write new rotation
+        transform.rotation = fixedRotation ? 0 : uprightAngle
+        // transform.rotation = uprightAngle
+
+        // Depenetrate from ground
+        transform.position.add(depenetration)
       }
-
-      // Project velocity onto collision normal and tangent
-      const tangentScalar = collisionTangent.dot(velocity)
-
-      // Project penetration onto collision normal
-      // const depenetrationScalar = collisionNormal.y * penetrationDepth
-      const depenetrationScalar = penetrationDepth
-
-      // Project graph velocity onto collision normal
-      // const graphVelocityScalar = collisionNormal.y * verticalGraphVelocity
-
-      // Calculate depenetration
-      collisionNormal.multiply(depenetrationScalar, depenetration)
-
-      // Calculate graph velocity
-      graphVelocity.multiply(graphVelocity.dot(collisionNormal))
-      // collisionNormal.multiply(graphVelocityScalar, graphVelocity)
-
-      // Save current upward velocity
-      const velocityY = velocity.y
-
-      // Reset velocity to limits imposed by ground angle
-      collisionTangent.multiply(tangentScalar, velocity)
-
-      // Add velocity of ground
-      velocity.add(graphVelocity)
-
-      // Prevent "sticking" to ground in cases where upward velocity was higher before collision correction
-      velocity.y = Math.max(velocity.y, velocityY)
-
-      // Smoothly move upright vector toward ground normal
-      upright.lerp(collisionNormal, 0.15)
-      upright.normalize()
-
-      const uprightAngle = math.atan2(-upright.x, upright.y)
-
-      // Write new rotation
-      transform.rotation = fixedRotation ? 0 : uprightAngle
-      // transform.rotation = uprightAngle
-
-      // Depenetrate from ground
-      transform.position.add(depenetration)
     }
   }
 

@@ -22,6 +22,7 @@ function PolarGraph(spec) {
     fixedPoints = false,
     minTheta = 0,
     maxTheta = TAU,
+    invertGravity,
   } = spec
 
   let {
@@ -213,7 +214,6 @@ function PolarGraph(spec) {
       tangentVectorAt(theta, tangent)
       tangent.normalize()
       tangent.negate()
-
       drawDebugVector(ctx, tangent, 'blue', point)
     }
   }
@@ -311,12 +311,13 @@ function PolarGraph(spec) {
       -r * sinTheta + cosTheta * rPrime,
       cosTheta * r + sinTheta * rPrime,
     )
+
+    output.negate()
   }
 
   function normalVectorAt(theta, output = Vector2()) {
     tangentVectorAt(theta, output)
     output.orthogonalize()
-    output.negate()
   }
 
   // Velocity vector w.r.t. time

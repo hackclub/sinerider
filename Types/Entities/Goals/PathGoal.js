@@ -11,7 +11,7 @@ function PathGoal(spec) {
     pathX = 4,
     pathY = 0,
     graph,
-    debug = false,
+    debug = true,
 
     // Optional, used for editor
     expressionLatex: pathExpressionLatex = null,
@@ -137,6 +137,23 @@ function PathGoal(spec) {
   trackPoints.push(pathGraph.minSample)
   trackPoints.push(pathGraph.maxSample)
 
+  // Handles for editor
+  const leftHandle = PathGoalHandle({
+    parent: self,
+    transform,
+    drawOrder: Infinity,
+    type: 'start',
+    editor: parent, // parent is implicitly editor
+  })
+
+  const rightHandle = PathGoalHandle({
+    parent: self,
+    transform,
+    drawOrder: Infinity,
+    type: 'end',
+    editor: parent,
+  })
+
   const boundsTransform = Transform({
     x: spec.x,
   })
@@ -148,7 +165,7 @@ function PathGoal(spec) {
   updateBounds()
 
   const union = Union({
-    shapes: [shape, bounds],
+    shapes: [shape, bounds, leftHandle, rightHandle],
   })
 
   const clickable = Clickable({
@@ -167,6 +184,12 @@ function PathGoal(spec) {
     pathSign = Math.sign(pathX)
     pathSpan = Math.abs(pathX)
 
+    // If graph grew/shrunk enough, update sample count
+    const newSampleCount = Math.round(pathSpan * 4)
+
+    if (Math.abs(pathGraph.sampleCount - newSampleCount) > 5)
+      pathGraph.sampleCount = newSampleCount
+
     dragMove(transform.position)
   }
 
@@ -181,20 +204,17 @@ function PathGoal(spec) {
     )
     const height = Math.max(max - min, minBoundsHeight)
 
+    const verticalCenter = (max + min) / 2
+
     bounds.width = pathX
     bounds.height = height
-    bounds.center = Vector2(pathX / 2, (max + min) / 2)
+    bounds.center = Vector2(pathX / 2 + pathStart.x, verticalCenter)
+
+    leftHandle.transform.position.set(transform.x + pathStart.x, verticalCenter)
+    rightHandle.transform.position.set(transform.x + pathEnd.x, verticalCenter)
   }
 
   function tick() {
-    const height = Math.max(pathGraph.max - pathGraph.min, minBoundsHeight)
-    const top = transform.invertScalar(pathGraph.max)
-
-    bounds.height = height
-    bounds.center = Vector2(pathX / 2, (pathGraph.max + pathGraph.min) / 2)
-
-    // debugger
-
     base.tick()
     tickPath()
   }
@@ -357,7 +377,7 @@ function PathGoal(spec) {
 
   /* Editor logic */
 
-  const editor = parent
+  const editor = parent // Parent is implicitly editor
 
   let oldExpressionLatex
 
@@ -412,8 +432,8 @@ function PathGoal(spec) {
     transform.position.x = point.x
 
     // Reset pathStart/pathEnd
-    // pathStart.set(Vector2())
-    // pathEnd.set(Vector2(pathX, 0))
+    // pathStart.x += delta.x
+    // pathEnd.x += delta.x
 
     // Re-transform to world space
     transform.transformPoint(pathStart, pathStartWorld)
@@ -443,6 +463,14 @@ function PathGoal(spec) {
     trackPoints = [pathStartWorld, pathEndWorld]
 
     editor.update()
+
+    // Don't propagate drag events to handles
+    return false
+  }
+
+  function mouseDown() {
+    // Don't propagate mouse down event to handles
+    return false
   }
 
   function dragEnd() {
@@ -460,17 +488,35 @@ function PathGoal(spec) {
     dragMove(_p)
   }
 
+  function setStart(newStart) {
+    // starting + pathEnd.x/2 - transform.x = pathStart.x/2
+
+    const newPathStartX = newStart - transform.x
+    setEnds(Math.min(pathEnd.x - 1, newPathStartX), pathEnd.x)
+    editor.update()
+  }
+
+  function setEnd(newEnd) {
+    const newPathEndX = newEnd - transform.x
+    setEnds(pathStart.x, newPathEndX)
+    editor.update()
+  }
+
   return self.mix({
     transform,
 
     tick,
     draw,
 
+    setStart,
+    setEnd,
+
     setX,
 
     select,
     deselect,
 
+    mouseDown,
     dragMove,
     dragEnd,
 
@@ -490,6 +536,18 @@ function PathGoal(spec) {
     boundsTransform,
 
     setEnds,
+
+    get selected() {
+      return clickable.selected
+    },
+
+    get starting() {
+      return pathStart.x + transform.x
+    },
+
+    get ending() {
+      return pathEnd.x + transform.x
+    },
 
     get pathStart() {
       return pathStart

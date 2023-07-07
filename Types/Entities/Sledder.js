@@ -7,6 +7,9 @@ function Sledder(spec = {}) {
     transform,
   })
 
+  const originalX = transform.position.x,
+    originalY = transform.position.y
+
   let {
     asset = 'images.lunchbox_sam_sled',
     size = 2,
@@ -126,6 +129,7 @@ function Sledder(spec = {}) {
     const polar = graph.isPolar
 
     if (polar) {
+      position.set(originalX, originalY)
       const surfaceTheta = graph.thetaOfClosestSurfacePoint(position)
 
       graph.tangentVectorAt(surfaceTheta, slopeTangent)
@@ -133,6 +137,8 @@ function Sledder(spec = {}) {
 
       graph.normalVectorAt(surfaceTheta, rigidbody.upright)
       rigidbody.upright.normalize()
+
+      graph.pointAtTheta(surfaceTheta, position)
     } else {
       transform.x = originX
       transform.y = graph.sample('x', transform.x)

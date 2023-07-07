@@ -1,7 +1,7 @@
 function Circle(spec) {
   const self = Shape(spec)
 
-  let { center = Vector2(), radius = 1 } = spec
+  let { center = Vector2(), radius = 1, color = 'green' } = spec
 
   function getBounds() {
     return Rect({
@@ -34,7 +34,7 @@ function Circle(spec) {
   }
 
   function drawLocal(ctx) {
-    ctx.strokeStyle = 'green'
+    ctx.strokeStyle = color
     ctx.lineWidth = 0.1
     ctx.beginPath()
     ctx.arc(center.x, -center.y, radius, 0, TAU)

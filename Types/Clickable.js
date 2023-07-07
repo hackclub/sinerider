@@ -130,7 +130,7 @@ function Clickable(spec) {
       let dragThresholdMet = toFrameScalar(dragDistance) > dragThreshold
 
       if (dragging) {
-        sendEvent('dragMove', [dragMovePoint])
+        sendEvent('dragMove', [dragMovePoint, dragDelta])
       } else if (dragThresholdMet) {
         dragging = true
         sendEvent('dragStart', [dragStartPoint])

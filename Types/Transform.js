@@ -3,6 +3,9 @@ function Transform(spec = {}, entity = null) {
 
   if (!entity && spec.entity) entity = spec.entity
 
+  // If specified, use cartesian coordinates (x, y)
+  // or polar coordinates (r, theta) converted to cartesian.
+  // Else, position is <0, 0> by default
   const position = spec.position
     ? Vector2(spec.position)
     : spec.theta && spec.r

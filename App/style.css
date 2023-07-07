@@ -1132,6 +1132,11 @@ input[valid='false'] {
   width: 5em;
 }
 
+#editor-start-input,
+#editor-end-input {
+  width: 5em;
+}
+
 #editor-timer-input {
   width: 6em;
 }

@@ -145,6 +145,12 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
     ui.editorSpawner.panel.classList.remove('editor-sliding-up')
   }
 
+  function stringifyInputNumber(number) {
+    const string = number.toString()
+    const stringFixed = number.toFixed(2)
+    return string.length < stringFixed.length ? string : stringFixed
+  }
+
   function update() {
     // Update UI
     inputs.order.value = selection.order ?? ''
@@ -152,19 +158,27 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
     inputs.y.value = selection.y ? selection.y.toFixed(2) : ''
     inputs.timer.value = selection.timer ?? ''
 
+    inputs.start.value = selection.starting
+      ? stringifyInputNumber(selection.starting)
+      : ''
+
+    inputs.end.value = selection.ending
+      ? stringifyInputNumber(selection.ending)
+      : ''
+
     // Save to URL
     self.save()
   }
 
-  function addFixedClicked() {
+  function onAddFixedClicked() {
     self.addGoal({ type: 'fixed' })
   }
 
-  function addDynamicClicked() {
+  function onAddDynamicClicked() {
     self.addGoal({ type: 'dynamic' })
   }
 
-  function addPathClicked() {
+  function onAddPathClicked() {
     self.addGoal({ type: 'path' })
   }
 
@@ -175,45 +189,74 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
     }
   }
 
-  function orderInputEdited(event) {
-    let data = event.data ? event.data.toUpperCase() : null
-    if (!/[a-z]/i.test(data)) {
-      event.preventDefault()
-      inputs.order.value = ''
-      return
+  // Handle all editor inspector inputs here
+  // for ease-of-use and error handling
+  function onEditorInput(inputName, event) {
+    switch (inputName) {
+      case 'order': {
+        let data = event.data ? event.data.toUpperCase() : null
+        if (!/[a-z]/i.test(data)) {
+          event.preventDefault()
+          inputs.order.value = ''
+          return
+        }
+        inputs.order.value = data
+        if (selection?.setOrder) selection.setOrder(data)
+        return
+      }
+      case 'timer': {
+        let value
+        try {
+          value = Number(inputs.timer.value)
+        } catch (err) {
+          return
+        }
+        if (selection?.setTimer) selection.setTimer(value)
+        return
+      }
+      case 'x': {
+        let value
+        try {
+          value = Number(inputs.x.value)
+        } catch (err) {
+          return
+        }
+        if (selection?.setX) selection.setX(value)
+        return
+      }
+      case 'y': {
+        let value
+        try {
+          value = Number(inputs.y.value)
+        } catch (err) {
+          return
+        }
+        if (selection?.setY) selection?.setY(value)
+        return
+      }
+      case 'start': {
+        let value
+        try {
+          value = Number(inputs.start.value)
+        } catch (err) {
+          return
+        }
+        selection.setStart(value)
+        return
+      }
+      case 'end': {
+        let value
+        try {
+          value = Number(inputs.end.value)
+        } catch (err) {
+          return
+        }
+        selection.setEnd(value)
+        return
+      }
     }
-    inputs.order.value = data
-    if (selection?.setOrder) selection.setOrder(data)
-  }
 
-  function timerInputEdited(event) {
-    let value
-    try {
-      value = Number(inputs.timer.value)
-    } catch (err) {
-      return
-    }
-    if (selection?.setTimer) selection.setTimer(value)
-  }
-
-  function positionXInputEdited(event) {
-    let value
-    try {
-      value = Number(inputs.x.value)
-    } catch (err) {
-      return
-    }
-    if (selection?.setX) selection.setX(value)
-  }
-
-  function positionYInputEdited(event) {
-    let value
-    try {
-      value = Number(inputs.y.value)
-    } catch (err) {
-      return
-    }
-    if (selection?.setY) selection?.setY(value)
+    throw `Unhandled editor input event: '${inputName}'`
   }
 
   function keydown(key) {
@@ -311,6 +354,10 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
     })
   }
 
+  function setStart() {}
+
+  function setEnd() {}
+
   return self.mix({
     awake,
     goalDeleted,
@@ -355,14 +402,11 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
     deselect,
     select,
 
-    addDynamicClicked,
-    addFixedClicked,
-    addPathClicked,
+    onAddDynamicClicked,
+    onAddFixedClicked,
+    onAddPathClicked,
 
-    orderInputEdited,
-    timerInputEdited,
-    positionXInputEdited,
-    positionYInputEdited,
+    onEditorInput,
 
     deleteSelection,
 

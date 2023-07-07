@@ -785,32 +785,19 @@ ui.copyPuzzleLinkButton.addEventListener('click', () => {
 })
 
 // Spawner
-ui.editorSpawner.addDynamic.addEventListener('click', () =>
-  world.sendEvent('addDynamicClicked'),
+bindElementDOMEventToWorldEvent(
+  ui.editorSpawner.addDynamic,
+  'onAddDynamicClicked',
 )
-ui.editorSpawner.addFixed.addEventListener('click', () =>
-  world.sendEvent('addFixedClicked'),
-)
-ui.editorSpawner.addPath.addEventListener('click', () =>
-  world.sendEvent('addPathClicked'),
-)
+bindElementDOMEventToWorldEvent(ui.editorSpawner.addFixed, 'onAddFixedClicked')
+bindElementDOMEventToWorldEvent(ui.editorSpawner.addPath, 'onAddPathClicked')
 
 // Inspector
-ui.editorInspector.inputs.order.addEventListener('input', (event) => {
-  world.sendEvent('orderInputEdited', [event])
-})
-
-ui.editorInspector.inputs.timer.addEventListener('input', (event) => {
-  world.sendEvent('timerInputEdited', [event])
-})
-
-ui.editorInspector.inputs.x.addEventListener('input', (event) => {
-  world.sendEvent('positionXInputEdited', [event])
-})
-
-ui.editorInspector.inputs.y.addEventListener('input', (event) => {
-  world.sendEvent('positionYInputEdited', [event])
-})
+for (const [name, input] of Object.entries(ui.editorInspector.inputs)) {
+  input.addEventListener('input', (event) =>
+    world.sendEvent('onEditorInput', [name, event]),
+  )
+}
 
 ui.editorInspector.deleteSelectionButton.addEventListener('click', () => {
   world.sendEvent('deleteSelection')

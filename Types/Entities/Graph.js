@@ -43,7 +43,7 @@ function Graph(spec) {
     ...spec,
     scope,
   })
-  const samples = sampler.generateSampleArray(sampleCount)
+  let samples = sampler.generateSampleArray(sampleCount)
 
   let interpolationSampler = null
   if (useInterpolation) {
@@ -359,6 +359,9 @@ function Graph(spec) {
       generateTerrainParameters()
     },
 
+    get sampleCount() {
+      return sampleCount
+    },
     set sampleCount(v) {
       sampleCount = v
 
