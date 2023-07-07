@@ -36,7 +36,8 @@ function Rigidbody(spec) {
     }
 
     // Graph can change from cartesian/polar mid-level (editor)
-    const polar = graph.isPolar
+    let polar = graph.isPolar
+    // polar = false
 
     const r = transform.position.magnitude
 
@@ -44,8 +45,9 @@ function Rigidbody(spec) {
     if (polar) {
       // Polar (towards or away from center)
       const theta = Math.atan2(transform.y, transform.x)
-      velocity[0] += gravitySign * Math.cos(theta) * r * globalScope.dt
-      velocity[1] += gravitySign * Math.sin(theta) * r * globalScope.dt
+      velocity[0] += gravitySign * Math.cos(theta) * 9.8 * globalScope.dt
+      velocity[1] += gravitySign * Math.sin(theta) * 9.8 * globalScope.dt
+      // velocity[1] += gravitySign * 9.8 * globalScope.dt
     } else {
       // Cartesian (down)
       velocity[1] += gravitySign * 9.8 * globalScope.dt
@@ -63,14 +65,19 @@ function Rigidbody(spec) {
 
     if (polar) {
       surfaceTheta = graph.thetaOfClosestSurfacePoint(transform.position)
-      const surfaceR = graph.sample('theta', surfaceTheta)
 
-      if (surfaceR < 0) {
-        console.log('surface r is negative', surfaceR)
-        debugger
-      }
+      const graphY = graph.sample('theta', surfaceTheta)
 
-      penetrationDepth = surfaceR - r
+      penetrationDepth = graphY - transform.position.magnitude
+
+      // const surfaceR = graph.sample('theta', surfaceTheta)
+
+      // if (surfaceR < 0) {
+      //   console.log('surface r is negative', surfaceR)
+      //   debugger
+      // }
+
+      // penetrationDepth = surfaceR - r
     } else {
       const graphY = graph.sample('x', samplePosition.x)
 
@@ -82,27 +89,54 @@ function Rigidbody(spec) {
     if (grounded) {
       // Set collision tangent, normal, velocity
       if (polar) {
+        // Calculate vectors from graph position
         graph.tangentVectorAt(surfaceTheta, collisionTangent)
         collisionTangent.normalize()
+        collisionTangent.negate()
 
         graph.normalVectorAt(surfaceTheta, collisionNormal)
         collisionNormal.normalize()
 
         graph.velocityVectorAt(surfaceTheta, graphVelocity)
 
-        collisionNormal.multiply(penetrationDepth, depenetration)
-        transform.position.add(depenetration)
+        /* Collision correction */
 
-        // Zero velocity
-        velocity.set(0, 0)
+        // Project velocity onto collision normal and tangent
+        const tangentScalar = collisionTangent.dot(velocity)
 
-        // const velocityY = velocity.y
+        const depenetrationScalar = penetrationDepth
 
-        // // Add velocity of ground
+        // Calculate depenetration
+        collisionNormal.multiply(depenetrationScalar, depenetration)
+
+        // Calculate graph velocity
+        graphVelocity.multiply(graphVelocity.dot(collisionNormal))
+        // collisionNormal.multiply(graphVelocityScalar, graphVelocity)
+
+        // Save current upward velocity
+        const velocityY = velocity.y
+
+        // Reset velocity to limits imposed by ground angle
+        collisionTangent.multiply(tangentScalar, velocity)
+
+        // Add velocity of ground
         velocity.add(graphVelocity)
 
-        // // Prevent "sticking" to ground in cases where upward velocity was higher before collision correction
-        // velocity.y = Math.max(velocity.y, velocityY)
+        // Prevent "sticking" to ground in cases where upward velocity was higher before collision correction
+        velocity.y = Math.max(velocity.y, velocityY)
+
+        // Smoothly move upright vector toward ground normal
+        upright.lerp(collisionNormal, 0.15)
+        upright.normalize()
+
+        const uprightAngle = math.atan2(-upright.x, upright.y)
+
+        // Write new rotation
+        transform.rotation = fixedRotation ? 0 : uprightAngle
+        // transform.rotation = uprightAngle
+
+        // Depenetrate from ground
+        transform.position.add(depenetration)
 
         return
       } else {

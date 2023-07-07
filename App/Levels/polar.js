@@ -9,8 +9,8 @@ const POLAR = [
     sledders: [
       {
         asset: 'images.jack_sled',
-        x: 6,
-        y: 0,
+        x: 0,
+        y: 30,
       },
       // {
       //   asset: 'images.jack_sled',
