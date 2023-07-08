@@ -105,7 +105,7 @@ function PathGoal(spec) {
   const drawPathGraph = pathGraph.draw.bind(pathGraph)
   pathGraph.draw = () => {}
 
-  const drawHintGraph = () => hintGraph.draw.bind(hintGraph)
+  const drawHintGraph = hintGraph.draw.bind(hintGraph)
   hintGraph.draw = () => {}
 
   assets.sounds.path_goal_start.volume(0.5)
@@ -367,8 +367,8 @@ function PathGoal(spec) {
   function reset() {
     base.reset()
 
-    pathPosition.set(pathStart)
-    pathPositionWorld.set(pathStartWorld)
+    // pathPosition.set(pathStart)
+    // pathPositionWorld.set(pathStartWorld)
   }
 
   function resize() {
