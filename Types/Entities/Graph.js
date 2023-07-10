@@ -28,9 +28,11 @@ function Graph(spec) {
     invertGravity = false,
   } = spec
 
-  let strokeColor, strokeWidth, fillColor
-
-  assignColors(colors)
+  let {
+    strokeColor = colors.groundStroke,
+    strokeWidth = colors.groundStrokeWidth,
+    fillColor = colors.groundFill,
+  } = spec
 
   if (bounds && sampleDensity) {
     let span = Math.abs(bounds[0] - bounds[1])
