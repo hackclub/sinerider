@@ -90,6 +90,117 @@ function World(spec) {
       ui.levelInfoDiv.setAttribute('hide', false)
       ui.hideLevelInfoButton.addEventListener('click', hideLevelInfoClicked)
     }
+
+    // Render and add goal images for editor toolbar
+    renderAndAddSpawnerButtons()
+  }
+
+  function renderEntityToImage(
+    width,
+    height,
+    entityGenerator,
+    entityDatum = {},
+    fov = 1,
+  ) {
+    const canvas = document.createElement('canvas')
+
+    canvas.width = width * 2
+    canvas.height = height * 2
+
+    const screen = Screen({
+      canvas,
+      element: canvas,
+      alpha: true,
+    })
+
+    const camera = Camera({
+      screen,
+      fov,
+    })
+
+    const entity = entityGenerator({
+      ...entityDatum,
+      camera,
+      screen,
+    })
+
+    entity.sendEvent('tick')
+    entity.sendEvent('awake')
+    entity.sendEvent('start')
+    entity.sendEvent('tick')
+    entity.sendEvent('draw')
+    entity.destroy()
+
+    return canvas
+  }
+
+  function renderAndAddSpawnerButtons() {
+    // Add path goal
+    const pathGoalImage = renderEntityToImage(
+      90,
+      45,
+      PathGoal,
+      {
+        parent: self,
+        assets,
+        globalScope,
+        drawOrder: LAYERS.goals,
+        world,
+        goalCompleted: () => {},
+        goalFailed: () => {},
+        goalDeleted: () => {},
+        x: -2,
+      },
+      1.5,
+    )
+
+    ui.editorSpawner.addPath.appendChild(pathGoalImage)
+
+    // Add fixed goal
+    const fixedGoalImage = renderEntityToImage(
+      64,
+      45,
+      FixedGoal,
+      {
+        parent: self,
+        assets,
+        globalScope,
+        drawOrder: LAYERS.goals,
+        world,
+        goalCompleted: () => {},
+        goalFailed: () => {},
+        goalDeleted: () => {},
+      },
+      0.6,
+    )
+
+    ui.editorSpawner.addFixed.appendChild(fixedGoalImage)
+
+    // Add dynamic goal
+    const dynamicGoalImage = renderEntityToImage(
+      64,
+      45,
+      DynamicGoal,
+      {
+        parent: self,
+        // HACK: Pass height to dynamic goal via graph
+        graph: {
+          sample: () => -0.5,
+          sampleSlope: () => 0,
+        },
+        assets,
+        globalScope,
+        drawOrder: LAYERS.goals,
+        world,
+        goalCompleted: () => {},
+        goalFailed: () => {},
+        goalDeleted: () => {},
+        y: 1,
+      },
+      0.6,
+    )
+
+    ui.editorSpawner.addDynamic.appendChild(dynamicGoalImage)
   }
 
   function tick() {

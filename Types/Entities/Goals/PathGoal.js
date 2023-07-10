@@ -11,7 +11,7 @@ function PathGoal(spec) {
     pathX = 4,
     pathY = 0,
     graph,
-    debug = true,
+    debug = false,
 
     // Optional, used for editor
     expressionLatex: pathExpressionLatex = null,

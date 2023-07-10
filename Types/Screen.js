@@ -19,9 +19,14 @@
 function Screen(spec = {}) {
   const transform = Transform()
 
-  let { canvas, element = window } = spec
+  let {
+    canvas,
+    element = window,
+    // Disable blending by default for performance
+    alpha = false,
+  } = spec
 
-  const ctx = canvas.getContext('2d', { alpha: false })
+  const ctx = canvas.getContext('2d', { alpha })
 
   let width
   let height

@@ -34,7 +34,7 @@ html {
   overflow: hidden;
 }
 
-canvas {
+#canvas {
   user-select: none;
   width: 100vw;
   height: 100vh;
@@ -72,10 +72,6 @@ body > .bar {
 
   left: 20px;
   right: 20px;
-}
-
-.bar > * {
-  margin: 0 4px 0 0;
 }
 
 .bar > *:last-child {
@@ -1113,13 +1109,22 @@ input[valid='false'] {
 
 #editor-inspector,
 #editor-spawner {
-  background: '#000';
+  background: #e8e8e8;
   display: flex;
   align-items: center;
-  height: 2.5em;
+  max-height: 2.5em;
   column-gap: 10px;
-  padding: 3px 10px;
-  margin: auto;
+  padding: 10px 10px;
+  margin: 10px 0 0 0;
+}
+
+#editor-spawner canvas {
+  height: 30px;
+}
+
+#editor-inspector .button, #editor-spawner .button {
+  padding: 5px 8px;
+  box-shadow: none;
 }
 
 #editor-order-input {

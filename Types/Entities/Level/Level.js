@@ -181,29 +181,6 @@ function Level(spec) {
     invertGravity,
   })
 
-  function createGraphFromType(graphType, extraSpec = {}) {
-    const graphGenerator = {
-      cartesian: Graph,
-      polar: PolarGraph,
-    }[graphType]
-    const graph = graphGenerator({
-      camera,
-      screen: darkenBufferOrScreen,
-      globalScope,
-      expression: mathquillToMathJS(startingExpression),
-      parent: self,
-      drawOrder: LAYERS.graph,
-      colors,
-      sledders,
-      useInterpolation: false,
-      minTheta,
-      maxTheta,
-      invertGravity,
-      ...extraSpec,
-    })
-    return graph
-  }
-
   let skyColors = colors.sky
 
   if (_.isString(skyColors)) skyColors = [[0, skyColors]]
@@ -1024,8 +1001,6 @@ function Level(spec) {
 
     startRunning,
     stopRunning,
-
-    createGraphFromType,
 
     setGraphExpression,
 

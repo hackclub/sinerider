@@ -82,8 +82,8 @@ function Goal(spec) {
     flashProgress *= 0.95
 
     cameraDirection.set(camera.transform.position)
-    transform.invertPoint
     cameraDistance = cameraDirection.magnitude
+    // if (spec.toolbarGoal) debugger
     if (cameraDistance == 0) cameraDirection.set(0, 1)
     else cameraDirection.normalize()
   }
@@ -236,6 +236,7 @@ function Goal(spec) {
     strokeColorB.lerp(flashWhite, flashProgress)
     fillColor.lerp(flashWhite, flashProgress)
 
+    // if (spec.toolbarGoal) debugger
     strokeStyle = ctx.createLinearGradient(
       (cameraDirection.x * size) / 2,
       (-cameraDirection.y * size) / 2,

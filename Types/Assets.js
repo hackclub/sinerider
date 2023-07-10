@@ -53,10 +53,15 @@ function Assets(spec) {
 
     if (isImage) {
       asset = new Image()
-      asset.loading = 'eager'
-      asset.src = path
-      asset.onload = () => assetLoaded(path)
-      asset.onerror = (error) => handleFailure(error, path)
+      fetch(path)
+        .then((res) => res.blob())
+        .then((blob) => {
+          asset.src = URL.createObjectURL(blob)
+          assetLoaded(path)
+        })
+        .catch((error) => {
+          handleFailure(error, path)
+        })
     } else if (isSound) {
       ;(assetSpec.src = path),
         (asset = new Howl({
