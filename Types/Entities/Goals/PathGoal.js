@@ -367,8 +367,11 @@ function PathGoal(spec) {
   function reset() {
     base.reset()
 
-    // pathPosition.set(pathStart)
-    // pathPositionWorld.set(pathStartWorld)
+    pathPosition.set(pathStart)
+    pathPositionWorld.set(pathStartWorld)
+
+    // TODO: Fix circle jitter w/o calling tick()
+    tick()
   }
 
   function resize() {
