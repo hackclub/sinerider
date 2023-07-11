@@ -70,7 +70,14 @@ function Assets(spec) {
     bytesLoaded = total
   }
 
-  function loadAssetFromPath(object, key, path, assetFromBlob, assetSpec) {
+  function loadAssetFromPath(
+    object,
+    key,
+    path,
+    assetFromBlob,
+    assetSpec,
+    onStartFetchCb,
+  ) {
     const controller = new AbortController()
 
     const controllers =
@@ -87,6 +94,7 @@ function Assets(spec) {
     })
       .then((response) => {
         start = performance.now()
+        onStartFetchCb()
         console.log(`Took ${start - _start}ms to dispatch request`)
         return response.blob()
       })
@@ -152,8 +160,6 @@ function Assets(spec) {
 
     if (isSound) assetSpec.format = extension
 
-    loadAssetFromPath(object, key, path, assetFromBlob, assetSpec)
-
     // Max time it could reasonably take
     // (estimate of how long it'd take to load 10 MB)
 
@@ -164,7 +170,9 @@ function Assets(spec) {
             `Failed to load ${path} after ${timeoutMs}ms, retrying...`,
           )
           attemptsTried += 1
-          loadAssetFromPath(object, key, path, assetFromBlob, assetSpec)
+          loadAssetFromPath(object, key, path, assetFromBlob, assetSpec, () =>
+            assetTimeouts.push([assetTimeout, performance.now()]),
+          )
         } else {
           // handleFailure(`Retried assets too many times, try restarting`, path)
           if (!failed) {
@@ -177,9 +185,10 @@ function Assets(spec) {
       }
     }
 
-    const now = performance.now()
-
-    assetTimeouts.push([assetTimeout, now])
+    loadAssetFromPath(object, key, path, assetFromBlob, assetSpec, () => {
+      const now = performance.now()
+      assetTimeouts.push([assetTimeout, now])
+    })
 
     loadCount++
     loadTotal++
