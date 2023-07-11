@@ -271,7 +271,7 @@ function World(spec) {
   }
 
   function assetsComplete() {
-    // Create WebGL quads
+    // Load WebGL quads
     loadWebGLQuads()
 
     // Render and add goal images for editor toolbar

@@ -16,7 +16,7 @@ function Assets(spec) {
 
   const maxRetryAttempts = 5
 
-  let totalRetryAttempts = 0
+  let totalRetryAttemptsMade = 0
 
   // Start with 100 kbps for initial guess
   let predictedNetworkSpeedBps = 100 * 1024
@@ -25,11 +25,11 @@ function Assets(spec) {
 
   let checkAssetTimeoutsInterval = null
 
-  const assetRequests = {}
+  const assetAbortControllers = {}
 
   const assetsLoaded = {}
 
-  let totalBytesLoaded = 0
+  let bytesLoaded = 0
 
   load(self)
 
@@ -60,71 +60,67 @@ function Assets(spec) {
   }
 
   function correctNetworkSpeedPrediction(bytes, loadTimeMs) {
-    console.log(
-      `Took ${loadTimeMs}ms (${loadTimeMs / 1000}s) to load ${bytes} bytes`,
-    )
-    // Average
     const bps = bytes / (loadTimeMs / 1000)
-    const initialBytes = 0
-    const total = totalBytesLoaded + initialBytes + bytes
+
+    const total = bytesLoaded + bytes
+
     predictedNetworkSpeedBps =
-      ((totalBytesLoaded + initialBytes) / total) * predictedNetworkSpeedBps +
-      (bytes / total) * bps
+      (bytesLoaded / total) * predictedNetworkSpeedBps + (bytes / total) * bps
+
+    bytesLoaded = total
   }
 
-  function loadAssetFromPath(object, key, path, assetFromBlob, assetSpec) {
-    const request = new XMLHttpRequest()
-    request.responseType = 'blob'
+  function loadAssetFromPath(
+    object,
+    key,
+    path,
+    assetFromBlob,
+    assetSpec,
+    onStartFetchCb,
+  ) {
+    const controller = new AbortController()
 
-    const requests = assetRequests[path] || (assetRequests[path] = [])
+    const controllers =
+      assetAbortControllers[key] || (assetAbortControllers[key] = [])
 
-    requests.push(request)
+    controllers.push(controller)
 
-    // When request was dispatched
     let start
 
-    const _start = performance.now()
+    fetch(path, {
+      signal: controller.signal,
+    })
+      .then((response) => {
+        start = performance.now()
+        onStartFetchCb()
+        return response.blob()
+      })
+      .then((blob) => {
+        // Incorporate blob load time + size to reestimate network speed
+        const now = performance.now()
+        console.log(`Took ${now - start} to get data`)
+        correctNetworkSpeedPrediction(blob.size, now - start)
+        return blob
+      })
+      .then((blob) => assetFromBlob(blob, assetSpec))
+      .catch((error) => {
+        // Throw if assetFromBlob fails (and not from abort)
+        if (error.name === 'AbortError') return
+        else handleFailure(error, path)
+      })
+      .then((asset) => {
+        // Abort other asset fetch attempts, if they exist
+        for (const c of controllers) {
+          if (c != controller) c.abort()
+        }
 
-    request.onloadstart = () => {
-      start = performance.now()
-      console.log(`Took ${start - _start}ms for request to be dispatched`)
-    }
+        object[key] = asset
 
-    request.onprogress = (event) => {
-      console.log(`Loaded ${event.loaded}`)
-    }
-
-    request.onload = () => {
-      const blob = request.response
-
-      // Incorporate blob load time + size to reestimate network speed
-      const now = performance.now()
-      correctNetworkSpeedPrediction(blob.size, now - start)
-
-      assetFromBlob(blob, assetSpec)
-        .then((asset) => {
-          // Abort other asset fetch attempts, if they exist
-          for (const r of requests) {
-            if (r != request) r.abort()
-          }
-
-          // Load asset
-          object[key] = asset
-          assetLoaded()
-        })
-        .catch((error) => {
-          // Throw if assetFromBlob fails
-          handleFailure(error, path)
-        })
-    }
-
-    request.open('GET', path)
-    request.send()
+        assetLoaded()
+      })
   }
 
   function loadAsset(object, folders, file, key, assetSpec = {}) {
-    // console.log(`Loading asset '${file}' from folders `, folders)
-
     const extensions = _.tail(file.split('.'))
     const extension = extensions[0]
     const name = file.split('.')[0] || key
@@ -164,21 +160,30 @@ function Assets(spec) {
 
     const assetTimeout = (timeoutMs) => {
       if (!assetsLoaded[key]) {
-        if (totalRetryAttempts < maxRetryAttempts) {
+        if (totalRetryAttemptsMade < maxRetryAttempts) {
           console.log(
             `Failed to load ${path} after ${timeoutMs}ms, retrying...`,
           )
-          totalRetryAttempts += 1
-          loadAssetFromPath(path, assetFromBlob)
+          totalRetryAttemptsMade += 1
+          loadAssetFromPath(object, key, path, assetFromBlob, assetSpec, () =>
+            assetTimeouts.push([assetTimeout, performance.now()]),
+          )
         } else {
-          handleFailure(error, path)
+          // handleFailure(`Retried assets too many times, try restarting`, path)
+          if (!failed) {
+            alert(
+              `We couldn't communicate with our servers—please try reloading`,
+            )
+            failed = true
+          }
         }
       }
     }
 
-    const now = performance.now()
-
-    assetTimeouts.push([assetTimeout, now])
+    loadAssetFromPath(object, key, path, assetFromBlob, assetSpec, () => {
+      const now = performance.now()
+      assetTimeouts.push([assetTimeout, now])
+    })
 
     loadCount++
     loadTotal++
