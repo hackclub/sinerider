@@ -19,31 +19,34 @@ function Assets(spec) {
   let totalRetryAttempts = 0
 
   // Start with 100 kbps for initial guess
-  const predictedNetworkSpeedBps = 100 * 1024
+  let predictedNetworkSpeedBps = 100 * 1024
 
   const assetTimeouts = []
 
   let checkAssetTimeoutsInterval = null
 
+  const assetRequests = {}
+
+  const assetsLoaded = {}
+
+  let totalBytesLoaded = 0
+
   load(self)
 
   function soundFromBlob(blob, assetSpec) {
-    const blobType = blob.type
-    const extension = blobType.substring(blobType.indexOf('/') + 1)
     return new Promise((resolve, reject) => {
-      const blobUrl = Object.createObjectURL(blob)
+      const blobUrl = URL.createObjectURL(blob)
       assetSpec.src = blobUrl
       const howl = new Howl({
         ...assetSpec,
-        ext: extension,
         onload: () => resolve(howl),
         onerror: (error) => reject(error),
       })
     })
   }
 
-  function imageFromBlob(blob, assetSpec) {
-    const blobUrl = Object.createObjectURL(blob)
+  function imageFromBlob(blob) {
+    const blobUrl = URL.createObjectURL(blob)
     const img = new Image()
     img.src = blobUrl
     return new Promise((resolve, reject) => {
@@ -52,49 +55,71 @@ function Assets(spec) {
     })
   }
 
-  function shaderFromBlob(blob, assetSpec) {
+  function shaderFromBlob(blob) {
     return blob.text()
   }
 
   function correctNetworkSpeedPrediction(bytes, loadTimeMs) {
-    const bps = bytes / loadTimeMs
-    predictedNetworkSpeedBps = 0.8 * predictedNetworkSpeedBps + 0.2 * bps
+    console.log(
+      `Took ${loadTimeMs}ms (${loadTimeMs / 1000}s) to load ${bytes} bytes`,
+    )
+    // Average
+    const bps = bytes / (loadTimeMs / 1000)
+    const initialBytes = 0
+    const total = totalBytesLoaded + initialBytes + bytes
+    predictedNetworkSpeedBps =
+      ((totalBytesLoaded + initialBytes) / total) * predictedNetworkSpeedBps +
+      (bytes / total) * bps
   }
 
-  function loadAssetFromPath(object, path, assetFromBlob, assetSpec) {
-    const controller = new AbortController()
+  function loadAssetFromPath(object, key, path, assetFromBlob, assetSpec) {
+    const request = new XMLHttpRequest()
+    request.responseType = 'blob'
 
-    const abortControllers = assetAbortControllers[key] || []
+    const requests = assetRequests[path] || (assetRequests[path] = [])
 
-    abortControllers.push(controller)
+    requests.push(request)
 
-    const start = performance.now()
+    // When request was dispatched
+    let start
 
-    fetch(path, {
-      signal: controller.signal,
-    })
-      .then((response) => response.blob())
-      .then((blob) => {
-        // Incorporate blob load time + size to reestimate network speed
-        const now = performance.now()
-        correctNetworkSpeedPrediction(blob.size, now - start)
-        return blob
-      })
-      .then((blob) => assetFromBlob(blob, assetSpec))
-      .catch((error) => {
-        // Throw if assetFromBlob fails
-        handleFailure(error, path)
-      })
-      .then((asset) => {
-        // Abort other asset fetch attempts, if they exist
-        for (const c of abortControllers) {
-          if (c != controller) c.abort()
-        }
+    const _start = performance.now()
 
-        // Load asset
-        object[key] = asset
-        assetLoaded(path)
-      })
+    request.onloadstart = () => {
+      start = performance.now()
+      console.log(`Took ${start - _start}ms for request to be dispatched`)
+    }
+
+    request.onprogress = (event) => {
+      console.log(`Loaded ${event.loaded}`)
+    }
+
+    request.onload = () => {
+      const blob = request.response
+
+      // Incorporate blob load time + size to reestimate network speed
+      const now = performance.now()
+      correctNetworkSpeedPrediction(blob.size, now - start)
+
+      assetFromBlob(blob, assetSpec)
+        .then((asset) => {
+          // Abort other asset fetch attempts, if they exist
+          for (const r of requests) {
+            if (r != request) r.abort()
+          }
+
+          // Load asset
+          object[key] = asset
+          assetLoaded()
+        })
+        .catch((error) => {
+          // Throw if assetFromBlob fails
+          handleFailure(error, path)
+        })
+    }
+
+    request.open('GET', path)
+    request.send()
   }
 
   function loadAsset(object, folders, file, key, assetSpec = {}) {
@@ -130,20 +155,20 @@ function Assets(spec) {
       ? shaderFromBlob
       : null
 
-    if (!produceAsset) throw `Unexpected file extension: .${extension}`
+    if (!assetFromBlob) throw `Unexpected file extension: .${extension}`
 
-    loadAssetFromPath(object, path, assetFromBlob, assetSpec)
+    // Pass extension to Howler.js if it's a sound
+    if (isSound) assetSpec.format = extension
 
-    // Max time it could reasonably take
-    // (estimate of how long it'd take to load 10 MB)
+    loadAssetFromPath(object, key, path, assetFromBlob, assetSpec)
 
     const assetTimeout = (timeoutMs) => {
-      if (!assetsLoaded[path]) {
-        if (attemptsTried < maxRetryAttempts) {
+      if (!assetsLoaded[key]) {
+        if (totalRetryAttempts < maxRetryAttempts) {
           console.log(
             `Failed to load ${path} after ${timeoutMs}ms, retrying...`,
           )
-          attemptsTried += 1
+          totalRetryAttempts += 1
           loadAssetFromPath(path, assetFromBlob)
         } else {
           handleFailure(error, path)
@@ -153,13 +178,16 @@ function Assets(spec) {
 
     const now = performance.now()
 
-    assetTimeouts.push(assetTimeout, now)
+    assetTimeouts.push([assetTimeout, now])
 
     loadCount++
     loadTotal++
   }
 
   function checkAssetTimeouts() {
+    // Max time it could reasonably take
+    // (estimate of how long it'd take to load 10 MB)
+    // Constant for time being, could change w/ file
     const timeoutMs = ((10 * 1024 * 1024) / predictedNetworkSpeedBps) * 1000
 
     const now = performance.now()
@@ -186,6 +214,7 @@ function Assets(spec) {
   }
 
   function assetLoaded(path) {
+    console.log('Loaded asset', path)
     assetsLoaded[path] = true
     loadCount--
     if (loadCount == 0) {
