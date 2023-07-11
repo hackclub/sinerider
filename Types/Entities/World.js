@@ -52,7 +52,7 @@ function World(spec) {
   let navigating = false
   let editing = false
 
-  function loadQuad() {
+  function loadWebGLQuads() {
     quads.water = WaterQuad(assets)
     quads.sunset = ConstantLakeSunsetQuad('(sin(x)-(y-2)*i)*i/2', assets)
     quads.volcanoSunset = VolcanoSunsetQuad(
@@ -90,9 +90,6 @@ function World(spec) {
       ui.levelInfoDiv.setAttribute('hide', false)
       ui.hideLevelInfoButton.addEventListener('click', hideLevelInfoClicked)
     }
-
-    // Render and add goal images for editor toolbar
-    renderAndAddSpawnerButtons()
   }
 
   function renderEntityToImage(
@@ -274,7 +271,11 @@ function World(spec) {
   }
 
   function assetsComplete() {
-    loadQuad()
+    // Load WebGL quads
+    loadWebGLQuads()
+
+    // Render and add goal images for editor toolbar
+    renderAndAddSpawnerButtons()
 
     // Remove the loading bar
     ui.loadingProgressBarContainer.setAttribute('hide', true)
