@@ -59,6 +59,7 @@ function Sprite(spec = {}) {
     }
     image = _.get(assets, asset, $('#error-sprite'))
   }
+
   if (speech) {
     if (!_.isArray(speech)) speech = [speech]
 

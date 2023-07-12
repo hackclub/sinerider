@@ -1,4 +1,4 @@
-function Entity(spec, defaultName = 'Entity') {
+function Entity(spec, defaultName = 'Entity', dependencies = null) {
   const self = {}
 
   let {

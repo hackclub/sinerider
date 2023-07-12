@@ -31,10 +31,12 @@ function PathGoalHandle(spec) {
   }
 
   function dragMove(point) {
-    if (type === 'start') {
-      parent.setStart(point.x)
-    } else if (type === 'end') {
-      parent.setEnd(point.x)
+    if (parent.selected && editor.editing) {
+      if (type === 'start') {
+        parent.setStart(point.x)
+      } else if (type === 'end') {
+        parent.setEnd(point.x)
+      }
     }
   }
 

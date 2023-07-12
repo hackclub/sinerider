@@ -133,8 +133,6 @@ function LevelBubble(spec) {
     refreshPlayable()
   }
 
-  function startLate() {}
-
   function tick() {}
 
   let tmp = Vector2()
@@ -436,7 +434,6 @@ function LevelBubble(spec) {
     clickable,
 
     start,
-    startLate,
     awake,
 
     resize,

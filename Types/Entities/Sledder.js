@@ -174,13 +174,13 @@ function Sledder(spec = {}) {
   }
 
   function dragMove(point) {
-    // if (!editor.editing) return
+    if (!editor.editing) return
     position.set(point)
     editor.update()
   }
 
   function dragEnd() {
-    // if (!editor.editing) return
+    if (!editor.editing) return
     originX = transform.x
     reset()
     editor.update()

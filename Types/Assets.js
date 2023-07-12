@@ -18,7 +18,7 @@ function Assets(spec) {
 
   let totalRetryAttemptsMade = 0
 
-  // Start with 100 kbps for initial guess
+  // Start with 100 kbps for (low) initial guess
   let predictedNetworkSpeedBps = 100 * 1024
 
   const assetTimeouts = []
@@ -98,7 +98,6 @@ function Assets(spec) {
       .then((blob) => {
         // Incorporate blob load time + size to reestimate network speed
         const now = performance.now()
-        console.log(`Took ${now - start} to get data`)
         correctNetworkSpeedPrediction(blob.size, now - start)
         return blob
       })
@@ -156,7 +155,10 @@ function Assets(spec) {
     // Pass extension to Howler.js if it's a sound
     if (isSound) assetSpec.format = extension
 
-    loadAssetFromPath(object, key, path, assetFromBlob, assetSpec)
+    const attemptLoad = () =>
+      loadAssetFromPath(object, key, path, assetFromBlob, assetSpec, () =>
+        assetTimeouts.push([assetTimeout, performance.now()]),
+      )
 
     const assetTimeout = (timeoutMs) => {
       if (!assetsLoaded[key]) {
@@ -165,14 +167,12 @@ function Assets(spec) {
             `Failed to load ${path} after ${timeoutMs}ms, retrying...`,
           )
           totalRetryAttemptsMade += 1
-          loadAssetFromPath(object, key, path, assetFromBlob, assetSpec, () =>
-            assetTimeouts.push([assetTimeout, performance.now()]),
-          )
+          attemptLoad()
         } else {
-          // handleFailure(`Retried assets too many times, try restarting`, path)
           if (!failed) {
+            // TODO: Use modal instead?
             alert(
-              `We couldn't communicate with our servers—please try reloading`,
+              "We couldn't communicate with our servers — please try reloading",
             )
             failed = true
           }
@@ -180,10 +180,7 @@ function Assets(spec) {
       }
     }
 
-    loadAssetFromPath(object, key, path, assetFromBlob, assetSpec, () => {
-      const now = performance.now()
-      assetTimeouts.push([assetTimeout, now])
-    })
+    attemptLoad()
 
     loadCount++
     loadTotal++
@@ -219,7 +216,6 @@ function Assets(spec) {
   }
 
   function assetLoaded(path) {
-    console.log('Loaded asset', path)
     assetsLoaded[path] = true
     loadCount--
     if (loadCount == 0) {
@@ -240,9 +236,52 @@ function Assets(spec) {
     }
   }
 
-  return _.mixIn(self, {
+  function makeProxy(path) {
+    const item = path ? _.get(self, path, null) : self
+    if (!item) return
+
+    const isSound = _.has(item, 'src')
+    const isAsset = _.isString(item) || isSound
+
+    if (isAsset) {
+      const parts = path.split('.')
+      const parentOfParentPath = parts.slice(0, parts.length - 2).join('.'),
+        parentPath = parts.slice(0, parts.length - 1).join('.')
+
+      const parentOfParent = parentOfParentPath
+        ? _.get(self, parentOfParentPath)
+        : self
+
+      if (!parentOfParent) debugger
+
+      const parent = _.get(self, parentPath)
+
+      if (!parent._proxied) {
+        parent._proxied = true
+        parentOfParent[parentPath] = new Proxy(parent, {
+          get(target, p, receiver) {
+            console.log(`Fetching ${parent}.${p} from assets`)
+            return Reflect.get(...arguments)
+          },
+        })
+      }
+
+      return
+    }
+
+    for (const key of Object.keys(item)) {
+      const p = (path && path + '.') + key
+      makeProxy(p)
+    }
+  }
+
+  makeProxy('')
+
+  _.mixIn(self, {
     get loaded() {
       return loaded
     },
   })
+
+  return self
 }

@@ -327,7 +327,23 @@ function Level(spec) {
     ui.mathFieldStatic.latex(startingExpression)
   }
 
+  function waitForAssets() {
+    // Determine assets needed
+    // const assetsNeeded =
+    // const loader = PageLoader({
+    //   paths: assets
+    // })
+    // const assets = Assets({
+    //   paths: assets,
+    //   callbacks: {
+    //     complete: assetsComplete,
+    //   }
+    // })
+  }
+
   function awake() {
+    waitForAssets()
+
     refreshLowestOrder()
 
     // Add a variable to globalScope for player position
@@ -344,10 +360,6 @@ function Level(spec) {
   }
 
   function start() {}
-
-  function startLate() {
-    // self.sendEvent('levelFullyStarted')
-  }
 
   function checkTransition(entity) {
     if (!entity.activeInHierarchy) return

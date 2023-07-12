@@ -1,6 +1,7 @@
 let assets, globalScope
 let arrowsDrawn = 0,
-  _arrowsDrawn
+  _arrowsDrawn,
+  originalAssets
 
 function World(spec) {
   const self = Entity(spec, 'World')
@@ -62,6 +63,8 @@ function World(spec) {
     quads.lava = LavaQuad(assets)
   }
 
+  originalAssets = _.cloneDeep(spec.assets)
+
   assets = Assets({
     paths: spec.assets,
     callbacks: {
@@ -69,6 +72,14 @@ function World(spec) {
       progress: assetsProgress,
     },
   })
+
+  /*
+
+  request = await assets.queue(<initial batch of assets for intro level>)
+
+  assets.queue([asset1, asset2, ...]) -> Promise that resolves if/when assets have all been loaded
+
+  */
 
   const clickableContext = ClickableContext({
     entity: self,
@@ -304,7 +315,7 @@ function World(spec) {
     }
   }
 
-  function resetSavedSolutions(event) {
+  function resetSavedSolutions() {
     ui.resetSolutionsString.remove()
     playerStorage.clear()
   }

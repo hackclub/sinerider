@@ -333,7 +333,7 @@ function PathGoal(spec) {
     innerStyle.addColorStop(pathProgress, '#4F6')
     innerStyle.addColorStop(math.clamp01(pathProgress + 0.02), '#FFF')
 
-    if (clickable.selected) {
+    if (editor.editing && clickable.selected) {
       hintGraph.resize()
       drawHintGraph()
     }
