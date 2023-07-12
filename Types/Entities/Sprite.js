@@ -60,6 +60,26 @@ function Sprite(spec = {}) {
     image = _.get(assets, asset, $('#error-sprite'))
   }
 
+  function onRequestAssetsPass(assets, onComplete) {
+    if (asset) {
+      if (asset.includes('*')) {
+        const assetSearch = new RegExp(
+          `${asset.split('.')[1]?.split('*')[0]}_[0-9]+`,
+        )
+        let possibleSprites = Object.keys(assets.images).filter((v) =>
+          assetSearch.test(v),
+        )
+        asset =
+          'images.' +
+          possibleSprites[Math.floor(Math.random() * possibleSprites.length)]
+      }
+
+      requestAsset(asset, (a) => {
+        image = a ?? $('#error-sprite')
+      })
+    }
+  }
+
   if (speech) {
     if (!_.isArray(speech)) speech = [speech]
 

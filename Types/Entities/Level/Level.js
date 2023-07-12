@@ -327,18 +327,40 @@ function Level(spec) {
     ui.mathFieldStatic.latex(startingExpression)
   }
 
+  const requiredAssets = {}
+
+  function requireAsset(path, cb) {
+    requiredAssets[path] = [
+      ...requiredAssets[path],
+      cb
+    ]
+
+
+  }
+
+  function assetsComplete() {
+    for (const [path, cbs] of Object.entries(requiredAssets)) {
+      const asset = _.get(requiredAssets, path)
+      cbs.forEach(cb => cb(asset))
+    }
+  }
+
   function waitForAssets() {
     // Determine assets needed
     // const assetsNeeded =
-    // const loader = PageLoader({
-    //   paths: assets
-    // })
-    // const assets = Assets({
-    //   paths: assets,
-    //   callbacks: {
-    //     complete: assetsComplete,
-    //   }
-    // })
+
+    self.sendEvent('onRequestAssetsPass', [requireAsset])
+
+    const loader = PageLoader({
+      paths: assets
+    })
+
+    const levelAssets = Assets({
+      paths: assets,
+      callbacks: {
+        complete: assetsComplete,
+      }
+    })
   }
 
   function awake() {
@@ -483,6 +505,8 @@ function Level(spec) {
       invertGravity,
       ...goalDatum,
     })
+
+    loadEntity(() => )
 
     goals.push(goal)
   }

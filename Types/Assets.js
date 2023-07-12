@@ -236,52 +236,9 @@ function Assets(spec) {
     }
   }
 
-  function makeProxy(path) {
-    const item = path ? _.get(self, path, null) : self
-    if (!item) return
-
-    const isSound = _.has(item, 'src')
-    const isAsset = _.isString(item) || isSound
-
-    if (isAsset) {
-      const parts = path.split('.')
-      const parentOfParentPath = parts.slice(0, parts.length - 2).join('.'),
-        parentPath = parts.slice(0, parts.length - 1).join('.')
-
-      const parentOfParent = parentOfParentPath
-        ? _.get(self, parentOfParentPath)
-        : self
-
-      if (!parentOfParent) debugger
-
-      const parent = _.get(self, parentPath)
-
-      if (!parent._proxied) {
-        parent._proxied = true
-        parentOfParent[parentPath] = new Proxy(parent, {
-          get(target, p, receiver) {
-            console.log(`Fetching ${parent}.${p} from assets`)
-            return Reflect.get(...arguments)
-          },
-        })
-      }
-
-      return
-    }
-
-    for (const key of Object.keys(item)) {
-      const p = (path && path + '.') + key
-      makeProxy(p)
-    }
-  }
-
-  makeProxy('')
-
-  _.mixIn(self, {
+  return _.mixIn(self, {
     get loaded() {
       return loaded
     },
-  })
-
-  return self
+  }
 }
