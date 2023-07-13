@@ -1,7 +1,7 @@
 function Assets(spec) {
-  const { paths, callbacks } = spec
+  const { paths, callbacks, existingAssets = null } = spec
 
-  const self = _.cloneDeep(paths)
+  const self = existingAssets ? existingAssets : _.cloneDeep(paths)
 
   let loadTotal = 0
   let loadCount = 0
@@ -30,8 +30,6 @@ function Assets(spec) {
   const assetsLoaded = {}
 
   let bytesLoaded = 0
-
-  const queue = []
 
   load(self)
 
@@ -237,8 +235,6 @@ function Assets(spec) {
       failed = true
     }
   }
-
-  function request(paths, onComplete, onProgress) {}
 
   return _.mixIn(self, {
     get loaded() {

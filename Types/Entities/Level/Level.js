@@ -189,9 +189,6 @@ function Level(spec) {
 
   for (const color of skyColors) skyGradient.addColorStop(color[0], color[1])
 
-  // Note: datum is loaded *during construction*
-  loadDatum(spec.datum)
-
   function preprocessDatum(datum) {
     // Reuse datum across levels/bubbles
     if (datum._preprocessed) return
@@ -335,7 +332,7 @@ function Level(spec) {
     assetRequests.push([paths, cb])
   }
 
-  function assetsComplete() {
+  function assetsCompleted() {
     assetRequests.forEach(([paths, cb]) => {
       // Make local copy to ensure needed assets are requested
       const localAssets = {}
@@ -363,13 +360,36 @@ function Level(spec) {
 
     const levelAssets = assets.request(
       requiredAssets.keys(),
-      assetsComplete,
+      assetsCompleted,
       assetsProgress.bind(null, loader),
     )
   }
 
+  function collectRequiredAssetPaths() {
+    // Sky
+    // Sprite
+    // Sounds/music
+    // etc.
+  }
+
   function awake() {
-    waitForAssets()
+    // Load assets
+    const requiredAssets = collectRequiredAssetPaths()
+
+    showPageLoader()
+
+    const levelAssets = Assets({
+      loadedAssets: assets,
+      paths: requiredAssets,
+      callbacks: {
+        progress: assetsProgress,
+        completed: assetsCompleted,
+      },
+    })
+  }
+
+  function assetsCompleted() {
+    loadDatum(spec.datum)
 
     refreshLowestOrder()
 

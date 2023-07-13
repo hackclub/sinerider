@@ -176,7 +176,7 @@ function PathGoal(spec) {
   })
 
   function onRequestAssetsPass(requestAssets) {
-    localAssets = requestAssets(
+    requestAssets(
       ['sounds.path_goal_continue', 'sounds.path_goal_start'],
       (assets) => (localAssets = assets),
     )
