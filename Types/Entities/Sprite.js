@@ -60,7 +60,10 @@ function Sprite(spec = {}) {
     image = _.get(assets, asset, $('#error-sprite'))
   }
 
-  function onRequestAssetsPass(assets, onComplete) {
+  function onRequestAssetsPass(requestAssets) {
+    // TODO: Either use Proxy on this pass to collect
+    // all needed assets (then wait for those which haven't loaded yet).
+    // Or pass callback for when assets finish loading (Promise or callback?)
     if (asset) {
       if (asset.includes('*')) {
         const assetSearch = new RegExp(
@@ -74,8 +77,8 @@ function Sprite(spec = {}) {
           possibleSprites[Math.floor(Math.random() * possibleSprites.length)]
       }
 
-      requestAsset(asset, (a) => {
-        image = a ?? $('#error-sprite')
+      requestAssets([asset], ({ asset }) => {
+        image = asset ?? $('#error-sprite')
       })
     }
   }

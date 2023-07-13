@@ -12,6 +12,12 @@ function ConstantLakeShader(spec) {
 
   let shouldTick = false
 
+  function onRequestAssetsPass(requestAssets) {
+    requestAssets(['shaders'], (assets) => {
+      localAssets = assets
+    })
+  }
+
   function draw() {
     quad.render(walkerPosition.x)
     ctx.drawImage(quad.localCanvas, 0, 0, screen.width, screen.height)

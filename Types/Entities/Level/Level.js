@@ -327,40 +327,45 @@ function Level(spec) {
     ui.mathFieldStatic.latex(startingExpression)
   }
 
-  const requiredAssets = {}
+  const requiredAssets = new Set()
+  const assetRequests = []
 
-  function requireAsset(path, cb) {
-    requiredAssets[path] = [
-      ...requiredAssets[path],
-      cb
-    ]
-
-
+  function requestAssets(paths, cb) {
+    requiredAssets.add(paths)
+    assetRequests.push([paths, cb])
   }
 
   function assetsComplete() {
-    for (const [path, cbs] of Object.entries(requiredAssets)) {
-      const asset = _.get(requiredAssets, path)
-      cbs.forEach(cb => cb(asset))
-    }
+    assetRequests.forEach(([paths, cb]) => {
+      // Make local copy to ensure needed assets are requested
+      const localAssets = {}
+      for (const path of paths) {
+        const asset = _.get(assets, path)
+        _.set(localAssets, path, asset)
+      }
+      cb(localAssets)
+    })
+  }
+
+  function assetsProgress(loader, progress) {
+    loader.progress(progress)
   }
 
   function waitForAssets() {
     // Determine assets needed
     // const assetsNeeded =
 
-    self.sendEvent('onRequestAssetsPass', [requireAsset])
+    self.sendEvent('onRequestAssetsPass', [requestAssets])
 
     const loader = PageLoader({
-      paths: assets
+      paths: assets,
     })
 
-    const levelAssets = Assets({
-      paths: assets,
-      callbacks: {
-        complete: assetsComplete,
-      }
-    })
+    const levelAssets = assets.request(
+      requiredAssets.keys(),
+      assetsComplete,
+      assetsProgress.bind(null, loader),
+    )
   }
 
   function awake() {
@@ -505,8 +510,6 @@ function Level(spec) {
       invertGravity,
       ...goalDatum,
     })
-
-    loadEntity(() => )
 
     goals.push(goal)
   }

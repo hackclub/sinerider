@@ -175,6 +175,13 @@ function PathGoal(spec) {
     camera,
   })
 
+  function onRequestAssetsPass(requestAssets) {
+    localAssets = requestAssets(
+      ['sounds.path_goal_continue', 'sounds.path_goal_start'],
+      (assets) => (localAssets = assets),
+    )
+  }
+
   function setEnds(pathStartX, pathEndX) {
     pathX = pathEndX - pathStartX
 

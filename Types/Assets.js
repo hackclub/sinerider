@@ -31,6 +31,8 @@ function Assets(spec) {
 
   let bytesLoaded = 0
 
+  const queue = []
+
   load(self)
 
   function soundFromBlob(blob, assetSpec) {
@@ -236,9 +238,11 @@ function Assets(spec) {
     }
   }
 
+  function request(paths, onComplete, onProgress) {}
+
   return _.mixIn(self, {
     get loaded() {
       return loaded
     },
-  }
+  })
 }
