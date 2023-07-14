@@ -1,7 +1,5 @@
-function Assets(spec) {
-  const { paths, callbacks, existingAssets = null } = spec
-
-  const self = existingAssets ? existingAssets : _.cloneDeep(paths)
+function Assets() {
+  const self = {}
 
   let loadTotal = 0
   let loadCount = 0
@@ -11,8 +9,6 @@ function Assets(spec) {
   const imageExtensions = ['svg', 'png', 'jpg', 'jpeg', 'webp']
   const soundExtensions = ['m4a', 'mp3', 'ogg', 'wav']
   const shaderExtensions = ['glsl', 'frag', 'vert']
-
-  if (callbacks.progress) callbacks.progress(0, loadTotal)
 
   const maxRetryAttempts = 5
 
@@ -31,12 +27,14 @@ function Assets(spec) {
 
   let bytesLoaded = 0
 
-  load(self)
+  let onComplete
 
   function soundFromBlob(blob, assetSpec) {
     return new Promise((resolve, reject) => {
       const blobUrl = URL.createObjectURL(blob)
       assetSpec.src = blobUrl
+      // For some reason loading howl before page
+      // is clicked (loading veil) angers Chrome? TODO: Fix
       const howl = new Howl({
         ...assetSpec,
         onload: () => resolve(howl),
@@ -66,6 +64,8 @@ function Assets(spec) {
 
     predictedNetworkSpeedBps =
       (bytesLoaded / total) * predictedNetworkSpeedBps + (bytes / total) * bps
+
+    if (predictedNetworkSpeedBps == Infinity) debugger
 
     bytesLoaded = total
   }
@@ -113,13 +113,13 @@ function Assets(spec) {
           if (c != controller) c.abort()
         }
 
-        object[key] = asset
+        _.set(object, key, asset)
 
         assetLoaded()
       })
   }
 
-  function loadAsset(object, folders, file, key, assetSpec = {}) {
+  function loadAsset(folders, key, file, assetSpec = {}) {
     const extensions = _.tail(file.split('.'))
     const extension = extensions[0]
     const name = file.split('.')[0] || key
@@ -137,6 +137,13 @@ function Assets(spec) {
       name +
       '.' +
       extension
+
+    const objectPath = folders.join('.') + '.' + key
+
+    if (_.has(self, objectPath)) {
+      // If already loaded asset, return
+      return
+    }
 
     const isImage = _.includes(imageExtensions, extension)
     const isSound = _.includes(soundExtensions, extension)
@@ -156,12 +163,15 @@ function Assets(spec) {
     if (isSound) assetSpec.format = extension
 
     const attemptLoad = () =>
-      loadAssetFromPath(object, key, path, assetFromBlob, assetSpec, () =>
+      loadAssetFromPath(self, objectPath, path, assetFromBlob, assetSpec, () =>
         assetTimeouts.push([assetTimeout, performance.now()]),
       )
 
     const assetTimeout = (timeoutMs) => {
       if (!assetsLoaded[key]) {
+        // TODO: Network speed prediction is terrible and calculated timeout
+        // needs to be more conservative
+        return
         if (totalRetryAttemptsMade < maxRetryAttempts) {
           console.log(
             `Failed to load ${path} after ${timeoutMs}ms, retrying...`,
@@ -202,30 +212,68 @@ function Assets(spec) {
     }
   }
 
-  function load(object, folders = []) {
+  function loadAssets(object, folders = []) {
     if (!checkAssetTimeoutsInterval) {
       checkAssetTimeoutsInterval = setInterval(checkAssetTimeouts, 1000)
     }
 
     _.each(object, (v, i) => {
       if (_.isObject(v)) {
-        if (_.has(v, 'src')) loadAsset(object, folders, v.src, i, v)
-        else load(v, [...folders, i])
-      } else if (_.isString(v)) loadAsset(object, folders, v, i)
+        if (_.has(v, 'src')) loadAsset(folders, i, v.src, v)
+        else loadAssets(v, [...folders, i])
+      } else if (_.isString(v)) loadAsset(folders, i, v)
     })
+  }
+
+  function loadingBarProgress(progress, total) {
+    const percent = Math.round((100 * progress) / total)
+    ui.loadingProgressBar.style.width = `${percent}%`
+  }
+
+  function hideLoadingScreen() {
+    ui.loadingProgressBarContainer.setAttribute('hide', true)
+    ui.loadingVeil.setAttribute('hide', true)
+  }
+
+  function showLoadingScreen() {
+    ui.loadingProgressBarContainer.setAttribute('hide', false)
+    ui.loadingVeil.setAttribute('hide', false)
+  }
+
+  function load(paths, _onComplete) {
+    loaded = false
+
+    onComplete = _onComplete
+
+    showLoadingScreen()
+
+    loadAssets(paths)
+
+    // If all assets happen to be already loaded,
+    // invoke callback and clean up
+    if (loadCount == 0) {
+      onFinishLoading()
+    }
+  }
+
+  function onFinishLoading() {
+    clearInterval(checkAssetTimeoutsInterval)
+    checkAssetTimeoutsInterval = null
+
+    hideLoadingScreen()
+
+    onComplete()
   }
 
   function assetLoaded(path) {
     assetsLoaded[path] = true
     loadCount--
     if (loadCount == 0) {
-      clearInterval(checkAssetTimeoutsInterval)
-      checkAssetTimeoutsInterval = null
-
-      callbacks.complete()
-    } else if (callbacks.progress) {
-      callbacks.progress(loadTotal - loadCount, loadTotal)
+      onFinishLoading()
     }
+
+    const progress = loadTotal - loadCount
+    loadingBarProgress(progress, loadTotal)
   }
 
   function handleFailure(error, path) {
@@ -237,6 +285,8 @@ function Assets(spec) {
   }
 
   return _.mixIn(self, {
+    load,
+
     get loaded() {
       return loaded
     },

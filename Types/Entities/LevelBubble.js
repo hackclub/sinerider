@@ -154,6 +154,7 @@ function LevelBubble(spec) {
       useDragCamera: false,
       isBubbleLevel: true,
       drawOrder: LAYERS.levelBubbles,
+      tryToLoadAssets: false,
     })
     bubbletLevel.awake()
     bubbletLevel.start()

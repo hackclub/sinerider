@@ -29,6 +29,10 @@ function Sound(spec) {
   let lastVol
 
   function awake() {
+    if (!howl) {
+      console.log(assets, asset)
+      debugger
+    }
     if (!domain) {
       soundId = howl.play()
       played = true

@@ -17,6 +17,7 @@ function Level(spec) {
     playBackgroundMusic,
     quads,
     darkenable,
+    tryToLoadAssets = true,
   } = spec
 
   preprocessDatum(datum)
@@ -63,10 +64,6 @@ function Level(spec) {
 
   let usingTInExpression = false
 
-  assets.sounds.level_success.volume(0.5)
-  assets.sounds.goal_success.volume(0.5)
-  assets.sounds.goal_fail.volume(0.5)
-
   if (!isBubbleLevel) {
     if (flashMathField) ui.expressionEnvelope.classList.add('flash-shadow')
     else ui.expressionEnvelope.classList.remove('flash-shadow')
@@ -81,6 +78,10 @@ function Level(spec) {
 
   // TODO: Fix hint text. Mathquill broke it
   // ui.mathField.setAttribute('placeholder', hint)
+
+  assets.sounds.level_success.volume(0.5)
+  assets.sounds.goal_success.volume(0.5)
+  assets.sounds.goal_fail.volume(0.5)
 
   openMusic = _.get(assets, openMusic, null)
   runMusic = _.get(assets, runMusic, null)
@@ -193,8 +194,11 @@ function Level(spec) {
     // Reuse datum across levels/bubbles
     if (datum._preprocessed) return
 
-    // Add biome defaults
-    if (datum.biome) _.defaults(datum, BIOMES[datum.biome])
+    // Add biome defaults + required assets
+    const biomeName = datum.biome ?? 'westernSlopes'
+    const biome = BIOMES[biomeName]
+    _.defaults(datum, biome)
+    if (biome.assets) _.merge(datum.assets, biome.assets)
 
     // Expand `dialogue` array to individual speech objects
     const dialogue = datum.dialogue
@@ -324,71 +328,21 @@ function Level(spec) {
     ui.mathFieldStatic.latex(startingExpression)
   }
 
-  const requiredAssets = new Set()
-  const assetRequests = []
-
-  function requestAssets(paths, cb) {
-    requiredAssets.add(paths)
-    assetRequests.push([paths, cb])
-  }
-
-  function assetsCompleted() {
-    assetRequests.forEach(([paths, cb]) => {
-      // Make local copy to ensure needed assets are requested
-      const localAssets = {}
-      for (const path of paths) {
-        const asset = _.get(assets, path)
-        _.set(localAssets, path, asset)
-      }
-      cb(localAssets)
-    })
-  }
-
-  function assetsProgress(loader, progress) {
-    loader.progress(progress)
-  }
-
-  function waitForAssets() {
-    // Determine assets needed
-    // const assetsNeeded =
-
-    self.sendEvent('onRequestAssetsPass', [requestAssets])
-
-    const loader = PageLoader({
-      paths: assets,
-    })
-
-    const levelAssets = assets.request(
-      requiredAssets.keys(),
-      assetsCompleted,
-      assetsProgress.bind(null, loader),
-    )
-  }
-
-  function collectRequiredAssetPaths() {
-    // Sky
-    // Sprite
-    // Sounds/music
-    // etc.
-  }
-
   function awake() {
-    // Load assets
-    const requiredAssets = collectRequiredAssetPaths()
+    if (tryToLoadAssets) {
+      self.active = false
 
-    showPageLoader()
-
-    const levelAssets = Assets({
-      loadedAssets: assets,
-      paths: requiredAssets,
-      callbacks: {
-        progress: assetsProgress,
-        completed: assetsCompleted,
-      },
-    })
+      // Load assets
+      assets.load(datum.assets, assetsCompleted)
+    } else {
+      assetsCompleted()
+    }
   }
 
   function assetsCompleted() {
+    self.active = true
+    console.log('Finished loading assets')
+
     loadDatum(spec.datum)
 
     refreshLowestOrder()

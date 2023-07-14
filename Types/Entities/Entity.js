@@ -6,7 +6,7 @@ function Entity(spec, defaultName = 'Entity', dependencies = null) {
     active = true,
     enabled = true,
     parent = null,
-    // assets = null,
+    assets = null,
     camera = null,
     screen = null,
     tickDelta = null,
@@ -32,7 +32,7 @@ function Entity(spec, defaultName = 'Entity', dependencies = null) {
 
     if (!world) world = parent.world
     if (!camera) camera = parent.camera
-    // if (!assets) assets = parent.assets
+    if (!assets) assets = parent.assets
     if (!screen) screen = parent.screen
     if (!tickDelta) tickDelta = parent.tickDelta
     if (!ui) ui = parent.ui
@@ -47,7 +47,7 @@ function Entity(spec, defaultName = 'Entity', dependencies = null) {
     self,
     camera,
     screen,
-    // assets,
+    assets,
     ctx,
     ui,
     tickDelta,

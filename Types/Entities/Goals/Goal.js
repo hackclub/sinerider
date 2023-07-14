@@ -236,7 +236,6 @@ function Goal(spec) {
     strokeColorB.lerp(flashWhite, flashProgress)
     fillColor.lerp(flashWhite, flashProgress)
 
-    // if (spec.toolbarGoal) debugger
     strokeStyle = ctx.createLinearGradient(
       (cameraDirection.x * size) / 2,
       (-cameraDirection.y * size) / 2,
