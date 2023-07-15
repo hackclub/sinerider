@@ -18,6 +18,30 @@ const VOLCANO = (() => {
     requirements: ['TWO_BELOW'],
     defaultExpression:
       '-10+\\frac{10}{1+e^{\\frac{\\left(x-200\\right)}{16}}}+\\left(1-\\frac{1}{1+\\left(\\frac{x-150}{150}\\right)^{8}}\\right)\\cdot\\left(\\left(\\sin\\left(\\frac{x}{19}\\right)+2\\right)\\cdot\\sin\\left(\\frac{x}{11}\\right)+\\sin\\left(\\frac{x}{17}\\right)\\right)+\\frac{40}{1+\\left(\\frac{x-200}{100}\\right)^{6}}-\\frac{60}{1+\\left(\\frac{x-200}{30}\\right)^{6}}+\\frac{120}{1+e^{-\\frac{\\left(-x+60\\right)}{12}}}+\\left(\\frac{x-240}{100}\\right)^{2}',
+    assets: {
+      sounds: {
+        music: {
+          volcano: {
+            start: '.mp3',
+            middle_buildup: '.mp3',
+            jump: '.mp3',
+            middle_guitar: 'middle_guitar.mp3',
+          },
+        },
+        lava_monster_roar: '.mp3',
+      },
+      images: {
+        volcano_rock_1: '.webp',
+        volcano_rock_2: '.webp',
+        volcano_rock_4: '.webp',
+        volcano_trees: '.webp',
+        volcano_tree_1: '.webp',
+        volcano_tree_2: '.webp',
+        volcano_background: '.webp',
+        volcano_background_tall: '.webp',
+        volcano_background_medium: '.webp',
+      },
+    },
     directors: [
       {
         type: 'tracking',

@@ -333,14 +333,16 @@ function Level(spec) {
       self.active = false
 
       // Load assets
-      assets.load(datum.assets, assetsCompleted)
+      assets.load(datum.assets, () => {
+        self.active = true
+        awakeWithAssets()
+      })
     } else {
-      assetsCompleted()
+      awakeWithAssets()
     }
   }
 
-  function assetsCompleted() {
-    self.active = true
+  function awakeWithAssets() {
     console.log('Finished loading assets')
 
     loadDatum(spec.datum)

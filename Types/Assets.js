@@ -58,6 +58,7 @@ function Assets() {
   }
 
   function correctNetworkSpeedPrediction(bytes, loadTimeMs) {
+    loadTimeMs = Math.max(loadTimeMs, 1)
     const bps = bytes / (loadTimeMs / 1000)
 
     const total = bytesLoaded + bytes
@@ -200,7 +201,8 @@ function Assets() {
     // Max time it could reasonably take
     // (estimate of how long it'd take to load 10 MB)
     // Constant for time being, could change w/ file
-    const timeoutMs = ((10 * 1024 * 1024) / predictedNetworkSpeedBps) * 1000
+    let timeoutMs = ((10 * 1024 * 1024) / predictedNetworkSpeedBps) * 1000
+    timeoutMs = Math.max(timeoutMs, 1000)
 
     const now = performance.now()
 

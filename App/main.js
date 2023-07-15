@@ -436,14 +436,15 @@ ui.githubLinkRedirect.addEventListener('click', function (event) {
 })
 
 // Initial page state
-{
+function initPageState() {
   let volume = window.localStorage.getItem('volume')
   if (volume) {
     setGlobalVolumeLevel(window.localStorage)
     ui.volumeSlider.value = volume * 100
   }
+
+  setGlobalVolumeLevel(ui.volumeSlider.value / 100)
 }
-setGlobalVolumeLevel(ui.volumeSlider.value / 100)
 
 function onClickMapButton(event) {
   world.onClickMapButton()

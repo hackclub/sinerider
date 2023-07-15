@@ -488,6 +488,9 @@ function World(spec) {
     })
     navigator.active = false
 
+    const startingBubble = navigator.getBubbleByNick(firstLevelNick)
+    navigator.initialBubble = startingBubble
+
     // Set misc. page settings (e.g. volume)
     initPageState()
 
