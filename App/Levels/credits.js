@@ -10,6 +10,13 @@ const CREDITS = {
   defaultExpression:
     '\\frac{-2}{1+e^{-x+5}}+\\frac{-2}{1+\\left(x-30\\right)^2}',
   clouds: {},
+  assets: {
+    sounds: {
+      music: {
+        credits: '.mp3',
+      },
+    },
+  },
   directors: [
     {
       type: 'lerp',

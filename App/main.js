@@ -211,6 +211,7 @@ const screen = Screen({
 let w = worldData[0]
 
 const IS_PRODUCTION = window.location.hostname === 'sinerider.com'
+const IS_DEVELOPMENT = !IS_PRODUCTION
 
 // Don't show debug info in production
 if (IS_PRODUCTION) ui.levelInfoDiv.setAttribute('hide', true)
@@ -222,7 +223,7 @@ let DEBUG_LEVEL = null
 // DEBUG_LEVEL = 'Two Below'
 // DEBUG_LEVEL = 'Time Hard'
 
-if (!IS_PRODUCTION && DEBUG_LEVEL) {
+if (IS_DEVELOPMENT && DEBUG_LEVEL) {
   // make debug level first level for testing
   const debugLevelIndex = w.levelData.findIndex((l) => l.name === DEBUG_LEVEL)
   if (debugLevelIndex == -1)

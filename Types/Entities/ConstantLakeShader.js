@@ -1,7 +1,7 @@
 function ConstantLakeShader(spec) {
   const { self, screen } = Entity(spec, 'ConstantLakeShader')
 
-  const { quad, walkerPosition } = spec
+  const { getWalkerPosition, defaultExpression = 'x' } = spec
 
   const ctx = screen.ctx
 
@@ -12,14 +12,15 @@ function ConstantLakeShader(spec) {
 
   let shouldTick = false
 
-  function onRequestAssetsPass(requestAssets) {
-    requestAssets(['shaders'], (assets) => {
-      localAssets = assets
-    })
-  }
+  const quad = ConstantLakeSunsetQuad({
+    defaultExpression,
+    assets,
+  })
+
+  self.mix(quad)
 
   function draw() {
-    quad.render(walkerPosition.x)
+    quad.render(getWalkerPosition())
     ctx.drawImage(quad.localCanvas, 0, 0, screen.width, screen.height)
     shouldTick = true
   }

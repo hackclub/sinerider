@@ -329,6 +329,16 @@ function Level(spec) {
   }
 
   function awake() {
+    /* Initialization tasks that can be done
+    without assets */
+
+    // Can be overridden, use self.
+    self.initMathEditor()
+
+    // For puzzles, enable stop button
+    ui.stopButton.classList.remove('disabled')
+
+    /* Load assets */
     if (tryToLoadAssets) {
       self.active = false
 
@@ -347,6 +357,11 @@ function Level(spec) {
 
     loadDatum(spec.datum)
 
+    // Allow for overload from subclass
+    self.awakeWithAssetsAndDatum()
+  }
+
+  function awakeWithAssetsAndDatum() {
     refreshLowestOrder()
 
     // Add a variable to globalScope for player position
@@ -354,12 +369,6 @@ function Level(spec) {
     assignPlayerPosition()
 
     if (playBackgroundMusic) playBackgroundMusic(datum.backgroundMusic, self)
-
-    // Can be overridden, use self.
-    self.initMathEditor()
-
-    // For puzzles, enable stop button
-    ui.stopButton.classList.remove('disabled')
   }
 
   function start() {}
@@ -459,8 +468,13 @@ function Level(spec) {
     const playerEntity =
       walkers.length > 0 ? walkers[0] : sledders.length > 0 ? sledders[0] : axes
 
-    globalScope.p.re = playerEntity.transform.position.x
-    globalScope.p.im = playerEntity.transform.position.y
+    // TODO: assignPlayerPosition() shouldn't exist,
+    // as it abuses globalScope
+
+    if (playerEntity) {
+      globalScope.p.re = playerEntity.transform.position.x
+      globalScope.p.im = playerEntity.transform.position.y
+    }
   }
 
   function addGoal(goalDatum) {
@@ -829,15 +843,15 @@ function Level(spec) {
 
     if (datum.clouds) setClouds(datum.clouds)
     if (datum.water && !isBubbleLevel) {
-      Water({
-        parent: self,
-        camera,
-        waterQuad: quads.water,
-        screen: darkenBufferOrScreen,
-        globalScope,
-        drawOrder: LAYERS.backSprites,
-        ...datum.water,
-      })
+      // Water({
+      //   parent: self,
+      //   camera,
+      //   waterQuad: quads.water,
+      //   screen: darkenBufferOrScreen,
+      //   globalScope,
+      //   drawOrder: LAYERS.backSprites,
+      //   ...datum.water,
+      // })
     }
     if (datum.lava && !isBubbleLevel) {
       lava = Water({
@@ -1000,6 +1014,7 @@ function Level(spec) {
 
   return self.mix({
     awake,
+    awakeWithAssetsAndDatum,
     start,
     destroy,
 

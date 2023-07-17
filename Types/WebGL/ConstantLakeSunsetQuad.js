@@ -1,8 +1,10 @@
 /**
  * Sunset shader class for Constant Lake scene
  */
-function ConstantLakeSunsetQuad(defaultExpression, assets) {
+function ConstantLakeSunsetQuad(spec) {
   let canvas = document.createElement('canvas')
+
+  const { defaultExpression, assets } = spec
 
   canvas.width = innerWidth
   canvas.height = innerHeight

@@ -259,6 +259,11 @@ function Assets() {
   }
 
   function onFinishLoading() {
+    if (IS_DEVELOPMENT) {
+      // For Puppeteer
+      console.log('FINISHED_LOADING_ASSETS')
+    }
+
     clearInterval(checkAssetTimeoutsInterval)
     checkAssetTimeoutsInterval = null
 

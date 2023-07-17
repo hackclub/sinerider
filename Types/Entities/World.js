@@ -87,6 +87,10 @@ function World(spec) {
   const urlData = getUrlData()
   const firstLevelNick = getFirstLevelNick(urlData)
   const firstLevelDatum = getLevelDatum(firstLevelNick, urlData)
+  if (!firstLevelDatum) {
+    // TODO: Clean up error handling
+    alert(`Level specified ('${firstLevelNick}') doesn\'t exist :(`)
+  }
 
   _.merge(spec.assets, firstLevelDatum.assets)
 
@@ -429,7 +433,8 @@ function World(spec) {
     return null
   }
 
-  function getFirstLevelNick() {
+  function getFirstLevelNick(urlData) {
+    if (urlData?.nick) return urlData.nick
     if (_.endsWith(location.href, '#random')) return 'RANDOM'
     else if (
       playerStorage.activeLevel &&

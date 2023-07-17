@@ -51,7 +51,7 @@ function ClickableContext(spec) {
     }
 
     // Ping every clickable in this tree
-    entity.sendEvent('clickable.' + eventName, [mousePoint])
+    entity.sendEvent('clickable.' + eventName, [mousePoint, eventData])
   }
 
   function deselect(entity) {

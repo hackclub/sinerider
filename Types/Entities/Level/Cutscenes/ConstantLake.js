@@ -1,7 +1,7 @@
 function ConstantLake(spec) {
-  const VECTOR_FIELD_START_X = 13.5
-  const VECTOR_FIELD_END_X = 17.5
-  const DEFAULT_VECTOR_FIELD =
+  const vectorFieldStartX = 13.5
+  const vectorFieldEndX = 17.5
+  const defaultVectorField =
     '\\frac{(\\sin (x)-(y-2)\\cdot i)\\cdot i}{2}+\\frac{x}{4}+\\frac{y\\cdot i}{5}'
 
   const { datum, quads, savedLatex } = spec
@@ -14,21 +14,10 @@ function ConstantLake(spec) {
 
   const base = _.mix(self)
 
-  const startingVectorFieldExpression = savedLatex ?? DEFAULT_VECTOR_FIELD
+  const startingVectorFieldExpression = savedLatex ?? defaultVectorField
 
   let vectorExpression = startingVectorFieldExpression
   let vectorEditorIsActive = false
-
-  const walker = walkers[0]
-
-  ConstantLakeShader({
-    parent: self,
-    screen,
-    assets,
-    quad: quads.sunset,
-    drawOrder: LAYERS.sky,
-    walkerPosition: walker.transform.position,
-  })
 
   const showUIAnimation = {
     keyframes: [
@@ -55,13 +44,50 @@ function ConstantLake(spec) {
     },
   }
 
+  const shader = ConstantLakeShader({
+    parent: self,
+    screen,
+    assets,
+    quad: quads.sunset,
+    drawOrder: LAYERS.sky,
+    getWalkerPosition,
+  })
+
+  // Hide math editor (temporarily) in constructor to fix jitter
+  ui.expressionEnvelope.setAttribute('hide', true)
+
+  function getWalkerPosition() {
+    return walkers[0]?.transform.x ?? 0
+  }
+
+  function setWalkerPosition(x) {
+    if (walkers[0]) walkers[0].transform.x = x
+  }
+
+  function awakeWithAssetsAndDatum() {
+    base.awakeWithAssetsAndDatum()
+
+    if (savedLatex) {
+      // Bit before end of level but when stars are fully visible
+      setWalkerPosition(23)
+    }
+
+    // TODO: Rework running, starting/stopping (should be managed by Level?)
+    world._startRunning(false, false, false)
+
+    // Hide math field by default
+    ui.expressionEnvelope.classList.add('hidden')
+
+    ui.stopButton.classList.add('disabled')
+  }
+
   function shouldShowSkipCutsceneButton() {
-    return walker.transform.x < 6
+    return !savedLatex && getWalkerPosition() < 6
   }
 
   function getDefaultExpression() {
     // Restart w/ default vector field expression rather than graph
-    return DEFAULT_VECTOR_FIELD
+    return defaultVectorField
   }
 
   function setGraphExpression(text, latex) {
@@ -74,15 +100,15 @@ function ConstantLake(spec) {
     self.save()
 
     // Update background shader
-    quads.sunset.setVectorFieldExpression(text)
+    shader.setVectorFieldExpression(text)
   }
 
   function getTime() {
-    return walker.transform.x
+    return getWalkerPosition()
   }
 
   function updateMathEditor(x) {
-    if (x > VECTOR_FIELD_END_X && !vectorEditorIsActive) {
+    if (x > vectorFieldEndX && !vectorEditorIsActive) {
       // If walker is past a certain point and vector editor
       // hasn't been shown yet, show editor
       vectorEditorIsActive = true
@@ -95,7 +121,7 @@ function ConstantLake(spec) {
         showUIAnimation.options,
       )
       ui.resetButton.animate(showUIAnimation.keyframes, showUIAnimation.options)
-    } else if (x < VECTOR_FIELD_START_X && vectorEditorIsActive) {
+    } else if (x < vectorFieldStartX && vectorEditorIsActive) {
       // Otherwise, if walker is behind a different point and vector
       // editor is currently shown, hide editor
       vectorEditorIsActive = false
@@ -119,7 +145,7 @@ function ConstantLake(spec) {
   function tick() {
     base.tick()
 
-    const x = walker.transform.x
+    const x = getWalkerPosition()
 
     updateMathEditor(x)
 
@@ -136,23 +162,6 @@ function ConstantLake(spec) {
     //     if (w.hasDarkMode) w.darkModeOpacity = walkerDarkenOpacity
     //   }
     // }
-  }
-
-  function awake() {
-    base.awake()
-
-    if (savedLatex) {
-      // Bit before end of level but when stars are fully visible
-      walker.transform.x = 23
-    }
-
-    // TODO: Rework running, starting/stopping (should be managed by Level?)
-    world._startRunning(false, false, false)
-
-    // Hide math field by default
-    ui.expressionEnvelope.classList.add('hidden')
-
-    ui.stopButton.classList.add('disabled')
   }
 
   function initMathEditor() {
@@ -178,18 +187,19 @@ function ConstantLake(spec) {
 
   return self.mix({
     tick,
-    awake,
+    awakeWithAssetsAndDatum,
     setGraphExpression,
 
     getDefaultExpression,
     getTime,
 
-    getDefaultExpression,
     initMathEditor,
 
     serialize,
 
     shouldShowSkipCutsceneButton,
+
+    awakeWithAssetsAndDatum,
 
     // Used by Walkers
     get darkenable() {

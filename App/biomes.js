@@ -70,6 +70,11 @@ const BIOMES = {
       margin: 1,
     },
     assets: {
+      sounds: {
+        music: {
+          eternal_canyon_puzzle: '.mp3',
+        },
+      },
       images: {
         eternal_canyon_background: '.webp',
       },

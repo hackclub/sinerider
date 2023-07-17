@@ -106,14 +106,14 @@ function Clickable(spec) {
     sendEvent('hoverOff', [hoverOffPoint])
   }
 
-  function mouseDown(point) {
+  function mouseDown(point, eventData) {
     recordPoint(point, mouseDownPoint)
 
     if (hovering) {
       holding = true
       recordPoint(point, dragStartPoint)
 
-      sendEvent('mouseDown', [mouseDownPoint])
+      sendEvent('mouseDown', [mouseDownPoint, eventData])
     }
   }
 
