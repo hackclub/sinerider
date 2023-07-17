@@ -164,7 +164,6 @@ function PanDirector(spec) {
 
   function mouseDown(point, eventData) {
     const button = eventData.button
-    console.log('button', button)
     if (button !== 2) {
       heldDown = true
       updateVelocity(point)

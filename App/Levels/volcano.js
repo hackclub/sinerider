@@ -12,7 +12,6 @@ const VOLCANO = (() => {
     camera: {
       x: 2,
       y: 0,
-      fov: 21,
     },
     victoryX: 760,
     requirements: ['TWO_BELOW'],
@@ -40,6 +39,10 @@ const VOLCANO = (() => {
         volcano_background: '.webp',
         volcano_background_tall: '.webp',
         volcano_background_medium: '.webp',
+        // TODO: Clean up lavamonster background
+        // and convert png -> webp
+        lavamonster: 'lavamonster_no_bg.png',
+        lavamonster_jaw: '.png',
       },
     },
     directors: [
@@ -191,7 +194,7 @@ const VOLCANO = (() => {
     walkers: [
       {
         x: -118,
-        // x: -52,
+        x: -50,
         range: [-130, 10000],
         asset: 'images.jack_float',
         name: 'Jack',

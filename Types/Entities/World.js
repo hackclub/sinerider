@@ -434,6 +434,7 @@ function World(spec) {
   }
 
   function getFirstLevelNick(urlData) {
+    if (IS_DEVELOPMENT && DEBUG_LEVEL_NICK) return DEBUG_LEVEL_NICK
     if (urlData?.nick) return urlData.nick
     if (_.endsWith(location.href, '#random')) return 'RANDOM'
     else if (

@@ -210,14 +210,14 @@ function Rigidbody(spec) {
 
   function draw(ctx) {
     if (grounded) {
-      drawDebugVector(ctx, collisionNormal, 'green')
-      drawDebugVector(ctx, collisionTangent, 'red')
-      drawDebugVector(ctx, upright, 'yellow')
-      drawDebugVector(ctx, graphVelocity, 'cyan')
-      drawDebugVector(ctx, depenetration, 'pink')
+      // drawDebugVector(ctx, collisionNormal, 'green')
+      // drawDebugVector(ctx, collisionTangent, 'red')
+      // drawDebugVector(ctx, upright, 'yellow')
+      // drawDebugVector(ctx, graphVelocity, 'cyan')
+      // drawDebugVector(ctx, depenetration, 'pink')
     }
 
-    drawDebugVector(ctx, velocity, 'orange')
+    // drawDebugVector(ctx, velocity, 'orange')
   }
 
   function resetVelocity() {

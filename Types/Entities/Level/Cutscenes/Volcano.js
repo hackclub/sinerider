@@ -1,36 +1,37 @@
 function Volcano(spec) {
-  const { self, sky, graph, lava, sledders } = Cutscene(spec)
+  const { self, sky, graph, lava, sledders, camera } = Cutscene(spec)
 
   const base = _.mix(self)
 
-  // Initially inactive, becomes active through specified
-  // transition; the x of which is then used to drive the scene
-  const sledder = sledders[0]
-
-  if (!sledder) {
-    throw `Expected sledder for Volcano level`
-  }
+  // Same as Constant Lake
+  const defaultVectorField =
+    '\\frac{(\\sin (x)-(y-2)\\cdot i)\\cdot i}{2}+\\frac{x}{4}+\\frac{y\\cdot i}{5}'
 
   const volcanoSunset = VolcanoSunsetShader({
     parent: self,
     screen,
-    quad: quads.volcanoSunset,
     drawOrder: LAYERS.sky,
+    getSledderPosition,
+    defaultExpression: mathquillToMathJS(defaultVectorField),
   })
 
   LavaMonster({
     parent: self,
-    sledder,
     screen,
     drawOrder: LAYERS.backSprites - 1,
     camera,
     globalScope,
+    getSledderPosition,
   })
+
+  function getSledderPosition() {
+    return sledders[0]?.transform.x ?? 0
+  }
 
   function tick() {
     base.tick()
 
-    const x = sledder.transform.x
+    const x = getSledderPosition()
     const sunsetTime = Math.exp(-(((x - 205) / 100) ** 2))
 
     globalScope.timescale = 1 - sunsetTime * 0.7

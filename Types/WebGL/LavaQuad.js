@@ -1,4 +1,6 @@
-function LavaQuad(assets) {
+function LavaQuad(spec) {
+  const { assets } = spec
+
   const canvas = document.createElement('canvas')
 
   canvas.width = 1024

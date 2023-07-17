@@ -7,7 +7,6 @@ const LAYERS = {
   backSprites: -10,
   walkers: 1,
   sledders: 2,
-  sledders: Infinity,
   foreSprites: 10,
   snow: 20,
   graph: 30,

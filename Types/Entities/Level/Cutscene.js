@@ -1,6 +1,11 @@
 // TODO: Maybe Cutscene isn't a useful abstraction? (Not worth minor code reuse)
 function Cutscene(spec) {
-  const { self, ui, levelCompleted } = Level(spec)
+  const { self, ui, levelCompleted, datum, sledders, walkers } = Level(spec)
+
+  const {
+    // Special property for cutscenes
+    victoryX,
+  } = datum
 
   const base = _.mix(self)
 
@@ -67,8 +72,26 @@ function Cutscene(spec) {
     return globalScope.t < 10
   }
 
+  function getCutsceneX() {
+    return (
+      (
+        sledders.find((sledder) => sledder.active) ??
+        walkers.find((walker) => walker.active)
+      )?.transform.x ?? -Infinity
+    )
+  }
+
+  function getTime() {
+    return self.getCutsceneX()
+  }
+
   function tick() {
     base.tick()
+
+    // if (victoryX != null && self.getCutsceneX() > victoryX) {
+    //   completed = true
+    //   levelCompleted(true)
+    // }
 
     if (self.shouldShowSkipCutsceneButton() && !showingSkipCutsceneButton) {
       showingSkipCutsceneButton = true
@@ -112,8 +135,11 @@ function Cutscene(spec) {
     destroy,
     tick,
 
+    getCutsceneX,
+    getTime,
+
     get isCutscene() {
-      // Falsy (null) by default
+      // Overriding falsy (null) by default in Level.js
       return true
     },
 

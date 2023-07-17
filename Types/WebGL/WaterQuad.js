@@ -1,4 +1,6 @@
-function WaterQuad(assets) {
+function WaterQuad(spec) {
+  const { assets } = spec
+
   const canvas = document.createElement('canvas')
 
   canvas.width = 1024

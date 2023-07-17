@@ -216,22 +216,12 @@ const IS_DEVELOPMENT = !IS_PRODUCTION
 // Don't show debug info in production
 if (IS_PRODUCTION) ui.levelInfoDiv.setAttribute('hide', true)
 
-let DEBUG_LEVEL = null
-// DEBUG_LEVEL = 'Level Editor'
-// DEBUG_LEVEL = 'Volcano'
-// DEBUG_LEVEL = 'Constant Lake'
-// DEBUG_LEVEL = 'Two Below'
-// DEBUG_LEVEL = 'Time Hard'
-
-if (IS_DEVELOPMENT && DEBUG_LEVEL) {
-  // make debug level first level for testing
-  const debugLevelIndex = w.levelData.findIndex((l) => l.name === DEBUG_LEVEL)
-  if (debugLevelIndex == -1)
-    alert(`DEBUG: Unable to find level '${DEBUG_LEVEL}'`)
-  const tmp = w.levelData[0]
-  w.levelData[0] = w.levelData[debugLevelIndex]
-  w.levelData[debugLevelIndex] = tmp
-}
+let DEBUG_LEVEL_NICK = null
+// DEBUG_LEVEL_NICK = 'Level Editor'
+DEBUG_LEVEL_NICK = 'VOLCANO'
+// DEBUG_LEVEL_NICK = 'Constant Lake'
+// DEBUG_LEVEL_NICK = 'Two Below'
+// DEBUG_LEVEL_NICK = 'Time Hard'
 
 const world = World({
   ui,

@@ -69,8 +69,11 @@ function Navigator(spec) {
   function tick() {
     if (bubbleRenderQueue.length > 0) {
       let b = 0
-      while (b++ <= bubbleRenderCap && bubbleRenderQueue.length > 0)
-        bubbleRenderQueue.pop().render()
+      while (b++ <= bubbleRenderCap && bubbleRenderQueue.length > 0) {
+        const bubble = bubbleRenderQueue.pop()
+        console.log('Rendering bubble', bubble.nick)
+        bubble.render()
+      }
     }
   }
 

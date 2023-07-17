@@ -1,7 +1,7 @@
 function ConstantLakeShader(spec) {
   const { self, screen } = Entity(spec, 'ConstantLakeShader')
 
-  const { getWalkerPosition, defaultExpression = 'x' } = spec
+  const { getWalkerPosition, defaultExpression } = spec
 
   const ctx = screen.ctx
 

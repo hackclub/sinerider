@@ -32,7 +32,6 @@ function Level(spec) {
     flashRunButton = false,
     runAsCutscene = false,
     camera: cameraSpec = {},
-    victoryX = null,
     graphType = 'cartesian',
     minTheta = 0,
     maxTheta = TAU,
@@ -415,14 +414,6 @@ function Level(spec) {
     return savedLatex ?? defaultExpression
   }
 
-  function getCutsceneDistanceParameter() {
-    let playerEntity =
-      walkers.find((s) => s.active) || sledders.find((w) => w.active)
-    if (!playerEntity)
-      throw "Couldn't find a player entity for cutscene distance parameter"
-    return playerEntity?.transform.x
-  }
-
   function getTime() {
     return globalScope.t
   }
@@ -431,11 +422,13 @@ function Level(spec) {
     _.each(walkers, checkTransition)
     _.each(sledders, checkTransition)
 
-    if (victoryX != null && !completed) {
-      if (getCutsceneDistanceParameter() > victoryX) {
-        completed = true
-        levelCompleted(true)
-      }
+    if (
+      datum.victoryX != null &&
+      self.getCutsceneX &&
+      self.getCutsceneX() > datum.victoryX
+    ) {
+      completed = true
+      levelCompleted(true)
     }
 
     // Can be overridden (self.)
@@ -447,21 +440,6 @@ function Level(spec) {
     ui.stopButtonString.innerHTML = 't=' + time
 
     assignPlayerPosition()
-
-    if (isVolcano() && !isBubbleLevel) {
-      let sunsetTime
-      const x = sledders[0]?.transform.x
-      sunsetTime = x ? Math.exp(-(((x - 205) / 100) ** 2)) : 0
-      globalScope.timescale = 1 - sunsetTime * 0.7
-      camera.shake = sunsetTime > 0.1 ? sunsetTime * 0.3 : 0
-      const vel = sledders[0]?.velocity ?? 20
-      const motionBlur = Math.min((vel / 40) * 4, 10)
-
-      volcanoSunset.blur = motionBlur
-      sky.blur = motionBlur
-      graph.blur = motionBlur
-      lava.blur = motionBlur
-    }
   }
 
   function assignPlayerPosition() {
@@ -763,10 +741,6 @@ function Level(spec) {
     refreshLowestOrder()
   }
 
-  function isVolcano() {
-    return datum.name === 'Volcano'
-  }
-
   function setSky(skyDatum) {
     if (sky) sky.destroy()
     if (skyDatum)
@@ -857,7 +831,8 @@ function Level(spec) {
       lava = Water({
         parent: self,
         camera,
-        waterQuad: quads.lava,
+        // TODO: Clean up
+        lava: true,
         screen: darkenBufferOrScreen,
         globalScope,
         drawOrder: LAYERS.backSprites,
@@ -1043,10 +1018,6 @@ function Level(spec) {
     restart,
     reset,
 
-    get cutsceneDistanceParameter() {
-      return getCutsceneDistanceParameter()
-    },
-
     save,
 
     playOpenMusic,
@@ -1059,6 +1030,10 @@ function Level(spec) {
     enableGridlines,
     disableGridlines,
     selectScreenCoordinates,
+
+    get datum() {
+      return datum
+    },
 
     get isRunningAsCutscene() {
       return runAsCutscene

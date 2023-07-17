@@ -1,5 +1,7 @@
 let sunsetTime = 0
-function VolcanoSunsetQuad(defaultExpression, assets) {
+function VolcanoSunsetQuad(spec) {
+  const { defaultExpression, getSledderPosition, assets } = spec
+
   let local = document.createElement('canvas')
 
   local.width = innerWidth
@@ -130,8 +132,8 @@ function VolcanoSunsetQuad(defaultExpression, assets) {
 
       const [dx, dy] = vectorField(x, y, t)
 
-      const newX = eta * dx + normX
-      const newY = eta * dy + normY
+      const newX = eta * tickDelta * dx + normX
+      const newY = eta * tickDelta * dy + normY
 
       // otherwise nudge w/ gradient
       oldParticlePositions[index] = normX
@@ -209,7 +211,7 @@ function VolcanoSunsetQuad(defaultExpression, assets) {
     particleColorBuffer.data(particleColors)
 
     // sunsetTime = world.level.sledders[0].transform.x/221 * 12
-    const x = world.level.sledders[0].transform.x
+    const x = getSledderPosition()
     sunsetTime = 12 * Math.exp(-(((x - 221) / 100) ** 2))
   }
 

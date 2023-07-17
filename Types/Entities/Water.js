@@ -1,7 +1,11 @@
 function Water(spec) {
   const { self, screen, camera } = Entity(spec, 'Water')
 
-  let { size, waterQuad } = spec
+  let { size, lava = false } = spec
+
+  const waterQuad = (lava ? LavaQuad : WaterQuad)({
+    assets,
+  })
 
   const ctx = screen.ctx
 

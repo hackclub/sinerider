@@ -1,7 +1,7 @@
 function LavaMonster(spec) {
   const { self, camera, screen } = Entity(spec, 'LavaMonster')
 
-  const { sledder } = spec
+  const { getSledderPosition } = spec
 
   const transform = Transform(spec, self)
 
@@ -38,7 +38,7 @@ function LavaMonster(spec) {
     transform.position.x = 0
     transform.position.y = 110
 
-    const x = sledder.transform.x
+    const x = getSledderPosition()
 
     const tangentAngle = Math.atan(-(x - 250) / 150)
     transform.rotation = tangentAngle
