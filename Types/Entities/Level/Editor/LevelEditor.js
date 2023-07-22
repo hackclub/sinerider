@@ -158,8 +158,10 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
     inputs.y.value = selection.y ? selection.y.toFixed(2) : ''
     inputs.timer.value = selection.timer ?? ''
 
-    inputs.start.value = stringifyInputNumber(selection.starting)
-    inputs.end.value = stringifyInputNumber(selection.ending)
+    if (selection.starting)
+      inputs.start.value = stringifyInputNumber(selection.starting)
+    if (selection.ending)
+      inputs.end.value = stringifyInputNumber(selection.ending)
 
     // Save to URL
     self.save()

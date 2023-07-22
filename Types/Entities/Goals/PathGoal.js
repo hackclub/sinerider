@@ -508,7 +508,7 @@ function PathGoal(spec) {
 
   function setEnd(newEnd) {
     const newPathEndX = newEnd - transform.x
-    setEnds(pathStart.x, newPathEndX)
+    setEnds(pathStart.x, Math.max(pathStart.x + 1, newPathEndX))
     editor.update()
   }
 
