@@ -218,7 +218,7 @@ if (IS_PRODUCTION) ui.levelInfoDiv.setAttribute('hide', true)
 
 let DEBUG_LEVEL_NICK = null
 // DEBUG_LEVEL_NICK = 'Level Editor'
-DEBUG_LEVEL_NICK = 'VOLCANO'
+// DEBUG_LEVEL_NICK = 'VOLCANO'
 // DEBUG_LEVEL_NICK = 'Constant Lake'
 // DEBUG_LEVEL_NICK = 'Two Below'
 // DEBUG_LEVEL_NICK = 'Time Hard'
