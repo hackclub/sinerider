@@ -331,8 +331,6 @@ function Level(spec) {
     /* Initialization tasks that can be done
     without assets */
 
-    self.save()
-
     // Can be overridden, use self.
     self.initMathEditor()
 
