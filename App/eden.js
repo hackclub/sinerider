@@ -7,12 +7,18 @@ worldData.push({
     images: {
       initial_bg: 'initial-bg.webp',
       western_slopes_background: '.webp',
+      western_slopes_background_no_sky: '.webp',
       valley_parabola_background: '.webp',
       eternal_canyon_background: '.webp',
       sinusoidal_desert_background: '.webp',
       logistic_dunes_background: '.webp',
       hilbert_delta_background: '.webp',
+      volcano_background_tall: '.webp',
 
+      volcano_rock_1: '.webp',
+      volcano_tree_1: '.webp',
+      volcano_tree_2: '.webp',
+      
       ada_sled: '.webp',
       jack_sled: '.webp',
       ada_jack_sled: '.webp',
