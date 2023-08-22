@@ -455,7 +455,7 @@ input[valid='false'] {
 
 /* TODO: Clean up settings button, use existing CSS */
 #settings-button {
-  margin-right: 20px;
+  margin-left: 70px;
   border-radius: 0 0 10px 10px;
   font-size: 2.4rem;
 }
@@ -589,23 +589,9 @@ input[valid='false'] {
   transition: 0.05s;
 }
 
-#volume-slider-box {
-  transition-duration: 1s;
-  border: 2px solid rgba(255, 255, 255, 0);
-  padding: 10px;
-  border-radius: 0 0 10px 0;
-}
-#volume-slider-box:hover {
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(9px);
-}
-
 #volume-slider {
-  opacity: 0;
-  transition-duration: 1s;
-}
-#volume-slider-box:hover > #volume-slider {
   opacity: 1;
+  transition-duration: 1s;
 }
 
 #top-bar[hide='true'] {
@@ -1032,10 +1018,6 @@ input[valid='false'] {
     padding: 0px;
     border-radius: 5px;
     margin: 0;
-  }
-
-  #volume-slider-box {
-    display: none;
   }
 
   #navigator-floating-bar {
