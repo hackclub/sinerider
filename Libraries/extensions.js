@@ -1,12 +1,5 @@
 // Extensions to external libraries that I need for my own sick purposes
 
-function tn(spec) {
-  if (spec[LANGUAGE] == undefined) {
-    return spec.en
-  }
-  return spec['LANGUAGE']
-}
-
 // lodash
 
 _.tryInvoke = function (object, path, ...args) {

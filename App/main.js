@@ -1,6 +1,5 @@
 // Welcome to main.js, where we set up the SineRider engine basics
 
-const LANGUAGE = 'en'
 const stepping = false
 
 // Core constants

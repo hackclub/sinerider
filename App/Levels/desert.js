@@ -74,7 +74,10 @@ const DESERT = {
     {
       speaker: 'Ada',
       color: '#FFF',
-      content: 'Well, how was it?',
+      content: tn({
+        en: 'Well, how was it?', 
+        es: '¿Qué tal estuvo?',
+      }),
       direction: 'up-up-left',
     },
     {
