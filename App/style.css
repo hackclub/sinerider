@@ -455,8 +455,21 @@ input[valid='false'] {
 
 /* TODO: Clean up settings button, use existing CSS */
 #settings-button {
-  margin-left: 25px;
-  border-radius: 0 0 10px 10px;
+  margin-top:8px;
+  margin-left:8px;
+
+  padding: 0 8px;
+
+  background: transparent;
+
+  border-radius: 5px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: 0.2s;
   font-size: 2.4rem;
 }
 
