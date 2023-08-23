@@ -455,7 +455,7 @@ input[valid='false'] {
 
 /* TODO: Clean up settings button, use existing CSS */
 #settings-button {
-  margin-left: 70px;
+  margin-left: 25px;
   border-radius: 0 0 10px 10px;
   font-size: 2.4rem;
 }
@@ -1203,7 +1203,7 @@ input[valid='false'] {
 
 #lvl-debug-info {
   position: absolute;
-  left: 25px;
+  margin-left: 75px;
   top: 10px;
   font-size: 10px;
   width: 350px;

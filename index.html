@@ -100,11 +100,24 @@
 
     <div class="bar floating top" id="top-bar" hide="false">
       <div
-      class="button tooltip"
+      class="tooltip"
       id="settings-button"
       data-tooltip="Settings"
     >
-      <div class="string">⚙️</div>
+      <div class="" id="gear">⚙️</div>
+    </div>
+    <div id="lvl-debug-info" hide="true">
+      <div class="grid">
+        <div class="string debugtitle">Level name:</div>
+        <div class="string debuginfo" id="lvl-name-str">N/A</div>
+        <div class="string debugtitle">Level nick:</div>
+        <div class="string debuginfo" id="lvl-nick-str">N/A</div>
+        <div class="string debugtitle">FPS:</div>
+        <div class="string debuginfo" id="lvl-fps-str">N/A</div>
+      </div>
+      <div class="button" id="button-hide-level-info" hide="true">
+        <div class="string">X</div>
+      </div>
     </div>
       <!-- when i move this it doesn't allow me to click on puzzles -->
       <!-- <div class="try-again-button">
@@ -358,6 +371,12 @@
     </dialog>
 
     <dialog id="graphics-settings-dialog">
+      <div>
+        <div>
+          <label>Volume</label>
+          <input id="volume-slider" type="range" orient="horizontal" />
+        </div>
+      </div>
       <div class="string">Graphics Settings</div>
       <div>
         <label>Resolution</label>
@@ -371,11 +390,7 @@
         <label>Misc. Graphics</label>
         <button class="button" id="set-misc-graphics-button">High</button>
       </div>
-      <div>
-        <div>
-          <label>Volume</label>
-          <input id="volume-slider" type="range" orient="horizontal" />
-        </div>
+      
     </dialog>
 
     <div class="bar message" id="message-bar" hide="true">
@@ -461,20 +476,6 @@
     </div>
 
     <div class="veil" id="veil" hide="true"></div>
-
-    <div id="lvl-debug-info" hide="true">
-      <div class="grid">
-        <div class="string debugtitle">Level name:</div>
-        <div class="string debuginfo" id="lvl-name-str">N/A</div>
-        <div class="string debugtitle">Level nick:</div>
-        <div class="string debuginfo" id="lvl-nick-str">N/A</div>
-        <div class="string debugtitle">FPS:</div>
-        <div class="string debuginfo" id="lvl-fps-str">N/A</div>
-      </div>
-      <div class="button" id="button-hide-level-info" hide="true">
-        <div class="string">X</div>
-      </div>
-    </div>
 
     <div class="loading veil" id="loading-veil" hide="false">
       <div id="flag">
