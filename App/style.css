@@ -912,6 +912,14 @@ input[valid='false'] {
   bottom: calc(80% + 20px);
   left: 90%;
 }
+.right{
+  left: 130%;
+  top: 0%;
+}
+.left{
+  right: 130%;
+  top: 0%;
+}
 .bottom-left {
   right: 23% !important;
   top: 103% !important;
@@ -934,6 +942,26 @@ input[valid='false'] {
   border-bottom: 10px solid transparent;
   right: -2px;
   bottom: -20px;
+}
+.helper-bubble.right:before{
+  border-left: 10px solid transparent;
+  border-right: 10px solid black;
+  border-top: 10px solid black;
+  border-bottom: 10px solid transparent;
+  left: -10px;
+  bottom: 15%;
+  transform: translate(0, 50%);
+  transform: rotate(225deg);
+}
+.helper-bubble.left:before{
+  border-left: 10px solid transparent;
+  border-right: 10px solid black;
+  border-top: 10px solid black;
+  border-bottom: 10px solid transparent;
+  right: -10px;
+  bottom: 15%;
+  transform: translate(0, 50%);
+  transform: rotate(45deg);
 }
 .helper-bubble.top-right:before {
   border-left: 10px solid black;
