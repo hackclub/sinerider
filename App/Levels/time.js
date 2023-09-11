@@ -34,7 +34,7 @@ const TIME = [
         index: 0,
       },
       {
-        content: 'move this to preview different values of t',
+        content: 'Move this to preview different values of t',
         domSelector: '#t-variable-container',
         place: 'top-right',
         destroyOnClick: true,
