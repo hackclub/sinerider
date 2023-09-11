@@ -4,7 +4,7 @@ const PARABOLA = [
     nick: 'PARABOLA_NEGATE',
     biome: 'valleyParabola',
     x: 20,
-    y: 20,
+    y: 10,
     requirements: ['SLOPE_SCALE_TRANSLATE'],
     defaultExpression: '-x^2',
     hint: 'do as she says!',

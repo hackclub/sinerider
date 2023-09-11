@@ -4,7 +4,7 @@ const TIME = [
     nick: 'TIME_NEGATE',
     biome: 'eternalCanyon',
     x: 20,
-    y: 0,
+    y: -10,
     requirements: ['SLOPE_SCALE_TRANSLATE'],
     defaultExpression: '-t',
     goals: [
