@@ -24,6 +24,31 @@ const TIME = [
         order: 'C',
       },
     ],
+    tips: [ 
+      {
+        content: 't represents time',
+        domSelector: '#expression-envelope',
+        place: 'right',
+        destroyOnClick: true,
+        style: {fontSize: '0.9rem'},
+        index: 0,
+      },
+      {
+        content: 'Move this to preview different values of t',
+        domSelector: '#t-variable-container',
+        place: 'top-right',
+        destroyOnClick: true,
+        style: { fontSize: '0.9rem', visibility: 'hidden', left: 'calc(50% + 50px)'},
+        index: 1,
+      },
+      {
+        content: 'See what happens!',
+        domSelector: '#run-button',
+        place: 'top-left',
+        style: { fontSize: '0.9rem',  visibility: 'hidden' },
+        index: 2,
+      },
+    ],
     sledders: [
       {
         asset: 'images.lunchbox_sled',
