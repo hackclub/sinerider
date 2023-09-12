@@ -359,7 +359,7 @@ const SLOPE = [
     nick: 'SLOPE_SCALE_TRANSLATE',
     biome: 'westernSlopes',
     x: 10,
-    y: 0,
+    y: 10,
     backgroundMusic: 'sounds.music.birds',
     requirements: ['CONSTANT_LAKE'],
     defaultExpression: '-\\frac{x}{2}',
