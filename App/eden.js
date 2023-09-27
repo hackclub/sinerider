@@ -316,7 +316,7 @@ worldData.push({
   },*/,
     ...SLOPE,
     ...EDITOR,
-    ...POLAR,
+    //...POLAR,
     ...PARABOLA,
     ...WAVE,
     ...LOGISTIC,
