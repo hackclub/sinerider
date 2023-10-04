@@ -34,7 +34,7 @@ html {
   overflow: hidden;
 }
 
-#canvas {
+#canvas { 
   user-select: none;
   width: 100vw;
   height: 100vh;
@@ -48,6 +48,26 @@ html {
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+  /* Limit whole size of dialog to only visible area */
+  max-width: 100vw;
+  max-height: 100vh;
+  overflow: auto;
+
+}
+#graphics-settings-close-button{
+  position: absolute;
+  color: rgb(0, 0, 0);
+  width: 1px;
+  height: 1px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  top: 5px
+}
+#graphics-settings-close-button:hover{
+  cursor: pointer;
+  color: rgb(255, 0, 0);
 }
 
 .bar {

@@ -305,7 +305,7 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
       '?' +
       LZString.compressToBase64(JSON.stringify(serialized))
     ui.puzzleLink.value = url
-    ui.editorSharingLinkDialog.showModal()
+    showDialog(ui.editorSharingLinkDialog)
   }
 
   function setPolar(polar) {
