@@ -49,11 +49,6 @@ html {
   flex-direction: column;
   gap: 10px;
 
-  /* Limit whole size of dialog to only visible area */
-  max-width: 100vw;
-  max-height: 100vh;
-  overflow: auto;
-
 }
 #graphics-settings-close-button{
   position: absolute;
