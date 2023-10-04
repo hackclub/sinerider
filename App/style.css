@@ -34,7 +34,7 @@ html {
   overflow: hidden;
 }
 
-#canvas {
+#canvas { 
   user-select: none;
   width: 100vw;
   height: 100vh;
@@ -48,6 +48,21 @@ html {
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+}
+#graphics-settings-close-button{
+  position: absolute;
+  color: rgb(0, 0, 0);
+  width: 1px;
+  height: 1px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  top: 5px
+}
+#graphics-settings-close-button:hover{
+  cursor: pointer;
+  color: rgb(255, 0, 0);
 }
 
 .bar {
