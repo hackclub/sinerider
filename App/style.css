@@ -1256,7 +1256,17 @@ input[valid='false'] {
     background-color: #f46;
   }
 }
-
+#goal-limit-visual{
+  background: white;
+  border-radius: 5px;
+  height: 33px;
+  width: 40px;
+  padding: 3px 5px 5px 5px;
+  font-size: 13px;
+  text-align: center;
+  justify-content: center;
+  font-weight: 500;
+}
 #lvl-debug-info {
   position: absolute;
   margin-left: 75px;
