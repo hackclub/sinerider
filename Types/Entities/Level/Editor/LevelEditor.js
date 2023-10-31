@@ -34,10 +34,13 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
   let selection = null
   let selectionIsDeletable = false
 
+  const goalLimit = 20 //determines the maximum number of goals allowed in the editor
+
   const { inputs, labels } = ui.editorInspector
 
   function goalDeleted(goal) {
     goals.splice(goals.indexOf(goal), 1)
+    updateGoalLimitVisual()
   }
 
   function serialize(nick = null) {
@@ -151,6 +154,13 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
     return string.length < stringFixed.length ? string : stringFixed
   }
 
+  function updateGoalLimitVisual(){
+    let goalLimitText = document.getElementById('goal-limit-visual')
+    goalLimitText.innerText = `${self.goals.length}/${goalLimit} Goals`
+    goalLimitText.style.color = self.goals.length >= goalLimit ? 'red' : 'black'
+  }
+
+
   function update() {
     // Update UI
     inputs.order.value = selection.order ?? ''
@@ -165,18 +175,32 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
 
     // Save to URL
     self.save()
+
+  }
+
+  //Allows a goal to be added if the goal limit has not been reached
+  //More conditions can be added 
+  function tryAddGoal() {
+
+    return self.goals.length < goalLimit
   }
 
   function onAddFixedClicked() {
+    if(!tryAddGoal()) return
     self.addGoal({ type: 'fixed' })
+    updateGoalLimitVisual()
   }
 
   function onAddDynamicClicked() {
+    if(!tryAddGoal()) return
     self.addGoal({ type: 'dynamic' })
+    updateGoalLimitVisual()
   }
 
   function onAddPathClicked() {
+    if(!tryAddGoal()) return
     self.addGoal({ type: 'path' })
+    updateGoalLimitVisual()
   }
 
   function deleteSelection() {
