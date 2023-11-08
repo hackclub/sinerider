@@ -51,6 +51,7 @@ function ConstantLake(spec) {
     quad: quads.sunset,
     drawOrder: LAYERS.sky,
     getWalkerPosition,
+    defaultExpression: ''
   })
 
   // Hide math editor (temporarily) in constructor to fix jitter
