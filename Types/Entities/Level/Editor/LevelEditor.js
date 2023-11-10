@@ -1,7 +1,7 @@
 // TODO: Figure out how Editor should work?
 // (Maybe doesn't need its own class?)
 function LevelEditor(spec) {
-  const { self, ui, goals, sledders, gridlines, coordinateBox, graph, sky, stopRunning } =
+  const { self, ui, goals, sledders, gridlines, coordinateBox, graph, sky } =
     Level(spec)
 
   const base = _.mix(self)
@@ -305,9 +305,8 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
     disableEditing()
   }
 
-  function editorStopRunning() {
+  function stopRunning() {
     enableEditing()
-    stopRunning()
   }
 
   // TODO: Change these so
@@ -377,7 +376,7 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
     onLevelFadeOut,
 
     startRunning,
-    stopRunning: editorStopRunning,
+    stopRunning,
 
     onMouseUp,
     onMouseDown,
