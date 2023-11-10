@@ -345,7 +345,7 @@ function Level(spec) {
       assets.load(datum.assets, () => {
         self.active = true
         awakeWithAssets()
-      }, true)
+      })
     } else {
       awakeWithAssets()
     }
