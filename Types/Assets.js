@@ -239,7 +239,6 @@ function Assets() {
   }
 
   function showLoadingScreen(loadingLevel = false) {
-    console.log("SHOW_LOADING_SCREEN", loadingLevel)
     if(!loadingLevel){
       ui.loadingProgressBarContainer.setAttribute('hide', false)
       ui.loadingVeil.setAttribute('hide', false)
@@ -252,7 +251,6 @@ function Assets() {
     loaded = false
 
     onComplete = _onComplete
-    console.log('LOADING_ASSETS', loadingLevel)
     showLoadingScreen(loadingLevel)
 
     loadAssets(paths)
