@@ -231,23 +231,29 @@ function Assets() {
     const percent = Math.round((100 * progress) / total)
     ui.loadingProgressBar.style.width = `${percent}%`
   }
-
+  
   function hideLoadingScreen() {
     ui.loadingProgressBarContainer.setAttribute('hide', true)
     ui.loadingVeil.setAttribute('hide', true)
+    ui.levelLoadingVeil.setAttribute('hide', true)
   }
 
-  function showLoadingScreen() {
-    ui.loadingProgressBarContainer.setAttribute('hide', false)
-    ui.loadingVeil.setAttribute('hide', false)
+  function showLoadingScreen(loadingLevel = false) {
+    console.log("SHOW_LOADING_SCREEN", loadingLevel)
+    if(!loadingLevel){
+      ui.loadingProgressBarContainer.setAttribute('hide', false)
+      ui.loadingVeil.setAttribute('hide', false)
+    }else{
+      ui.levelLoadingVeil.setAttribute('hide', false)
+    }
   }
 
-  function load(paths, _onComplete) {
+  function load(paths, _onComplete, loadingLevel = false) {
     loaded = false
 
     onComplete = _onComplete
-
-    showLoadingScreen()
+    console.log('LOADING_ASSETS', loadingLevel)
+    showLoadingScreen(loadingLevel)
 
     loadAssets(paths)
 
