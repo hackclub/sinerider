@@ -135,7 +135,13 @@ const ui = {
   setResolutionButton: $('#set-resolution-button'),
   setSampleDensityButton: $('#set-sample-density-button'),
   setMiscGraphicsButton: $('#set-misc-graphics-button'),
-  // closeGraphicsButton: $('#close-graphics-button'),
+  
+  languagesButton: $('#languages-button'),
+  languageSettingsDialog: $('#language-settings-dialog'),
+  englishButton: $('#english-button'),
+  españolButton: $('#español-button'),
+  françaisButton: $('#français-button'),
+  deutschButton: $('#deutsch-button'),
 
   levelInfoDiv: $('#lvl-debug-info'),
   levelInfoNameStr: $('#lvl-name-str'),
@@ -502,9 +508,12 @@ function makeButtonCloseDialog(button, dialog) {
 makeDialogCloseable(ui.editorSharingLinkDialog)
 makeDialogCloseable(ui.graphicsSettingsDialog)
 makeDialogCloseable(ui.editorLevelConfigurationDialog)
+makeDialogCloseable(ui.)
 
 makeButtonOpenDialog(ui.settingsButton, ui.graphicsSettingsDialog)
 // makeButtonCloseDialog(ui.closeGraphicsButton, ui.graphicsSettingsDialog)
+
+
 
 makeButtonOpenDialog(
   ui.editorLevelConfigurationButton,
@@ -614,6 +623,22 @@ const miscGraphicsSelector = {
     ],
   ],
 }
+
+const languagesSelector = {
+  selection: 0,
+  applySettings: (option) => {
+    // apply language settings,change the language of the ui
+    // option[1] could be the language code ('en', 'es', 'fr', etc.)?!?
+    world.sendEvent('setLanguage', [option[1]]);
+  },
+  options: [
+    ['English', 'en'],
+    ['Español', 'es'],
+    ['Français', 'fr'],
+    ['Deutsch', 'de'],
+    // add more languages as needed
+  ],
+};
 
 function createToggleSelector(element, selector) {
   let choice = selector.options[selector.selection]
@@ -803,3 +828,22 @@ for (const [name, input] of Object.entries(ui.editorInspector.inputs)) {
 ui.editorInspector.deleteSelectionButton.addEventListener('click', () => {
   world.sendEvent('deleteSelection')
 })
+
+/* Multiple languages setting button */
+const languagesButton = document.getElementById('languages-button')
+function createLanguagesButton(selector) {
+  let choice = selector.options[selector.selection]
+  languagesButton.innerText = choice[0]
+
+  return () => {
+    selector.selection = (selector.selection + 1) % selector.options.length
+    choice = selector.options[selector.selection]
+    languagesButton.innerText = choice[0]
+    selector.applySettings(choice)
+  };
+}
+
+languagesButton.addEventListener(
+  'click',
+  createLanguagesButton(languagesSelector)
+);
