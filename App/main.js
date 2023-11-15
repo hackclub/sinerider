@@ -217,7 +217,7 @@ const IS_DEVELOPMENT = !IS_PRODUCTION
 // Don't show debug info in production
 if (IS_PRODUCTION) ui.levelInfoDiv.setAttribute('hide', true)
 
-// let DEBUG_LEVEL_NICK = null
+let DEBUG_LEVEL_NICK = null
 
 // Stupid branch here to make sure DEBUG_LEVEL isn't set in prod
 if (IS_DEVELOPMENT) {
