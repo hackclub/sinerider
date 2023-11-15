@@ -235,6 +235,7 @@ function Assets() {
   function hideLoadingScreen() {
     ui.loadingProgressBarContainer.setAttribute('hide', true)
     ui.loadingVeil.setAttribute('hide', true)
+    ui.levelLoadingVeil.setAttribute('hide', true)
   }
 
 
@@ -247,7 +248,7 @@ function Assets() {
     }
   }
 
-  function load(paths, _onComplete) {
+  function load(paths, _onComplete, loadingLevel = false) {
     loaded = false
 
     onComplete = _onComplete
