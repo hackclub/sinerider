@@ -3,7 +3,7 @@ const EDITOR = [
     name: 'Level Editor',
     nick: 'LEVEL_EDITOR',
     colors: Colors.biomes.alps,
-    x: 0,
+    x: 10,
     y: -50,
     requirements: [],
     sledders: [
