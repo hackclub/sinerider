@@ -25,7 +25,6 @@ const ui = {
   veil: $('#veil'),
   loadingVeil: $('#loading-veil'),
   loadingVeilString: $('#loading-string'),
-  levelLoadingVeil: $('#level-loading-veil'),
   resetSolutionsString: $('#reset-string'),
   loadingProgressBarContainer: $('#loading-progress-bar-container'),
   loadingProgressBar: $('#loading-progress-bar'),
