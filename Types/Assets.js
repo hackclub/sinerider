@@ -245,7 +245,7 @@ function Assets() {
     }else{
       ui.levelLoadingVeil.setAttribute('hide', false)
     }
-
+  }
 
   function load(paths, _onComplete) {
     loaded = false
