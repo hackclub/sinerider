@@ -274,7 +274,7 @@ function Assets() {
     clearInterval(checkAssetTimeoutsInterval)
     checkAssetTimeoutsInterval = null
 
-    hideLoadingScreen()
+    //hideLoadingScreen()
 
     onComplete()
   }
@@ -300,6 +300,7 @@ function Assets() {
 
   return _.mixIn(self, {
     load,
+    hideLoadingScreen,
 
     get loaded() {
       return loaded

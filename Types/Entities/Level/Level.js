@@ -853,6 +853,10 @@ function Level(spec) {
     }
 
     self.sortChildren()
+
+    //TODO: Hide the loading screen here instead of just when the assets are loaded
+    
+    assets.hideLoadingScreen()
   }
 
   function save() {

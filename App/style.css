@@ -814,6 +814,9 @@ input[valid='false'] {
   align-items: center;
   justify-content: center;
 }
+.veil-no-transition{
+  transition: none !important;
+}
 
 .flash-shadow {
   animation-duration: 1s;
