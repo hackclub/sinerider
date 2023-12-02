@@ -333,11 +333,11 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
     showDialog(ui.editorSharingLinkDialog)
   }
 
-  function setPolar(polar) {
-    graph.polar = polar
-    ui.mathFieldLabel.innerText = `${graph.label}=`
-    self.sendEvent('reset')
-  }
+  // function setPolar(polar) {
+  //   graph.polar = polar
+  //   ui.mathFieldLabel.innerText = `${graph.label}=`
+  //   self.sendEvent('reset')
+  // }
 
   function selectBiome(biomeKey) {
     const biome = BIOMES[biomeKey]
@@ -366,7 +366,7 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
     goalDeleted,
     serialize,
 
-    setPolar,
+    // setPolar,
     selectBiome,
     setSledderImage,
 
