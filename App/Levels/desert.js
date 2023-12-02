@@ -77,6 +77,7 @@ const DESERT = {
       content: tn({
         en: 'Well, how was it?', 
         es: '¿Qué tal estuvo?',
+        br: 'Bem, como foi isso?',
         }),
       direction: 'up-up-left',
     },
@@ -86,6 +87,7 @@ const DESERT = {
       content: tn({
         en: 'What?',
         es: 'Qué?',
+        br: 'O que?',
         }), 
       direction: 'up-up-right',
     },
@@ -95,6 +97,7 @@ const DESERT = {
       content: tn({
         en: 'Your canyon.',
         es: 'Tu cañón',
+        br: 'Seu cânion',
       }),
       direction: 'up-up-left',
     },
@@ -104,6 +107,7 @@ const DESERT = {
       content: tn({
         en: 'Scary. Hard.',
         es: 'Atterador. Duro',
+        br: 'Assustador. Difícil.',
         }),
       direction: 'up-up-right',
       speech: [
@@ -112,6 +116,7 @@ const DESERT = {
           content: tn({
             en: 'Oh.',
             es: 'Vaya.',
+            br: 'Ah.',
             }),
           direction: 'up',
           distance: 0.8,
@@ -123,7 +128,8 @@ const DESERT = {
       color: '#FFF',
       content: tn({
         en: "Well, that's why it's not on the route.",
-        es: "Pues, por eso no está en la ruta."
+        es: "Pues, por eso no está en la ruta.",
+        br: 'Bem, é por isso que não estáa na rota.',
         }),
       direction: 'up-up-left',
     },
@@ -133,6 +139,7 @@ const DESERT = {
       content: tn({
         en: 'I did a backflip!',
         es: 'Hice una voltereta hacia atrás!',
+        br: 'Eu fiz um mortsl para trás!',
       }),
       direction: 'up-up-right',
       speech: [
@@ -142,6 +149,7 @@ const DESERT = {
           content: tn({
             en:'I still had fun.',
             es: 'Todavía me divertí.',
+            br: 'De qualquer forma me diverti.',
             }),
           direction: 'up',
         },
@@ -152,7 +160,8 @@ const DESERT = {
       color: '#FFF',
       content: tn({
         en: 'No, you didn’t.',
-        es: 'No, no lo hiciste.'
+        es: 'No, no lo hiciste.',
+        br: 'Não, você não fez.',
         }),
       direction: 'up-up-left',
     },
@@ -162,6 +171,7 @@ const DESERT = {
       content: tn({
         en: 'Yes I did!',
         es: 'Sí lo hice!',
+        br: 'Sim eu fiz!',
         }),
       direction: 'up-up-left',
       gap: 1,
@@ -173,6 +183,7 @@ const DESERT = {
       content: tn({
         en: 'Spinning in place is not a backflip.',
         es: ' Girando en lugar no es una voltereta hacia atrás.',
+        br: 'Girando no lugar não é um mortal.'
       }),
       direction: 'up-left',
       length: 4,
@@ -183,6 +194,7 @@ const DESERT = {
           content: tn({
             en: 'Jack… we are ghosts. We can float.',
             es: 'Jack... somos fantasmas. Podemos flotar.',
+            br: 'Jack... Somos fantasmas. Podemos flutuar.',
             }),
           direction: 'up-up-left',
         },
@@ -194,6 +206,7 @@ const DESERT = {
       content: tn({
         en: 'You’re being negative again.',
         es: 'Estás siendo negativo otra vez.',
+        br: 'Está sendo pessimista de novo.',
         }),
       direction: 'up-up-left',
     },
@@ -203,6 +216,7 @@ const DESERT = {
       content: tn({
         en: "It's just the truth!!",
         es: "Es sólo la verdad!!",
+        br: 'É só a verdade!!',
         }),
       direction: 'up-left',
       speech: [
@@ -212,6 +226,7 @@ const DESERT = {
           content: tn({
             en: "The truth isn't negative!",
             es: "La verdad no es negativa!",
+            br: 'A verdade não é negativa!',
             }),
           direction: 'up',
         },
@@ -223,6 +238,7 @@ const DESERT = {
       content: tn({
         en: 'Are you mad at me?',
         es: 'Estás enojada conmigo?',
+        br: 'Tá brava comigo?',
         }),
       direction: 'up-up-left',
     },
@@ -232,6 +248,7 @@ const DESERT = {
       content: tn({
         en:'Obviously, yes!',
         es: 'Obviamente, sí!',
+        br: 'Obviamente, sim!',
        }),
       direction: 'up-up-left',
       gap: 1,
@@ -242,6 +259,7 @@ const DESERT = {
       content:tn({
         en: 'And probably the race.',
         es: 'Y probablemente la carrera.',
+        br: 'E provavelmente a corrida.',
         }),
       direction: 'up-up-left',
       speech: [
@@ -251,6 +269,7 @@ const DESERT = {
           content: tn({
             en: 'Your detour cost us time.',
             es: 'Tu desvío nos costó tiempo.',
+            br: 'Seu desvio nos custou tempo.',
             }),
           direction: 'up',
         },
@@ -262,6 +281,7 @@ const DESERT = {
       content: tn({
         en: "You're right, I'm sorry.",
         es: "Tienes razón, lo siento.",
+        br: 'Tem razão, desculpa.',
         }),
       direction: 'up-up-right',
     },
@@ -272,6 +292,7 @@ const DESERT = {
       content: tn({
       en: 'Let me make it up to you. Watch this',
       es: 'Déjame compensarte. Mira esto',
+      br: 'Deixa eu compensar você. Olha isso',
     }),
       direction: 'up-up-left',
     },
@@ -281,6 +302,7 @@ const DESERT = {
       content: tn({
       en: '...how is this helping',
       es: '...como está ayudando esto',
+      br: '...como isso tá ajudando',
     }),
       direction: 'up-up-left',
     },
@@ -290,6 +312,7 @@ const DESERT = {
       content: tn({
       en: 'Because it made you smile.',
       es: 'Porque te hizo sonreír.',
+      br: 'Porque fez você sorrir.',
       }),
       direction: 'up-up-left',
     },
@@ -299,6 +322,7 @@ const DESERT = {
       content: tn({
       en: 'You do have a talent for that.',
       es: 'Tu si tienes un talento para eso.',
+      br: 'Você tem talento para isso',
     }),
       direction: 'up-up-left',
     },

@@ -76,70 +76,106 @@ const CREDITS = {
       speaker: 'Ada',
       color: '#FFF',
       direction: 'up-up-right',
-      content: 'Well I have to admit, that was fun.',
+      content: tn({
+        en: 'Well I have to admit, that was fun.',
+        br: 'Eu tenho que admitir, isso foi divertido.',
+      }),
     },
     {
       speaker: 'Jack',
       color: '#FFF',
       direction: 'up-up-left',
-      content: 'I found it vaguely traumatizing…',
+      content: tn({
+        en: 'I found it vaguely traumatizing…',
+        pt: 'Eu achei isso vagamente traumatizante...',
+      }),
       speech: {
         speaker: 'Jack',
         color: '#FFF',
         direction: 'up',
-        content: 'Really?',
+        content: tn({
+          en: 'Really?',
+          br: 'Sério?',
+        }),
       },
     },
     {
       speaker: 'Ada',
       color: '#FFF',
       direction: 'up-up-right',
-      content: "Aren't you supposed to be the adventurer?",
+      content: tn({
+        en: "Aren't you supposed to be the adventurer?",
+        br: 'Você não era para ser o aventureiro?',
+      }),
     },
     {
       speaker: 'Jack',
       color: '#FFF',
       direction: 'up-up-left',
-      content: 'A lava monster almost ate us whole.',
+      content: tn({
+        en: 'A lava monster almost ate us whole.',
+        br: 'Um monstro de lava quase nos comeu.',
+      }),
     },
     {
       speaker: 'Ada',
       color: '#FFF',
       direction: 'up-up-left',
-      content: "Sounds like you're just being negative.",
+      content: tn({
+        en: "Sounds like you're just being negative.",
+        br: 'Parece que você só está sendo negativo.',
+      }),
     },
     {
       speaker: 'Jack',
       color: '#FFF',
       direction: 'up',
-      content: 'I deserved that.',
+      content: tn({
+        en: 'I deserved that.',
+        br: 'Eu mereci isso.',
+      }),
     },
     {
       speaker: 'Ada',
       color: '#FFF',
       direction: 'up-up-right',
-      content: "I'm sorry if I was a little… intense today.",
+      content: tn({
+        en: "I'm sorry if I was a little… intense today.",
+        br: 'Desculpa se eu fui um pouco... intensa hoje.',
+      }),
     },
     {
       speaker: 'Jack',
       color: '#FFF',
       direction: 'up-up-left',
-      content: "I'm sorry I made you wait",
+      content: tn({
+        en: "I'm sorry I made you wait",
+        br: 'Desculpa eu fiz você esperar',
+      }),
     },
     {
       speaker: 'Ada',
       color: '#FFF',
       direction: 'up-up-right',
-      content: 'And almost lose.',
+      content: tn({
+        en: 'And almost lose.',
+        br: 'E quase perdeu.',
+      }),
       gap: 0.5,
     },
     {
       speaker: 'Ada',
       color: '#FFF',
       direction: 'up-up-right',
-      content: 'And we won!',
+      content: tn({
+        en: 'And we won!',
+        br: 'E nós ganhamos!',
+      }),
       speech: {
-        content: 'But you redeemed yourself.',
+        content: tn({
+          en: 'But you redeemed yourself.',
+          br: 'Mas você se redimiu.',
+        }),
         direction: 'up',
         color: '#FFF',
       },
@@ -148,27 +184,42 @@ const CREDITS = {
       speaker: 'Jack',
       color: '#FFF',
       direction: 'up-up-left',
-      content: 'We did win.',
+      content: tn({
+        en: 'We did win.',
+        br: 'Nós fizemos a vitória.',
+      }),
     },
     {
       speaker: 'Ada',
       color: '#FFF',
       direction: 'up-up-right',
-      content: "I'm glad you're here <3",
+      content: tn({
+        en: "I'm glad you're here <3",
+        br: 'Estou feliz que você está aqui <3',
+      }),
     },
     {
       speaker: 'Jack',
       color: '#FFF',
       direction: 'up-up-left',
-      content: "I'm glad you're here too, Ada.",
+      content: tn({
+        en: "I'm glad you're here too, Ada.",
+        br: 'Estou feliz que você está aqui também, Ada.',
+      }),
     },
     {
       speaker: 'Ada',
       color: '#FFF',
       direction: 'up-up-right',
-      content: 'Later we can go hit that canyon!',
+      content: tn({
+        en: 'Later we can go hit that canyon!',
+        br: 'Mais tarde podemos alcançar o cânion!',
+      }),
       speech: {
-        content: "Now let's take a nap.",
+        content: tn({
+          en: "Now let's take a nap.",
+          br: 'Agora vamos tirar um cochilo.',
+        }),
         direction: 'up',
         color: '#FFF',
       },

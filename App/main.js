@@ -636,6 +636,7 @@ const languagesSelector = {
     ['Español', 'es'],
     ['Français', 'fr'],
     ['Deutsch', 'de'],
+    ['Português brasileiro', 'br'],
     // add more languages as needed
   ],
 };
