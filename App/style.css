@@ -34,7 +34,7 @@ html {
   overflow: hidden;
 }
 
-#canvas {
+#canvas { 
   user-select: none;
   width: 100vw;
   height: 100vh;
@@ -48,6 +48,21 @@ html {
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+}
+#graphics-settings-close-button{
+  position: absolute;
+  color: rgb(0, 0, 0);
+  width: 1px;
+  height: 1px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  top: 5px
+}
+#graphics-settings-close-button:hover{
+  cursor: pointer;
+  color: rgb(255, 0, 0);
 }
 
 .bar {
@@ -455,8 +470,21 @@ input[valid='false'] {
 
 /* TODO: Clean up settings button, use existing CSS */
 #settings-button {
-  margin-right: 20px;
-  border-radius: 0 0 10px 10px;
+  margin-top:8px;
+  margin-left:8px;
+
+  padding: 0 8px;
+
+  background: transparent;
+
+  border-radius: 5px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: 0.2s;
   font-size: 2.4rem;
 }
 
@@ -589,23 +617,9 @@ input[valid='false'] {
   transition: 0.05s;
 }
 
-#volume-slider-box {
-  transition-duration: 1s;
-  border: 2px solid rgba(255, 255, 255, 0);
-  padding: 10px;
-  border-radius: 0 0 10px 0;
-}
-#volume-slider-box:hover {
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(9px);
-}
-
 #volume-slider {
-  opacity: 0;
-  transition-duration: 1s;
-}
-#volume-slider-box:hover > #volume-slider {
   opacity: 1;
+  transition-duration: 1s;
 }
 
 #top-bar[hide='true'] {
@@ -913,6 +927,14 @@ input[valid='false'] {
   bottom: calc(80% + 20px);
   left: 90%;
 }
+.right{
+  left: 130%;
+  top: 0%;
+}
+.left{
+  right: 130%;
+  top: 0%;
+}
 .bottom-left {
   right: 23% !important;
   top: 103% !important;
@@ -935,6 +957,26 @@ input[valid='false'] {
   border-bottom: 10px solid transparent;
   right: -2px;
   bottom: -20px;
+}
+.helper-bubble.right:before{
+  border-left: 10px solid transparent;
+  border-right: 10px solid black;
+  border-top: 10px solid black;
+  border-bottom: 10px solid transparent;
+  left: -10px;
+  bottom: 15%;
+  transform: translate(0, 50%);
+  transform: rotate(225deg);
+}
+.helper-bubble.left:before{
+  border-left: 10px solid transparent;
+  border-right: 10px solid black;
+  border-top: 10px solid black;
+  border-bottom: 10px solid transparent;
+  right: -10px;
+  bottom: 15%;
+  transform: translate(0, 50%);
+  transform: rotate(45deg);
 }
 .helper-bubble.top-right:before {
   border-left: 10px solid black;
@@ -1032,10 +1074,6 @@ input[valid='false'] {
     padding: 0px;
     border-radius: 5px;
     margin: 0;
-  }
-
-  #volume-slider-box {
-    display: none;
   }
 
   #navigator-floating-bar {
@@ -1218,10 +1256,20 @@ input[valid='false'] {
     background-color: #f46;
   }
 }
-
+#goal-limit-visual{
+  background: white;
+  border-radius: 5px;
+  height: 33px;
+  width: 40px;
+  padding: 3px 5px 5px 5px;
+  font-size: 13px;
+  text-align: center;
+  justify-content: center;
+  font-weight: 500;
+}
 #lvl-debug-info {
   position: absolute;
-  left: 25px;
+  margin-left: 75px;
   top: 10px;
   font-size: 10px;
   width: 350px;
