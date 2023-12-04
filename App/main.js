@@ -120,9 +120,9 @@ const ui = {
 
   editorLevelConfigurationButton: $('#editor-level-configuration-button'),
   editorLevelConfigurationDialog: $('#editor-level-configuration-dialog'),
-  editorLevelConfigurationIsPolarCheckbox: $(
-    '#editor-level-configuration-is-polar-checkbox',
-  ),
+  // editorLevelConfigurationIsPolarCheckbox: $(
+  //   '#editor-level-configuration-is-polar-checkbox',
+  // ),
   editorLevelConfigurationBiomeSelect: $(
     '#editor-level-configuration-biome-select',
   ),
@@ -781,10 +781,10 @@ ui.editorLevelConfigurationBiomeSelect.addEventListener('change', () => {
   world.sendEvent('selectBiome', [selectedBiomeKey])
 })
 
-ui.editorLevelConfigurationIsPolarCheckbox.addEventListener('input', () => {
-  const checked = ui.editorLevelConfigurationIsPolarCheckbox.checked
-  world.sendEvent('setPolar', [checked])
-})
+// ui.editorLevelConfigurationIsPolarCheckbox.addEventListener('input', () => {
+//   const checked = ui.editorLevelConfigurationIsPolarCheckbox.checked
+//   world.sendEvent('setPolar', [checked])
+// })
 
 ui.editorLevelConfigurationSledderSelect.addEventListener('input', () => {
   const selectedIndex = ui.editorLevelConfigurationSledderSelect.selectedIndex
