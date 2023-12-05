@@ -231,11 +231,19 @@ function Assets() {
     const percent = Math.round((100 * progress) / total)
     ui.loadingProgressBar.style.width = `${percent}%`
   }
-
+  const levelLoadingTransitionLength = 1
+  function playLeveLLoadingScreenFadeOut() {
+    ui.levelLoadingVeil.setAttribute('style', `animation: fadeOut ${levelLoadingTransitionLength}s ease-in-out forwards;`)
+    ui.levelLoadingVeil.addEventListener('animationend', () => {
+      ui.levelLoadingVeil.setAttribute('hide', true)
+      ui.levelLoadingVeil.removeAttribute('style')
+    })
+  }
   function hideLoadingScreen() {
     ui.loadingProgressBarContainer.setAttribute('hide', true)
     ui.loadingVeil.setAttribute('hide', true)
-    ui.levelLoadingVeil.setAttribute('hide', true)
+    //ui.levelLoadingVeil.setAttribute('hide', true)
+    playLeveLLoadingScreenFadeOut()
   }
 
 
@@ -244,8 +252,10 @@ function Assets() {
       ui.loadingProgressBarContainer.setAttribute('hide', false)
       ui.loadingVeil.setAttribute('hide', false)
     }else{
+      ui.levelLoadingVeil.setAttribute('style', `opacity: 1;`)
       ui.levelLoadingVeil.setAttribute('hide', false)
     }
+
   }
 
   function load(paths, _onComplete, loadingLevel = false) {

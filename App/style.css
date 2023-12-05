@@ -814,8 +814,12 @@ input[valid='false'] {
   align-items: center;
   justify-content: center;
 }
-.veil-no-transition{
-  transition: none !important;
+.veil-no-transition {
+  transition: 0s !important;
+}
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 
 .flash-shadow {
