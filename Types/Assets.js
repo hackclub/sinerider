@@ -239,21 +239,24 @@ function Assets() {
       ui.levelLoadingVeil.removeAttribute('style')
     })
   }
+  let levelLoadingScreenEnabled = true;
   function hideLoadingScreen() {
     ui.loadingProgressBarContainer.setAttribute('hide', true)
     ui.loadingVeil.setAttribute('hide', true)
-    //ui.levelLoadingVeil.setAttribute('hide', true)
-    playLeveLLoadingScreenFadeOut()
+
+    if(levelLoadingScreenEnabled) playLeveLLoadingScreenFadeOut()
+    levelLoadingScreenEnabled = false;
   }
 
-
   function showLoadingScreen(loadingLevel = false) {
+    
     if(!loadingLevel){
       ui.loadingProgressBarContainer.setAttribute('hide', false)
       ui.loadingVeil.setAttribute('hide', false)
     }else{
       ui.levelLoadingVeil.setAttribute('style', `opacity: 1;`)
       ui.levelLoadingVeil.setAttribute('hide', false)
+      levelLoadingScreenEnabled = true;
     }
 
   }
@@ -263,7 +266,7 @@ function Assets() {
 
     onComplete = _onComplete
 
-    showLoadingScreen(loadingLevel)
+    
 
 
     loadAssets(paths)
@@ -272,6 +275,8 @@ function Assets() {
     // invoke callback and clean up
     if (loadCount == 0) {
       onFinishLoading()
+    }else{
+      showLoadingScreen(loadingLevel)
     }
   }
 
