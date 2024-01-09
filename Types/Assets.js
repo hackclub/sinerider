@@ -231,23 +231,43 @@ function Assets() {
     const percent = Math.round((100 * progress) / total)
     ui.loadingProgressBar.style.width = `${percent}%`
   }
-
+  const levelLoadingTransitionLength = 1
+  function playLeveLLoadingScreenFadeOut() {
+    ui.levelLoadingVeil.setAttribute('style', `animation: fadeOut ${levelLoadingTransitionLength}s ease-in-out forwards;`)
+    ui.levelLoadingVeil.addEventListener('animationend', () => {
+      ui.levelLoadingVeil.setAttribute('hide', true)
+      ui.levelLoadingVeil.removeAttribute('style')
+    })
+  }
+  let levelLoadingScreenEnabled = true;
   function hideLoadingScreen() {
     ui.loadingProgressBarContainer.setAttribute('hide', true)
     ui.loadingVeil.setAttribute('hide', true)
+
+    if(levelLoadingScreenEnabled) playLeveLLoadingScreenFadeOut()
+    levelLoadingScreenEnabled = false;
   }
 
-  function showLoadingScreen() {
-    ui.loadingProgressBarContainer.setAttribute('hide', false)
-    ui.loadingVeil.setAttribute('hide', false)
+  function showLoadingScreen(loadingLevel = false) {
+    
+    if(!loadingLevel){
+      ui.loadingProgressBarContainer.setAttribute('hide', false)
+      ui.loadingVeil.setAttribute('hide', false)
+    }else{
+      ui.levelLoadingVeil.setAttribute('style', `opacity: 1;`)
+      ui.levelLoadingVeil.setAttribute('hide', false)
+      levelLoadingScreenEnabled = true;
+    }
+
   }
 
-  function load(paths, _onComplete) {
+  function load(paths, _onComplete, loadingLevel = false) {
     loaded = false
 
     onComplete = _onComplete
 
-    showLoadingScreen()
+    
+
 
     loadAssets(paths)
 
@@ -255,6 +275,8 @@ function Assets() {
     // invoke callback and clean up
     if (loadCount == 0) {
       onFinishLoading()
+    }else{
+      showLoadingScreen(loadingLevel)
     }
   }
 
@@ -267,7 +289,7 @@ function Assets() {
     clearInterval(checkAssetTimeoutsInterval)
     checkAssetTimeoutsInterval = null
 
-    hideLoadingScreen()
+    //hideLoadingScreen()
 
     onComplete()
   }
@@ -293,6 +315,7 @@ function Assets() {
 
   return _.mixIn(self, {
     load,
+    hideLoadingScreen,
 
     get loaded() {
       return loaded

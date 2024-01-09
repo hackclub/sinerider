@@ -345,7 +345,7 @@ function Level(spec) {
       assets.load(datum.assets, () => {
         self.active = true
         awakeWithAssets()
-      })
+      }, true)
     } else {
       awakeWithAssets()
     }
@@ -853,6 +853,10 @@ function Level(spec) {
     }
 
     self.sortChildren()
+
+    //TODO: Hide the loading screen here instead of just when the assets are loaded
+    
+    assets.hideLoadingScreen()
   }
 
   function save() {
