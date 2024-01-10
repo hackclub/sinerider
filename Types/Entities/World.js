@@ -550,6 +550,7 @@ function World(spec) {
         VOLCANO: Volcano,
         DESERT: Desert,
         LEVEL_EDITOR: LevelEditor,
+        CREDITS: Credits,
       }[levelDatum.nick] || Level
 
     const completed =

@@ -1,4 +1,4 @@
-// TODO: Maybe Cutscene isn't a useful abstraction? (Not worth minor code reuse)
+// TODO: Finish moving in all the cutscene abstractions
 function Cutscene(spec) {
   const { self, ui, levelCompleted, datum, sledders, walkers } = Level(spec)
 
@@ -139,7 +139,7 @@ function Cutscene(spec) {
     getTime,
 
     get isCutscene() {
-      // Overriding falsy (null) by default in Level.js
+      // Overriding falsey (null) by default in Level.js
       return true
     },
 

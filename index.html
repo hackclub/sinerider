@@ -99,26 +99,22 @@
     </div>
 
     <div class="bar floating top" id="top-bar" hide="false">
-      <div
-      class="tooltip"
-      id="settings-button"
-      data-tooltip="Settings"
-    >
-      <div class="" id="gear">⚙️</div>
-    </div>
-    <div id="lvl-debug-info" hide="true">
-      <div class="grid">
-        <div class="string debugtitle">Level name:</div>
-        <div class="string debuginfo" id="lvl-name-str">N/A</div>
-        <div class="string debugtitle">Level nick:</div>
-        <div class="string debuginfo" id="lvl-nick-str">N/A</div>
-        <div class="string debugtitle">FPS:</div>
-        <div class="string debuginfo" id="lvl-fps-str">N/A</div>
+      <div class="tooltip" id="settings-button" data-tooltip="Settings">
+        <div class="" id="gear">⚙️</div>
       </div>
-      <div class="button" id="button-hide-level-info" hide="true">
-        <div class="string">X</div>
+      <div id="lvl-debug-info" hide="true">
+        <div class="grid">
+          <div class="string debugtitle">Level name:</div>
+          <div class="string debuginfo" id="lvl-name-str">N/A</div>
+          <div class="string debugtitle">Level nick:</div>
+          <div class="string debuginfo" id="lvl-nick-str">N/A</div>
+          <div class="string debugtitle">FPS:</div>
+          <div class="string debuginfo" id="lvl-fps-str">N/A</div>
+        </div>
+        <div class="button" id="button-hide-level-info" hide="true">
+          <div class="string">X</div>
+        </div>
       </div>
-    </div>
       <!-- when i move this it doesn't allow me to click on puzzles -->
       <!-- <div class="try-again-button">
         <button id="try-again" type="button">Try Again</button>
@@ -164,7 +160,7 @@
           <!-- Path goal button added in JS -->
         </div>
         <div id="goal-limit-visual">
-          <div class="string">0/20<br>Goals</div>
+          <div class="string">0/20<br />Goals</div>
         </div>
         <div class="button" id="share-button" hide="false">
           <div class="string">Share</div>
@@ -396,7 +392,6 @@
         <label>Misc. Graphics</label>
         <button class="button" id="set-misc-graphics-button">High</button>
       </div>
-      
     </dialog>
 
     <div class="bar message" id="message-bar" hide="true">
@@ -483,10 +478,11 @@
 
     <div class="veil" id="veil" hide="true"></div>
 
-
     <!--TODO: Maybe change to a different style -->
-    <div class="veil veil-no-transition" id="level-loading-veil"><div class="dot-flashing"></div></div>
-    
+    <div class="veil veil-no-transition" id="level-loading-veil">
+      <div class="dot-flashing"></div>
+    </div>
+
     <div class="loading veil" id="loading-veil" hide="false">
       <div id="flag">
         <a href="https://github.com/hackclub">
@@ -506,7 +502,10 @@
         <div class="string" id="loading-string"></div>
       </div>
 
-        <div><br>Ideas? Feedback? Issues? Send them to <a href="sinerider@hackclub.com">sinerider@hackclub.com</a></div>
+      <div>
+        <br />Ideas? Feedback? Issues? Send them to
+        <a href="sinerider@hackclub.com">sinerider@hackclub.com</a>
+      </div>
 
       <div id="loading-bottom">
         <div id="puzzles">
@@ -654,6 +653,7 @@
     <script src="Types/Entities/Level/Cutscenes/ConstantLake.js"></script>
     <script src="Types/Entities/Level/Cutscenes/Volcano.js"></script>
     <script src="Types/Entities/Level/Cutscenes/Desert.js"></script>
+    <script src="Types/Entities/Level/Cutscenes/Credits.js"></script>
 
     <script src="Types/Entities/Level/Editor/LevelEditor.js"></script>
 

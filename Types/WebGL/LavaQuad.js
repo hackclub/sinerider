@@ -32,15 +32,10 @@ function LavaQuad(spec) {
   }
 
   function draw() {
-    // TODO: Move to shared state
-    // TODO: Fix and reuse quad logic/entity wrapper
-    const x = world.level.sledders[0].transform.x
-    const sunsetTime = 12 * Math.exp(-(((x - 221) / 100) ** 2))
     lavaProgram
       .use()
       .vertices(utils.quad)
       .uniform('t', t)
-      .uniform('progress', sunsetTime)
       .viewport(canvas.width, canvas.height)
       .draw(gl.TRIANGLE_STRIP, 4)
   }
