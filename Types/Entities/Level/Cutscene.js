@@ -2,11 +2,6 @@
 function Cutscene(spec) {
   const { self, ui, levelCompleted, datum, sledders, walkers } = Level(spec)
 
-  const {
-    // Special property for cutscenes
-    victoryX,
-  } = datum
-
   const base = _.mix(self)
 
   const showSkipCutsceneButtonAnimation = {
