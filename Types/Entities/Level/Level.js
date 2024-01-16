@@ -179,6 +179,8 @@ function Level(spec) {
     minTheta,
     maxTheta,
     invertGravity,
+    sampleCount: world.sampleDensitySetting,
+    terrainLayers: world.terrainLayersSetting,
   })
 
   let skyColors = colors.sky

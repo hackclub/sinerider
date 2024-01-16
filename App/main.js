@@ -136,7 +136,7 @@ const ui = {
   graphicsSettingsCloseButton: $('#graphics-settings-close-button'),
   setResolutionButton: $('#set-resolution-button'),
   setSampleDensityButton: $('#set-sample-density-button'),
-  setMiscGraphicsButton: $('#set-misc-graphics-button'),
+  setTerrainLayersButton: $('#set-terrain-layers-button'),
   // closeGraphicsButton: $('#close-graphics-button'),
 
   levelInfoDiv: $('#lvl-debug-info'),
@@ -512,13 +512,11 @@ function makeButtonToggleDialog(button, dialog) {
     }
   })
 }
-function showDialog(dialog){
-  console.log("Showing ", dialog)
+function showDialog(dialog) {
   dialog.classList.remove('hidden')
   dialog.showModal()
 }
-function closeDialog(dialog){
-  console.log("Closing", dialog)
+function closeDialog(dialog) {
   dialog.classList.add('hidden')
   dialog.close()
 }
@@ -596,7 +594,8 @@ window.addEventListener('resize', onResizeWindow)
 /* Graphics setting buttons */
 
 const resolutionSelector = {
-  selection: 2,
+  storage: 'resolutionSetting',
+  default: 2,
   applySettings: (option) => {
     screen.resolutionScalingFactor = option[1]
     screen.resize()
@@ -609,10 +608,10 @@ const resolutionSelector = {
 }
 
 const sampleDensitySelector = {
-  selection: 1,
+  storage: 'sampleDensitySetting',
+  default: 1,
   applySettings: (option) => {
-    if (world.level?.graph)
-      world.level.graph.resolutionScalingFactor = option[1]
+    world.sampleDensitySetting = option[1]
   },
   options: [
     ['Low', 60],
@@ -621,8 +620,9 @@ const sampleDensitySelector = {
   ],
 }
 
-const miscGraphicsSelector = {
-  selection: 2,
+const terrainLayersSelector = {
+  storage: 'terrainLayersSetting',
+  default: 2,
   applySettings: (option) => {
     if (world.level?.graph)
       world.level.graph.terrainLayers = option[1].terrainLayers
@@ -650,12 +650,15 @@ const miscGraphicsSelector = {
 }
 
 function createToggleSelector(element, selector) {
+  selector.selection =
+    localStorage.getItem(selector.storage) ?? selector.default
   let choice = selector.options[selector.selection]
   element.innerText = choice[0]
   selector.applySettings(choice)
 
   return () => {
     selector.selection = (selector.selection + 1) % selector.options.length
+    localStorage.setItem(selector.storage, selector.selection)
     choice = selector.options[selector.selection]
     element.innerText = choice[0]
     selector.applySettings(choice)
@@ -670,9 +673,9 @@ ui.setSampleDensityButton.addEventListener(
   'click',
   createToggleSelector(ui.setSampleDensityButton, sampleDensitySelector),
 )
-ui.setMiscGraphicsButton.addEventListener(
+ui.setTerrainLayersButton.addEventListener(
   'click',
-  createToggleSelector(ui.setMiscGraphicsButton, miscGraphicsSelector),
+  createToggleSelector(ui.setTerrainLayersButton, terrainLayersSelector),
 )
 
 function onClickCanvas() {
