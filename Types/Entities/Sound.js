@@ -28,8 +28,6 @@ function Sound(spec) {
 
   let lastVol
 
-  console.log(`Creating ${self.name}`)
-
   function awake() {
     if (!howl) {
       // TODO: Need more robust solution for either
