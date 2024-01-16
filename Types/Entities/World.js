@@ -485,6 +485,7 @@ function World(spec) {
       playerStorage,
       active: false,
       parent: self,
+      world: self,
       drawOrder: LAYERS.navigator,
     })
     navigator.active = false
