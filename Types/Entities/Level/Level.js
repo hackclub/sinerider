@@ -998,7 +998,6 @@ function Level(spec) {
     addGoal,
 
     tick,
-    draw,
 
     resize,
 
