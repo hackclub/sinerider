@@ -601,8 +601,8 @@ const resolutionSelector = {
     screen.resize()
   },
   options: [
-    ['Low', 0.6],
-    ['Medium', 0.8],
+    ['Low', 0.5],
+    ['Medium', 0.75],
     ['High', 1.0],
   ],
 }
