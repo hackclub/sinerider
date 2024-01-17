@@ -39,8 +39,6 @@ function Volcano(spec) {
     defaultExpression: mathquillToMathJS(defaultVectorField),
   })
 
-  console.log(`Volcano Sunset:`, volcanoSunset)
-
   function awakeWithAssetsAndDatum() {
     base.awakeWithAssetsAndDatum()
 

@@ -61,7 +61,6 @@ function LavaMonster(spec) {
   return self.mix({
     transform,
     tick,
-    draw,
 
     roar,
   })

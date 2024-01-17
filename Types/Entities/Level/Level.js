@@ -152,6 +152,7 @@ function Level(spec) {
     })
     darkenBufferOrScreen = Screen({
       canvas: darkenBuffer.canvas,
+      parentScreen: screen,
     })
   } else {
     darkenBufferOrScreen = screen
