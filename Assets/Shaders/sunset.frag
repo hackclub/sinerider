@@ -96,7 +96,7 @@ void main(void) {
 
   float sunDist = distance(sunPos, uv);
 
-  float noise = pNoise((uv - vec2(1.0 * (SUN_START_Y - sunPos.y), 0.0)) * vec2(200.0, 1000.0), 50);
+  float noise = pNoise((uv - vec2(1.0 * (SUN_START_Y - sunPos.y), 0.0)) * vec2(200.0, 1000.0), 4);
 
   float skyProgress = horizonProx;
 
