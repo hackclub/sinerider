@@ -68,7 +68,7 @@ function ConstantLake(spec) {
   function awakeWithAssetsAndDatum() {
     base.awakeWithAssetsAndDatum()
 
-    if (savedLatex) {
+    if (savedLatex != defaultVectorField) {
       // Bit before end of level but when stars are fully visible
       setWalkerPosition(23)
     }
