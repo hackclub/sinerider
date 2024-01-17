@@ -24,7 +24,7 @@ const VOLCANO = (() => {
             start: '.mp3',
             middle_buildup: '.mp3',
             jump: '.mp3',
-            middle_guitar: 'middle_guitar.mp3',
+            middle_guitar: '.mp3',
           },
         },
         lava_monster_roar: '.mp3',
@@ -193,8 +193,8 @@ const VOLCANO = (() => {
     ],
     walkers: [
       {
+        // x: -50,
         x: -118,
-        x: -50,
         range: [-130, 10000],
         asset: 'images.jack_float',
         name: 'Jack',

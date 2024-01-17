@@ -51,6 +51,7 @@ function Entity(spec, defaultName = 'Entity', dependencies = null) {
     ctx,
     ui,
     tickDelta,
+    world,
   })
 
   const children = []
@@ -310,8 +311,6 @@ function Entity(spec, defaultName = 'Entity', dependencies = null) {
 
     getFromAncestor,
     getLineage,
-
-    world,
 
     get lineage() {
       return getLineage()

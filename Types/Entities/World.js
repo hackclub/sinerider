@@ -53,13 +53,8 @@ function World(spec) {
   let navigating = false
   let editing = false
 
-  /*
-
-  request = await assets.queue(<initial batch of assets for intro level>)
-
-  assets.queue([asset1, asset2, ...]) -> Promise that resolves if/when assets have all been loaded
-
-  */
+  let sampleDensitySetting
+  let terrainLayersSetting
 
   const clickableContext = ClickableContext({
     entity: self,
@@ -490,6 +485,7 @@ function World(spec) {
       playerStorage,
       active: false,
       parent: self,
+      world: self,
       drawOrder: LAYERS.navigator,
     })
     navigator.active = false
@@ -550,6 +546,7 @@ function World(spec) {
         VOLCANO: Volcano,
         DESERT: Desert,
         LEVEL_EDITOR: LevelEditor,
+        CREDITS: Credits,
       }[levelDatum.nick] || Level
 
     const completed =
@@ -1076,6 +1073,22 @@ function World(spec) {
     },
     set navigating(v) {
       setNavigating(v)
+    },
+
+    get terrainLayersSetting() {
+      return terrainLayersSetting
+    },
+    set terrainLayersSetting(v) {
+      terrainLayersSetting = v
+      if (level && level.graph) level.graph.terrainLayers = v
+    },
+
+    set sampleDensitySetting(v) {
+      sampleDensitySetting = v
+      if (level && level.graph) level.graph.sampleCount = v
+    },
+    get sampleDensitySetting() {
+      return sampleDensitySetting
     },
   })
 }

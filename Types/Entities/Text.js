@@ -17,8 +17,6 @@ function Text(spec) {
 
   const ctx = screen.ctx
 
-  function tick() {}
-
   function drawLocal() {
     ctx.textAlign = align
     ctx.textBaseline = baseline
@@ -41,7 +39,6 @@ function Text(spec) {
   }
 
   return self.mix({
-    tick,
     draw,
   })
 }

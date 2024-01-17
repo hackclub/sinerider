@@ -286,7 +286,7 @@ function Camera(spec) {
     screenToWorldCanvas,
 
     tick,
-    // draw,
+    draw,
     start,
 
     startRunning,
