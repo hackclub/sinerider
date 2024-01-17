@@ -6,8 +6,6 @@ function LavaMonster(spec) {
   const transform = Transform(spec, self)
 
   const roar = _.get(assets, 'sounds.lava_monster_roar')
-  console.log(`LavaMonster assets:`, assets)
-  console.log(`LavaMonster roar:`, roar)
 
   transform.position.x = 150 // Lava x
   transform.position.y = 0

@@ -359,8 +359,6 @@ function Level(spec) {
   }
 
   function awakeWithAssets() {
-    console.log('Finished loading assets')
-
     loadDatum(spec.datum)
 
     // Allow for overload from subclass

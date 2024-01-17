@@ -233,32 +233,33 @@ function Assets() {
   }
   const levelLoadingTransitionLength = 1
   function playLeveLLoadingScreenFadeOut() {
-    ui.levelLoadingVeil.setAttribute('style', `animation: fadeOut ${levelLoadingTransitionLength}s ease-in-out forwards;`)
+    ui.levelLoadingVeil.setAttribute(
+      'style',
+      `animation: fadeOut ${levelLoadingTransitionLength}s ease-in-out forwards;`,
+    )
     ui.levelLoadingVeil.addEventListener('animationend', () => {
       ui.levelLoadingVeil.setAttribute('hide', true)
       ui.levelLoadingVeil.removeAttribute('style')
     })
   }
-  let levelLoadingScreenEnabled = true;
+  let levelLoadingScreenEnabled = true
   function hideLoadingScreen() {
     ui.loadingProgressBarContainer.setAttribute('hide', true)
     ui.loadingVeil.setAttribute('hide', true)
 
-    if(levelLoadingScreenEnabled) playLeveLLoadingScreenFadeOut()
-    levelLoadingScreenEnabled = false;
+    if (levelLoadingScreenEnabled) playLeveLLoadingScreenFadeOut()
+    levelLoadingScreenEnabled = false
   }
 
   function showLoadingScreen(loadingLevel = false) {
-    
-    if(!loadingLevel){
+    if (!loadingLevel) {
       ui.loadingProgressBarContainer.setAttribute('hide', false)
       ui.loadingVeil.setAttribute('hide', false)
-    }else{
+    } else {
       ui.levelLoadingVeil.setAttribute('style', `opacity: 1;`)
       ui.levelLoadingVeil.setAttribute('hide', false)
-      levelLoadingScreenEnabled = true;
+      levelLoadingScreenEnabled = true
     }
-
   }
 
   function load(paths, _onComplete, loadingLevel = false) {
@@ -266,16 +267,13 @@ function Assets() {
 
     onComplete = _onComplete
 
-    
-
-
     loadAssets(paths)
 
     // If all assets happen to be already loaded,
     // invoke callback and clean up
     if (loadCount == 0) {
       onFinishLoading()
-    }else{
+    } else {
       showLoadingScreen(loadingLevel)
     }
   }
