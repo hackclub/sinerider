@@ -3,6 +3,8 @@
 
 SineRider is a game about love and graphing, built by a global team of teenagers at [Hack Club](https://hackclub.com). This open-source project is maintained by youth of all kinds: artists, musicians, programmers, and storytellers, so if that's you, come join us! We need your help pushing this beta toward a full 1.0 release.
 
+For teachers, check out our [lesson plan](https://docs.google.com/document/d/1Hwqk98dmBcSFYOcjt27-rLRnKIOCWUOiDHrdgHNT8kA/edit) if you would like to use SineRider in your classroom!
+
 > ### Watch the trailer:
 >
 > [![Watch the Trailer](https://img.youtube.com/vi/35nDYoIwiA8/maxresdefault.jpg)](https://youtu.be/35nDYoIwiA8)
