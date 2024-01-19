@@ -44,8 +44,6 @@ function Arrow(spec) {
 
   recomputeValues()
 
-  function tick() {}
-
   function drawLocalShaft() {
     ctx.beginPath()
     ctx.moveTo(0, truncate[0])
@@ -177,7 +175,6 @@ function Arrow(spec) {
     transform,
     endTransform,
 
-    tick,
     draw,
 
     get point0() {

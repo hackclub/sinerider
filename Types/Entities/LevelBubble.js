@@ -133,8 +133,6 @@ function LevelBubble(spec) {
     refreshPlayable()
   }
 
-  function tick() {}
-
   let tmp = Vector2()
 
   function localToScreen(localX, localY) {
@@ -439,7 +437,6 @@ function LevelBubble(spec) {
 
     resize,
 
-    tick,
     draw,
 
     render,
