@@ -392,10 +392,9 @@ input[valid='false'] {
 
 /* TODO: Make copy link dialog for modal look decent */
 
-#share-editor-level-dialog > .hbar {
+#editor-share-dialog > .hbar {
   align-items: center;
   gap: 20px;
-  border: 2px solid #000;
   padding: 0px 10px;
   max-width: 100%;
   margin-top: 10px;
