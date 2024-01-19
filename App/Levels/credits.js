@@ -27,7 +27,7 @@ const CREDITS = {
         fov: 9,
       },
       state1: {
-        position: [-34, 4],
+        position: [-34, 3],
         fov: 8,
       },
     },
@@ -36,7 +36,7 @@ const CREDITS = {
       point0: [-30, 0],
       point1: [-14, 0],
       state0: {
-        position: [-34, 4],
+        position: [-34, 3],
         fov: 8,
       },
       state1: {
@@ -66,8 +66,8 @@ const CREDITS = {
         fov: 18,
       },
       state1: {
-        position: [10, -10],
-        fov: 18,
+        position: [10, -11],
+        fov: 20,
       },
     },
   ],
