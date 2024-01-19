@@ -273,11 +273,6 @@ function draw() {
   if (!canvasIsDirty) return
   canvasIsDirty = false
 
-  // Draw order bug where Shader entity isn't actually
-  // sorted in World draw array and needs another sort call
-  // in order to work? Temp fix (TODO: Fix this)
-  // world.sortDrawArray()
-
   let entity
   for (let i = 0; i < world.drawArray.length; i++) {
     entity = world.drawArray[i]
