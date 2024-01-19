@@ -70,7 +70,8 @@ function ConstantLake(spec) {
 
     if (savedLatex != defaultVectorField) {
       // Bit before end of level but when stars are fully visible
-      setWalkerPosition(23)
+      // For some reason we can't seem to identify when the latex has changed or not. I have not deeply investigated this but I am disabling for now.
+      // setWalkerPosition(23)
     }
 
     // TODO: Rework running, starting/stopping (should be managed by Level?)
