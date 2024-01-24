@@ -1,14 +1,20 @@
 // TODO: Figure out how Editor should work?
 // (Maybe doesn't need its own class?)
 function LevelEditor(spec) {
-  const { self, ui, goals, sledders, gridlines, coordinateBox, graph, sky } =
-    Level(spec)
+  const {
+    self,
+    ui,
+    goals,
+    sledders,
+    gridlines,
+    coordinateBox,
+    graph,
+    sky,
+    datum,
+  } = Level(spec)
 
   const base = _.mix(self)
-  let biomeSetting
-
-  // Implicitly pass self to (direct) editable children
-  // (goals, sledder) as parent
+  let biomeSetting = datum.biome ?? 'westernSlopes'
 
   /*
 
@@ -49,7 +55,7 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
       // Version, etc.
       ...base.serialize(),
       defaultExpression: self.currentLatex,
-      sledders: sledders.map((v) => ({ x: v.x, y: v.y })),
+      sledders: sledders.map((v) => ({ asset: v.asset, x: v.x, y: v.y })),
       goals: goals.map((g) => {
         const goalJson = {
           type: g.type,
@@ -63,9 +69,8 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
         }
         return goalJson
       }),
+      biome: biomeSetting,
     }
-
-    if (biomeSetting) json.biome = biomeSetting
 
     if (nick) json.nick = nick
 
@@ -75,6 +80,11 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
   function awake() {
     // ui.nextButton.setAttribute('hide', true)
     enableEditing()
+
+    ui.editorLevelConfigurationBiomeSelect.value = biomeSetting
+    ui.editorLevelConfigurationSledderSelect.value = datum.sledders[0].asset
+
+    self.save()
   }
 
   function destroy() {
@@ -344,6 +354,7 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
     biomeSetting = biomeKey
     const biome = BIOMES[biomeKey]
     base.setBiome(biome)
+    self.save()
   }
 
   function setSledderImage(sledderImagePath) {
@@ -357,6 +368,7 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
       y,
       asset: sledderImagePath,
     })
+    self.save()
   }
 
   function setStart() {}

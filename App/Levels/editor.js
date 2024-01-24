@@ -8,7 +8,7 @@ const EDITOR = [
     requirements: [],
     sledders: [
       {
-        asset: 'images.sam_sled',
+        asset: 'images.ada_jack_sled',
         x: 1,
         y: 0,
       },

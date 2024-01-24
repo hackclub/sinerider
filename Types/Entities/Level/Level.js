@@ -864,6 +864,7 @@ function Level(spec) {
       null,
       '?' + LZString.compressToBase64(JSON.stringify(serialized)),
     )
+    // console.log('Writing to URL:', serialized)
   }
 
   function tVariableChanged(newT) {

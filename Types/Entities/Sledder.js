@@ -222,6 +222,10 @@ function Sledder(spec = {}) {
     select,
     deselect,
 
+    get asset() {
+      return asset
+    },
+
     get x() {
       return position.x
     },

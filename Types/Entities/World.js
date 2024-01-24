@@ -384,6 +384,9 @@ function World(spec) {
 
     isPuzzle = urlData?.isPuzzle ?? false
 
+    // Ensure URL Data is, at minimum, an empty object instead of an unqueryable null. Needs to be explicitly redefined because sometimes null is explicitly passed.
+    if (urlData == null) urlData = {}
+
     if (isPuzzle) {
       levelDatum = generatePuzzleLevel(urlData)
       savedLatex = levelDatum.expressionOverride
@@ -393,16 +396,38 @@ function World(spec) {
       if (nick == 'RANDOM') {
         levelDatum = generateRandomLevel()
       } else if (nick == 'CUSTOM_LEVEL') {
-        console.log('URL Data:', urlData)
+        // console.log('Custom Level URL Data:', urlData)
         levelDatum = {
           nick,
-          goals: urlData.goals,
-          sledders: urlData.sledders,
-          defaultExpression: urlData.defaultExpression,
+          goals: urlData.goals ?? [],
+          sledders: urlData.sledders ?? [],
+          defaultExpression: urlData.defaultExpression ?? '0',
+          biome: urlData.biome ?? 'westernSlopes',
         }
+
+        // Load assets from the specific biome specified in the URL data
         if (urlData.biome) _.mixIn(levelDatum, BIOMES[urlData.biome])
 
-        console.log('Level Datum:', levelDatum)
+        // console.log('Custom Level Datum:', levelDatum)
+      } else if (nick == 'LEVEL_EDITOR') {
+        // console.log('Level Editor URL Data:', urlData)
+        levelDatum = {
+          nick,
+        }
+
+        // Mix in EDITOR level properties from editor.js
+        _.mixIn(levelDatum, EDITOR[0])
+
+        // Mix in any overrides contained in url data
+        _.mixIn(levelDatum, urlData)
+
+        // Mix in any specific properties associated with this biome
+        if (urlData.biome) _.mixIn(levelDatum, BIOMES[urlData.biome])
+
+        // But still guarantee that all assets required for all biomes are loaded to editor
+        levelDatum.assets = EDITOR[0].assets
+
+        // console.log('Level Editor Datum:', levelDatum)
       } else {
         levelDatum = _.find(levelData, (v) => v.nick == nick)
       }
