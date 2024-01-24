@@ -406,15 +406,6 @@ function World(spec) {
       } else {
         levelDatum = _.find(levelData, (v) => v.nick == nick)
       }
-
-      // if (urlData?.goals && urlData?.goals.length)
-      //   levelDatum.goals = (levelDatum.goals ?? []).concat(urlData?.goals)
-
-      // if (urlData?.x && levelDatum.sledders[0])
-      //   levelDatum.sledders[0].x = urlData.x
-
-      // if (urlData?.defaultExpression)
-      //   levelDatum.defaultExpression = urlData.defaultExpression
     }
 
     return levelDatum
