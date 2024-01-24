@@ -5,6 +5,7 @@ function LevelEditor(spec) {
     Level(spec)
 
   const base = _.mix(self)
+  let biomeSetting
 
   // Implicitly pass self to (direct) editable children
   // (goals, sledder) as parent
@@ -63,7 +64,11 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
         return goalJson
       }),
     }
+
+    if (biomeSetting) json.biome = biomeSetting
+
     if (nick) json.nick = nick
+
     return json
   }
 
@@ -336,6 +341,7 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
   // }
 
   function selectBiome(biomeKey) {
+    biomeSetting = biomeKey
     const biome = BIOMES[biomeKey]
     base.setBiome(biome)
   }

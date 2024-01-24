@@ -393,7 +393,6 @@ function World(spec) {
       if (nick == 'RANDOM') {
         levelDatum = generateRandomLevel()
       } else if (nick == 'CUSTOM_LEVEL') {
-        console.log('Nick:', nick)
         console.log('URL Data:', urlData)
         levelDatum = {
           nick,
@@ -401,6 +400,8 @@ function World(spec) {
           sledders: urlData.sledders,
           defaultExpression: urlData.defaultExpression,
         }
+        if (urlData.biome) _.mixIn(levelDatum, BIOMES[urlData.biome])
+
         console.log('Level Datum:', levelDatum)
       } else {
         levelDatum = _.find(levelData, (v) => v.nick == nick)
