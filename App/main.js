@@ -766,6 +766,7 @@ for (const biomeName of Object.keys(BIOMES)) {
 for (const [sledderName, sledderImage] of [
   ['Ada', 'images.ada_sled'],
   ['Jack', 'images.jack_sled'],
+  ['Ada & Jack', 'images.ada_jack_sled'],
 ]) {
   const option = document.createElement('option')
   option.innerText = sledderName
