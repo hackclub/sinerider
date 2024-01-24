@@ -392,18 +392,28 @@ function World(spec) {
     } else {
       if (nick == 'RANDOM') {
         levelDatum = generateRandomLevel()
+      } else if (nick == 'CUSTOM_LEVEL') {
+        console.log('Nick:', nick)
+        console.log('URL Data:', urlData)
+        levelDatum = {
+          nick,
+          goals: urlData.goals,
+          sledders: urlData.sledders,
+          defaultExpression: urlData.defaultExpression,
+        }
+        console.log('Level Datum:', levelDatum)
       } else {
         levelDatum = _.find(levelData, (v) => v.nick == nick)
       }
 
-      if (urlData?.goals && urlData?.goals.length)
-        levelDatum.goals = (levelDatum.goals ?? []).concat(urlData?.goals)
+      // if (urlData?.goals && urlData?.goals.length)
+      //   levelDatum.goals = (levelDatum.goals ?? []).concat(urlData?.goals)
 
-      if (urlData?.x && levelDatum.sledders[0])
-        levelDatum.sledders[0].x = urlData.x
+      // if (urlData?.x && levelDatum.sledders[0])
+      //   levelDatum.sledders[0].x = urlData.x
 
-      if (urlData?.defaultExpression)
-        levelDatum.defaultExpression = urlData.defaultExpression
+      // if (urlData?.defaultExpression)
+      //   levelDatum.defaultExpression = urlData.defaultExpression
     }
 
     return levelDatum

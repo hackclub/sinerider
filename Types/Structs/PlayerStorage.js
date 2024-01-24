@@ -17,7 +17,7 @@ function PlayerStorage() {
 
   function save() {
     // TODO: Fix
-    if (activeLevel === 'CUSTOM_LEVEL') return
+    // if (activeLevel === 'CUSTOM_LEVEL') return
     localStorage.setItem('levels', JSON.stringify(levels))
     localStorage.setItem('activeLevel', activeLevel)
   }

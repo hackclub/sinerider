@@ -48,6 +48,7 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
       // Version, etc.
       ...base.serialize(),
       defaultExpression: self.currentLatex,
+      sledders: sledders.map((v) => ({ x: v.x, y: v.y })),
       goals: goals.map((g) => {
         const goalJson = {
           type: g.type,
@@ -62,7 +63,6 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
         return goalJson
       }),
     }
-    if (sledders[0]) json.x = sledders[0].transform.x
     if (nick) json.nick = nick
     return json
   }
@@ -154,12 +154,11 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
     return string.length < stringFixed.length ? string : stringFixed
   }
 
-  function updateGoalLimitVisual(){
+  function updateGoalLimitVisual() {
     let goalLimitText = document.getElementById('goal-limit-visual')
     goalLimitText.innerText = `${self.goals.length}/${goalLimit} Goals`
     goalLimitText.style.color = self.goals.length >= goalLimit ? 'red' : 'black'
   }
-
 
   function update() {
     // Update UI
@@ -175,30 +174,28 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
 
     // Save to URL
     self.save()
-
   }
 
   //Allows a goal to be added if the goal limit has not been reached
-  //More conditions can be added 
+  //More conditions can be added
   function tryAddGoal() {
-
     return self.goals.length < goalLimit
   }
 
   function onAddFixedClicked() {
-    if(!tryAddGoal()) return
+    if (!tryAddGoal()) return
     self.addGoal({ type: 'fixed' })
     updateGoalLimitVisual()
   }
 
   function onAddDynamicClicked() {
-    if(!tryAddGoal()) return
+    if (!tryAddGoal()) return
     self.addGoal({ type: 'dynamic' })
     updateGoalLimitVisual()
   }
 
   function onAddPathClicked() {
-    if(!tryAddGoal()) return
+    if (!tryAddGoal()) return
     self.addGoal({ type: 'path' })
     updateGoalLimitVisual()
   }
