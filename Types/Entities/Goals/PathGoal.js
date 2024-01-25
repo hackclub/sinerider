@@ -472,7 +472,7 @@ function PathGoal(spec) {
 
     trackPoints = [pathStartWorld, pathEndWorld]
 
-    editor.update()
+    editor.update(false)
 
     // Don't propagate drag events to handles
     return false
@@ -485,6 +485,7 @@ function PathGoal(spec) {
 
   function dragEnd() {
     if (!editor.editing) return
+    editor.update()
     reset()
   }
 
@@ -503,13 +504,13 @@ function PathGoal(spec) {
 
     const newPathStartX = newStart - transform.x
     setEnds(Math.min(pathEnd.x - 1, newPathStartX), pathEnd.x)
-    editor.update()
+    editor.update(false)
   }
 
   function setEnd(newEnd) {
     const newPathEndX = newEnd - transform.x
     setEnds(pathStart.x, Math.max(pathStart.x + 1, newPathEndX))
-    editor.update()
+    editor.update(false)
   }
 
   return self.mix({

@@ -176,7 +176,7 @@ function Sledder(spec = {}) {
   function dragMove(point) {
     if (!editor.editing) return
     position.set(point)
-    editor.update()
+    editor.update(false)
   }
 
   function dragEnd() {
@@ -189,13 +189,10 @@ function Sledder(spec = {}) {
   function setX(x) {
     originX = x
     reset()
-    editor.update()
   }
 
   function setY(y) {
     position.y = y
-    // reset()
-    // editor.update()
   }
 
   return self.mix({

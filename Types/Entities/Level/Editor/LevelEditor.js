@@ -175,7 +175,7 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
     goalLimitText.style.color = self.goals.length >= goalLimit ? 'red' : 'black'
   }
 
-  function update() {
+  function update(save = true) {
     // Update UI
     inputs.order.value = selection.order ?? ''
     inputs.x.value = selection.x ? selection.x.toFixed(2) : ''
@@ -188,7 +188,7 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
       inputs.end.value = stringifyInputNumber(selection.ending)
 
     // Save to URL
-    self.save()
+    if (save) self.save()
   }
 
   //Allows a goal to be added if the goal limit has not been reached
