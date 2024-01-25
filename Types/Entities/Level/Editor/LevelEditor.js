@@ -345,6 +345,7 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
     showDialog(ui.editorSharingLinkDialog)
   }
 
+  // TODO: Finish polar coordinates
   // function setPolar(polar) {
   //   graph.polar = polar
   //   ui.mathFieldLabel.innerText = `${graph.label}=`
