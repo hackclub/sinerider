@@ -691,10 +691,7 @@ function selectScreenCoordinatesFromWindow(windowX, windowY) {
   const screenX = screen.resolutionScalingFactor * windowX
   const screenY = screen.resolutionScalingFactor * windowY
 
-  world.sendEvent('selectScreenCoordinates', [
-    screenX * screen.resolutionScalingFactor,
-    screenY * screen.resolutionScalingFactor,
-  ])
+  world.sendEvent('selectScreenCoordinates', [screenX, screenY])
 }
 
 function onMouseMoveWindow(event) {
