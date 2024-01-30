@@ -720,7 +720,9 @@ function World(spec) {
     } else {
       ui.victoryBar.setAttribute('hide', false)
       ui.expressionEnvelope.setAttribute('hide', true)
-      ui.showAllButton.setAttribute('hide', true)
+      // Disabled this behavior because it's just too annoying when trying to show the game to people, and it kinda feels like a bug.
+      // So now the "Show All" button will always be visible.
+      // ui.showAllButton.setAttribute('hide', true)
     }
 
     const isPuzzle = true
