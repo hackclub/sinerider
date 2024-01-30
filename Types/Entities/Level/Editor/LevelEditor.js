@@ -143,7 +143,7 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
     selection = null
     selectionIsDeletable = false
 
-    showSpawnerPanel()
+    if (!world.navigating) showSpawnerPanel()
   }
 
   /* UI Events */
