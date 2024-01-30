@@ -1,5 +1,5 @@
 function ClickableContext(spec) {
-  const { entity } = spec
+  const { entity, screen } = spec
 
   let target = null
   let selection = null
@@ -10,7 +10,10 @@ function ClickableContext(spec) {
   const collectHitArgs = [mousePoint, hits]
 
   function processEvent(eventData, eventName) {
-    mousePoint.set(eventData.offsetX, eventData.offsetY)
+    mousePoint.set(
+      eventData.offsetX * screen.resolutionScalingFactor,
+      eventData.offsetY * screen.resolutionScalingFactor,
+    )
 
     // Collect all hits at mousePoint
     hits.length = 0
@@ -31,7 +34,9 @@ function ClickableContext(spec) {
       target = newTarget
     }
 
+    // TODO: Figure out editor
     if (eventName == 'mouseDown') {
+      // This event is only used for selection in editor
       let newSelection = hits
         .reverse()
         .find((h) => h.enabled && h.entity.selectable)
@@ -46,7 +51,7 @@ function ClickableContext(spec) {
     }
 
     // Ping every clickable in this tree
-    entity.sendEvent('clickable.' + eventName, [mousePoint])
+    entity.sendEvent('clickable.' + eventName, [mousePoint, eventData])
   }
 
   function deselect(entity) {
@@ -59,15 +64,14 @@ function ClickableContext(spec) {
   }
 
   function keydown(key) {
-    alert('keydown')
-    if (key == 'Backspace' || key == 'Delete') {
-      // TODO: Maybe tag entities with general type for polymorphism?
-      if (selection && selection.name.includes('Goal')) {
-        editor.deselect()
-        world.level.sendEvent('goalDeleted', [selection])
-        selection.destroy()
-      }
-    }
+    // if (key == 'Backspace' || key == 'Delete') {
+    //   // TODO: Maybe tag entities with general type for polymorphism?
+    //   if (selection && selection.name.includes('Goal')) {
+    //     editor.deselect()
+    //     world.level.sendEvent('goalDeleted', [selection])
+    //     selection.destroy()
+    //   }
+    // }
   }
 
   return {

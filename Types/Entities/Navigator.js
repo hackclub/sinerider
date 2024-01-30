@@ -11,7 +11,12 @@ function Navigator(spec) {
     playerStorage,
   } = spec
 
-  let mapFov = 15
+  const initialMapFov = 15
+
+  const minMapFov = initialMapFov
+  const maxMapFov = 80
+
+  let mapFov = initialMapFov
 
   const camera = Camera({
     screen,
@@ -64,8 +69,11 @@ function Navigator(spec) {
   function tick() {
     if (bubbleRenderQueue.length > 0) {
       let b = 0
-      while (b++ <= bubbleRenderCap && bubbleRenderQueue.length > 0)
-        bubbleRenderQueue.pop().render()
+      while (b++ <= bubbleRenderCap && bubbleRenderQueue.length > 0) {
+        const bubble = bubbleRenderQueue.pop()
+        console.log('Rendering bubble', bubble.nick)
+        bubble.render()
+      }
     }
   }
 
@@ -86,6 +94,7 @@ function Navigator(spec) {
 
   function createBubble(levelDatum) {
     const bubble = LevelBubble({
+      parent: self,
       levelDatum,
       setLevel,
       assets,
@@ -94,7 +103,6 @@ function Navigator(spec) {
       tickDelta,
       getBubbleByNick,
       panCamera,
-      parent: self,
       getShowAll: () => showAll,
       drawOrder: LAYERS.levelBubbles,
     })
@@ -155,11 +163,17 @@ function Navigator(spec) {
     panDirector.moveTo(
       null,
       {
+        fov: initialMapFov,
         position,
-        fov: mapFov,
       },
       duration,
-      cb,
+      () => {
+        // When finished moving, reset FOV from zoom
+        mapFov = initialMapFov
+        panDirector.setTargetFov(mapFov)
+
+        cb()
+      },
     )
   }
 
@@ -193,7 +207,7 @@ function Navigator(spec) {
     panDirector.moveTo(
       null,
       {
-        fov: mapFov,
+        fov: initialMapFov,
         position: point,
       },
       1,
@@ -205,10 +219,18 @@ function Navigator(spec) {
     return false // Don't let propagate to child LevelBubbles
   }
 
+  function onMouseWheel(event) {
+    const deltaY = event.deltaY
+    mapFov = math.clamp(minMapFov, maxMapFov, mapFov + deltaY * 0.2)
+    panDirector.setTargetFov(mapFov)
+  }
+
   return self.mix({
     start,
     tick,
     draw,
+
+    onMouseWheel,
 
     moveToLevel,
 

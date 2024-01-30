@@ -36,6 +36,8 @@ function PanDirector(spec) {
 
   let lowerLeftScreen = Vector2()
 
+  let heldDown = false
+
   function snapCameraToNearestPixel() {
     // camera.worldToScreen(camera.lowerLeft, lowerLeftScreen)
     // let { x, y } = lowerLeftScreen
@@ -96,28 +98,6 @@ function PanDirector(spec) {
     snapCameraToNearestPixel()
   }
 
-  function updateVelocity(mousePoint, heldDown = clickable.holding) {
-    // if (!transitComplete) return
-    if (!heldDown) return
-    transitComplete = true
-    let left = camera.lowerLeft.x
-    let right = camera.upperRight.x
-    let top = camera.upperRight.y
-    let bottom = camera.lowerLeft.y
-
-    camera.worldToFrame(mousePoint, newVelocity)
-
-    newVelocity.multiply(2)
-    newVelocity.x = math.clamp(-1, 1, newVelocity.x)
-    newVelocity.y = math.clamp(-1, 1, newVelocity.y)
-
-    newVelocity.multiply(panSpeed)
-
-    // console.log('Mouse move', x, y)
-
-    justUpdatedVelocity = true
-  }
-
   function updateKeysHeld(key, held) {
     switch (key) {
       case 'ArrowLeft':
@@ -162,17 +142,62 @@ function PanDirector(spec) {
     callback = cb
   }
 
+  function setTargetFov(_fov) {
+    cameraState.fov = _fov
+  }
+
+  function updateVelocity(mousePoint) {
+    if (!heldDown) return
+
+    transitComplete = true
+
+    camera.worldToFrame(mousePoint, newVelocity)
+
+    newVelocity.multiply(2)
+    newVelocity.x = math.clamp(-1, 1, newVelocity.x)
+    newVelocity.y = math.clamp(-1, 1, newVelocity.y)
+
+    newVelocity.multiply(panSpeed)
+
+    justUpdatedVelocity = true
+  }
+
+  function mouseDown(point, eventData) {
+    const button = eventData.button
+    if (button !== 2) {
+      heldDown = true
+      updateVelocity(point)
+    } else {
+      // HACK: Fix panning bug where
+      // right-click menu breaks menu
+      // by stopping on right-click
+      heldDown = false
+      velocity.set(0, 0)
+      newVelocity.set(0, 0)
+    }
+  }
+
+  function mouseUp() {
+    heldDown = false
+  }
+
+  function hoverMove(point) {
+    updateVelocity(point)
+  }
+
   return self.mix({
     tick,
-    draw,
 
     keydown,
     keyup,
     moveTo,
 
+    setTargetFov,
+
     clickable,
     updateVelocity,
-    mouseDown: updateVelocity,
-    hoverMove: updateVelocity,
+    mouseUp,
+    mouseDown,
+    hoverMove,
   })
 }

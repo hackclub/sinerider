@@ -1,0 +1,38 @@
+{
+	"info": {
+		"_postman_id": "1ba21e6b-9062-4a85-945c-8787f401b2a4",
+		"name": "sinerider-scoring",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26253586"
+	},
+	"item": [
+		{
+			"name": "Submit score",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"level\": \"https://sinerider.com/?N4IgdghgtgpiBcACEBlAlmGAnNATbiAIhGgDYCeiACgK4BedpMiAxAIwgA0yYaAxgGsEyAA71GMAPoduIXFggB3APJZ8WYWwAMOrbIAewgLTbZ5YXuT4AZhBqkALgFF9IrDADOHtAHswwkC0uZABzHwhSD2EAbVBDJAAmM2NTZAdyETgkEGs0fRhcEABfbjiUgDZkpCMATll0zIDcckgofmLSkHjEIwAWKp66tIys5Fz8wpLEMqQAdgGTJOHG7PGCjumuzTYFgFZ6kYC1yYBdWQ8mXHUopFitpDZ95AgvGAcAtCgIEM8AOghcBBJBd1lMZj02EsQC8PG8Pl8fh5fgArCCCYGXYpnZAAI18sAC3jANA8PjwEUInmw71kaA8tAYTGEDiwNBgshgrncXl8YGUADdsDh8AFfmx9AA9BJGADMWgAOvLEABqRWIRVExVMawOAAUcocipwIQAFg4AJTFIA&ticksPerSecond=150&drawModulo=3\" }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:3000/score",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"score"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

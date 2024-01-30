@@ -34,12 +34,35 @@ html {
   overflow: hidden;
 }
 
-canvas {
+#canvas { 
   user-select: none;
+  width: 100vw;
+  height: 100vh;
 }
 
 .map {
   /* transform: scale(1.42) rotateX(40deg) rotateY(-4deg); */
+}
+
+#graphics-settings-dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+}
+#graphics-settings-close-button{
+  position: absolute;
+  color: rgb(0, 0, 0);
+  width: 1px;
+  height: 1px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  top: 5px
+}
+#graphics-settings-close-button:hover{
+  cursor: pointer;
+  color: rgb(255, 0, 0);
 }
 
 .bar {
@@ -64,10 +87,6 @@ body > .bar {
 
   left: 20px;
   right: 20px;
-}
-
-.bar > * {
-  margin: 0 4px 0 0;
 }
 
 .bar > *:last-child {
@@ -279,6 +298,11 @@ input[valid='false'] {
   bottom: -50vh;
 }
 
+.hbar {
+  display: flex;
+  flex-direction: row;
+}
+
 #expression-text {
   display: none;
   flex-grow: 1;
@@ -336,6 +360,18 @@ input[valid='false'] {
   opacity: 0;
 }
 
+#editor-copy-puzzle-link {
+  background: rgb(116, 146, 255);
+}
+
+#editor-copy-editor-link {
+  background: rgb(255, 162, 116);
+}
+
+#share-button {
+  background: rgb(116, 146, 255);
+}
+
 #run-button {
   position: absolute;
 
@@ -345,6 +381,32 @@ input[valid='false'] {
 
 #try-again-button {
   animation: pulse 0.5s infinite;
+}
+
+#skip-cutscene-button {
+  position: absolute;
+
+  left: 0;
+  bottom: 0;
+}
+
+/* TODO: Make copy link dialog for modal look decent */
+
+#editor-share-dialog > .hbar {
+  align-items: center;
+  gap: 20px;
+  padding: 0px 10px;
+  max-width: 100%;
+  margin-top: 10px;
+}
+
+#editor-sharing-link {
+  width: 300px;
+  overflow: scroll;
+}
+
+#editor-copy-sharing-link-button {
+  background: rgb(99, 99, 255);
 }
 
 .reset-button {
@@ -401,8 +463,28 @@ input[valid='false'] {
   background: #4f6;
 }
 
-.reset-button:not(:hover) {
+.reset-button:not(:hover), #skip-cutscene-button:not(:hover) {
   background: #f46;
+}
+
+/* TODO: Clean up settings button, use existing CSS */
+#settings-button {
+  margin-top:8px;
+  margin-left:8px;
+
+  padding: 0 8px;
+
+  background: transparent;
+
+  border-radius: 5px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 2.4rem;
 }
 
 #next-button:not(:hover) {
@@ -463,13 +545,13 @@ input[valid='false'] {
   display: inline;
 }
 
-#hovertext {
+.hovertext {
   position: relative;
   display: inline-block;
   border-bottom: 1px dotted black;
 }
 
-#hovertext:before {
+.hovertext:before {
   content: attr(data-hover);
   visibility: hidden;
   opacity: 0;
@@ -488,7 +570,7 @@ input[valid='false'] {
   left: -150%;
 }
 
-#hovertext:hover:before {
+.hovertext:hover:before {
   opacity: 1;
   visibility: visible;
 }
@@ -534,23 +616,9 @@ input[valid='false'] {
   transition: 0.05s;
 }
 
-#volume-slider-box {
-  transition-duration: 1s;
-  border: 2px solid rgba(255, 255, 255, 0);
-  padding: 10px;
-  border-radius: 0 0 10px 0;
-}
-#volume-slider-box:hover {
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(9px);
-}
-
 #volume-slider {
-  opacity: 0;
-  transition-duration: 1s;
-}
-#volume-slider-box:hover > #volume-slider {
   opacity: 1;
+  transition-duration: 1s;
 }
 
 #top-bar[hide='true'] {
@@ -745,6 +813,13 @@ input[valid='false'] {
   align-items: center;
   justify-content: center;
 }
+.veil-no-transition {
+  transition: 0s !important;
+}
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
 
 .flash-shadow {
   animation-duration: 1s;
@@ -774,6 +849,55 @@ input[valid='false'] {
 .loading {
   transition: 3s;
 }
+
+/* Loading screen dot animations. From https://codepen.io/nzbin/pen/GGrXbp */
+.dot-flashing {
+  --dot-color: black;
+  position: relative;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: var(--dot-color);
+  color: var(--dot-color);
+  animation: dot-flashing 1s infinite linear alternate;
+  animation-delay: 0.5s;
+}
+.dot-flashing::before, .dot-flashing::after {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  top: 0;
+}
+.dot-flashing::before {
+  left: -15px;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: var(--dot-color);
+  color: var(--dot-color);
+  animation: dot-flashing 1s infinite alternate;
+  animation-delay: 0s;
+}
+.dot-flashing::after {
+  left: 15px;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: var(--dot-color);
+  color: var(--dot-color);
+  animation: dot-flashing 1s infinite alternate;
+  animation-delay: 1s;
+}
+
+@keyframes dot-flashing {
+  0% {
+    background-color: var(--dot-color);
+  }
+  50%, 100% {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+}
+/* End of loading screen dot animations */
 
 .envelope {
   position: relative;
@@ -858,6 +982,14 @@ input[valid='false'] {
   bottom: calc(80% + 20px);
   left: 90%;
 }
+.right{
+  left: 130%;
+  top: 0%;
+}
+.left{
+  right: 130%;
+  top: 0%;
+}
 .bottom-left {
   right: 23% !important;
   top: 103% !important;
@@ -880,6 +1012,26 @@ input[valid='false'] {
   border-bottom: 10px solid transparent;
   right: -2px;
   bottom: -20px;
+}
+.helper-bubble.right:before{
+  border-left: 10px solid transparent;
+  border-right: 10px solid black;
+  border-top: 10px solid black;
+  border-bottom: 10px solid transparent;
+  left: -10px;
+  bottom: 15%;
+  transform: translate(0, 50%);
+  transform: rotate(225deg);
+}
+.helper-bubble.left:before{
+  border-left: 10px solid transparent;
+  border-right: 10px solid black;
+  border-top: 10px solid black;
+  border-bottom: 10px solid transparent;
+  right: -10px;
+  bottom: 15%;
+  transform: translate(0, 50%);
+  transform: rotate(45deg);
 }
 .helper-bubble.top-right:before {
   border-left: 10px solid black;
@@ -979,10 +1131,6 @@ input[valid='false'] {
     margin: 0;
   }
 
-  #volume-slider-box {
-    display: none;
-  }
-
   #navigator-floating-bar {
     top: 0;
     bottom: auto;
@@ -1054,13 +1202,22 @@ input[valid='false'] {
 
 #editor-inspector,
 #editor-spawner {
-  background: '#000';
+  background: #e8e8e8;
   display: flex;
   align-items: center;
-  height: 2.5em;
+  max-height: 2.5em;
   column-gap: 10px;
-  padding: 3px 10px;
-  margin: auto;
+  padding: 10px 10px;
+  margin: 10px 0 0 0;
+}
+
+#editor-spawner canvas {
+  height: 30px;
+}
+
+#editor-inspector .button, #editor-spawner .button {
+  padding: 5px 8px;
+  box-shadow: none;
 }
 
 #editor-order-input {
@@ -1070,6 +1227,11 @@ input[valid='false'] {
 
 #editor-x-input,
 #editor-y-input {
+  width: 5em;
+}
+
+#editor-start-input,
+#editor-end-input {
   width: 5em;
 }
 
@@ -1097,6 +1259,10 @@ input[valid='false'] {
 .editor-bar[hide='false'] {
   display: inherit;
   animation: show-editor-bar 0.5s;
+}
+
+.editor-sliding-up {
+  transform: translateY(calc(-100% - 73px / 2));
 }
 
 @keyframes show-editor-bar {
@@ -1145,10 +1311,20 @@ input[valid='false'] {
     background-color: #f46;
   }
 }
-
+#goal-limit-visual{
+  background: white;
+  border-radius: 5px;
+  height: 33px;
+  width: 40px;
+  padding: 3px 5px 5px 5px;
+  font-size: 13px;
+  text-align: center;
+  justify-content: center;
+  font-weight: 500;
+}
 #lvl-debug-info {
   position: absolute;
-  left: 25px;
+  margin-left: 75px;
   top: 10px;
   font-size: 10px;
   width: 350px;

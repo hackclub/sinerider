@@ -91,7 +91,7 @@ vec4 lava(vec2 uv, vec2 s) {
 
     float blobThreshold = (1.-smoothstep(innerHeight+0.01, innerHeight + 0.1, h)) * linearstep(0.0, smoothstep(.45, .55, h), uv.y) * 0.2;
     
-    float o = pow(pNoise((uv + 0.1 * vec2(time, time)) * 2000., 6), 0.4);
+    float o = pow(pNoise((uv + 0.1 * vec2(time, time)) * 2000., 2), 0.4);
     
     vec3 lavaCol = mix(vec3(0.6, 0.15, 0.), vec3(0.9, 0.2, 0.), o - 0.4*step(blobThreshold, m_dist));
 

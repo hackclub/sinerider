@@ -29,6 +29,13 @@ function Sound(spec) {
   let lastVol
 
   function awake() {
+    if (!howl) {
+      // TODO: Need more robust solution for either
+      // ensuring that all assets get loaded or throwing
+      // errors for assets that forget  to be
+      // included in biome/level spec/eden.js
+      throw `Expected sound (${asset}) to be loaded`
+    }
     if (!domain) {
       soundId = howl.play()
       played = true
@@ -42,7 +49,7 @@ function Sound(spec) {
     let vol = volume
 
     if (domain) {
-      const x = level?.cutsceneDistanceParameter
+      const x = level.getCutsceneX()
 
       // Sounds w/ domains only play once
       if (x > domain[0] && !howl.playing() && !played) {
@@ -58,7 +65,9 @@ function Sound(spec) {
       if (domain.length == 4) {
         if (self.debug)
           console.log(
-            `${self.name} distance parameter: ${level.cutsceneDistanceParameter} volume: ${volume}`,
+            `${
+              self.name
+            } distance parameter: ${level.getCutsceneX()} volume: ${volume}`,
           )
         vol *= math.clamp01(math.unlerp(domain[3], domain[2], x))
       }

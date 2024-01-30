@@ -1,6 +1,7 @@
 todo.md
 .vscode
-todo.md
 **/*.DS_Store
 .vs
 node_modules
+one_gb_file
+ten_mb_file

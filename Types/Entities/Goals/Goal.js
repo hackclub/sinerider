@@ -1,11 +1,10 @@
 function Goal(spec) {
-  const { self, screen, ctx } = Entity(spec, 'Goal')
+  const { self, screen, ctx, parent } = Entity(spec, 'Goal')
 
   const transform = Transform(spec)
 
   let {
     type = 'fixed',
-    timer = 0,
     order = null,
     size = 1,
     camera,
@@ -13,7 +12,6 @@ function Goal(spec) {
     goalCompleted,
     goalFailed,
     globalScope,
-    graph,
     getLowestOrder,
   } = spec
 
@@ -84,8 +82,8 @@ function Goal(spec) {
     flashProgress *= 0.95
 
     cameraDirection.set(camera.transform.position)
-    transform.invertPoint
     cameraDistance = cameraDirection.magnitude
+    // if (spec.toolbarGoal) debugger
     if (cameraDistance == 0) cameraDirection.set(0, 1)
     else cameraDirection.normalize()
   }
@@ -153,7 +151,7 @@ function Goal(spec) {
   function drawLocal() {
     if (order) {
       ctx.save()
-      ctx.fillStyle = strokeStyle
+      // ctx.fillStyle = strokeStyle
       ctx.textAlign = 'center'
       ctx.textBaseline = 'middle'
       ctx.font = '1px Roboto Mono'
@@ -189,13 +187,9 @@ function Goal(spec) {
     self.refresh()
   }
 
-  function startRunning() {
-    // TODO: Fix editor vs. non-editor logic for showing/hiding GUI
-    if (self.clickable && world.level.isEditor()) self.clickable.enabled = false
-  }
+  function startRunning() {}
 
   function stopRunning() {
-    if (self.clickable) self.clickable.enabled = true
     self.reset()
   }
 
@@ -266,9 +260,18 @@ function Goal(spec) {
     self.refreshColors()
   }
 
-  function setOrder(_order) {
-    order = _order
-    world.level.reset()
+  const baseDestroy = self.destroy
+
+  function destroy() {
+    baseDestroy()
+
+    // Level bubbles (TODO: Clean up separation of concerns
+    // between normal level and bubble)
+    if (parent.goalDeleted) parent.goalDeleted()
+  }
+
+  function setOrder(v) {
+    order = v
   }
 
   function setX(x) {
@@ -279,30 +282,17 @@ function Goal(spec) {
     transform.position.y = y
   }
 
-  function remove() {
-    self.deselect()
-    world.level.sendEvent('goalDeleted', [self])
-    self.destroy()
-  }
-
-  function keydown(key) {
-    if (
-      document.activeElement == document.body && // Ignore if in text field
-      self.clickable?.selected &&
-      (key == 'Backspace' || key == 'Delete')
-    ) {
-      remove()
-    }
-  }
-
   return self.mix({
     tVariableChanged,
     transform,
 
+    destroy,
+
     awake,
 
-    keydown,
-    remove,
+    setOrder,
+    setX,
+    setY,
 
     tick,
     draw,
@@ -321,10 +311,6 @@ function Goal(spec) {
     fail,
 
     setAlphaByFlashFade,
-
-    setOrder,
-    setX,
-    setY,
 
     get x() {
       return transform.position.x
@@ -383,7 +369,7 @@ function Goal(spec) {
     // TODO: Separate level editor state from playing level/normal levels
     get selectable() {
       // HACK: Necessary until above TODO is addressed^
-      return false
+      // return false
       return !globalScope.running
     },
   })

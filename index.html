@@ -54,7 +54,11 @@
     <script src="Libraries/fullstory.js"></script>
 
     <!-- plausible for analytics -->
-    <script defer data-domain="sinerider.com" src="https://plausible.io/js/script.js"></script>
+    <script
+      defer
+      data-domain="sinerider.com"
+      src="https://plausible.io/js/script.js"
+    ></script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script
@@ -69,6 +73,13 @@
       gtag('js', new Date())
 
       gtag('config', 'G-XB809Q5TGT')
+
+      function emitEvent(name, data = {}) {
+        gtag('event', name, data)
+        if (window.FS?.event) {
+          FS.event(name, data)
+        }
+      }
     </script>
   </head>
 
@@ -88,13 +99,21 @@
     </div>
 
     <div class="bar floating top" id="top-bar" hide="false">
-      <div
-        id="volume-slider-box"
-        class="tooltip-e tooltip"
-        data-tooltip="Volume"
-      >
-        <div class="">🔊</div>
-        <input id="volume-slider" type="range" orient="horizontal" />
+      <div class="tooltip" id="settings-button" data-tooltip="Settings">
+        <div class="" id="gear">⚙️</div>
+      </div>
+      <div id="lvl-debug-info" hide="true">
+        <div class="grid">
+          <div class="string debugtitle">Level name:</div>
+          <div class="string debuginfo" id="lvl-name-str">N/A</div>
+          <div class="string debugtitle">Level nick:</div>
+          <div class="string debuginfo" id="lvl-nick-str">N/A</div>
+          <div class="string debugtitle">FPS:</div>
+          <div class="string debuginfo" id="lvl-fps-str">N/A</div>
+        </div>
+        <div class="button" id="button-hide-level-info" hide="true">
+          <div class="string">X</div>
+        </div>
       </div>
       <!-- when i move this it doesn't allow me to click on puzzles -->
       <!-- <div class="try-again-button">
@@ -102,35 +121,89 @@
       </div> -->
 
       <div class="bar editor-bar" id="editor-spawner" hide="true">
+        <div
+          class="button tooltip"
+          id="editor-level-configuration-button"
+          data-tooltip="Configure"
+        >
+          <!-- <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="1em"
+            viewBox="0 0 512 512"
+          >
+            <path
+              d="M352 320c88.4 0 160-71.6 160-160c0-15.3-2.2-30.1-6.2-44.2c-3.1-10.8-16.4-13.2-24.3-5.3l-76.8 76.8c-3 3-7.1 4.7-11.3 4.7H336c-8.8 0-16-7.2-16-16V118.6c0-4.2 1.7-8.3 4.7-11.3l76.8-76.8c7.9-7.9 5.4-21.2-5.3-24.3C382.1 2.2 367.3 0 352 0C263.6 0 192 71.6 192 160c0 19.1 3.4 37.5 9.5 54.5L19.9 396.1C7.2 408.8 0 426.1 0 444.1C0 481.6 30.4 512 67.9 512c18 0 35.3-7.2 48-19.9L297.5 310.5c17 6.2 35.4 9.5 54.5 9.5zM80 408a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"
+            />
+          </svg> -->
+
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="30px"
+            height="30px"
+            version="1.1"
+            viewBox="0 0 128 128"
+          >
+            <path
+              d="m116.76 116.76c-3.1094 3.1016-7.3203 4.8438-11.707 4.8438-4.3906 0-8.6016-1.7422-11.711-4.8438l-0.125-0.13281-41.578-46.949v-0.003906c-0.97656-1.0742-2.5-1.4688-3.8789-1-10.859 3.3945-22.707 0.73828-31.078-6.9727-8.3672-7.707-11.992-19.293-9.5039-30.398 0.33984-1.5195 1.4844-2.7344 2.9805-3.168 1.4961-0.4375 3.1094-0.023437 4.2109 1.0781l15.703 15.699c0.34375 0.34375 0.83984 0.47656 1.3086 0.35547l10.191-2.7305 0.003907-0.003906c0.46484-0.125 0.83203-0.49219 0.95703-0.95703l2.7305-10.191 0.003906-0.003906c0.125-0.46875-0.011719-0.96484-0.35156-1.3086l-15.703-15.703c-1.1016-1.1016-1.5156-2.7148-1.0781-4.2109 0.43359-1.4961 1.6484-2.6367 3.168-2.9805 11.105-2.4883 22.691 1.1367 30.398 9.5039 7.7109 8.3711 10.367 20.219 6.9727 31.078-0.45703 1.3789-0.0625 2.8945 1.0039 3.8789l47.082 41.703c3.1016 3.1094 4.8438 7.3203 4.8438 11.711 0 4.3867-1.7422 8.5977-4.8438 11.707zm-19.07-4.2266c4.1094 4.0391 10.707 4.0117 14.781-0.0625s4.1016-10.672 0.0625-14.781l-46.875-41.512c-2.8516-2.5664-3.9375-6.5664-2.7734-10.223 2.5703-8.2148 0.87109-17.172-4.5312-23.875-5.4023-6.7031-13.789-10.27-22.363-9.5078l13.211 13.211c1.8711 1.8789 2.6016 4.6094 1.9219 7.168l-2.7305 10.191c-0.69141 2.5586-2.6914 4.5586-5.25 5.25l-10.191 2.7305c-2.5586 0.67969-5.2891-0.050782-7.168-1.9219l-13.211-13.211c-0.76172 8.5742 2.8047 16.961 9.5078 22.363 6.7031 5.4023 15.66 7.1016 23.875 4.5312 3.6562-1.1641 7.6523-0.078124 10.223 2.7695z"
+            />
+          </svg>
+
+          <!-- 🔧 -->
+        </div>
         <div id="editor-spawner-fixed" class="button string">
-          Add fixed goal
+          <!-- Fixed goal button added in JS -->
         </div>
         <div id="editor-spawner-dynamic" class="button string">
-          Add dynamic goal
+          <!-- Dynamic goal button added in JS -->
         </div>
-        <div id="editor-spawner-path" class="button string">Add path goal</div>
+        <div id="editor-spawner-path" class="button string">
+          <!-- Path goal button added in JS -->
+        </div>
+        <div id="goal-limit-visual">
+          <div class="string">0/20<br />Goals</div>
+        </div>
+        <div class="button" id="share-button" hide="false">
+          <div class="string">Share</div>
+        </div>
       </div>
       <div class="bar editor-bar" id="editor-inspector" hide="true">
-        <div class="label" id="order-label">
+        <div class="label" id="editor-order-label">
           <div class="string">Order</div>
         </div>
-        <input id="editor-order-input" maxlength="1" />
-        <div class="label" id="position-label">
+        <input id="editor-order-input" maxlength="1" placeholder="None" />
+
+        <div class="label" id="editor-position-label">
           <div class="string">Position</div>
         </div>
         <div id="editor-position">
           <input id="editor-x-input" type="number" placeholder="X" />
           <input id="editor-y-input" type="number" placeholder="Y" />
         </div>
-        <div class="label" id="timer-label">
+
+        <div class="label" id="editor-timer-label">
           <div class="string">Timer</div>
         </div>
         <input id="editor-timer-input" min="0" />
+
+        <div class="label" id="editor-start-label">
+          <div class="string">Start</div>
+        </div>
+        <input id="editor-start-input" type="number" />
+
+        <div class="label" id="editor-end-label">
+          <div class="string">End</div>
+        </div>
+        <input id="editor-end-input" type="number" />
+
         <div id="editor-inspector-delete" class="button string">X</div>
-        <!-- TODO: Add path goal -->
       </div>
-      <div class="button" id="navigator-button" hide="false">
-        <div class="string">🏔</div>
+
+      <!-- TODO: Clean up CSS -->
+      <div class="hbar">
+        <!-- TODO: Tooltip -->
+        <div class="button" id="navigator-button" hide="false">
+          <div class="string">🏔</div>
+        </div>
       </div>
     </div>
     <div id="completion-time" hide="true"></div>
@@ -190,18 +263,68 @@
 
       <input class="text" id="expression-text" type="text" hide="true" />
 
-      <div class="button" id="run-button" hide="false">
-        <div class="string">GO</div>
+      <div>
+        <div class="button" id="run-button" hide="false">
+          <div class="string">GO</div>
+        </div>
       </div>
 
-      <div class="button reset-button" id="stop-button" hide="true">
-        <div class="string">STOP</div>
+      <div>
+        <div class="button" id="skip-cutscene-button" hide="true">
+          <div class="string">Skip Cutscene</div>
+        </div>
+        <div class="button reset-button" id="stop-button" hide="true">
+          <div class="string">STOP</div>
+        </div>
       </div>
 
       <div class="button reset-button" id="try-again-button" hide="true">
         <div class="string">Try Again</div>
       </div>
     </div>
+
+    <!-- Editor dialogs -->
+
+    <!-- TODO: Make decent -->
+    <dialog id="editor-level-configuration-dialog">
+      <div class="string">Level Options</div>
+      <!-- <div>
+        <label>Polar</label>
+        <input
+          id="editor-level-configuration-is-polar-checkbox"
+          type="checkbox"
+        />
+      </div> -->
+      <div>
+        <label>Biome</label>
+        <select id="editor-level-configuration-biome-select">
+          <!-- Options added in main.js -->
+        </select>
+      </div>
+      <div>
+        <label>Sledder</label>
+        <select id="editor-level-configuration-sledder-select">
+          <!-- Options added in main.js-->
+        </select>
+      </div>
+    </dialog>
+
+    <!-- TODO: Make decent, add tooltips + "Copied!" confirmation -->
+    <dialog id="editor-share-dialog">
+      <div class="string">Share this puzzle as a link:</div>
+      <div class="hbar">
+        <!-- <div class="string" id="editor-sharing-link">
+          https://sinerider.com/?auwbdiawdyiubawduybaubydwuhbawdhubawuhbd
+        </div> -->
+        <input id="puzzle-link" hide="true" />
+        <div class="button" id="editor-copy-puzzle-link">
+          <div class="string">Copy as Puzzle</div>
+        </div>
+        <div class="button" id="editor-copy-editor-link">
+          <div class="string">Copy as Editor</div>
+        </div>
+      </div>
+    </dialog>
 
     <dialog id="reset-confirmation-dialog">
       <div class="string">
@@ -244,6 +367,31 @@
       </div>
     </dialog>
 
+    <dialog id="graphics-settings-dialog">
+      <div>
+        <div id="graphics-settings-close-button">x</div>
+      </div>
+      <div>
+        <div>
+          <label>Volume</label>
+          <input id="volume-slider" type="range" orient="horizontal" />
+        </div>
+      </div>
+      <div class="string">Graphics Settings</div>
+      <div>
+        <label>Resolution</label>
+        <button class="button" id="set-resolution-button">High</button>
+      </div>
+      <div>
+        <label>Sample Density</label>
+        <button class="button" id="set-sample-density-button">High</button>
+      </div>
+      <div>
+        <label>Terrain Layers</label>
+        <button class="button" id="set-terrain-layers-button">High</button>
+      </div>
+    </dialog>
+
     <div class="bar message" id="message-bar" hide="true">
       <div class="string">MESSAGE</div>
     </div>
@@ -257,14 +405,14 @@
               Your equation solved the puzzle in
             </p>
             <div
-              id="hovertext"
+              class="hovertext"
               data-hover="How quickly your solution runs (faster = better)"
             >
               <span id="time-taken"></span>,
             </div>
             <p class="puzzle-msg" hide="true">and</p>
             <div
-              id="hovertext"
+              class="hovertext"
               data-hover="The number of characters in your copy/pasted solution (lower = better)"
             >
               <span id="character-count"></span>.
@@ -272,15 +420,14 @@
             <br class="puzzle-msg" hide="true" />
             <br class="puzzle-msg" hide="true" />
             <div class="puzzle-msg" hide="true">
-              Show off your solution and see how you rank up against other solvers on
+              Show off your solution and see how you rank up against other
+              solvers on
               <!-- url for submitting is generated when puzzle is solved -->
               <a href="#" target="_blank" id="twitter-submission-url"
                 >Twitter</a
-              >.
-              <!-- Hide the reddit button for the time being -->
-              <!-- or -->
-              <!-- should include link to puzzle on Reddit -->
-              <!-- <a href="#" id="submit-reddit-score">Reddit</a>. -->
+              >
+              or
+              <a href="#" id="submit-reddit-score">Reddit</a>.
             </div>
             <br class="puzzle-msg" hide="true" />
             <br class="puzzle-msg" hide="true" />
@@ -309,13 +456,8 @@
             </p>
             <input type="text" id="reddit-open-command" hide="true" readonly />
             <br />
-            <a
-              id="submit-reddit-score-subreddit"
-              href="https://reddit.com/r/SineRider"
-              target="_blank"
-              hide="true"
-            >
-              Open Subreddit
+            <a id="submit-reddit-score-subreddit" target="_blank" hide="true">
+              Open Thread
             </a>
           </div>
           <div class="button" id="close-reddit-open-button">
@@ -334,18 +476,9 @@
 
     <div class="veil" id="veil" hide="true"></div>
 
-    <div id="lvl-debug-info" hide="true">
-      <div class="grid">
-        <div class="string debugtitle">Level name:</div>
-        <div class="string debuginfo" id="lvl-name-str">N/A</div>
-        <div class="string debugtitle">Level nick:</div>
-        <div class="string debuginfo" id="lvl-nick-str">N/A</div>
-        <div class="string debugtitle">FPS:</div>
-        <div class="string debuginfo" id="lvl-fps-str">N/A</div>
-      </div>
-      <div class="button" id="button-hide-level-info" hide="true">
-        <div class="string">X</div>
-      </div>
+    <!--TODO: Maybe change to a different style -->
+    <div class="veil veil-no-transition" id="level-loading-veil">
+      <div class="dot-flashing"></div>
     </div>
 
     <div class="loading veil" id="loading-veil" hide="false">
@@ -367,6 +500,11 @@
         <div class="string" id="loading-string"></div>
       </div>
 
+      <div>
+        <br />Ideas? Feedback? Issues? Send them to
+        <a href="sinerider@hackclub.com">sinerider@hackclub.com</a>
+      </div>
+
       <div id="loading-bottom">
         <div id="puzzles">
           <h3>New puzzles published daily on</h3>
@@ -379,7 +517,7 @@
               id="twitter-link"
             >
               <img
-                src="Assets/Images/twitter.png"
+                src="Assets/Images/twitterx.png"
                 alt="Twitter"
                 class="puzzle-link-image"
               />
@@ -407,7 +545,7 @@
             class="loading-link"
             id="github-link"
           >
-            Built and maintained by teenagers. Public Beta 0.5
+            Built and maintained by teenagers. Version 1.0
           </a>
         </div>
       </div>
@@ -436,7 +574,6 @@
 
     <!-- Load Structs -->
     <script src="Types/Structs/EntityGroup.js"></script>
-    <script src="Types/Structs/Editor.js"></script>
     <script src="Types/Structs/PlayerStorage.js"></script>
     <script src="Types/Structs/Test.js"></script>
     <script src="Types/Structs/Vector2.js"></script>
@@ -444,6 +581,7 @@
     <script src="Types/Structs/Shape.js"></script>
     <script src="Types/Structs/Circle.js"></script>
     <script src="Types/Structs/Rect.js"></script>
+    <script src="Types/Structs/Union.js"></script>
     <script src="Types/Structs/Color.js"></script>
     <script src="Types/Structs/CameraState.js"></script>
 
@@ -461,11 +599,10 @@
     <script src="Types/Rigidbody.js"></script>
     <script src="Types/Clickable.js"></script>
     <script src="Types/ClickableContext.js"></script>
-    <script src="Types/VolcanoQuad.js"></script>
-    <script src="Types/LavaQuad.js"></script>
-    <script src="Types/WaterQuad.js"></script>
-    <script src="Types/SunsetQuad.js"></script>
-    <script src="Types/VolcanoSunsetQuad.js"></script>
+    <script src="Types/WebGL/LavaQuad.js"></script>
+    <script src="Types/WebGL/WaterQuad.js"></script>
+    <script src="Types/WebGL/ConstantLakeSunsetQuad.js"></script>
+    <script src="Types/WebGL/VolcanoSunsetQuad.js"></script>
 
     <!-- Load Components -->
     <script src="Types/Entities/Directors/Director.js"></script>
@@ -481,17 +618,15 @@
     <script src="Types/Entities/ScreenBuffer.js"></script>
     <script src="Types/Entities/Water.js"></script>
     <script src="Types/Entities/ConstantLakeShader.js"></script>
-    <script src="Types/Entities/VolcanoShader.js"></script>
-    <script src="Types/Entities/PostProcessing.js"></script>
     <script src="Types/Entities/VolcanoSunsetShader.js"></script>
     <script src="Types/Entities/Entity.js"></script>
     <script src="Types/Entities/World.js"></script>
-    <script src="Types/Entities/Level.js"></script>
     <script src="Types/Entities/Navigator.js"></script>
     <script src="Types/Entities/Camera.js"></script>
     <script src="Types/Entities/Axes.js"></script>
     <script src="Types/Entities/Gridlines.js"></script>
     <script src="Types/Entities/Sprite.js"></script>
+    <script src="Types/Entities/PathGoalHandle.js"></script>
     <script src="Types/Entities/Goals/Goal.js"></script>
     <script src="Types/Entities/Goals/PathGoal.js"></script>
     <script src="Types/Entities/Goals/DynamicGoal.js"></script>
@@ -501,6 +636,7 @@
     <script src="Types/Entities/Speech.js"></script>
     <script src="Types/Entities/Arrow.js"></script>
     <script src="Types/Entities/Graph.js"></script>
+    <script src="Types/Entities/PolarGraph.js"></script>
     <script src="Types/Entities/Sledder.js"></script>
     <script src="Types/Entities/Walker.js"></script>
     <script src="Types/Entities/LavaMonster.js"></script>
@@ -510,11 +646,22 @@
     <script src="Types/Entities/Clouds.js"></script>
     <script src="Types/Entities/Sky.js"></script>
     <script src="Types/Entities/Snow.js"></script>
+    <script src="Types/Entities/Level/Level.js"></script>
+    <script src="Types/Entities/Level/Cutscene.js"></script>
+    <script src="Types/Entities/Level/Cutscenes/ConstantLake.js"></script>
+    <script src="Types/Entities/Level/Cutscenes/Volcano.js"></script>
+    <script src="Types/Entities/Level/Cutscenes/Desert.js"></script>
+    <script src="Types/Entities/Level/Cutscenes/Credits.js"></script>
+
+    <script src="Types/Entities/Level/Editor/LevelEditor.js"></script>
+
+    <!-- Load Levels -->
 
     <!-- Load World Data -->
     <script src="App/biomes.js"></script>
     <script src="App/layers.js"></script>
     <script src="App/Levels/desert.js"></script>
+    <!--<script src="App/Levels/polar.js"></script>-->
     <script src="App/Levels/constantLake.js"></script>
     <script src="App/Levels/volcano.js"></script>
     <script src="App/Levels/editor.js"></script>

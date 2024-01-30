@@ -1,11 +1,14 @@
 function Sledder(spec = {}) {
-  const { self, screen, assets } = Entity(spec, 'Sledder')
+  const { self, screen, parent } = Entity(spec, 'Sledder')
 
   const transform = Transform(spec, self)
   const rigidbody = Rigidbody({
     ...spec,
     transform,
   })
+
+  const originalX = transform.position.x,
+    originalY = transform.position.y
 
   let {
     asset = 'images.lunchbox_sam_sled',
@@ -24,6 +27,8 @@ function Sledder(spec = {}) {
   const ctx = screen.ctx
 
   const velocity = [0, 0]
+
+  const position = transform.position
 
   const slopeTangent = Vector2()
 
@@ -87,11 +92,30 @@ function Sledder(spec = {}) {
     })
   }
 
-  function draw() {
-    if (clickable.selectedInEditor) shape.draw(ctx, camera)
+  const debugVectorOrigin = Vector2()
+  const debugVectorTerminus = Vector2()
 
-    // rigidbody.draw(ctx)
+  function drawDebugVector(ctx, vector, color, origin = position) {
+    camera.worldToScreen(origin, debugVectorOrigin)
+
+    debugVectorTerminus.set(vector)
+    debugVectorTerminus.add(position)
+    camera.worldToScreen(debugVectorTerminus)
+
+    ctx.beginPath()
+    ctx.moveTo(debugVectorOrigin.x, debugVectorOrigin.y)
+    ctx.lineTo(debugVectorTerminus.x, debugVectorTerminus.y)
+
+    ctx.strokeStyle = color
+    ctx.lineWidth = 4
+    ctx.stroke()
+  }
+
+  function draw() {
+    rigidbody.draw(ctx)
     // camera.drawThrough(ctx, drawLocal, transform)
+    // drawDebugVector(ctx, slopeTangent, 'blue')
+    // drawDebugVector(ctx, rigidbody.upright, 'orange')
   }
 
   function startRunning() {}
@@ -102,48 +126,73 @@ function Sledder(spec = {}) {
   }
 
   function reset() {
-    transform.x = originX
-    transform.y = graph.sample('x', transform.x)
+    const polar = graph.isPolar
 
-    slopeTangent.x = 1
-    slopeTangent.y = graph.sampleSlope('x', transform.x)
-    slopeTangent.normalize()
+    if (polar) {
+      position.set(originalX, originalY)
+      const surfaceTheta = graph.thetaOfClosestSurfacePoint(position)
 
-    // Set the Upright vector of rigidbody to the slope normal
-    slopeTangent.orthogonalize(rigidbody.upright)
+      graph.tangentVectorAt(surfaceTheta, slopeTangent)
+      slopeTangent.normalize()
 
-    let angle = Math.asin(slopeTangent.y)
+      graph.normalVectorAt(surfaceTheta, rigidbody.upright)
+      rigidbody.upright.normalize()
+
+      graph.pointAtTheta(surfaceTheta, position)
+    } else {
+      transform.x = originX
+      transform.y = graph.sample('x', transform.x)
+
+      slopeTangent.x = 1
+      slopeTangent.y = graph.sampleSlope('x', transform.x)
+
+      slopeTangent.normalize()
+
+      // Set the Upright vector of rigidbody to the slope normal
+      slopeTangent.orthogonalize(rigidbody.upright)
+    }
+
+    // let angle = Math.asin(slopeTangent.y)
+    let angle = -PI / 2 + Math.atan2(rigidbody.upright.y, rigidbody.upright.x)
     transform.rotation = angle
 
     trail.reset()
   }
 
+  /* Editor logic */
+
+  const editor = parent
+
   function select() {
-    editor.select(self, 'sledder', ['x', 'y'])
+    if (!editor.editing) return
+    editor.select(self, ['x'], false)
   }
 
   function deselect() {
+    if (!editor.editing) return
     editor.deselect()
   }
 
   function dragMove(point) {
-    if (!editor.active) return
-    transform.position = point
-    ui.editorInspector.x.value = point.x.toFixed(2)
-    ui.editorInspector.y.value = point.y.toFixed(2)
+    if (!editor.editing) return
+    position.set(point)
+    editor.update(false)
   }
 
   function dragEnd() {
+    if (!editor.editing) return
     originX = transform.x
     reset()
+    editor.update()
   }
 
   function setX(x) {
-    transform.position.x = x
+    originX = x
+    reset()
   }
 
   function setY(y) {
-    transform.position.y = y
+    position.y = y
   }
 
   return self.mix({
@@ -169,6 +218,18 @@ function Sledder(spec = {}) {
 
     select,
     deselect,
+
+    get asset() {
+      return asset
+    },
+
+    get x() {
+      return position.x
+    },
+
+    get y() {
+      return position.y
+    },
 
     get transition() {
       return transition

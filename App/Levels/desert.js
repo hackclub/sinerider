@@ -14,6 +14,16 @@ const DESERT = {
   requirements: ['COS'],
   defaultExpression:
     '\\sin \\left(\\frac{x}{10}\\right)+\\sin \\left(\\frac{x}{20}+\\frac{pi}{3}\\right)+\\sin \\left(\\frac{x}{53}+\\frac{pi}{2}\\right)',
+  assets: {
+    sounds: {
+      music: {
+        desert: {
+          western_intro: '.mp3',
+          western_loop: '.mp3',
+        },
+      },
+    },
+  },
   directors: [
     {
       type: 'lerp',

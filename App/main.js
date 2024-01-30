@@ -25,6 +25,7 @@ const ui = {
   veil: $('#veil'),
   loadingVeil: $('#loading-veil'),
   loadingVeilString: $('#loading-string'),
+  levelLoadingVeil: $('#level-loading-veil'),
   resetSolutionsString: $('#reset-string'),
   loadingProgressBarContainer: $('#loading-progress-bar-container'),
   loadingProgressBar: $('#loading-progress-bar'),
@@ -92,28 +93,71 @@ const ui = {
   showAllCancelButton: $('#show-all-no'),
 
   editorInspector: {
-    editorInspector: $('#editor-inspector'),
-    order: $('#editor-order-input'),
-    timer: $('#editor-timer-input'),
-    x: $('#editor-x-input'),
-    y: $('#editor-y-input'),
-    deleteSelection: $('#editor-inspector-delete'),
+    panel: $('#editor-inspector'),
+    inputs: {
+      order: $('#editor-order-input'),
+      timer: $('#editor-timer-input'),
+      x: $('#editor-x-input'),
+      y: $('#editor-y-input'),
+      start: $('#editor-start-input'),
+      end: $('#editor-end-input'),
+    },
+    labels: {
+      order: $('#editor-order-label'),
+      timer: $('#editor-timer-label'),
+      position: $('#editor-position-label'),
+      start: $('#editor-start-label'),
+      end: $('#editor-end-label'),
+    },
+    deleteSelectionButton: $('#editor-inspector-delete'),
   },
 
   editorSpawner: {
-    editorSpawner: $('#editor-spawner'),
+    panel: $('#editor-spawner'),
     addFixed: $('#editor-spawner-fixed'),
     addDynamic: $('#editor-spawner-dynamic'),
     addPath: $('#editor-spawner-path'),
   },
+
+  editorLevelConfigurationButton: $('#editor-level-configuration-button'),
+  editorLevelConfigurationDialog: $('#editor-level-configuration-dialog'),
+  // editorLevelConfigurationIsPolarCheckbox: $(
+  //   '#editor-level-configuration-is-polar-checkbox',
+  // ),
+  editorLevelConfigurationBiomeSelect: $(
+    '#editor-level-configuration-biome-select',
+  ),
+  editorLevelConfigurationSledderSelect: $(
+    '#editor-level-configuration-sledder-select',
+  ),
+
+  settingsButton: $('#settings-button'),
+  graphicsSettingsDialog: $('#graphics-settings-dialog'),
+  graphicsSettingsCloseButton: $('#graphics-settings-close-button'),
+  setResolutionButton: $('#set-resolution-button'),
+  setSampleDensityButton: $('#set-sample-density-button'),
+  setTerrainLayersButton: $('#set-terrain-layers-button'),
+  // closeGraphicsButton: $('#close-graphics-button'),
+
   levelInfoDiv: $('#lvl-debug-info'),
   levelInfoNameStr: $('#lvl-name-str'),
   levelInfoNickStr: $('#lvl-nick-str'),
   levelInfoFpsStr: $('#lvl-fps-str'),
   hideLevelInfoButton: $('#button-hide-level-info'),
-}
 
-const editor = Editor(ui)
+  skipCutsceneButton: $('#skip-cutscene-button'),
+
+  editorSharingLinkDialog: $('#editor-share-dialog'),
+
+  // editorSharingLink: $('#editor-sharing-link'),
+  // editorCopySharingLinkButton: $('#editor-copy-sharing-link-button'),
+
+  shareButton: $('#share-button'),
+
+  puzzleLink: $('#puzzle-link'),
+  copyEditorLinkButton: $('#editor-copy-editor-link'),
+  copyPuzzleLinkButton: $('#editor-copy-puzzle-link'),
+}
 
 ui.levelText.setAttribute('hide', true)
 ui.veil.setAttribute('hide', true)
@@ -168,26 +212,22 @@ const screen = Screen({
 
 let w = worldData[0]
 
-// const DEBUG_LEVEL = 'Level Editor'
-// const DEBUG_LEVEL = 'Volcano'
-// const DEBUG_LEVEL = 'Constant Lake'
-// const DEBUG_LEVEL = 'Two Below'
-// const DEBUG_LEVEL = 'Time Hard'
-const DEBUG_LEVEL = null
-
-if (DEBUG_LEVEL) {
-  // make debug level first level for testing
-  const debugLevelIndex = w.levelData.findIndex((l) => l.name === DEBUG_LEVEL)
-  if (debugLevelIndex == -1)
-    alert(`DEBUG: Unable to find level '${DEBUG_LEVEL}'`)
-  const tmp = w.levelData[0]
-  w.levelData[0] = w.levelData[debugLevelIndex]
-  w.levelData[debugLevelIndex] = tmp
-}
+const IS_PRODUCTION = window.location.hostname === 'sinerider.com'
+const IS_DEVELOPMENT = !IS_PRODUCTION
 
 // Don't show debug info in production
-if (window.location.hostname === 'sinerider.com')
-  ui.levelInfoDiv.setAttribute('hide', true)
+if (IS_PRODUCTION) ui.levelInfoDiv.setAttribute('hide', true)
+
+let DEBUG_LEVEL_NICK = null
+
+// Stupid branch here to make sure DEBUG_LEVEL isn't set in prod
+if (IS_DEVELOPMENT) {
+  // DEBUG_LEVEL_NICK = 'Level Editor'
+  // DEBUG_LEVEL_NICK = 'VOLCANO'
+  // DEBUG_LEVEL_NICK = 'CONSTANT_LAKE'
+  // DEBUG_LEVEL_NICK = 'Two Below'
+  // DEBUG_LEVEL_NICK = 'Time Hard'
+}
 
 const world = World({
   ui,
@@ -204,15 +244,13 @@ var numTicks = 0
 function tick() {
   tickInternal()
 
-  // setTimeout imposes a minimum overhead as the delay approaches 0, and thus it becomes very likely
-  // that our timer loop will fall behind our desired tick rate at ticks/sec > 250
+  // setTimeout and rendering impose some minimum overhead as the delay approaches 0, and thus
+  // it becomes very likely that our timer loop will fall behind our desired tick rate.
   // we will check that here and tick repeatedly until we catch up
-  if (ticksPerSecond >= 250) {
-    const elapsedMs = Date.now() - startTime
-    const expectedTicks = (elapsedMs / 1000.0) * ticksPerSecond
-    while (numTicks < expectedTicks) {
-      tickInternal()
-    }
+  const elapsedMs = Date.now() - startTime
+  const expectedTicks = (elapsedMs / 1000.0) * ticksPerSecond
+  while (numTicks < expectedTicks) {
+    tickInternal()
   }
 }
 
@@ -235,11 +273,6 @@ function draw() {
   if (!canvasIsDirty) return
   canvasIsDirty = false
 
-  // Draw order bug where Shader entity isn't actually
-  // sorted in World draw array and needs another sort call
-  // in order to work? Temp fix (TODO: Fix this)
-  // world.sortDrawArray()
-
   let entity
   for (let i = 0; i < world.drawArray.length; i++) {
     entity = world.drawArray[i]
@@ -255,8 +288,11 @@ function draw() {
   let now = performance.now()
   if (timeOfLastDraw) {
     let frameFps = 1000 / (now - timeOfLastDraw)
-    currentFps = 0.9 * currentFps + 0.1 * frameFps
-    ui.levelInfoFpsStr.innerText = 'FPS: ' + currentFps.toFixed(2)
+    // Avoid counting double-ticks
+    if (frameFps != Infinity) {
+      currentFps = 0.9 * currentFps + 0.1 * frameFps
+      ui.levelInfoFpsStr.innerText = 'FPS: ' + currentFps.toFixed(2)
+    }
   }
   timeOfLastDraw = now
 }
@@ -317,17 +353,6 @@ function onMathFieldFocus(event) {
   world.onMathFieldFocus()
 }
 
-function onGridlinesDeactive(event) {
-  world.onGridlinesDeactive()
-}
-function onGridlinesActive(event) {
-  world.onGridlinesActive()
-}
-
-function onCoordinate(x, y) {
-  world.onCoordinate(x, y)
-}
-
 ui.expressionEnvelope.addEventListener('focusin', onMathFieldFocus)
 
 function onMathFieldBlur(event) {
@@ -339,12 +364,15 @@ ui.expressionEnvelope.addEventListener('blurout', onMathFieldBlur)
 // HTML events
 
 function onKeyUp(event) {
-  if (event.keyCode === 13) {
-    if (!world.navigating && !world.level?.isRunningAsCutscene)
-      world.toggleRunning()
+  if (event.key === 'Enter') {
+    if (!world.navigating && !world.level?.isCutscene) world.toggleRunning()
   }
   world.sendEvent('keyup', [event.key])
 }
+
+window.addEventListener('mousewheel', (event) => {
+  world.sendEvent('onMouseWheel', [event])
+})
 
 window.addEventListener('keydown', (event) => {
   if (ui.mathField.focused()) return
@@ -400,14 +428,15 @@ ui.githubLinkRedirect.addEventListener('click', function (event) {
 })
 
 // Initial page state
-{
+function initPageState() {
   let volume = window.localStorage.getItem('volume')
   if (volume) {
     setGlobalVolumeLevel(window.localStorage)
     ui.volumeSlider.value = volume * 100
   }
+
+  setGlobalVolumeLevel(ui.volumeSlider.value / 100)
 }
-setGlobalVolumeLevel(ui.volumeSlider.value / 100)
 
 function onClickMapButton(event) {
   world.onClickMapButton()
@@ -438,13 +467,76 @@ ui.tryAgainButton.addEventListener('click', onClickRunButton)
 function onClickShowAllButton(event) {
   let showall = localStorage.getItem('ShowAll')
   if (showall != 'True') {
-    ui.showAllConfirmationDialog.showModal()
+    showDialog(ui.showAllConfirmationDialog)
   } else {
     onShowAllConfirm()
   }
 }
 
 ui.showAllButton.addEventListener('click', onClickShowAllButton)
+
+/* Dialogs */
+
+function makeDialogCloseable(dialog) {
+  dialog.addEventListener('click', (event) => {
+    const x = event.clientX
+    const y = event.clientY
+    //access the visible element's bounding rectangle
+    const rect = dialog.getBoundingClientRect()
+    const outsideModal = !pointInRect(x, y, rect)
+    if (outsideModal) {
+      closeDialog(dialog)
+    }
+  })
+}
+function pointInRect(x, y, rect) {
+  return (
+    x >= rect.x &&
+    x <= rect.x + rect.width &&
+    y >= rect.y &&
+    y <= rect.y + rect.height
+  )
+}
+
+function makeButtonToggleDialog(button, dialog) {
+  button.addEventListener('click', () => {
+    if (dialog.open) {
+      closeDialog(dialog)
+    } else {
+      showDialog(dialog)
+    }
+  })
+}
+function showDialog(dialog) {
+  dialog.classList.remove('hidden')
+  dialog.showModal()
+}
+function closeDialog(dialog) {
+  dialog.classList.add('hidden')
+  dialog.close()
+}
+
+function makeButtonOpenDialog(button, dialog) {
+  button.addEventListener('click', () => showDialog(dialog))
+}
+
+function makeButtonCloseDialog(button, dialog) {
+  button.addEventListener('click', () => closeDialog(dialog))
+}
+
+makeDialogCloseable(ui.editorSharingLinkDialog)
+makeDialogCloseable(ui.graphicsSettingsDialog)
+makeDialogCloseable(ui.editorLevelConfigurationDialog)
+
+makeButtonCloseDialog(ui.graphicsSettingsCloseButton, ui.graphicsSettingsDialog)
+
+makeButtonOpenDialog(ui.settingsButton, ui.graphicsSettingsDialog)
+// makeButtonCloseDialog(ui.closeGraphicsButton, ui.graphicsSettingsDialog)
+
+makeButtonOpenDialog(
+  ui.editorLevelConfigurationButton,
+  ui.editorLevelConfigurationDialog,
+)
 
 function onClickEditButton(event) {
   world.editing = !world.editing
@@ -453,34 +545,34 @@ function onClickEditButton(event) {
 ui.editButton.addEventListener('click', onClickEditButton)
 
 function onClickResetButton(event) {
-  ui.resetConfirmationDialog.showModal()
+  showDialog(ui.resetConfirmationDialog)
 }
 
 ui.resetButton.addEventListener('click', onClickResetButton)
 
 function onResetConfirm() {
   world.onResetConfirm()
-  ui.resetConfirmationDialog.close()
+  closeDialog(ui.resetConfirmationDialog)
 }
 
 ui.resetConfirmButton.addEventListener('click', onResetConfirm)
 
 function onResetCancel() {
-  ui.resetConfirmationDialog.close()
+  closeDialog(ui.resetConfirmationDialog)
 }
 
 ui.resetCancelButton.addEventListener('click', onResetCancel)
 
 function onShowAllConfirm() {
   world.navigator.showAll = !world.navigator.showAll
-  ui.showAllConfirmationDialog.close()
+  closeDialog(ui.showAllConfirmationDialog)
   window.localStorage.setItem('ShowAll', 'True')
 }
 
 ui.showAllConfirmButton.addEventListener('click', onShowAllConfirm)
 
 function onShowAllCancel() {
-  ui.showAllConfirmationDialog.close()
+  closeDialog(ui.showAllConfirmationDialog)
 }
 
 ui.showAllCancelButton.addEventListener('click', onShowAllCancel)
@@ -493,6 +585,93 @@ function onResizeWindow(event) {
 }
 
 window.addEventListener('resize', onResizeWindow)
+
+/* Graphics setting buttons */
+
+const resolutionSelector = {
+  storage: 'resolutionSetting',
+  default: 2,
+  applySettings: (option) => {
+    screen.resolutionScalingFactor = option[1]
+    screen.resize()
+  },
+  options: [
+    ['Low', 0.5],
+    ['Medium', 0.75],
+    ['High', 1.0],
+  ],
+}
+
+const sampleDensitySelector = {
+  storage: 'sampleDensitySetting',
+  default: 1,
+  applySettings: (option) => {
+    world.sampleDensitySetting = option[1]
+  },
+  options: [
+    ['Low', 60],
+    ['Medium', 129],
+    ['High', 300],
+  ],
+}
+
+const terrainLayersSelector = {
+  storage: 'terrainLayersSetting',
+  default: 2,
+  applySettings: (option) => {
+    if (world.level?.graph)
+      world.level.graph.terrainLayers = option[1].terrainLayers
+  },
+  options: [
+    [
+      'Low',
+      {
+        terrainLayers: 0,
+      },
+    ],
+    [
+      'Medium',
+      {
+        terrainLayers: 3,
+      },
+    ],
+    [
+      'High',
+      {
+        terrainLayers: 6,
+      },
+    ],
+  ],
+}
+
+function createToggleSelector(element, selector) {
+  selector.selection =
+    localStorage.getItem(selector.storage) ?? selector.default
+  let choice = selector.options[selector.selection]
+  element.innerText = choice[0]
+  selector.applySettings(choice)
+
+  return () => {
+    selector.selection = (selector.selection + 1) % selector.options.length
+    localStorage.setItem(selector.storage, selector.selection)
+    choice = selector.options[selector.selection]
+    element.innerText = choice[0]
+    selector.applySettings(choice)
+  }
+}
+
+ui.setResolutionButton.addEventListener(
+  'click',
+  createToggleSelector(ui.setResolutionButton, resolutionSelector),
+)
+ui.setSampleDensityButton.addEventListener(
+  'click',
+  createToggleSelector(ui.setSampleDensityButton, sampleDensitySelector),
+)
+ui.setTerrainLayersButton.addEventListener(
+  'click',
+  createToggleSelector(ui.setTerrainLayersButton, terrainLayersSelector),
+)
 
 function onClickCanvas() {
   if (stepping) {
@@ -508,8 +687,15 @@ function onMouseMoveCanvas(event) {
   event.preventDefault()
 }
 
+function selectScreenCoordinatesFromWindow(windowX, windowY) {
+  const screenX = screen.resolutionScalingFactor * windowX
+  const screenY = screen.resolutionScalingFactor * windowY
+
+  world.sendEvent('selectScreenCoordinates', [screenX, screenY])
+}
+
 function onMouseMoveWindow(event) {
-  onCoordinate(event.clientX, event.clientY)
+  selectScreenCoordinatesFromWindow(event.clientX, event.clientY)
 }
 
 canvas.addEventListener('mousemove', onMouseMoveCanvas)
@@ -521,20 +707,20 @@ window.addEventListener('pointermove', onMouseMoveWindow)
 function onMouseDownCanvas(event) {
   world.clickableContext.processEvent(event, 'mouseDown')
   event.preventDefault()
-  onGridlinesActive()
-  onCoordinate(event.clientX, event.clientY)
+  selectScreenCoordinatesFromWindow(event.clientX, event.clientY)
   ui.mathField.blur()
+  world.sendEvent('onMouseDown')
 }
 
 canvas.addEventListener('mousedown', onMouseDownCanvas)
 canvas.addEventListener('pointerdown', onMouseDownCanvas)
 
 function onMouseUpCanvas(event) {
-  ui.tSlider.value = 0
-  refreshTSlider()
-  world.clickableContext.processEvent(event, 'mouseUp')
   event.preventDefault()
-  onGridlinesDeactive()
+  ui.tSlider.value = 0
+  // refreshTSlider()
+  world.clickableContext.processEvent(event, 'mouseUp')
+  world.sendEvent('onMouseUp')
 }
 
 canvas.addEventListener('mouseup', onMouseUpCanvas)
@@ -546,4 +732,104 @@ ui.levelInfoDiv.addEventListener('mouseover', function () {
 
 ui.levelInfoDiv.addEventListener('mouseleave', function () {
   ui.hideLevelInfoButton.setAttribute('hide', true)
+})
+
+/* Editor UI */
+
+function bindElementDOMEventToWorldEvent(
+  element,
+  domEventName,
+  worldEventName,
+) {
+  element.addEventListener(domEventName, (event) =>
+    world.sendEvent(worldEventName, [event]),
+  )
+}
+
+/* Init configuration menus */
+
+// TODO: Maybe use DOM prototypes? UI management in general
+// needs rewrite
+
+for (const biomeName of Object.keys(BIOMES)) {
+  const option = document.createElement('option')
+  option.innerText =
+    biomeName.charAt(0).toUpperCase() +
+    biomeName.substring(1).replace(/([A-Z])/g, ' $1')
+  option.value = biomeName
+  ui.editorLevelConfigurationBiomeSelect.add(option)
+}
+
+for (const [sledderName, sledderImage] of [
+  ['Ada', 'images.ada_sled'],
+  ['Jack', 'images.jack_sled'],
+  ['Ada & Jack', 'images.ada_jack_sled'],
+]) {
+  const option = document.createElement('option')
+  option.innerText = sledderName
+  option.value = sledderImage
+  ui.editorLevelConfigurationSledderSelect.add(option)
+}
+
+ui.editorLevelConfigurationBiomeSelect.addEventListener('change', () => {
+  const selectedIndex = ui.editorLevelConfigurationBiomeSelect.selectedIndex
+  const options = ui.editorLevelConfigurationBiomeSelect.options
+  const selectedBiomeKey = options[selectedIndex].value
+  world.sendEvent('selectBiome', [selectedBiomeKey])
+})
+
+// ui.editorLevelConfigurationIsPolarCheckbox.addEventListener('input', () => {
+//   const checked = ui.editorLevelConfigurationIsPolarCheckbox.checked
+//   world.sendEvent('setPolar', [checked])
+// })
+
+ui.editorLevelConfigurationSledderSelect.addEventListener('input', () => {
+  const selectedIndex = ui.editorLevelConfigurationSledderSelect.selectedIndex
+  const options = ui.editorLevelConfigurationSledderSelect.options
+  const selectedSledderImage = options[selectedIndex].value
+  world.sendEvent('setSledderImage', [selectedSledderImage])
+})
+
+/* Events */
+
+ui.shareButton.addEventListener('click', () => {
+  world.sendEvent('onShareButtonClicked')
+})
+
+ui.copyEditorLinkButton.addEventListener('click', () => {
+  const link = window.location.href
+  navigator.clipboard.writeText(link)
+})
+
+ui.copyPuzzleLinkButton.addEventListener('click', () => {
+  const link = ui.puzzleLink.value
+  navigator.clipboard.writeText(link)
+})
+
+// Spawner
+bindElementDOMEventToWorldEvent(
+  ui.editorSpawner.addDynamic,
+  'click',
+  'onAddDynamicClicked',
+)
+bindElementDOMEventToWorldEvent(
+  ui.editorSpawner.addFixed,
+  'click',
+  'onAddFixedClicked',
+)
+bindElementDOMEventToWorldEvent(
+  ui.editorSpawner.addPath,
+  'click',
+  'onAddPathClicked',
+)
+
+// Inspector
+for (const [name, input] of Object.entries(ui.editorInspector.inputs)) {
+  input.addEventListener('input', (event) =>
+    world.sendEvent('onEditorInput', [name, event]),
+  )
+}
+
+ui.editorInspector.deleteSelectionButton.addEventListener('click', () => {
+  world.sendEvent('deleteSelection')
 })

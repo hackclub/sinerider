@@ -1,5 +1,5 @@
 function PathGoal(spec) {
-  const { self, screen, camera, transform, ctx } = Goal(spec, 'Path Goal')
+  const { self, camera, transform, ctx, parent } = Goal(spec, 'Path Goal')
 
   const base = _.mix(self)
 
@@ -7,11 +7,23 @@ function PathGoal(spec) {
     assets,
     size = 1,
     globalScope,
-    graph,
     expression: pathExpression = 'sin(x)',
     pathX = 4,
     pathY = 0,
+    graph,
+    debug = false,
+
+    // Optional, used for editor
+    expressionLatex: pathExpressionLatex = null,
   } = spec
+
+  if (!pathExpressionLatex) {
+    // Ideally this should never happen,
+    // but to prevent PathGoal from breaking
+    pathExpressionLatex = pathExpression
+  }
+
+  const minBoundsHeight = 1
 
   let trackPoints = []
 
@@ -86,6 +98,7 @@ function PathGoal(spec) {
     strokeColor: '#FFA500',
     dashed: true,
     dashSettings: [0.5, 0.5],
+    // fixedPoints: true,
   })
 
   // HACK: Hijack the graph's draw method to draw it behind the goal object
@@ -124,7 +137,26 @@ function PathGoal(spec) {
   trackPoints.push(pathGraph.minSample)
   trackPoints.push(pathGraph.maxSample)
 
-  const boundsTransform = Transform(spec)
+  // Handles for editor
+  const leftHandle = PathGoalHandle({
+    parent: self,
+    transform,
+    drawOrder: Infinity,
+    type: 'start',
+    editor: parent, // parent is implicitly editor
+  })
+
+  const rightHandle = PathGoalHandle({
+    parent: self,
+    transform,
+    drawOrder: Infinity,
+    type: 'end',
+    editor: parent,
+  })
+
+  const boundsTransform = Transform({
+    x: spec.x,
+  })
 
   const bounds = Rect({
     transform: boundsTransform,
@@ -132,12 +164,41 @@ function PathGoal(spec) {
 
   updateBounds()
 
+  const union = Union({
+    shapes: [shape, bounds, leftHandle, rightHandle],
+  })
+
   const clickable = Clickable({
     entity: self,
-    shape: bounds,
+    shape: union,
     transform,
     camera,
   })
+
+  function onRequestAssetsPass(requestAssets) {
+    requestAssets(
+      ['sounds.path_goal_continue', 'sounds.path_goal_start'],
+      (assets) => (localAssets = assets),
+    )
+  }
+
+  function setEnds(pathStartX, pathEndX) {
+    pathX = pathEndX - pathStartX
+
+    pathStart.set(pathStartX, 0)
+    pathEnd.set(pathEndX, 0)
+
+    pathSign = Math.sign(pathX)
+    pathSpan = Math.abs(pathX)
+
+    // If graph grew/shrunk enough, update sample count
+    const newSampleCount = Math.round(pathSpan * 4)
+
+    if (Math.abs(pathGraph.sampleCount - newSampleCount) > 5)
+      pathGraph.sampleCount = newSampleCount
+
+    dragMove(transform.position)
+  }
 
   function updateBounds() {
     const max = pathGraph.samples.reduce(
@@ -148,65 +209,21 @@ function PathGoal(spec) {
       (min, el) => (el[1] < min ? el[1] : min),
       PINF,
     )
-    const height = max - min
-    const top = transform.invertScalar(max)
+    const height = Math.max(max - min, minBoundsHeight)
+
+    const verticalCenter = (max + min) / 2
+    const startY = pathGraph.sample('x', transform.x + pathStart.x)
+    const endY = pathGraph.sample('x', transform.x + pathEnd.x)
 
     bounds.width = pathX
     bounds.height = height
-    bounds.center = Vector2(pathX / 2, top - height / 2)
-  }
+    bounds.center = Vector2(pathX / 2 + pathStart.x, verticalCenter)
 
-  let oldExpression
-
-  function select() {
-    editor.editingPath = true
-
-    ui.mathFieldLabel.innerText = 'P='
-
-    ui.mathField.latex(pathExpression)
-    ui.mathFieldStatic.latex(pathExpression)
-
-    oldExpression = world.level.currentLatex
-
-    editor.select(self, 'path')
-  }
-
-  function deselect() {
-    editor.editingPath = false
-
-    ui.mathFieldLabel.innerText = 'Y='
-
-    ui.mathField.latex(oldExpression)
-    ui.mathFieldStatic.latex(oldExpression)
-
-    editor.deselect()
-  }
-
-  function setGraphExpression(text, latex) {
-    if (!clickable.selected) return
-
-    pathExpression = text
-
-    pathGraph.expression = text
-    pathGraph.refresh()
-
-    hintGraph.expression = text
-    hintGraph.refresh()
-
-    ui.mathFieldStatic.latex(latex)
-
-    updateBounds()
+    leftHandle.transform.position.set(transform.x + pathStart.x, startY)
+    rightHandle.transform.position.set(transform.x + pathEnd.x, endY)
   }
 
   function tick() {
-    const height = pathGraph.max - pathGraph.min
-    const top = transform.invertScalar(pathGraph.max)
-
-    bounds.height = height
-    bounds.center = Vector2(pathX / 2, top - height / 2)
-
-    boundsTransform.y = top - height / 2
-
     base.tick()
     tickPath()
   }
@@ -273,9 +290,9 @@ function PathGoal(spec) {
     ctx.fill()
     ctx.stroke()
 
-    ctx.beginPath()
-    ctx.arc(pathEnd.x, -pathEnd.y, size / 2, 0, TAU)
-    ctx.strokeStyle = '#888'
+    // ctx.beginPath()
+    // ctx.arc(pathEnd.x, -pathEnd.y, size / 2, 0, TAU)
+    // ctx.strokeStyle = '#888'
     // ctx.stroke()
 
     if (self.debug) {
@@ -325,7 +342,7 @@ function PathGoal(spec) {
     innerStyle.addColorStop(pathProgress, '#4F6')
     innerStyle.addColorStop(math.clamp01(pathProgress + 0.02), '#FFF')
 
-    if (clickable.selected) {
+    if (editor.editing && clickable.selected) {
       hintGraph.resize()
       drawHintGraph()
     }
@@ -353,7 +370,7 @@ function PathGoal(spec) {
     }
 
     // TODO: Polish bounding box
-    if (clickable.selectedInEditor) bounds.draw(ctx, camera)
+    if (debug || clickable.selectedInEditor) union.draw(ctx, camera)
   }
 
   function reset() {
@@ -361,18 +378,74 @@ function PathGoal(spec) {
 
     pathPosition.set(pathStart)
     pathPositionWorld.set(pathStartWorld)
+
+    // TODO: Fix circle jitter w/o calling tick()
+    tick()
   }
 
   function resize() {
     hintGraph.resize()
   }
 
+  /* Editor logic */
+
+  const editor = parent // Parent is implicitly editor
+
+  let oldExpressionLatex
+
+  function select() {
+    if (!editor.editing) return
+
+    parent.sendEvent('selectedPathGoalForEditing')
+
+    editor.select(self, ['start', 'end'])
+
+    oldExpressionLatex = parent.currentLatex
+
+    ui.mathFieldLabel.innerText = 'P='
+    ui.mathField.latex(pathExpressionLatex)
+    ui.mathFieldStatic.latex(pathExpressionLatex)
+  }
+
+  function deselect() {
+    if (!editor.editing) return
+
+    parent.sendEvent('unselectedPathGoalForEditing')
+
+    editor.deselect()
+
+    ui.mathFieldLabel.innerText = 'Y='
+    ui.mathField.latex(oldExpressionLatex)
+    ui.mathFieldStatic.latex(oldExpressionLatex)
+  }
+
+  function setGraphExpression(text, latex) {
+    if (!clickable.selected) return
+
+    if (!text) return
+
+    pathExpression = text
+    pathExpressionLatex = latex
+
+    pathGraph.expression = text
+    pathGraph.resample()
+
+    hintGraph.expression = text
+    hintGraph.resample()
+
+    ui.mathFieldStatic.latex(latex)
+
+    updateBounds()
+  }
+
   function dragMove(point) {
-    transform.position = point
+    if (!editor.editing) return
+
+    transform.position.x = point.x
 
     // Reset pathStart/pathEnd
-    pathStart.set(Vector2())
-    pathEnd.set(Vector2(pathX, 0))
+    // pathStart.x += delta.x
+    // pathEnd.x += delta.x
 
     // Re-transform to world space
     transform.transformPoint(pathStart, pathStartWorld)
@@ -394,27 +467,50 @@ function PathGoal(spec) {
     // Update graph
     pathGraph.bounds[0] = pathStartWorld.x
     pathGraph.bounds[1] = pathEndWorld.x
-    pathGraph.refresh()
+    pathGraph.resample()
 
     boundsTransform.x = point.x
     updateBounds()
 
     trackPoints = [pathStartWorld, pathEndWorld]
 
-    ui.editorInspector.x.value = point.x.toFixed(2)
-    ui.editorInspector.y.value = point.y.toFixed(2)
+    editor.update(false)
+
+    // Don't propagate drag events to handles
+    return false
+  }
+
+  function mouseDown() {
+    // Don't propagate mouse down event to handles
+    return false
   }
 
   function dragEnd() {
+    if (!editor.editing) return
+    editor.update()
     reset()
   }
 
+  let _p = Vector2()
   function setX(x) {
-    transform.position.x = x
+    // HACK: Not sure why, but
+    // when I move the code in dragMove
+    // to setX() the bounding box doesn't
+    // update properly? TODO: Debug
+    _p.x = x
+    dragMove(_p)
   }
 
-  function setY(y) {
-    transform.position.y = y
+  function setStart(newStart) {
+    const newPathStartX = newStart - transform.x
+    setEnds(Math.min(pathEnd.x - 1, newPathStartX), pathEnd.x)
+    editor.update(false)
+  }
+
+  function setEnd(newEnd) {
+    const newPathEndX = newEnd - transform.x
+    setEnds(pathStart.x, Math.max(pathStart.x + 1, newPathEndX))
+    editor.update(false)
   }
 
   return self.mix({
@@ -423,9 +519,15 @@ function PathGoal(spec) {
     tick,
     draw,
 
-    setX,
-    setY,
+    setStart,
+    setEnd,
 
+    setX,
+
+    select,
+    deselect,
+
+    mouseDown,
     dragMove,
     dragEnd,
 
@@ -437,9 +539,6 @@ function PathGoal(spec) {
     trackPoints,
     shape,
 
-    select,
-    deselect,
-
     clickable,
 
     setGraphExpression,
@@ -447,11 +546,45 @@ function PathGoal(spec) {
     bounds,
     boundsTransform,
 
+    setEnds,
+
+    get selected() {
+      return clickable.selected
+    },
+
+    get starting() {
+      return pathStart.x + transform.x
+    },
+
+    get ending() {
+      return pathEnd.x + transform.x
+    },
+
+    get pathStart() {
+      return pathStart
+    },
+
+    get pathEnd() {
+      return pathEnd
+    },
+
+    get pathExpression() {
+      return pathExpression
+    },
+
+    get pathExpressionLatex() {
+      return pathExpressionLatex
+    },
+
     get completedProgress() {
       return pathProgress
     },
     get type() {
       return 'path'
+    },
+
+    set debug(v) {
+      debug = v
     },
   })
 }

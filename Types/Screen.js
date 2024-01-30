@@ -18,10 +18,19 @@
 
 function Screen(spec = {}) {
   const transform = Transform()
+  const self = {}
 
-  let { canvas, element = window } = spec
+  let {
+    canvas,
+    element = window,
+    // Disable blending by default for performance
+    alpha = false,
+    parentScreen,
+  } = spec
 
-  const ctx = canvas.getContext('2d', { alpha: false })
+  const ctx = canvas.getContext('2d', { alpha })
+
+  if (parentScreen) parentScreen.resizeSubs.push(self)
 
   let width
   let height
@@ -34,9 +43,21 @@ function Screen(spec = {}) {
   const minFramePoint = Vector2()
   const maxFramePoint = Vector2()
 
+  let resolutionScalingFactor = 1.0
+
   function resize() {
-    width = element.innerWidth || element.width
-    height = element.innerHeight || element.height
+    if (parentScreen) {
+      resolutionScalingFactor = parentScreen.resolutionScalingFactor
+
+      width = parentScreen.width
+      height = parentScreen.height
+    } else {
+      width = element.innerWidth || element.width
+      height = element.innerHeight || element.height
+
+      width *= resolutionScalingFactor
+      height *= resolutionScalingFactor
+    }
 
     canvas.width = width
     canvas.height = height
@@ -99,7 +120,7 @@ function Screen(spec = {}) {
 
   resize()
 
-  return {
+  return _.mixIn(self, {
     transform,
 
     canvas,
@@ -134,5 +155,13 @@ function Screen(spec = {}) {
     get maxFramePoint() {
       return maxFramePoint
     },
-  }
+
+    get resolutionScalingFactor() {
+      return resolutionScalingFactor
+    },
+    set resolutionScalingFactor(o) {
+      resolutionScalingFactor = o
+      resize()
+    },
+  })
 }

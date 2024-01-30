@@ -1,5 +1,8 @@
 function FixedGoal(spec) {
-  const { self, screen, camera, transform, ctx } = Goal(spec, 'Fixed Goal')
+  const { self, screen, camera, transform, ctx, parent } = Goal(
+    spec,
+    'Fixed Goal',
+  )
 
   const base = _.mix(self)
 
@@ -19,14 +22,6 @@ function FixedGoal(spec) {
   })
 
   t = 0
-
-  function select() {
-    editor.select(self, 'fixed')
-  }
-
-  function deselect() {
-    editor.deselect()
-  }
 
   function drawLocal() {
     t += 0.01
@@ -74,20 +69,31 @@ function FixedGoal(spec) {
     ctx.globalAlpha = 1
   }
 
+  /* Editor logic */
+
+  const editor = parent
+
   let moving = false
 
+  function select() {
+    if (!editor.editing) return
+    editor.select(self, ['x', 'y', 'order'])
+  }
+
+  function deselect() {
+    if (!editor.editing) return
+    editor.deselect()
+  }
+
   function mouseDown() {
-    // console.log('moved down')
-    if (editor.active) {
-      moving = true
-    }
+    if (!editor.editing) return
+    moving = true
   }
 
   function mouseMove(point) {
     if (!moving) return
     transform.position = point
-    ui.editorInspector.x.value = point.x.toFixed(2)
-    ui.editorInspector.y.value = point.y.toFixed(2)
+    editor.update()
   }
 
   function mouseUp() {

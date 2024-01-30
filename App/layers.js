@@ -4,7 +4,6 @@ const LAYERS = {
   sky: -100,
   background: -90,
   axes: -80,
-  gridlines:95,
   backSprites: -10,
   walkers: 1,
   sledders: 2,
@@ -14,6 +13,7 @@ const LAYERS = {
   hintGraph: 40,
   clouds: 60,
   lighting: 70,
+  gridlines: 79,
   goals: 80,
   text: 90,
   navigator: 100,
@@ -24,4 +24,5 @@ const LAYERS = {
   darkness: 100,
   volcanoPostProcessing: 180,
   level: 10000,
+  ui: Infinity,
 }

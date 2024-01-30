@@ -1,6 +1,7 @@
 let assets, globalScope
 let arrowsDrawn = 0,
-  _arrowsDrawn
+  _arrowsDrawn,
+  originalAssets
 
 function World(spec) {
   const self = Entity(spec, 'World')
@@ -44,10 +45,6 @@ function World(spec) {
       return running
     },
 
-    get quads() {
-      return quads
-    },
-
     get completionTime() {
       return completionTime
     },
@@ -56,27 +53,12 @@ function World(spec) {
   let navigating = false
   let editing = false
 
-  function loadQuad() {
-    quads.water = WaterQuad(assets)
-    quads.sunset = SunsetQuad('(sin(x)-(y-2)*i)*i/2', assets)
-    quads.volcano = VolcanoQuad(assets)
-    quads.volcanoSunset = VolcanoSunsetQuad(
-      '((sin(x)*i)/2)+(x/4)+((y*i)/5)',
-      assets,
-    )
-    quads.lava = LavaQuad(assets)
-  }
-
-  assets = Assets({
-    paths: spec.assets,
-    callbacks: {
-      complete: assetsComplete,
-      progress: assetsProgress,
-    },
-  })
+  let sampleDensitySetting
+  let terrainLayersSetting
 
   const clickableContext = ClickableContext({
     entity: self,
+    screen /* Pass screen for downsampling ratio */,
   })
 
   let backgroundMusicAsset = null
@@ -88,12 +70,152 @@ function World(spec) {
   let levelDatum
   let levelBubble
 
+  // Preprocess all level datums at start (TODO: Make lazy?)
+  levelData.map(preprocessDatum)
+
+  // Get first level datum, load general + level-specific assets,
+  // wait and then set level
+  originalAssets = _.cloneDeep(spec.assets)
+
+  assets = Assets()
+
+  const urlData = getUrlData()
+  const firstLevelNick = getFirstLevelNick(urlData)
+  const firstLevelDatum = getLevelDatum(firstLevelNick, urlData)
+  if (!firstLevelDatum) {
+    // TODO: Clean up error handling
+    alert(`Level specified ('${firstLevelNick}') doesn\'t exist :(`)
+  }
+
+  _.merge(spec.assets, firstLevelDatum.assets)
+
+  // Loading veil, loading bar handled by assets
+  assets.load(spec.assets, assetsComplete)
+
   function start() {
     // Only show the level info if we're not in debug
     if (!window.location.hostname.endsWith('sinerider.com')) {
       ui.levelInfoDiv.setAttribute('hide', false)
       ui.hideLevelInfoButton.addEventListener('click', hideLevelInfoClicked)
     }
+  }
+
+  function loadWebGLQuads() {
+    quads.water = WaterQuad(assets)
+    quads.sunset = ConstantLakeSunsetQuad('(sin(x)-(y-2)*i)*i/2', assets)
+    quads.volcanoSunset = VolcanoSunsetQuad(
+      '((sin(x)*i)/2)+(x/4)+((y*i)/5)',
+      assets,
+    )
+    quads.lava = LavaQuad(assets)
+  }
+
+  function renderEntityToImage(
+    width,
+    height,
+    entityGenerator,
+    entityDatum = {},
+    fov = 1,
+  ) {
+    const canvas = document.createElement('canvas')
+
+    canvas.width = width * 2
+    canvas.height = height * 2
+
+    const screen = Screen({
+      canvas,
+      element: canvas,
+      alpha: true,
+    })
+
+    const camera = Camera({
+      screen,
+      fov,
+    })
+
+    const entity = entityGenerator({
+      ...entityDatum,
+      camera,
+      screen,
+    })
+
+    entity.sendEvent('tick')
+    entity.sendEvent('awake')
+    entity.sendEvent('start')
+    entity.sendEvent('tick')
+    entity.sendEvent('draw')
+    entity.destroy()
+
+    return canvas
+  }
+
+  function renderAndAddSpawnerButtons() {
+    // Add path goal
+    const pathGoalImage = renderEntityToImage(
+      90,
+      45,
+      PathGoal,
+      {
+        parent: self,
+        assets,
+        globalScope,
+        drawOrder: LAYERS.goals,
+        world,
+        goalCompleted: () => {},
+        goalFailed: () => {},
+        goalDeleted: () => {},
+        x: -2,
+      },
+      1.5,
+    )
+
+    ui.editorSpawner.addPath.appendChild(pathGoalImage)
+
+    // Add fixed goal
+    const fixedGoalImage = renderEntityToImage(
+      64,
+      45,
+      FixedGoal,
+      {
+        parent: self,
+        assets,
+        globalScope,
+        drawOrder: LAYERS.goals,
+        world,
+        goalCompleted: () => {},
+        goalFailed: () => {},
+        goalDeleted: () => {},
+      },
+      0.6,
+    )
+
+    ui.editorSpawner.addFixed.appendChild(fixedGoalImage)
+
+    // Add dynamic goal
+    const dynamicGoalImage = renderEntityToImage(
+      64,
+      45,
+      DynamicGoal,
+      {
+        parent: self,
+        // HACK: Pass height to dynamic goal via graph
+        graph: {
+          sample: () => -0.5,
+          sampleSlope: () => 0,
+        },
+        assets,
+        globalScope,
+        drawOrder: LAYERS.goals,
+        world,
+        goalCompleted: () => {},
+        goalFailed: () => {},
+        goalDeleted: () => {},
+        y: 1,
+      },
+      0.6,
+    )
+
+    ui.editorSpawner.addDynamic.appendChild(dynamicGoalImage)
   }
 
   function tick() {
@@ -117,37 +239,212 @@ function World(spec) {
     ui.levelInfoDiv.setAttribute('hide', true)
   }
 
-  function loadingVeilClicked() {
-    ui.loadingVeil.setAttribute('hide', true)
+  function getSavedLatexFromURL(urlData) {
+    const isPuzzle = urlData?.isPuzzle ?? false
 
-    navigator = Navigator({
-      ui,
-      screen,
-      assets,
-      levelData,
-      getEditing,
-      setLevel,
-      playerStorage,
-      active: false,
-      parent: self,
-      drawOrder: LAYERS.navigator,
-    })
+    if (isPuzzle) {
+      return levelDatum.expressionOverride
+        ? levelDatum.expressionOverride
+        : levelDatum.defaultExpression
+    } else {
+      return urlData?.savedLatex ?? playerStorage.getLevel(nick)?.savedLatex
+    }
+  }
 
+  function preprocessDatum(datum) {
+    // Reuse datum across levels/bubbles
+    if (datum._preprocessed) return
+
+    // Add biome defaults + required assets
+    const biomeName = datum.biome ?? 'westernSlopes'
+    const biome = BIOMES[biomeName]
+    _.defaults(datum, biome)
+    if (biome.assets) _.merge(datum.assets, biome.assets)
+
+    // Expand `dialogue` array to individual speech objects
+    const dialogue = datum.dialogue
+    const walkers = datum.walkers ?? []
+    const allWalkers = [
+      ...walkers,
+      ..._.flatten(
+        walkers.map((v) =>
+          _.isArray(v.walkers)
+            ? v.walkers
+            : _.isObject(v.walkers)
+            ? [v.walkers]
+            : [],
+        ),
+      ),
+    ]
+
+    if (dialogue) {
+      for (const line of dialogue) {
+        if (!line.speaker) {
+          throw new Error(
+            `Line of dialogue '${line.content}' has no speaker specified in level '${datum.name}'`,
+          )
+        }
+        const speaker = allWalkers.find((walker) => walker.name == line.speaker)
+        if (!speaker) {
+          throw new Error(
+            `Tried to add line of dialogue for unknown speaker '${line.speaker}' in level '${datum.name}'`,
+          )
+        }
+
+        // Add default length and gap values
+        if (_.isUndefined(line.domain)) {
+          if (_.isUndefined(line.length)) line.length = 3
+          if (_.isUndefined(line.gap)) line.gap = 2
+        }
+
+        // Add default positions
+        if (line.speaker == 'Ada') {
+          if (_.isUndefined(line.x)) line.x = 0
+          if (_.isUndefined(line.y)) line.y = 0.7
+        } else if (line.speaker == 'Jack') {
+          if (_.isUndefined(line.x)) line.x = 0
+          if (_.isUndefined(line.y)) line.y = 0.8
+        }
+
+        if (!speaker.speech) speaker.speech = []
+        speaker.speech.push(line)
+      }
+
+      let previous = null
+
+      for (const line of dialogue) {
+        if (line.length) {
+          if (line.domain) {
+            throw new Error(
+              `Tried to set length of line of dialogue in level '${datum.name}' with existing domain`,
+            )
+          }
+
+          // Hard-coded assumption that the speaker we care about is the first one.
+          // We only support a single top-level walker anyway…
+          const speaker = walkers[0]
+
+          // By default start at speaker x
+          const endOfLastLine =
+            (previous && previous.domain && previous.domain[1]) || speaker.x
+          const start = endOfLastLine + line.gap
+          const domain = [start, start + line.length]
+          line.domain = domain
+        }
+
+        previous = line
+      }
+    }
+
+    // Also split up processed speech bubbles with \n
+    for (const walker of walkers) {
+      if (!walker.speech) continue
+
+      const newLines = []
+      const removeIndices = []
+
+      for (let i = 0; i < walker.speech.length; i++) {
+        const speech = walker.speech[i]
+        const content = speech.content
+        if (!content) continue
+        let lines = content.split('\n')
+        if (lines.length > 0) {
+          removeIndices.push(i)
+          let previous = null
+          for (let line of lines) {
+            const newSpeech = _.cloneDeep(speech)
+            newSpeech.content = line
+            newSpeech.distance =
+              ((previous && previous.distance) || lines.length * 0.4 + 1.1) -
+              0.4
+            if (!newSpeech.content)
+              console.log(
+                'adding new lines',
+                newLines.filter((line) => line.content == null),
+                newSpeech,
+              )
+            newLines.push(newSpeech)
+            previous = newSpeech
+          }
+        }
+      }
+
+      for (let i = removeIndices.length; i--; i >= 0) {
+        walker.speech.splice(removeIndices[i], 1)
+      }
+
+      walker.speech = walker.speech.concat(newLines)
+    }
+
+    datum._preprocessed = true
+  }
+
+  function getLevelDatum(nick, urlData = null) {
+    let levelDatum
+
+    isPuzzle = urlData?.isPuzzle ?? false
+
+    // Ensure URL Data is, at minimum, an empty object instead of an unqueryable null. Needs to be explicitly redefined because sometimes null is explicitly passed.
+    if (urlData == null) urlData = {}
+
+    if (isPuzzle) {
+      levelDatum = generatePuzzleLevel(urlData)
+      savedLatex = levelDatum.expressionOverride
+        ? levelDatum.expressionOverride
+        : levelDatum.defaultExpression
+    } else {
+      if (nick == 'RANDOM') {
+        levelDatum = generateRandomLevel()
+      } else if (nick == 'CUSTOM_LEVEL') {
+        // console.log('Custom Level URL Data:', urlData)
+        levelDatum = {
+          nick,
+          goals: urlData.goals ?? [],
+          sledders: urlData.sledders ?? [],
+          defaultExpression: urlData.defaultExpression ?? '0',
+          biome: urlData.biome ?? 'westernSlopes',
+        }
+
+        // Load assets from the specific biome specified in the URL data
+        if (urlData.biome) _.mixIn(levelDatum, BIOMES[urlData.biome])
+
+        // console.log('Custom Level Datum:', levelDatum)
+      } else if (nick == 'LEVEL_EDITOR') {
+        // console.log('Level Editor URL Data:', urlData)
+        levelDatum = {
+          nick,
+        }
+
+        // Mix in EDITOR level properties from editor.js
+        _.mixIn(levelDatum, EDITOR[0])
+
+        // Mix in any overrides contained in url data
+        _.mixIn(levelDatum, urlData)
+
+        // Mix in any specific properties associated with this biome
+        if (urlData.biome) _.mixIn(levelDatum, BIOMES[urlData.biome])
+
+        // But still guarantee that all assets required for all biomes are loaded to editor
+        levelDatum.assets = EDITOR[0].assets
+
+        // console.log('Level Editor Datum:', levelDatum)
+      } else {
+        levelDatum = _.find(levelData, (v) => v.nick == nick)
+      }
+    }
+
+    return levelDatum
+  }
+
+  function getUrlData() {
     const url = new URL(location)
 
     if (url.search) {
       try {
-        urlData = JSON.parse(LZString.decompressFromBase64(url.search.slice(1)))
-        setLevel(urlData.nick, urlData)
-        // hide map if it's a puzzle
-        if (world.level.name.includes('puzzle'))
-          ui.navigatorButton.setAttribute('hide', true)
-
-        // Very stupid, maybe Navigator should just be instantiated after this block?
-        const bubble = navigator.getBubbleByNick(urlData.nick)
-        if (bubble) navigator.initialBubble = bubble
-
-        return
+        const urlData = JSON.parse(
+          LZString.decompressFromBase64(url.search.slice(1)),
+        )
+        return urlData
       } catch (err) {
         console.error('Error loading url:', err)
         // TODO: Maybe switch to modal
@@ -155,20 +452,24 @@ function World(spec) {
       }
     }
 
-    if (_.endsWith(location.href, '#random')) setLevel('RANDOM')
+    return null
+  }
+
+  function getFirstLevelNick(urlData) {
+    if (IS_DEVELOPMENT && DEBUG_LEVEL_NICK) return DEBUG_LEVEL_NICK
+    if (urlData?.nick) return urlData.nick
+    if (_.endsWith(location.href, '#random')) return 'RANDOM'
     else if (
       playerStorage.activeLevel &&
       _.find(levelData, (v) => v.nick == playerStorage.activeLevel)
     )
-      setLevel(playerStorage.activeLevel)
-    else setLevel(levelData[0].nick)
+      return playerStorage.activeLevel
+    else return levelData[0].nick
   }
 
   function assetsComplete() {
-    loadQuad()
-
-    // Remove the loading bar
-    ui.loadingProgressBarContainer.setAttribute('hide', true)
+    // Show loading veil again for click
+    ui.loadingVeil.setAttribute('hide', false)
 
     ui.loadingVeilString.innerHTML = 'click to begin'
     ui.loadingVeil.addEventListener('click', loadingVeilClicked)
@@ -194,7 +495,40 @@ function World(spec) {
     }
   }
 
-  function resetSavedSolutions(event) {
+  function loadingVeilClicked() {
+    ui.loadingVeil.setAttribute('hide', true)
+
+    // TODO: Encapsulate loading veil click vs. loading
+    ui.loadingVeilString.innerHTML = ''
+    ui.loadingVeil.removeEventListener('onclick', loadingVeilClicked)
+
+    navigator = Navigator({
+      ui,
+      screen,
+      assets,
+      levelData,
+      getEditing,
+      setLevel,
+      playerStorage,
+      active: false,
+      parent: self,
+      world: self,
+      drawOrder: LAYERS.navigator,
+    })
+    navigator.active = false
+
+    const startingBubble = navigator.getBubbleByNick(firstLevelNick)
+    navigator.initialBubble = startingBubble
+
+    // Set misc. page settings (e.g. volume)
+    initPageState()
+
+    renderAndAddSpawnerButtons()
+
+    setLevel(firstLevelNick, urlData)
+  }
+
+  function resetSavedSolutions() {
     ui.resetSolutionsString.remove()
     playerStorage.clear()
   }
@@ -207,38 +541,45 @@ function World(spec) {
   function setLevel(nick, urlData = null) {
     if (level) level.destroy()
 
-    gtag('event', 'setLevel', {
+    emitEvent('setLevel', {
       event_category: nick.toLowerCase().startsWith('puzzle_')
         ? 'daily'
         : 'campaign',
       value: nick,
     })
 
+    // Don't bother recalculating level datum if first
+    levelDatum =
+      nick === firstLevelNick ? firstLevelDatum : getLevelDatum(nick, urlData)
+
     levelBubble = navigator.getBubbleByNick(nick)
-    isPuzzle = urlData?.isPuzzle ?? false
+
     let savedLatex
-    let completed = false
+
+    const isPuzzle = urlData?.isPuzzle ?? false
+
     if (isPuzzle) {
-      levelDatum = generatePuzzleLevel(urlData)
       savedLatex = levelDatum.expressionOverride
         ? levelDatum.expressionOverride
         : levelDatum.defaultExpression
     } else {
-      if (nick == 'RANDOM') {
-        levelDatum = generateRandomLevel()
-      } else {
-        levelDatum = _.find(levelData, (v) => v.nick == nick)
-      }
       savedLatex =
         urlData?.savedLatex ?? playerStorage.getLevel(nick)?.savedLatex
-      completed =
-        urlData?.completed ?? playerStorage.getLevel(nick)?.completed ?? false
-
-      if (urlData?.goals && urlData?.goals.length)
-        levelDatum.goals = (levelDatum.goals ?? []).concat(urlData?.goals)
     }
 
-    level = Level({
+    const generator =
+      {
+        CONSTANT_LAKE: ConstantLake,
+        VOLCANO: Volcano,
+        DESERT: Desert,
+        LEVEL_EDITOR: LevelEditor,
+        CREDITS: Credits,
+      }[levelDatum.nick] || Level
+
+    const completed =
+      urlData?.completed ?? playerStorage.getLevel(nick)?.completed ?? false
+
+    level = generator({
       ui,
       screen,
       assets,
@@ -252,6 +593,7 @@ function World(spec) {
       tickDelta,
       isBubbleLevel: false,
       world: self,
+      quads,
 
       storage: playerStorage,
       savedLatex,
@@ -274,11 +616,13 @@ function World(spec) {
   }
 
   function setNavigating(_navigating) {
+    // TODO: Either collect assets needed for level bubbles (backgrounds)
+    // load and wait, or generate small 512x512 backgrounds for level bubbles
+    // (GitHub action?)
     navigating = _navigating
 
     if (navigating) self.sendEvent('onToggleMap', [_navigating])
 
-    editor.active = level.isEditor() && !navigating
     level.active = !navigating
     navigator.active = navigating
 
@@ -310,9 +654,8 @@ function World(spec) {
     } My solution for the #sinerider puzzle of the day took ${
       Math.round(timeTaken() * 10) / 10
     } seconds & ${charCount()} characters
-    
     ${solution}
-    
+
     Try solving it yourself: ${linkToPuzzle}`
     return `https://twitter.com/intent/tweet?text=${encodeURIComponent(
       twitterPrefill,
@@ -338,6 +681,10 @@ function World(spec) {
       /\s/g,
       '',
     )}\``
+    $('#submit-reddit-score-subreddit').setAttribute(
+      'href',
+      `https://sinerider.com/reddit/${levelDatum.nick}`,
+    )
     ui.redditOpenCommand.setAttribute('value', text)
     // It would be nice to use this, but it doesn't work for whatever reason
     // navigator.clipboard.writeText(text)
@@ -356,7 +703,7 @@ function World(spec) {
   function levelCompleted(soft = false) {
     setCompletionTime(runTime)
 
-    gtag('event', 'levelCompleted', {
+    emitEvent('levelCompleted', {
       event_category: level.name.toLowerCase().startsWith('puzzle_')
         ? 'daily'
         : 'campaign',
@@ -373,7 +720,9 @@ function World(spec) {
     } else {
       ui.victoryBar.setAttribute('hide', false)
       ui.expressionEnvelope.setAttribute('hide', true)
-      ui.showAllButton.setAttribute('hide', true)
+      // Disabled this behavior because it's just too annoying when trying to show the game to people, and it kinda feels like a bug.
+      // So now the "Show All" button will always be visible.
+      // ui.showAllButton.setAttribute('hide', true)
     }
 
     const isPuzzle = true
@@ -392,8 +741,7 @@ function World(spec) {
       )
 
       // Hide reddit for the time being
-      // console.log($('#submit-reddit-score'))
-      // $('#submit-reddit-score').onclick = openRedditModal
+      $('#submit-reddit-score').onclick = openRedditModal
 
       ui.redditOpenCloseButton.onclick = () =>
         ui.redditOpenModal.setAttribute('hide', true)
@@ -458,16 +806,11 @@ function World(spec) {
     editing = _editing
   }
 
-  function startRunning(
-    playSound = true,
-    hideNavigator = true,
-    disableExpressionEditing = true,
-  ) {
+  function startRunning(playSound = true, hideNavigator = true) {
     running = true
     setCompletionTime(null)
 
     ui.mathField.blur()
-    ui.expressionEnvelope.setAttribute('disabled', disableExpressionEditing)
     ui.menuBar.setAttribute('hide', true)
 
     ui.runButton.setAttribute('hide', true)
@@ -710,16 +1053,6 @@ function World(spec) {
     self.sendEvent('mathFieldBlurred')
   }
 
-  function onGridlinesDeactive() {
-    self.sendEvent('disableGridlines')
-  }
-  function onGridlinesActive() {
-    self.sendEvent('enableGridlines')
-  }
-  function onCoordinate(x, y) {
-    self.sendEvent('setCoordinates', [x, y])
-  }
-
   return self.mix({
     start,
     tick,
@@ -746,10 +1079,6 @@ function World(spec) {
     onMathFieldFocus,
     onMathFieldBlur,
 
-    onGridlinesActive,
-    onGridlinesDeactive,
-    onCoordinate,
-
     get navigator() {
       return navigator
     },
@@ -773,6 +1102,22 @@ function World(spec) {
     },
     set navigating(v) {
       setNavigating(v)
+    },
+
+    get terrainLayersSetting() {
+      return terrainLayersSetting
+    },
+    set terrainLayersSetting(v) {
+      terrainLayersSetting = v
+      if (level && level.graph) level.graph.terrainLayers = v
+    },
+
+    set sampleDensitySetting(v) {
+      sampleDensitySetting = v
+      if (level && level.graph) level.graph.sampleCount = v
+    },
+    get sampleDensitySetting() {
+      return sampleDensitySetting
     },
   })
 }

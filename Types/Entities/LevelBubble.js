@@ -133,10 +133,6 @@ function LevelBubble(spec) {
     refreshPlayable()
   }
 
-  function startLate() {}
-
-  function tick() {}
-
   let tmp = Vector2()
 
   function localToScreen(localX, localY) {
@@ -156,6 +152,7 @@ function LevelBubble(spec) {
       useDragCamera: false,
       isBubbleLevel: true,
       drawOrder: LAYERS.levelBubbles,
+      tryToLoadAssets: false,
     })
     bubbletLevel.awake()
     bubbletLevel.start()
@@ -436,12 +433,10 @@ function LevelBubble(spec) {
     clickable,
 
     start,
-    startLate,
     awake,
 
     resize,
 
-    tick,
     draw,
 
     render,

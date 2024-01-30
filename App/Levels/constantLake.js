@@ -1,4 +1,5 @@
 const CONSTANT_LAKE = {
+  type: 'ConstantLake',
   name: 'Constant Lake',
   nick: 'CONSTANT_LAKE',
   biome: 'westernSlopes',
@@ -9,6 +10,23 @@ const CONSTANT_LAKE = {
   requirements: ['SLOPE_SHALLOWER', 'SLOPE_LOWER'],
   defaultExpression:
     '\\frac{3}{1+e^{-\\frac{x+22}{2}}}-\\frac{5}{1+e^{-\\frac{x-2}{4}}}+\\frac{8}{1+e^{-\\frac{x-22}{5}}}+\\frac{-8}{1+\\frac{1}{e^{x-40}}}',
+  assets: {
+    images: {
+      western_slopes_background_no_sky: '.webp',
+    },
+    sounds: {
+      music: {
+        constant_lake: {
+          base: 'base_compressed.mp3',
+          pad_1_loopable: 'pad_1_loopable_compressed.mp3',
+          pad_2_loopable: 'pad_2_loopable_compressed.mp3',
+          pad_3_loopable: 'pad_3_loopable_compressed.mp3',
+          pad_swell_1: 'pad_swell_1_compressed.mp3',
+          wind: 'wind_compressed.mp3',
+        },
+      },
+    },
+  },
   directors: [
     {
       type: 'lerp',
@@ -39,8 +57,8 @@ const CONSTANT_LAKE = {
   ],
   texts: [
     {
-      x: -20,
-      y: -0.5,
+      x: -22,
+      y: 0,
       size: 0.6,
       align: 'left',
       // fill: '#fff',

@@ -287,6 +287,7 @@ function Vector2() {
     return output
   }
 
+  // Counter-clockwise perpendicular
   function orthogonalize(output) {
     if (!output) output = self
 

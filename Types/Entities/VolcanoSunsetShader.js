@@ -1,11 +1,17 @@
 function VolcanoSunsetShader(spec) {
-  const { self, screen } = Entity(spec, 'VolcanoSunsetShader')
+  const { self, screen, assets } = Entity(spec, 'VolcanoSunsetShader')
 
-  const { quad } = spec
+  const { getSledderPosition, defaultExpression } = spec
 
   const ctx = screen.ctx
 
   const transform = Transform(spec, self)
+
+  const quad = VolcanoSunsetQuad({
+    defaultExpression,
+    assets,
+    getSledderPosition,
+  })
 
   function draw() {
     quad.render()
