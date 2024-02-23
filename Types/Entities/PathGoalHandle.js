@@ -40,12 +40,19 @@ function PathGoalHandle(spec) {
     }
   }
 
+  function dragEnd() {
+    if (parent.selected && editor.editing) {
+      editor.update()
+    }
+  }
+
   return self.mix({
     transform,
 
     clickable,
 
     dragMove,
+    dragEnd,
 
     draw,
     center,

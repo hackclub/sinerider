@@ -7,6 +7,9 @@ function VolcanoSunsetQuad(spec) {
   local.width = innerWidth
   local.height = innerHeight
 
+  // What percentage of the screen is visible (since background hides much of it)
+  const visibleFraction = 0.3
+
   gl = local.getContext('webgl')
   if (!gl) {
     return alert(
@@ -46,7 +49,7 @@ function VolcanoSunsetQuad(spec) {
     frag: shaders.volcano.volcano_sunset,
   })
 
-  const particleCount = 1000
+  const particleCount = 100
 
   // [ x, y ]
   const oldParticlePositions = new Float32Array(particleCount * 2)
@@ -70,7 +73,7 @@ function VolcanoSunsetQuad(spec) {
     const colIndex = 3 * index
 
     const x = Math.random()
-    const y = Math.random()
+    const y = Math.random() * (1 - visibleFraction)
 
     oldParticlePositions[posIndex] = x
     oldParticlePositions[posIndex + 1] = y
@@ -107,7 +110,7 @@ function VolcanoSunsetQuad(spec) {
 
   // const input = document.querySelector('input')
 
-  const eta = 0.004
+  const eta = 0.05
   t = 0
 
   function updateParticlePositions(vectorField) {
@@ -121,7 +124,7 @@ function VolcanoSunsetQuad(spec) {
       if (
         percentLifeLived[i] > 1 ||
         Math.abs(normX) > 1 ||
-        Math.abs(normY) > 1
+        Math.abs(normY) > 1 - visibleFraction
       ) {
         createParticleAt(i)
         continue

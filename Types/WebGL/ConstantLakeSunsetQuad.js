@@ -64,7 +64,7 @@ function ConstantLakeSunsetQuad(spec) {
     frag: shaders.sunset_frag,
   })
 
-  const particleCount = 1000
+  const particleCount = 500
 
   // [ x, y ]
   const oldParticlePositions = new Float32Array(particleCount * 2)
@@ -148,7 +148,7 @@ function ConstantLakeSunsetQuad(spec) {
       const x = (normX - 0.5) * 10
       const y = (normY - 0.5) * 10
 
-      const [dx, dy] = vectorField(x, y, world.level.cutsceneDistanceParameter)
+      const [dx, dy] = vectorField(x, y, world.level.getCutsceneX)
 
       const newX = eta * tickDelta * dx + normX
       const newY = eta * tickDelta * dy + normY

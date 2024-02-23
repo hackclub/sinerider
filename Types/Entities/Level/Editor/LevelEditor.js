@@ -1,13 +1,20 @@
 // TODO: Figure out how Editor should work?
 // (Maybe doesn't need its own class?)
 function LevelEditor(spec) {
-  const { self, ui, goals, sledders, gridlines, coordinateBox, graph, sky } =
-    Level(spec)
+  const {
+    self,
+    ui,
+    goals,
+    sledders,
+    gridlines,
+    coordinateBox,
+    graph,
+    sky,
+    datum,
+  } = Level(spec)
 
   const base = _.mix(self)
-
-  // Implicitly pass self to (direct) editable children
-  // (goals, sledder) as parent
+  let biomeSetting = datum.biome ?? 'westernSlopes'
 
   /*
 
@@ -34,10 +41,13 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
   let selection = null
   let selectionIsDeletable = false
 
+  const goalLimit = 20 //determines the maximum number of goals allowed in the editor
+
   const { inputs, labels } = ui.editorInspector
 
   function goalDeleted(goal) {
     goals.splice(goals.indexOf(goal), 1)
+    updateGoalLimitVisual()
   }
 
   function serialize(nick = null) {
@@ -45,6 +55,7 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
       // Version, etc.
       ...base.serialize(),
       defaultExpression: self.currentLatex,
+      sledders: sledders.map((v) => ({ asset: v.asset, x: v.x, y: v.y })),
       goals: goals.map((g) => {
         const goalJson = {
           type: g.type,
@@ -55,18 +66,26 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
         if (g.pathExpression) {
           goalJson.expression = g.pathExpression
           goalJson.expressionLatex = g.pathExpressionLatex
+          goalJson.pathX = g.pathEnd.x
         }
         return goalJson
       }),
+      biome: biomeSetting,
     }
-    if (sledders[0]) json.x = sledders[0].transform.x
+
     if (nick) json.nick = nick
+
     return json
   }
 
   function awake() {
     // ui.nextButton.setAttribute('hide', true)
     enableEditing()
+
+    ui.editorLevelConfigurationBiomeSelect.value = biomeSetting
+    ui.editorLevelConfigurationSledderSelect.value = datum.sledders[0].asset
+
+    self.save()
   }
 
   function destroy() {
@@ -124,7 +143,7 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
     selection = null
     selectionIsDeletable = false
 
-    showSpawnerPanel()
+    if (!world.navigating) showSpawnerPanel()
   }
 
   /* UI Events */
@@ -151,7 +170,13 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
     return string.length < stringFixed.length ? string : stringFixed
   }
 
-  function update() {
+  function updateGoalLimitVisual() {
+    let goalLimitText = document.getElementById('goal-limit-visual')
+    goalLimitText.innerText = `${self.goals.length}/${goalLimit} Goals`
+    goalLimitText.style.color = self.goals.length >= goalLimit ? 'red' : 'black'
+  }
+
+  function update(save = true) {
     // Update UI
     inputs.order.value = selection.order ?? ''
     inputs.x.value = selection.x ? selection.x.toFixed(2) : ''
@@ -164,19 +189,31 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
       inputs.end.value = stringifyInputNumber(selection.ending)
 
     // Save to URL
-    self.save()
+    if (save) self.save()
+  }
+
+  //Allows a goal to be added if the goal limit has not been reached
+  //More conditions can be added
+  function tryAddGoal() {
+    return self.goals.length < goalLimit
   }
 
   function onAddFixedClicked() {
+    if (!tryAddGoal()) return
     self.addGoal({ type: 'fixed' })
+    updateGoalLimitVisual()
   }
 
   function onAddDynamicClicked() {
+    if (!tryAddGoal()) return
     self.addGoal({ type: 'dynamic' })
+    updateGoalLimitVisual()
   }
 
   function onAddPathClicked() {
+    if (!tryAddGoal()) return
     self.addGoal({ type: 'path' })
+    updateGoalLimitVisual()
   }
 
   function deleteSelection() {
@@ -305,18 +342,21 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
       '?' +
       LZString.compressToBase64(JSON.stringify(serialized))
     ui.puzzleLink.value = url
-    ui.editorSharingLinkDialog.showModal()
+    showDialog(ui.editorSharingLinkDialog)
   }
 
-  function setPolar(polar) {
-    graph.polar = polar
-    ui.mathFieldLabel.innerText = `${graph.label}=`
-    self.sendEvent('reset')
-  }
+  // TODO: Finish polar coordinates
+  // function setPolar(polar) {
+  //   graph.polar = polar
+  //   ui.mathFieldLabel.innerText = `${graph.label}=`
+  //   self.sendEvent('reset')
+  // }
 
   function selectBiome(biomeKey) {
+    biomeSetting = biomeKey
     const biome = BIOMES[biomeKey]
     base.setBiome(biome)
+    self.save()
   }
 
   function setSledderImage(sledderImagePath) {
@@ -330,6 +370,7 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
       y,
       asset: sledderImagePath,
     })
+    self.save()
   }
 
   function setStart() {}
@@ -341,7 +382,7 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
     goalDeleted,
     serialize,
 
-    setPolar,
+    // setPolar,
     selectBiome,
     setSledderImage,
 

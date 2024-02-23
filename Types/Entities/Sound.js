@@ -49,7 +49,7 @@ function Sound(spec) {
     let vol = volume
 
     if (domain) {
-      const x = level?.cutsceneDistanceParameter
+      const x = level.getCutsceneX()
 
       // Sounds w/ domains only play once
       if (x > domain[0] && !howl.playing() && !played) {
@@ -65,7 +65,9 @@ function Sound(spec) {
       if (domain.length == 4) {
         if (self.debug)
           console.log(
-            `${self.name} distance parameter: ${level.cutsceneDistanceParameter} volume: ${volume}`,
+            `${
+              self.name
+            } distance parameter: ${level.getCutsceneX()} volume: ${volume}`,
           )
         vol *= math.clamp01(math.unlerp(domain[3], domain[2], x))
       }

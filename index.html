@@ -99,14 +99,20 @@
     </div>
 
     <div class="bar floating top" id="top-bar" hide="false">
-      <div>
-        <div
-          id="volume-slider-box"
-          class="tooltip-e tooltip"
-          data-tooltip="Volume"
-        >
-          <div class="">🔊</div>
-          <input id="volume-slider" type="range" orient="horizontal" />
+      <div class="tooltip" id="settings-button" data-tooltip="Settings">
+        <div class="" id="gear">⚙️</div>
+      </div>
+      <div id="lvl-debug-info" hide="true">
+        <div class="grid">
+          <div class="string debugtitle">Level name:</div>
+          <div class="string debuginfo" id="lvl-name-str">N/A</div>
+          <div class="string debugtitle">Level nick:</div>
+          <div class="string debuginfo" id="lvl-nick-str">N/A</div>
+          <div class="string debugtitle">FPS:</div>
+          <div class="string debuginfo" id="lvl-fps-str">N/A</div>
+        </div>
+        <div class="button" id="button-hide-level-info" hide="true">
+          <div class="string">X</div>
         </div>
       </div>
       <!-- when i move this it doesn't allow me to click on puzzles -->
@@ -153,6 +159,9 @@
         <div id="editor-spawner-path" class="button string">
           <!-- Path goal button added in JS -->
         </div>
+        <div id="goal-limit-visual">
+          <div class="string">0/20<br />Goals</div>
+        </div>
         <div class="button" id="share-button" hide="false">
           <div class="string">Share</div>
         </div>
@@ -194,14 +203,6 @@
         <!-- TODO: Tooltip -->
         <div class="button" id="navigator-button" hide="false">
           <div class="string">🏔</div>
-        </div>
-
-        <div
-          class="button tooltip"
-          id="settings-button"
-          data-tooltip="Settings"
-        >
-          <div class="string">⚙️</div>
         </div>
       </div>
     </div>
@@ -287,13 +288,13 @@
     <!-- TODO: Make decent -->
     <dialog id="editor-level-configuration-dialog">
       <div class="string">Level Options</div>
-      <div>
+      <!-- <div>
         <label>Polar</label>
         <input
           id="editor-level-configuration-is-polar-checkbox"
           type="checkbox"
         />
-      </div>
+      </div> -->
       <div>
         <label>Biome</label>
         <select id="editor-level-configuration-biome-select">
@@ -316,13 +317,11 @@
           https://sinerider.com/?auwbdiawdyiubawduybaubydwuhbawdhubawuhbd
         </div> -->
         <input id="puzzle-link" hide="true" />
-        <div>
-          <div class="button" id="editor-copy-puzzle-link">
-            <div class="string">Copy as Puzzle</div>
-          </div>
+        <div class="button" id="editor-copy-puzzle-link">
+          <div class="string">Copy as Puzzle</div>
         </div>
         <div class="button" id="editor-copy-editor-link">
-          <div class="string">Copy as Editable</div>
+          <div class="string">Copy as Editor</div>
         </div>
       </div>
     </dialog>
@@ -369,6 +368,15 @@
     </dialog>
 
     <dialog id="graphics-settings-dialog">
+      <div>
+        <div id="graphics-settings-close-button">x</div>
+      </div>
+      <div>
+        <div>
+          <label>Volume</label>
+          <input id="volume-slider" type="range" orient="horizontal" />
+        </div>
+      </div>
       <div class="string">Graphics Settings</div>
       <div>
         <label>Resolution</label>
@@ -379,8 +387,8 @@
         <button class="button" id="set-sample-density-button">High</button>
       </div>
       <div>
-        <label>Misc. Graphics</label>
-        <button class="button" id="set-misc-graphics-button">High</button>
+        <label>Terrain Layers</label>
+        <button class="button" id="set-terrain-layers-button">High</button>
       </div>
     </dialog>
 
@@ -491,18 +499,9 @@
 
     <div class="veil" id="veil" hide="true"></div>
 
-    <div id="lvl-debug-info" hide="true">
-      <div class="grid">
-        <div class="string debugtitle">Level name:</div>
-        <div class="string debuginfo" id="lvl-name-str">N/A</div>
-        <div class="string debugtitle">Level nick:</div>
-        <div class="string debuginfo" id="lvl-nick-str">N/A</div>
-        <div class="string debugtitle">FPS:</div>
-        <div class="string debuginfo" id="lvl-fps-str">N/A</div>
-      </div>
-      <div class="button" id="button-hide-level-info" hide="true">
-        <div class="string">X</div>
-      </div>
+    <!--TODO: Maybe change to a different style -->
+    <div class="veil veil-no-transition" id="level-loading-veil">
+      <div class="dot-flashing"></div>
     </div>
 
     <div class="loading veil" id="loading-veil" hide="false">
@@ -524,6 +523,11 @@
         <div class="string" id="loading-string"></div>
       </div>
 
+      <div>
+        <br />Ideas? Feedback? Issues? Send them to
+        <a href="sinerider@hackclub.com">sinerider@hackclub.com</a>
+      </div>
+
       <div id="loading-bottom">
         <div id="puzzles">
           <h3>New puzzles published daily on</h3>
@@ -536,7 +540,7 @@
               id="twitter-link"
             >
               <img
-                src="Assets/Images/twitter.png"
+                src="Assets/Images/twitterx.png"
                 alt="Twitter"
                 class="puzzle-link-image"
               />
@@ -564,7 +568,7 @@
             class="loading-link"
             id="github-link"
           >
-            Built and maintained by teenagers. Public Beta 0.5
+            Built and maintained by teenagers. Version 1.0
           </a>
         </div>
       </div>
@@ -671,6 +675,7 @@
     <script src="Types/Entities/Level/Cutscenes/ConstantLake.js"></script>
     <script src="Types/Entities/Level/Cutscenes/Volcano.js"></script>
     <script src="Types/Entities/Level/Cutscenes/Desert.js"></script>
+    <script src="Types/Entities/Level/Cutscenes/Credits.js"></script>
 
     <script src="Types/Entities/Level/Editor/LevelEditor.js"></script>
 
@@ -680,7 +685,7 @@
     <script src="App/biomes.js"></script>
     <script src="App/layers.js"></script>
     <script src="App/Levels/desert.js"></script>
-    <script src="App/Levels/polar.js"></script>
+    <!--<script src="App/Levels/polar.js"></script>-->
     <script src="App/Levels/constantLake.js"></script>
     <script src="App/Levels/volcano.js"></script>
     <script src="App/Levels/editor.js"></script>

@@ -91,6 +91,7 @@ worldData.push({
       // sounds.music loaded in levels
       music: {
         birds: '.mp3',
+        intro: '.mp3',
       },
       map_button: 'map_button_compressed.mp3',
       next_button: 'next_button_compressed.mp3',
@@ -316,7 +317,7 @@ worldData.push({
   },*/,
     ...SLOPE,
     ...EDITOR,
-    ...POLAR,
+    //...POLAR,
     ...PARABOLA,
     ...WAVE,
     ...LOGISTIC,

@@ -53,13 +53,8 @@ function World(spec) {
   let navigating = false
   let editing = false
 
-  /*
-
-  request = await assets.queue(<initial batch of assets for intro level>)
-
-  assets.queue([asset1, asset2, ...]) -> Promise that resolves if/when assets have all been loaded
-
-  */
+  let sampleDensitySetting
+  let terrainLayersSetting
 
   const clickableContext = ClickableContext({
     entity: self,
@@ -389,6 +384,9 @@ function World(spec) {
 
     isPuzzle = urlData?.isPuzzle ?? false
 
+    // Ensure URL Data is, at minimum, an empty object instead of an unqueryable null. Needs to be explicitly redefined because sometimes null is explicitly passed.
+    if (urlData == null) urlData = {}
+
     if (isPuzzle) {
       levelDatum = generatePuzzleLevel(urlData)
       savedLatex = levelDatum.expressionOverride
@@ -397,18 +395,42 @@ function World(spec) {
     } else {
       if (nick == 'RANDOM') {
         levelDatum = generateRandomLevel()
+      } else if (nick == 'CUSTOM_LEVEL') {
+        // console.log('Custom Level URL Data:', urlData)
+        levelDatum = {
+          nick,
+          goals: urlData.goals ?? [],
+          sledders: urlData.sledders ?? [],
+          defaultExpression: urlData.defaultExpression ?? '0',
+          biome: urlData.biome ?? 'westernSlopes',
+        }
+
+        // Load assets from the specific biome specified in the URL data
+        if (urlData.biome) _.mixIn(levelDatum, BIOMES[urlData.biome])
+
+        // console.log('Custom Level Datum:', levelDatum)
+      } else if (nick == 'LEVEL_EDITOR') {
+        // console.log('Level Editor URL Data:', urlData)
+        levelDatum = {
+          nick,
+        }
+
+        // Mix in EDITOR level properties from editor.js
+        _.mixIn(levelDatum, EDITOR[0])
+
+        // Mix in any overrides contained in url data
+        _.mixIn(levelDatum, urlData)
+
+        // Mix in any specific properties associated with this biome
+        if (urlData.biome) _.mixIn(levelDatum, BIOMES[urlData.biome])
+
+        // But still guarantee that all assets required for all biomes are loaded to editor
+        levelDatum.assets = EDITOR[0].assets
+
+        // console.log('Level Editor Datum:', levelDatum)
       } else {
         levelDatum = _.find(levelData, (v) => v.nick == nick)
       }
-
-      if (urlData?.goals && urlData?.goals.length)
-        levelDatum.goals = (levelDatum.goals ?? []).concat(urlData?.goals)
-
-      if (urlData?.x && levelDatum.sledders[0])
-        levelDatum.sledders[0].x = urlData.x
-
-      if (urlData?.defaultExpression)
-        levelDatum.defaultExpression = urlData.defaultExpression
     }
 
     return levelDatum
@@ -490,6 +512,7 @@ function World(spec) {
       playerStorage,
       active: false,
       parent: self,
+      world: self,
       drawOrder: LAYERS.navigator,
     })
     navigator.active = false
@@ -550,6 +573,7 @@ function World(spec) {
         VOLCANO: Volcano,
         DESERT: Desert,
         LEVEL_EDITOR: LevelEditor,
+        CREDITS: Credits,
       }[levelDatum.nick] || Level
 
     const completed =
@@ -696,7 +720,9 @@ function World(spec) {
     } else {
       ui.victoryBar.setAttribute('hide', false)
       ui.expressionEnvelope.setAttribute('hide', true)
-      ui.showAllButton.setAttribute('hide', true)
+      // Disabled this behavior because it's just too annoying when trying to show the game to people, and it kinda feels like a bug.
+      // So now the "Show All" button will always be visible.
+      // ui.showAllButton.setAttribute('hide', true)
     }
 
     const isPuzzle = true
@@ -1076,6 +1102,22 @@ function World(spec) {
     },
     set navigating(v) {
       setNavigating(v)
+    },
+
+    get terrainLayersSetting() {
+      return terrainLayersSetting
+    },
+    set terrainLayersSetting(v) {
+      terrainLayersSetting = v
+      if (level && level.graph) level.graph.terrainLayers = v
+    },
+
+    set sampleDensitySetting(v) {
+      sampleDensitySetting = v
+      if (level && level.graph) level.graph.sampleCount = v
+    },
+    get sampleDensitySetting() {
+      return sampleDensitySetting
     },
   })
 }

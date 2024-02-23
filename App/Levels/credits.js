@@ -8,7 +8,7 @@ const CREDITS = {
   y: 10,
   requirements: ['VOLCANO'],
   defaultExpression:
-    '\\frac{-2}{1+e^{-x+5}}+\\frac{-2}{1+\\left(x-30\\right)^2}',
+    '\\frac{1.5}{1+e^{{x+64}\\cdot 2}}+\\frac{-3}{1+e^{x+32}}+\\frac{-2}{1+e^{-x+5}}+\\frac{-2}{1+\\left(x-30\\right)^2}',
   clouds: {},
   assets: {
     sounds: {
@@ -23,11 +23,11 @@ const CREDITS = {
       point0: [-76, 0],
       point1: [-30, 0],
       state0: {
-        position: [-73, 6],
+        position: [-73, 2],
         fov: 9,
       },
       state1: {
-        position: [-34, 4],
+        position: [-34, 3],
         fov: 8,
       },
     },
@@ -36,7 +36,7 @@ const CREDITS = {
       point0: [-30, 0],
       point1: [-14, 0],
       state0: {
-        position: [-34, 4],
+        position: [-34, 3],
         fov: 8,
       },
       state1: {
@@ -53,7 +53,7 @@ const CREDITS = {
         fov: 8,
       },
       state1: {
-        position: [10, 12],
+        position: [10, 13],
         fov: 18,
       },
     },
@@ -62,12 +62,12 @@ const CREDITS = {
       point0: [-4, 0],
       point1: [0, 0],
       state0: {
-        position: [10, 12],
+        position: [10, 13],
         fov: 18,
       },
       state1: {
-        position: [10, -10],
-        fov: 18,
+        position: [10, -11],
+        fov: 20,
       },
     },
   ],
@@ -166,9 +166,9 @@ const CREDITS = {
       speaker: 'Ada',
       color: '#FFF',
       direction: 'up-up-right',
-      content: 'Later we can go hit that canyon!',
+      content: 'Tomorrow is another day!',
       speech: {
-        content: "Now let's take a nap.",
+        content: "Now let's go to bed.",
         direction: 'up',
         color: '#FFF',
       },
@@ -221,6 +221,24 @@ const CREDITS = {
   sprites: [
     {
       asset: 'images.tree_home_2',
+      flipX: true,
+      size: 7,
+      x: -69,
+      y: 0,
+      offset: Vector2(0, 0.48),
+      anchored: true,
+    },
+    {
+      asset: 'images.tree_home_3',
+      flipX: true,
+      size: 7,
+      x: -54,
+      y: 0,
+      offset: Vector2(0, 0.5),
+      anchored: true,
+    },
+    {
+      asset: 'images.tree_home_2',
       //flipX: '*',
       size: 6.7,
       x: -25,
@@ -231,7 +249,7 @@ const CREDITS = {
     {
       asset: 'images.tree_home_1',
       //flipX: '*',
-      size: 6.7,
+      size: 7.5,
       x: -17,
       y: 0,
       offset: Vector2(0, 0.4),
@@ -250,7 +268,7 @@ const CREDITS = {
       asset: 'images.crow',
       flipX: '*',
       size: 1,
-      x: -15,
+      x: -15.5,
       y: 0,
       anchored: true,
     },
@@ -260,7 +278,7 @@ const CREDITS = {
       size: 35,
       x: 10,
       y: 0,
-      offset: Vector2(0, -0.8),
+      offset: Vector2(0, -0.9),
     },
     {
       asset: 'images.tree_home_1',

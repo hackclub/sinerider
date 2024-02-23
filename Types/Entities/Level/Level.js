@@ -59,7 +59,7 @@ function Level(spec) {
   let lowestOrder = 'A'
   let highestOrder = 'A'
 
-  let lava, volcanoSunset, sky, clouds, snow
+  let sky, clouds, snow
 
   let usingTInExpression = false
 
@@ -152,6 +152,7 @@ function Level(spec) {
     })
     darkenBufferOrScreen = Screen({
       canvas: darkenBuffer.canvas,
+      parentScreen: screen,
     })
   } else {
     darkenBufferOrScreen = screen
@@ -179,6 +180,8 @@ function Level(spec) {
     minTheta,
     maxTheta,
     invertGravity,
+    sampleCount: world.sampleDensitySetting,
+    terrainLayers: world.terrainLayersSetting,
   })
 
   let skyColors = colors.sky
@@ -342,18 +345,20 @@ function Level(spec) {
       self.active = false
 
       // Load assets
-      assets.load(datum.assets, () => {
-        self.active = true
-        awakeWithAssets()
-      })
+      assets.load(
+        datum.assets,
+        () => {
+          self.active = true
+          awakeWithAssets()
+        },
+        true,
+      )
     } else {
       awakeWithAssets()
     }
   }
 
   function awakeWithAssets() {
-    console.log('Finished loading assets')
-
     loadDatum(spec.datum)
 
     // Allow for overload from subclass
@@ -418,12 +423,17 @@ function Level(spec) {
     return globalScope.t
   }
 
+  function getCutsceneX() {
+    return 0
+  }
+
   function tick() {
     _.each(walkers, checkTransition)
     _.each(sledders, checkTransition)
 
     if (
       datum.victoryX != null &&
+      !completed &&
       self.getCutsceneX &&
       self.getCutsceneX() > datum.victoryX
     ) {
@@ -532,12 +542,7 @@ function Level(spec) {
       camera,
       graph,
       globalScope,
-      levelCompleted: () => {
-        // for (sound of sounds)
-        // sound.howl.volume(0)
-
-        levelCompleted(true)
-      },
+      levelCompleted,
       screen: darkenBufferOrScreen,
       speechScreen: screen,
       drawOrder: LAYERS.walkers,
@@ -827,18 +832,6 @@ function Level(spec) {
       //   ...datum.water,
       // })
     }
-    if (datum.lava && !isBubbleLevel) {
-      lava = Water({
-        parent: self,
-        camera,
-        // TODO: Clean up
-        lava: true,
-        screen: darkenBufferOrScreen,
-        globalScope,
-        drawOrder: LAYERS.backSprites,
-        ...datum.lava,
-      })
-    }
     if (datum.snow) setSnow(datum.snow)
     if (datum.slider && !isBubbleLevel) {
       HintGraph({
@@ -853,6 +846,10 @@ function Level(spec) {
     }
 
     self.sortChildren()
+
+    //TODO: Hide the loading screen here instead of just when the assets are loaded
+
+    assets.hideLoadingScreen()
   }
 
   function save() {
@@ -867,6 +864,7 @@ function Level(spec) {
       null,
       '?' + LZString.compressToBase64(JSON.stringify(serialized)),
     )
+    // console.log('Writing to URL:', serialized)
   }
 
   function tVariableChanged(newT) {
@@ -993,12 +991,13 @@ function Level(spec) {
     start,
     destroy,
 
+    darkenBufferOrScreen,
+
     setBiome,
 
     addGoal,
 
     tick,
-    draw,
 
     resize,
 
@@ -1069,7 +1068,6 @@ function Level(spec) {
 
     tVariableChanged,
     sky,
-    lava,
 
     levelCompleted,
 
@@ -1077,6 +1075,7 @@ function Level(spec) {
     initMathEditor,
 
     getTime,
+    getCutsceneX,
 
     onMouseDown,
     onMouseUp,

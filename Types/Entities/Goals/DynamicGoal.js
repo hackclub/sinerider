@@ -121,7 +121,7 @@ function DynamicGoal(spec) {
     if (!moving) return
     startPosition = point
     transform.position = point
-    editor.update()
+    editor.update(false)
   }
 
   function mouseUp() {

@@ -152,7 +152,7 @@ function Walker(spec) {
     if (victoryX != null && !completed) {
       if (Math.sign(victoryX - spec.x) == Math.sign(transform.x - victoryX)) {
         completed = true
-        levelCompleted()
+        levelCompleted(true)
       }
     }
   }

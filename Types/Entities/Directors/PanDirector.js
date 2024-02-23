@@ -187,7 +187,6 @@ function PanDirector(spec) {
 
   return self.mix({
     tick,
-    draw,
 
     keydown,
     keyup,
