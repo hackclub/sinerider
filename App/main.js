@@ -655,22 +655,6 @@ const terrainLayersSelector = {
   ],
 }
 
-const languagesSelector = {
-  selection: 0,
-  applySettings: (option) => {
-    // apply language settings,change the language of the ui
-    // option[1] could be the language code ('en', 'es', 'fr', etc.)?!?
-    world.sendEvent('setLanguage', [option[1]]);
-  },
-  options: [
-    ['English', 'en'],
-    ['Español', 'es'],
-    ['Français', 'fr'],
-    ['Deutsch', 'de'],
-    // add more languages as needed
-  ],
-};
-
 function createToggleSelector(element, selector) {
   selector.selection =
     localStorage.getItem(selector.storage) ?? selector.default
@@ -862,20 +846,28 @@ ui.editorInspector.deleteSelectionButton.addEventListener('click', () => {
 })
 
 /* Multiple languages setting button */
-const languagesButton = document.getElementById('languages-button')
-function createLanguagesButton(selector) {
-  let choice = selector.options[selector.selection]
-  languagesButton.innerText = choice[0]
+const languages = {
+  en: 'English',
+  es: 'Español',
+  fr: 'Français',
+  de: 'Deutsch',
+};
 
-  return () => {
-    selector.selection = (selector.selection + 1) % selector.options.length
-    choice = selector.options[selector.selection]
-    languagesButton.innerText = choice[0]
-    selector.applySettings(choice)
-  };
+const languageDropdown = document.getElementById('language-dropdown')
+
+languageDropdown.addEventListener(
+  'change',
+  (e) => {
+    localStorage.setItem('language', e.target.value ?? "en")
+    window.location.reload();
+  }
+);
+
+for (const language in languages) {
+  const option = document.createElement('option')
+  option.value = language
+  option.innerText = languages[language]
+  languageDropdown.appendChild(option)
 }
 
-languagesButton.addEventListener(
-  'click',
-  createLanguagesButton(languagesSelector)
-);
+languageDropdown.value = localStorage.getItem('language') ?? "en"

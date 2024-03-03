@@ -1,4 +1,4 @@
-const LANGUAGE = 'en'
+const LANGUAGE = localStorage.getItem('language') ?? 'en';
 
 function tn(spec) {
   if (spec[LANGUAGE] == undefined) {
