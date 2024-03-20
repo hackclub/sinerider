@@ -74,30 +74,45 @@ const DESERT = {
     {
       speaker: 'Ada',
       color: '#FFF',
-      content: 'Well, how was it?',
+      content: tn({
+        en: 'Well, how was it?', 
+        es: '¿Qué tal estuvo?',
+        }),
       direction: 'up-up-left',
     },
     {
       speaker: 'Jack',
       color: '#FFF',
-      content: 'What?',
+      content: tn({
+        en: 'What?',
+        es: 'Qué?',
+        }), 
       direction: 'up-up-right',
     },
     {
       speaker: 'Ada',
       color: '#FFF',
-      content: 'Your canyon.',
+      content: tn({
+        en: 'Your canyon.',
+        es: 'Tu cañón',
+      }),
       direction: 'up-up-left',
     },
     {
       speaker: 'Jack',
       color: '#FFF',
-      content: 'Scary. Hard.',
+      content: tn({
+        en: 'Scary. Hard.',
+        es: 'Atterador. Duro',
+        }),
       direction: 'up-up-right',
       speech: [
         {
           color: '#FFF',
-          content: 'Oh.',
+          content: tn({
+            en: 'Oh.',
+            es: 'Vaya.',
+            }),
           direction: 'up',
           distance: 0.8,
         },
@@ -106,19 +121,28 @@ const DESERT = {
     {
       speaker: 'Ada',
       color: '#FFF',
-      content: "Well, that's why it's not on the route.",
+      content: tn({
+        en: "Well, that's why it's not on the route.",
+        es: "Pues, por eso no está en la ruta."
+        }),
       direction: 'up-up-left',
     },
     {
       speaker: 'Jack',
       color: '#FFF',
-      content: 'I did a backflip!',
+      content: tn({
+        en: 'I did a backflip!',
+        es: 'Hice una voltereta hacia atrás!',
+      }),
       direction: 'up-up-right',
       speech: [
         {
           speaker: 'Jack',
           color: '#FFF',
-          content: 'I still had fun.',
+          content: tn({
+            en:'I still had fun.',
+            es: 'Todavía me divertí.',
+            }),
           direction: 'up',
         },
       ],
@@ -126,13 +150,19 @@ const DESERT = {
     {
       speaker: 'Ada',
       color: '#FFF',
-      content: "No, you didn't.",
+      content: tn({
+        en: 'No, you didn’t.',
+        es: 'No, no lo hiciste.'
+        }),
       direction: 'up-up-left',
     },
     {
       speaker: 'Jack',
       color: '#FFF',
-      content: 'Yes I did!',
+      content: tn({
+        en: 'Yes I did!',
+        es: 'Sí lo hice!',
+        }),
       direction: 'up-up-left',
       gap: 1,
       length: 2,
@@ -140,14 +170,20 @@ const DESERT = {
     {
       speaker: 'Ada',
       color: '#FFF',
-      content: 'Spinning in place is not a backflip.',
+      content: tn({
+        en: 'Spinning in place is not a backflip.',
+        es: ' Girando en lugar no es una voltereta hacia atrás.',
+      }),
       direction: 'up-left',
       length: 4,
       speech: [
         {
           speaker: 'Ada',
           color: '#FFF',
-          content: 'Jack… we are ghosts. We can float.',
+          content: tn({
+            en: 'Jack… we are ghosts. We can float.',
+            es: 'Jack... somos fantasmas. Podemos flotar.',
+            }),
           direction: 'up-up-left',
         },
       ],
@@ -155,19 +191,28 @@ const DESERT = {
     {
       speaker: 'Jack',
       color: '#FFF',
-      content: "You're being negative again.",
+      content: tn({
+        en: 'You’re being negative again.',
+        es: 'Estás siendo negativo otra vez.',
+        }),
       direction: 'up-up-left',
     },
     {
       speaker: 'Ada',
       color: '#FFF',
-      content: "It's just the truth!!",
+      content: tn({
+        en: "It's just the truth!!",
+        es: "Es sólo la verdad!!",
+        }),
       direction: 'up-left',
       speech: [
         {
           speaker: 'Ada',
           color: '#FFF',
-          content: "The truth isn't negative!",
+          content: tn({
+            en: "The truth isn't negative!",
+            es: "La verdad no es negativa!",
+            }),
           direction: 'up',
         },
       ],
@@ -175,26 +220,38 @@ const DESERT = {
     {
       speaker: 'Jack',
       color: '#FFF',
-      content: 'Are you mad at me?',
+      content: tn({
+        en: 'Are you mad at me?',
+        es: 'Estás enojada conmigo?',
+        }),
       direction: 'up-up-left',
     },
     {
       speaker: 'Ada',
       color: '#FFF',
-      content: 'Obviously, yes!',
+      content: tn({
+        en:'Obviously, yes!',
+        es: 'Obviamente, sí!',
+       }),
       direction: 'up-up-left',
       gap: 1,
     },
     {
       speaker: 'Ada',
       color: '#FFF',
-      content: 'And probably the race.',
+      content:tn({
+        en: 'And probably the race.',
+        es: 'Y probablemente la carrera.',
+        }),
       direction: 'up-up-left',
       speech: [
         {
           speaker: 'Ada',
           color: '#FFF',
-          content: 'Your detour cost us time.',
+          content: tn({
+            en: 'Your detour cost us time.',
+            es: 'Tu desvío nos costó tiempo.',
+            }),
           direction: 'up',
         },
       ],
@@ -202,32 +259,47 @@ const DESERT = {
     {
       speaker: 'Jack',
       color: '#FFF',
-      content: "You're right, I'm sorry.",
+      content: tn({
+        en: "You're right, I'm sorry.",
+        es: "Tienes razón, lo siento.",
+        }),
       direction: 'up-up-right',
     },
     {
       speaker: 'Jack',
       color: '#FFF',
       speakerx: -4,
-      content: 'Let me make it up to you. Watch this',
+      content: tn({
+      en: 'Let me make it up to you. Watch this',
+      es: 'Déjame compensarte. Mira esto',
+    }),
       direction: 'up-up-left',
     },
     {
       speaker: 'Ada',
       color: '#FFF',
-      content: '...how is this helping',
+      content: tn({
+      en: '...how is this helping',
+      es: '...como está ayudando esto',
+    }),
       direction: 'up-up-left',
     },
     {
       speaker: 'Jack',
       color: '#FFF',
-      content: 'Because it made you smile.',
+      content: tn({
+      en: 'Because it made you smile.',
+      es: 'Porque te hizo sonreír.',
+      }),
       direction: 'up-up-left',
     },
     {
       speaker: 'Ada',
       color: '#FFF',
-      content: 'You do have a talent for that.',
+      content: tn({
+      en: 'You do have a talent for that.',
+      es: 'Tu si tienes un talento para eso.',
+    }),
       direction: 'up-up-left',
     },
   ],

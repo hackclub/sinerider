@@ -136,6 +136,10 @@ const ui = {
   graphicsSettingsCloseButton: $('#graphics-settings-close-button'),
   setResolutionButton: $('#set-resolution-button'),
   setSampleDensityButton: $('#set-sample-density-button'),
+  setMiscGraphicsButton: $('#set-misc-graphics-button'),
+
+  languageDropdown: $('#language-dropdown'),
+
   setTerrainLayersButton: $('#set-terrain-layers-button'),
   // closeGraphicsButton: $('#close-graphics-button'),
 
@@ -533,6 +537,8 @@ makeButtonCloseDialog(ui.graphicsSettingsCloseButton, ui.graphicsSettingsDialog)
 makeButtonOpenDialog(ui.settingsButton, ui.graphicsSettingsDialog)
 // makeButtonCloseDialog(ui.closeGraphicsButton, ui.graphicsSettingsDialog)
 
+
+
 makeButtonOpenDialog(
   ui.editorLevelConfigurationButton,
   ui.editorLevelConfigurationDialog,
@@ -681,6 +687,10 @@ function onClickCanvas() {
 
 canvas.addEventListener('click', onClickCanvas)
 ui.veil.addEventListener('click', onClickCanvas)
+// Don't start the game when picking language
+ui.languageDropdown.addEventListener('click', (e) => {
+  e.stopPropagation()
+})
 
 function onMouseMoveCanvas(event) {
   world.clickableContext.processEvent(event, 'mouseMove')
@@ -833,3 +843,30 @@ for (const [name, input] of Object.entries(ui.editorInspector.inputs)) {
 ui.editorInspector.deleteSelectionButton.addEventListener('click', () => {
   world.sendEvent('deleteSelection')
 })
+
+/* Multiple languages setting button */
+const languages = {
+  en: 'English',
+  es: 'Español',
+  fr: 'Français',
+  de: 'Deutsch',
+};
+
+const languageDropdown = document.getElementById('language-dropdown')
+
+languageDropdown.addEventListener(
+  'change',
+  (e) => {
+    localStorage.setItem('language', e.target.value ?? "en")
+    window.location.reload();
+  }
+);
+
+for (const language in languages) {
+  const option = document.createElement('option')
+  option.value = language
+  option.innerText = languages[language]
+  languageDropdown.appendChild(option)
+}
+
+languageDropdown.value = localStorage.getItem('language') ?? "en"

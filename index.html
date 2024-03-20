@@ -254,9 +254,7 @@
           <div class="label" id="variable-label">
             <div class="string">Y=</div>
           </div>
-
           <div id="math-field"></div>
-
           <div id="math-field-static"></div>
         </div>
       </div>
@@ -396,6 +394,29 @@
       <div class="string">MESSAGE</div>
     </div>
 
+    
+    //needs id name (below)
+
+    <dialog id="">
+      <div class="string">Graphics Settings</div>
+      <div>
+        <label>Resolution</label>
+        <button class="button" id="set-resolution-button">High</button>
+      </div>
+      <div>
+        <label>Sample Density</label>
+        <button class="button" id="set-sample-density-button">High</button>
+      </div>
+      <div>
+        <label>Misc. Graphics</label>
+        <button class="button" id="set-misc-graphics-button">High</button>
+      </div>
+    </dialog>
+
+    <div class="bar message" id="message-bar" hide="true">
+      <div class="string">MESSAGE</div>
+    </div>
+
     <div class="bar victory floating" id="victory-bar" hide="true">
       <div class="envelope" id="victory-envelope">
         <div class="label" id="victory-label">
@@ -488,6 +509,9 @@
         </a>
       </div>
 
+      <select name="language" id="language-dropdown">
+      </select>
+
       <div id="main-loading">
         <div id="loading-top">
           <div class="string" id="reset-string" hide="true"></div>
@@ -571,6 +595,7 @@
     <script src="Libraries/GLUtils.js"></script>
     <script src="Libraries/extensions.js"></script>
     <script src="Libraries/preprocessMathQuill.js"></script>
+    <script src="App/translation.js"></script>
 
     <!-- Load Structs -->
     <script src="Types/Structs/EntityGroup.js"></script>

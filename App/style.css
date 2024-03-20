@@ -342,6 +342,13 @@ input[valid='false'] {
   top: 0;
 }
 
+#language-dropdown {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  font-size: 1.2rem;
+}
+
 #math-field-static {
   background: #ddd;
 }
