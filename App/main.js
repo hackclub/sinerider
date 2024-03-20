@@ -137,13 +137,8 @@ const ui = {
   setResolutionButton: $('#set-resolution-button'),
   setSampleDensityButton: $('#set-sample-density-button'),
   setMiscGraphicsButton: $('#set-misc-graphics-button'),
-  
-  languagesButton: $('#languages-button'),
-  languageSettingsDialog: $('#language-settings-dialog'),
-  englishButton: $('#english-button'),
-  españolButton: $('#español-button'),
-  françaisButton: $('#français-button'),
-  deutschButton: $('#deutsch-button'),
+
+  languageDropdown: $('#language-dropdown'),
 
   setTerrainLayersButton: $('#set-terrain-layers-button'),
   // closeGraphicsButton: $('#close-graphics-button'),
@@ -692,6 +687,10 @@ function onClickCanvas() {
 
 canvas.addEventListener('click', onClickCanvas)
 ui.veil.addEventListener('click', onClickCanvas)
+// Don't start the game when picking language
+ui.languageDropdown.addEventListener('click', (e) => {
+  e.stopPropagation()
+})
 
 function onMouseMoveCanvas(event) {
   world.clickableContext.processEvent(event, 'mouseMove')
