@@ -471,7 +471,11 @@ function World(spec) {
     // Show loading veil again for click
     ui.loadingVeil.setAttribute('hide', false)
 
-    ui.loadingVeilString.innerHTML = 'click to begin'
+    ui.loadingVeilString.innerHTML = tn({
+      en: 'click to begin.',
+      es: 'haga clic para comenzar.',
+    })
+
     ui.loadingVeil.addEventListener('click', loadingVeilClicked)
 
     const c = playerStorage.getCompletedLevels().length
