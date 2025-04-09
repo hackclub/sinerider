@@ -439,14 +439,15 @@ function World(spec) {
   function getUrlData() {
     const url = new URL(location)
 
-    if (url.search) {
+    if (url.searchParams.has('data')) {
       try {
+        const compressedData = url.searchParams.get('data')
         const urlData = JSON.parse(
-          LZString.decompressFromBase64(url.search.slice(1)),
+          LZString.decompressFromBase64(compressedData),
         )
         return urlData
       } catch (err) {
-        console.error('Error loading url:', err)
+        console.error('Error loading URL data:', err)
         // TODO: Maybe switch to modal
         alert('Sorry, this URL is malformed :(')
       }
