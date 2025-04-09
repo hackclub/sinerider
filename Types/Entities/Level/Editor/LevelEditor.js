@@ -337,10 +337,8 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
 
   function onShareButtonClicked() {
     const serialized = serialize('CUSTOM_LEVEL')
-    const url =
-      location.origin +
-      '?' +
-      LZString.compressToBase64(JSON.stringify(serialized))
+    const compressed = LZString.compressToBase64(JSON.stringify(serialized))
+    const url = `${location.origin}?data=${compressed}`
     ui.puzzleLink.value = url
     showDialog(ui.editorSharingLinkDialog)
   }
