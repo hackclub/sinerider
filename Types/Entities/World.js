@@ -441,7 +441,7 @@ function World(spec) {
 
     if (url.searchParams.has('data')) {
       try {
-        const compressedData = url.searchParams.get('data')
+        const compressedData = location.href.split('data=')[1]?.split('&')[0]
         const urlData = JSON.parse(
           LZString.decompressFromBase64(compressedData),
         )
