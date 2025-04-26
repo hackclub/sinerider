@@ -25,7 +25,7 @@ First of all, you can play SineRider, and share it with your friends. We need yo
 
 If you're both a code _and_ math nerd, you can contribute to SineRider directly! There's a reason it's open-source and written in 100% vanilla JavaScript. We need volunteer artists, writers, programmers, and puzzle designers. And, if you're a smart teenager who wants to change education for the better, you should come join [Hack Club](https://hackclub.com)!
 
-Feel free to visit CONTRIBUTING.md to see more ways you can contribute to this project.
+Feel free to visit [CONTRIBUTING.md](CONTRIBUTING.md) to see more ways you can contribute to this project.
 
 ## How do I run the game locally for development and debugging purposes?
 
