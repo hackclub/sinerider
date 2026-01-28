@@ -215,9 +215,9 @@ function PathGoal(spec) {
     const startY = pathGraph.sample('x', transform.x + pathStart.x)
     const endY = pathGraph.sample('x', transform.x + pathEnd.x)
 
-    bounds.width = pathX
+    bounds.width = Math.abs(pathX)
     bounds.height = height
-    bounds.center = Vector2(pathX / 2 + pathStart.x, verticalCenter)
+    bounds.center = Vector2((pathStart.x + pathEnd.x) / 2, verticalCenter)
 
     leftHandle.transform.position.set(transform.x + pathStart.x, startY)
     rightHandle.transform.position.set(transform.x + pathEnd.x, endY)
@@ -501,15 +501,21 @@ function PathGoal(spec) {
     dragMove(_p)
   }
 
+  const minPathLength = 1
+
   function setStart(newStart) {
-    const newPathStartX = newStart - transform.x
-    setEnds(Math.min(pathEnd.x - 1, newPathStartX), pathEnd.x)
+    const newStartX = newStart - transform.x
+    if (Math.abs(newStartX - pathEnd.x) >= minPathLength) {
+      setEnds(newStartX, pathEnd.x)
+    }
     editor.update(false)
   }
 
   function setEnd(newEnd) {
-    const newPathEndX = newEnd - transform.x
-    setEnds(pathStart.x, Math.max(pathStart.x + 1, newPathEndX))
+    const newEndX = newEnd - transform.x
+    if (Math.abs(newEndX - pathStart.x) >= minPathLength) {
+      setEnds(pathStart.x, newEndX)
+    }
     editor.update(false)
   }
 
