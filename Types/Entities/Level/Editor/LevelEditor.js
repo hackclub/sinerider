@@ -66,7 +66,7 @@ Share -> open dialog w/ serialized JSON with edit: false, name: "Custom"
         if (g.pathExpression) {
           goalJson.expression = g.pathExpression
           goalJson.expressionLatex = g.pathExpressionLatex
-          goalJson.pathX = g.pathEnd.x
+          goalJson.pathX = g.pathEnd.x - g.pathStart.x
         }
         return goalJson
       }),
