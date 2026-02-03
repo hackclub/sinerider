@@ -862,7 +862,7 @@ function Level(spec) {
     history.pushState(
       null,
       null,
-      '?' + LZString.compressToBase64(JSON.stringify(serialized)),
+      '?data=' + LZString.compressToBase64(JSON.stringify(serialized)),
     )
     // console.log('Writing to URL:', serialized)
   }
