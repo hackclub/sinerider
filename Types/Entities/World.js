@@ -610,6 +610,7 @@ function World(spec) {
 
       ui.levelInfoNameStr.innerHTML = levelDatum.name
       ui.levelInfoNickStr.innerHTML = levelDatum.nick
+      ui.nextButtonText.innerHTML = levelDatum.name == "Level Editor" ? "Exit" : "Next"
     }
 
     setNavigating(false)
